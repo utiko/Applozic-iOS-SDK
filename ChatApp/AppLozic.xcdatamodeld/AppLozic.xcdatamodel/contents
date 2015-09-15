@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14E46" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="DB_CONTACT" representedClassName="DB_CONTACT" syncable="YES">
+        <attribute name="contactImageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contactNo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fullName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="DB_FileMetaInfo" representedClassName="DB_FileMetaInfo" syncable="YES">
+        <attribute name="blobKeyString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contentType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdAtTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="keyString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="size" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="suUserKeyString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnailUrl" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="DB_SMS" representedClassName="DB_SMS" syncable="YES">
+        <attribute name="contactId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="deviceKeyString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="filePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="inProgress" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isRead" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isSent" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isSentToDevice" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isShared" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isStoredOnDevice" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isUploadFailed" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="keyString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="messageText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="suUserKeyString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="to" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="fileMetaInfo" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DB_FileMetaInfo" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="DB_CONTACT" positionX="-54" positionY="63" width="128" height="135"/>
+        <element name="DB_FileMetaInfo" positionX="-54" positionY="90" width="128" height="165"/>
+        <element name="DB_SMS" positionX="-63" positionY="-18" width="128" height="300"/>
+    </elements>
+</model>

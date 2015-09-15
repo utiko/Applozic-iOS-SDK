@@ -1,0 +1,40 @@
+//
+//  ALDBHandler.h
+//  ChatApp
+//
+//  Created by Gaurav Nigam on 09/08/15.
+//  Copyright (c) 2015 AppLogic. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+
+@class ALContact;
+
+@interface ALDBHandler : NSObject
+
+@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
+@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
+- (void)saveContext;
+
++(ALDBHandler *) sharedInstance;
+
+- (BOOL)purgeListOfContacts:(NSArray *)contacts;
+
+- (BOOL)purgeContact:(ALContact *)contact;
+
+- (BOOL)purgeAllContact;
+
+- (BOOL)updateListOfContacts:(NSArray *)contacts;
+
+- (BOOL)updateConatct:(ALContact *)contact;
+
+- (BOOL)addListOfContacts:(NSArray *)contacts;
+
+-(BOOL)addContact:(ALContact *)userContact;
+
+@end
