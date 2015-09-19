@@ -114,7 +114,7 @@
 
 +(void) getLatestMessageForUser:(NSString *)deviceKeyString lastSyncTime:(NSString *)lastSyncTime withCompletion:(void (^)(NSString *, NSError *))completion{
     
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/file/url",KBASE_URL];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/sync/messages",KBASE_URL];
     
     NSString * theParamString = [NSString stringWithFormat:@"deviceKeyString=%@&lastSyncTime%@",deviceKeyString,lastSyncTime];
     
