@@ -26,6 +26,7 @@
 #import "ALConnectionQueueHandler.h"
 #import "ALRequestHandler.h"
 #import "ALParsingHandler.h"
+#import "ALUserDefaultsHandler.h"
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate>
 
@@ -170,7 +171,19 @@
     
     NSLog(@"calling refresh from server....");
     //TODO: get the user name, devicekey String and make server call...
-    
+    [ ALMessageService getLatestMessageForUser: [ALUserDefaultsHandler getDeviceKeyString ]  lastSyncTime: [ALUserDefaultsHandler getDeviceKeyString ] withCompletion:^(NSString *message, NSError *error) {
+        
+        if (error) {
+            
+            NSLog(@"%@",error);
+            
+            return ;
+        }else {
+            
+            NSLog(@" message jason from client :: %@",message );
+        }
+        
+    }];
     
 }
 

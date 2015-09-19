@@ -19,6 +19,6 @@
 +(void) sendPhotoForUserInfo:(NSDictionary *)userInfo withCompletion:(void(^)(NSString * message, NSError *error)) completion;
 
 
-+(void) getLatestMessageForUser:(NSString *)userId lastSyncTime:(NSString*) lastSyncTime withCompletion:(void(^)(NSString * message, NSError *error)) completion;
++(void) getLatestMessageForUser:(NSString *)deviceKeyString lastSyncTime:(NSString*) lastSyncTime withCompletion:(void(^)(NSString * message, NSError *error)) completion;
 
 @end

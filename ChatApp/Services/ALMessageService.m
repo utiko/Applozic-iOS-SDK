@@ -118,7 +118,7 @@
     
     NSString * theParamString = [NSString stringWithFormat:@"deviceKeyString=%@&lastSyncTime%@",deviceKeyString,lastSyncTime];
     
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:nil];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"SYNC LATEST MESSAGE URL" WithCompletionHandler:^(id theJson, NSError *theError) {
         
