@@ -68,6 +68,8 @@
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
     
+    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshTable:)];
+    
     [self.navigationItem setLeftBarButtonItem:barButtonItem];
     
     self.rp = 20;
@@ -131,7 +133,7 @@
     
     UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
     
-    self.navigationItem.rightBarButtonItem = theAttachmentButton;
+   self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
     
     // get msg count from db to handle load earlier rare scenario
     
@@ -161,6 +163,15 @@
     
     self.tabBarController.selectedIndex = 0;
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+-(void)refreshTable:(id)sender {
+    
+    NSLog(@"calling refresh from server....");
+    //TODO: get the user name, devicekey String and make server call...
+    
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated {

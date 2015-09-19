@@ -24,4 +24,45 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"isConversationDbSynced"];
 }
 
+
+//deviceKey String
++(void)setDeviceKeyString:(NSString *)deviceKeyString
+{
+    [[NSUserDefaults standardUserDefaults] setValue:deviceKeyString forKey:@"DEVICE_KEY_STRING"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getDeviceKeyString{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"DEVICE_KEY_STRING"];
+}
+
+//user Id
++(void )setUserId:(NSString *)userId {
+    [[NSUserDefaults standardUserDefaults] setValue:userId forKey:@"USER_ID"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+
++(NSString *)getUserId
+{
+    return [[NSUserDefaults standardUserDefaults]
+            valueForKey:@"USER_ID"];
+}
+
+//last sync time
+
++(void )setLastSyncTime :( NSString *) lstSyncTime
+{
+    [[NSUserDefaults standardUserDefaults] setValue:lstSyncTime forKey:@"LAST_SYNC_TIME"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getLastSyncTime{
+    
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"LAST_SYNC_TIME"];
+}
+
 @end

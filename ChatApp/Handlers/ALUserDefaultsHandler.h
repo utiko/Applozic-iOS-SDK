@@ -14,4 +14,16 @@
 
 +(BOOL) getBoolForKey_isConversationDbSynced;
 
++(void) setDeviceKeyString:(NSString*)deviceKeyString;
+
++(NSString *) getDeviceKeyString;
+
++(void) setUserId: (NSString *) userId;
+
++(NSString*)getUserId;
+
++(void) setLastSyncTime: (NSString *) lastSyncTime;
+
++(NSString *)getLastSyncTime;
+
 @end

@@ -112,6 +112,31 @@
 }
 
 
++(void) getLatestMessageForUser:(NSString *)deviceKeyString lastSyncTime:(NSString *)lastSyncTime withCompletion:(void (^)(NSString *, NSError *))completion{
+    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/file/url",KBASE_URL];
+    
+    NSString * theParamString = [NSString stringWithFormat:@"deviceKeyString=%@&lastSyncTime%@",deviceKeyString,lastSyncTime];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:nil];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"SYNC LATEST MESSAGE URL" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if (theError) {
+            
+            completion(nil,theError);
+            
+            return ;
+        }
+        
+        NSString *messageSyncResponse = (NSString *)theJson;
+        NSLog(@"response from sync request....%@",messageSyncResponse);
+        
+        completion(messageSyncResponse,nil);
+        
+    }];
+}
+
 
 
 @end
