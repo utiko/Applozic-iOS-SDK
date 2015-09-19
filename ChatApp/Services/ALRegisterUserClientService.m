@@ -20,6 +20,13 @@
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/registration/v1/register",KBASE_URL];
     
+    //Todo: fetch application key from configurable properties.
+    [user setApplicationId: @"applozic-sample-app"];
+    [user setDeviceType:1];
+    [user setPrefContactAPI:2];
+    [user setEmailVerified:TRUE];
+    
+    
     //NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
     NSError *error;
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:user.dictionary options:0 error:&error];

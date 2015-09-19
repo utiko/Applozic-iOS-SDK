@@ -40,10 +40,7 @@
     [user setUserId:[_userId text]];
     [user setEmailId:[_emailId text]];
     [user setPassword:[_password text]];
-    [user setApplicationId:@"mobicomkit-sample-app"];
-    [user setDeviceType:1];
-    [user setPrefContactAPI:2];
-    [user setEmailVerified:TRUE];
+
     
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     
@@ -59,10 +56,10 @@
         
         
         NSLog(@"Registration response from server:%@", strData);
-        
+       /*
         ALRegistrationResponse *registrationResponse = [[ALRegistrationResponse alloc] initWithJSONString:strData];
         
-        NSLog(@"Converted to registrationresponse object: %@", registrationResponse.message);
+        NSLog(@"Converted to registrationresponse object: %@", registrationResponse.message);*/
           
         
       /*  UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response" message:registrationResponse.message delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles:@"Cancel", nil];
