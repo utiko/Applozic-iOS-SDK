@@ -10,10 +10,6 @@
 
 @interface ALLoginViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UITextField *userId;
 
-@property (weak, nonatomic) IBOutlet UITextField *emailId;
-
-@property (weak, nonatomic) IBOutlet UITextField *password;
 
 @end
