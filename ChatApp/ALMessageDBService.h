@@ -21,5 +21,5 @@
 -(void) deleteMessage;
 -(void) deleteMessageByKey:(NSString*) keyString;
 -(void) deleteAllMessagesByContact: (NSString*) contactId;
--(void) deleteMessageBy
+
 @end
