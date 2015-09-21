@@ -171,7 +171,17 @@
     
     NSLog(@"calling refresh from server....");
     //TODO: get the user name, devicekey String and make server call...
-    [ ALMessageService getLatestMessageForUser: [ALUserDefaultsHandler getDeviceKeyString ]  lastSyncTime: [ALUserDefaultsHandler getDeviceKeyString ] withCompletion:^(NSString *message, NSError *error) {
+   // [ ALMessageService getLatestMessageForUser: [ALUserDefaultsHandler getDeviceKeyString ]  lastSyncTime: [ALUserDefaultsHandler
+    
+    NSString *deviceKeyString= @"agpzfmFwcGxvemljciYLEgZTdVVzZXIYgICAgN2NrAkMCxIGRGV2aWNlGICAgICAgIAKDA";
+    
+    NSString * lastSyncTime =[ALUserDefaultsHandler
+                              getLastSyncTime ];
+    if ( lastSyncTime == NULL ){
+        lastSyncTime = @"1442716872368";
+    }
+
+    [ ALMessageService getLatestMessageForUser: deviceKeyString lastSyncTime: lastSyncTime withCompletion:^(NSString *message, NSError *error) {
         
         if (error) {
             

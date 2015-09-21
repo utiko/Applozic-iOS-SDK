@@ -10,6 +10,7 @@
 #import "ALResponseHandler.h"
 #import "ALParsingHandler.h"
 #import "ALUtilityClass.h"
+#import "ALSyncMessageFeed.h"
 
 @implementation ALMessageService
 
@@ -116,7 +117,7 @@
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/sync/messages",KBASE_URL];
     
-    NSString * theParamString = [NSString stringWithFormat:@"deviceKeyString=%@&lastSyncTime%@",deviceKeyString,lastSyncTime];
+    NSString * theParamString = [NSString stringWithFormat:@"deviceKeyString=%@&lastSyncTime=%@",deviceKeyString,lastSyncTime];
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
@@ -130,8 +131,8 @@
         }
         
         NSString *messageSyncResponse = (NSString *)theJson;
-        NSLog(@"response from sync request....%@",messageSyncResponse);
-        
+        ALSyncMessageFeed *syncFeed =  [[ALSyncMessageFeed alloc]init:theJson];
+        NSLog(@"sync feed ..%@", syncFeed.lastSyncTime);
         completion(messageSyncResponse,nil);
         
     }];

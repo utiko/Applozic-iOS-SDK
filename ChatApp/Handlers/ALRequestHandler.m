@@ -23,6 +23,7 @@
     else
     {
         theUrl = [NSURL URLWithString:urlString];
+        NSLog(@"the url,%@", theUrl);
     }
     
     [theRequest setURL:theUrl];

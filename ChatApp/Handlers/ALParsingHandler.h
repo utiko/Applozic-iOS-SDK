@@ -15,4 +15,7 @@
 
 +(NSMutableArray *) parseMessagseArray:(id) messagejson;
 
++(BOOL) validateJsonClass:(NSDictionary *) jsonClass;
+
+
 @end
