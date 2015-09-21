@@ -11,6 +11,8 @@
 		6DD502ED1BAB4B2400F68D30 /* ALUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD502EC1BAB4B2400F68D30 /* ALUser.m */; };
 		6DD502F01BAB4C0900F68D30 /* ALRegistrationResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD502EF1BAB4C0900F68D30 /* ALRegistrationResponse.m */; };
 		6DD502F71BAB4FEE00F68D30 /* ALRegisterUserClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD502F61BAB4FEE00F68D30 /* ALRegisterUserClientService.m */; };
+		6DF6EFA61BAEF4FB00ADE5F6 /* ALSyncMessageFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF6EFA51BAEF4FB00ADE5F6 /* ALSyncMessageFeed.m */; };
+		6DF6EFAB1BAFDD8E00ADE5F6 /* ALMessageDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF6EFAA1BAFDD8E00ADE5F6 /* ALMessageDBService.m */; };
 		9C276C9F1B640C33005E76C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C276C9E1B640C33005E76C7 /* main.m */; };
 		9C276CA21B640C33005E76C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C276CA11B640C33005E76C7 /* AppDelegate.m */; };
 		9C276CA81B640C33005E76C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C276CA61B640C33005E76C7 /* Main.storyboard */; };
@@ -123,6 +125,10 @@
 		6DD502F11BAB4C2800F68D30 /* ALRegistrationResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALRegistrationResponse.h; sourceTree = "<group>"; };
 		6DD502F61BAB4FEE00F68D30 /* ALRegisterUserClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALRegisterUserClientService.m; sourceTree = "<group>"; };
 		6DD502F81BAB4FFE00F68D30 /* ALRegisterUserClientService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALRegisterUserClientService.h; sourceTree = "<group>"; };
+		6DF6EFA41BAEF4FB00ADE5F6 /* ALSyncMessageFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSyncMessageFeed.h; sourceTree = "<group>"; };
+		6DF6EFA51BAEF4FB00ADE5F6 /* ALSyncMessageFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALSyncMessageFeed.m; sourceTree = "<group>"; };
+		6DF6EFA91BAFDD8E00ADE5F6 /* ALMessageDBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMessageDBService.h; sourceTree = "<group>"; };
+		6DF6EFAA1BAFDD8E00ADE5F6 /* ALMessageDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMessageDBService.m; sourceTree = "<group>"; };
 		9C276C991B640C33005E76C7 /* ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C276C9D1B640C33005E76C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C276C9E1B640C33005E76C7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -283,6 +289,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6DF6EFA81BAFDD5F00ADE5F6 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				6DF6EFA91BAFDD8E00ADE5F6 /* ALMessageDBService.h */,
+				6DF6EFAA1BAFDD8E00ADE5F6 /* ALMessageDBService.m */,
+			);
+			name = Database;
+			sourceTree = "<group>";
+		};
 		9C276C901B640C33005E76C7 = {
 			isa = PBXGroup;
 			children = (
@@ -304,6 +319,7 @@
 		9C276C9B1B640C33005E76C7 /* ChatApp */ = {
 			isa = PBXGroup;
 			children = (
+				6DF6EFA81BAFDD5F00ADE5F6 /* Database */,
 				9C276CDE1B641188005E76C7 /* Utilities */,
 				9C276CD71B641112005E76C7 /* ViewControllers */,
 				9C276CD61B6410EF005E76C7 /* Views */,
@@ -392,6 +408,8 @@
 				6DD502EE1BAB4B3A00F68D30 /* ALUser.h */,
 				6DD502EF1BAB4C0900F68D30 /* ALRegistrationResponse.m */,
 				6DD502F11BAB4C2800F68D30 /* ALRegistrationResponse.h */,
+				6DF6EFA41BAEF4FB00ADE5F6 /* ALSyncMessageFeed.h */,
+				6DF6EFA51BAEF4FB00ADE5F6 /* ALSyncMessageFeed.m */,
 			);
 			path = DomainClasses;
 			sourceTree = "<group>";
@@ -742,6 +760,7 @@
 				6DD502E81BAB43F600F68D30 /* ALLoginViewController.m in Sources */,
 				9C276C9F1B640C33005E76C7 /* main.m in Sources */,
 				E1D8D38D1B89E7E700550675 /* UIImage+GIF.m in Sources */,
+				6DF6EFA61BAEF4FB00ADE5F6 /* ALSyncMessageFeed.m in Sources */,
 				9C276CEF1B64D538005E76C7 /* ALMessage.m in Sources */,
 				9C276D4A1B65035D005E76C7 /* ALChatCell.m in Sources */,
 				6DD502F01BAB4C0900F68D30 /* ALRegistrationResponse.m in Sources */,
@@ -762,6 +781,7 @@
 				9C95DBC51B80C8B60012A649 /* ALContact.m in Sources */,
 				E1D8D3881B89E7E700550675 /* SDWebImageDownloader.m in Sources */,
 				E1D8D3831B89E7E700550675 /* MKAnnotationView+WebCache.m in Sources */,
+				6DF6EFAB1BAFDD8E00ADE5F6 /* ALMessageDBService.m in Sources */,
 				9C87DD211B889B0A007CEE5F /* UIImage+Utility.m in Sources */,
 				9C87DD821B8EFBC1007CEE5F /* KAProgressLabel.m in Sources */,
 				9C95DBBE1B80C8510012A649 /* AppLozic.xcdatamodeld in Sources */,
