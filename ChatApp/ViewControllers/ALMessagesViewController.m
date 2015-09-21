@@ -12,12 +12,8 @@
 #import "ALMessage.h"
 #import "ALChatViewController.h"
 #import "ALUtilityClass.h"
-#import "ALUserDefaultsHandler.h"
-#import "DB_Message.h"
-#import "ALDBHandler.h"
 #import "ALContact.h"
-#import "DB_CONTACT.h"
-#import "DB_FileMetaInfo.h"
+#import "ALMessageDBService.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -27,7 +23,7 @@
 // Private interface
 //------------------------------------------------------------------------------------------------------------------
 
-@interface ALMessagesViewController ()
+@interface ALMessagesViewController ()<UITableViewDataSource,UITableViewDelegate,ALMessagesDelegate>
 
 // IBOutlet
 @property (weak, nonatomic) IBOutlet UITableView *mTableView;
@@ -52,59 +48,9 @@
     [self setUpView];
     [self setUpTableView];
 
-    if ([ALUserDefaultsHandler getBoolForKey_isConversationDbSynced] == NO) { // db is not synced
-
-        [self syncConverstionDBWithCompletion:^(BOOL success, NSMutableArray * theArray) {
-
-            if (success) {
-                // save data into the db
-                ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-                for (ALMessage * theMessage in theArray) {
-                    DB_Message * theSmsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
-                    theSmsEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
-                    theSmsEntity.isSentToDevice = [NSNumber numberWithBool:theMessage.sendToDevice];
-                    theSmsEntity.isStoredOnDevice = [NSNumber numberWithBool:NO];
-                    theSmsEntity.isShared = [NSNumber numberWithBool:theMessage.shared];
-                    theSmsEntity.isRead = [NSNumber numberWithBool:theMessage.read];
-                    theSmsEntity.keyString = theMessage.keyString;
-                    theSmsEntity.deviceKeyString = theMessage.deviceKeyString;
-                    theSmsEntity.suUserKeyString = theMessage.suUserKeyString;
-                    theSmsEntity.to = theMessage.to;
-                    theSmsEntity.messageText = theMessage.message;
-                    theSmsEntity.createdAt = [NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
-                    theSmsEntity.type = theMessage.type;
-                    theSmsEntity.contactId = theMessage.contactIds;
-                    theSmsEntity.filePath = theMessage.imageFilePath;
-
-                    if (theMessage.fileMetas != nil) {
-                        DB_FileMetaInfo * theMetaInfoEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_FileMetaInfo" inManagedObjectContext:theDBHandler.managedObjectContext];
-                        theMetaInfoEntity.blobKeyString = theMessage.fileMetas.blobKeyString;
-                        theMetaInfoEntity.contentType = theMessage.fileMetas.contentType;
-                        theMetaInfoEntity.createdAtTime = theMessage.fileMetas.createdAtTime;
-                        theMetaInfoEntity.keyString = theMessage.fileMetas.keyString;
-                        theMetaInfoEntity.name = theMessage.fileMetas.name;
-                        theMetaInfoEntity.size = theMessage.fileMetas.size;
-                        theMetaInfoEntity.suUserKeyString = theMessage.fileMetas.suUserKeyString;
-                        theMetaInfoEntity.thumbnailUrl = theMessage.fileMetas.thumbnailUrl;
-                        theSmsEntity.fileMetaInfo = theMetaInfoEntity;
-                    }
-                }
-
-                [theDBHandler.managedObjectContext save:nil];
-                // set yes to userdefaults
-                [ALUserDefaultsHandler setBoolForKey_isConversationDbSynced:YES];
-                // add default contacts
-                [self syncConactsDB];
-                //fetch data from db
-                [self fetchConversationsGroupByContactId];
-            }
-        }];
-    }
-    else // db is synced
-    {
-        //fetch data from db
-        [self fetchConversationsGroupByContactId];
-    }
+    ALMessageDBService *dBService = [ALMessageDBService new];
+    dBService.delegate = self;
+    [dBService getMessages];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -156,7 +102,17 @@
 }
 
 //------------------------------------------------------------------------------------------------------------------
-#pragma mark - Table View DataSource Methods
+    #pragma mark - ALMessagesDelegate
+//------------------------------------------------------------------------------------------------------------------
+
+-(void)getMessagesArray:(NSMutableArray *)messagesArray {
+    self.mContactsMessageListArray = messagesArray;
+    [self.mTableView reloadData];
+}
+
+
+//------------------------------------------------------------------------------------------------------------------
+    #pragma mark - Table View DataSource Methods
 //------------------------------------------------------------------------------------------------------------------
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -199,91 +155,6 @@
     [self.navigationController pushViewController:theVC animated:YES];
 }
 
-//------------------------------------------------------------------------------------------------------------------
-#pragma mark -  Helper methods
-//------------------------------------------------------------------------------------------------------------------
-
--(void) syncConverstionDBWithCompletion:(void(^)(BOOL success , NSMutableArray * theArray)) completion
-{
-    [self.mActivityIndicator startAnimating];
-    [ALMessageService getMessagesListGroupByContactswithCompletion:^(NSMutableArray *messageArray, NSError *error) {
-        [self.mActivityIndicator stopAnimating];
-        if (error) {
-            NSLog(@"%@",error);
-            completion(NO,nil);
-            return ;
-        }
-        NSMutableArray * dataArray = [NSMutableArray arrayWithArray:messageArray];
-        completion(YES,dataArray);
-    }];
-}
-
--(void) syncConactsDB
-{
-    // adding default data
-    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-
-    // contact 1
-    ALContact *contact1 = [[ALContact alloc] init];
-    contact1.userId = @"111";
-    contact1.fullName = @"Gaurav Nigam";
-    contact1.contactNumber = @"1234561234";
-    contact1.displayName = @"Gaurav";
-    contact1.email = @"123@abc.com";
-    contact1.contactImageUrl = nil;
-
-    // contact 2
-    ALContact *contact2 = [[ALContact alloc] init];
-    contact2.userId = @"222";
-    contact2.fullName = @"Navneet Nav";
-    contact2.contactNumber = @"987651234";
-    contact2.displayName = @"Navneet";
-    contact2.email = @"456@abc.com";
-    contact2.contactImageUrl = nil;
-
-    // contact 3
-    ALContact *contact3 = [[ALContact alloc] init];
-    contact3.userId = @"applozic";
-    contact3.fullName = @"applozic";
-    contact3.contactNumber = @"678906543";
-    contact3.displayName = @"Priyesh";
-    contact3.email = @"789@abc.com";
-    contact3.contactImageUrl = nil;
-
-    [theDBHandler addListOfContacts:@[contact1,contact2,contact3]];
-}
-
--(void) fetchConversationsGroupByContactId
-{
-    ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
-    // get all unique contacts
-
-    NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-    [theRequest setResultType:NSDictionaryResultType];
-    [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
-    [theRequest setPropertiesToFetch:@[@"contactId"]];
-    [theRequest setReturnsDistinctResults:YES];
-
-    NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
-    // get latest record
-    for (NSDictionary * theDictionary in theArray) {
-        NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-        [theRequest setPredicate:[NSPredicate predicateWithFormat:@"contactId = %@",theDictionary[@"contactId"]]];
-        [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
-        [theRequest setFetchLimit:1];
-
-        NSArray * theArray =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
-        DB_Message * theSmsEntity = theArray.firstObject;
-        ALMessage * theMessage = [ALMessage new];
-        theMessage.to = theSmsEntity.to;
-        theMessage.message = theSmsEntity.messageText;
-        theMessage.contactIds = theSmsEntity.contactId;
-        theMessage.type = theSmsEntity.type;
-        theMessage.createdAtTime = [NSString stringWithFormat:@"%@",theSmsEntity.createdAt];
-        [self.mContactsMessageListArray addObject:theMessage];
-    }
-    [self.mTableView reloadData];
-}
 
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - Notification observers

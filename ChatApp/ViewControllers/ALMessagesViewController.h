@@ -7,10 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ALMessagesViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
-
-
-
+@interface ALMessagesViewController : UIViewController
 
 @end
 
