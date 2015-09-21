@@ -97,6 +97,20 @@
 
 //Generic APIS
 -(BOOL) isMessageTableEmpty{
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    int entityCount = 0;
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setIncludesPropertyValues:NO];
+    [fetchRequest setIncludesSubentities:NO];
+    NSError *error = nil;
+    NSUInteger count = [ dbHandler.managedObjectContext countForFetchRequest: fetchRequest error: &error];
+    if(error == nil ){
+        return count >0;
+    }else{
+         NSLog(@"Error fetching count :%@",error);
+    }
     return nil;
 }
 
