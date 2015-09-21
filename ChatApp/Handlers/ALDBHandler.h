@@ -37,4 +37,5 @@
 
 -(BOOL)addContact:(ALContact *)userContact;
 
+
 @end
