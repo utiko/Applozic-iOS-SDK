@@ -14,7 +14,7 @@
 #import <CoreData/CoreData.h>
 #import "ALDBHandler.h"
 #import "DB_SMS.h"
-#import "ALViewController.h"
+#import "ALMessagesViewController.h"
 #import "ALNewContactsViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "UIImage+Utility.h"
