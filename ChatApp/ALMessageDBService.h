@@ -8,10 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol ALMessagesDelegate <NSObject>
+
+-(void)getMessagesArray:(NSMutableArray*)messagesArray;
+
+@end
+
 @interface ALMessageDBService : NSObject
 
-//Add Message APIS
 
+//Add Message APIS
+-(void)getMessages;
 
 //update Message APIS
 -(void)updateMessageDeliveryReport:(NSString*) messageKeyString;
@@ -26,4 +33,8 @@
 
 //Generic APIS
 -(BOOL) isMessageTableEmpty;
+
+
+@property(nonatomic,weak) id <ALMessagesDelegate>delegate;
+
 @end
