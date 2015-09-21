@@ -20,7 +20,6 @@
 #import "DB_FileMetaInfo.h"
 
 // Constants
-
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
 
@@ -29,7 +28,6 @@
 //------------------------------------------------------------------------------------------------------------------
 
 @interface ALMessagesViewController ()
-
 
 // IBOutlet
 @property (weak, nonatomic) IBOutlet UITableView *mTableView;
@@ -51,25 +49,8 @@
 - (void)viewDidLoad {
 
     [super viewDidLoad];
-    UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
-    if (!color) {
-        color = [UIColor blackColor];
-    }
-    self.mContactsMessageListArray = [NSMutableArray new];
-
-    NSLog(@"%@",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]);
-    NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    color,NSForegroundColorAttributeName,nil];
-    self.navigationController.navigationBar.titleTextAttributes = textAttributes;
-    self.navigationItem.title = @"Conversation";
-
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
-        self.navColor = [self.navigationController.navigationBar tintColor];
-    else
-        self.navColor = [self.navigationController.navigationBar barTintColor];
-    self.mTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateConversationTableNotification:) name:@"updateConversationTableNotification" object:nil];
+    [self setUpView];
+    [self setUpTableView];
 
     if ([ALUserDefaultsHandler getBoolForKey_isConversationDbSynced] == NO) { // db is not synced
 
@@ -148,6 +129,30 @@
 - (void)didReceiveMemoryWarning {
 
     [super didReceiveMemoryWarning];
+}
+
+-(void)setUpView {
+    UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
+    if (!color) {
+        color = [UIColor blackColor];
+    }
+    NSLog(@"%@",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]);
+    NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    color,NSForegroundColorAttributeName,nil];
+    self.navigationController.navigationBar.titleTextAttributes = textAttributes;
+    self.navigationItem.title = @"Conversation";
+
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
+        self.navColor = [self.navigationController.navigationBar tintColor];
+    else
+        self.navColor = [self.navigationController.navigationBar barTintColor];
+}
+
+-(void)setUpTableView {
+    self.mContactsMessageListArray = [NSMutableArray new];
+    self.mTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateConversationTableNotification:) name:@"updateConversationTableNotification" object:nil];
 }
 
 //------------------------------------------------------------------------------------------------------------------
