@@ -12,49 +12,57 @@
 #import "ALRegisterUserClientService.h"
 
 
-@interface ALLoginViewController ()
+@interface ALLoginViewController ()<UITextFieldDelegate>
+
+    @property (weak, nonatomic) IBOutlet UITextField *userIdField;
+
+    @property (weak, nonatomic) IBOutlet UITextField *emailField;
+
+    @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 
 @end
 
 @implementation ALLoginViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
+    //-------------------------------------------------------------------------------------------------------------------
+    //      View lifecycle
+    //-------------------------------------------------------------------------------------------------------------------
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+    - (void)viewDidLoad {
+        [super viewDidLoad];
+    }
 
+    - (void)didReceiveMemoryWarning {
+        [super didReceiveMemoryWarning];
+    }
 
-- (IBAction)login:(id)sender {
-    NSLog(@"clicked");
-    NSLog(@"yo working - just getting started!");
-    NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [_userId text]];
-    NSLog(@"message: %@", message);
-    
-    
-    ALUser *user = [[ALUser alloc] init];
-    [user setUserId:[_userId text]];
-    [user setEmailId:[_emailId text]];
-    [user setPassword:[_password text]];
+    //-------------------------------------------------------------------------------------------------------------------
+    //      IBAction func
+    //-------------------------------------------------------------------------------------------------------------------
 
-    
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    
-    
-    [registerUserClientService createAccountWithCallback:user withCompletion:^(NSString *strData, NSError *error) {
+    - (IBAction)login:(id)sender {
+        NSLog(@"clicked");
+        NSLog(@"yo working - just getting started!");
+        NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
+        NSLog(@"message: %@", message);
+
+        ALUser *user = [[ALUser alloc] init];
+        [user setUserId:[self.userIdField text]];
+        [user setEmailId:[self.emailField text]];
+        [user setPassword:[self.passwordField text]];
+
+        ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
         
-        if (error) {
+        
+        [registerUserClientService createAccountWithCallback:user withCompletion:^(NSString *strData, NSError *error) {
             
-            NSLog(@"%@",error);
-            
-            return ;
-        }
-        
-        
+            if (error) {
+                
+                NSLog(@"%@",error);
+                
+                return ;
+            }
+
         NSLog(@"Registration response from server:%@", strData);
        /*
         ALRegistrationResponse *registrationResponse = [[ALRegistrationResponse alloc] initWithJSONString:strData];
@@ -64,27 +72,36 @@
         
       /*  UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response" message:registrationResponse.message delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles:@"Cancel", nil];
         [alertView show];*/
-    }];
-    
-  /*  ALRegistrationResponse *registrationResponse = [registerUserClientService createAccount:user];
-    
-    NSLog(@"Message: %@", registrationResponse.message);
-    
-    
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response" message:registrationResponse.message delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles:@"Cancel", nil];
-    [alertView show];*/
-    
-    //[self performSegueWithIdentifier:@"message" sender:self];
-}
+        }];
+        
+      /*  ALRegistrationResponse *registrationResponse = [registerUserClientService createAccount:user];
+        
+        NSLog(@"Message: %@", registrationResponse.message);
+        
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response" message:registrationResponse.message delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles:@"Cancel", nil];
+        [alertView show];*/
+        
+        //[self performSegueWithIdentifier:@"message" sender:self];
+    }
 
-/*
-#pragma mark - Navigation
+    //-------------------------------------------------------------------------------------------------------------------
+    //     Textfield delegate methods
+    //-------------------------------------------------------------------------------------------------------------------
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+    - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+        if (textField == self.userIdField) {
+            [self.emailField becomeFirstResponder];
+        }
+        else if (textField == self.emailField) {
+            [self.passwordField becomeFirstResponder];
+        }
+        else {
+            //TODO: Also validate user Id and email is entered.
+            [textField resignFirstResponder];
+        }
+        return true;
+    }
+
 
 @end
