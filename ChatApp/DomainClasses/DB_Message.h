@@ -1,5 +1,5 @@
 //
-//  DB_SMS.h
+//  DB_Message.h
 //  ChatApp
 //
 //  Created by Gaurav Nigam on 02/09/15.
@@ -11,7 +11,7 @@
 
 @class DB_FileMetaInfo;
 
-@interface DB_SMS : NSManagedObject
+@interface DB_Message : NSManagedObject
 
 @property (nonatomic, retain) NSString * contactId;
 @property (nonatomic, retain) NSNumber * createdAt;

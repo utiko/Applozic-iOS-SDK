@@ -13,13 +13,17 @@
 //Add Message APIS
 
 
-//Add
-
+//update Message APIS
+-(void)updateMessageDeliveryReport:(NSString*) messageKeyString;
+-(void)updateMessageSyncStatus:(NSString*) keyString;
 
 
 //Delete Message APIS
+
 -(void) deleteMessage;
 -(void) deleteMessageByKey:(NSString*) keyString;
 -(void) deleteAllMessagesByContact: (NSString*) contactId;
 
+//Generic APIS
+-(BOOL) isMessageTableEmpty;
 @end

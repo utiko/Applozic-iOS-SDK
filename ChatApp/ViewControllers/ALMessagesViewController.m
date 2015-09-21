@@ -13,7 +13,7 @@
 #import "ALChatViewController.h"
 #import "ALUtilityClass.h"
 #import "ALUserDefaultsHandler.h"
-#import "DB_SMS.h"
+#import "DB_Message.h"
 #import "ALDBHandler.h"
 #import "ALContact.h"
 #import "DB_CONTACT.h"
@@ -60,7 +60,7 @@
                 // save data into the db
                 ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
                 for (ALMessage * theMessage in theArray) {
-                    DB_SMS * theSmsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_SMS" inManagedObjectContext:theDBHandler.managedObjectContext];
+                    DB_Message * theSmsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
                     theSmsEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
                     theSmsEntity.isSentToDevice = [NSNumber numberWithBool:theMessage.sendToDevice];
                     theSmsEntity.isStoredOnDevice = [NSNumber numberWithBool:NO];
@@ -258,7 +258,7 @@
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     // get all unique contacts
 
-    NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_SMS"];
+    NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     [theRequest setResultType:NSDictionaryResultType];
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
     [theRequest setPropertiesToFetch:@[@"contactId"]];
@@ -267,13 +267,13 @@
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
     // get latest record
     for (NSDictionary * theDictionary in theArray) {
-        NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_SMS"];
+        NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
         [theRequest setPredicate:[NSPredicate predicateWithFormat:@"contactId = %@",theDictionary[@"contactId"]]];
         [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
         [theRequest setFetchLimit:1];
 
         NSArray * theArray =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
-        DB_SMS * theSmsEntity = theArray.firstObject;
+        DB_Message * theSmsEntity = theArray.firstObject;
         ALMessage * theMessage = [ALMessage new];
         theMessage.to = theSmsEntity.to;
         theMessage.message = theSmsEntity.messageText;

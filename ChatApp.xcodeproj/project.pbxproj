@@ -77,7 +77,7 @@
 		9C95DBBE1B80C8510012A649 /* AppLozic.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C95DBBC1B80C8510012A649 /* AppLozic.xcdatamodeld */; };
 		9C95DBC51B80C8B60012A649 /* ALContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C95DBC01B80C8B60012A649 /* ALContact.m */; };
 		9C95DBC61B80C8B60012A649 /* DB_CONTACT.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C95DBC21B80C8B60012A649 /* DB_CONTACT.m */; };
-		9C95DBC71B80C8B60012A649 /* DB_SMS.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C95DBC41B80C8B60012A649 /* DB_SMS.m */; };
+		9C95DBC71B80C8B60012A649 /* DB_Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C95DBC41B80C8B60012A649 /* DB_Message.m */; };
 		9C95DBCA1B80D5C70012A649 /* ALNewContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C95DBC91B80D5C70012A649 /* ALNewContactsViewController.m */; };
 		9C95DBCD1B80D68F0012A649 /* ALNewContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C95DBCC1B80D68F0012A649 /* ALNewContactCell.m */; };
 		9C99CC351B9458B40066E8DF /* ic_upload.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C99CC341B9458B40066E8DF /* ic_upload.png */; };
@@ -217,8 +217,8 @@
 		9C95DBC01B80C8B60012A649 /* ALContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALContact.m; sourceTree = "<group>"; };
 		9C95DBC11B80C8B60012A649 /* DB_CONTACT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DB_CONTACT.h; sourceTree = "<group>"; };
 		9C95DBC21B80C8B60012A649 /* DB_CONTACT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DB_CONTACT.m; sourceTree = "<group>"; };
-		9C95DBC31B80C8B60012A649 /* DB_SMS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DB_SMS.h; sourceTree = "<group>"; };
-		9C95DBC41B80C8B60012A649 /* DB_SMS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DB_SMS.m; sourceTree = "<group>"; };
+		9C95DBC31B80C8B60012A649 /* DB_Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DB_Message.h; sourceTree = "<group>"; };
+		9C95DBC41B80C8B60012A649 /* DB_Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DB_Message.m; sourceTree = "<group>"; };
 		9C95DBC81B80D5C70012A649 /* ALNewContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALNewContactsViewController.h; sourceTree = "<group>"; };
 		9C95DBC91B80D5C70012A649 /* ALNewContactsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALNewContactsViewController.m; sourceTree = "<group>"; };
 		9C95DBCB1B80D68F0012A649 /* ALNewContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALNewContactCell.h; sourceTree = "<group>"; };
@@ -396,8 +396,8 @@
 				9C95DBC01B80C8B60012A649 /* ALContact.m */,
 				9C95DBC11B80C8B60012A649 /* DB_CONTACT.h */,
 				9C95DBC21B80C8B60012A649 /* DB_CONTACT.m */,
-				9C95DBC31B80C8B60012A649 /* DB_SMS.h */,
-				9C95DBC41B80C8B60012A649 /* DB_SMS.m */,
+				9C95DBC31B80C8B60012A649 /* DB_Message.h */,
+				9C95DBC41B80C8B60012A649 /* DB_Message.m */,
 				9CEEF1851B6F45BD00F0B68E /* ALJson.h */,
 				9CEEF1861B6F45BD00F0B68E /* ALJson.m */,
 				9C276CED1B64D538005E76C7 /* ALMessage.h */,
@@ -749,7 +749,7 @@
 				E1D8D38B1B89E7E700550675 /* SDWebImagePrefetcher.m in Sources */,
 				9C95DBC61B80C8B60012A649 /* DB_CONTACT.m in Sources */,
 				9C95DBBA1B80C7C30012A649 /* ALDBHandler.m in Sources */,
-				9C95DBC71B80C8B60012A649 /* DB_SMS.m in Sources */,
+				9C95DBC71B80C8B60012A649 /* DB_Message.m in Sources */,
 				E16635B51B8CEBE9004687C8 /* ALConnection.m in Sources */,
 				E1D8D3901B89E7E700550675 /* UIImageView+HighlightedWebCache.m in Sources */,
 				9C276CFE1B64DE8F005E76C7 /* ALUtilityClass.m in Sources */,

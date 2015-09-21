@@ -13,7 +13,7 @@
 #import "ALJson.h"
 #import <CoreData/CoreData.h>
 #import "ALDBHandler.h"
-#import "DB_SMS.h"
+#import "DB_Message.h"
 #import "ALMessagesViewController.h"
 #import "ALNewContactsViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
@@ -140,7 +140,7 @@
     
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     
-    NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_SMS"];
+    NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     
     theRequest.predicate = [NSPredicate predicateWithFormat:@"contactId = %@",self.mLatestMessage.contactIds];
     
@@ -262,7 +262,7 @@
     
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     
-    DB_SMS * theSmsEntity = [self createSMSEntityForDBInsertionWithMessage:theMessage];
+    DB_Message * theSmsEntity = [self createSMSEntityForDBInsertionWithMessage:theMessage];
     
     [theDBHandler.managedObjectContext save:nil];
     
@@ -751,7 +751,7 @@
     
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     
-    NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_SMS"];
+    NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     
     [theRequest setFetchLimit:self.rp];
     
@@ -763,7 +763,7 @@
     
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
     
-    for (DB_SMS * theEntity in theArray) {
+    for (DB_Message * theEntity in theArray) {
         
         ALMessage * theMessage = [self createMessageForSMSEntity:theEntity];
         
@@ -819,11 +819,11 @@
     }
 }
 
--(DB_SMS *) createSMSEntityForDBInsertionWithMessage:(ALMessage *) theMessage
+-(DB_Message *) createSMSEntityForDBInsertionWithMessage:(ALMessage *) theMessage
 {
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     
-    DB_SMS * theSmsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_SMS" inManagedObjectContext:theDBHandler.managedObjectContext];
+    DB_Message * theSmsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
     
     theSmsEntity.contactId = theMessage.contactIds;
     
@@ -881,7 +881,7 @@
     return fileMetaInfo;
 }
 
--(ALMessage *) createMessageForSMSEntity:(DB_SMS *) theEntity
+-(ALMessage *) createMessageForSMSEntity:(DB_Message *) theEntity
 {
     ALMessage * theMessage = [ALMessage new];
     
@@ -985,13 +985,13 @@
             
             message.isUploadFailed = NO;
                         
-            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_SMS"];
+            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
             
             fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.thumbnailUrl == %@",message.fileMetas.thumbnailUrl];
             
             NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
             
-            DB_SMS  * smsEntity = theArray[0];
+            DB_Message  * smsEntity = theArray[0];
             
             smsEntity.inProgress = [NSNumber numberWithBool:YES];
             
@@ -1008,13 +1008,13 @@
     {
         if (theFiletredArray.count == 0) { // download
             
-            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_SMS"];
+            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
             
             fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.keyString == %@",message.fileMetas.keyString];
             
             NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
             
-            DB_SMS  * smsEntity = theArray[0];
+            DB_Message  * smsEntity = theArray[0];
             
             smsEntity.inProgress = [NSNumber numberWithBool:YES];
             
@@ -1054,13 +1054,13 @@
             
             ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
             
-            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_SMS"];
+            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
             
             fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.thumbnailUrl == %@",message.fileMetas.thumbnailUrl];
             
             NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
             
-            DB_SMS  * smsEntity = theArray[0];
+            DB_Message  * smsEntity = theArray[0];
             
             smsEntity.isUploadFailed = [NSNumber numberWithBool:YES];
             
@@ -1078,13 +1078,13 @@
         
         if (theFiletredArray.count != 0) { // cancel
             
-            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_SMS"];
+            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
             
             fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.keyString == %@",message.fileMetas.keyString];
             
             NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
             
-            DB_SMS  * smsEntity = theArray[0];
+            DB_Message  * smsEntity = theArray[0];
             
             smsEntity.inProgress = [NSNumber numberWithBool:YES];
             
@@ -1298,13 +1298,13 @@
             
             theMessage.isUploadFailed = NO;
             
-            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_SMS"];
+            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
             
             fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.keyString == %@",theMessage.fileMetas.keyString];
             
             NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
             
-            DB_SMS  * smsEntity = theArray[0];
+            DB_Message  * smsEntity = theArray[0];
             
             smsEntity.isSent = [NSNumber numberWithBool:YES];
             
@@ -1337,13 +1337,13 @@
         
         // update db
         
-        NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_SMS"];
+        NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
         
         fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.keyString == %@",connection.keystring];
         
         NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
         
-        DB_SMS  * smsEntity = theArray[0];
+        DB_Message  * smsEntity = theArray[0];
         
         smsEntity.isStoredOnDevice = [NSNumber numberWithBool:YES];
         
@@ -1434,7 +1434,7 @@
     
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     
-    DB_SMS * theSmsEntity = [self createSMSEntityForDBInsertionWithMessage:theMessage];
+    DB_Message * theSmsEntity = [self createSMSEntityForDBInsertionWithMessage:theMessage];
     
     DB_FileMetaInfo *theFileMetaInfo = [self createFileMetaInfoEntityForDBInsertionWithMessage:theMessage.fileMetas];
     
@@ -1499,13 +1499,13 @@
         
         imageCell.mMessage.inProgress = YES;
         
-        NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_SMS"];
+        NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
         
         fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.thumbnailUrl == %@",imageCell.mMessage.fileMetas.thumbnailUrl];
         
         NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
         
-        DB_SMS  * smsEntity = theArray[0];
+        DB_Message  * smsEntity = theArray[0];
         
         smsEntity.inProgress = [NSNumber numberWithBool:YES];
         
