@@ -19,7 +19,7 @@
 		9C276CAA1B640C33005E76C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C276CA91B640C33005E76C7 /* Images.xcassets */; };
 		9C276CAD1B640C33005E76C7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C276CAB1B640C33005E76C7 /* LaunchScreen.xib */; };
 		9C276CB91B640C33005E76C7 /* ChatAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C276CB81B640C33005E76C7 /* ChatAppTests.m */; };
-		9C276CDA1B641112005E76C7 /* ALViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C276CD91B641112005E76C7 /* ALViewController.m */; };
+		9C276CDA1B641112005E76C7 /* ALMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C276CD91B641112005E76C7 /* ALMessagesViewController.m */; };
 		9C276CE51B6414FC005E76C7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9C276CE71B6414FC005E76C7 /* Localizable.strings */; };
 		9C276CEA1B642968005E76C7 /* ALContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C276CE91B642968005E76C7 /* ALContactCell.m */; };
 		9C276CEF1B64D538005E76C7 /* ALMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C276CEE1B64D538005E76C7 /* ALMessage.m */; };
@@ -140,8 +140,8 @@
 		9C276CB21B640C33005E76C7 /* ChatAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C276CB71B640C33005E76C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C276CB81B640C33005E76C7 /* ChatAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatAppTests.m; sourceTree = "<group>"; };
-		9C276CD81B641112005E76C7 /* ALViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALViewController.h; sourceTree = "<group>"; };
-		9C276CD91B641112005E76C7 /* ALViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALViewController.m; sourceTree = "<group>"; };
+		9C276CD81B641112005E76C7 /* ALMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMessagesViewController.h; sourceTree = "<group>"; };
+		9C276CD91B641112005E76C7 /* ALMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMessagesViewController.m; sourceTree = "<group>"; };
 		9C276CDB1B641156005E76C7 /* ALConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALConstant.h; sourceTree = "<group>"; };
 		9C276CE61B6414FC005E76C7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9C276CE81B642968005E76C7 /* ALContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALContactCell.h; sourceTree = "<group>"; };
@@ -511,8 +511,8 @@
 		9C276CD71B641112005E76C7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				9C276CD81B641112005E76C7 /* ALViewController.h */,
-				9C276CD91B641112005E76C7 /* ALViewController.m */,
+				9C276CD81B641112005E76C7 /* ALMessagesViewController.h */,
+				9C276CD91B641112005E76C7 /* ALMessagesViewController.m */,
 				9C276D451B64F695005E76C7 /* ALChatViewController.h */,
 				9C276D461B64F695005E76C7 /* ALChatViewController.m */,
 				9C95DBC81B80D5C70012A649 /* ALNewContactsViewController.h */,
@@ -755,7 +755,7 @@
 				9C276CFE1B64DE8F005E76C7 /* ALUtilityClass.m in Sources */,
 				9C276D471B64F695005E76C7 /* ALChatViewController.m in Sources */,
 				E1D8D38A1B89E7E700550675 /* SDWebImageManager.m in Sources */,
-				9C276CDA1B641112005E76C7 /* ALViewController.m in Sources */,
+				9C276CDA1B641112005E76C7 /* ALMessagesViewController.m in Sources */,
 				9C276CA21B640C33005E76C7 /* AppDelegate.m in Sources */,
 				6DD502E81BAB43F600F68D30 /* ALLoginViewController.m in Sources */,
 				9C276C9F1B640C33005E76C7 /* main.m in Sources */,
