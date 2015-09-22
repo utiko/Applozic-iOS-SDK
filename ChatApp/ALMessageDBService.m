@@ -24,6 +24,7 @@
    
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     for (ALMessage * theMessage in messageList) {
+        NSLog(@" adding messages..%@",theMessage.message );
         DB_Message * theSmsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
         theSmsEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
         theSmsEntity.isSentToDevice = [NSNumber numberWithBool:theMessage.sendToDevice];
@@ -161,6 +162,34 @@
     return true;
 }
 
+- (void)deleteAllObjectsInCoreData
+{
+     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    NSArray *allEntities = dbHandler.managedObjectModel.entities;
+    for (NSEntityDescription *entityDescription in allEntities)
+    {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        [fetchRequest setEntity:entityDescription];
+        
+        fetchRequest.includesPropertyValues = NO;
+        fetchRequest.includesSubentities = NO;
+        
+        NSError *error;
+        NSArray *items = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        
+        if (error) {
+            NSLog(@"Error requesting items from Core Data: %@", [error localizedDescription]);
+        }
+        
+        for (NSManagedObject *managedObject in items) {
+            [dbHandler.managedObjectContext deleteObject:managedObject];
+        }
+        
+        if (![dbHandler.managedObjectContext save:&error]) {
+            NSLog(@"Error deleting %@ - error:%@", entityDescription, [error localizedDescription]);
+        }
+    }  
+}
 
 - (NSManagedObject *)getMessageByKey:(NSString *) keyString{
     

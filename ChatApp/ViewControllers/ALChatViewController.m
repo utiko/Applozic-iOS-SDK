@@ -171,17 +171,15 @@
     
     NSLog(@"calling refresh from server....");
     //TODO: get the user name, devicekey String and make server call...
-   // [ ALMessageService getLatestMessageForUser: [ALUserDefaultsHandler getDeviceKeyString ]  lastSyncTime: [ALUserDefaultsHandler
-    
-    NSString *deviceKeyString= @"agpzfmFwcGxvemljciYLEgZTdVVzZXIYgICAgN2NrAkMCxIGRGV2aWNlGICAgICAgIAKDA";
-    
-    NSString * lastSyncTime =[ALUserDefaultsHandler
+   
+    NSString *deviceKeyString =[ALUserDefaultsHandler getDeviceKeyString ] ;
+    NSString *lastSyncTime =[ALUserDefaultsHandler
                               getLastSyncTime ];
     if ( lastSyncTime == NULL ){
-        lastSyncTime = @"1442716872368";
+        lastSyncTime = @"0";
     }
 
-    [ ALMessageService getLatestMessageForUser: deviceKeyString lastSyncTime: lastSyncTime withCompletion:^(NSString *message, NSError *error) {
+    [ ALMessageService getLatestMessageForUser: deviceKeyString lastSyncTime: lastSyncTime withCompletion:^(ALMessageList *messageListResponse, NSError *error) {
         
         if (error) {
             
@@ -189,8 +187,18 @@
             
             return ;
         }else {
-            
-            NSLog(@" message jason from client :: %@",message );
+            if (messageListResponse.messageList.count > 0 ){
+                NSString *createdAt =[(ALMessage*) [ messageListResponse.messageList firstObject] createdAtTime ];
+                long val = [createdAt longLongValue]+1;
+                [ALUserDefaultsHandler
+                 setLastSyncTime:[NSString stringWithFormat:@"%ld", val]];
+                
+            }
+            NSLog(@" message jason from client ::%@",[ALUserDefaultsHandler
+                                                      getLastSyncTime ] );
+
+            [self.mTableView reloadData];
+
         }
         
     }];

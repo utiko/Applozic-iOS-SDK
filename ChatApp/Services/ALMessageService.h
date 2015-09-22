@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 #import "ALConstant.h"
+#import "ALSyncMessageFeed.h"
+#import "ALMessageList.h"
 
 @interface ALMessageService : NSObject
 
@@ -19,6 +21,6 @@
 +(void) sendPhotoForUserInfo:(NSDictionary *)userInfo withCompletion:(void(^)(NSString * message, NSError *error)) completion;
 
 
-+(void) getLatestMessageForUser:(NSString *)deviceKeyString lastSyncTime:(NSString*) lastSyncTime withCompletion:(void(^)(NSString * message, NSError *error)) completion;
++(void) getLatestMessageForUser:(NSString *)deviceKeyString lastSyncTime:(NSString*) lastSyncTime withCompletion:(void(^)(ALMessageList * message, NSError *error)) completion;
 
 @end

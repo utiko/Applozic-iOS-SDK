@@ -23,7 +23,7 @@
 @property short prefContactAPI;
 @property Boolean emailVerified;
 @property NSString *timezone;
-@property short appVersionCode;
+@property NSString *appVersionCode;
 @property NSString *roleName;
 @property short deviceType;
 

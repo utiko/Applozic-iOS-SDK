@@ -49,6 +49,8 @@
     [self setUpTableView];
 
     ALMessageDBService *dBService = [ALMessageDBService new];
+    
+    [dBService deleteAllObjectsInCoreData];
     dBService.delegate = self;
     [dBService getMessages];
 }
@@ -163,6 +165,7 @@
 -(void) updateConversationTableNotification:(NSNotification *) notification
 {
     ALMessage * theMessage = notification.object;
+    NSLog(@"notification for table update...%@", theMessage.message);
     NSArray * theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",theMessage.contactIds]];
 
     ALMessage * theLatestMessage = theFilteredArray.firstObject;

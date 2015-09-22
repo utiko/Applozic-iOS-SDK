@@ -10,6 +10,7 @@
 #import "ALUser.h"
 #import "ALRegistrationResponse.h"
 #import "ALRegisterUserClientService.h"
+#import "ALUserDefaultsHandler.h"
 
 
 @interface ALLoginViewController ()<UITextFieldDelegate>
@@ -50,7 +51,8 @@
         [user setUserId:[self.userIdField text]];
         [user setEmailId:[self.emailField text]];
         [user setPassword:[self.passwordField text]];
-
+        [user setAppVersionCode:NULL];
+        
         ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
         
         
@@ -62,7 +64,7 @@
                 
                 return ;
             }
-
+        [ALUserDefaultsHandler setUserId:[user userId]];
         NSLog(@"Registration response from server:%@", rResponse);
                     
         /*

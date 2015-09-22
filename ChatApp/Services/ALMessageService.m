@@ -12,6 +12,7 @@
 #import "ALUtilityClass.h"
 #import "ALSyncMessageFeed.h"
 #import "ALMessageDBService.h"
+#import "ALMessageList.h"
 
 @implementation ALMessageService
 
@@ -31,10 +32,10 @@
             
             return ;
         }
+       
+        ALMessageList *messageListResponse=  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
-        NSMutableArray * theMessageArray = [ALParsingHandler parseMessagseArray:theJson];
-        
-        completion(theMessageArray,nil);
+        completion(messageListResponse.messageList,nil);
         
     }];
     
@@ -57,10 +58,9 @@
             
             return ;
         }
+        ALMessageList *messageListResponse=  [[ALMessageList alloc] initWithJSONString:theJson];
         
-        NSMutableArray * theMessageArray = [ALParsingHandler parseMessagseArray:theJson];
-        
-        completion(theMessageArray,nil);
+        completion(messageListResponse.messageList,nil);
         
     }];
     
@@ -114,11 +114,11 @@
 }
 
 
-+(void) getLatestMessageForUser:(NSString *)deviceKeyString lastSyncTime:(NSString *)lastSyncTime withCompletion:(void (^)(NSString *, NSError *))completion{
++(void) getLatestMessageForUser:(NSString *)deviceKeyString lastSyncTime:(NSString *)lastSyncTime withCompletion:(void (^)(ALMessageList *, NSError *))completion{
     
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/sync/messages",KBASE_URL];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/list",KBASE_URL];
     
-    NSString * theParamString = [NSString stringWithFormat:@"deviceKeyString=%@&lastSyncTime=%@",deviceKeyString,lastSyncTime];
+    NSString * theParamString = [NSString stringWithFormat:@"startTime=%@",lastSyncTime];
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
@@ -130,16 +130,14 @@
             
             return ;
         }
-        
-        NSString *messageSyncResponse = (NSString *)theJson;
-        ALSyncMessageFeed *syncFeed =  [[ALSyncMessageFeed alloc]initWithJSONString:theJson];
-        //Save Data To DB and notify conversation view to update
-        if(syncFeed.messagesList.count >0 ){
+        NSLog(@"sync feed jason..%@", (NSString *)theJson);
+        ALMessageList *messageListResponse=  [[ALMessageList alloc] initWithJSONString:theJson];
+        if(messageListResponse.messageList.count >0 ){
              ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-            [dbService addMessageList:syncFeed.messagesList];
+            [dbService addMessageList:messageListResponse.messageList];
         }
-        NSLog(@"sync feed ..%@", syncFeed.lastSyncTime);
-        completion(messageSyncResponse,nil);
+        NSLog(@"sync feed ..%@", messageListResponse);
+        completion(messageListResponse,nil);
         
     }];
 }

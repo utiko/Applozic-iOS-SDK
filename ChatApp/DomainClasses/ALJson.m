@@ -73,4 +73,49 @@
     return dictionary;
 }
 
+
+-(BOOL) validateJsonClass:(NSDictionary *) jsonClass
+{
+    
+    if ([NSStringFromClass([jsonClass class]) isEqual:@"NSNUll"] || jsonClass == nil) {
+        
+        return NO;
+    }
+    
+    return YES;
+    
+}
+
+-(BOOL) validateJsonArrayClass:(NSArray *) jsonClass
+{
+    
+    if ([NSStringFromClass([jsonClass class]) isEqual:@"NSNUll"] || jsonClass == nil) {
+        
+        return NO;
+    }
+    
+    return YES;
+    
+}
+-(NSString *) getStringFromJsonValue:(id) jsonValue
+{
+    if (jsonValue != [NSNull null] && jsonValue != nil)
+    {
+        return [NSString stringWithFormat:@"%@",jsonValue];
+    }
+    
+    return nil;
+}
+
+
+-(BOOL ) getBoolFromJsonValue:(id) jsonValue
+{
+    if (jsonValue != [NSNull null] && jsonValue != nil)
+    {
+        return [jsonValue boolValue];
+    }
+    
+    return NO;
+}
+
 @end

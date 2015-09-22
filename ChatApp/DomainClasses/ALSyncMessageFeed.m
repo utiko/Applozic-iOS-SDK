@@ -19,29 +19,24 @@
     
     self.lastSyncTime = [syncMessageResponse valueForKey:@"lastSyncTime"];
     self.isRegisterdIdInvalid = [syncMessageResponse valueForKey:@"regIdInvalid"];
-    NSDictionary *theMessageDict = [syncMessageResponse valueForKey:@"messages"];
-    self.messagesList = [self getMessageList:theMessageDict];
-    
+    NSDictionary * theMessageDict = [syncMessageResponse valueForKey:@"message"];
+    [self parseMessagseArray:theMessageDict];
     return self;
 }
 
 
--(NSMutableArray *)getMessageList:(NSDictionary*)dict {
-    
+
+-(void)parseMessagseArray:(id) theMessageDict
+{
     NSMutableArray * theMessagesArray = [NSMutableArray new];
     
-    if ([ALParsingHandler validateJsonClass:dict] == NO) {
-        
-        return theMessagesArray;
-    }
     
-    for (NSDictionary * theDictionary in dict) {
-        
-        [theMessagesArray addObject:[ ALParsingHandler parseMessage:theDictionary]];
+    for (NSDictionary * theDictionary in theMessageDict) {
+        ALMessage *message = [[ALMessage alloc] initWithDictonary:theMessageDict ];
+        [theMessagesArray addObject:message];
     }
-    return theMessagesArray;
+    self.messagesList = theMessagesArray;
 }
-
 
 
 

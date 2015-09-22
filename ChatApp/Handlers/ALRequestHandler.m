@@ -7,6 +7,7 @@
 
 #import "ALRequestHandler.h"
 #import "ALUtilityClass.h"
+#import "ALUserDefaultsHandler.h"
 
 @implementation ALRequestHandler
 
@@ -23,23 +24,16 @@
     else
     {
         theUrl = [NSURL URLWithString:urlString];
-        NSLog(@"the url,%@", theUrl);
-    }
     
+    }
+    NSLog(@"the url,%@", theUrl);
     [theRequest setURL:theUrl];
     
     [theRequest setTimeoutInterval:600];
     
     [theRequest setHTTPMethod:@"GET"];
     
-    [theRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    [theRequest addValue:@"applozic-sample-app" forHTTPHeaderField:@"Application-Key"];
-    
-    [theRequest addValue:@"true" forHTTPHeaderField:@"UserId-Enabled"];
-    
-    [theRequest setValue:@"Basic Y3VzdG9tZXItMTphZ3B6Zm1Gd2NHeHZlbWxqY2lZTEVnWlRkVlZ6WlhJWWdJQ0FnS19obVFvTUN4SUdSR1YyYVdObEdJQ0FnSUNBZ0lBS0RB" forHTTPHeaderField:@"Authorization"];
-    
+    [ self addGlobalHeader:theRequest ];
     return theRequest;
 }
 
@@ -61,18 +55,21 @@
         [theRequest setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[thePostData length]] forHTTPHeaderField:@"Content-Length"];
         
     }
-    
-    [theRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    [theRequest addValue:@"applozic-sample-app" forHTTPHeaderField:@"Application-Key"];
-    
-    [theRequest addValue:@"true" forHTTPHeaderField:@"UserId-Enabled"];
-    
-    [theRequest setValue:@"Basic Y3VzdG9tZXItMTphZ3B6Zm1Gd2NHeHZlbWxqY2lZTEVnWlRkVlZ6WlhJWWdJQ0FnS19obVFvTUN4SUdSR1YyYVdObEdJQ0FnSUNBZ0lBS0RB" forHTTPHeaderField:@"Authorization"];
-    
-    return theRequest;
+    [ self addGlobalHeader:theRequest ];
+       return theRequest;
     
 }
 
-
++(void) addGlobalHeader: (NSMutableURLRequest*) request{
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    [request addValue:@"applozic-sample-app" forHTTPHeaderField:@"Application-Key"];
+    [request addValue:@"true" forHTTPHeaderField:@"UserId-Enabled"];
+    
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@",[ALUserDefaultsHandler getUserId] , [ALUserDefaultsHandler getDeviceKeyString]];
+    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *authString = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
+    [request setValue:authString forHTTPHeaderField:@"Authorization"];
+    NSLog(@"Basic string...%@",authString);
+}
 @end

@@ -33,6 +33,7 @@
 
 //Generic APIS
 -(BOOL) isMessageTableEmpty;
+-(void)deleteAllObjectsInCoreData;
 
 
 @property(nonatomic,weak) id <ALMessagesDelegate>delegate;
