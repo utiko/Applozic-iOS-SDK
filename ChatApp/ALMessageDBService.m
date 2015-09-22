@@ -17,6 +17,51 @@
 
 @implementation ALMessageDBService
 
+
+//Add message APIS
+
+-(void)addMessageList:(NSMutableArray*) messageList {
+   
+    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+    for (ALMessage * theMessage in messageList) {
+        DB_Message * theSmsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
+        theSmsEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
+        theSmsEntity.isSentToDevice = [NSNumber numberWithBool:theMessage.sendToDevice];
+        theSmsEntity.isStoredOnDevice = [NSNumber numberWithBool:NO];
+        theSmsEntity.isShared = [NSNumber numberWithBool:theMessage.shared];
+        theSmsEntity.isRead = [NSNumber numberWithBool:theMessage.read];
+        theSmsEntity.keyString = theMessage.keyString;
+        theSmsEntity.deviceKeyString = theMessage.deviceKeyString;
+        theSmsEntity.suUserKeyString = theMessage.suUserKeyString;
+        theSmsEntity.to = theMessage.to;
+        theSmsEntity.messageText = theMessage.message;
+        theSmsEntity.createdAt = [NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
+        theSmsEntity.type = theMessage.type;
+        theSmsEntity.contactId = theMessage.contactIds;
+        theSmsEntity.filePath = theMessage.imageFilePath;
+        
+        if (theMessage.fileMetas != nil) {
+            DB_FileMetaInfo * theMetaInfoEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_FileMetaInfo" inManagedObjectContext:theDBHandler.managedObjectContext];
+            theMetaInfoEntity.blobKeyString = theMessage.fileMetas.blobKeyString;
+            theMetaInfoEntity.contentType = theMessage.fileMetas.contentType;
+            theMetaInfoEntity.createdAtTime = theMessage.fileMetas.createdAtTime;
+            theMetaInfoEntity.keyString = theMessage.fileMetas.keyString;
+            theMetaInfoEntity.name = theMessage.fileMetas.name;
+            theMetaInfoEntity.size = theMessage.fileMetas.size;
+            theMetaInfoEntity.suUserKeyString = theMessage.fileMetas.suUserKeyString;
+            theMetaInfoEntity.thumbnailUrl = theMessage.fileMetas.thumbnailUrl;
+            theSmsEntity.fileMetaInfo = theMetaInfoEntity;
+        }
+    }
+    
+    [theDBHandler.managedObjectContext save:nil];
+
+}
+
+-(void)addMessage:(ALMessage*) message{
+    
+}
+
 //update Message APIS
 -(void)updateMessageDeliveryReport:(NSString*)keyString{
     
@@ -101,7 +146,6 @@
 //Generic APIS
 -(BOOL) isMessageTableEmpty{
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
-    int entityCount = 0;
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setEntity:entity];
@@ -110,11 +154,11 @@
     NSError *error = nil;
     NSUInteger count = [ dbHandler.managedObjectContext countForFetchRequest: fetchRequest error: &error];
     if(error == nil ){
-        return count >0;
+        return !(count >0);
     }else{
          NSLog(@"Error fetching count :%@",error);
     }
-    return nil;
+    return true;
 }
 
 
@@ -151,45 +195,13 @@
 
 -(void)getMessages {
 
-    if ([ALUserDefaultsHandler getBoolForKey_isConversationDbSynced] == NO) { // db is not synced
+    if ( [self isMessageTableEmpty ] ) { // db is not synced
 
         [self syncConverstionDBWithCompletion:^(BOOL success, NSMutableArray * theArray) {
 
             if (success) {
                 // save data into the db
-                ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-                for (ALMessage * theMessage in theArray) {
-                    DB_Message * theSmsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
-                    theSmsEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
-                    theSmsEntity.isSentToDevice = [NSNumber numberWithBool:theMessage.sendToDevice];
-                    theSmsEntity.isStoredOnDevice = [NSNumber numberWithBool:NO];
-                    theSmsEntity.isShared = [NSNumber numberWithBool:theMessage.shared];
-                    theSmsEntity.isRead = [NSNumber numberWithBool:theMessage.read];
-                    theSmsEntity.keyString = theMessage.keyString;
-                    theSmsEntity.deviceKeyString = theMessage.deviceKeyString;
-                    theSmsEntity.suUserKeyString = theMessage.suUserKeyString;
-                    theSmsEntity.to = theMessage.to;
-                    theSmsEntity.messageText = theMessage.message;
-                    theSmsEntity.createdAt = [NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
-                    theSmsEntity.type = theMessage.type;
-                    theSmsEntity.contactId = theMessage.contactIds;
-                    theSmsEntity.filePath = theMessage.imageFilePath;
-
-                    if (theMessage.fileMetas != nil) {
-                        DB_FileMetaInfo * theMetaInfoEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_FileMetaInfo" inManagedObjectContext:theDBHandler.managedObjectContext];
-                        theMetaInfoEntity.blobKeyString = theMessage.fileMetas.blobKeyString;
-                        theMetaInfoEntity.contentType = theMessage.fileMetas.contentType;
-                        theMetaInfoEntity.createdAtTime = theMessage.fileMetas.createdAtTime;
-                        theMetaInfoEntity.keyString = theMessage.fileMetas.keyString;
-                        theMetaInfoEntity.name = theMessage.fileMetas.name;
-                        theMetaInfoEntity.size = theMessage.fileMetas.size;
-                        theMetaInfoEntity.suUserKeyString = theMessage.fileMetas.suUserKeyString;
-                        theMetaInfoEntity.thumbnailUrl = theMessage.fileMetas.thumbnailUrl;
-                        theSmsEntity.fileMetaInfo = theMetaInfoEntity;
-                    }
-                }
-
-                [theDBHandler.managedObjectContext save:nil];
+                [self addMessageList:theArray];
                 // set yes to userdefaults
                 [ALUserDefaultsHandler setBoolForKey_isConversationDbSynced:YES];
                 // add default contacts

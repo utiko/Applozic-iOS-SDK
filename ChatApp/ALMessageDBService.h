@@ -16,8 +16,8 @@
 
 @interface ALMessageDBService : NSObject
 
-
 //Add Message APIS
+-(void)addMessageList:(NSMutableArray*) messageList;
 -(void)getMessages;
 
 //update Message APIS
