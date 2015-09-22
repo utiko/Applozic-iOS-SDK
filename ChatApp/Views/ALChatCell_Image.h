@@ -14,7 +14,7 @@
 
 @protocol ALChatCellImageDelegate <NSObject>
 
--(void) dowloadRetryButtonActionDelegate:(int) index andMessage:(ALMessage *) message;
+-(void) downloadRetryButtonActionDelegate:(int) index andMessage:(ALMessage *) message;
 -(void) stopDownloadForIndex:(int)index andMessage:(ALMessage *)message;
 
 @end
