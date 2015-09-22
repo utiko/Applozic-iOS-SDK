@@ -332,7 +332,7 @@
         
         BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[theMessage.createdAtTime doubleValue]/1000]];
         
-        NSString * theDate = [NSString stringWithFormat:@"Via MT %@",[theMessage getCreatedAtTime:today]];
+        NSString * theDate = [NSString stringWithFormat:@"%@",[theMessage getCreatedAtTime:today]];
         
         theCell.mMessage = theMessage;
         
@@ -434,7 +434,7 @@
         
         BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[theMessage.createdAtTime doubleValue]/1000]];
         
-        NSString * theDate = [NSString stringWithFormat:@"Via MT %@",[theMessage getCreatedAtTime:today]];
+        NSString * theDate = [NSString stringWithFormat:@"%@",[theMessage getCreatedAtTime:today]];
         
         theCell.mMessage = theMessage;
         
