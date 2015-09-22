@@ -53,11 +53,11 @@
         
         mMessageLabel.numberOfLines = 0;
         
-        mMessageLabel.textColor = [UIColor blackColor];
+        mMessageLabel.textColor = [UIColor grayColor];
         
         [self.contentView addSubview:mMessageLabel];
         
-        
+
         mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 100, 25)];
         
         mDateLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
@@ -71,7 +71,7 @@
         self.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0  alpha:1];
         
         [self.contentView addSubview:mDateLabel];
-        
+
         
         mMessageStatusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(mDateLabel.frame.origin.x+mDateLabel.frame.size.width, mDateLabel.frame.origin.y, 20, 20)];
         
