@@ -12,11 +12,13 @@
 #import "ALResponseHandler.h"
 #import "ALParsingHandler.h"
 #import "ALUtilityClass.h"
+#import "ALRegistrationResponse.h"
+#import "ALUserDefaultsHandler.h"
 
 @implementation ALRegisterUserClientService
 
 
--(void) createAccountWithCallback:(ALUser *)user withCompletion:(void(^)(NSString * message, NSError * error)) completion {
+-(void) createAccountWithCallback:(ALUser *)user withCompletion:(void(^)(ALRegistrationResponse * response , NSError * error)) completion {
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/registration/v1/register",KBASE_URL];
     
@@ -36,6 +38,7 @@
     
     [ALResponseHandler processRequest:theRequest andTag:@"CREATE ACCOUNT" WithCompletionHandler:^(id theJson, NSError *theError) {
         NSLog(@"server response received");
+        
         if (theError) {
             
             completion(nil,theError);
@@ -44,9 +47,10 @@
         }
         
         NSString *statusStr = (NSString *)theJson;
-        
-        
-        completion(statusStr,nil);
+        ALRegistrationResponse *response = [[ALRegistrationResponse alloc] initWithJSONString:statusStr];
+        [ALUserDefaultsHandler setDeviceKeyString:response.deviceKeyString ];
+        [ALUserDefaultsHandler setLastSyncTime:response.lastSyncTime];
+        completion(response,nil);
         
     }];
     

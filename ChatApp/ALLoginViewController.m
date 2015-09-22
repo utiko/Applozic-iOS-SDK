@@ -54,7 +54,7 @@
         ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
         
         
-        [registerUserClientService createAccountWithCallback:user withCompletion:^(NSString *strData, NSError *error) {
+        [registerUserClientService createAccountWithCallback:user withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
             
             if (error) {
                 
@@ -63,8 +63,9 @@
                 return ;
             }
 
-        NSLog(@"Registration response from server:%@", strData);
-       /*
+        NSLog(@"Registration response from server:%@", rResponse);
+                    
+        /*
         ALRegistrationResponse *registrationResponse = [[ALRegistrationResponse alloc] initWithJSONString:strData];
         
         NSLog(@"Converted to registrationresponse object: %@", registrationResponse.message);*/

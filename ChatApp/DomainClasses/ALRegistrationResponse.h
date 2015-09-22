@@ -15,7 +15,7 @@
 @property NSString *deviceKeyString;
 @property NSString *suUserKeyString;
 @property NSString *contactNumber;
-@property long lastSyncTime;
+@property NSString *lastSyncTime;
 
 
 @end
