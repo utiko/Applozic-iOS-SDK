@@ -15,7 +15,7 @@
 @implementation ALSyncMessageFeed
 
 
-- (id)init:(NSString *)syncMessageResponse {
+- (id)initWithJSONString:(NSString *)syncMessageResponse {
     
     self.lastSyncTime = [syncMessageResponse valueForKey:@"lastSyncTime"];
     self.isRegisterdIdInvalid = [syncMessageResponse valueForKey:@"regIdInvalid"];
@@ -26,7 +26,7 @@
 }
 
 
--(NSArray *)getMessageList:(NSDictionary*)dict {
+-(NSMutableArray *)getMessageList:(NSDictionary*)dict {
     
     NSMutableArray * theMessagesArray = [NSMutableArray new];
     

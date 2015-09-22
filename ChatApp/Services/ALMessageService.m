@@ -11,6 +11,7 @@
 #import "ALParsingHandler.h"
 #import "ALUtilityClass.h"
 #import "ALSyncMessageFeed.h"
+#import "ALMessageDBService.h"
 
 @implementation ALMessageService
 
@@ -131,7 +132,12 @@
         }
         
         NSString *messageSyncResponse = (NSString *)theJson;
-        ALSyncMessageFeed *syncFeed =  [[ALSyncMessageFeed alloc]init:theJson];
+        ALSyncMessageFeed *syncFeed =  [[ALSyncMessageFeed alloc]initWithJSONString:theJson];
+        //Save Data To DB and notify conversation view to update
+        if(syncFeed.messagesList.count >0 ){
+             ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+            [dbService addMessageList:syncFeed.messagesList];
+        }
         NSLog(@"sync feed ..%@", syncFeed.lastSyncTime);
         completion(messageSyncResponse,nil);
         

@@ -15,13 +15,11 @@
 
 @property(nonatomic,copy) NSString *currentSyncTime;
 
-@property(nonatomic) NSArray * messagesList;
+@property(nonatomic) NSMutableArray * messagesList;
 
 @property(nonatomic, assign) BOOL sent;
 
 @property(nonatomic, assign) BOOL isRegisterdIdInvalid;
-
-- (id)init:(NSString *)syncMessageResponse;
 
 
 
