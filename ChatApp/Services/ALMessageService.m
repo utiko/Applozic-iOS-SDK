@@ -142,6 +142,41 @@
     }];
 }
 
-
-
++(void )deleteMessage:( NSString * ) keyString withCompletion:(void (^)(NSString *, NSError *))completion{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/delete",KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"key=%@",keyString];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if (theError) {
+            
+            completion(nil,theError);
+            
+            return ;
+        }
+        NSLog(@"Response of delete: %@", (NSString *)theJson);
+        completion((NSString *)theJson,nil);
+        
+    }];
+}
+/*
+ 
+ &requestSource=1"
+ +"&suUserKeyString=
+ */
++(void)deleteMessageThread:( NSString * ) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/sms/deleteConversion",KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"contactNumber=%@",contactId];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
+        if (theError) {
+            completion(nil,theError);
+            return ;
+        }
+        NSLog(@"Response of delete: %@", (NSString *)theJson);
+        completion((NSString *)theJson,nil);
+    }];
+}
 @end
