@@ -23,17 +23,17 @@
 
 +(ALDBHandler *) sharedInstance;
 
-- (BOOL)purgeListOfContacts:(NSArray *)contacts;
+-(BOOL)purgeListOfContacts:(NSArray *)contacts;
 
-- (BOOL)purgeContact:(ALContact *)contact;
+-(BOOL)purgeContact:(ALContact *)contact;
 
-- (BOOL)purgeAllContact;
+-(BOOL)purgeAllContact;
 
-- (BOOL)updateListOfContacts:(NSArray *)contacts;
+-(BOOL)updateListOfContacts:(NSArray *)contacts;
 
-- (BOOL)updateConatct:(ALContact *)contact;
+-(BOOL)updateConatct:(ALContact *)contact;
 
-- (BOOL)addListOfContacts:(NSArray *)contacts;
+-(BOOL)addListOfContacts:(NSArray *)contacts;
 
 -(BOOL)addContact:(ALContact *)userContact;
 

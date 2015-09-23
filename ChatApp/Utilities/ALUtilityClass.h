@@ -22,4 +22,7 @@
 
 + (NSString*) fileMIMEType:(NSString*) file;
 
++(CGSize)getSizeForText:(NSString *)text maxWidth:(CGFloat)width font:(NSString *)fontName fontSize:(float)fontSize;
+
+
 @end

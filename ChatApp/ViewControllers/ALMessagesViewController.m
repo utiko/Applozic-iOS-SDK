@@ -19,11 +19,15 @@
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
 
+
+
 //------------------------------------------------------------------------------------------------------------------
 // Private interface
 //------------------------------------------------------------------------------------------------------------------
 
 @interface ALMessagesViewController ()<UITableViewDataSource,UITableViewDelegate,ALMessagesDelegate>
+
+// Constants
 
 // IBOutlet
 @property (weak, nonatomic) IBOutlet UITableView *mTableView;
@@ -39,7 +43,7 @@
 @implementation ALMessagesViewController
 
 //------------------------------------------------------------------------------------------------------------------
-#pragma mark - View lifecycle
+    #pragma mark - View lifecycle
 //------------------------------------------------------------------------------------------------------------------
 
 - (void)viewDidLoad {

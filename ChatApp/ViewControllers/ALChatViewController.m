@@ -28,18 +28,13 @@
 #import "ALParsingHandler.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageDBService.h"
+#import "ALImagePickerHandler.h"
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate>
-
-@property (nonatomic,retain) UIButton * rightViewButton;
 
 @property (nonatomic, assign) NSInteger startIndex;
 
 @property (nonatomic,assign) int rp;
-
-@property (nonatomic,retain) UIView * mTableHeaderView;
-
-@property (nonatomic, retain) UIColor *navColor;
 
 @property (nonatomic,assign) NSUInteger mTotalCount;
 
@@ -57,36 +52,21 @@
 
     [super viewDidLoad];
 
-    [self setUpTheming];
     [self initialSetUp];
-    [self setUpTableView];
     [self fetchMessageFromDB];
     [self loadChatView];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    self.tabBarController.tabBar.hidden = YES;
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
-        // iOS 6.1 or earlier
-        self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
-    } else {
-        // iOS 7.0 or later
-        self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
-    }
-    if ([ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_BACKGROUND_COLOR])
-        self.mTableView.backgroundColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_BACKGROUND_COLOR];
-    else
-        self.mTableView.backgroundColor = [UIColor colorWithRed:242.0/255 green:242.0/255 blue:242.0/255 alpha:1];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
-
     [super viewWillDisappear:animated];
-
-    self.navigationController.navigationBar.barTintColor = self.navColor;
-    self.tabBarController.tabBar.hidden = NO;
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -102,8 +82,10 @@
 
     self.mSendMessageTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter message here" attributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [self.mTableView registerClass:[ALChatCell class] forCellReuseIdentifier:@"ChatCell"];
+    [self.mTableView registerClass:[ALChatCell_Image class] forCellReuseIdentifier:@"ChatCell_Image"];
+
+    self.navigationItem.title = self.mLatestMessage.contactIds;
 }
 
 -(void)fetchMessageFromDB {
@@ -115,54 +97,6 @@
     NSLog(@"%lu",(unsigned long)self.mTotalCount);
 }
 
--(void)setUpTableView {
-
-    UIButton * mLoadEarlierMessagesButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    mLoadEarlierMessagesButton.frame = CGRectMake(self.view.frame.size.width/2-90, 15, 180, 30);
-    [mLoadEarlierMessagesButton setTitle:@"Load Earlier" forState:UIControlStateNormal];
-    [mLoadEarlierMessagesButton setBackgroundColor:[UIColor whiteColor] ];
-    mLoadEarlierMessagesButton.layer.cornerRadius = 3;
-    [mLoadEarlierMessagesButton addTarget:self action:@selector(loadChatView) forControlEvents:UIControlEventTouchUpInside];
-    [mLoadEarlierMessagesButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica" size:14]];
-    [self.mTableHeaderView addSubview:mLoadEarlierMessagesButton];
-
-    // textfield right view
-    self.mSendMessageTextField.rightViewMode = UITextFieldViewModeAlways;
-    self.rightViewButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    [self.rightViewButton setImage:[UIImage imageNamed:@"mobicom_ic_action_send_now2.png"] forState:UIControlStateNormal];
-    [self.rightViewButton addTarget:self action:@selector(postMessage) forControlEvents:UIControlEventTouchUpInside];
-    [self.mSendMessageTextField setRightView:self.rightViewButton];
-    [self.mTableView registerClass:[ALChatCell class] forCellReuseIdentifier:@"ChatCell"];
-    [self.mTableView registerClass:[ALChatCell_Image class] forCellReuseIdentifier:@"ChatCell_Image"];
-}
-
--(void)setUpTheming {
-    UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
-    if (!color) {
-        color = [UIColor blackColor];
-    }
-    NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    color,NSForegroundColorAttributeName,nil];
-    self.navigationController.navigationBar.titleTextAttributes = textAttributes;
-    self.navigationItem.title = self.mLatestMessage.contactIds;
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
-    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshTable:)];
-    [self.navigationItem setLeftBarButtonItem:barButtonItem];
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
-        // iOS 6.1 or earlier
-        self.navColor = [self.navigationController.navigationBar tintColor];
-    } else {
-        // iOS 7.0 or later
-        self.navColor = [self.navigationController.navigationBar barTintColor];
-    }
-    UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
-}
-
--(void)back:(id)sender {
-    self.tabBarController.selectedIndex = 0;
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 -(void)refreshTable:(id)sender {
 
@@ -197,9 +131,7 @@
     }];
 }
 
-
 - (void)didReceiveMemoryWarning {
-
     [super didReceiveMemoryWarning];
 }
 
@@ -213,7 +145,7 @@
     [self.mMessageListArray addObject:theMessage];
     [self.mTableView reloadData];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self scrollTableViewToBottomWithAnimation:YES];
+        [super scrollTableViewToBottomWithAnimation:YES];
     });
     // save message to db
     [self.mSendMessageTextField setText:nil];
@@ -272,15 +204,10 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ALMessage * theMessage = self.mMessageListArray[indexPath.row];
-
     if (theMessage.fileMetas.thumbnailUrl == nil) {
-
-        CGSize theTextSize = [self getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:@"Helvetica-Bold" fontSize:15];
-
+        CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:@"Helvetica-Bold" fontSize:15];
         int extraSpace = 40 ;
-
         return theTextSize.height+21+extraSpace;
-
     }
     else
     {
@@ -292,22 +219,21 @@
     #pragma mark - Helper Method
 //------------------------------------------------------------------------------------------------------------------
 
-
 -(ALMessage *) getMessageToPost
 {
     ALMessage * theMessage = [ALMessage new];
 
     theMessage.type = @"5";
 
-    theMessage.contactIds = self.mLatestMessage.contactIds;
+    theMessage.contactIds = self.mLatestMessage.contactIds;//1
 
-    theMessage.to = self.mLatestMessage.to;
+    theMessage.to = self.mLatestMessage.to;//2
 
     theMessage.createdAtTime = [NSString stringWithFormat:@"%ld",(long)[[NSDate date] timeIntervalSince1970]*1000];
 
     theMessage.deviceKeyString = @"agpzfmFwcGxvemljciYLEgZTdVVzZXIYgICAgK_hmQoMCxIGRGV2aWNlGICAgICAgIAKDA";
 
-    theMessage.message = self.mSendMessageTextField.text;
+    theMessage.message = self.mSendMessageTextField.text;//3
 
     theMessage.sendToDevice = NO;
 
@@ -323,7 +249,7 @@
 
     theMessage.keyString = @"test keystring";
 
-    theMessage.fileMetaKeyStrings = @[];
+    theMessage.fileMetaKeyStrings = @[];//4
 
     return theMessage;
 }
@@ -345,179 +271,52 @@
     return info;
 }
 
-- (CGSize)getSizeForText:(NSString *)text maxWidth:(CGFloat)width font:(NSString *)fontName fontSize:(float)fontSize {
-
-    CGSize constraintSize;
-
-    constraintSize.height = MAXFLOAT;
-
-    constraintSize.width = width;
-
-    NSDictionary *attributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          [UIFont fontWithName:fontName size:fontSize], NSFontAttributeName,
-                                          nil];
-
-    CGRect frame = [text boundingRectWithSize:constraintSize
-                                      options:NSStringDrawingUsesLineFragmentOrigin
-                                   attributes:attributesDictionary
-                                      context:nil];
-
-    CGSize stringSize = frame.size;
-
-    return stringSize;
-}
-
--(void) scrollTableViewToBottomWithAnimation:(BOOL) animated
-{
-
-    if (self.mTableView.contentSize.height > self.mTableView.frame.size.height)
-    {
-        CGPoint offset = CGPointMake(0, self.mTableView.contentSize.height - self.mTableView.frame.size.height);
-
-        [self.mTableView setContentOffset:offset animated:animated];
-    }
-}
-
-//------------------------------------------------------------------------------------------------------------------
-    #pragma mark - Keyboard Post Notifacations
-//------------------------------------------------------------------------------------------------------------------
-
--(void) keyBoardWillShow:(NSNotification *) notification
-{
-
-    NSDictionary * theDictionary = notification.userInfo;
-
-    NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
-
-    CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-
-    self.mSendTextFieldBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y;
-
-    [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
-
-        [self.view layoutIfNeeded];
-
-        [self scrollTableViewToBottomWithAnimation:YES];
-
-    } completion:^(BOOL finished) {
-
-        if (finished) {
-
-            [self scrollTableViewToBottomWithAnimation:YES];
-
-        }
-    }];
-}
-
-
--(void) keyBoardWillHide:(NSNotification *) notification
-{
-
-    NSDictionary * theDictionary = notification.userInfo;
-
-    NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
-
-    self.mSendTextFieldBottomConstraint.constant = 0;
-
-    [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
-
-        [self.view layoutIfNeeded];
-
-    }];
-}
-
-//------------------------------------------------------------------------------------------------------------------
-#pragma mark - Textfield Delegates
-//------------------------------------------------------------------------------------------------------------------
-
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
-
-#pragma mark tap gesture
-
-- (IBAction)handleTap:(UITapGestureRecognizer *)sender {
-
-    if ([self.mSendMessageTextField isFirstResponder]) {
-
-        [self.mSendMessageTextField resignFirstResponder];
-    }
-}
 
 #pragma mark helper methods
 
 -(void) loadChatView
 {
-
     BOOL isLoadEarlierTapped = self.mMessageListArray.count == 0 ? NO : YES ;
-
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
-
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-
     [theRequest setFetchLimit:self.rp];
-
     theRequest.predicate = [NSPredicate predicateWithFormat:@"contactId = %@",self.mLatestMessage.contactIds];
-
     [theRequest setFetchOffset:self.startIndex];
-
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
 
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
-
     for (DB_Message * theEntity in theArray) {
-
         ALMessage * theMessage = [self createMessageForSMSEntity:theEntity];
-
         [self.mMessageListArray insertObject:theMessage atIndex:0];
     }
 
     [self.mTableView reloadData];
 
     if (isLoadEarlierTapped) {
-
         if ((theArray != nil && theArray.count < self.rp )|| self.mMessageListArray.count == self.mTotalCount) {
-
             self.mTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
         }
-
         self.startIndex = self.startIndex + theArray.count;
-
         [self.mTableView reloadData];
-
         if (theArray.count != 0) {
-
             CGRect theFrame = [self.mTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:theArray.count-1 inSection:0]];
-
             [self.mTableView setContentOffset:CGPointMake(0, theFrame.origin.y-60)];
-
         }
-
     }
     else
     {
-
         if (theArray.count < self.rp || self.mMessageListArray.count == self.mTotalCount) {
-
             self.mTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
-
         }
         else
         {
             self.mTableView.tableHeaderView = self.mTableHeaderView;
-
         }
-
         self.startIndex = theArray.count;
 
         if (self.mMessageListArray.count != 0) {
-
             CGRect theFrame = [self.mTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:theArray.count-1 inSection:0]];
-
             [self.mTableView setContentOffset:CGPointMake(0, theFrame.origin.y)];
-
         }
 
     }
@@ -769,7 +568,7 @@
 
     }else {
         NSIndexPath *path = [NSIndexPath indexPathForRow:connection.connectionTag inSection:0];
-        ALChatCell_Image *cell = (ALChatCell_Image *)[_mTableView cellForRowAtIndexPath:path];
+        ALChatCell_Image *cell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:path];
         cell.mMessage.fileMetas.progressValue = [self bytesConvertsToDegree:[cell.mMessage.fileMetas.size floatValue] comingBytes:(CGFloat)connection.mData.length];
         NSLog(@"%lu %f",(unsigned long)connection.mData.length,[cell.mMessage.fileMetas.size floatValue]);
     }
@@ -883,9 +682,7 @@
     NSLog(@"totalBytesExpectedToWrite %ld",(long)totalBytesExpectedToWrite);
 
     NSIndexPath *path = [NSIndexPath indexPathForRow:connection.connectionTag inSection:0];
-
-    ALChatCell_Image *cell = (ALChatCell_Image *)[_mTableView cellForRowAtIndexPath:path];
-
+    ALChatCell_Image *cell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:path];
     cell.mMessage.fileMetas.progressValue = [self bytesConvertsToDegree:totalBytesExpectedToWrite comingBytes:totalBytesWritten];
     NSLog(@"%lu %f",(unsigned long)connection.mData.length,[cell.mMessage.fileMetas.size floatValue]);
 }
@@ -905,7 +702,7 @@
     image = [image getCompressedImageLessThanSize:5];
 
     // save image to doc
-    NSString * filePath = [self saveImageToDocDirectory:image];
+    NSString * filePath = [ALImagePickerHandler saveImageToDocDirectory:image];
     // create message object
     ALMessage * theMessage = [self getMessageToPost];
     theMessage.fileMetas = [self getFileMetaInfo];
@@ -990,7 +787,6 @@
 
 -(void) showActionSheet
 {
-
     UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"take photo",@"photo library", nil];
     [actionSheet showInView:self.view];
 }
@@ -1029,14 +825,5 @@
     [self presentViewController:_mImagePicker animated:YES completion:nil];
 }
 
--(NSString *) saveImageToDocDirectory:(UIImage *) image
-{
-    NSString * docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString * timestamp = [NSString stringWithFormat:@"%f.local",[[NSDate date] timeIntervalSince1970]];
-    NSString * filePath = [docDirPath stringByAppendingPathComponent:timestamp];
-    NSData * imageData = UIImageJPEGRepresentation(image, 1);
-    [imageData writeToFile:filePath atomically:YES];
-    return filePath;
-}
 
 @end

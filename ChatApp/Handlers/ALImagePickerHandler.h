@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface ALImagePickerHandler : NSObject
+
++(NSString *) saveImageToDocDirectory:(UIImage *) image;
+
 
 @end
