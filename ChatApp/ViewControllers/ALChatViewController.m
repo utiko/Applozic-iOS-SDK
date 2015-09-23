@@ -27,6 +27,7 @@
 #import "ALRequestHandler.h"
 #import "ALParsingHandler.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALMessageDBService.h"
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate>
 
@@ -215,24 +216,16 @@
         [self scrollTableViewToBottomWithAnimation:YES];
     });
     // save message to db
-    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-    DB_Message * theSmsEntity = [self createSMSEntityForDBInsertionWithMessage:theMessage];
-    [theDBHandler.managedObjectContext save:nil];
-    NSDictionary * userInfo = [theMessage dictionary];
     [self.mSendMessageTextField setText:nil];
     self.mTotalCount = self.mTotalCount+1;
     self.startIndex = self.startIndex + 1;
-    [ALMessageService sendMessagesForUserInfo:userInfo withCompletion:^(NSString *message, NSError *error) {
+    [ALMessageService sendMessages:theMessage withCompletion:^(NSString *message, NSError *error) {
         if (error) {
             NSLog(@"%@",error);
             return ;
         }
-        theMessage.sent = YES;
+        theMessage.sent = [NSNumber numberWithBool:YES];
         theMessage.keyString = message;
-        theSmsEntity.isSent = [NSNumber numberWithBool:YES];
-        theSmsEntity.keyString = message;
-        [theDBHandler.managedObjectContext save:nil];
-
         [self.mTableView reloadData];
     }];
 }
@@ -530,67 +523,6 @@
     }
 }
 
--(DB_Message *) createSMSEntityForDBInsertionWithMessage:(ALMessage *) theMessage
-{
-    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-
-    DB_Message * theSmsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
-
-    theSmsEntity.contactId = theMessage.contactIds;
-
-    theSmsEntity.createdAt = [NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
-
-    theSmsEntity.deviceKeyString = theMessage.deviceKeyString;
-
-    theSmsEntity.isRead = [NSNumber numberWithBool:theMessage.read];
-
-    theSmsEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
-
-    theSmsEntity.isSentToDevice = [NSNumber numberWithBool:theMessage.sendToDevice];
-
-    theSmsEntity.isShared = [NSNumber numberWithBool:theMessage.shared];
-
-    theSmsEntity.isStoredOnDevice = [NSNumber numberWithBool:theMessage.storeOnDevice];
-
-    theSmsEntity.keyString = theMessage.keyString;
-
-    theSmsEntity.messageText = theMessage.message;
-
-    theSmsEntity.suUserKeyString = theMessage.suUserKeyString;
-
-    theSmsEntity.to = theMessage.to;
-
-    theSmsEntity.type = theMessage.type;
-
-    theSmsEntity.filePath = theMessage.imageFilePath;
-
-    return theSmsEntity;
-}
-
--(DB_FileMetaInfo *) createFileMetaInfoEntityForDBInsertionWithMessage:(ALFileMetaInfo *) fileInfo
-{
-    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-
-    DB_FileMetaInfo * fileMetaInfo = [NSEntityDescription insertNewObjectForEntityForName:@"DB_FileMetaInfo" inManagedObjectContext:theDBHandler.managedObjectContext];
-
-    fileMetaInfo.blobKeyString = fileInfo.blobKeyString;
-
-    fileMetaInfo.contentType = fileInfo.contentType;
-
-    fileMetaInfo.createdAtTime = fileInfo.createdAtTime;
-
-    fileMetaInfo.keyString = fileInfo.keyString;
-
-    fileMetaInfo.name = fileInfo.name;
-
-    fileMetaInfo.size = fileInfo.size;
-
-    fileMetaInfo.suUserKeyString = fileInfo.suUserKeyString;
-
-    fileMetaInfo.thumbnailUrl = fileInfo.thumbnailUrl;
-
-    return fileMetaInfo;
-}
 
 -(ALMessage *) createMessageForSMSEntity:(DB_Message *) theEntity
 {
@@ -883,10 +815,8 @@
         theFileMetaInfo.suUserKeyString = theMessage.fileMetas.suUserKeyString;
 
         ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-        [theDBHandler.managedObjectContext save:nil];
-
-        NSDictionary * userInfo = [theMessage dictionary];
-        [ALMessageService sendMessagesForUserInfo:userInfo withCompletion:^(NSString *message, NSError *error) {
+        
+        [ALMessageService sendMessages:theMessage withCompletion:^(NSString *message, NSError *error) {
 
             if (error) {
 
@@ -988,8 +918,9 @@
     [self.mMessageListArray addObject:theMessage];
     [self.mTableView reloadData];
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-    DB_Message * theSmsEntity = [self createSMSEntityForDBInsertionWithMessage:theMessage];
-    DB_FileMetaInfo *theFileMetaInfo = [self createFileMetaInfoEntityForDBInsertionWithMessage:theMessage.fileMetas];
+    ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
+    DB_Message * theSmsEntity = [messageDBService createSMSEntityForDBInsertionWithMessage:theMessage];
+    DB_FileMetaInfo *theFileMetaInfo = [messageDBService createFileMetaInfoEntityForDBInsertionWithMessage:theMessage.fileMetas];
     theSmsEntity.fileMetaInfo = theFileMetaInfo;
     [theDBHandler.managedObjectContext save:nil];
     dispatch_async(dispatch_get_main_queue(), ^{

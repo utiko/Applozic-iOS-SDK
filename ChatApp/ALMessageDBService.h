@@ -7,6 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DB_FileMetaInfo.h"
+#import "DB_Message.h"
+#import "ALMessage.h"
+#import "ALFileMetaInfo.h"
+
 
 @protocol ALMessagesDelegate <NSObject>
 
@@ -18,6 +23,7 @@
 
 //Add Message APIS
 -(void)addMessageList:(NSMutableArray*) messageList;
+-(DB_Message*)addMessage:(ALMessage*) message;
 -(void)getMessages;
 
 //update Message APIS
@@ -34,6 +40,9 @@
 //Generic APIS
 -(BOOL) isMessageTableEmpty;
 -(void)deleteAllObjectsInCoreData;
+
+-(DB_Message *) createSMSEntityForDBInsertionWithMessage:(ALMessage *) theMessage;
+-(DB_FileMetaInfo *) createFileMetaInfoEntityForDBInsertionWithMessage:(ALFileMetaInfo *) fileInfo;
 
 
 @property(nonatomic,weak) id <ALMessagesDelegate>delegate;

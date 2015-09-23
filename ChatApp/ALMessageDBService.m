@@ -31,44 +31,18 @@
             continue;
         }
         
-        
-        NSLog(@" adding messages..%@",theMessage.message );
-        DB_Message * theSmsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
-        theSmsEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
-        theSmsEntity.isSentToDevice = [NSNumber numberWithBool:theMessage.sendToDevice];
-        theSmsEntity.isStoredOnDevice = [NSNumber numberWithBool:NO];
-        theSmsEntity.isShared = [NSNumber numberWithBool:theMessage.shared];
-        theSmsEntity.isRead = [NSNumber numberWithBool:theMessage.read];
-        theSmsEntity.keyString = theMessage.keyString;
-        theSmsEntity.deviceKeyString = theMessage.deviceKeyString;
-        theSmsEntity.suUserKeyString = theMessage.suUserKeyString;
-        theSmsEntity.to = theMessage.to;
-        theSmsEntity.messageText = theMessage.message;
-        theSmsEntity.createdAt = [NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
-        theSmsEntity.type = theMessage.type;
-        theSmsEntity.contactId = theMessage.contactIds;
-        theSmsEntity.filePath = theMessage.imageFilePath;
-        
-        if (theMessage.fileMetas != nil) {
-            DB_FileMetaInfo * theMetaInfoEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_FileMetaInfo" inManagedObjectContext:theDBHandler.managedObjectContext];
-            theMetaInfoEntity.blobKeyString = theMessage.fileMetas.blobKeyString;
-            theMetaInfoEntity.contentType = theMessage.fileMetas.contentType;
-            theMetaInfoEntity.createdAtTime = theMessage.fileMetas.createdAtTime;
-            theMetaInfoEntity.keyString = theMessage.fileMetas.keyString;
-            theMetaInfoEntity.name = theMessage.fileMetas.name;
-            theMetaInfoEntity.size = theMessage.fileMetas.size;
-            theMetaInfoEntity.suUserKeyString = theMessage.fileMetas.suUserKeyString;
-            theMetaInfoEntity.thumbnailUrl = theMessage.fileMetas.thumbnailUrl;
-            theSmsEntity.fileMetaInfo = theMetaInfoEntity;
-        }
+        [self createSMSEntityForDBInsertionWithMessage:theMessage];
     }
     
     [theDBHandler.managedObjectContext save:nil];
 
 }
 
--(void)addMessage:(ALMessage*) message{
-    
+-(DB_Message*)addMessage:(ALMessage*) message{
+    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+    DB_Message* dbMessag = [self createSMSEntityForDBInsertionWithMessage:message];
+    [theDBHandler.managedObjectContext save:nil];
+    return dbMessag;
 }
 
 //update Message APIS
@@ -346,5 +320,72 @@
         [self.delegate getMessagesArray:messagesArray];
     }
 }
+
+-(DB_Message *) createSMSEntityForDBInsertionWithMessage:(ALMessage *) theMessage
+{
+    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+    
+    DB_Message * theSmsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
+    
+    theSmsEntity.contactId = theMessage.contactIds;
+    
+    theSmsEntity.createdAt = [NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
+    
+    theSmsEntity.deviceKeyString = theMessage.deviceKeyString;
+    
+    theSmsEntity.isRead = [NSNumber numberWithBool:theMessage.read];
+    
+    theSmsEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
+    
+    theSmsEntity.isSentToDevice = [NSNumber numberWithBool:theMessage.sendToDevice];
+    
+    theSmsEntity.isShared = [NSNumber numberWithBool:theMessage.shared];
+    
+    theSmsEntity.isStoredOnDevice = [NSNumber numberWithBool:theMessage.storeOnDevice];
+    
+    theSmsEntity.keyString = theMessage.keyString;
+    
+    theSmsEntity.messageText = theMessage.message;
+    
+    theSmsEntity.suUserKeyString = theMessage.suUserKeyString;
+    
+    theSmsEntity.to = theMessage.to;
+    
+    theSmsEntity.type = theMessage.type;
+    
+    theSmsEntity.filePath = theMessage.imageFilePath;
+    
+    if(theMessage.fileMetas != nil) {
+        DB_FileMetaInfo *  fileInfo =  [self createFileMetaInfoEntityForDBInsertionWithMessage:theMessage.fileMetas];
+        theSmsEntity.fileMetaInfo = fileInfo;
+    }
+    return theSmsEntity;
+}
+
+-(DB_FileMetaInfo *) createFileMetaInfoEntityForDBInsertionWithMessage:(ALFileMetaInfo *) fileInfo
+{
+    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+    
+    DB_FileMetaInfo * fileMetaInfo = [NSEntityDescription insertNewObjectForEntityForName:@"DB_FileMetaInfo" inManagedObjectContext:theDBHandler.managedObjectContext];
+    
+    fileMetaInfo.blobKeyString = fileInfo.blobKeyString;
+    
+    fileMetaInfo.contentType = fileInfo.contentType;
+    
+    fileMetaInfo.createdAtTime = fileInfo.createdAtTime;
+    
+    fileMetaInfo.keyString = fileInfo.keyString;
+    
+    fileMetaInfo.name = fileInfo.name;
+    
+    fileMetaInfo.size = fileInfo.size;
+    
+    fileMetaInfo.suUserKeyString = fileInfo.suUserKeyString;
+    
+    fileMetaInfo.thumbnailUrl = fileInfo.thumbnailUrl;
+    
+    return fileMetaInfo;
+}
+
 
 @end

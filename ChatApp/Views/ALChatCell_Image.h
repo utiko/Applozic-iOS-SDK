@@ -40,6 +40,6 @@
 
 @property (nonatomic, assign) id<ALChatCellImageDelegate> delegate;
 
--(void)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize;
+-(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize;
 
 @end

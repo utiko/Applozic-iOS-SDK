@@ -11,7 +11,6 @@
 
 @implementation ALChatCell
 
-@synthesize mMessageLabel,mBubleImageView,mDateLabel,mUserProfileImageView,mMessageStatusImageView;
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -21,27 +20,27 @@
         
         self.backgroundColor = [UIColor colorWithRed:224.0/255 green:224.0/255 blue:224.0/255 alpha:1];
         
-        mBubleImageView = [[UIImageView alloc] init];
+        self.mBubleImageView = [[UIImageView alloc] init];
         
-        mBubleImageView.frame = CGRectMake(5, 5, 100, 44);
+        self.mBubleImageView.frame = CGRectMake(5, 5, 100, 44);
         
-        mBubleImageView.contentMode = UIViewContentModeScaleToFill;
+        self.mBubleImageView.contentMode = UIViewContentModeScaleToFill;
         
-        mBubleImageView.backgroundColor = [UIColor whiteColor];
+        self.mBubleImageView.backgroundColor = [UIColor whiteColor];
         
-        [self.contentView addSubview:mBubleImageView];
-        
-        
-        mUserProfileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 45, 45)];
-        
-        mUserProfileImageView.contentMode = UIViewContentModeScaleAspectFill;
-        
-        mUserProfileImageView.clipsToBounds = YES;
-        
-        [self.contentView addSubview:mUserProfileImageView];
+        [self.contentView addSubview:self.mBubleImageView];
         
         
-        mMessageLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 30, 100, 44)];
+        self.mUserProfileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 45, 45)];
+        
+        self.mUserProfileImageView.contentMode = UIViewContentModeScaleAspectFill;
+        
+        self.mUserProfileImageView.clipsToBounds = YES;
+        
+        [self.contentView addSubview:self.mUserProfileImageView];
+        
+        
+        self.mMessageLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 30, 100, 44)];
         
         NSString *fontName = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_FONTNAME];
         
@@ -49,37 +48,37 @@
             fontName = DEFAULT_FONT_NAME;
         }
         
-        mMessageLabel.font = [UIFont fontWithName:fontName size:15];
+        self.mMessageLabel.font = [UIFont fontWithName:fontName size:15];
         
-        mMessageLabel.numberOfLines = 0;
+        self.mMessageLabel.numberOfLines = 0;
         
-        mMessageLabel.textColor = [UIColor grayColor];
+        self.mMessageLabel.textColor = [UIColor grayColor];
         
-        [self.contentView addSubview:mMessageLabel];
+        [self.contentView addSubview:self.mMessageLabel];
         
 
-        mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 100, 25)];
+        self.mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 100, 25)];
         
-        mDateLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
+        self.mDateLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
         
-        mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
+        self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         
-        mDateLabel.numberOfLines = 1;
+        self.mDateLabel.numberOfLines = 1;
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         self.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0  alpha:1];
         
-        [self.contentView addSubview:mDateLabel];
+        [self.contentView addSubview:self.mDateLabel];
 
         
-        mMessageStatusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(mDateLabel.frame.origin.x+mDateLabel.frame.size.width, mDateLabel.frame.origin.y, 20, 20)];
+        self.mMessageStatusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20)];
         
-        mMessageStatusImageView.contentMode = UIViewContentModeScaleToFill;
+        self.mMessageStatusImageView.contentMode = UIViewContentModeScaleToFill;
         
-        mMessageStatusImageView.backgroundColor = [UIColor clearColor];
+        self.mMessageStatusImageView.backgroundColor = [UIColor clearColor];
         
-        [self.contentView addSubview:mMessageStatusImageView];
+        [self.contentView addSubview:self.mMessageStatusImageView];
         
     }
     
@@ -99,10 +98,9 @@
     CGSize theTextSize = [self getSizeForText:alMessage.message maxWidth:viewSize.width-115 font:self.mMessageLabel.font.fontName fontSize:self.mMessageLabel.font.pointSize];
     
     CGSize theDateSize = [self getSizeForText:theDate maxWidth:150 font:self.mDateLabel.font.fontName fontSize:self.mDateLabel.font.pointSize];
-
     
-   // self.tag = indexPath.row;
-    
+    //MT_INBOX(Short.valueOf("4")),
+   // MT_OUTBOX(Short.valueOf("5")),
     if ([alMessage.type isEqualToString:@"4"]) {
         
         self.mUserProfileImageView.frame = CGRectMake(8, 0, 45, 45);
@@ -128,7 +126,7 @@
     }
     else
     {
-       // self.mUserProfileImageView.frame = CGRectMake(self.view.frame.size.width-53, 0, 45, 45);
+       self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 45, 45);
         
         self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
         
@@ -151,23 +149,13 @@
     }
     
     if ([alMessage.type isEqualToString:@"5"]) {
-        
-        if (alMessage.read) {
-            
+
+        if(alMessage.delivered==YES){
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
         }
-        else if(alMessage.sendToDevice)
-        {
-            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
-            
-        }
-        else if(alMessage.sent)
-        {
-            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_sent.png"];
-            
-        }
-        else
-        {
+        else if(alMessage.sent==YES){
+             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_sent.png"];
+        }else{
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_about.png"];
             
         }

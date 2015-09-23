@@ -139,9 +139,6 @@
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
    
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
-        
-        
-        
         if (alMessage.storeOnDevice == NO) {
       
             self.mDowloadRetryButton.alpha = 1;
@@ -150,16 +147,11 @@
    
             [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_download.png"]
                                       forState:UIControlStateNormal];
-        }
-        
-        else
-            
-        {
+        }else{
             
             self.mDowloadRetryButton.alpha = 0;
             
-        }
-        if (alMessage.inProgress == YES) {
+        }if (alMessage.inProgress == YES) {
             
             self.progresLabel.alpha = 1;
             
@@ -171,13 +163,7 @@
             
         }
 
-    }
-    
-    else
-        
-    {
-        
-        
+    }else{
         
         self.mUserProfileImageView.frame = CGRectMake(viewSize.width-50, 5, 45, 45);
         self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
@@ -190,100 +176,44 @@
         
         if (alMessage.isUploadFailed == NO) {
             self.mDowloadRetryButton.alpha = 0;
-        }
-        
-        else
+        }else{
             
-        {
-            
-            self.mDowloadRetryButton.alpha = 1;
+         self.mDowloadRetryButton.alpha = 1;
+         [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
+         [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_upload.png"] forState:UIControlStateNormal];
             
             
             
-            [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
-            
-            
-            
-            [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_upload.png"] forState:UIControlStateNormal];
-            
-            
-            
-        }
-        
-        
-        
-        if (alMessage.inProgress == YES) {
+        }if (alMessage.inProgress == YES) {
             
             self.progresLabel.alpha = 1;
-            
-            
-            
-        }else {
+       }else {
             
             self.progresLabel.alpha = 0;
             
         }
-        
-        
-        
     }
-    
-    
-    
     self.mDowloadRetryButton.frame = CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0 - 50 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2.0 - 15 , 100, 30);
-    
-    
-    
+  
     if ([alMessage.type isEqualToString:@"5"]) {
-        
-        
-        
+
         if (alMessage.read) {
+             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
             
-            
-            
+        }else if(alMessage.sendToDevice){
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
-            
-        }
-        
-        else if(alMessage.sendToDevice)
-            
-        {
-            
-            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
-            
-            
-            
-        }
-        
-        else if(alMessage.sent)
-            
-        {
-            
+        }else if(alMessage.sent){
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_sent.png"];
-            
-            
-            
-        }
-        
-        else
-            
-        {
+        }else{
             
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_about.png"];
-            
-            
-            
+   
         }
         
     }
-    
-    
-    
+   
     self.mDateLabel.text = theDate;
-    
-    
-    
+   
     NSURL * theUrl = nil ;
     
     

@@ -33,14 +33,15 @@
         <attribute name="isUploadFailed" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="keyString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="messageText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sentToServer" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="suUserKeyString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="to" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="fileMetaInfo" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DB_FileMetaInfo" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DB_CONTACT" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="DB_FileMetaInfo" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="DB_Message" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="DB_CONTACT" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="DB_FileMetaInfo" positionX="0" positionY="0" width="128" height="165"/>
+        <element name="DB_Message" positionX="0" positionY="0" width="128" height="330"/>
     </elements>
 </model>

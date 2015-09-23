@@ -49,6 +49,9 @@
 
 @property (nonatomic, assign) BOOL isUploadFailed;
 
+@property (nonatomic) BOOL delivered;
+
+@property(nonatomic)BOOL sentToServer;
 
 -(NSString *)getCreatedAtTime:(BOOL)today;
 

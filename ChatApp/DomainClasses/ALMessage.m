@@ -90,7 +90,8 @@
     
     self.read = [self getBoolFromJsonValue:messageJson[@"read"]];
     
-    
+    //develired
+    self.delivered = [self getBoolFromJsonValue:messageJson[@"delivered"]];
     // file meta info
     
     NSArray * fileMetas = messageJson[@"fileMetas"];
@@ -138,5 +139,6 @@
     
     return formattedDateStr;
 }
+
 
 @end

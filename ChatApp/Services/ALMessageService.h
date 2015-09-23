@@ -9,6 +9,7 @@
 #import "ALConstant.h"
 #import "ALSyncMessageFeed.h"
 #import "ALMessageList.h"
+#import "ALMessage.h"
 
 @interface ALMessageService : NSObject
 
@@ -16,7 +17,7 @@
 
 +(void) getMessageListForUser:(NSString *) userId startIndex:(NSString *) startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSString *) endTimeStamp withCompletion:(void(^)(NSMutableArray * messages, NSError * error)) completion;
 
-+(void) sendMessagesForUserInfo:(NSDictionary *)userInfo withCompletion:(void(^)(NSString * message, NSError * error)) completion;
++(void) sendMessages:(ALMessage *)message withCompletion:(void(^)(NSString * message, NSError * error)) completion;
 
 +(void) sendPhotoForUserInfo:(NSDictionary *)userInfo withCompletion:(void(^)(NSString * message, NSError *error)) completion;
 

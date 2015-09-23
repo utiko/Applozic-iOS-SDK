@@ -13,6 +13,7 @@
 #import "ALSyncMessageFeed.h"
 #import "ALMessageDBService.h"
 #import "ALMessageList.h"
+#import "ALDBHandler.h"
 
 @implementation ALMessageService
 
@@ -65,9 +66,15 @@
     }];
     
 }
+//(ALMessage *)userInfo withCompletion:(void(^)(NSString * message, NSError * error)) completion
 
-+(void) sendMessagesForUserInfo:(NSDictionary *)userInfo withCompletion:(void(^)(NSString * message, NSError * error)) completion {
++(void) sendMessages:(ALMessage *)alMessage withCompletion:(void(^)(NSString * message, NSError * error)) completion {
     
+    //DB insert
+    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+    DB_Message* dbMessage =[dbService addMessage:alMessage];
+    //convert to dic
+    NSDictionary * userInfo = [alMessage dictionary ];
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/send",KBASE_URL];
     
     NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
@@ -84,7 +91,11 @@
         }
         
         NSString *statusStr = (NSString *)theJson;
-        
+        //TODO: move to db layer
+        ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+        dbMessage.isSent = [NSNumber numberWithBool:YES];
+        dbMessage.keyString = statusStr;
+        [theDBHandler.managedObjectContext save:nil];
         completion(statusStr,nil);
         
     }];
