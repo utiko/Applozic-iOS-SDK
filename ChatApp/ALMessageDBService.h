@@ -43,6 +43,8 @@
 
 -(DB_Message *) createSMSEntityForDBInsertionWithMessage:(ALMessage *) theMessage;
 -(DB_FileMetaInfo *) createFileMetaInfoEntityForDBInsertionWithMessage:(ALFileMetaInfo *) fileInfo;
+-(ALMessage *) createMessageForSMSEntity:(DB_Message *) theEntity;
+
 
 
 @property(nonatomic,weak) id <ALMessagesDelegate>delegate;

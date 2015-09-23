@@ -387,5 +387,62 @@
     return fileMetaInfo;
 }
 
+-(ALMessage *) createMessageForSMSEntity:(DB_Message *) theEntity
+{
+    ALMessage * theMessage = [ALMessage new];
+    
+    theMessage.keyString = theEntity.keyString;
+    
+    theMessage.deviceKeyString = theEntity.deviceKeyString;
+    
+    theMessage.suUserKeyString = theEntity.suUserKeyString;
+    
+    theMessage.to = theEntity.to;
+    
+    theMessage.message = theEntity.messageText;
+    
+    theMessage.sent = theEntity.isSent.boolValue;
+    
+    theMessage.sendToDevice = theEntity.isSentToDevice.boolValue;
+    
+    theMessage.shared = theEntity.isShared.boolValue;
+    
+    theMessage.createdAtTime = [NSString stringWithFormat:@"%@",theEntity.createdAt];
+    
+    theMessage.type = theEntity.type;
+    
+    theMessage.contactIds = theEntity.contactId;
+    
+    theMessage.storeOnDevice = theEntity.isStoredOnDevice.boolValue;
+    
+    theMessage.read = theEntity.isRead;
+    
+    theMessage.imageFilePath = theEntity.filePath;
+    
+    // file meta info
+    
+    ALFileMetaInfo * theFileMeta = [ALFileMetaInfo new];
+    
+    theFileMeta.blobKeyString = theEntity.fileMetaInfo.blobKeyString;
+    
+    theFileMeta.contentType = theEntity.fileMetaInfo.contentType;
+    
+    theFileMeta.createdAtTime = theEntity.fileMetaInfo.createdAtTime;
+    
+    theFileMeta.keyString = theEntity.fileMetaInfo.keyString;
+    
+    theFileMeta.name = theEntity.fileMetaInfo.name;
+    
+    theFileMeta.size = theEntity.fileMetaInfo.size;
+    
+    theFileMeta.suUserKeyString = theEntity.fileMetaInfo.suUserKeyString;
+    
+    theFileMeta.thumbnailUrl = theEntity.fileMetaInfo.thumbnailUrl;
+    
+    theMessage.fileMetas = theFileMeta;
+    
+    return theMessage;
+}
+
 
 @end
