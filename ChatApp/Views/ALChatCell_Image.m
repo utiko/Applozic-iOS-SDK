@@ -136,7 +136,7 @@
 
 -(void) dowloadRetryButtonAction
 {
-    [_delegate dowloadRetryButtonActionDelegate:(int)self.tag andMessage:self.mMessage];
+    [_delegate downloadRetryButtonActionDelegate:(int)self.tag andMessage:self.mMessage];
 }
 
 - (void)dealloc
