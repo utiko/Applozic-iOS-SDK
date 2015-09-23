@@ -174,6 +174,10 @@
         if (theError) {
             completion(nil,theError);
             return ;
+        }else{
+            //delete sucessfull
+            ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+            [dbService deleteAllMessagesByContact:contactId];
         }
         NSLog(@"Response of delete: %@", (NSString *)theJson);
         completion((NSString *)theJson,nil);

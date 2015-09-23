@@ -88,6 +88,99 @@
 }
 
 
+-(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize {
+    
+    BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[alMessage.createdAtTime doubleValue]/1000]];
+    
+    NSString * theDate = [NSString stringWithFormat:@"%@",[alMessage getCreatedAtTime:today]];
+    
+    self.mMessage = alMessage;
+    
+    CGSize theTextSize = [self getSizeForText:alMessage.message maxWidth:viewSize.width-115 font:self.mMessageLabel.font.fontName fontSize:self.mMessageLabel.font.pointSize];
+    
+    CGSize theDateSize = [self getSizeForText:theDate maxWidth:150 font:self.mDateLabel.font.fontName fontSize:self.mDateLabel.font.pointSize];
+
+    
+   // self.tag = indexPath.row;
+    
+    if ([alMessage.type isEqualToString:@"4"]) {
+        
+        self.mUserProfileImageView.frame = CGRectMake(8, 0, 45, 45);
+        
+        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+        
+        self.mMessageLabel.frame = CGRectMake(65 , 5, theTextSize.width, theTextSize.height);
+        
+        int imgVwWidth = theTextSize.width>150?theTextSize.width+20+14:150;
+        
+        int imgVwHeight = theTextSize.height+21>45?theTextSize.height+21+10:45;
+        
+        self.mBubleImageView.frame = CGRectMake(58 , 0, imgVwWidth , imgVwHeight);
+        
+        self.mDateLabel.frame = CGRectMake(65 , self.mMessageLabel.frame.origin.y+ self.mMessageLabel.frame.size.height + 3, theDateSize.width , 21);
+        
+        self.mDateLabel.textAlignment = NSTextAlignmentLeft;
+        
+        self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
+        
+        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
+        
+    }
+    else
+    {
+       // self.mUserProfileImageView.frame = CGRectMake(self.view.frame.size.width-53, 0, 45, 45);
+        
+        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+        
+        int imgVwWidth = theTextSize.width>150?theTextSize.width+14:150;
+        
+        int imgVwHeight = theTextSize.height+21>45?theTextSize.height+21+10:45;
+        
+        self.mBubleImageView.frame = CGRectMake(viewSize.width - 58 - imgVwWidth , 0 ,imgVwWidth  ,imgVwHeight);
+        
+        self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x+8, 5, theTextSize.width, theTextSize.height);
+        
+        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 8, self.mMessageLabel.frame.origin.y + self.mMessageLabel.frame.size.height +3 , theDateSize.width, 21);
+        
+        self.mDateLabel.textAlignment = NSTextAlignmentLeft;
+        
+        self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
+        
+        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width+10, self.mDateLabel.frame.origin.y, 20, 20);
+        
+    }
+    
+    if ([alMessage.type isEqualToString:@"5"]) {
+        
+        if (alMessage.read) {
+            
+            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
+        }
+        else if(alMessage.sendToDevice)
+        {
+            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
+            
+        }
+        else if(alMessage.sent)
+        {
+            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_sent.png"];
+            
+        }
+        else
+        {
+            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_about.png"];
+            
+        }
+    }
+    
+    self.mMessageLabel.text = alMessage.message;
+    
+    self.mDateLabel.text = theDate;
+    return self;
+    
+}
+
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     
     [super setSelected:selected animated:animated];
@@ -99,4 +192,25 @@
 }
 
 
+- (CGSize)getSizeForText:(NSString *)text maxWidth:(CGFloat)width font:(NSString *)fontName fontSize:(float)fontSize {
+    
+    CGSize constraintSize;
+    
+    constraintSize.height = MAXFLOAT;
+    
+    constraintSize.width = width;
+    
+    NSDictionary *attributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          [UIFont fontWithName:fontName size:fontSize], NSFontAttributeName,
+                                          nil];
+    
+    CGRect frame = [text boundingRectWithSize:constraintSize
+                                      options:NSStringDrawingUsesLineFragmentOrigin
+                                   attributes:attributesDictionary
+                                      context:nil];
+    
+    CGSize stringSize = frame.size;
+    
+    return stringSize;
+}
 @end

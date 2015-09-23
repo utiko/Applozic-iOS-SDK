@@ -7,6 +7,8 @@
 //
 
 #import "ALChatCell_Image.h"
+#import "UIImageView+WebCache.h"
+
 
 
 @implementation ALChatCell_Image
@@ -115,6 +117,197 @@
     
 }
 
+-(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize {
+    
+    
+    
+    BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[alMessage.createdAtTime doubleValue]/1000]];
+    NSString * theDate = [NSString stringWithFormat:@"%@",[alMessage getCreatedAtTime:today]];
+    self.mMessage = alMessage;
+    CGSize theDateSize = [self getSizeForText:theDate maxWidth:150 font:self.mDateLabel.font.fontName fontSize:self.mDateLabel.font.pointSize];
+ 
+    if ([alMessage.type isEqualToString:@"4"]) {
+        
+        self.mUserProfileImageView.frame = CGRectMake(5, 5, 45, 45);
+        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x+ self.mUserProfileImageView.frame.size.width+5 , 5, viewSize.width-110, viewSize.width-110);
+        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 15 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40 );
+      
+        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5, theDateSize.width , 20);
+     
+        self.mDateLabel.textAlignment = NSTextAlignmentLeft;
+        self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
+   
+        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
+        
+        
+        
+        if (alMessage.storeOnDevice == NO) {
+      
+            self.mDowloadRetryButton.alpha = 1;
+
+            [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
+   
+            [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_download.png"]
+                                      forState:UIControlStateNormal];
+        }
+        
+        else
+            
+        {
+            
+            self.mDowloadRetryButton.alpha = 0;
+            
+        }
+        if (alMessage.inProgress == YES) {
+            
+            self.progresLabel.alpha = 1;
+            
+            self.mDowloadRetryButton.alpha = 0;
+            
+        }else {
+            
+            self.progresLabel.alpha = 0;
+            
+        }
+
+    }
+    
+    else
+        
+    {
+        
+        
+        
+        self.mUserProfileImageView.frame = CGRectMake(viewSize.width-50, 5, 45, 45);
+        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+        self.mBubleImageView.frame = CGRectMake(viewSize.width - self.mUserProfileImageView.frame.origin.x + 5 , 5 ,viewSize.width-110, viewSize.width-110);
+        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y+15 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40);
+        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5 , theDateSize.width, 21);
+        self.mDateLabel.textAlignment = NSTextAlignmentLeft;
+        self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
+        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width+10, self.mDateLabel.frame.origin.y, 20, 20);
+        
+        if (alMessage.isUploadFailed == NO) {
+            self.mDowloadRetryButton.alpha = 0;
+        }
+        
+        else
+            
+        {
+            
+            self.mDowloadRetryButton.alpha = 1;
+            
+            
+            
+            [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
+            
+            
+            
+            [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_upload.png"] forState:UIControlStateNormal];
+            
+            
+            
+        }
+        
+        
+        
+        if (alMessage.inProgress == YES) {
+            
+            self.progresLabel.alpha = 1;
+            
+            
+            
+        }else {
+            
+            self.progresLabel.alpha = 0;
+            
+        }
+        
+        
+        
+    }
+    
+    
+    
+    self.mDowloadRetryButton.frame = CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0 - 50 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2.0 - 15 , 100, 30);
+    
+    
+    
+    if ([alMessage.type isEqualToString:@"5"]) {
+        
+        
+        
+        if (alMessage.read) {
+            
+            
+            
+            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
+            
+        }
+        
+        else if(alMessage.sendToDevice)
+            
+        {
+            
+            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
+            
+            
+            
+        }
+        
+        else if(alMessage.sent)
+            
+        {
+            
+            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_sent.png"];
+            
+            
+            
+        }
+        
+        else
+            
+        {
+            
+            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_about.png"];
+            
+            
+            
+        }
+        
+    }
+    
+    
+    
+    self.mDateLabel.text = theDate;
+    
+    
+    
+    NSURL * theUrl = nil ;
+    
+    
+    
+    if ([alMessage.fileMetas.thumbnailUrl containsString:@"local"]) {
+        NSString * docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString * filePath = [docDir stringByAppendingPathComponent:alMessage.fileMetas.thumbnailUrl];
+        theUrl = [NSURL fileURLWithPath:filePath];
+        
+    }
+    else
+    
+    {
+        
+        theUrl = [NSURL URLWithString:alMessage.fileMetas.thumbnailUrl];
+        
+        
+        
+    }
+    [self.mImageView sd_setImageWithURL:theUrl];
+    return self;
+    
+}
+
 #pragma mark - KAProgressLabel Delegate Methods -
 
 -(void)cancelAction {
@@ -160,6 +353,28 @@
     ALFileMetaInfo *metaInfo=(ALFileMetaInfo *)object;
     
     self.progresLabel.endDegree = metaInfo.progressValue;
+}
+
+- (CGSize)getSizeForText:(NSString *)text maxWidth:(CGFloat)width font:(NSString *)fontName fontSize:(float)fontSize {
+    
+    CGSize constraintSize;
+    
+    constraintSize.height = MAXFLOAT;
+    
+    constraintSize.width = width;
+    
+    NSDictionary *attributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          [UIFont fontWithName:fontName size:fontSize], NSFontAttributeName,
+                                          nil];
+    
+    CGRect frame = [text boundingRectWithSize:constraintSize
+                                      options:NSStringDrawingUsesLineFragmentOrigin
+                                   attributes:attributesDictionary
+                                      context:nil];
+    
+    CGSize stringSize = frame.size;
+    
+    return stringSize;
 }
 
 @end

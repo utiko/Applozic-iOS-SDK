@@ -24,6 +24,14 @@
    
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     for (ALMessage * theMessage in messageList) {
+        
+        //Duplicate check before inserting into DB...
+        NSManagedObject *message =  [self getMessageByKey:theMessage.keyString];
+        if(message!=nil){
+            continue;
+        }
+        
+        
         NSLog(@" adding messages..%@",theMessage.message );
         DB_Message * theSmsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
         theSmsEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
