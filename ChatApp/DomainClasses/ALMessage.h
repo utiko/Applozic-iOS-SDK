@@ -6,8 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/NSManagedObject.h>
 #import "ALJson.h"
 #import "ALFileMetaInfo.h"
+
 
 @interface ALMessage : ALJson
 
@@ -49,9 +51,11 @@
 
 @property (nonatomic, assign) BOOL isUploadFailed;
 
-@property (nonatomic) BOOL delivered;
+@property (nonatomic,assign) BOOL delivered;
 
-@property(nonatomic)BOOL sentToServer;
+@property(nonatomic,assign)BOOL sentToServer;
+
+@property(nonatomic,copy) NSManagedObjectID * msgDBObjectId;
 
 -(NSString *)getCreatedAtTime:(BOOL)today;
 

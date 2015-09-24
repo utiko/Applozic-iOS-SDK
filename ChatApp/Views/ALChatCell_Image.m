@@ -196,18 +196,15 @@
     self.mDowloadRetryButton.frame = CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0 - 50 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2.0 - 15 , 100, 30);
   
     if ([alMessage.type isEqualToString:@"5"]) {
-
-        if (alMessage.read) {
-             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
-            
-        }else if(alMessage.sendToDevice){
+        
+        if(alMessage.delivered==YES){
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
-        }else if(alMessage.sent){
+        }
+        else if(alMessage.sent==YES){
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_sent.png"];
         }else{
-            
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_about.png"];
-   
+            
         }
         
     }
@@ -270,6 +267,7 @@
 }
 
 -(void)setMMessage:(ALMessage *)mMessage{
+    //TODO: error ...observer shoud be there...
     if(_mMessage.fileMetas){
         [_mMessage.fileMetas removeObserver:self forKeyPath:@"progressValue" context:nil];
     }

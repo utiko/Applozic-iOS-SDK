@@ -72,10 +72,19 @@
 
 +(void) sendMessages:(ALMessage *)alMessage withCompletion:(void(^)(NSString * message, NSError * error)) completion {
     
-    //DB insert
+    //DB insert if objectID is null
+    DB_Message* dbMessage;
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-    DB_Message* dbMessage =[dbService addMessage:alMessage];
-    //convert to dic
+    NSError *theError=nil;
+    if (alMessage.msgDBObjectId==nil){
+        NSLog(@"message not in DB new insertion.");
+
+        dbMessage =[dbService addMessage:alMessage];
+    }else{
+        NSLog(@"message found in DB just getting it not inserting new one...");
+        dbMessage =(DB_Message*)[dbService getMeesageById:alMessage.msgDBObjectId error:&theError];
+    }
+       //convert to dic
     NSDictionary * userInfo = [alMessage dictionary ];
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/send",KBASE_URL];
     
@@ -94,9 +103,17 @@
         
         NSString *statusStr = (NSString *)theJson;
         //TODO: move to db layer
+        NSArray *response = [statusStr componentsSeparatedByString:@","];
+
         ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
         dbMessage.isSent = [NSNumber numberWithBool:YES];
-        dbMessage.keyString = statusStr;
+        dbMessage.keyString = response[0];
+        NSString * createdAtFromServer =(NSString*)response[1] ;
+        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+        f.numberStyle = NSNumberFormatterDecimalStyle;
+        dbMessage.createdAt = [f numberFromString:createdAtFromServer];
+        NSLog(@"saving key String%@", dbMessage.keyString);
+        dbMessage.sentToServer=[NSNumber numberWithBool:YES];
         [theDBHandler.managedObjectContext save:nil];
         completion(statusStr,nil);
         

@@ -248,6 +248,7 @@
     theMessage.storeOnDevice = NO;
 
     theMessage.keyString = @"test keystring";
+    theMessage.delivered=NO;
 
     theMessage.fileMetaKeyStrings = @[];//4
 
@@ -463,6 +464,9 @@
 
 -(void)connection:(ALConnection *)connection didReceiveData:(NSData *)data
 {
+    
+    NSLog(@"###connection didReceiveData :didReceiveData");
+    
     [connection.mData appendData:data];
     if ([connection.connectionType isEqualToString:@"Image Posting"]) {
 
@@ -483,6 +487,8 @@
 }
 
 -(void)connectionDidFinishLoading:(ALConnection *)connection {
+    NSLog(@"###connection didReceiveData :didReceiveData");
+
 
     if ([connection.connectionType isEqualToString:@"Image Posting"]) {
         NSLog(@"%@",[[NSString alloc] initWithData:connection.mData encoding:NSUTF8StringEncoding]);
@@ -577,13 +583,17 @@
 }
 
 -(void)connection:(ALConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
+    NSLog(@"###connection didSendBodyData :didSendBodyData");
+
     NSLog(@"bytesWritten %ld",(long)bytesWritten);
     NSLog(@"totalBytesWritten %ld",(long)totalBytesWritten);
     NSLog(@"totalBytesExpectedToWrite %ld",(long)totalBytesExpectedToWrite);
 
     NSIndexPath *path = [NSIndexPath indexPathForRow:connection.connectionTag inSection:0];
     ALChatCell_Image *cell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:path];
+    //[self bytesConvertsToDegree:totalBytesExpectedToWrite comingBytes:totalBytesWritten];
     cell.mMessage.fileMetas.progressValue = [self bytesConvertsToDegree:totalBytesExpectedToWrite comingBytes:totalBytesWritten];
+    NSLog(@"###frogressValue : %f",cell.mMessage.fileMetas.progressValue);
     NSLog(@"%lu %f",(unsigned long)connection.mData.length,[cell.mMessage.fileMetas.size floatValue]);
 }
 
@@ -612,20 +622,20 @@
     theMessage.fileMetas.thumbnailUrl = filePath.lastPathComponent;
 
     // save msg to db
+    
     [self.mMessageListArray addObject:theMessage];
     [self.mTableView reloadData];
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     DB_Message * theSmsEntity = [messageDBService createSMSEntityForDBInsertionWithMessage:theMessage];
-    DB_FileMetaInfo *theFileMetaInfo = [messageDBService createFileMetaInfoEntityForDBInsertionWithMessage:theMessage.fileMetas];
-    theSmsEntity.fileMetaInfo = theFileMetaInfo;
+    theMessage.msgDBObjectId = [theSmsEntity objectID];
     [theDBHandler.managedObjectContext save:nil];
     dispatch_async(dispatch_get_main_queue(), ^{
 
               [UIView animateWithDuration:.50 animations:^{
             [self scrollTableViewToBottomWithAnimation:YES];
         } completion:^(BOOL finished) {
-            [self uploadImage:@[theMessage,theFileMetaInfo]];
+            [self uploadImage:@[theMessage,theSmsEntity.fileMetaInfo]];
         }];
     });
 }
@@ -659,6 +669,7 @@
         NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
         DB_Message  * smsEntity = theArray[0];
         smsEntity.inProgress = [NSNumber numberWithBool:YES];
+        smsEntity.fileMetaInfo = theFileMetaInfo;
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
 
         // post image

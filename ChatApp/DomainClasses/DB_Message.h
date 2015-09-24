@@ -29,6 +29,8 @@
 @property (nonatomic, retain) NSString * to;
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSNumber * inProgress;
+@property (nonatomic, retain) NSNumber * delivered;
+@property (nonatomic, retain) NSNumber * sentToServer;
 @property (nonatomic, retain) DB_FileMetaInfo *fileMetaInfo;
 
 @end

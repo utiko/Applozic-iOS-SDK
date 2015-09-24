@@ -25,6 +25,8 @@
 -(void)addMessageList:(NSMutableArray*) messageList;
 -(DB_Message*)addMessage:(ALMessage*) message;
 -(void)getMessages;
+-(NSManagedObject *)getMeesageById:(NSManagedObjectID *)objectID
+                             error:(NSError **)error;
 
 //update Message APIS
 -(void)updateMessageDeliveryReport:(NSString*) messageKeyString;

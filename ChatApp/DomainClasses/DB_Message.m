@@ -28,6 +28,8 @@
 @dynamic to;
 @dynamic type;
 @dynamic inProgress;
+@dynamic delivered;
+@dynamic sentToServer;
 @dynamic fileMetaInfo;
 
 @end

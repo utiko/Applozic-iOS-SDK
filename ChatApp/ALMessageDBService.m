@@ -28,6 +28,7 @@
         //Duplicate check before inserting into DB...
         NSManagedObject *message =  [self getMessageByKey:theMessage.keyString];
         if(message!=nil){
+            NSLog(@"message with key %@ found",theMessage.keyString );
             continue;
         }
         
@@ -45,6 +46,13 @@
     return dbMessag;
 }
 
+-(NSManagedObject *)getMeesageById:(NSManagedObjectID *)objectID
+                             error:(NSError **)error{
+    
+   ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+   NSManagedObject *obj =  [theDBHandler.managedObjectContext existingObjectWithID:objectID error:error];
+   return obj;
+}
 //update Message APIS
 -(void)updateMessageDeliveryReport:(NSString*)keyString{
     
@@ -91,6 +99,7 @@
     NSManagedObject* message = [self getMessageByKey:keyString];
     [dbHandler.managedObjectContext deleteObject:message];
     NSError *error = nil;
+  
     if ( [dbHandler.managedObjectContext save:&error]){
         NSLog(@"message found and maked as deliverd");
     } else {
@@ -328,33 +337,22 @@
     DB_Message * theSmsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
     
     theSmsEntity.contactId = theMessage.contactIds;
-    
     theSmsEntity.createdAt = [NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
-    
     theSmsEntity.deviceKeyString = theMessage.deviceKeyString;
-    
     theSmsEntity.isRead = [NSNumber numberWithBool:theMessage.read];
-    
     theSmsEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
-    
     theSmsEntity.isSentToDevice = [NSNumber numberWithBool:theMessage.sendToDevice];
-    
     theSmsEntity.isShared = [NSNumber numberWithBool:theMessage.shared];
-    
     theSmsEntity.isStoredOnDevice = [NSNumber numberWithBool:theMessage.storeOnDevice];
-    
     theSmsEntity.keyString = theMessage.keyString;
-    
     theSmsEntity.messageText = theMessage.message;
-    
     theSmsEntity.suUserKeyString = theMessage.suUserKeyString;
-    
     theSmsEntity.to = theMessage.to;
-    
     theSmsEntity.type = theMessage.type;
-    
+    theSmsEntity.delivered = [NSNumber numberWithBool:theMessage.delivered];
+    theSmsEntity.sentToServer = [NSNumber numberWithBool:theMessage.sentToServer];
     theSmsEntity.filePath = theMessage.imageFilePath;
-    
+    theSmsEntity.inProgress = [ NSNumber numberWithBool:theMessage.inProgress];
     if(theMessage.fileMetas != nil) {
         DB_FileMetaInfo *  fileInfo =  [self createFileMetaInfoEntityForDBInsertionWithMessage:theMessage.fileMetas];
         theSmsEntity.fileMetaInfo = fileInfo;
@@ -391,33 +389,24 @@
 {
     ALMessage * theMessage = [ALMessage new];
     
+    theMessage.msgDBObjectId = [theEntity objectID];
     theMessage.keyString = theEntity.keyString;
-    
     theMessage.deviceKeyString = theEntity.deviceKeyString;
-    
     theMessage.suUserKeyString = theEntity.suUserKeyString;
-    
     theMessage.to = theEntity.to;
-    
     theMessage.message = theEntity.messageText;
-    
     theMessage.sent = theEntity.isSent.boolValue;
-    
     theMessage.sendToDevice = theEntity.isSentToDevice.boolValue;
-    
     theMessage.shared = theEntity.isShared.boolValue;
-    
     theMessage.createdAtTime = [NSString stringWithFormat:@"%@",theEntity.createdAt];
-    
     theMessage.type = theEntity.type;
-    
     theMessage.contactIds = theEntity.contactId;
-    
     theMessage.storeOnDevice = theEntity.isStoredOnDevice.boolValue;
-    
-    theMessage.read = theEntity.isRead;
-    
+    theMessage.inProgress =theEntity.inProgress.boolValue;
+    theMessage.read = theEntity.isRead.boolValue;
     theMessage.imageFilePath = theEntity.filePath;
+    theMessage.delivered = theEntity.delivered.boolValue;
+    theMessage.sentToServer = theEntity.sentToServer.boolValue;
     
     // file meta info
     

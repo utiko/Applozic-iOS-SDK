@@ -11,11 +11,5 @@
 
 @interface ALParsingHandler : NSObject
 
-+(ALMessage *) parseMessage:(id) messageJson;
-
-+(NSMutableArray *) parseMessagseArray:(id) messagejson;
-
-+(BOOL) validateJsonClass:(NSDictionary *) jsonClass;
-
 
 @end
