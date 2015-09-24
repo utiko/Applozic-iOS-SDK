@@ -10,6 +10,7 @@
 #import "ALSyncMessageFeed.h"
 #import "ALMessageList.h"
 #import "ALMessage.h"
+#import "DB_FileMetaInfo.h"
 
 @interface ALMessageService : NSObject
 
@@ -23,5 +24,6 @@
 
 
 +(void) getLatestMessageForUser:(NSString *)deviceKeyString lastSyncTime:(NSString*) lastSyncTime withCompletion:(void(^)(ALMessageList * message, NSError *error)) completion;
++(void)proessUploadImageForMessage:(ALMessage *)message databaseObj:(DB_FileMetaInfo *)fileMetaInfo uploadURL:(NSString *)uploadURL  withTag:(NSInteger)tag withdelegate:(id)delegate;
 
 @end
