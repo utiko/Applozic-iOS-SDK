@@ -139,7 +139,7 @@
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
    
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
-        if (alMessage.storeOnDevice == NO) {
+        if (alMessage.imageFilePath == NULL) {
       
             self.mDowloadRetryButton.alpha = 1;
 
@@ -213,23 +213,16 @@
    
     NSURL * theUrl = nil ;
     
-    
-    
-    if ([alMessage.fileMetas.thumbnailUrl containsString:@"local"]) {
+    if (alMessage.imageFilePath!=NULL) {
+        
         NSString * docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString * filePath = [docDir stringByAppendingPathComponent:alMessage.fileMetas.thumbnailUrl];
+        NSString * filePath = [docDir stringByAppendingPathComponent:alMessage.imageFilePath];
         theUrl = [NSURL fileURLWithPath:filePath];
-        
     }
-    else
-    
-    {
-        
+    else{
         theUrl = [NSURL URLWithString:alMessage.fileMetas.thumbnailUrl];
-        
-        
-        
     }
+    NSLog(@"theUrl::%@",  theUrl);
     [self.mImageView sd_setImageWithURL:theUrl];
     return self;
     
@@ -279,7 +272,7 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     ALFileMetaInfo *metaInfo=(ALFileMetaInfo *)object;
-    
+    [self setNeedsDisplay];
     self.progresLabel.endDegree = metaInfo.progressValue;
 }
 
