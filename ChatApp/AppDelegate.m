@@ -23,7 +23,7 @@
     if (![ALUserDefaultsHandler isLoggedIn])
     {
         // Get login screen from storyboard and present it
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         ALLoginViewController *viewController = (ALLoginViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ALLoginViewController"];
         [self.window makeKeyAndVisible];
         [self.window.rootViewController presentViewController:viewController

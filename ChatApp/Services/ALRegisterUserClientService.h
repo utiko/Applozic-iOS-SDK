@@ -18,4 +18,6 @@
 
 -(ALRegistrationResponse *)createAccount:(ALUser *)user;
 
+-(void) logout;
+
 @end

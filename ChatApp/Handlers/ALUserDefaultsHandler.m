@@ -15,6 +15,13 @@
     return [ALUserDefaultsHandler getDeviceKeyString] != nil;
 }
 
++(void) clearAll
+{
+    NSLog(@"cleared");
+    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+}
+
 +(void) setEmailVerified:(BOOL)value {
     [[NSUserDefaults standardUserDefaults] setBool:value forKey:EMAIL_VERIFIED];
 }

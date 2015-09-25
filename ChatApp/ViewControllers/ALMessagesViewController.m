@@ -14,7 +14,8 @@
 #import "ALUtilityClass.h"
 #import "ALContact.h"
 #import "ALMessageDBService.h"
-
+#import "ALLoginViewController.h"
+#import "ALRegisterUserClientService.h"
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
@@ -26,6 +27,8 @@
 //------------------------------------------------------------------------------------------------------------------
 
 @interface ALMessagesViewController ()<UITableViewDataSource,UITableViewDelegate,ALMessagesDelegate>
+
+- (IBAction)logout:(id)sender;
 
 // Constants
 
@@ -45,6 +48,22 @@
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark - View lifecycle
 //------------------------------------------------------------------------------------------------------------------
+
+
+- (IBAction)logout:(id)sender {
+
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+    [registerUserClientService logout];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main"
+                                                         bundle:nil];
+    ALLoginViewController *add =
+    [storyboard instantiateViewControllerWithIdentifier:@"ALLoginViewController"];
+    
+    [self presentViewController:add
+                       animated:YES
+                     completion:nil];
+}
 
 - (void)viewDidLoad {
 
@@ -197,6 +216,5 @@
 
     [self.view layoutIfNeeded];
 }
-
 
 @end

@@ -128,7 +128,13 @@
                             <constraint firstItem="S0P-A8-QJi" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" constant="16" id="xAZ-vu-VeH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="lrz-ae-7pi"/>
+                    <navigationItem key="navigationItem" id="lrz-ae-7pi">
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="3pR-ud-INa">
+                            <connections>
+                                <action selector="logout:" destination="BYZ-38-t0r" id="7Ka-oa-KIh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mActivityIndicator" destination="dlR-eX-vMZ" id="iW8-EO-GId"/>
                         <outlet property="mTableView" destination="S0P-A8-QJi" id="faw-jS-ahn"/>
@@ -347,12 +353,12 @@
         <!--Login View Controller-->
         <scene sceneID="1OX-we-tqW">
             <objects>
-                <viewController id="t0V-gj-2WO" customClass="ALLoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ALLoginViewController" id="t0V-gj-2WO" customClass="ALLoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="IgA-hH-uGQ"/>
                         <viewControllerLayoutGuide type="bottom" id="kgK-nM-jmK"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Lzp-uV-zh7">
+                    <view key="view" contentMode="scaleToFill" restorationIdentifier="ALLoginViewController" id="Lzp-uV-zh7">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>

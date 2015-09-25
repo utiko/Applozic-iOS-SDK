@@ -16,6 +16,7 @@
 #import "ALUtilityClass.h"
 #import "ALRegistrationResponse.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALMessageDBService.h"
 
 @implementation ALRegisterUserClientService
 
@@ -114,6 +115,13 @@
     NSLog(@"Converted to registrationresponse object: %@", registrationResponse.message);
     
     return registrationResponse;
+}
+
+-(void) logout
+{
+    [ALUserDefaultsHandler clearAll];
+    ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
+    [messageDBService deleteAllObjectsInCoreData];
 }
 
 @end

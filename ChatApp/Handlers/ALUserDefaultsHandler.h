@@ -19,6 +19,8 @@
 
 +(BOOL) isLoggedIn;
 
++(void) clearAll;
+
 +(void) setEmailVerified: (BOOL) value;
 
 +(void) setBoolForKey_isConversationDbSynced:(BOOL ) value;
