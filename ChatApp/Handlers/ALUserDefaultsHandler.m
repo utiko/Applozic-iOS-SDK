@@ -10,6 +10,17 @@
 
 @implementation ALUserDefaultsHandler
 
++(void) setApplicationKey:(NSString *)applicationKey
+{
+    [[NSUserDefaults standardUserDefaults] setValue:applicationKey forKey:APPLICATION_KEY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *) getApplicationKey
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:APPLICATION_KEY];
+}
+
 +(BOOL) isLoggedIn
 {
     return [ALUserDefaultsHandler getDeviceKeyString] != nil;
@@ -24,6 +35,7 @@
 
 +(void) setEmailVerified:(BOOL)value {
     [[NSUserDefaults standardUserDefaults] setBool:value forKey:EMAIL_VERIFIED];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 +(void) getEmailVerified:(BOOL)value {
@@ -87,12 +99,14 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(NSString *)getUserKeyString{
++(NSString *)getUserKeyString
+{
     return [[NSUserDefaults standardUserDefaults] valueForKey:USER_KEY_STRING];
 }
 
 //user Id
-+(void )setUserId:(NSString *)userId {
++(void )setUserId:(NSString *)userId
+{
     [[NSUserDefaults standardUserDefaults] setValue:userId forKey:USER_ID];
     
     [[NSUserDefaults standardUserDefaults] synchronize];

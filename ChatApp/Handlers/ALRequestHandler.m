@@ -63,7 +63,7 @@
 +(void) addGlobalHeader: (NSMutableURLRequest*) request{
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
-    [request addValue:@"applozic-sample-app" forHTTPHeaderField:@"Application-Key"];
+    [request addValue:[ALUserDefaultsHandler getApplicationKey] forHTTPHeaderField:@"Application-Key"];
     [request addValue:@"true" forHTTPHeaderField:@"UserId-Enabled"];
     
     NSString *authStr = [NSString stringWithFormat:@"%@:%@",[ALUserDefaultsHandler getUserId] , [ALUserDefaultsHandler getDeviceKeyString]];

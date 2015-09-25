@@ -21,12 +21,10 @@
 @implementation ALRegisterUserClientService
 
 
--(void) createAccountWithCallback:(ALUser *)user withCompletion:(void(^)(ALRegistrationResponse * response , NSError * error)) completion {
-    
+-(void) initWithCompletion:(ALUser *)user withCompletion:(void(^)(ALRegistrationResponse * response, NSError *error)) completion
+{
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/registration/v1/register",KBASE_URL];
-    
-    //Todo: fetch application key from configurable properties.
-    [user setApplicationId: @"applozic-sample-app"];
+    [ALUserDefaultsHandler setApplicationKey: user.applicationId];
     [user setDeviceType:1];
     [user setPrefContactAPI:2];
     [user setEmailVerified:true];
@@ -67,10 +65,11 @@
         
         ALRegistrationResponse *response = [[ALRegistrationResponse alloc] initWithJSONString:statusStr];
         
+        //Todo: figure out how to set country code
         //mobiComUserPreference.setCountryCode(user.getCountryCode());
-        [ALUserDefaultsHandler setUserId:user.userId];
         //mobiComUserPreference.setContactNumber(user.getContactNumber());
-    
+
+        [ALUserDefaultsHandler setUserId:user.userId];
         [ALUserDefaultsHandler setEmailVerified: user.emailVerified];
         [ALUserDefaultsHandler setDisplayName: user.displayName];
         [ALUserDefaultsHandler setEmailId:user.emailId];

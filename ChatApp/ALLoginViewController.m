@@ -46,6 +46,7 @@
     NSLog(@"message: %@", message);
 
     ALUser *user = [[ALUser alloc] init];
+    [user setApplicationId:@"applozic-sample-app"];
     [user setUserId:[self.userIdField text]];
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
@@ -53,7 +54,7 @@
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
 
     [self.mActivityIndicator startAnimating];
-    [registerUserClientService createAccountWithCallback:user withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
+    [registerUserClientService initWithCompletion:user withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         [self.mActivityIndicator stopAnimating];
         if (error) {
             NSLog(@"%@",error);

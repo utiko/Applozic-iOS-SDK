@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 AppLogic. All rights reserved.
 //
 
+#define APPLICATION_KEY @"APPLICATION_KEY"
 #define EMAIL_VERIFIED @"EMAIL_VERIFIED"
 #define DISPLAY_NAME @"DISPLAY_NAME"
 #define DEVICE_KEY_STRING @"DEVICE_KEY_STRING"
@@ -24,9 +25,13 @@
 
 +(void) clearAll;
 
++(NSString *) getApplicationKey;
+
++(void) setApplicationKey: (NSString*) applicationKey;
+
 +(void) setEmailVerified: (BOOL) value;
 
-+(void) setBoolForKey_isConversationDbSynced:(BOOL ) value;
++(void) setBoolForKey_isConversationDbSynced:(BOOL) value;
 
 +(BOOL) getBoolForKey_isConversationDbSynced;
 
