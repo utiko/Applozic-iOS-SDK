@@ -41,10 +41,7 @@
 //-------------------------------------------------------------------------------------------------------------------
 
 - (IBAction)login:(id)sender {
-    
-    
-    NSLog(@"clicked");
-    NSLog(@"yo working - just getting started!");
+
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
 
@@ -52,7 +49,6 @@
     [user setUserId:[self.userIdField text]];
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
-    [user setAppVersionCode:NULL];
 
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
 

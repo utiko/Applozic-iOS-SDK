@@ -29,7 +29,7 @@
     [user setApplicationId: @"applozic-sample-app"];
     [user setDeviceType:1];
     [user setPrefContactAPI:2];
-    [user setEmailVerified:false];
+    [user setEmailVerified:true];
     [user setDeviceType:4];
     [user setAppVersionCode: @"71"];
     
