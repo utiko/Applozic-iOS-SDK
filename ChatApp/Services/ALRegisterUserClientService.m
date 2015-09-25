@@ -27,6 +27,8 @@
     [user setDeviceType:1];
     [user setPrefContactAPI:2];
     [user setEmailVerified:TRUE];
+    [user setDeviceType:4];
+    [user setAppVersionCode: @"71"];
     
     
     //NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
