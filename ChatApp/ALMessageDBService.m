@@ -155,7 +155,7 @@
 
 - (void)deleteAllObjectsInCoreData
 {
-     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     NSArray *allEntities = dbHandler.managedObjectModel.entities;
     for (NSEntityDescription *entityDescription in allEntities)
     {

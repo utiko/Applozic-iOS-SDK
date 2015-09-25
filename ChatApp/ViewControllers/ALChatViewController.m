@@ -44,14 +44,14 @@
 
 @implementation ALChatViewController
 
+ALMessageDBService  * dbService;
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark - View lifecycle
 //------------------------------------------------------------------------------------------------------------------
 
 - (void)viewDidLoad {
-
+    
     [super viewDidLoad];
-
     [self initialSetUp];
     [self fetchMessageFromDB];
     [self loadChatView];
@@ -360,32 +360,25 @@
 
     NSMutableArray * theCurrentConnectionsArray = [[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue];
     NSArray * theFiletredArray = [theCurrentConnectionsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keystring == %@", message.fileMetas.keyString]];
-    if ([message.type isEqualToString:@"5"]) { // retry or cancel
-        if (theFiletredArray.count == 0) { // retry
-            message.isUploadFailed = NO;
-            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-            fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.thumbnailUrl == %@",message.fileMetas.thumbnailUrl];
-            NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
-            DB_Message  * smsEntity = theArray[0];
-            smsEntity.inProgress = [NSNumber numberWithBool:YES];
-            smsEntity.isUploadFailed = [NSNumber numberWithBool:NO];
-            [[ALDBHandler sharedInstance].managedObjectContext save:nil];
+    if (theFiletredArray.count == 0){
+        message.isUploadFailed = NO;
+        message.inProgress=YES;
+        
+        NSError *error =nil;
+        DB_Message *dbMessage =(DB_Message*)[dbService getMeesageById:message.msgDBObjectId error:&error];
+        dbMessage.inProgress = [NSNumber numberWithBool:YES];
+        dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
+        
+        [[ALDBHandler sharedInstance].managedObjectContext save:nil];
+        if ([message.type isEqualToString:@"5"]) { // upoad
             [self uploadImage:message];
-        }
-    }
-    else // download or cancel
-    {
-        if (theFiletredArray.count == 0) { // download
-            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-            fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.keyString == %@",message.fileMetas.keyString];
-            NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
-            DB_Message  * smsEntity = theArray[0];
-            smsEntity.inProgress = [NSNumber numberWithBool:YES];
-
-            [[ALDBHandler sharedInstance].managedObjectContext save:nil];
+        }else { //download
             [self processImageDownloadforMessage:message withTag:index];
         }
+    }else{
+        NSLog(@"connection already present do nothing###");
     }
+   
 }
 
 -(void)stopDownloadForIndex:(int)index andMessage:(ALMessage *)message {
@@ -575,7 +568,14 @@
 
 -(void)connection:(ALConnection *)connection didFailWithError:(NSError *)error
 {
-    NSLog(@"%@",error);
+  //Tag should be something else...
+    ALChatCell_Image *imageCell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:connection.connectionTag inSection:0]];
+    
+    imageCell.progresLabel.alpha = 0;
+    imageCell.mDowloadRetryButton.alpha = 1;
+    [self handleErrorStatus:imageCell.mMessage];
+    NSLog(@"didFailWithError ::: %@",error);
+    [ALUtilityClass displayToastWithMessage:@"network error." ];
     [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
 }
 
@@ -730,6 +730,18 @@
 {
     _mImagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     [self presentViewController:_mImagePicker animated:YES completion:nil];
+}
+
+-(void) handleErrorStatus:(ALMessage *) message{
+    message.inProgress=NO;
+    message.isUploadFailed=YES;
+    NSError *error=nil;
+    dbService = [[ALMessageDBService alloc] init];
+    DB_Message *dbMessage =(DB_Message*)[dbService getMeesageById:message.msgDBObjectId error:&error];
+    dbMessage.inProgress = [NSNumber numberWithBool:NO];
+    dbMessage.isUploadFailed = [NSNumber numberWithBool:YES];
+    [[ALDBHandler sharedInstance].managedObjectContext save:nil];
+    
 }
 
 

@@ -24,5 +24,5 @@
 
 +(CGSize)getSizeForText:(NSString *)text maxWidth:(CGFloat)width font:(NSString *)fontName fontSize:(float)fontSize;
 
-
++(void)displayToastWithMessage:(NSString *)toastMessage;
 @end

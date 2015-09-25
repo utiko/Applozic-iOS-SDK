@@ -171,5 +171,34 @@
     return stringSize;
 }
 
++(void)displayToastWithMessage:(NSString *)toastMessage
+{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^ {
+        UIWindow * keyWindow = [[UIApplication sharedApplication] keyWindow];
+        UILabel *toastView = [[UILabel alloc] init];
+        toastView.text = toastMessage;
+        //toastView.font = @"Helvetica-Bold";
+        //toastView.textColor = [MYUIStyles getToastTextColor];
+        toastView.backgroundColor = [UIColor whiteColor];
+        toastView.textAlignment = NSTextAlignmentCenter;
+        toastView.frame = CGRectMake(0.0, 0.0, keyWindow.frame.size.width/2.0, 75.00);
+        toastView.layer.cornerRadius = 10;
+        toastView.layer.masksToBounds = YES;
+        toastView.center = keyWindow.center;
+        
+        [keyWindow addSubview:toastView];
+        
+        [UIView animateWithDuration: 3.0f
+                              delay: 0.0
+                            options: UIViewAnimationOptionCurveEaseOut
+                         animations: ^{
+                             toastView.alpha = 0.0;
+                         }
+                         completion: ^(BOOL finished) {
+                             [toastView removeFromSuperview];
+                         }
+         ];
+    }];
+}
 
 @end

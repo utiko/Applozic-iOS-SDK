@@ -177,20 +177,15 @@
         if (alMessage.isUploadFailed == NO) {
             self.mDowloadRetryButton.alpha = 0;
         }else{
-            
          self.mDowloadRetryButton.alpha = 1;
          [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
          [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_upload.png"] forState:UIControlStateNormal];
-            
-            
-            
-        }if (alMessage.inProgress == YES) {
-            
+        }
+        
+        if (alMessage.inProgress == YES) {
             self.progresLabel.alpha = 1;
-       }else {
-            
+        }else {
             self.progresLabel.alpha = 0;
-            
         }
     }
     self.mDowloadRetryButton.frame = CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0 - 50 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2.0 - 15 , 100, 30);
