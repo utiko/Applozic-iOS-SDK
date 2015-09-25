@@ -16,8 +16,6 @@
 
 -(void) createAccountWithCallback:(ALUser *)user withCompletion:(void(^)(ALRegistrationResponse * message, NSError * error)) completion;
 
--(ALRegistrationResponse *)createAccount:(ALUser *)user;
-
 -(void) logout;
 
 @end

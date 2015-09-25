@@ -34,14 +34,14 @@
 
 +(void)setBoolForKey_isConversationDbSynced:(BOOL)value
 {
-    [[NSUserDefaults standardUserDefaults] setBool:value forKey:@"isConversationDbSynced"];
+    [[NSUserDefaults standardUserDefaults] setBool:value forKey:CONVERSATION_DB_SYNCED];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 +(BOOL)getBoolForKey_isConversationDbSynced
 {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"isConversationDbSynced"];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:CONVERSATION_DB_SYNCED];
 }
 
 +(void)setEmailId:(NSString *)emailId
@@ -93,7 +93,7 @@
 
 //user Id
 +(void )setUserId:(NSString *)userId {
-    [[NSUserDefaults standardUserDefaults] setValue:userId forKey:@"USER_ID"];
+    [[NSUserDefaults standardUserDefaults] setValue:userId forKey:USER_ID];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -102,21 +102,21 @@
 +(NSString *)getUserId
 {
     return [[NSUserDefaults standardUserDefaults]
-            valueForKey:@"USER_ID"];
+            valueForKey:USER_ID];
 }
 
 //last sync time
 
 +(void )setLastSyncTime :( NSString *) lstSyncTime
 {
-    [[NSUserDefaults standardUserDefaults] setValue:lstSyncTime forKey:@"LAST_SYNC_TIME"];
+    [[NSUserDefaults standardUserDefaults] setValue:lstSyncTime forKey:LAST_SYNC_TIME];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 +(NSString *)getLastSyncTime{
     
-    return [[NSUserDefaults standardUserDefaults] valueForKey:@"LAST_SYNC_TIME"];
+    return [[NSUserDefaults standardUserDefaults] valueForKey:LAST_SYNC_TIME];
 }
 
 @end

@@ -83,40 +83,6 @@
     
 }
 
-
--(ALRegistrationResponse *)createAccount:(ALUser *) user {
-
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://mobi-com-alpha.appspot.com/rest/ws/registration/v1/register"]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:@"applozic-sample-app" forHTTPHeaderField:@"Application-Key"];
-    
-    NSError *error;
-    NSData *postdata = [NSJSONSerialization dataWithJSONObject:user.dictionary options:0 error:&error];
-    
-    NSLog(@"posting data: %@", [[NSString alloc]initWithData:postdata encoding:NSUTF8StringEncoding]);
-    
-    [request setHTTPBody:postdata];
-    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    
-   /* [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response, NSData *data,        NSError *error)
-     {
-         NSLog(@"Response is:%@",[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
-     }];*/
-    
-    NSString *strData = [[NSString alloc]initWithData:returnData encoding:NSUTF8StringEncoding];
-    
-    NSLog(@"Registration response from server:%@", strData);
-    
-    ALRegistrationResponse *registrationResponse = [[ALRegistrationResponse alloc] initWithJSONString:strData];
-    
-    NSLog(@"Converted to registrationresponse object: %@", registrationResponse.message);
-    
-    return registrationResponse;
-}
-
 -(void) logout
 {
     [ALUserDefaultsHandler clearAll];
