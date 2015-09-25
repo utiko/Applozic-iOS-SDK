@@ -10,6 +10,19 @@
 
 @implementation ALUserDefaultsHandler
 
++(BOOL) isLoggedIn
+{
+    return [ALUserDefaultsHandler getDeviceKeyString] != nil;
+}
+
++(void) setEmailVerified:(BOOL)value {
+    [[NSUserDefaults standardUserDefaults] setBool:value forKey:EMAIL_VERIFIED];
+}
+
++(void) getEmailVerified:(BOOL)value {
+    [[NSUserDefaults standardUserDefaults] boolForKey: EMAIL_VERIFIED];
+}
+
 // isConversationDbSynced
 
 +(void)setBoolForKey_isConversationDbSynced:(BOOL)value
@@ -24,17 +37,51 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"isConversationDbSynced"];
 }
 
++(void)setEmailId:(NSString *)emailId
+{
+    [[NSUserDefaults standardUserDefaults] setValue:emailId forKey:EMAIL_ID];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getEmailId{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:EMAIL_ID];
+}
+    
+
++(void)setDisplayName:(NSString *)displayName
+{
+    [[NSUserDefaults standardUserDefaults] setValue:displayName forKey:DISPLAY_NAME];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getDisplayName{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:DISPLAY_NAME];
+}
+
 
 //deviceKey String
 +(void)setDeviceKeyString:(NSString *)deviceKeyString
 {
-    [[NSUserDefaults standardUserDefaults] setValue:deviceKeyString forKey:@"DEVICE_KEY_STRING"];
+    [[NSUserDefaults standardUserDefaults] setValue:deviceKeyString forKey:DEVICE_KEY_STRING];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 +(NSString *)getDeviceKeyString{
-    return [[NSUserDefaults standardUserDefaults] valueForKey:@"DEVICE_KEY_STRING"];
+    return [[NSUserDefaults standardUserDefaults] valueForKey:DEVICE_KEY_STRING];
+}
+
++(void)setUserKeyString:(NSString *)suUserKeyString
+{
+    [[NSUserDefaults standardUserDefaults] setValue:suUserKeyString forKey:USER_KEY_STRING];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getUserKeyString{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:USER_KEY_STRING];
 }
 
 //user Id

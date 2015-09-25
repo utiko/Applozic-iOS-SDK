@@ -41,7 +41,7 @@
 //-------------------------------------------------------------------------------------------------------------------
 
 - (IBAction)login:(id)sender {
-    [self performSegueWithIdentifier:@"MessagesViewController" sender:self];
+    
     
     NSLog(@"clicked");
     NSLog(@"yo working - just getting started!");
@@ -60,35 +60,26 @@
     [registerUserClientService createAccountWithCallback:user withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         [self.mActivityIndicator stopAnimating];
         if (error) {
-
             NSLog(@"%@",error);
-
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response"
+                                                                message:rResponse.message delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles: nil, nil];
+            [alertView show];
             return ;
         }
 
 
         [ALUserDefaultsHandler setUserId:[user userId]];
+
         NSLog(@"Registration response from server:%@", rResponse);
+        
+        [self performSegueWithIdentifier:@"MessagesViewController" sender:self];
 
         /*
          ALRegistrationResponse *registrationResponse = [[ALRegistrationResponse alloc] initWithJSONString:strData];
 
          NSLog(@"Converted to registrationresponse object: %@", registrationResponse.message);*/
-
-
-        /*  UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response" message:registrationResponse.message delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles:@"Cancel", nil];
-         [alertView show];*/
     }];
 
-    /*  ALRegistrationResponse *registrationResponse = [registerUserClientService createAccount:user];
-
-     NSLog(@"Message: %@", registrationResponse.message);
-
-
-     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response" message:registrationResponse.message delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles:@"Cancel", nil];
-     [alertView show];*/
-
-    //[self performSegueWithIdentifier:@"message" sender:self];
 }
 
 //-------------------------------------------------------------------------------------------------------------------

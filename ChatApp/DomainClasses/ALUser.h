@@ -16,6 +16,7 @@
 @property NSString *userId;
 @property NSString *emailId;
 @property NSString *password;
+@property NSString *displayName;
 @property NSString *registrationId;
 @property NSString *applicationId;
 @property NSString *contactNumber;

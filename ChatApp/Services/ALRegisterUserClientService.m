@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 AppLogic. All rights reserved.
 //
 
+#define INVALID_APPLICATIONID = @"INVALID_APPLICATIONID"
+
 
 #import "ALRegisterUserClientService.h"
 #import "ALRequestHandler.h"
@@ -26,7 +28,7 @@
     [user setApplicationId: @"applozic-sample-app"];
     [user setDeviceType:1];
     [user setPrefContactAPI:2];
-    [user setEmailVerified:TRUE];
+    [user setEmailVerified:false];
     [user setDeviceType:4];
     [user setAppVersionCode: @"71"];
     
@@ -39,7 +41,21 @@
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"CREATE ACCOUNT" WithCompletionHandler:^(id theJson, NSError *theError) {
-        NSLog(@"server response received");
+        NSLog(@"server response received %@", theJson);
+        
+        NSString *statusStr = (NSString *)theJson;
+        
+        /*NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+        
+        if ([statusStr rangeOfString: @"<html"].location != NSNotFound) {
+            //[errorDetail setValue:@"Failed to process from server" forKey:NSLocalizedDescriptionKey];
+            theError = [NSError errorWithDomain:@"server" code:200 userInfo:errorDetail];
+        }
+        
+        if ([statusStr rangeOfString: @"INVALID_APPLICATIONID"].location != NSNotFound) {
+            //[errorDetail setValue:@"Invalid Application Id" forKey:NSLocalizedDescriptionKey];
+            theError = [NSError errorWithDomain:@"server" code:200 userInfo:errorDetail];
+        }*/
         
         if (theError) {
             
@@ -48,9 +64,17 @@
             return ;
         }
         
-        NSString *statusStr = (NSString *)theJson;
         ALRegistrationResponse *response = [[ALRegistrationResponse alloc] initWithJSONString:statusStr];
-        [ALUserDefaultsHandler setDeviceKeyString:response.deviceKeyString ];
+        
+        //mobiComUserPreference.setCountryCode(user.getCountryCode());
+        [ALUserDefaultsHandler setUserId:user.userId];
+        //mobiComUserPreference.setContactNumber(user.getContactNumber());
+    
+        [ALUserDefaultsHandler setEmailVerified: user.emailVerified];
+        [ALUserDefaultsHandler setDisplayName: user.displayName];
+        [ALUserDefaultsHandler setEmailId:user.emailId];
+        [ALUserDefaultsHandler setDeviceKeyString:response.deviceKeyString];
+        [ALUserDefaultsHandler setUserKeyString:response.suUserKeyString];
         [ALUserDefaultsHandler setLastSyncTime:response.lastSyncTime];
         completion(response,nil);
         

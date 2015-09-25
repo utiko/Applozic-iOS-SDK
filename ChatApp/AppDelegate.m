@@ -7,6 +7,8 @@
 
 #import "AppDelegate.h"
 #import "ALDBHandler.h"
+#import "ALUserDefaultsHandler.h"
+#import "ALLoginViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +19,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    if (![ALUserDefaultsHandler isLoggedIn])
+    {
+        // Get login screen from storyboard and present it
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        ALLoginViewController *viewController = (ALLoginViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ALLoginViewController"];
+        [self.window makeKeyAndVisible];
+        [self.window.rootViewController presentViewController:viewController
+                                                     animated:nil
+                                                   completion:nil];
+    }
+    
     return YES;
 }
 
