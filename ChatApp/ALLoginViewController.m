@@ -64,9 +64,6 @@
             return ;
         }
 
-
-        [ALUserDefaultsHandler setUserId:[user userId]];
-
         NSLog(@"Registration response from server:%@", rResponse);
         
         [self performSegueWithIdentifier:@"MessagesViewController" sender:self];
