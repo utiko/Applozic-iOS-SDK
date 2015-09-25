@@ -575,7 +575,6 @@ ALMessageDBService  * dbService;
     imageCell.mDowloadRetryButton.alpha = 1;
     [self handleErrorStatus:imageCell.mMessage];
     NSLog(@"didFailWithError ::: %@",error);
-    [ALUtilityClass displayToastWithMessage:@"network error." ];
     [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
 }
 
@@ -625,8 +624,8 @@ ALMessageDBService  * dbService;
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     DB_Message * theSmsEntity = [messageDBService createSMSEntityForDBInsertionWithMessage:theMessage];
-    theMessage.msgDBObjectId = [theSmsEntity objectID];
     [theDBHandler.managedObjectContext save:nil];
+    theMessage.msgDBObjectId = [theSmsEntity objectID];
     dispatch_async(dispatch_get_main_queue(), ^{
 
               [UIView animateWithDuration:.50 animations:^{
@@ -665,12 +664,16 @@ ALMessageDBService  * dbService;
         ALMessageDBService  * dbService = [[ALMessageDBService alloc] init];
         DB_Message *dbMessage =(DB_Message*)[dbService getMeesageById:theMessage.msgDBObjectId error:&error];
         dbMessage.inProgress = [NSNumber numberWithBool:YES];
+        dbMessage.isUploadFailed=[NSNumber numberWithBool:NO];
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
 
         // post image
         [ALMessageService sendPhotoForUserInfo:userInfo withCompletion:^(NSString *message, NSError *error) {
             if (error) {
                 NSLog(@"%@",error);
+                imageCell.progresLabel.alpha = 0;
+                imageCell.mDowloadRetryButton.alpha = 1;
+                [self handleErrorStatus:theMessage];
                 return ;
             }
             NSInteger tag = [self.mMessageListArray indexOfObject:theMessage];
@@ -733,6 +736,7 @@ ALMessageDBService  * dbService;
 }
 
 -(void) handleErrorStatus:(ALMessage *) message{
+    [ALUtilityClass displayToastWithMessage:@"network error." ];
     message.inProgress=NO;
     message.isUploadFailed=YES;
     NSError *error=nil;
