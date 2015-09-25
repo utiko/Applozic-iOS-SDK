@@ -353,6 +353,7 @@
     theSmsEntity.sentToServer = [NSNumber numberWithBool:theMessage.sentToServer];
     theSmsEntity.filePath = theMessage.imageFilePath;
     theSmsEntity.inProgress = [ NSNumber numberWithBool:theMessage.inProgress];
+    theSmsEntity.isUploadFailed=[ NSNumber numberWithBool:theMessage.isUploadFailed];
     if(theMessage.fileMetas != nil) {
         DB_FileMetaInfo *  fileInfo =  [self createFileMetaInfoEntityForDBInsertionWithMessage:theMessage.fileMetas];
         theSmsEntity.fileMetaInfo = fileInfo;
@@ -407,6 +408,7 @@
     theMessage.imageFilePath = theEntity.filePath;
     theMessage.delivered = theEntity.delivered.boolValue;
     theMessage.sentToServer = theEntity.sentToServer.boolValue;
+    theMessage.isUploadFailed = theEntity.isUploadFailed.boolValue;
     
     // file meta info
     

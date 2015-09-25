@@ -428,7 +428,7 @@
             fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.keyString == %@",message.fileMetas.keyString];
             NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
             DB_Message  * smsEntity = theArray[0];
-            smsEntity.inProgress = [NSNumber numberWithBool:YES];
+            smsEntity.inProgress = [NSNumber numberWithBool:NO];
             [[ALDBHandler sharedInstance].managedObjectContext save:nil];
             [self cancelImageDownloadForMessage:message withtag:index];
         }
@@ -558,7 +558,7 @@
         DB_Message  * smsEntity = theArray[0];
         smsEntity.isStoredOnDevice = [NSNumber numberWithBool:YES];
         smsEntity.inProgress = [NSNumber numberWithBool:NO];
-        smsEntity.filePath = [NSString stringWithFormat:@"%@.local",connection.keystring];;
+        smsEntity.filePath = [NSString stringWithFormat:@"%@.local",connection.keystring];
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
         // reload tableview
         NSArray * filteredArray = [self.mMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"fileMetas.keyString == %@",connection.keystring]];
