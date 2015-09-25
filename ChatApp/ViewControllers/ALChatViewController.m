@@ -370,10 +370,7 @@
             smsEntity.inProgress = [NSNumber numberWithBool:YES];
             smsEntity.isUploadFailed = [NSNumber numberWithBool:NO];
             [[ALDBHandler sharedInstance].managedObjectContext save:nil];
-
-            DB_FileMetaInfo *fileMetaInfo = smsEntity.fileMetaInfo;
-
-            [self uploadImage:@[message,fileMetaInfo]];
+            [self uploadImage:message];
         }
     }
     else // download or cancel
@@ -561,7 +558,7 @@
         DB_Message  * smsEntity = theArray[0];
         smsEntity.isStoredOnDevice = [NSNumber numberWithBool:YES];
         smsEntity.inProgress = [NSNumber numberWithBool:NO];
-        smsEntity.fileMetaInfo.thumbnailUrl = [NSString stringWithFormat:@"%@.local",connection.keystring];
+        smsEntity.filePath = [NSString stringWithFormat:@"%@.local",connection.keystring];;
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
         // reload tableview
         NSArray * filteredArray = [self.mMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"fileMetas.keyString == %@",connection.keystring]];
@@ -570,7 +567,7 @@
             ALMessage * message = filteredArray[0];
             message.storeOnDevice = YES;
             message.inProgress = NO;
-            message.fileMetas.thumbnailUrl = [NSString stringWithFormat:@"%@.local",connection.keystring];
+            message.imageFilePath = [NSString stringWithFormat:@"%@.local",connection.keystring];
         }
         [self.mTableView reloadData];
     }
@@ -619,7 +616,7 @@
     theMessage.imageFilePath = filePath.lastPathComponent;
     NSData *imageSize = [NSData dataWithContentsOfFile:filePath];
     theMessage.fileMetas.size = [NSString stringWithFormat:@"%lu",(unsigned long)imageSize.length];
-    theMessage.fileMetas.thumbnailUrl = filePath.lastPathComponent;
+    //theMessage.fileMetas.thumbnailUrl = filePath.lastPathComponent;
 
     // save msg to db
     
@@ -635,19 +632,19 @@
               [UIView animateWithDuration:.50 animations:^{
             [self scrollTableViewToBottomWithAnimation:YES];
         } completion:^(BOOL finished) {
-            [self uploadImage:@[theMessage,theSmsEntity.fileMetaInfo]];
+            [self uploadImage:theMessage];
         }];
     });
 }
 
--(void)uploadImage:(NSArray *)objects {
-    ALMessage *theMessage = (ALMessage *)[objects firstObject];
-    DB_FileMetaInfo *theFileMetaInfo = (DB_FileMetaInfo *)[objects lastObject];
+-(void)uploadImage:(ALMessage *)theMessage {
+   
     if (theMessage.fileMetas && [theMessage.type isEqualToString:@"5"]) {
         NSDictionary * userInfo = [theMessage dictionary];
         [self.mSendMessageTextField setText:nil];
         self.mTotalCount = self.mTotalCount+1;
         self.startIndex = self.startIndex + 1;
+        
         ALChatCell_Image *imageCell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[self.mMessageListArray indexOfObject:theMessage] inSection:0]];
         if (imageCell == nil) {
             //            [self performSelector:@selector(uploadImage:)
@@ -656,7 +653,7 @@
             [UIView animateWithDuration:.50 animations:^{
                 [self scrollTableViewToBottomWithAnimation:YES];
             } completion:^(BOOL finished) {
-                [self uploadImage:objects];
+                [self uploadImage:theMessage];
             }];
             return;
         }
@@ -664,12 +661,10 @@
         imageCell.mMessage.fileMetas.progressValue = 0;
         imageCell.mDowloadRetryButton.alpha = 0;
         imageCell.mMessage.inProgress = YES;
-        NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.thumbnailUrl == %@",imageCell.mMessage.fileMetas.thumbnailUrl];
-        NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
-        DB_Message  * smsEntity = theArray[0];
-        smsEntity.inProgress = [NSNumber numberWithBool:YES];
-        smsEntity.fileMetaInfo = theFileMetaInfo;
+        NSError *error=nil;
+        ALMessageDBService  * dbService = [[ALMessageDBService alloc] init];
+        DB_Message *dbMessage =(DB_Message*)[dbService getMeesageById:theMessage.msgDBObjectId error:&error];
+        dbMessage.inProgress = [NSNumber numberWithBool:YES];
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
 
         // post image
@@ -680,7 +675,7 @@
             }
             NSInteger tag = [self.mMessageListArray indexOfObject:theMessage];
             //Move this to service class....
-            [ALMessageService proessUploadImageForMessage:theMessage databaseObj:theFileMetaInfo uploadURL:message withTag:tag withdelegate:self];
+            [ALMessageService proessUploadImageForMessage:theMessage databaseObj:dbMessage.fileMetaInfo uploadURL:message withTag:tag withdelegate:self];
         }];
     }
 }
