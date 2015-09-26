@@ -156,7 +156,7 @@ ALMessageDBService  * dbService;
             NSLog(@"%@",error);
             return ;
         }
-        theMessage.sent = [NSNumber numberWithBool:YES];
+        theMessage.sent = true;
         theMessage.keyString = message;
         [self.mTableView reloadData];
     }];
