@@ -74,6 +74,11 @@
 {
     NSLog(@"My token is: %@", deviceToken);
     NSString *apnDeviceToken = [[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding];
+    
+    if ([[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken])
+    {
+        return;
+    }
 
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     
