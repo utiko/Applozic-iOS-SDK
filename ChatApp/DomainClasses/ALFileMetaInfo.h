@@ -32,4 +32,6 @@
 
 -(NSString *) getTheSize;
 
+-(ALFileMetaInfo *) populate:( NSDictionary *)dict;
+
 @end
