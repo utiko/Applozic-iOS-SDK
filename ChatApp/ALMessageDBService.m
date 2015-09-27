@@ -26,7 +26,7 @@
     for (ALMessage * theMessage in messageList) {
         
         //Duplicate check before inserting into DB...
-        NSManagedObject *message =  [self getMessageByKey:theMessage.keyString];
+        NSManagedObject *message =  [self getMessageByKey:@"keyString" value:theMessage.keyString];
         if(message!=nil){
             NSLog(@"message with key %@ found",theMessage.keyString );
             continue;
@@ -58,7 +58,7 @@
     
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     
-    NSManagedObject* message = [self getMessageByKey:keyString];
+    NSManagedObject* message = [self getMessageByKey:@"keyString"  value:keyString];
     [message setValue:@"1" forKey:@"delivered"];
     NSError *error = nil;
     if ( [dbHandler.managedObjectContext save:&error]){
@@ -74,7 +74,7 @@
     
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     
-    NSManagedObject* message = [self getMessageByKey:keyString];
+    NSManagedObject* message = [self getMessageByKey:@"keyString" value:keyString];
     [message setValue:@"1" forKey:@"isSent"];
     NSError *error = nil;
     if ( [dbHandler.managedObjectContext save:&error]){
@@ -96,7 +96,7 @@
     
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     
-    NSManagedObject* message = [self getMessageByKey:keyString];
+    NSManagedObject* message = [self getMessageByKey:@"keyString" value:keyString];
     [dbHandler.managedObjectContext deleteObject:message];
     NSError *error = nil;
   
@@ -182,24 +182,16 @@
     }  
 }
 
-- (NSManagedObject *)getMessageByKey:(NSString *) keyString{
+- (NSManagedObject *)getMessageByKey:(NSString *) key value:(NSString*) value{
     
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
-
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"keyString = %@",keyString];
-    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K=%@",key,value];
     [fetchRequest setEntity:entity];
-    
     [fetchRequest setPredicate:predicate];
-    
     NSError *fetchError = nil;
-    
     NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
-    
     if (result.count > 0) {
         NSManagedObject* message = [result objectAtIndex:0];
         return message;
@@ -413,27 +405,33 @@
     // file meta info
     
     ALFileMetaInfo * theFileMeta = [ALFileMetaInfo new];
-    
     theFileMeta.blobKeyString = theEntity.fileMetaInfo.blobKeyString;
-    
     theFileMeta.contentType = theEntity.fileMetaInfo.contentType;
-    
     theFileMeta.createdAtTime = theEntity.fileMetaInfo.createdAtTime;
-    
     theFileMeta.keyString = theEntity.fileMetaInfo.keyString;
-    
     theFileMeta.name = theEntity.fileMetaInfo.name;
-    
     theFileMeta.size = theEntity.fileMetaInfo.size;
-    
     theFileMeta.suUserKeyString = theEntity.fileMetaInfo.suUserKeyString;
-    
     theFileMeta.thumbnailUrl = theEntity.fileMetaInfo.thumbnailUrl;
-    
     theMessage.fileMetas = theFileMeta;
-    
     return theMessage;
 }
 
+-(void) updateFileMetaInfo:(ALMessage *) almessage{
+    
+    NSError *error=nil;
+    DB_Message * db_Message = (DB_Message*)[self getMeesageById:almessage.msgDBObjectId error:&error];
+    almessage.fileMetaKeyStrings = @[almessage.fileMetas.keyString];
+    
+    db_Message.fileMetaInfo.blobKeyString = almessage.fileMetas.blobKeyString;
+    db_Message.fileMetaInfo.contentType = almessage.fileMetas.contentType;
+    db_Message.fileMetaInfo.createdAtTime = almessage.fileMetas.createdAtTime;
+    db_Message.fileMetaInfo.keyString = almessage.fileMetas.keyString;
+    db_Message.fileMetaInfo.name = almessage.fileMetas.name;
+    db_Message.fileMetaInfo.size = almessage.fileMetas.size;
+    db_Message.fileMetaInfo.suUserKeyString = almessage.fileMetas.suUserKeyString;
+    [[ALDBHandler sharedInstance].managedObjectContext save:nil];
+    
+}
 
 @end

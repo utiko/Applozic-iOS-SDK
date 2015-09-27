@@ -151,15 +151,7 @@ ALMessageDBService  * dbService;
     [self.mSendMessageTextField setText:nil];
     self.mTotalCount = self.mTotalCount+1;
     self.startIndex = self.startIndex + 1;
-    [ALMessageService sendMessages:theMessage withCompletion:^(NSString *message, NSError *error) {
-        if (error) {
-            NSLog(@"%@",error);
-            return ;
-        }
-        theMessage.sent = true;
-        theMessage.keyString = message;
-        [self.mTableView reloadData];
-    }];
+    [ self sendMessage:theMessage];
 }
 
 
@@ -359,7 +351,7 @@ ALMessageDBService  * dbService;
     message.inProgress = YES;
 
     NSMutableArray * theCurrentConnectionsArray = [[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue];
-    NSArray * theFiletredArray = [theCurrentConnectionsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keystring == %@", message.fileMetas.keyString]];
+    NSArray * theFiletredArray = [theCurrentConnectionsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keystring == %@", message.keyString]];
     if (theFiletredArray.count == 0){
         message.isUploadFailed = NO;
         message.inProgress=YES;
@@ -373,7 +365,7 @@ ALMessageDBService  * dbService;
         if ([message.type isEqualToString:@"5"]) { // upoad
             [self uploadImage:message];
         }else { //download
-            [self processImageDownloadforMessage:message withTag:index];
+            [ALMessageService processImageDownloadforMessage:message withdelegate:self];
         }
     }else{
         NSLog(@"connection already present do nothing###");
@@ -382,195 +374,89 @@ ALMessageDBService  * dbService;
 }
 
 -(void)stopDownloadForIndex:(int)index andMessage:(ALMessage *)message {
-
+    
     ALChatCell_Image *imageCell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     imageCell.progresLabel.alpha = 0;
     imageCell.mDowloadRetryButton.alpha = 1;
     message.inProgress = NO;
-
-    NSMutableArray * theCurrentConnectionsArray = [[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue];
-    NSArray * theFiletredArray = nil;
-
+    [self handleErrorStatus:message];
     if ([message.type isEqualToString:@"5"]) { // retry or cancel
-        theFiletredArray = [theCurrentConnectionsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"connectionTag == %d", index]];
-        if (theFiletredArray.count != 0) { // cancel
-            message.isUploadFailed = YES;
-            [imageCell.mDowloadRetryButton setTitle:[message.fileMetas getTheSize] forState:UIControlStateNormal];
-            [imageCell.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_upload.png"] forState:UIControlStateNormal];
-
-            ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
-            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-            fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.thumbnailUrl == %@",message.fileMetas.thumbnailUrl];
-
-            NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
-
-            DB_Message  * smsEntity = theArray[0];
-            smsEntity.isUploadFailed = [NSNumber numberWithBool:YES];
-            smsEntity.inProgress = [NSNumber numberWithBool:NO];
-            [theDBHandler.managedObjectContext save:nil];
-
-            [self cancelImageDownloadForMessage:message withtag:index];
-        }
-
+        
+        [self releaseConnection:message.imageFilePath];
     }
     else // download or cancel
     {
-        theFiletredArray = [theCurrentConnectionsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keystring == %@", message.fileMetas.keyString]];
-        if (theFiletredArray.count != 0) { // cancel
-            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-            fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.keyString == %@",message.fileMetas.keyString];
-            NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
-            DB_Message  * smsEntity = theArray[0];
-            smsEntity.inProgress = [NSNumber numberWithBool:NO];
-            [[ALDBHandler sharedInstance].managedObjectContext save:nil];
-            [self cancelImageDownloadForMessage:message withtag:index];
-        }
+         [self releaseConnection:message.keyString];
+         [self handleErrorStatus:message];
     }
+
 }
-
--(void) processImageDownloadforMessage:(ALMessage *) message withTag:(int) tag
-{
-    NSString * urlString = [NSString stringWithFormat:@"%@/%@",APPLOGIC_IMAGEDOWNLOAD_BASEURL,message.fileMetas.keyString];
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:urlString paramString:nil];
-    ALConnection * connection = [[ALConnection alloc] initWithRequest:theRequest delegate:self startImmediately:YES];
-    connection.keystring = message.fileMetas.keyString;
-    connection.connectionTag = tag;
-    connection.connectionType = @"Image Downloading";
-    [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] addObject:connection];
-}
-
--(void) cancelImageDownloadForMessage:(ALMessage *) message withtag:(int) tag
-{
-    // cancel connection
-    NSMutableArray * theConnectionArray =  [[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue];
-    ALConnection * connection = [[theConnectionArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"connectionTag == %d",tag]] objectAtIndex:0];
-    [connection cancel];
-    [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
-}
-
-
 
 #pragma mark connection delegates
 
+//Progress
 -(void)connection:(ALConnection *)connection didReceiveData:(NSData *)data
 {
-    
-    NSLog(@"###connection didReceiveData :didReceiveData");
-    
     [connection.mData appendData:data];
     if ([connection.connectionType isEqualToString:@"Image Posting"]) {
-
-    }else {
-        NSIndexPath *path = [NSIndexPath indexPathForRow:connection.connectionTag inSection:0];
-        ALChatCell_Image *cell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:path];
-        cell.mMessage.fileMetas.progressValue = [self bytesConvertsToDegree:[cell.mMessage.fileMetas.size floatValue] comingBytes:(CGFloat)connection.mData.length];
-        NSLog(@"%lu %f",(unsigned long)connection.mData.length,[cell.mMessage.fileMetas.size floatValue]);
+        NSLog(@" file posting done");
+        return;
     }
+    NSLog(@"####didReceiveData ...");
+
+    ALChatCell_Image*  cell=  [self getCell:connection.keystring];
+    cell.mMessage.fileMetas.progressValue = [self bytesConvertsToDegree:[cell.mMessage.fileMetas.size floatValue] comingBytes:(CGFloat)connection.mData.length];
+    
 }
 
--(CGFloat)bytesConvertsToDegree:(CGFloat)totalBytesExpectedToWrite comingBytes:(CGFloat)totalBytesWritten {
-    CGFloat  totalBytes = totalBytesExpectedToWrite;
-    CGFloat writtenBytes = totalBytesWritten;
-    CGFloat divergence = totalBytes/360;
-    CGFloat degree = writtenBytes/divergence;
-    return degree;
+
+-(void)connection:(ALConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
+    NSLog(@"####didSendBodyData ...");
+    ALChatCell_Image*  cell=  [self getCell:connection.keystring];
+    cell.mMessage.fileMetas.progressValue = [self bytesConvertsToDegree:totalBytesExpectedToWrite comingBytes:totalBytesWritten];
+    
 }
+
+//Finishing
 
 -(void)connectionDidFinishLoading:(ALConnection *)connection {
-    NSLog(@"###connection didReceiveData :didReceiveData");
-
-
+    
+    [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
+    
     if ([connection.connectionType isEqualToString:@"Image Posting"]) {
-        NSLog(@"%@",[[NSString alloc] initWithData:connection.mData encoding:NSUTF8StringEncoding]);
-        [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
+        ALMessage * message = [self getMessageFromViewList:@"imageFilePath" withValue:connection.keystring];
         NSError * theJsonError = nil;
         NSDictionary *theJson = [NSJSONSerialization JSONObjectWithData:connection.mData options:NSJSONReadingMutableLeaves error:&theJsonError];
         NSDictionary *fileInfo = [theJson objectForKey:@"fileMeta"];
-
-        ALMessage *theMessage = [self.mMessageListArray objectAtIndex:connection.connectionTag];
-        NSLog(@"%@",[fileInfo objectForKey:@"blobKeyString"]);
-        NSString *localFileURL = theMessage.fileMetas.thumbnailUrl;
-        theMessage.fileMetas.blobKeyString = [fileInfo objectForKey:@"blobKeyString"];
-        theMessage.fileMetas.contentType = [fileInfo objectForKey:@"contentType"];
-        theMessage.fileMetas.createdAtTime = [fileInfo objectForKey:@"createdAtTime"];
-        theMessage.fileMetas.keyString = [fileInfo objectForKey:@"keyString"];
-        theMessage.fileMetas.name = [fileInfo objectForKey:@"name"];
-        theMessage.fileMetas.size = [fileInfo objectForKey:@"size"];
-        theMessage.fileMetas.suUserKeyString = [fileInfo objectForKey:@"suUserKeyString"];
-        theMessage.fileMetas.thumbnailUrl = [fileInfo objectForKey:@"thumbnailUrl"];
-        theMessage.fileMetaKeyStrings = @[theMessage.fileMetas.keyString];
-
-        DB_FileMetaInfo * theFileMetaInfo = connection.fileMetaInfo;
-        theFileMetaInfo.blobKeyString = theMessage.fileMetas.blobKeyString;
-        theFileMetaInfo.contentType = theMessage.fileMetas.contentType;
-        theFileMetaInfo.createdAtTime = theMessage.fileMetas.createdAtTime;
-        theFileMetaInfo.keyString = theMessage.fileMetas.keyString;
-        theFileMetaInfo.name = theMessage.fileMetas.name;
-        theFileMetaInfo.size = theMessage.fileMetas.size;
-        theFileMetaInfo.suUserKeyString = theMessage.fileMetas.suUserKeyString;
-
-        ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-        
-        [ALMessageService sendMessages:theMessage withCompletion:^(NSString *message, NSError *error) {
-
-            if (error) {
-
-                NSLog(@"%@",error);
-
-                return ;
-            }
-            theMessage.sent = YES;
-            theMessage.keyString = message;
-            theMessage.fileMetas.thumbnailUrl = localFileURL;
-            theMessage.inProgress = NO;
-            theMessage.isUploadFailed = NO;
-            NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-            fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.keyString == %@",theMessage.fileMetas.keyString];
-            NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
-            DB_Message  * smsEntity = theArray[0];
-            smsEntity.isSent = [NSNumber numberWithBool:YES];
-            smsEntity.keyString = message;
-            smsEntity.inProgress = [NSNumber numberWithBool:NO];
-            smsEntity.isUploadFailed = [NSNumber numberWithBool:NO];
-            [theDBHandler.managedObjectContext save:nil];
-
-            [self.mTableView reloadData];
-        }];
-
+        [message.fileMetas populate:fileInfo ];
+        ALMessage * almessage =  [ALMessageService processFileUploadSucess:message];
+        [self sendMessage:almessage ];
     }else {
-        // remove connection
-        [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
-        // save file to doc
+        
+        dbService = [[ALMessageDBService alloc]init];
         NSString * docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSString * filePath = [docPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.local",connection.keystring]];
         [connection.mData writeToFile:filePath atomically:YES];
         // update db
-        NSFetchRequest * fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"fileMetaInfo.keyString == %@",connection.keystring];
-        NSArray * theArray = [[ALDBHandler sharedInstance].managedObjectContext executeFetchRequest:fetchRequest error:nil];
-        DB_Message  * smsEntity = theArray[0];
-        smsEntity.isStoredOnDevice = [NSNumber numberWithBool:YES];
+        DB_Message * smsEntity = (DB_Message*)[dbService getMessageByKey:@"keyString" value:connection.keystring];
         smsEntity.inProgress = [NSNumber numberWithBool:NO];
+        smsEntity.isUploadFailed=[NSNumber numberWithBool:NO];
         smsEntity.filePath = [NSString stringWithFormat:@"%@.local",connection.keystring];
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
-        // reload tableview
-        NSArray * filteredArray = [self.mMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"fileMetas.keyString == %@",connection.keystring]];
-
-        if (filteredArray.count > 0) {
-            ALMessage * message = filteredArray[0];
-            message.storeOnDevice = YES;
-            message.inProgress = NO;
-            message.imageFilePath = [NSString stringWithFormat:@"%@.local",connection.keystring];
-        }
+        ALMessage * message = [self getMessageFromViewList:@"imageFilePath" withValue:connection.keystring];
+        message.isUploadFailed =NO;
+        message.inProgress=NO;
         [self.mTableView reloadData];
     }
+    
 }
 
+//Error
 -(void)connection:(ALConnection *)connection didFailWithError:(NSError *)error
 {
   //Tag should be something else...
-    ALChatCell_Image *imageCell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:connection.connectionTag inSection:0]];
     
+    ALChatCell_Image*  imageCell=  [self getCell:connection.keystring];
     imageCell.progresLabel.alpha = 0;
     imageCell.mDowloadRetryButton.alpha = 1;
     [self handleErrorStatus:imageCell.mMessage];
@@ -578,20 +464,7 @@ ALMessageDBService  * dbService;
     [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
 }
 
--(void)connection:(ALConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
-    NSLog(@"###connection didSendBodyData :didSendBodyData");
 
-    NSLog(@"bytesWritten %ld",(long)bytesWritten);
-    NSLog(@"totalBytesWritten %ld",(long)totalBytesWritten);
-    NSLog(@"totalBytesExpectedToWrite %ld",(long)totalBytesExpectedToWrite);
-
-    NSIndexPath *path = [NSIndexPath indexPathForRow:connection.connectionTag inSection:0];
-    ALChatCell_Image *cell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:path];
-    //[self bytesConvertsToDegree:totalBytesExpectedToWrite comingBytes:totalBytesWritten];
-    cell.mMessage.fileMetas.progressValue = [self bytesConvertsToDegree:totalBytesExpectedToWrite comingBytes:totalBytesWritten];
-    NSLog(@"###frogressValue : %f",cell.mMessage.fileMetas.progressValue);
-    NSLog(@"%lu %f",(unsigned long)connection.mData.length,[cell.mMessage.fileMetas.size floatValue]);
-}
 
 #pragma mark image picker delegates
 
@@ -676,9 +549,8 @@ ALMessageDBService  * dbService;
                 [self handleErrorStatus:theMessage];
                 return ;
             }
-            NSInteger tag = [self.mMessageListArray indexOfObject:theMessage];
-            //Move this to service class....
-            [ALMessageService proessUploadImageForMessage:theMessage databaseObj:dbMessage.fileMetaInfo uploadURL:message withTag:tag withdelegate:self];
+            
+            [ALMessageService proessUploadImageForMessage:theMessage databaseObj:dbMessage.fileMetaInfo uploadURL:message  withdelegate:self];
         }];
     }
 }
@@ -748,5 +620,68 @@ ALMessageDBService  * dbService;
     
 }
 
+-(void) releaseConnection:(NSString *) key
+{
+    // cancel connection
+    NSLog(@"found connection for : %@",key);
 
+    NSMutableArray * theConnectionArray =  [[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue];
+    ALConnection * connection = [[theConnectionArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keystring == %@",key]] objectAtIndex:0];
+    NSLog(@"found connection for : %@",key);
+    [connection cancel];
+    [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
+}
+
+-(ALChatCell_Image *) getCell:(NSString *)key{
+
+    int index=(int) [self.mMessageListArray indexOfObjectPassingTest:^BOOL(id element,NSUInteger idx,BOOL *stop)
+                     {
+                         ALMessage *message = (ALMessage*)element;
+                         
+                         if( ([ message.type isEqualToString:@"4" ]&& [ message.keyString isEqualToString:key ] )||
+                             ([ message.type isEqualToString:@"5" ]&& [ message.imageFilePath isEqualToString:key ]) )
+                         {
+                             *stop = YES;
+                             return YES;
+                         }
+                         return NO;
+                     }];
+    
+    
+    //NSLog(@"found cell ... %lu",(unsigned long)index );
+    NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
+    ALChatCell_Image *cell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:path];
+    //NSLog(@" found cell ... %@",cell);
+    return cell;
+}
+
+-(void)sendMessage:(ALMessage* )theMessage{
+    
+    [ALMessageService sendMessages:theMessage withCompletion:^(NSString *message, NSError *error) {
+        if (error) {
+            NSLog(@"%@",error);
+            [self handleErrorStatus:theMessage];
+            return ;
+        }
+        [self.mTableView reloadData];
+    }];
+
+}
+
+-(CGFloat)bytesConvertsToDegree:(CGFloat)totalBytesExpectedToWrite comingBytes:(CGFloat)totalBytesWritten {
+    CGFloat  totalBytes = totalBytesExpectedToWrite;
+    CGFloat writtenBytes = totalBytesWritten;
+    CGFloat divergence = totalBytes/360;
+    CGFloat degree = writtenBytes/divergence;
+    return degree;
+}
+- (ALMessage* )getMessageFromViewList:(NSString *)key withValue:(NSString*)value{
+    
+    NSArray * filteredArray = [self.mMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%K == %@",key,value]];
+    if (filteredArray.count > 0) {
+        return filteredArray[0];
+    }
+
+    return nil;
+}
 @end

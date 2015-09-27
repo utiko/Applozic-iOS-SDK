@@ -11,11 +11,8 @@
 
 @interface ALConnection : NSURLConnection
 
-@property (nonatomic,assign) int connectionTag;
 @property (nonatomic, strong) NSString *connectionType;
 @property (nonatomic,retain) NSMutableData * mData;
-@property (nonatomic,copy) NSString * keystring;
-@property (nonatomic,retain)NSString * msgDbObjectId;
-@property (nonatomic, strong) DB_FileMetaInfo *fileMetaInfo;
+@property (nonatomic,assign) NSString * keystring;
 
 @end

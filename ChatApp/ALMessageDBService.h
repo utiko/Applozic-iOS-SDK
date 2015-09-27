@@ -27,11 +27,15 @@
 -(void)getMessages;
 -(NSManagedObject *)getMeesageById:(NSManagedObjectID *)objectID
                              error:(NSError **)error;
+- (NSManagedObject *)getMessageByKey:(NSString *) key value:(NSString*) value;
+
+
+
 
 //update Message APIS
 -(void)updateMessageDeliveryReport:(NSString*) messageKeyString;
 -(void)updateMessageSyncStatus:(NSString*) keyString;
-
+-(void)updateFileMetaInfo:(ALMessage *) almessage;
 
 //Delete Message APIS
 
@@ -46,7 +50,6 @@
 -(DB_Message *) createSMSEntityForDBInsertionWithMessage:(ALMessage *) theMessage;
 -(DB_FileMetaInfo *) createFileMetaInfoEntityForDBInsertionWithMessage:(ALFileMetaInfo *) fileInfo;
 -(ALMessage *) createMessageForSMSEntity:(DB_Message *) theEntity;
-
 
 
 @property(nonatomic,weak) id <ALMessagesDelegate>delegate;
