@@ -9,6 +9,7 @@
 #import "ALDBHandler.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALLoginViewController.h"
+#import "ALRegisterUserClientService.h"
 
 @interface AppDelegate ()
 
@@ -67,6 +68,30 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     
     [[ALDBHandler sharedInstance] saveContext];
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    NSLog(@"My token is: %@", deviceToken);
+    NSString *apnDeviceToken = [[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding];
+
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+    
+    [registerUserClientService updateApnDeviceTokenWithCompletion:apnDeviceToken withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
+        if (error) {
+            NSLog(@"%@",error);
+           
+            return ;
+        }
+        
+        NSLog(@"Registration response from server:%@", rResponse);
+    }];
+
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+    NSLog(@"Failed to get token, error: %@", error);
 }
 
 @end

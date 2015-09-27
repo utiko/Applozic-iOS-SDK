@@ -13,6 +13,7 @@
 #define USER_KEY_STRING @"USER_KEY_STRING"
 #define EMAIL_ID @"EMAIL_ID"
 #define USER_ID @"USER_ID"
+#define APN_DEVICE_TOKEN @"APN_DEVICE_TOKEN"
 #define LAST_SYNC_TIME @"LAST_SYNC_TIME"
 #define CONVERSATION_DB_SYNCED @"CONVERSATION_DB_SYNCED"
 
@@ -30,6 +31,10 @@
 +(void) setApplicationKey: (NSString*) applicationKey;
 
 +(void) setEmailVerified: (BOOL) value;
+
++(void) setApnDeviceToken: (NSString*) apnDeviceToken;
+
++(NSString *) getApnDeviceToken;
 
 +(void) setBoolForKey_isConversationDbSynced:(BOOL) value;
 
