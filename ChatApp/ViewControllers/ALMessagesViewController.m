@@ -174,10 +174,16 @@
 //------------------------------------------------------------------------------------------------------------------
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    ALChatViewController * theVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
-    theVC.mLatestMessage =  self.mContactsMessageListArray[indexPath.row];
-    [self.navigationController pushViewController:theVC animated:YES];
+    
+    ALMessage * message=  self.mContactsMessageListArray[indexPath.row];
+    
+    if (!(self.detailChatViewController))
+    {
+        _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+    }
+    _detailChatViewController.contactIds = message.contactIds;
+    [self.navigationController pushViewController:_detailChatViewController animated:YES];
+    
 }
 
 

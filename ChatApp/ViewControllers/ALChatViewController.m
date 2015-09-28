@@ -50,7 +50,6 @@ ALMessageDBService  * dbService;
 //------------------------------------------------------------------------------------------------------------------
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
     [self initialSetUp];
     [self fetchMessageFromDB];
@@ -59,7 +58,6 @@ ALMessageDBService  * dbService;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-}
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
@@ -85,14 +83,12 @@ ALMessageDBService  * dbService;
     [self.mTableView registerClass:[ALChatCell class] forCellReuseIdentifier:@"ChatCell"];
     [self.mTableView registerClass:[ALChatCell_Image class] forCellReuseIdentifier:@"ChatCell_Image"];
 
-    self.navigationItem.title = self.mLatestMessage.contactIds;
 }
 
 -(void)fetchMessageFromDB {
 
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-    theRequest.predicate = [NSPredicate predicateWithFormat:@"contactId = %@",self.mLatestMessage.contactIds];
     self.mTotalCount = [theDbHandler.managedObjectContext countForFetchRequest:theRequest error:nil];
     NSLog(@"%lu",(unsigned long)self.mTotalCount);
 }
@@ -217,9 +213,7 @@ ALMessageDBService  * dbService;
 
     theMessage.type = @"5";
 
-    theMessage.contactIds = self.mLatestMessage.contactIds;//1
 
-    theMessage.to = self.mLatestMessage.to;//2
 
     theMessage.createdAtTime = [NSString stringWithFormat:@"%ld",(long)[[NSDate date] timeIntervalSince1970]*1000];
 
@@ -273,7 +267,6 @@ ALMessageDBService  * dbService;
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     [theRequest setFetchLimit:self.rp];
-    theRequest.predicate = [NSPredicate predicateWithFormat:@"contactId = %@",self.mLatestMessage.contactIds];
     [theRequest setFetchOffset:self.startIndex];
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
 
@@ -405,7 +398,6 @@ ALMessageDBService  * dbService;
     NSLog(@"####didReceiveData ...");
 
     ALChatCell_Image*  cell=  [self getCell:connection.keystring];
-    cell.mMessage.fileMetas.progressValue = [self bytesConvertsToDegree:[cell.mMessage.fileMetas.size floatValue] comingBytes:(CGFloat)connection.mData.length];
     
 }
 
@@ -422,7 +414,6 @@ ALMessageDBService  * dbService;
 -(void)connectionDidFinishLoading:(ALConnection *)connection {
     
     [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
-    
     if ([connection.connectionType isEqualToString:@"Image Posting"]) {
         ALMessage * message = [self getMessageFromViewList:@"imageFilePath" withValue:connection.keystring];
         NSError * theJsonError = nil;
@@ -433,7 +424,6 @@ ALMessageDBService  * dbService;
         [self sendMessage:almessage ];
     }else {
         
-        dbService = [[ALMessageDBService alloc]init];
         NSString * docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSString * filePath = [docPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.local",connection.keystring]];
         [connection.mData writeToFile:filePath atomically:YES];
@@ -444,11 +434,6 @@ ALMessageDBService  * dbService;
         smsEntity.filePath = [NSString stringWithFormat:@"%@.local",connection.keystring];
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
         ALMessage * message = [self getMessageFromViewList:@"keyString" withValue:connection.keystring];
-        message.isUploadFailed =NO;
-        message.inProgress=NO;
-        message.imageFilePath =  smsEntity.filePath;
-
-        [self.mTableView reloadData];
     }
     
 }
@@ -650,10 +635,8 @@ ALMessageDBService  * dbService;
                      }];
     
     
-    //NSLog(@"found cell ... %lu",(unsigned long)index );
     NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
     ALChatCell_Image *cell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:path];
-    //NSLog(@" found cell ... %@",cell);
     return cell;
 }
 

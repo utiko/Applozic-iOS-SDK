@@ -13,6 +13,6 @@
 
 @property (nonatomic, strong) NSString *connectionType;
 @property (nonatomic,retain) NSMutableData * mData;
-@property (nonatomic,assign) NSString * keystring;
+@property (nonatomic,strong) NSString * keystring;
 
 @end
