@@ -10,6 +10,7 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALLoginViewController.h"
 #import "ALRegisterUserClientService.h"
+#import "ALPushNotificationService.h"
 
 @interface AppDelegate ()
 
@@ -49,17 +50,25 @@
         if (dictionary != nil)
         {
             NSLog(@"Launched from push notification: %@", dictionary);
-            [self addMessageFromRemoteNotification:dictionary updateUI:NO];
+            ALPushNotificationService *pushNotificationService = [ALPushNotificationService init];
+            BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:NO];
+            if (!applozicProcessed) {
+                //Note: notification for app
+            }
         }
     }
     
     return YES;
 }
 
-- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary
 {
-    NSLog(@"Received notification: %@", userInfo);
-    [self addMessageFromRemoteNotification:userInfo updateUI:YES];
+    NSLog(@"Received notification: %@", dictionary);
+    ALPushNotificationService *pushNotificationService = [ALPushNotificationService init];
+    BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:YES];
+    if (!applozicProcessed) {
+        //Note: notification for app
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -113,32 +122,6 @@
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
     NSLog(@"Failed to get token, error: %@", error);
-}
-
-- (void)addMessageFromRemoteNotification:(NSDictionary*)userInfo updateUI:(BOOL)updateUI
-{
-    NSString *alertValue = [[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
-    NSLog(@"Alert: %@", alertValue);
-    /*UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
-    ChatViewController *chatViewController =
-    (ChatViewController*)[navigationController.viewControllers  objectAtIndex:0];
-    
-    DataModel *dataModel = chatViewController.dataModel;
-    
-    Message *message = [[Message alloc] init];
-    message.date = [NSDate date];
-    
-    NSString *alertValue = [[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
-    
-    NSMutableArray *parts = [NSMutableArray arrayWithArray:[alertValue componentsSeparatedByString:@": "]];
-    message.senderName = [parts objectAtIndex:0];
-    [parts removeObjectAtIndex:0];
-    message.text = [parts componentsJoinedByString:@": "];
-    
-    int index = [dataModel addMessage:message];
-    
-    if (updateUI)
-        [chatViewController didSaveMessage:message atIndex:index];*/
 }
 
 @end
