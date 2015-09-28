@@ -443,9 +443,11 @@ ALMessageDBService  * dbService;
         smsEntity.isUploadFailed=[NSNumber numberWithBool:NO];
         smsEntity.filePath = [NSString stringWithFormat:@"%@.local",connection.keystring];
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
-        ALMessage * message = [self getMessageFromViewList:@"imageFilePath" withValue:connection.keystring];
+        ALMessage * message = [self getMessageFromViewList:@"keyString" withValue:connection.keystring];
         message.isUploadFailed =NO;
         message.inProgress=NO;
+        message.imageFilePath =  smsEntity.filePath;
+
         [self.mTableView reloadData];
     }
     
