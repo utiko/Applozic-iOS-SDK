@@ -24,6 +24,11 @@
 
 
 +(void) getLatestMessageForUser:(NSString *)deviceKeyString lastSyncTime:(NSString*) lastSyncTime withCompletion:(void(^)(ALMessageList * message, NSError *error)) completion;
-+(void)proessUploadImageForMessage:(ALMessage *)message databaseObj:(DB_FileMetaInfo *)fileMetaInfo uploadURL:(NSString *)uploadURL  withTag:(NSInteger)tag withdelegate:(id)delegate;
++(void)proessUploadImageForMessage:(ALMessage *)message databaseObj:(DB_FileMetaInfo *)fileMetaInfo uploadURL:(NSString *)uploadURL withdelegate:(id)delegate;
+
++(void) processImageDownloadforMessage:(ALMessage *) message withdelegate:(id)delegate;
+
++(ALMessage*) processFileUploadSucess: (ALMessage *)message;
+
 
 @end

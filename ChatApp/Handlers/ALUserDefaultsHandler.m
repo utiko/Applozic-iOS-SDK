@@ -33,12 +33,25 @@
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
 }
 
-+(void) setEmailVerified:(BOOL)value {
++(void) setApnDeviceToken:(NSString *)apnDeviceToken
+{
+    [[NSUserDefaults standardUserDefaults] setValue:apnDeviceToken forKey:APN_DEVICE_TOKEN];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString*) getApnDeviceToken
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:APN_DEVICE_TOKEN];
+}
+
++(void) setEmailVerified:(BOOL)value
+{
     [[NSUserDefaults standardUserDefaults] setBool:value forKey:EMAIL_VERIFIED];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(void) getEmailVerified:(BOOL)value {
++(void) getEmailVerified
+{
     [[NSUserDefaults standardUserDefaults] boolForKey: EMAIL_VERIFIED];
 }
 

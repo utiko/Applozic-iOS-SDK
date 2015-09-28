@@ -128,7 +128,7 @@
     
     if([keyPath isEqualToString:@"startDegree"] ||
        [keyPath isEqualToString:@"endDegree"]){
-        
+    
         KAProgressLabel *__unsafe_unretained weakSelf = self;
         if(self.labelVCBlock) {
             self.labelVCBlock(weakSelf);
@@ -195,6 +195,7 @@
 
 -(void)setEndDegree:(CGFloat)endDegree timing:(TPPropertyAnimationTiming)timing duration:(CGFloat)duration delay:(CGFloat)delay
 {
+     NSLog(@" ### setEndDegree called....");
     TPPropertyAnimation *animation = [TPPropertyAnimation propertyAnimationWithKeyPath:@"endDegree"];
     animation.fromValue = @(_endDegree+90);
     animation.toValue = @(endDegree);
@@ -204,6 +205,7 @@
     [animation beginWithTarget:self];
     
     _currentAnimation = animation;
+   
 }
 
 -(void)setProgress:(CGFloat)progress timing:(TPPropertyAnimationTiming)timing duration:(CGFloat)duration delay:(CGFloat)delay

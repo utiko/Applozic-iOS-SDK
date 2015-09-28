@@ -260,7 +260,6 @@
         [_mMessage.fileMetas removeObserver:self forKeyPath:@"progressValue" context:nil];
     }
     _mMessage = mMessage;
-    
     [_mMessage.fileMetas addObserver:self forKeyPath:@"progressValue" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 }
 
@@ -268,7 +267,9 @@
 {
     ALFileMetaInfo *metaInfo=(ALFileMetaInfo *)object;
     [self setNeedsDisplay];
+    self.progresLabel.startDegree =0;
     self.progresLabel.endDegree = metaInfo.progressValue;
+    NSLog(@"##observer is called....%f",self.progresLabel.endDegree );
 }
 
 - (CGSize)getSizeForText:(NSString *)text maxWidth:(CGFloat)width font:(NSString *)fontName fontSize:(float)fontSize {

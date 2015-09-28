@@ -30,7 +30,7 @@
     [user setEmailVerified:true];
     [user setDeviceType:4];
     [user setAppVersionCode: @"71"];
-    
+    [user setRegistrationId: [ALUserDefaultsHandler getApnDeviceToken]];
     
     //NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
     NSError *error;
@@ -80,6 +80,19 @@
         
     }];
     
+}
+
+-(void) updateApnDeviceTokenWithCompletion:(NSString *)apnDeviceToken withCompletion:(void(^)(ALRegistrationResponse * response, NSError *error)) completion
+{
+    [ALUserDefaultsHandler setApnDeviceToken:apnDeviceToken];
+    if ([ALUserDefaultsHandler isLoggedIn])
+    {
+        //call server again
+        ALUser *user = [[ALUser alloc] init];
+        [user setApplicationId: [ALUserDefaultsHandler getApplicationKey]];
+        [user setUserId:[ALUserDefaultsHandler getUserId]];
+        [self initWithCompletion:user withCompletion: completion];
+    }
 }
 
 -(void) logout

@@ -108,12 +108,22 @@
         ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
         dbMessage.isSent = [NSNumber numberWithBool:YES];
         dbMessage.keyString = response[0];
+        dbMessage.inProgress = [NSNumber numberWithBool:NO];
+        dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
         NSString * createdAtFromServer =(NSString*)response[1] ;
         NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
         f.numberStyle = NSNumberFormatterDecimalStyle;
         dbMessage.createdAt = [f numberFromString:createdAtFromServer];
+        alMessage.keyString = dbMessage.keyString;
         NSLog(@"saving key String%@", dbMessage.keyString);
         dbMessage.sentToServer=[NSNumber numberWithBool:YES];
+        
+        alMessage.keyString = dbMessage.keyString;
+        alMessage.sentToServer= dbMessage.sentToServer.boolValue;
+        alMessage.inProgress=dbMessage.inProgress.boolValue;
+        alMessage.isUploadFailed=dbMessage.isUploadFailed.boolValue;
+        alMessage.sent = dbMessage.isSent.boolValue;
+
         [theDBHandler.managedObjectContext save:nil];
         completion(statusStr,nil);
         
@@ -215,7 +225,7 @@
 }
 
 
-+(void) proessUploadImageForMessage:(ALMessage *)message databaseObj:(DB_FileMetaInfo *)fileMetaInfo uploadURL:(NSString *)uploadURL  withTag:(NSInteger)tag withdelegate:(id)delegate{
++(void) proessUploadImageForMessage:(ALMessage *)message databaseObj:(DB_FileMetaInfo *)fileMetaInfo uploadURL:(NSString *)uploadURL withdelegate:(id)delegate{
     
     NSString * docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString * timestamp = message.imageFilePath;
@@ -256,10 +266,38 @@
         // set URL
         [request setURL:[NSURL URLWithString:uploadURL]];
         ALConnection * connection = [[ALConnection alloc] initWithRequest:request delegate:delegate startImmediately:YES];
-        connection.connectionTag = (int)tag;
+        connection.keystring =message.imageFilePath;
         connection.connectionType = @"Image Posting";
-        connection.fileMetaInfo = fileMetaInfo;
+        //connection.msgDbObjectId = message.msgDBObjectId;
+       
         [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] addObject:connection];
+    
     }
+  
 }
++(void) processImageDownloadforMessage:(ALMessage *) message withdelegate:(id)delegate{
+    NSString * urlString = [NSString stringWithFormat:@"%@/%@",APPLOGIC_IMAGEDOWNLOAD_BASEURL,message.fileMetas.keyString];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:urlString paramString:nil];
+    ALConnection * connection = [[ALConnection alloc] initWithRequest:theRequest delegate:delegate startImmediately:YES];
+    connection.keystring = message.keyString;
+    connection.connectionType = @"Image Downloading";
+    [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] addObject:connection];
+}
+
++(ALMessage*) processFileUploadSucess: (ALMessage *) message{
+    
+    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+    DB_Message *dbMessage =  (DB_Message*)[dbService getMessageByKey:@"filePath" value:message.imageFilePath];
+    
+    dbMessage.fileMetaInfo.blobKeyString = message.fileMetas.blobKeyString;
+    dbMessage.fileMetaInfo.contentType = message.fileMetas.contentType;
+    dbMessage.fileMetaInfo.createdAtTime = message.fileMetas.createdAtTime;
+    dbMessage.fileMetaInfo.keyString = message.fileMetas.keyString;
+    dbMessage.fileMetaInfo.name = message.fileMetas.name;
+    dbMessage.fileMetaInfo.size = message.fileMetas.size;
+    dbMessage.fileMetaInfo.suUserKeyString = message.fileMetas.suUserKeyString;
+    [ dbService updateFileMetaInfo:message];
+    return message;
+}
+
 @end

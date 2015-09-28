@@ -10,6 +10,8 @@
 
 @implementation ALFileMetaInfo
 
+
+
 -(NSString *)getTheSize
 {
     
@@ -22,6 +24,19 @@
         return [NSString stringWithFormat:@"%d kb",self.size.intValue/1024];
     }
     
+}
+
+-(ALFileMetaInfo *) populate:(NSDictionary *)dict {
+    self.blobKeyString=[dict objectForKey:@"blobKeyString"];
+    self.contentType=[dict objectForKey:@"contentType"];
+    self.createdAtTime=[dict objectForKey:@"createdAtTime"];
+    self.keyString=[dict objectForKey:@"keyString"];
+    self.name=[dict objectForKey:@"name"];
+    self.size=[dict objectForKey:@"size"];
+    self.suUserKeyString=[dict objectForKey:@"suUserKeyString"];
+    self.thumbnailUrl=[dict objectForKey:@"thumbnailUrl"];
+    return self;
+
 }
 
 @end
