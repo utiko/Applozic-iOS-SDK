@@ -29,6 +29,8 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageDBService.h"
 #import "ALImagePickerHandler.h"
+#import <CoreLocation/CoreLocation.h>
+
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate>
 
@@ -42,7 +44,15 @@
 
 @end
 
-@implementation ALChatViewController
+@implementation ALChatViewController{
+    
+        CLLocationManager *locationManager;
+        CLGeocoder *geocoder;
+        CLPlacemark *placemark;
+        NSString* googleURL;
+    
+
+}
 
 ALMessageDBService  * dbService;
 //------------------------------------------------------------------------------------------------------------------
@@ -466,8 +476,6 @@ ALMessageDBService  * dbService;
     [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
 }
 
-
-
 #pragma mark image picker delegates
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -571,7 +579,7 @@ ALMessageDBService  * dbService;
 
 -(void) showActionSheet
 {
-    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"take photo",@"photo library", nil];
+    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"current location",@"take photo",@"photo library", nil];
     [actionSheet showInView:self.view];
 }
 
@@ -586,6 +594,12 @@ ALMessageDBService  * dbService;
         [self openGallery];
 
     }]];
+    [theController addAction:[UIAlertAction actionWithTitle:@"current location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        [self getLocation];
+        
+    }]];
+
     [self presentViewController:theController animated:YES completion:nil];
 }
 
@@ -608,6 +622,68 @@ ALMessageDBService  * dbService;
     _mImagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     [self presentViewController:_mImagePicker animated:YES completion:nil];
 }
+
+-(void) getLocation
+{
+    
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+//    [locationManager startUpdatingLocation];
+    [locationManager requestLocation];
+    
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location" message:@"" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:@"Cancel", nil];
+//        [alert show];
+}
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"didFailWithError: %@", error);
+    UIAlertView *errorAlert = [[UIAlertView alloc]
+                               initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [errorAlert show];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    NSLog(@"didUpdateToLocation: %@", newLocation);
+    CLLocation *currentLocation = newLocation;
+    
+    if (currentLocation != nil) {
+        [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
+        [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
+        
+        googleURL=[NSString stringWithFormat:@"https://www.google.com/maps?q=%f,%f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude ];
+        
+        NSLog(@"::::GOOGLE URL:::: %@",googleURL );
+        
+    }
+    
+    // Reverse Geocoding
+    NSLog(@"Resolving the Address");
+    
+    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
+        if (error == nil && [placemarks count] > 0) {
+            placemark = [placemarks lastObject];
+            
+            
+            NSString* AddressLabel = [NSString stringWithFormat:@"\n%@\n%@ %@\n%@",
+                                      /*placemark.subThoroughfare, placemark.thoroughfare,*/
+                                      placemark.locality,
+                                      placemark.administrativeArea,placemark.postalCode,
+                                      placemark.country];
+            NSLog(@"::::ADDRESS::: %@",AddressLabel);
+            
+        } else {
+            NSLog(@"%@", error.debugDescription);
+        }
+    } ];
+}
+
+
+
 
 -(void) handleErrorStatus:(ALMessage *) message{
     [ALUtilityClass displayToastWithMessage:@"network error." ];
