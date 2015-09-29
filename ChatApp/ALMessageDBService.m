@@ -43,6 +43,7 @@
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     DB_Message* dbMessag = [self createSMSEntityForDBInsertionWithMessage:message];
     [theDBHandler.managedObjectContext save:nil];
+    message.msgDBObjectId = dbMessag.objectID;
     return dbMessag;
 }
 
