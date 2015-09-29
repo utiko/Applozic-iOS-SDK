@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2973A8CE1BB9F1C600F45094 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2973A8CD1BB9F1C600F45094 /* CoreLocation.framework */; };
+		6D95A3051BB971CE0047CAA6 /* ALPushNotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D95A3041BB971CE0047CAA6 /* ALPushNotificationService.m */; };
 		6DD502E81BAB43F600F68D30 /* ALLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD502E71BAB43F600F68D30 /* ALLoginViewController.m */; };
 		6DD502ED1BAB4B2400F68D30 /* ALUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD502EC1BAB4B2400F68D30 /* ALUser.m */; };
 		6DD502F01BAB4C0900F68D30 /* ALRegistrationResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD502EF1BAB4C0900F68D30 /* ALRegistrationResponse.m */; };
@@ -122,6 +123,8 @@
 
 /* Begin PBXFileReference section */
 		2973A8CD1BB9F1C600F45094 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		6D95A3031BB971CE0047CAA6 /* ALPushNotificationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALPushNotificationService.h; sourceTree = "<group>"; };
+		6D95A3041BB971CE0047CAA6 /* ALPushNotificationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALPushNotificationService.m; sourceTree = "<group>"; };
 		6DD502E61BAB43F600F68D30 /* ALLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALLoginViewController.h; sourceTree = "<group>"; };
 		6DD502E71BAB43F600F68D30 /* ALLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALLoginViewController.m; sourceTree = "<group>"; };
 		6DD502EC1BAB4B2400F68D30 /* ALUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALUser.m; path = DomainClasses/ALUser.m; sourceTree = "<group>"; };

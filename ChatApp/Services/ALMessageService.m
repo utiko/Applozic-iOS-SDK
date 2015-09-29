@@ -110,7 +110,8 @@
         dbMessage.keyString = response[0];
         dbMessage.inProgress = [NSNumber numberWithBool:NO];
         dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
-        NSString * createdAtFromServer =(NSString*)response[1] ;
+//        NSString * createdAtFromServer =(NSString*)response[1] ;
+        NSString * createdAtFromServer =[NSString stringWithFormat:@"%@",(NSString*)response[0]];
         NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
         f.numberStyle = NSNumberFormatterDecimalStyle;
         dbMessage.createdAt = [f numberFromString:createdAtFromServer];
