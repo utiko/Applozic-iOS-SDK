@@ -17,5 +17,7 @@
 
 @property (strong, nonatomic) ALMessage * mLatestMessage;
 
+@property (strong, nonatomic) NSString * contactIds;
+
 
 @end

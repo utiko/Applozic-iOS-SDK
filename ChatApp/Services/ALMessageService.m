@@ -296,7 +296,8 @@
     dbMessage.fileMetaInfo.name = message.fileMetas.name;
     dbMessage.fileMetaInfo.size = message.fileMetas.size;
     dbMessage.fileMetaInfo.suUserKeyString = message.fileMetas.suUserKeyString;
-    [ dbService updateFileMetaInfo:message];
+    message.fileMetaKeyStrings = @[message.fileMetas.keyString];
+    [[ALDBHandler sharedInstance].managedObjectContext save:nil];
     return message;
 }
 

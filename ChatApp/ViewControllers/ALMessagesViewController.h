@@ -6,8 +6,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ALChatViewController.h"
 
 @interface ALMessagesViewController : UIViewController
+
+@property(nonatomic,strong) ALChatViewController * detailChatViewController;
+
 
 @end
 

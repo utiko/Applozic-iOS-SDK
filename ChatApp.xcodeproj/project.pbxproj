@@ -304,6 +304,7 @@
 		6D8EE6BD1BB5A736005DF5DA /* ApplozicLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				6D95A2FC1BB96C1F0047CAA6 /* push */,
 				6D8EE6BF1BB5A7C1005DF5DA /* account */,
 			);
 			name = ApplozicLibrary;
@@ -336,6 +337,15 @@
 			children = (
 			);
 			name = ApplozicUIWidget;
+			sourceTree = "<group>";
+		};
+		6D95A2FC1BB96C1F0047CAA6 /* push */ = {
+			isa = PBXGroup;
+			children = (
+				6D95A3031BB971CE0047CAA6 /* ALPushNotificationService.h */,
+				6D95A3041BB971CE0047CAA6 /* ALPushNotificationService.m */,
+			);
+			name = push;
 			sourceTree = "<group>";
 		};
 		6DF6EFA81BAFDD5F00ADE5F6 /* Database */ = {
@@ -840,6 +850,7 @@
 				9C87DD821B8EFBC1007CEE5F /* KAProgressLabel.m in Sources */,
 				9C95DBBE1B80C8510012A649 /* AppLozic.xcdatamodeld in Sources */,
 				E1D8D3851B89E7E700550675 /* SDImageCache.m in Sources */,
+				6D95A3051BB971CE0047CAA6 /* ALPushNotificationService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
