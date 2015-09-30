@@ -71,6 +71,9 @@
     [self setUpView];
     [self setUpTableView];
     self.mTableView.allowsMultipleSelectionDuringEditing = NO;
+    
+    //register for notification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryReport:) name:@"deliveryReport" object:nil];
     
@@ -159,9 +162,12 @@
     static NSString *cellIdentifier = @"ContactCell";
     ALContactCell *contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     ALMessage *message = (ALMessage *)self.mContactsMessageListArray[indexPath.row];
-    contactCell.mUserImageView.image = [UIImage imageNamed:@"ic_mobicom.png"];
+    UILabel* nameIcon=(UILabel*)[contactCell viewWithTag:102];
+//    contactCell.mUserImageView.image = [UIImage imageNamed:@"ic_mobicom.png"];
     contactCell.mUserNameLabel.text = message.to;
     contactCell.mMessageLabel.text = message.message;
+    NSString *firstLetter = [message.to substringToIndex:1];
+    nameIcon.text=firstLetter;
     if ([message.type integerValue] == [FORWARD_STATUS integerValue])
         contactCell.mLastMessageStatusImageView.image = [UIImage imageNamed:@"mobicom_social_forward.png"];
     else if ([message.type integerValue] == [REPLIED_STATUS integerValue])
