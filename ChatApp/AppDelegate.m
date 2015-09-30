@@ -65,7 +65,7 @@
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary
 {
     NSLog(@"Received notification: %@", dictionary);
-    ALPushNotificationService *pushNotificationService = [ALPushNotificationService init];
+    ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
     BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:YES];
     if (!applozicProcessed) {
         //Note: notification for app
