@@ -10,17 +10,30 @@
 
 @implementation ALPushNotificationService
 
++ (NSArray *)ApplozicNotificationTypes
+{
+    static NSArray *notificationTypes;
+    if (!notificationTypes)
+    {
+        
+        notificationTypes = [[NSArray alloc] initWithObjects:@"MT_SYNC", @"MT_MARK_ALL_MESSAGE_AS_READ", @"MT_DELIVERED", @"MT_SYNC_PENDING", @"MT_DELETE_MESSAGE", @"MT_DELETE_MULTIPLE_MESSAGE", @"MT_DELETE_MESSAGE_CONTACT", @"MTEXTER_USER", @"MT_CONTACT_VERIFIED", @"MT_CONTACT_VERIFIED", @"MT_DEVICE_CONTACT_SYNC", @"MT_EMAIL_VERIFIED", @"MT_DEVICE_CONTACT_MESSAGE", @"MT_CANCEL_CALL", @"MT_MESSAGE", nil];
+    }
+    return notificationTypes;
+}
+
 -(BOOL) isApplozicNotification:(NSDictionary *)dictionary
 {
-    
-    //Todo: add a check if it is applozic notification.
-    return FALSE;
+    NSString *type = (NSString *)[dictionary valueForKey:@"AL_TYPE"];
+    NSLog(@"notification type %@", type);
+    return type != nil && [ALPushNotificationService.ApplozicNotificationTypes containsObject:type];
 }
 
 -(BOOL) processPushNotification:(NSDictionary *)dictionary updateUI:(BOOL)updateUI
 {
     if ([self isApplozicNotification:dictionary]) {
         //Todo: process it
+        //NSString *type = (NSString *)[dictionary valueForKey:@"AL_TYPE"];
+
         NSString *alertValue = [[dictionary valueForKey:@"aps"] valueForKey:@"alert"];
         NSLog(@"Alert: %@", alertValue);
         /*UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
