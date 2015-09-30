@@ -25,6 +25,7 @@
 -(void)addMessageList:(NSMutableArray*) messageList;
 -(DB_Message*)addMessage:(ALMessage*) message;
 -(void)getMessages;
+-(void)fetchAndRefreshFromServer;
 -(NSManagedObject *)getMeesageById:(NSManagedObjectID *)objectID
                              error:(NSError **)error;
 - (NSManagedObject *)getMessageByKey:(NSString *) key value:(NSString*) value;

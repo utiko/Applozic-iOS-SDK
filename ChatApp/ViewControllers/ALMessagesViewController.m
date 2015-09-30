@@ -247,7 +247,7 @@
         NSLog(@"current quick view is visible");
         ALMessageDBService *dBService = [ALMessageDBService new];
         dBService.delegate = self;
-        [dBService getMessages];
+        [dBService fetchAndRefreshFromServer];
         return;
     }
     
