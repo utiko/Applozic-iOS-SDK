@@ -11,6 +11,7 @@
 #import "ALLoginViewController.h"
 #import "ALRegisterUserClientService.h"
 #import "ALPushNotificationService.h"
+#import "ALUtilityClass.h"
 
 @interface AppDelegate ()
 
@@ -64,7 +65,7 @@
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary
 {
     NSLog(@"Received notification: %@", dictionary);
-    ALPushNotificationService *pushNotificationService = [ALPushNotificationService init];
+    ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
     BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:YES];
     if (!applozicProcessed) {
         //Note: notification for app
@@ -97,16 +98,27 @@
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
-    NSLog(@"My token is: %@", deviceToken);
-    NSString *apnDeviceToken = [[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding];
+  
+    NSLog(@" token is: %@", deviceToken);
     
-    if ([[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken])
+    const unsigned *tokenBytes = [deviceToken bytes];
+    NSString *hexToken = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
+                          ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
+                          ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
+                          ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
+    
+
+    [ALUtilityClass displayToastWithMessage:(hexToken)];
+    
+    NSString *apnDeviceToken = hexToken; //[[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding];
+    
+    /*if ([[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken])
     {
         return;
-    }
+    }*/
 
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    
+   
     [registerUserClientService updateApnDeviceTokenWithCompletion:apnDeviceToken withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         if (error) {
             NSLog(@"%@",error);

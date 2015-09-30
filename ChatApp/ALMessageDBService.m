@@ -43,6 +43,7 @@
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     DB_Message* dbMessag = [self createSMSEntityForDBInsertionWithMessage:message];
     [theDBHandler.managedObjectContext save:nil];
+    message.msgDBObjectId = dbMessag.objectID;
     return dbMessag;
 }
 
@@ -208,20 +209,8 @@
 -(void)getMessages {
 
     if ( [self isMessageTableEmpty ] ) { // db is not synced
-
-        [self syncConverstionDBWithCompletion:^(BOOL success, NSMutableArray * theArray) {
-
-            if (success) {
-                // save data into the db
-                [self addMessageList:theArray];
-                // set yes to userdefaults
-                [ALUserDefaultsHandler setBoolForKey_isConversationDbSynced:YES];
-                // add default contacts
-                [self syncConactsDB];
-                //fetch data from db
-                [self fetchConversationsGroupByContactId];
-            }
-        }];
+        [self fetchAndRefreshFromServer];
+        [self syncConactsDB];
     }
     else // db is synced
     {
@@ -230,6 +219,21 @@
     }
 }
 
+-(void)fetchAndRefreshFromServer{
+    
+    [self syncConverstionDBWithCompletion:^(BOOL success, NSMutableArray * theArray) {
+        
+        if (success) {
+            // save data into the db
+            [self addMessageList:theArray];
+            // set yes to userdefaults
+            [ALUserDefaultsHandler setBoolForKey_isConversationDbSynced:YES];
+            // add default contacts
+            //fetch data from db
+            [self fetchConversationsGroupByContactId];
+        }
+    }];
+}
 
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark -  Helper methods

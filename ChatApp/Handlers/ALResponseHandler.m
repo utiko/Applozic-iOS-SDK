@@ -53,6 +53,17 @@
             
             theJson = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             
+            /*TODO: Right now server is returning server's Error with tag <html>.
+             it should be proper jason response with errocodes.
+             We need to remove this check once fix will be done in server.*/
+            
+            NSError * error = [self checkForServerError:theJson];
+            if(error){
+                reponseCompletion(nil,error);
+                return;
+            }
+
+            
         }else {
             
             NSError * theJsonError = nil;
@@ -70,6 +81,7 @@
                 return;
             }
         }
+        
         reponseCompletion(theJson,nil);
         
     }];
@@ -81,5 +93,14 @@
     return [NSError errorWithDomain:@"AppLogic" code:1 userInfo:[NSDictionary dictionaryWithObject:reason forKey:NSLocalizedDescriptionKey]];
 }
 
+
++(NSError * )checkForServerError:(NSString *)response {
+ 
+    if ([response hasPrefix:@"<html>"]){
+        NSError *error = [NSError errorWithDomain:@"Internal Error" code:500 userInfo:nil];
+        return error;
+    }
+    return NULL;
+}
 
 @end

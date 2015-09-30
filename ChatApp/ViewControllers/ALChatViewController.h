@@ -14,10 +14,7 @@
 
 
 @property (strong, nonatomic) NSMutableArray *mMessageListArray;
-
-@property (strong, nonatomic) ALMessage * mLatestMessage;
-
 @property (strong, nonatomic) NSString * contactIds;
 
-
+-(void)fetchAndRefresh;
 @end

@@ -7,14 +7,26 @@
 //
 
 #import "ALPushNotificationService.h"
+#import "ALMessageDBService.h"
 
 @implementation ALPushNotificationService
 
++ (NSArray *)ApplozicNotificationTypes
+{
+    static NSArray *notificationTypes;
+    if (!notificationTypes)
+    {
+        
+        notificationTypes = [[NSArray alloc] initWithObjects:@"MT_SYNC", @"MT_MARK_ALL_MESSAGE_AS_READ", @"MT_DELIVERED", @"MT_SYNC_PENDING", @"MT_DELETE_MESSAGE", @"MT_DELETE_MULTIPLE_MESSAGE", @"MT_DELETE_MESSAGE_CONTACT", @"MTEXTER_USER", @"MT_CONTACT_VERIFIED", @"MT_CONTACT_VERIFIED", @"MT_DEVICE_CONTACT_SYNC", @"MT_EMAIL_VERIFIED", @"MT_DEVICE_CONTACT_MESSAGE", @"MT_CANCEL_CALL", @"MT_MESSAGE", nil];
+    }
+    return notificationTypes;
+}
+
 -(BOOL) isApplozicNotification:(NSDictionary *)dictionary
 {
-    
-    //Todo: add a check if it is applozic notification.
-    return FALSE;
+    NSString *type = (NSString *)[dictionary valueForKey:@"AL_TYPE"];
+    NSLog(@"notification type %@", type);
+    return type != nil && [ALPushNotificationService.ApplozicNotificationTypes containsObject:type];
 }
 
 -(BOOL) processPushNotification:(NSDictionary *)dictionary updateUI:(BOOL)updateUI
@@ -23,6 +35,30 @@
         //Todo: process it
         NSString *alertValue = [[dictionary valueForKey:@"aps"] valueForKey:@"alert"];
         NSLog(@"Alert: %@", alertValue);
+        
+        
+        NSString *type = (NSString *)[dictionary valueForKey:@"AL_TYPE"];
+        NSString *value = (NSString *)[dictionary valueForKey:@"AL_VALUE"];
+        NSString *userId = @"applozic";
+        
+        if ([type isEqualToString:@"MT_SYNC"])
+        {
+            [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:userId userInfo:dictionary];
+        } else if ([type isEqualToString: @"MT_DELIVERED"])
+        {
+            NSArray *deliveryParts = [value componentsSeparatedByString:@","];
+            ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
+            [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
+        } else if ([type isEqualToString: @"MT_DELETE_MESSAGE_CONTACT"])
+        {
+            ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
+            [messageDBService deleteAllMessagesByContact: value];
+        } else if ([type isEqualToString: @"MT_DELETE_MESSAGE"])
+        {
+            ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
+            [messageDBService deleteMessageByKey: value];
+        }
+        
         /*UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
          ChatViewController *chatViewController =
          (ChatViewController*)[navigationController.viewControllers  objectAtIndex:0];
