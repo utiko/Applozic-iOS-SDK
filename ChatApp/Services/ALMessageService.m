@@ -173,8 +173,9 @@
             
             return ;
         }
-        NSLog(@"sync feed jason..%@", (NSString *)theJson);
+        NSLog(@"sync feed json..%@", (NSString *)theJson);
         ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
+        NSLog(@"count is: %lu", (unsigned long)syncResponse.messagesList.count);
         if(syncResponse.messagesList.count >0 ){
              ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
             [dbService addMessageList:syncResponse.messagesList];

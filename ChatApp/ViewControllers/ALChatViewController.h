@@ -17,4 +17,7 @@
 @property (strong, nonatomic) NSString * contactIds;
 -(void)fetchAndRefresh;
 -(void)updateDeliveryReport:(NSString*)keyString;
+
+-(void)individualNotificationhandler:(NSNotification *) notification;
+
 @end
