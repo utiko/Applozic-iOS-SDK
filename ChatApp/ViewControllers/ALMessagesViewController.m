@@ -75,6 +75,10 @@
     //register for notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryReport:) name:@"deliveryReport" object:nil];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
 
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
@@ -254,20 +258,10 @@
 
 -(void)pushNotificationhandler:(NSNotification *) notification{
   
-    //1. check if currently view is visible or not ....
-    
-    //2. if not visisble ...launch the conversation with this contactId
-    //3. if chat view is visisble check weather it is a sameID than update same view
-    //4. if chat is with different view ...show notification ....
-
-    
     // see if this view is visible or not...
-     NSString * contactId = notification.object;
+    NSString * contactId = notification.object;
     NSLog(@"yes comes here %@", contactId);
-//    if (self.isViewLoaded && self.view.window) {
-//        //Show notification...
-//    }
-    
+
     if (self.isViewLoaded && self.view.window) {
                 //Show notification...
         NSLog(@"current quick view is visible");
@@ -289,7 +283,22 @@
         //show notification .on the top (local notification)
        
     }
-    
+  
 }
 
+-(void)updateDeliveryReport:(NSNotification *) notification {
+    
+    NSString * keyString = notification.object;
+    if (self.isViewLoaded && self.view.window) {
+        NSArray * filteredArray = [self.mContactsMessageListArray  filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keyString == %@",keyString]];
+        if (filteredArray.count > 0) {
+           ALMessage * alMessage =  filteredArray[0];
+            alMessage.delivered =YES;
+            [self.mTableView reloadData];
+        }
+    }else if ((self.detailChatViewController)){
+        [self.detailChatViewController updateDeliveryReport:keyString];
+    }
+    
+}
 @end
