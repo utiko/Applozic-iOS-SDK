@@ -112,14 +112,8 @@
     ALContact *selectedContact =  self.filteredContactList[indexPath.row];
     ALMessage *message = nil;
     if (selectedContact) {
-        message = [[ALMessage alloc] init];
-        
-        message.contactIds = selectedContact.userId;
-        message.to = selectedContact.fullName;
+        theVC.contactIds = selectedContact.userId;
     }
-    
-    theVC.mLatestMessage = message;
-    
     [self.navigationController pushViewController:theVC animated:YES];
     
 }

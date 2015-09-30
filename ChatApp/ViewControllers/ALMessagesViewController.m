@@ -72,8 +72,6 @@
     [self setUpTableView];
 
     ALMessageDBService *dBService = [ALMessageDBService new];
-    
-    [dBService deleteAllObjectsInCoreData];
     dBService.delegate = self;
     [dBService getMessages];
 }
