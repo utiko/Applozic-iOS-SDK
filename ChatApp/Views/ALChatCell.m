@@ -123,6 +123,7 @@
         
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
         
+        self.mMessageStatusImageView.alpha =0;
     }
     else
     {
@@ -147,7 +148,7 @@
     }
     
     if ([alMessage.type isEqualToString:@"5"]) {
-
+        self.mMessageStatusImageView.alpha =1;
         if(alMessage.delivered==YES){
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
         }
