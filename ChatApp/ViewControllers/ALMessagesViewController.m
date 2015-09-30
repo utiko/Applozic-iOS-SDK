@@ -74,6 +74,9 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryReport:) name:@"deliveryReport" object:nil];
     
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
+
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
     [dBService getMessages];

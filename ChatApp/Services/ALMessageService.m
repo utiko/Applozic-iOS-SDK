@@ -76,6 +76,8 @@
     DB_Message* dbMessage;
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
     NSError *theError=nil;
+    [[ NSNotificationCenter defaultCenter] postNotificationName:@"updateConversationTableNotification" object:alMessage userInfo:nil];
+
     if (alMessage.msgDBObjectId==nil){
         NSLog(@"message not in DB new insertion.");
 
