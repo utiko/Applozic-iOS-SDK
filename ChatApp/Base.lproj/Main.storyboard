@@ -37,6 +37,16 @@
                                                         <constraint firstAttribute="height" constant="55" id="tkp-gE-66C"/>
                                                     </constraints>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="L" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FQ8-OW-duW">
+                                                    <rect key="frame" x="19" y="13.5" width="55" height="54.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="55" id="Gev-I1-VLC"/>
+                                                        <constraint firstAttribute="height" constant="55" id="ZL7-io-WRh"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="42"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="lkdsflksdflksdfjlkfdst hsfsd sdhfkjs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4M-aZ-RgP">
                                                     <rect key="frame" x="92" y="15" width="409" height="21"/>
                                                     <constraints>
@@ -82,6 +92,7 @@
                                                 <constraint firstItem="9sE-W8-i33" firstAttribute="top" secondItem="jVl-2p-Q74" secondAttribute="topMargin" constant="5" id="Jf5-Sl-doh"/>
                                                 <constraint firstItem="mUK-kK-XjJ" firstAttribute="top" secondItem="r8N-HC-XMt" secondAttribute="bottom" constant="4" id="Kh0-4S-PwJ"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="mUK-kK-XjJ" secondAttribute="trailing" constant="5" id="OhO-4O-97y"/>
+                                                <constraint firstItem="FQ8-OW-duW" firstAttribute="centerY" secondItem="jVl-2p-Q74" secondAttribute="centerY" id="STX-Kz-IyB"/>
                                                 <constraint firstAttribute="centerY" secondItem="9sE-W8-i33" secondAttribute="centerY" id="Ut4-Tz-Dst"/>
                                                 <constraint firstItem="r8N-HC-XMt" firstAttribute="leading" secondItem="G4M-aZ-RgP" secondAttribute="trailing" constant="13" id="XaD-kp-j8P"/>
                                                 <constraint firstItem="9sE-W8-i33" firstAttribute="leading" secondItem="jVl-2p-Q74" secondAttribute="leadingMargin" constant="11" id="eKe-63-9wP"/>
@@ -89,6 +100,7 @@
                                                 <constraint firstItem="CTq-fC-xpM" firstAttribute="leading" secondItem="9sE-W8-i33" secondAttribute="trailing" constant="22" id="lCc-cP-KeR"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="r8N-HC-XMt" secondAttribute="trailing" constant="5" id="o3L-ji-pZY"/>
                                                 <constraint firstAttribute="centerY" secondItem="mUK-kK-XjJ" secondAttribute="centerY" multiplier="0.8" id="ojc-mi-E6X"/>
+                                                <constraint firstItem="FQ8-OW-duW" firstAttribute="leading" secondItem="jVl-2p-Q74" secondAttribute="leadingMargin" constant="11" id="scR-rY-zO7"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="mUK-kK-XjJ" secondAttribute="bottom" constant="14" id="uAd-Uh-O03"/>
                                             </constraints>
                                             <variation key="default">
@@ -453,7 +465,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VsK-qJ-ZRd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-666" y="603"/>
+            <point key="canvasLocation" x="-694" y="627"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ifH-x1-rz7">
