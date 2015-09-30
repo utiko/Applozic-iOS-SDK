@@ -84,13 +84,14 @@ ALMessageDBService  * dbService;
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:) name:@"deliveryReport" object:nil];
 
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
-
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -791,7 +792,8 @@ ALMessageDBService  * dbService;
     }
 }
 
--(void)individualNotificationhandler:(NSNotification *) notification{
+-(void)individualNotificationhandler:(NSNotification *) notification
+{
     
     // see if this view is visible or not...
     NSString * contactId = notification.object;
@@ -826,8 +828,13 @@ ALMessageDBService  * dbService;
         
         NSLog(@"######someelse contact thread is opened so just show notification");
     }
-    
-    
+
+}
+
+-(void)updateDeliveryStatus:(NSNotification *) notification
+{
+    NSString * keyString = notification.object;
+    [self updateDeliveryReport:keyString];
 }
 
 @end

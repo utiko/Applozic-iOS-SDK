@@ -20,4 +20,7 @@
 
 -(void)individualNotificationhandler:(NSNotification *) notification;
 
+-(void)updateDeliveryStatus:(NSNotification *) notification;
+
+
 @end

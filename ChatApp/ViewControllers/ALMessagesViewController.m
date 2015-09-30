@@ -91,18 +91,12 @@
     
     //register for notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryReport:) name:@"deliveryReport" object:nil];
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     
     //unregister for notification
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushNotification" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
-
 
     [super viewWillDisappear:animated];
 
@@ -277,35 +271,15 @@
             ALMessageDBService *dBService = [ALMessageDBService new];
             dBService.delegate = self;
             [dBService fetchAndRefreshFromServer];
-        }
-    else if ([self.detailChatViewController.contactIds isEqualToString:contactId ] && [updateUI boolValue])
-    {
-        NSLog(@"individual is opened for %@", contactId);
-            //update same view- working fine
-            [self.detailChatViewController fetchAndRefresh];
-        }
+    }
     else if(![updateUI boolValue])
     {
         NSLog(@"updateUI is false and contactIds opened is: %@", self.detailChatViewController.contactIds);
-        
-            if (!(self.detailChatViewController) && _detailChatViewController.isViewLoaded && _detailChatViewController.view.window)
-            {
-                //[self.detailChatViewController clear];
-                NSLog(@"######already opened, pay attention to clear previous contacts if something else is opened.");
-               _detailChatViewController.contactIds =contactId;
 
-            } else if (!(self.detailChatViewController))
-            {
-                NSLog(@"lets push the individual chat view controller.");
-                _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
-                _detailChatViewController.contactIds = contactId;
-                [self.navigationController pushViewController:_detailChatViewController animated:YES];
-            } else
-            {
                 NSLog(@"lets create a new controller here and push it.");
                 _detailChatViewController.contactIds =contactId;
                 [self.navigationController pushViewController:_detailChatViewController animated:YES];
-            }
+        
         
             [self.detailChatViewController fetchAndRefresh];
         
@@ -317,22 +291,6 @@
         }
 
   
-}
-
--(void)updateDeliveryReport:(NSNotification *) notification {
-    
-    NSString * keyString = notification.object;
-    if (self.isViewLoaded && self.view.window) {
-        NSArray * filteredArray = [self.mContactsMessageListArray  filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keyString == %@",keyString]];
-        if (filteredArray.count > 0) {
-           ALMessage * alMessage =  filteredArray[0];
-            alMessage.delivered =YES;
-            [self.mTableView reloadData];
-        }
-    }else if ((self.detailChatViewController)){
-        [self.detailChatViewController updateDeliveryReport:keyString];
-    }
-    
 }
 
 - (void)dealloc {

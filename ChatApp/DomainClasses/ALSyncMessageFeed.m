@@ -19,7 +19,6 @@
     
     self.lastSyncTime = [syncMessageResponse valueForKey:@"lastSyncTime"];
     //self.isRegisterdIdInvalid = [syncMessageResponse valueForKey:@"regIdInvalid"];
-   // NSDictionary * theMessageDict = [syncMessageResponse valueForKey:@"messages"];
     NSMutableArray *messageList = [syncMessageResponse valueForKey:@"messages"];
     [self parseMessagseArray:messageList];
     return self;
