@@ -39,11 +39,10 @@
         
         NSString *type = (NSString *)[dictionary valueForKey:@"AL_TYPE"];
         NSString *value = (NSString *)[dictionary valueForKey:@"AL_VALUE"];
-        NSString *userId = @"applozic";
         
         if ([type isEqualToString:@"MT_SYNC"])
         {
-            [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:userId userInfo:dictionary];
+            [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:value userInfo:dictionary];
         } else if ([type isEqualToString: @"MT_DELIVERED"])
         {
             NSArray *deliveryParts = [value componentsSeparatedByString:@","];
