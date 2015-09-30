@@ -87,19 +87,21 @@
     static NSString *cellIdentifier = @"NewContactCell";
     
     ALNewContactCell *newContactCell = (ALNewContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
+    UILabel* nameIcon=(UILabel*)[newContactCell viewWithTag:101];
     ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
-    
+
     if (contact) {
         newContactCell.contactPersonName.text = contact.fullName;
+        NSString *firstLetter = [contact.fullName substringToIndex:1];
+        nameIcon.text=firstLetter;
         
         if (contact.contactImageUrl) 
             newContactCell.contactPersonImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:contact.contactImageUrl]]];
         else
             newContactCell.contactPersonImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
         
+        
     }
-    
     
     
     return newContactCell;
