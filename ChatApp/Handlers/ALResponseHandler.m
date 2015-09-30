@@ -60,6 +60,7 @@
             NSError * error = [self checkForServerError:theJson];
             if(error){
                 reponseCompletion(nil,error);
+                return;
             }
 
             
