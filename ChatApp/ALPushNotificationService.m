@@ -7,6 +7,7 @@
 //
 
 #import "ALPushNotificationService.h"
+#import "ALMessageDBService.h"
 
 @implementation ALPushNotificationService
 
@@ -37,13 +38,27 @@
         
         
         NSString *type = (NSString *)[dictionary valueForKey:@"AL_TYPE"];
+        NSString *value = (NSString *)[dictionary valueForKey:@"AL_VALUE"];
         NSString *userId = @"applozic";
         
         if ([type isEqualToString:@"MT_SYNC"])
         {
-            NSLog(@"comes here");
             [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:userId userInfo:dictionary];
+        } else if ([type isEqualToString: @"MT_DELIVERED"])
+        {
+            NSArray *deliveryParts = [value componentsSeparatedByString:@","];
+            ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
+            [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
+        } else if ([type isEqualToString: @"MT_DELETE_MESSAGE_CONTACT"])
+        {
+            ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
+            [messageDBService deleteAllMessagesByContact: value];
+        } else if ([type isEqualToString: @"MT_DELETE_MESSAGE"])
+        {
+            ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
+            [messageDBService deleteMessageByKey: value];
         }
+        
         /*UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
          ChatViewController *chatViewController =
          (ChatViewController*)[navigationController.viewControllers  objectAtIndex:0];
