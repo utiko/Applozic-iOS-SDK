@@ -235,6 +235,22 @@
     }];
 }
 
+-(void)fetchAndRefreshFromServerForPush{
+    
+    NSString * lastSyncTime = [ALUserDefaultsHandler getLastSyncTime];
+    NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
+    
+    [ALMessageService getLatestMessageForUser:deviceKeyString lastSyncTime:lastSyncTime withCompletion:^(NSMutableArray *messageArray, NSError *error) {
+       
+        if (error) {
+            NSLog(@"%@",error);
+            return ;
+        }
+        [self addMessageList:messageArray];
+        [self fetchConversationsGroupByContactId];
+    }];
+
+}
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark -  Helper methods
 //------------------------------------------------------------------------------------------------------------------
