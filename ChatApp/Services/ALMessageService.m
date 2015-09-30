@@ -217,6 +217,7 @@
             return ;
         }else{
             //delete sucessfull
+            NSLog(@"sucessfully deleted !");
             ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
             [dbService deleteAllMessagesByContact:contactId];
         }
