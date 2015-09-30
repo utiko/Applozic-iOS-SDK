@@ -70,9 +70,7 @@
     [super viewDidLoad];
     [self setUpView];
     [self setUpTableView];
-    
-    //register for notification
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
+    self.mTableView.allowsMultipleSelectionDuringEditing = NO;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryReport:) name:@"deliveryReport" object:nil];
     
@@ -189,6 +187,28 @@
     
 }
 
+//------------------------------------------------------------------------------------------------------------------
+#pragma mark - Table View Editing Methods
+//------------------------------------------------------------------------------------------------------------------
+
+// Override to support conditional editing of the table view.
+// This only needs to be implemented if you are going to be returning NO
+// for some items. By default, all items are editable.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return YES if you want the specified item to be editable.
+    return YES;
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+       
+        NSLog(@"Delete Pressed");
+        
+        
+    }
+}
 
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - Notification observers

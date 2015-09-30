@@ -706,6 +706,11 @@
 					9C276C981B640C33005E76C7 = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = C25JNDCBM4;
+						SystemCapabilities = {
+							com.apple.VPNLite = {
+								enabled = 0;
+							};
+						};
 					};
 					9C276CB11B640C33005E76C7 = {
 						CreatedOnToolsVersion = 6.4;
