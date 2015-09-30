@@ -72,14 +72,7 @@
     [self setUpTableView];
     self.mTableView.allowsMultipleSelectionDuringEditing = NO;
     
-    //register for notification
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryReport:) name:@"deliveryReport" object:nil];
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
-
+ 
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
     [dBService getMessages];
@@ -95,9 +88,21 @@
         // iOS 7.0 or later
         self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
     }
+    
+    //register for notification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryReport:) name:@"deliveryReport" object:nil];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
+    
+    //unregister for notification
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushNotification" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
+
 
     [super viewWillDisappear:animated];
 
@@ -257,32 +262,60 @@
 
 
 -(void)pushNotificationhandler:(NSNotification *) notification{
-  
+    
     // see if this view is visible or not...
     NSString * contactId = notification.object;
+    NSDictionary *dict = notification.userInfo;
+    NSNumber *updateUI = [dict valueForKey:@"updateUI"];
     NSLog(@"yes comes here %@", contactId);
 
-    if (self.isViewLoaded && self.view.window) {
-                //Show notification...
-        NSLog(@"current quick view is visible");
-        ALMessageDBService *dBService = [ALMessageDBService new];
-        dBService.delegate = self;
-        [dBService fetchAndRefreshFromServer];
-        return;
-    }
     
-    if (!(self.detailChatViewController)){
-        _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
-        _detailChatViewController.contactIds =contactId;
-        [self.navigationController pushViewController:_detailChatViewController animated:YES];
-    }
-    else if ([self.detailChatViewController.contactIds isEqualToString:contactId ]){
+    if (self.isViewLoaded && self.view.window && [updateUI boolValue])
+    {
+            //Show notification...
+            NSLog(@"current quick view is visible");
+            ALMessageDBService *dBService = [ALMessageDBService new];
+            dBService.delegate = self;
+            [dBService fetchAndRefreshFromServer];
+        }
+    else if ([self.detailChatViewController.contactIds isEqualToString:contactId ] && [updateUI boolValue])
+    {
+        NSLog(@"individual is opened for %@", contactId);
             //update same view- working fine
-         [self.detailChatViewController fetchAndRefresh];
-    }else {
-        //show notification .on the top (local notification)
-       
+            [self.detailChatViewController fetchAndRefresh];
+        }
+    else if(![updateUI boolValue])
+    {
+        NSLog(@"updateUI is false and contactIds opened is: %@", self.detailChatViewController.contactIds);
+        
+            if (!(self.detailChatViewController) && _detailChatViewController.isViewLoaded && _detailChatViewController.view.window)
+            {
+                //[self.detailChatViewController clear];
+                NSLog(@"######already opened, pay attention to clear previous contacts if something else is opened.");
+               _detailChatViewController.contactIds =contactId;
+
+            } else if (!(self.detailChatViewController))
+            {
+                NSLog(@"lets push the individual chat view controller.");
+                _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+                _detailChatViewController.contactIds = contactId;
+                [self.navigationController pushViewController:_detailChatViewController animated:YES];
+            } else
+            {
+                NSLog(@"lets create a new controller here and push it.");
+                _detailChatViewController.contactIds =contactId;
+                [self.navigationController pushViewController:_detailChatViewController animated:YES];
+            }
+        
+            [self.detailChatViewController fetchAndRefresh];
+        
     }
+        else {
+            //todo: show notification
+            
+            NSLog(@"######someelse contact thread is opened so just show notification");
+        }
+
   
 }
 
@@ -299,6 +332,10 @@
     }else if ((self.detailChatViewController)){
         [self.detailChatViewController updateDeliveryReport:keyString];
     }
+    
+}
+
+- (void)dealloc {
     
 }
 @end

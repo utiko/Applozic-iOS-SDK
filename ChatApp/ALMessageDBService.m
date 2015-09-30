@@ -28,7 +28,7 @@
         //Duplicate check before inserting into DB...
         NSManagedObject *message =  [self getMessageByKey:@"keyString" value:theMessage.keyString];
         if(message!=nil){
-            NSLog(@"message with key %@ found",theMessage.keyString );
+            //NSLog(@"message with key %@ found",theMessage.keyString );
             continue;
         }
         
@@ -60,7 +60,7 @@
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     
     NSManagedObject* message = [self getMessageByKey:@"keyString"  value:keyString];
-    [message setValue:@"1" forKey:@"delivered"];
+    [message setValue:[NSNumber numberWithBool:YES] forKey:@"delivered"];
     NSError *error = nil;
     if ( [dbHandler.managedObjectContext save:&error]){
         NSLog(@"message found and maked as deliverd");

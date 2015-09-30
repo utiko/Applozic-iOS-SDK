@@ -31,23 +31,35 @@
 
 -(BOOL) processPushNotification:(NSDictionary *)dictionary updateUI:(BOOL)updateUI
 {
+    NSLog(@"update ui: %@", updateUI ? @"Yes": @"No");
+    //[dictionary setObject:@"Yes" forKey:@"updateUI"]; // adds @"Bar"
+
     if ([self isApplozicNotification:dictionary]) {
         //Todo: process it
         NSString *alertValue = [[dictionary valueForKey:@"aps"] valueForKey:@"alert"];
         NSLog(@"Alert: %@", alertValue);
         
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
+        //[dict setValue:@"YES"  forKey:@"updateUI"];
+        [dict setObject:[NSNumber numberWithBool:updateUI]
+                    forKey:@"updateUI"];
         
         NSString *type = (NSString *)[dictionary valueForKey:@"AL_TYPE"];
         NSString *value = (NSString *)[dictionary valueForKey:@"AL_VALUE"];
         
         if ([type isEqualToString:@"MT_SYNC"])
         {
-            [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:value userInfo:dictionary];
+            NSLog(@"pushing to notification center");
+            [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:value userInfo:dict];
         } else if ([type isEqualToString: @"MT_DELIVERED"])
         {
+            //TODO: move to db layer
+            
             NSArray *deliveryParts = [value componentsSeparatedByString:@","];
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
             [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
+            NSLog(@"delivery report for %@", deliveryParts[0]);
+            [[ NSNotificationCenter defaultCenter] postNotificationName:@"deliveryReport" object:deliveryParts[0] userInfo:dictionary];
         } else if ([type isEqualToString: @"MT_DELETE_MESSAGE_CONTACT"])
         {
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];

@@ -66,7 +66,7 @@
 {
     NSLog(@"Received notification: %@", dictionary);
     ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
-    BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:YES];
+    BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:[[UIApplication sharedApplication] applicationState] == UIApplicationStateActive];
     if (!applozicProcessed) {
         //Note: notification for app
     }
