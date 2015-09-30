@@ -12,6 +12,9 @@
 
 @property(nonatomic,strong) ALChatViewController * detailChatViewController;
 
+-(void) refresh;
+
+-(void)pushNotificationhandler:(NSNotification *) notification;
 
 @end
 

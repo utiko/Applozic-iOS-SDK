@@ -70,6 +70,10 @@
     [super viewDidLoad];
     [self setUpView];
     [self setUpTableView];
+    
+    //register for notification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
+
 
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
@@ -219,6 +223,35 @@
     }
 
     [self.view layoutIfNeeded];
+}
+
+
+-(void)pushNotificationhandler:(NSNotification *) notification{
+  
+    //1. check if currently view is visible or not ....
+    
+    //2. if not visisble ...launch the conversation with this contactId
+    //3. if chat view is visisble check weather it is a sameID than update same view
+    //4. if chat is with different view ...show notification ....
+
+    
+    // see if this view is visible or not...
+     NSString * contactId = notification.object;
+//    if (self.isViewLoaded && self.view.window) {
+//        //Show notification...
+//    }
+    if (!(self.detailChatViewController)){
+        _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+        _detailChatViewController.contactIds =contactId;
+        [self.navigationController pushViewController:_detailChatViewController animated:YES];
+    }else if ([self.detailChatViewController.contactIds isEqualToString:contactId ]){
+            //update same view
+         [self.detailChatViewController fetchAndRefresh];
+    }else {
+        //show notification .on the top (local notification)
+       
+    }
+    
 }
 
 @end
