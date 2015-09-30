@@ -112,7 +112,6 @@
     ALChatViewController * theVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     
     ALContact *selectedContact =  self.filteredContactList[indexPath.row];
-    ALMessage *message = nil;
     if (selectedContact) {
         theVC.contactIds = selectedContact.userId;
     }

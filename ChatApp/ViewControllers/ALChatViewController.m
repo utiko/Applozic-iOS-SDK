@@ -751,24 +751,21 @@ ALMessageDBService  * dbService;
         lastSyncTime = @"0";
     }
     
-    [ ALMessageService getLatestMessageForUser: deviceKeyString lastSyncTime: lastSyncTime withCompletion:^(ALMessageList *messageListResponse, NSError *error) {
+    [ ALMessageService getLatestMessageForUser: deviceKeyString lastSyncTime: lastSyncTime withCompletion:^(NSMutableArray  *messageList, NSError *error) {
         if (error) {
             NSLog(@"%@",error);
             return ;
             
         }else {
-            if (messageListResponse.messageList.count > 0 ){
+            if (messageList.count > 0 ){
 
-                NSArray * theFilteredArray = [messageListResponse.messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];
-                NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
-                NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
-                NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
-                
-                [[self mMessageListArray] addObjectsFromArray:sortedArray];
-                NSString *createdAt =[(ALMessage*) [ messageListResponse.messageList firstObject] createdAtTime ];
-                long val = [createdAt longLongValue]+1;
-                [ALUserDefaultsHandler
-                 setLastSyncTime:[NSString stringWithFormat:@"%ld", val]];
+//                NSArray * theFilteredArray = [messageListResponse.messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];
+//                NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
+//                NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
+//                NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
+//                
+                [[self mMessageListArray] addObjectsFromArray:messageList];
+               
                 
             }
             NSLog(@" message jason from client ::%@",[ALUserDefaultsHandler
