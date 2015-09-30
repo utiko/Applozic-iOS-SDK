@@ -51,6 +51,8 @@
         {
             NSLog(@"pushing to notification center");
             [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:value userInfo:dict];
+            [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:value userInfo:dict];
+
         } else if ([type isEqualToString: @"MT_DELIVERED"])
         {
             //TODO: move to db layer

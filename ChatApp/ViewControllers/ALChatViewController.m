@@ -82,10 +82,15 @@ ALMessageDBService  * dbService;
         [self fetchMessageFromDB];
         [self loadChatView];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
+
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -614,7 +619,7 @@ ALMessageDBService  * dbService;
     locationManager.delegate = self;
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
 //    [locationManager startUpdatingLocation];
-    [locationManager requestLocation];
+    //[locationManager requestLocation];
     
 //    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location" message:@"" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:@"Cancel", nil];
 //        [alert show];
@@ -756,19 +761,20 @@ ALMessageDBService  * dbService;
             NSLog(@"%@",error);
             return ;
             
-        }else {
+        } else {
             if (messageList.count > 0 ){
-
-//                NSArray * theFilteredArray = [messageListResponse.messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];
-//                NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
-//                NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
-//                NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
-//                
-                [[self mMessageListArray] addObjectsFromArray:messageList];
+                NSLog(@"message json from client ::");
+                NSArray * theFilteredArray = [messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];
+                NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
+               NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
+              NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
+               NSLog(@"not reached to sortedArray line message json from client ::");
+                [[self mMessageListArray] addObjectsFromArray:sortedArray];
                
-                
+                NSLog(@"not reached to last line message json from client ::");
+
             }
-            NSLog(@" message jason from client ::%@",[ALUserDefaultsHandler
+            NSLog(@" message json from client ::%@",[ALUserDefaultsHandler
                                                       getLastSyncTime ] );
             [self.mTableView reloadData];
             
@@ -783,6 +789,45 @@ ALMessageDBService  * dbService;
         alMessage.delivered=YES;
         [self.mTableView reloadData];
     }
+}
+
+-(void)individualNotificationhandler:(NSNotification *) notification{
+    
+    // see if this view is visible or not...
+    NSString * contactId = notification.object;
+    NSDictionary *dict = notification.userInfo;
+    NSNumber *updateUI = [dict valueForKey:@"updateUI"];
+    NSLog(@"Notification received by Individual chat list: %@", contactId);
+
+    
+    if ([self.contactIds isEqualToString:contactId ] && [updateUI boolValue])
+    {
+        NSLog(@"individual is opened for %@", contactId);
+        //update same view- working fine
+        [self fetchAndRefresh];
+    }
+    else if(![updateUI boolValue])
+    {
+        NSLog(@"updateUI is false and contactIds opened is: %@", self.contactIds);
+        
+        if (self.isViewLoaded && self.view.window)
+        {
+            //[self.detailChatViewController clear];
+            NSLog(@"######already opened, pay attention to clear previous contacts if something else is opened.");
+            //contactIds =contactId;
+            
+        }
+        
+        [self fetchAndRefresh];
+        
+    }
+    else {
+        //todo: show notification
+        
+        NSLog(@"######someelse contact thread is opened so just show notification");
+    }
+    
+    
 }
 
 @end
