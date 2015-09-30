@@ -237,15 +237,27 @@
     
     // see if this view is visible or not...
      NSString * contactId = notification.object;
+    NSLog(@"yes comes here %@", contactId);
 //    if (self.isViewLoaded && self.view.window) {
 //        //Show notification...
 //    }
+    
+    if (self.isViewLoaded && self.view.window) {
+                //Show notification...
+        NSLog(@"current quick view is visible");
+        ALMessageDBService *dBService = [ALMessageDBService new];
+        dBService.delegate = self;
+        [dBService getMessages];
+        return;
+    }
+    
     if (!(self.detailChatViewController)){
         _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
         _detailChatViewController.contactIds =contactId;
         [self.navigationController pushViewController:_detailChatViewController animated:YES];
-    }else if ([self.detailChatViewController.contactIds isEqualToString:contactId ]){
-            //update same view
+    }
+    else if ([self.detailChatViewController.contactIds isEqualToString:contactId ]){
+            //update same view- working fine
          [self.detailChatViewController fetchAndRefresh];
     }else {
         //show notification .on the top (local notification)

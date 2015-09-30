@@ -32,10 +32,18 @@
 {
     if ([self isApplozicNotification:dictionary]) {
         //Todo: process it
-        //NSString *type = (NSString *)[dictionary valueForKey:@"AL_TYPE"];
-
         NSString *alertValue = [[dictionary valueForKey:@"aps"] valueForKey:@"alert"];
         NSLog(@"Alert: %@", alertValue);
+        
+        
+        NSString *type = (NSString *)[dictionary valueForKey:@"AL_TYPE"];
+        NSString *userId = @"applozic";
+        
+        if ([type isEqualToString:@"MT_SYNC"])
+        {
+            NSLog(@"comes here");
+            [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:userId userInfo:dictionary];
+        }
         /*UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
          ChatViewController *chatViewController =
          (ChatViewController*)[navigationController.viewControllers  objectAtIndex:0];
