@@ -15,6 +15,6 @@
 
 @property (strong, nonatomic) NSMutableArray *mMessageListArray;
 @property (strong, nonatomic) NSString * contactIds;
-
 -(void)fetchAndRefresh;
+-(void)updateDeliveryReport:(NSString*)keyString;
 @end

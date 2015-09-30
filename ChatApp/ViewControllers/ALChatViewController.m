@@ -777,7 +777,15 @@ ALMessageDBService  * dbService;
             
         }
     }];
-    
-    
+  
 }
+-(void)updateDeliveryReport:(NSString*)keyString{
+    
+    ALMessage * alMessage =  [self getMessageFromViewList:@"keyString" withValue:keyString ];
+    if (alMessage){
+        alMessage.delivered=YES;
+        [self.mTableView reloadData];
+    }
+}
+
 @end
