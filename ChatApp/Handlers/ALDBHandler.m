@@ -329,7 +329,33 @@
     return result;
 }
 
+
+- (NSManagedObject *)getContactByKey:(NSString *) key value:(NSString*) value {
+    
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CONTACT" inManagedObjectContext:dbHandler.managedObjectContext];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K=%@",key,value];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:predicate];
+    NSError *fetchError = nil;
+    NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    if (result.count > 0) {
+        NSManagedObject* contact = [result objectAtIndex:0];
+        return contact;
+    } else {
+        NSLog(@"contact not found with this key");
+        return nil;
+    }
+}
+
 -(BOOL)addContact:(ALContact *)userContact {
+    
+    NSManagedObject* existingContact = [self getContactByKey:@"userId" value:[userContact userId]];
+    if (existingContact) {
+        NSLog(@"Existing contact");
+        return false;
+    }
     
     BOOL result = NO;
     
