@@ -57,5 +57,6 @@
 +(void) setLastSyncTime: (NSString *) lastSyncTime;
 
 +(NSString *)getLastSyncTime;
++(NSString *)getUserKeyString;
 
 @end
