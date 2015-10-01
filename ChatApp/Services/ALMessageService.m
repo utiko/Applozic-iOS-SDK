@@ -90,9 +90,8 @@
        //convert to dic
     NSDictionary * userInfo = [alMessage dictionary ];
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/send",KBASE_URL];
-    
     NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
-    
+   
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"SEND MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
@@ -216,7 +215,8 @@
  */
 +(void)deleteMessageThread:( NSString * ) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/sms/delete/conversation.task",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"contactNumber=%@",contactId];
+    NSString * theParamString = [NSString stringWithFormat:@"contactNumber=%@&requestSource=%@",contactId,[ALUserDefaultsHandler getUserId]];
+    
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {

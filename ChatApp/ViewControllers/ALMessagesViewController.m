@@ -214,6 +214,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
+        NSLog(@"Delete Pressed");
         ALMessage * alMessageobj=  self.mContactsMessageListArray[indexPath.row];
         NSLog(@"MESSAGE %@",alMessageobj.contactIds);
         [ALMessageService deleteMessageThread:alMessageobj.contactIds withCompletion:^(NSString *string, NSError *error) {
@@ -223,8 +224,6 @@
                 NSLog(@"Error in Deletion");
             }
         
-                NSLog(@"STRING else:%@",string);
-                NSLog(@"Delete Pressed");
             
         }];
 
