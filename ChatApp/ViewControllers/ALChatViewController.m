@@ -385,6 +385,11 @@ ALMessageDBService  * dbService;
 
 }
 
+-(void)showFullScreen:(UIViewController*)uiController{
+    [self presentViewController:uiController animated:YES completion:nil];
+    
+    
+}
 #pragma mark connection delegates
 
 //Progress

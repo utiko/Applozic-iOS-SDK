@@ -15,6 +15,9 @@
 
 @synthesize mBubleImageView,mDateLabel,mImageView,mMessageStatusImageView,mUserProfileImageView,mDowloadRetryButton,progresLabel;
 
+UIViewController * modalCon;
+
+
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -53,10 +56,15 @@
         mImageView.clipsToBounds = YES;
         
         mImageView.backgroundColor = [UIColor grayColor];
+        mImageView.clipsToBounds = YES;
+        mImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageFullScreen:)];
+        tapper.numberOfTapsRequired = 1;
+        [mImageView addGestureRecognizer:tapper];
         
         [self.contentView addSubview:mImageView];
-    
         
+
         mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(mBubleImageView.frame.origin.x + 5, mImageView.frame.origin.y + mImageView.frame.size.height + 5, 100, 20)];
         
         mDateLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
@@ -294,4 +302,28 @@
     return stringSize;
 }
 
+-(void)imageFullScreen:(UITapGestureRecognizer*)sender {
+    
+    //if ( self.mMessage.imageFilePath ){
+        
+        modalCon = [[UIViewController alloc] init];
+        modalCon.view.backgroundColor=[UIColor blackColor];
+        modalCon.view.userInteractionEnabled=YES;
+        UIImageView *imageViewNew = [[UIImageView alloc] initWithFrame:modalCon.view.frame];
+        imageViewNew.contentMode=UIViewContentModeScaleAspectFit;
+        imageViewNew.image=mImageView.image;
+        [modalCon.view addSubview:imageViewNew];
+        UITapGestureRecognizer *modalTap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissModalView:)];
+        [modalCon.view addGestureRecognizer:modalTap];
+        [self.delegate showFullScreen:modalCon];
+    //}else{
+        NSLog(@" image is not present on  SDCARD...");
+    //}
+    return;
+}
+
+-(void)dismissModalView:(UITapGestureRecognizer*)gesture{
+    
+    [modalCon dismissViewControllerAnimated:YES completion:nil];
+}
 @end

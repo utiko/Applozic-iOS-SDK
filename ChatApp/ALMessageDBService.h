@@ -26,6 +26,7 @@
 -(DB_Message*)addMessage:(ALMessage*) message;
 -(void)getMessages;
 -(void)fetchAndRefreshFromServer;
+-(void)fetchAndRefreshFromServerForPush;
 -(NSManagedObject *)getMeesageById:(NSManagedObjectID *)objectID
                              error:(NSError **)error;
 - (NSManagedObject *)getMessageByKey:(NSString *) key value:(NSString*) value;
