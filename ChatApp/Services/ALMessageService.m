@@ -16,6 +16,7 @@
 #import "ALDBHandler.h"
 #import "ALConnection.h"
 #import "ALConnectionQueueHandler.h"
+#import "ALUserDefaultsHandler.h"
 
 @implementation ALMessageService
 
@@ -156,11 +157,11 @@
 }
 
 
-+(void) getLatestMessageForUser:(NSString *)deviceKeyString lastSyncTime:(NSString *)lastSyncTime withCompletion:(void (^)(ALMessageList *, NSError *))completion{
++(void) getLatestMessageForUser:(NSString *)deviceKeyString lastSyncTime:(NSString *)lastSyncTime withCompletion:(void (^)( NSMutableArray *, NSError *))completion{
     
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/list",KBASE_URL];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/sync/messages",KBASE_URL];
     
-    NSString * theParamString = [NSString stringWithFormat:@"startTime=%@",lastSyncTime];
+    NSString * theParamString = [NSString stringWithFormat:@"deviceKeyString=%@&lastSyncTime=%@",deviceKeyString,lastSyncTime];
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
@@ -172,14 +173,17 @@
             
             return ;
         }
-        NSLog(@"sync feed jason..%@", (NSString *)theJson);
-        ALMessageList *messageListResponse=  [[ALMessageList alloc] initWithJSONString:theJson];
-        if(messageListResponse.messageList.count >0 ){
+        NSLog(@"sync feed json..%@", (NSString *)theJson);
+        ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
+        NSLog(@"count is: %lu", (unsigned long)syncResponse.messagesList.count);
+        if(syncResponse.messagesList.count >0 ){
              ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-            [dbService addMessageList:messageListResponse.messageList];
+            [dbService addMessageList:syncResponse.messagesList];
         }
-        NSLog(@"sync feed ..%@", messageListResponse);
-        completion(messageListResponse,nil);
+        [ALUserDefaultsHandler
+         setLastSyncTime:syncResponse.lastSyncTime];
+        NSLog(@"sync feed ..%@", syncResponse.messagesList);
+        completion(syncResponse.messagesList,nil);
         
     }];
 }

@@ -14,7 +14,5 @@
 
 -(void)pushNotificationhandler:(NSNotification *) notification;
 
--(void)updateDeliveryReport:(NSNotification *) notification;
-
 @end
 
