@@ -12,6 +12,8 @@
 
 @property(nonatomic,strong) ALChatViewController * detailChatViewController;
 
+-(void)createDetailChatViewController: (NSString *) contactIds;
+
 -(void)pushNotificationhandler:(NSNotification *) notification;
 
 @end

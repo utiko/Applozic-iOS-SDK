@@ -158,35 +158,38 @@
 
 
 +(void) getLatestMessageForUser:(NSString *)deviceKeyString lastSyncTime:(NSString *)lastSyncTime withCompletion:(void (^)( NSMutableArray *, NSError *))completion{
-    
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/sync/messages",KBASE_URL];
-    
-    NSString * theParamString = [NSString stringWithFormat:@"deviceKeyString=%@&lastSyncTime=%@",deviceKeyString,lastSyncTime];
-    
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
-    
-    [ALResponseHandler processRequest:theRequest andTag:@"SYNC LATEST MESSAGE URL" WithCompletionHandler:^(id theJson, NSError *theError) {
+    @synchronized(self) {
+        NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/sync/messages",KBASE_URL];
         
-        if (theError) {
-            
-            completion(nil,theError);
-            
-            return ;
-        }
-        NSLog(@"sync feed json..%@", (NSString *)theJson);
-        ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
-        NSLog(@"count is: %lu", (unsigned long)syncResponse.messagesList.count);
-        if(syncResponse.messagesList.count >0 ){
-             ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-            [dbService addMessageList:syncResponse.messagesList];
-        }
-        [ALUserDefaultsHandler
-         setLastSyncTime:syncResponse.lastSyncTime];
-        NSLog(@"sync feed ..%@", syncResponse.messagesList);
-        completion(syncResponse.messagesList,nil);
+        NSString * theParamString = [NSString stringWithFormat:@"deviceKeyString=%@&lastSyncTime=%@",deviceKeyString,lastSyncTime];
         
-    }];
-}
+        NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+        
+        [ALResponseHandler processRequest:theRequest andTag:@"SYNC LATEST MESSAGE URL" WithCompletionHandler:^(id theJson, NSError *theError) {
+            
+            if (theError) {
+                
+                completion(nil,theError);
+                
+                return ;
+            }
+            NSLog(@"sync feed json..%@", (NSString *)theJson);
+            ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
+            NSLog(@"count is: %lu", (unsigned long)syncResponse.messagesList.count);
+            if(syncResponse.messagesList.count >0 ){
+                ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+                [dbService addMessageList:syncResponse.messagesList];
+            }
+            [ALUserDefaultsHandler
+             setLastSyncTime:syncResponse.lastSyncTime];
+            NSLog(@"sync feed ..%@", syncResponse.messagesList);
+            completion(syncResponse.messagesList,nil);
+            
+        }];
+
+    }
+    
+  }
 
 +(void )deleteMessage:( NSString * ) keyString withCompletion:(void (^)(NSString *, NSError *))completion{
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/delete",KBASE_URL];

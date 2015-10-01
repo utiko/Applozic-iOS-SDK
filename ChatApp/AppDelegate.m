@@ -45,6 +45,8 @@
                                                    completion:nil];
     }
     
+    NSLog(@"launchOptions: %@", launchOptions);
+    
     if (launchOptions != nil)
     {
         NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -112,10 +114,10 @@
     
     NSString *apnDeviceToken = hexToken; //[[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding];
     
-    /*if ([[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken])
+    if ([[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken])
     {
         return;
-    }*/
+    }
 
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
    

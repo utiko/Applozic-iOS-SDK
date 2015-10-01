@@ -40,9 +40,7 @@
         NSLog(@"Alert: %@", alertValue);
         
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
-        //[dict setValue:@"YES"  forKey:@"updateUI"];
-        [dict setObject:[NSNumber numberWithBool:updateUI]
-                    forKey:@"updateUI"];
+        [dict setObject:[NSNumber numberWithBool:updateUI] forKey:@"updateUI"];
         
         NSString *type = (NSString *)[dictionary valueForKey:@"AL_TYPE"];
         NSString *value = (NSString *)[dictionary valueForKey:@"AL_VALUE"];
