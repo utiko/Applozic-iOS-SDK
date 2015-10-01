@@ -262,6 +262,8 @@ ALMessageDBService  * dbService;
 
 -(void) loadChatView
 {
+    self.navigationItem.title = self.contactIds;
+
     BOOL isLoadEarlierTapped = self.mMessageListArray.count == 0 ? NO : YES ;
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
@@ -678,9 +680,6 @@ ALMessageDBService  * dbService;
     } ];
 }
 
-
-
-
 -(void) handleErrorStatus:(ALMessage *) message{
     [ALUtilityClass displayToastWithMessage:@"network error." ];
     message.inProgress=NO;
@@ -743,6 +742,7 @@ ALMessageDBService  * dbService;
     CGFloat degree = writtenBytes/divergence;
     return degree;
 }
+
 - (ALMessage* )getMessageFromViewList:(NSString *)key withValue:(NSString*)value{
     
     NSArray * filteredArray = [self.mMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%K == %@",key,value]];
@@ -774,11 +774,8 @@ ALMessageDBService  * dbService;
                 NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
                NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
               NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
-               NSLog(@"not reached to sortedArray line message json from client ::");
                 [[self mMessageListArray] addObjectsFromArray:sortedArray];
                
-                NSLog(@"not reached to last line message json from client ::");
-
             }
             NSLog(@" message json from client ::%@",[ALUserDefaultsHandler
                                                       getLastSyncTime ] );
@@ -810,33 +807,20 @@ ALMessageDBService  * dbService;
     NSLog(@"Notification received by Individual chat list: %@", contactId);
 
     
-    if ([self.contactIds isEqualToString:contactId ] && [updateUI boolValue])
-    {
-        NSLog(@"individual is opened for %@", contactId);
-        //update same view- working fine
+    if ([self.contactIds isEqualToString:contactId]) {
+        //[self fetchAndRefresh];
+        NSLog(@"current contact thread is opened");
         [self fetchAndRefresh];
-    }
-    else if(![updateUI boolValue])
-    {
-        NSLog(@"updateUI is false and contactIds opened is: %@", self.contactIds);
+    } else if (![updateUI boolValue]) {
+        NSLog(@"it was in background, updateUI is false");
+        [self.mMessageListArray removeAllObjects];
+        [self.mTableView reloadData];
         
-        if (self.isViewLoaded && self.view.window)
-        {
-            //[self.detailChatViewController clear];
-            NSLog(@"######already opened, pay attention to clear previous contacts if something else is opened.");
-            //contactIds =contactId;
-            self.contactIds = contactId;
-            [self fetchMessageFromDB];
-            [self loadChatView];
-        }
-        
-        [self fetchAndRefresh];
-        
-    }
-    else {
-        //todo: show notification
-        
-        NSLog(@"######someelse contact thread is opened so just show notification");
+        self.contactIds = contactId;
+        [self fetchMessageFromDB];
+        [self loadChatView];
+    } else {
+        NSLog(@"show notification as someone else thread is already opened");
     }
 
 }
