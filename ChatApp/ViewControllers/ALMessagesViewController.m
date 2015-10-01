@@ -161,8 +161,9 @@
     static NSString *cellIdentifier = @"ContactCell";
     ALContactCell *contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     ALMessage *message = (ALMessage *)self.mContactsMessageListArray[indexPath.row];
+    
     UILabel* nameIcon=(UILabel*)[contactCell viewWithTag:102];
-//    contactCell.mUserImageView.image = [UIImage imageNamed:@"ic_mobicom.png"];
+//   contactCell.mUserImageView.image = [UIImage imageNamed:@"ic_mobicom.png"];
     contactCell.mUserNameLabel.text = message.to;
     contactCell.mMessageLabel.text = message.message;
     NSString *firstLetter = [message.to substringToIndex:1];
@@ -199,21 +200,29 @@
 #pragma mark - Table View Editing Methods
 //------------------------------------------------------------------------------------------------------------------
 
-// Override to support conditional editing of the table view.
-// This only needs to be implemented if you are going to be returning NO
-// for some items. By default, all items are editable.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return YES if you want the specified item to be editable.
+
     return YES;
 }
 
-// Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-       
-        NSLog(@"Delete Pressed");
+        ALMessage * alMessageobj=  self.mContactsMessageListArray[indexPath.row];
+        NSLog(@"MESSAGE %@",alMessageobj.contactIds);
+        [ALMessageService deleteMessageThread:alMessageobj.contactIds withCompletion:^(NSString *string, NSError *error) {
+            
+            if(error){
+                
+                NSLog(@"Error in Deletion");
+            }
         
+                NSLog(@"STRING else:%@",string);
+                NSLog(@"Delete Pressed");
+            
+        }];
+
+        [tableView reloadData];
         
     }
 }

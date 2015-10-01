@@ -212,13 +212,14 @@
  +"&suUserKeyString=
  */
 +(void)deleteMessageThread:( NSString * ) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/sms/deleteConversion",KBASE_URL];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/sms/delete/conversation.task",KBASE_URL];
     NSString * theParamString = [NSString stringWithFormat:@"contactNumber=%@",contactId];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
         if (theError) {
             completion(nil,theError);
+            NSLog(@"theError");
             return ;
         }else{
             //delete sucessfull
