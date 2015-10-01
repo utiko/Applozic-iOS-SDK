@@ -280,7 +280,7 @@
         //Show notification...
         ALMessageDBService *dBService = [ALMessageDBService new];
         dBService.delegate = self;
-        [dBService fetchAndRefreshFromServer];
+        [dBService fetchAndRefreshFromServerForPush];
     }
     else if(![updateUI boolValue])
     {
