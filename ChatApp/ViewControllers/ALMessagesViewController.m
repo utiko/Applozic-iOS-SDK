@@ -216,14 +216,12 @@
         
         NSLog(@"Delete Pressed");
         ALMessage * alMessageobj=  self.mContactsMessageListArray[indexPath.row];
-        NSLog(@"MESSAGE %@",alMessageobj.contactIds);
-        [ALMessageService deleteMessageThread:alMessageobj.contactIds withCompletion:^(NSString *string, NSError *error) {
-            
-            if(error){
-                
-                NSLog(@"Error in Deletion");
-            }
         
+        [ALMessageService deleteMessageThread:alMessageobj.contactIds withCompletion:^(NSString *string, NSError *error) {
+    
+            if(!error){
+                NSLog(@"Success");
+            }
             
         }];
 
