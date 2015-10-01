@@ -320,8 +320,6 @@
         result = [self addContact:contact];
         
         if (!result) {
-            
-            NSLog(@"Failure to save the contacts");
             break;
         }
     }

@@ -825,7 +825,9 @@ ALMessageDBService  * dbService;
             //[self.detailChatViewController clear];
             NSLog(@"######already opened, pay attention to clear previous contacts if something else is opened.");
             //contactIds =contactId;
-            
+            self.contactIds = contactId;
+            [self fetchMessageFromDB];
+            [self loadChatView];
         }
         
         [self fetchAndRefresh];
