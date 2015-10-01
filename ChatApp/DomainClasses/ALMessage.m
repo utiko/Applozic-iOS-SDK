@@ -140,5 +140,21 @@
     return formattedDateStr;
 }
 
+-(BOOL)isDownloadRequire{
+    
+    //TODO:check for SD card
+    if ( self.fileMetas && !self.imageFilePath){
+        return YES;
+    }
+    return NO;
+}
+
+-(BOOL)isUploadRequire{
+    //TODO:check for SD card
+    if ( (self.imageFilePath && !self.fileMetas && [ self.type  isEqualToString:@"5"]) || self.isUploadFailed==YES){
+        return YES;
+    }
+    return NO;
+}
 
 @end

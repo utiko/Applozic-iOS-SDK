@@ -61,4 +61,7 @@
 
 -(id)initWithDictonary:(NSDictionary*)messageDictonary;
 
+-(BOOL)isDownloadRequire;
+-(BOOL)isUploadRequire;
+
 @end

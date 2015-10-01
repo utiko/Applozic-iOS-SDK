@@ -16,6 +16,7 @@
 
 -(void) downloadRetryButtonActionDelegate:(int) index andMessage:(ALMessage *) message;
 -(void) stopDownloadForIndex:(int)index andMessage:(ALMessage *)message;
+-(void) showFullScreen:(UIViewController *) fullView;
 
 @end
 
@@ -41,5 +42,8 @@
 @property (nonatomic, assign) id<ALChatCellImageDelegate> delegate;
 
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize;
+
+
+
 
 @end
