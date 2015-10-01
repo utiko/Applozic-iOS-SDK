@@ -277,7 +277,6 @@
     {
         [self createDetailChatViewController: contactId];
         [self.detailChatViewController fetchAndRefresh];
-        
     }
     
 }

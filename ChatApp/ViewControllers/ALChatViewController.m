@@ -778,10 +778,13 @@ ALMessageDBService  * dbService;
             NSLog(@" message json from client ::%@",[ALUserDefaultsHandler
                                                       getLastSyncTime ] );
             [self.mTableView reloadData];
-            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [super scrollTableViewToBottomWithAnimation:YES];
+            });
         }
     }];
-  
+    
+
 }
 -(void)updateDeliveryReport:(NSString*)keyString{
     
