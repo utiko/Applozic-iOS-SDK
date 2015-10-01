@@ -30,7 +30,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="81.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="full_moon" translatesAutoresizingMaskIntoConstraints="NO" id="9sE-W8-i33">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9sE-W8-i33">
                                                     <rect key="frame" x="19" y="13" width="55" height="55"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="55" id="blM-4Z-FEN"/>
@@ -489,6 +489,5 @@
     </scenes>
     <resources>
         <image name="Applozic Final Logo" width="694" height="555"/>
-        <image name="full_moon" width="75" height="75"/>
     </resources>
 </document>
