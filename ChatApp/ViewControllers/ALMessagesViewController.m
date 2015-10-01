@@ -46,12 +46,12 @@
 @implementation ALMessagesViewController
 
 //------------------------------------------------------------------------------------------------------------------
-    #pragma mark - View lifecycle
+#pragma mark - View lifecycle
 //------------------------------------------------------------------------------------------------------------------
 
 
 - (IBAction)logout:(id)sender {
-
+    
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService logout];
     
@@ -66,13 +66,13 @@
 }
 
 - (void)viewDidLoad {
-
+    
     [super viewDidLoad];
     [self setUpView];
     [self setUpTableView];
     self.mTableView.allowsMultipleSelectionDuringEditing = NO;
     
- 
+    
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
     [dBService getMessages];
@@ -80,7 +80,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
+    
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
         self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
@@ -97,14 +97,14 @@
     
     //unregister for notification
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushNotification" object:nil];
-
+    
     [super viewWillDisappear:animated];
-
+    
     self.navigationController.navigationBar.barTintColor = self.navColor;
 }
 
 - (void)didReceiveMemoryWarning {
-
+    
     [super didReceiveMemoryWarning];
 }
 
@@ -118,7 +118,7 @@
                                     color,NSForegroundColorAttributeName,nil];
     self.navigationController.navigationBar.titleTextAttributes = textAttributes;
     self.navigationItem.title = @"Conversation";
-
+    
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
         self.navColor = [self.navigationController.navigationBar tintColor];
     else
@@ -128,12 +128,12 @@
 -(void)setUpTableView {
     self.mContactsMessageListArray = [NSMutableArray new];
     self.mTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateConversationTableNotification:) name:@"updateConversationTableNotification" object:nil];
 }
 
 //------------------------------------------------------------------------------------------------------------------
-    #pragma mark - ALMessagesDelegate
+#pragma mark - ALMessagesDelegate
 //------------------------------------------------------------------------------------------------------------------
 
 -(void)getMessagesArray:(NSMutableArray *)messagesArray {
@@ -143,26 +143,26 @@
 
 
 //------------------------------------------------------------------------------------------------------------------
-    #pragma mark - Table View DataSource Methods
+#pragma mark - Table View DataSource Methods
 //------------------------------------------------------------------------------------------------------------------
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
+    
     return (self.mTableView==nil)?0:1;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
+    
     return self.mContactsMessageListArray.count>0?[self.mContactsMessageListArray count]:0;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     static NSString *cellIdentifier = @"ContactCell";
     ALContactCell *contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     ALMessage *message = (ALMessage *)self.mContactsMessageListArray[indexPath.row];
     UILabel* nameIcon=(UILabel*)[contactCell viewWithTag:102];
-//    contactCell.mUserImageView.image = [UIImage imageNamed:@"ic_mobicom.png"];
+    //    contactCell.mUserImageView.image = [UIImage imageNamed:@"ic_mobicom.png"];
     contactCell.mUserNameLabel.text = message.to;
     contactCell.mMessageLabel.text = message.message;
     NSString *firstLetter = [message.to substringToIndex:1];
@@ -171,10 +171,10 @@
         contactCell.mLastMessageStatusImageView.image = [UIImage imageNamed:@"mobicom_social_forward.png"];
     else if ([message.type integerValue] == [REPLIED_STATUS integerValue])
         contactCell.mLastMessageStatusImageView.image = [UIImage imageNamed:@"mobicom_social_reply.png"];
-
+    
     BOOL isToday = [ALUtilityClass isToday:[NSDate dateWithTimeIntervalSince1970:[message.createdAtTime doubleValue]/1000]];
     contactCell.mTimeLabel.text = [message getCreatedAtTime:isToday];
-
+    
     return contactCell;
 }
 
@@ -186,11 +186,17 @@
     
     ALMessage * message=  self.mContactsMessageListArray[indexPath.row];
     
+    [self createDetailChatViewController: message.contactIds];
+    
+}
+
+-(void)createDetailChatViewController: (NSString *) contactIds
+{
     if (!(self.detailChatViewController))
     {
         _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     }
-    _detailChatViewController.contactIds = message.contactIds;
+    _detailChatViewController.contactIds = contactIds;
     [self.navigationController pushViewController:_detailChatViewController animated:YES];
     
 }
@@ -211,7 +217,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-       
+        
         NSLog(@"Delete Pressed");
         
         
@@ -227,7 +233,7 @@
     ALMessage * theMessage = notification.object;
     NSLog(@"notification for table update...%@", theMessage.message);
     NSArray * theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",theMessage.contactIds]];
-
+    
     ALMessage * theLatestMessage = theFilteredArray.firstObject;
     if ([theMessage.createdAtTime isEqualToString:theLatestMessage.createdAtTime] == NO) {
         [self.mContactsMessageListArray removeObject:theLatestMessage];
@@ -243,54 +249,37 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-
+    
     UIInterfaceOrientation toOrientation   = (UIInterfaceOrientation)[[UIDevice currentDevice] orientation];
     if ([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone && (toOrientation == UIInterfaceOrientationLandscapeLeft || toOrientation == UIInterfaceOrientationLandscapeRight)) {
         self.mTableViewTopConstraint.constant = DEFAULT_TOP_LANDSCAPE_CONSTANT;
     }else{
         self.mTableViewTopConstraint.constant = DEFAULT_TOP_PORTRAIT_CONSTANT;
     }
-
+    
     [self.view layoutIfNeeded];
 }
 
 
 -(void)pushNotificationhandler:(NSNotification *) notification{
-    
-    // see if this view is visible or not...
     NSString * contactId = notification.object;
     NSDictionary *dict = notification.userInfo;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
-    NSLog(@"yes comes here %@", contactId);
-
     
     if (self.isViewLoaded && self.view.window && [updateUI boolValue])
     {
-            //Show notification...
-            NSLog(@"current quick view is visible");
-            ALMessageDBService *dBService = [ALMessageDBService new];
-            dBService.delegate = self;
-            [dBService fetchAndRefreshFromServer];
+        //Show notification...
+        ALMessageDBService *dBService = [ALMessageDBService new];
+        dBService.delegate = self;
+        [dBService fetchAndRefreshFromServer];
     }
     else if(![updateUI boolValue])
     {
-        NSLog(@"updateUI is false and contactIds opened is: %@", self.detailChatViewController.contactIds);
-
-                NSLog(@"lets create a new controller here and push it.");
-                _detailChatViewController.contactIds =contactId;
-                [self.navigationController pushViewController:_detailChatViewController animated:YES];
-        
-        
-            [self.detailChatViewController fetchAndRefresh];
+        [self createDetailChatViewController: contactId];
+        [self.detailChatViewController fetchAndRefresh];
         
     }
-        else {
-            //todo: show notification
-            
-            NSLog(@"######someelse contact thread is opened so just show notification");
-        }
-
-  
+    
 }
 
 - (void)dealloc {

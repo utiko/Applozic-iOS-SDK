@@ -707,6 +707,9 @@
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = C25JNDCBM4;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.VPNLite = {
 								enabled = 0;
 							};
