@@ -163,7 +163,7 @@
     ALMessage *message = (ALMessage *)self.mContactsMessageListArray[indexPath.row];
     
     UILabel* nameIcon=(UILabel*)[contactCell viewWithTag:102];
-//   contactCell.mUserImageView.image = [UIImage imageNamed:@"ic_mobicom.png"];
+    //    contactCell.mUserImageView.image = [UIImage imageNamed:@"ic_mobicom.png"];
     contactCell.mUserNameLabel.text = message.to;
     contactCell.mMessageLabel.text = message.message;
     NSString *firstLetter = [message.to substringToIndex:1];
