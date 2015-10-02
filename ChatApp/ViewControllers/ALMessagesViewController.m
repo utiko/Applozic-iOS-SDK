@@ -90,6 +90,13 @@
     
     //register for notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
+    if ([_detailChatViewController refreshMainView])
+    {
+        ALMessageDBService *dBService = [ALMessageDBService new];
+        dBService.delegate = self;
+        [dBService getMessages];
+        [_detailChatViewController setRefreshMainView:FALSE];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated {

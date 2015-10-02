@@ -732,6 +732,7 @@ ALMessageDBService  * dbService;
             return ;
         }
         [self.mTableView reloadData];
+        [self setRefreshMainView:TRUE];
     }];
 
 }
@@ -794,7 +795,7 @@ ALMessageDBService  * dbService;
 
 -(void)individualNotificationhandler:(NSNotification *) notification
 {
-    
+    [self setRefreshMainView:TRUE];    
     // see if this view is visible or not...
     NSString * contactId = notification.object;
     NSDictionary *dict = notification.userInfo;
