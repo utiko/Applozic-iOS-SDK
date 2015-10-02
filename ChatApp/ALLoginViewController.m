@@ -57,6 +57,7 @@
     [self.mActivityIndicator startAnimating];
     [registerUserClientService initWithCompletion:user withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         [self.mActivityIndicator stopAnimating];
+
         if (error) {
             NSLog(@"%@",error);
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response"

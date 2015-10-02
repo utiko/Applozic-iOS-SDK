@@ -72,7 +72,6 @@
     [self setUpTableView];
     self.mTableView.allowsMultipleSelectionDuringEditing = NO;
     
-    
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
     [dBService getMessages];
