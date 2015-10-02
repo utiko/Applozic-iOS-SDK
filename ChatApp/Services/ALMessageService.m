@@ -17,6 +17,7 @@
 #import "ALConnection.h"
 #import "ALConnectionQueueHandler.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALMessageClientService.h"
 
 @implementation ALMessageService
 
@@ -182,6 +183,10 @@
             [ALUserDefaultsHandler
              setLastSyncTime:syncResponse.lastSyncTime];
             NSLog(@"sync feed ..%@", syncResponse.messagesList);
+            
+            ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
+            [messageClientService updateDeliveryReports:syncResponse.messagesList];
+        
             completion(syncResponse.messagesList,nil);
             
         }];
