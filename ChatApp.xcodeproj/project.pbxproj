@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2973A8CE1BB9F1C600F45094 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2973A8CD1BB9F1C600F45094 /* CoreLocation.framework */; };
+		6D9056C11BBE6B6A009CFA85 /* ALMessageClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9056C01BBE6B6A009CFA85 /* ALMessageClientService.m */; };
 		6D95A3051BB971CE0047CAA6 /* ALPushNotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D95A3041BB971CE0047CAA6 /* ALPushNotificationService.m */; };
 		6DD502E81BAB43F600F68D30 /* ALLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD502E71BAB43F600F68D30 /* ALLoginViewController.m */; };
 		6DD502ED1BAB4B2400F68D30 /* ALUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD502EC1BAB4B2400F68D30 /* ALUser.m */; };
@@ -123,6 +124,8 @@
 
 /* Begin PBXFileReference section */
 		2973A8CD1BB9F1C600F45094 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		6D9056BF1BBE6B6A009CFA85 /* ALMessageClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMessageClientService.h; sourceTree = "<group>"; };
+		6D9056C01BBE6B6A009CFA85 /* ALMessageClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMessageClientService.m; sourceTree = "<group>"; };
 		6D95A3031BB971CE0047CAA6 /* ALPushNotificationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALPushNotificationService.h; sourceTree = "<group>"; };
 		6D95A3041BB971CE0047CAA6 /* ALPushNotificationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALPushNotificationService.m; sourceTree = "<group>"; };
 		6DD502E61BAB43F600F68D30 /* ALLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALLoginViewController.h; sourceTree = "<group>"; };
@@ -156,16 +159,16 @@
 		9C276CE61B6414FC005E76C7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9C276CE81B642968005E76C7 /* ALContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALContactCell.h; sourceTree = "<group>"; };
 		9C276CE91B642968005E76C7 /* ALContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALContactCell.m; sourceTree = "<group>"; };
-		9C276CED1B64D538005E76C7 /* ALMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMessage.h; sourceTree = "<group>"; };
-		9C276CEE1B64D538005E76C7 /* ALMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMessage.m; sourceTree = "<group>"; };
+		9C276CED1B64D538005E76C7 /* ALMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALMessage.h; path = DomainClasses/ALMessage.h; sourceTree = "<group>"; };
+		9C276CEE1B64D538005E76C7 /* ALMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMessage.m; path = DomainClasses/ALMessage.m; sourceTree = "<group>"; };
 		9C276CF01B64D56E005E76C7 /* ALParsingHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALParsingHandler.h; sourceTree = "<group>"; };
 		9C276CF11B64D56E005E76C7 /* ALParsingHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALParsingHandler.m; sourceTree = "<group>"; };
 		9C276CF21B64D56E005E76C7 /* ALRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALRequestHandler.h; sourceTree = "<group>"; };
 		9C276CF31B64D56E005E76C7 /* ALRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALRequestHandler.m; sourceTree = "<group>"; };
 		9C276CF41B64D56E005E76C7 /* ALResponseHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALResponseHandler.h; sourceTree = "<group>"; };
 		9C276CF51B64D56E005E76C7 /* ALResponseHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALResponseHandler.m; sourceTree = "<group>"; };
-		9C276CF91B64D59D005E76C7 /* ALMessageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMessageService.h; sourceTree = "<group>"; };
-		9C276CFA1B64D59D005E76C7 /* ALMessageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMessageService.m; sourceTree = "<group>"; };
+		9C276CF91B64D59D005E76C7 /* ALMessageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALMessageService.h; path = Services/ALMessageService.h; sourceTree = "<group>"; };
+		9C276CFA1B64D59D005E76C7 /* ALMessageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMessageService.m; path = Services/ALMessageService.m; sourceTree = "<group>"; };
 		9C276CFC1B64DE8F005E76C7 /* ALUtilityClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUtilityClass.h; sourceTree = "<group>"; };
 		9C276CFD1B64DE8F005E76C7 /* ALUtilityClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUtilityClass.m; sourceTree = "<group>"; };
 		9C276CFF1B64EF1C005E76C7 /* ic_action_about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_action_about.png; sourceTree = "<group>"; };
@@ -307,6 +310,7 @@
 		6D8EE6BD1BB5A736005DF5DA /* ApplozicLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				6D9056BE1BBE6B56009CFA85 /* message */,
 				6D95A2FC1BB96C1F0047CAA6 /* push */,
 				6D8EE6BF1BB5A7C1005DF5DA /* account */,
 			);
@@ -340,6 +344,19 @@
 			children = (
 			);
 			name = ApplozicUIWidget;
+			sourceTree = "<group>";
+		};
+		6D9056BE1BBE6B56009CFA85 /* message */ = {
+			isa = PBXGroup;
+			children = (
+				9C276CF91B64D59D005E76C7 /* ALMessageService.h */,
+				9C276CFA1B64D59D005E76C7 /* ALMessageService.m */,
+				9C276CED1B64D538005E76C7 /* ALMessage.h */,
+				9C276CEE1B64D538005E76C7 /* ALMessage.m */,
+				6D9056BF1BBE6B6A009CFA85 /* ALMessageClientService.h */,
+				6D9056C01BBE6B6A009CFA85 /* ALMessageClientService.m */,
+			);
+			name = message;
 			sourceTree = "<group>";
 		};
 		6D95A2FC1BB96C1F0047CAA6 /* push */ = {
@@ -466,8 +483,6 @@
 				9C95DBC41B80C8B60012A649 /* DB_Message.m */,
 				9CEEF1851B6F45BD00F0B68E /* ALJson.h */,
 				9CEEF1861B6F45BD00F0B68E /* ALJson.m */,
-				9C276CED1B64D538005E76C7 /* ALMessage.h */,
-				9C276CEE1B64D538005E76C7 /* ALMessage.m */,
 				E1D8D34A1B89B91C00550675 /* ALFileMetaInfo.h */,
 				E1D8D34B1B89B91C00550675 /* ALFileMetaInfo.m */,
 				6DF6EFA41BAEF4FB00ADE5F6 /* ALSyncMessageFeed.h */,
@@ -549,8 +564,6 @@
 		9C276CD51B6410DD005E76C7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				9C276CF91B64D59D005E76C7 /* ALMessageService.h */,
-				9C276CFA1B64D59D005E76C7 /* ALMessageService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -863,6 +876,7 @@
 				9C87DD211B889B0A007CEE5F /* UIImage+Utility.m in Sources */,
 				9C87DD821B8EFBC1007CEE5F /* KAProgressLabel.m in Sources */,
 				9C95DBBE1B80C8510012A649 /* AppLozic.xcdatamodeld in Sources */,
+				6D9056C11BBE6B6A009CFA85 /* ALMessageClientService.m in Sources */,
 				E1D8D3851B89E7E700550675 /* SDImageCache.m in Sources */,
 				6D95A3051BB971CE0047CAA6 /* ALPushNotificationService.m in Sources */,
 			);
