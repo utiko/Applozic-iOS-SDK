@@ -71,7 +71,7 @@
     [self setUpView];
     [self setUpTableView];
     self.mTableView.allowsMultipleSelectionDuringEditing = NO;
-    
+    [self.mActivityIndicator startAnimating];
     
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
@@ -137,6 +137,7 @@
 //------------------------------------------------------------------------------------------------------------------
 
 -(void)getMessagesArray:(NSMutableArray *)messagesArray {
+    [self.mActivityIndicator stopAnimating];
     self.mContactsMessageListArray = messagesArray;
     [self.mTableView reloadData];
 }
