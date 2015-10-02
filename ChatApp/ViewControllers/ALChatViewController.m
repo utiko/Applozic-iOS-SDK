@@ -51,7 +51,6 @@
         CLPlacemark *placemark;
         NSString* googleURL;
         UIActivityIndicatorView *loadingIndicator;
-    
 
 }
 
@@ -70,28 +69,30 @@ ALMessageDBService  * dbService;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+
    }
 
 -(void)viewWillAppear:(BOOL)animated {
-    
     [super viewWillAppear:animated];
+
     if( !(self.mMessageListArray.count >0 &&
           [[self.mMessageListArray[0] contactIds ] isEqualToString:self.contactIds])){
         [self.mMessageListArray removeAllObjects];
         self.startIndex =0;
         [self fetchMessageFromDB];
         [self loadChatView];
+        [super scrollTableViewToBottomWithAnimation:NO];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:) name:@"deliveryReport" object:nil];
-
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
+
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -509,7 +510,7 @@ ALMessageDBService  * dbService;
     theMessage.msgDBObjectId = [theSmsEntity objectID];
     dispatch_async(dispatch_get_main_queue(), ^{
 
-              [UIView animateWithDuration:.50 animations:^{
+            [UIView animateWithDuration:.50 animations:^{
             [self scrollTableViewToBottomWithAnimation:YES];
         } completion:^(BOOL finished) {
             [self uploadImage:theMessage];
@@ -772,8 +773,8 @@ ALMessageDBService  * dbService;
                 NSLog(@"message json from client ::");
                 NSArray * theFilteredArray = [messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];
                 NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
-               NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
-              NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
+                NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
+                NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
                 [[self mMessageListArray] addObjectsFromArray:sortedArray];
                
             }
@@ -830,5 +831,6 @@ ALMessageDBService  * dbService;
     NSString * keyString = notification.object;
     [self updateDeliveryReport:keyString];
 }
+
 
 @end
