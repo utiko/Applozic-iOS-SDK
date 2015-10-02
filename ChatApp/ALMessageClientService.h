@@ -7,11 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ALMessage.h"
 
 @interface ALMessageClientService : NSObject
 
 -(void) updateDeliveryReports:(NSMutableArray *) messages;
 
 -(void) updateDeliveryReport: (NSString *) key userId: (NSString *) userId;
+
+-(void) addWelcomeMessage;
 
 @end
