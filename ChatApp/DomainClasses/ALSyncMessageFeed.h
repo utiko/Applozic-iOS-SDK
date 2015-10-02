@@ -11,7 +11,7 @@
 
 @interface ALSyncMessageFeed : ALJson
 
-@property(nonatomic,copy) NSString *lastSyncTime;
+@property(nonatomic,copy) NSNumber *lastSyncTime;
 
 @property(nonatomic,copy) NSString *currentSyncTime;
 

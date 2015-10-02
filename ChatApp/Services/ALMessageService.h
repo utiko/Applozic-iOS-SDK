@@ -23,7 +23,7 @@
 +(void) sendPhotoForUserInfo:(NSDictionary *)userInfo withCompletion:(void(^)(NSString * message, NSError *error)) completion;
 
 
-+(void) getLatestMessageForUser:(NSString *)deviceKeyString lastSyncTime:(NSString*) lastSyncTime withCompletion:(void(^)(NSMutableArray  * message, NSError *error)) completion;
++(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void(^)(NSMutableArray  * message, NSError *error)) completion;
 
 +(void)proessUploadImageForMessage:(ALMessage *)message databaseObj:(DB_FileMetaInfo *)fileMetaInfo uploadURL:(NSString *)uploadURL withdelegate:(id)delegate;
 

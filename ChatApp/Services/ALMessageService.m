@@ -157,8 +157,13 @@
 }
 
 
-+(void) getLatestMessageForUser:(NSString *)deviceKeyString lastSyncTime:(NSString *)lastSyncTime withCompletion:(void (^)( NSMutableArray *, NSError *))completion{
++(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( NSMutableArray *, NSError *))completion{
     @synchronized(self) {
+        NSString *lastSyncTime =[ALUserDefaultsHandler
+                                 getLastSyncTime ];
+        if ( lastSyncTime == NULL ){
+            lastSyncTime = @"0";
+        }
         NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/sync/messages",KBASE_URL];
         
         NSString * theParamString = [NSString stringWithFormat:@"deviceKeyString=%@&lastSyncTime=%@",deviceKeyString,lastSyncTime];

@@ -757,20 +757,14 @@ ALMessageDBService  * dbService;
 
 -(void)fetchAndRefresh{
     NSString *deviceKeyString =[ALUserDefaultsHandler getDeviceKeyString ] ;
-    NSString *lastSyncTime =[ALUserDefaultsHandler
-                             getLastSyncTime ];
-    if ( lastSyncTime == NULL ){
-        lastSyncTime = @"0";
-    }
     
-    [ ALMessageService getLatestMessageForUser: deviceKeyString lastSyncTime: lastSyncTime withCompletion:^(NSMutableArray  *messageList, NSError *error) {
+    [ ALMessageService getLatestMessageForUser: deviceKeyString withCompletion:^(NSMutableArray  *messageList, NSError *error) {
         if (error) {
             NSLog(@"%@",error);
             return ;
             
         } else {
             if (messageList.count > 0 ){
-                NSLog(@"message json from client ::");
                 NSArray * theFilteredArray = [messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];
                 NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
                 NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
@@ -778,7 +772,7 @@ ALMessageDBService  * dbService;
                 [[self mMessageListArray] addObjectsFromArray:sortedArray];
                
             }
-            NSLog(@" message json from client ::%@",[ALUserDefaultsHandler
+            NSLog(@" message json from client, lastSyncTime ::%@",[ALUserDefaultsHandler
                                                       getLastSyncTime ] );
             [self.mTableView reloadData];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -822,6 +816,14 @@ ALMessageDBService  * dbService;
         [self loadChatView];
     } else {
         NSLog(@"show notification as someone else thread is already opened");
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.userInfo = notification.userInfo;
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
+        NSString *alertValue = [[notification.userInfo valueForKey:@"aps"] valueForKey:@"alert"];
+        
+        localNotification.alertBody = alertValue;
+        localNotification.fireDate = [NSDate date];
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     }
 
 }
