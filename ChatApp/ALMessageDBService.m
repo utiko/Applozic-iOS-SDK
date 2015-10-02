@@ -32,7 +32,10 @@
             continue;
         }
         
-        [self createSMSEntityForDBInsertionWithMessage:theMessage];
+        DB_Message * theSmsEntity= [self createSMSEntityForDBInsertionWithMessage:theMessage];
+        [theDBHandler.managedObjectContext save:nil];
+        theMessage.msgDBObjectId = theSmsEntity.objectID;
+
     }
     
     [theDBHandler.managedObjectContext save:nil];
