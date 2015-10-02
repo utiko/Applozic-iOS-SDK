@@ -74,7 +74,7 @@
                 
                 NSMutableString * errorString = [[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 
-                NSLog(@"api error : %@ - %@",tag,errorString);
+                NSLog(@"#Response wasn't json: %@ - %@",tag,errorString);
                 
                 reponseCompletion(nil,[self errorWithDescription:message_SomethingWentWrong]);
                 
@@ -90,7 +90,7 @@
 
 +(NSError *) errorWithDescription:(NSString *) reason
 {
-    return [NSError errorWithDomain:@"AppLogic" code:1 userInfo:[NSDictionary dictionaryWithObject:reason forKey:NSLocalizedDescriptionKey]];
+    return [NSError errorWithDomain:@"AppLozßßßic" code:1 userInfo:[NSDictionary dictionaryWithObject:reason forKey:NSLocalizedDescriptionKey]];
 }
 
 

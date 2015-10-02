@@ -12,6 +12,8 @@
 #import "ALResponseHandler.h"
 #import "ALMessage.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALMessageDBService.h"
+#import "ALDBHandler.h"
 
 @implementation ALMessageClientService
 
@@ -44,7 +46,33 @@
         
     }];
 
+}
+
+-(void) addWelcomeMessage
+{
+    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+    ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     
+    ALMessage * theMessage = [ALMessage new];
+    
+    theMessage.type = @"4";
+    theMessage.contactIds = @"applozic";//1
+    theMessage.to = @"applozic";//2
+    theMessage.createdAtTime = [NSString stringWithFormat:@"%ld",(long)[[NSDate date] timeIntervalSince1970]*1000];
+    theMessage.deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString ];
+    theMessage.message = @"Welcome to Applozic! Drop a message here or contact us at devashish@applozic.com for any queries. Thanks";//3
+    theMessage.sendToDevice = NO;
+    theMessage.sent = NO;
+    theMessage.shared = NO;
+    theMessage.fileMetas = nil;
+    theMessage.read = NO;
+    theMessage.keyString = @"welcome-message-temp-key-string";
+    theMessage.delivered=NO;
+    theMessage.fileMetaKeyStrings = @[];//4
+    
+    [messageDBService createSMSEntityForDBInsertionWithMessage:theMessage];
+    [theDBHandler.managedObjectContext save:nil];
+
 }
 
 

@@ -11,6 +11,7 @@
 #import "ALRegistrationResponse.h"
 #import "ALRegisterUserClientService.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALMessageClientService.h"
 
 
 @interface ALLoginViewController ()<UITextFieldDelegate>
@@ -63,15 +64,17 @@
             [alertView show];
             return ;
         }
-
+        
+        if (rResponse && [rResponse.message containsString: @"REGISTERED"])
+        {
+            ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
+            [messageClientService addWelcomeMessage];
+        }
+      
         NSLog(@"Registration response from server:%@", rResponse);
         
         [self performSegueWithIdentifier:@"MessagesViewController" sender:self];
 
-        /*
-         ALRegistrationResponse *registrationResponse = [[ALRegistrationResponse alloc] initWithJSONString:strData];
-
-         NSLog(@"Converted to registrationresponse object: %@", registrationResponse.message);*/
     }];
 
 }

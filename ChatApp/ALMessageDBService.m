@@ -240,10 +240,9 @@
 
 -(void)fetchAndRefreshFromServerForPush{
     
-    NSString * lastSyncTime = [ALUserDefaultsHandler getLastSyncTime];
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     
-    [ALMessageService getLatestMessageForUser:deviceKeyString lastSyncTime:lastSyncTime withCompletion:^(NSMutableArray *messageArray, NSError *error) {
+    [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
        
         if (error) {
             NSLog(@"%@",error);

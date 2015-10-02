@@ -134,15 +134,18 @@
 
 //last sync time
 
-+(void )setLastSyncTime :( NSString *) lstSyncTime
++(void )setLastSyncTime :( NSNumber *) lstSyncTime
 {
-    [[NSUserDefaults standardUserDefaults] setValue:lstSyncTime forKey:LAST_SYNC_TIME];
+   // lstSyncTime = @([lstSyncTime doubleValue] + 1);
+
+    [[NSUserDefaults standardUserDefaults] setDouble:[lstSyncTime doubleValue] forKey:LAST_SYNC_TIME];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(NSString *)getLastSyncTime{
++(NSNumber *)getLastSyncTime{
     
+   // NSNumber *timeStampObj = [NSNumber numberWithDouble: timeStamp];
     return [[NSUserDefaults standardUserDefaults] valueForKey:LAST_SYNC_TIME];
 }
 
