@@ -136,7 +136,7 @@
 
 +(void )setLastSyncTime :( NSNumber *) lstSyncTime
 {
-   // lstSyncTime = @([lstSyncTime doubleValue] + 1);
+   lstSyncTime = @([lstSyncTime doubleValue] + 1);
 
     [[NSUserDefaults standardUserDefaults] setDouble:[lstSyncTime doubleValue] forKey:LAST_SYNC_TIME];
     
