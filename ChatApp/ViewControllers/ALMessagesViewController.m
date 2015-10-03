@@ -71,7 +71,7 @@
     [self setUpView];
     [self setUpTableView];
     self.mTableView.allowsMultipleSelectionDuringEditing = NO;
-    
+    [self.mActivityIndicator startAnimating];
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
     [dBService getMessages];
@@ -143,6 +143,7 @@
 //------------------------------------------------------------------------------------------------------------------
 
 -(void)getMessagesArray:(NSMutableArray *)messagesArray {
+    [self.mActivityIndicator stopAnimating];
     self.mContactsMessageListArray = messagesArray;
     [self.mTableView reloadData];
 }
@@ -224,15 +225,19 @@
         ALMessage * alMessageobj=  self.mContactsMessageListArray[indexPath.row];
         
         [ALMessageService deleteMessageThread:alMessageobj.contactIds withCompletion:^(NSString *string, NSError *error) {
-    
-            if(!error){
-                NSLog(@"Success");
+            
+            if(error){
+                NSLog(@"failure");
+                [ ALUtilityClass displayToastWithMessage:@"Delete failed" ];
             }
             
+            NSArray * theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",alMessageobj.contactIds]];
+            
+            NSLog(@"getting filteredArray ::%lu", (unsigned long)theFilteredArray.count );
+            [self.mContactsMessageListArray removeObject:theFilteredArray ];
+            
+            [self.mTableView reloadData];
         }];
-
-        [tableView reloadData];
-        
     }
 }
 
