@@ -15,8 +15,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "14"
             endingLineNumber = "14"
-            landmarkName = "emailId"
-            landmarkType = "19">
+            landmarkName = "@interface ALLoginViewController"
+            landmarkType = "2">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatApp/Services/ALMessageService.m"
-            timestampString = "464464765.02849"
+            timestampString = "465472725.413287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
-            landmarkName = "+getLatestMessageForUser:lastSyncTime:withCompletion:"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "+sendMessages:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,45 +42,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatApp/Services/ALMessageService.m"
-            timestampString = "464464765.02849"
+            timestampString = "465472725.413287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
-            landmarkName = "+getLatestMessageForUser:lastSyncTime:withCompletion:"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "+sendMessages:withCompletion:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "+[ALMessageService getLatestMessageForUser:lastSyncTime:withCompletion:]"
-                  moduleName = "ChatApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/devashish/Applozic-iOS-SDK/ChatApp/Services/ALMessageService.m"
-                  timestampString = "464511238.637226"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "124"
-                  endingLineNumber = "124"
-                  offsetFromSymbolStart = "286">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__72+[ALMessageService getLatestMessageForUser:lastSyncTime:withCompletion:]_block_invoke"
-                  moduleName = "ChatApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/devashish/Applozic-iOS-SDK/ChatApp/Services/ALMessageService.m"
-                  timestampString = "464511238.637497"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "124"
-                  endingLineNumber = "124"
-                  offsetFromSymbolStart = "70">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -102,7 +70,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatApp/Handlers/ALRequestHandler.m"
@@ -118,7 +86,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatApp/Handlers/ALRequestHandler.m"
@@ -134,7 +102,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatApp/Handlers/ALRequestHandler.m"
@@ -150,7 +118,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatApp/Handlers/ALRequestHandler.m"
@@ -166,7 +134,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatApp/Handlers/ALRequestHandler.m"
@@ -186,12 +154,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatApp/Services/ALMessageService.m"
-            timestampString = "464464851.74663"
+            timestampString = "465472725.413287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
-            landmarkName = "+getLatestMessageForUser:lastSyncTime:withCompletion:"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
+            landmarkName = "+sendMessages:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -202,12 +170,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChatApp/Services/ALMessageService.m"
-            timestampString = "464503570.371672"
+            timestampString = "465472725.413287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
-            landmarkName = "+getLatestMessageForUser:lastSyncTime:withCompletion:"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "+sendMessages:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -239,8 +207,40 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "97"
             endingLineNumber = "97"
-            landmarkName = "@implementation ALMessageDBService"
-            landmarkType = "3">
+            landmarkName = "-deleteMessageByKey:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChatApp/ViewControllers/ALChatViewController.m"
+            timestampString = "465499897.417899"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "736"
+            endingLineNumber = "736"
+            landmarkName = "-sendMessage:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChatApp/Handlers/ALRequestHandler.m"
+            timestampString = "465500364.058512"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "+createGETRequestWithUrlString:paramString:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

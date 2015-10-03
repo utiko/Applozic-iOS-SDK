@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -147,7 +147,11 @@
                             <constraint firstAttribute="centerX" secondItem="dlR-eX-vMZ" secondAttribute="centerX" id="2Eo-cA-itU"/>
                             <constraint firstAttribute="centerY" secondItem="dlR-eX-vMZ" secondAttribute="centerY" id="F60-2a-JLl"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="S0P-A8-QJi" secondAttribute="bottom" constant="-49" id="Wxu-r9-bCV"/>
+                            <constraint firstItem="dlR-eX-vMZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="ZF7-23-k1Y"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="dlR-eX-vMZ" secondAttribute="trailing" id="c0o-ot-WgP"/>
+                            <constraint firstItem="dlR-eX-vMZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="mLb-74-zIv"/>
                             <constraint firstItem="S0P-A8-QJi" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-64" id="qlf-k3-4dr"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="dlR-eX-vMZ" secondAttribute="bottom" id="une-GZ-Qqs"/>
                             <constraint firstItem="S0P-A8-QJi" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" constant="16" id="xAZ-vu-VeH"/>
                         </constraints>
                     </view>
@@ -471,15 +475,22 @@
                                     <constraint firstAttribute="width" constant="350" id="JpQ-Yf-Vm6"/>
                                 </constraints>
                             </imageView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="BnH-B4-bms">
+                                <rect key="frame" x="290" y="347" width="20" height="20"/>
+                                <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="BnH-B4-bms" secondAttribute="trailing" id="5LJ-sl-SLd"/>
                             <constraint firstItem="gmQ-aM-HWv" firstAttribute="top" secondItem="FlQ-ay-dde" secondAttribute="bottom" constant="-11" id="EYf-mu-smS"/>
                             <constraint firstItem="1Kf-N3-0PL" firstAttribute="leading" secondItem="Lzp-uV-zh7" secondAttribute="leading" constant="15" id="SFt-B4-V2b"/>
                             <constraint firstItem="kgK-nM-jmK" firstAttribute="top" secondItem="1Kf-N3-0PL" secondAttribute="bottom" constant="15" id="cSI-kT-W3h"/>
+                            <constraint firstItem="BnH-B4-bms" firstAttribute="leading" secondItem="Lzp-uV-zh7" secondAttribute="leadingMargin" id="en4-89-PZH"/>
                             <constraint firstItem="gmQ-aM-HWv" firstAttribute="centerY" secondItem="Lzp-uV-zh7" secondAttribute="centerY" constant="67" id="fL2-2m-zWf"/>
                             <constraint firstItem="FlQ-ay-dde" firstAttribute="top" secondItem="IgA-hH-uGQ" secondAttribute="bottom" id="fhY-BE-p1U"/>
+                            <constraint firstItem="BnH-B4-bms" firstAttribute="top" secondItem="FlQ-ay-dde" secondAttribute="bottom" id="fwT-Hq-6iy"/>
                             <constraint firstAttribute="trailing" secondItem="1Kf-N3-0PL" secondAttribute="trailing" constant="15" id="qC8-u1-aMB"/>
                             <constraint firstItem="gmQ-aM-HWv" firstAttribute="leading" secondItem="Lzp-uV-zh7" secondAttribute="leading" id="siL-En-RZ7"/>
                             <constraint firstAttribute="trailing" secondItem="gmQ-aM-HWv" secondAttribute="trailing" id="wLg-nh-VY8"/>
@@ -488,6 +499,7 @@
                     </view>
                     <connections>
                         <outlet property="emailField" destination="7iM-P1-Q0S" id="hlX-tn-C1k"/>
+                        <outlet property="mActivityIndicator" destination="BnH-B4-bms" id="eYB-yj-M8S"/>
                         <outlet property="passwordField" destination="HdR-Cv-Mvf" id="GZk-3o-jRU"/>
                         <outlet property="userIdField" destination="hRe-YD-lEv" id="jcf-d5-wMx"/>
                         <segue destination="nQk-LM-enC" kind="show" identifier="MessagesViewController" id="zDj-G9-0FC"/>

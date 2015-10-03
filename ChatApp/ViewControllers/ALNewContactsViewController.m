@@ -181,6 +181,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    // Do the search...
+    ALChatViewController * theVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+    theVC.contactIds = searchBar.text;
+    [self.navigationController pushViewController:theVC animated:YES];
+}
+
 #pragma mark - Search Bar Delegate Methods -
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {

@@ -15,6 +15,8 @@
 
 @property (nonatomic, copy) NSString * keyString;
 
+@property (nonatomic, copy) NSString * pairedMessageKeyString;
+
 @property (nonatomic, copy) NSString * deviceKeyString;
 
 @property (nonatomic, copy) NSString * suUserKeyString;

@@ -110,14 +110,16 @@
                           ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
     
 
-    [ALUtilityClass displayToastWithMessage:(hexToken)];
+    //[ALUtilityClass displayToastWithMessage:(hexToken)];
     
     NSString *apnDeviceToken = hexToken; //[[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding];
+    NSLog(@"apnDeviceToken: %@", hexToken);
     
+    /*
     if ([[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken])
     {
         return;
-    }
+    }*/
 
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
    

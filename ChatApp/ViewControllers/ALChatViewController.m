@@ -51,7 +51,6 @@
         CLPlacemark *placemark;
         NSString* googleURL;
         UIActivityIndicatorView *loadingIndicator;
-    
 
 }
 
@@ -70,28 +69,30 @@ ALMessageDBService  * dbService;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+
    }
 
 -(void)viewWillAppear:(BOOL)animated {
-    
     [super viewWillAppear:animated];
+
     if( !(self.mMessageListArray.count >0 &&
           [[self.mMessageListArray[0] contactIds ] isEqualToString:self.contactIds])){
         [self.mMessageListArray removeAllObjects];
         self.startIndex =0;
         [self fetchMessageFromDB];
         [self loadChatView];
+        [super scrollTableViewToBottomWithAnimation:NO];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:) name:@"deliveryReport" object:nil];
-
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
+
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -262,6 +263,8 @@ ALMessageDBService  * dbService;
 
 -(void) loadChatView
 {
+    self.navigationItem.title = self.contactIds;
+
     BOOL isLoadEarlierTapped = self.mMessageListArray.count == 0 ? NO : YES ;
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
@@ -507,7 +510,7 @@ ALMessageDBService  * dbService;
     theMessage.msgDBObjectId = [theSmsEntity objectID];
     dispatch_async(dispatch_get_main_queue(), ^{
 
-              [UIView animateWithDuration:.50 animations:^{
+            [UIView animateWithDuration:.50 animations:^{
             [self scrollTableViewToBottomWithAnimation:YES];
         } completion:^(BOOL finished) {
             [self uploadImage:theMessage];
@@ -678,9 +681,6 @@ ALMessageDBService  * dbService;
     } ];
 }
 
-
-
-
 -(void) handleErrorStatus:(ALMessage *) message{
     [ALUtilityClass displayToastWithMessage:@"network error." ];
     message.inProgress=NO;
@@ -732,6 +732,7 @@ ALMessageDBService  * dbService;
             return ;
         }
         [self.mTableView reloadData];
+        [self setRefreshMainView:TRUE];
     }];
 
 }
@@ -743,6 +744,7 @@ ALMessageDBService  * dbService;
     CGFloat degree = writtenBytes/divergence;
     return degree;
 }
+
 - (ALMessage* )getMessageFromViewList:(NSString *)key withValue:(NSString*)value{
     
     NSArray * filteredArray = [self.mMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%K == %@",key,value]];
@@ -756,31 +758,22 @@ ALMessageDBService  * dbService;
 
 -(void)fetchAndRefresh{
     NSString *deviceKeyString =[ALUserDefaultsHandler getDeviceKeyString ] ;
-    NSString *lastSyncTime =[ALUserDefaultsHandler
-                             getLastSyncTime ];
-    if ( lastSyncTime == NULL ){
-        lastSyncTime = @"0";
-    }
     
-    [ ALMessageService getLatestMessageForUser: deviceKeyString lastSyncTime: lastSyncTime withCompletion:^(NSMutableArray  *messageList, NSError *error) {
+    [ ALMessageService getLatestMessageForUser: deviceKeyString withCompletion:^(NSMutableArray  *messageList, NSError *error) {
         if (error) {
             NSLog(@"%@",error);
             return ;
             
         } else {
             if (messageList.count > 0 ){
-                NSLog(@"message json from client ::");
                 NSArray * theFilteredArray = [messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];
                 NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
-               NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
-              NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
-               NSLog(@"not reached to sortedArray line message json from client ::");
+                NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
+                NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
                 [[self mMessageListArray] addObjectsFromArray:sortedArray];
                
-                NSLog(@"not reached to last line message json from client ::");
-
             }
-            NSLog(@" message json from client ::%@",[ALUserDefaultsHandler
+            NSLog(@" message json from client, lastSyncTime ::%@",[ALUserDefaultsHandler
                                                       getLastSyncTime ] );
             [self.mTableView reloadData];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -802,7 +795,7 @@ ALMessageDBService  * dbService;
 
 -(void)individualNotificationhandler:(NSNotification *) notification
 {
-    
+    [self setRefreshMainView:TRUE];    
     // see if this view is visible or not...
     NSString * contactId = notification.object;
     NSDictionary *dict = notification.userInfo;
@@ -810,31 +803,28 @@ ALMessageDBService  * dbService;
     NSLog(@"Notification received by Individual chat list: %@", contactId);
 
     
-    if ([self.contactIds isEqualToString:contactId ] && [updateUI boolValue])
-    {
-        NSLog(@"individual is opened for %@", contactId);
-        //update same view- working fine
+    if ([self.contactIds isEqualToString:contactId]) {
+        //[self fetchAndRefresh];
+        NSLog(@"current contact thread is opened");
         [self fetchAndRefresh];
-    }
-    else if(![updateUI boolValue])
-    {
-        NSLog(@"updateUI is false and contactIds opened is: %@", self.contactIds);
+    } else if (![updateUI boolValue]) {
+        NSLog(@"it was in background, updateUI is false");
+        [self.mMessageListArray removeAllObjects];
+        [self.mTableView reloadData];
         
-        if (self.isViewLoaded && self.view.window)
-        {
-            //[self.detailChatViewController clear];
-            NSLog(@"######already opened, pay attention to clear previous contacts if something else is opened.");
-            //contactIds =contactId;
-            
-        }
+        self.contactIds = contactId;
+        [self fetchMessageFromDB];
+        [self loadChatView];
+    } else {
+        NSLog(@"show notification as someone else thread is already opened");
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.userInfo = notification.userInfo;
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
+        NSString *alertValue = [[notification.userInfo valueForKey:@"aps"] valueForKey:@"alert"];
         
-        [self fetchAndRefresh];
-        
-    }
-    else {
-        //todo: show notification
-        
-        NSLog(@"######someelse contact thread is opened so just show notification");
+        localNotification.alertBody = alertValue;
+        localNotification.fireDate = [NSDate date];
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     }
 
 }
@@ -844,5 +834,6 @@ ALMessageDBService  * dbService;
     NSString * keyString = notification.object;
     [self updateDeliveryReport:keyString];
 }
+
 
 @end
