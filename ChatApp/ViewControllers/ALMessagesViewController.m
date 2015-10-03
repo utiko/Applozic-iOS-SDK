@@ -227,14 +227,15 @@
         [ALMessageService deleteMessageThread:alMessageobj.contactIds withCompletion:^(NSString *string, NSError *error) {
             
             if(error){
-                NSLog(@"failure");
+                NSLog(@"failure %@",error.description);
                 [ ALUtilityClass displayToastWithMessage:@"Delete failed" ];
+                return;
             }
             
             NSArray * theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",alMessageobj.contactIds]];
             
             NSLog(@"getting filteredArray ::%lu", (unsigned long)theFilteredArray.count );
-            [self.mContactsMessageListArray removeObject:theFilteredArray ];
+            [self.mContactsMessageListArray removeObjectsInArray:theFilteredArray ];
             
             [self.mTableView reloadData];
         }];
