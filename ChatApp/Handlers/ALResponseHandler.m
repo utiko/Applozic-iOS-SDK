@@ -22,7 +22,7 @@
             return ;
         }
         
-      
+        
         // reponse code
         
         NSHTTPURLResponse * theHttpResponse = (NSHTTPURLResponse *) response;
@@ -39,11 +39,11 @@
         }
         
         if (data == nil) {
-          
+            
             reponseCompletion(nil,[self errorWithDescription:message_SomethingWentWrong]);
             
             NSLog(@"api error - %@",tag);
-
+            
             return;
         }
         
@@ -62,7 +62,7 @@
                 reponseCompletion(nil,error);
                 return;
             }
-
+            
             
         }else {
             
@@ -72,16 +72,20 @@
             
             if (theJsonError) {
                 
-                NSMutableString * errorString = [[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                NSMutableString * responseString = [[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 
-                NSLog(@"#Response wasn't json: %@ - %@",tag,errorString);
+                //CHECK HTML TAG FOR ERROR
+                NSError * error = [self checkForServerError:responseString];
+                if(error){
+                    reponseCompletion(nil,error);
+                    return;
+                }else {
+                    reponseCompletion(responseString,nil);
+                    
+                }
                 
-                reponseCompletion(nil,[self errorWithDescription:message_SomethingWentWrong]);
-                
-                return;
             }
         }
-        
         reponseCompletion(theJson,nil);
         
     }];
