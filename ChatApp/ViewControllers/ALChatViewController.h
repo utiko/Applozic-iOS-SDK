@@ -10,7 +10,7 @@
 #import "ALBaseViewController.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,CLLocationManagerDelegate>
+@interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 
 @property (strong, nonatomic) NSMutableArray *mMessageListArray;

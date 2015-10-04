@@ -41,7 +41,7 @@
 @property (nonatomic,assign) NSUInteger mTotalCount;
 
 @property (nonatomic,retain) UIImagePickerController * mImagePicker;
-
+@property (nonatomic)  ALLocationManager * alLocationManager;
 @end
 
 @implementation ALChatViewController{
@@ -581,9 +581,10 @@ ALMessageDBService  * dbService;
 
     }]];
     [theController addAction:[UIAlertAction actionWithTitle:@"current location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        ALLocationManager * alLocationManager =[[ALLocationManager alloc] initWithDistanceFilter:20.0];
-        alLocationManager.locationDelegate =self;
-        [alLocationManager getAddress];
+       
+        _alLocationManager =[[ALLocationManager alloc] initWithDistanceFilter:20.0];
+        _alLocationManager.locationDelegate =self;
+        [_alLocationManager getAddress];
     }]];
 
     [self presentViewController:theController animated:YES completion:nil];
@@ -772,10 +773,11 @@ ALMessageDBService  * dbService;
 -(void)handleAddress:(NSDictionary *)dict{
     if([dict valueForKey:@"error"]){
         //handlen error
+        return;
         
     }else {
       NSString *  address = [dict valueForKey:@"address"];
-      NSString *  googleurl = [dict valueForKey:@"googlelink"];
+      NSString *  googleurl = [dict valueForKey:@"googleurl"];
       NSString * finalString = [address stringByAppendingString:googleurl];
      [[self mSendMessageTextField] setText:finalString];
         
