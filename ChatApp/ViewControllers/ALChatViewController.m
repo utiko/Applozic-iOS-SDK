@@ -29,10 +29,10 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageDBService.h"
 #import "ALImagePickerHandler.h"
-#import <CoreLocation/CoreLocation.h>
+#import "ALLocationManager.h"
 
 
-@interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate>
+@interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate>
 
 @property (nonatomic, assign) NSInteger startIndex;
 
@@ -46,11 +46,7 @@
 
 @implementation ALChatViewController{
     
-        CLLocationManager *locationManager;
-        CLGeocoder *geocoder;
-        CLPlacemark *placemark;
-        NSString* googleURL;
-        UIActivityIndicatorView *loadingIndicator;
+               UIActivityIndicatorView *loadingIndicator;
 
 }
 
@@ -319,21 +315,13 @@ ALMessageDBService  * dbService;
 -(void) attachmentAction
 {
     // check os , show sheet or action controller
-
-    NSLog(@"%@",[UIDevice currentDevice].systemVersion);
-
     if ([UIDevice currentDevice].systemVersion.floatValue < 8.0 ) { // ios 7 and previous
-
         [self showActionSheet];
-
     }
     else // ios 8
     {
-
         [self showActionAlert];
     }
-
-
 }
 
 #pragma mark chatCellImageDelegate
@@ -370,14 +358,14 @@ ALMessageDBService  * dbService;
 }
 
 -(void)stopDownloadForIndex:(int)index andMessage:(ALMessage *)message {
-    
+    NSLog(@"Called get image stopDownloadForIndex stopDownloadForIndex ####");
+
     ALChatCell_Image *imageCell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     imageCell.progresLabel.alpha = 0;
     imageCell.mDowloadRetryButton.alpha = 1;
     message.inProgress = NO;
     [self handleErrorStatus:message];
     if ([message.type isEqualToString:@"5"]) { // retry or cancel
-        
         [self releaseConnection:message.imageFilePath];
     }
     else // download or cancel
@@ -426,7 +414,6 @@ ALMessageDBService  * dbService;
 
     if ([connection.connectionType isEqualToString:@"Image Posting"]) {
         ALMessage * message = [self getMessageFromViewList:@"imageFilePath" withValue:connection.keystring];
-        NSLog(@"found message : %@", message);
         //get it fromDB ...we can move it to thread as nothing to show to user
         if(!message){
             DB_Message * dbMessage = (DB_Message*)[dbService getMessageByKey:@"filePath" value:connection.keystring];
@@ -538,6 +525,7 @@ ALMessageDBService  * dbService;
             }];
             return;
         }
+        
         imageCell.progresLabel.alpha = 1;
         imageCell.mMessage.fileMetas.progressValue = 0;
         imageCell.mDowloadRetryButton.alpha = 0;
@@ -558,7 +546,6 @@ ALMessageDBService  * dbService;
                 [self handleErrorStatus:theMessage];
                 return ;
             }
-            
             [ALMessageService proessUploadImageForMessage:theMessage databaseObj:dbMessage.fileMetaInfo uploadURL:message  withdelegate:self];
         }];
     }
@@ -594,9 +581,9 @@ ALMessageDBService  * dbService;
 
     }]];
     [theController addAction:[UIAlertAction actionWithTitle:@"current location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
-        [self getLocation];
-        
+        ALLocationManager * alLocationManager =[[ALLocationManager alloc] initWithDistanceFilter:20.0];
+        alLocationManager.locationDelegate =self;
+        [alLocationManager getAddress];
     }]];
 
     [self presentViewController:theController animated:YES completion:nil];
@@ -622,64 +609,7 @@ ALMessageDBService  * dbService;
     [self presentViewController:_mImagePicker animated:YES completion:nil];
 }
 
--(void) getLocation
-{
-    
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-//    [locationManager startUpdatingLocation];
-    //[locationManager requestLocation];
-    
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location" message:@"" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:@"Cancel", nil];
-//        [alert show];
-}
 
-#pragma mark - CLLocationManagerDelegate
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-    NSLog(@"didFailWithError: %@", error);
-    UIAlertView *errorAlert = [[UIAlertView alloc]
-                               initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [errorAlert show];
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    NSLog(@"didUpdateToLocation: %@", newLocation);
-    CLLocation *currentLocation = newLocation;
-    
-    if (currentLocation != nil) {
-        [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
-        [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
-        
-        googleURL=[NSString stringWithFormat:@"https://www.google.com/maps?q=%f,%f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude ];
-        
-        NSLog(@"::::GOOGLE URL:::: %@",googleURL );
-        
-    }
-    
-    // Reverse Geocoding
-    NSLog(@"Resolving the Address");
-    
-    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-        NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
-        if (error == nil && [placemarks count] > 0) {
-            placemark = [placemarks lastObject];
-            
-            
-            NSString* AddressLabel = [NSString stringWithFormat:@"\n%@\n%@ %@\n%@",
-                                      /*placemark.subThoroughfare, placemark.thoroughfare,*/
-                                      placemark.locality,
-                                      placemark.administrativeArea,placemark.postalCode,
-                                      placemark.country];
-            NSLog(@"::::ADDRESS::: %@",AddressLabel);
-            
-        } else {
-            NSLog(@"%@", error.debugDescription);
-        }
-    } ];
-}
 
 -(void) handleErrorStatus:(ALMessage *) message{
     [ALUtilityClass displayToastWithMessage:@"network error." ];
@@ -696,11 +626,16 @@ ALMessageDBService  * dbService;
 
 -(void) releaseConnection:(NSString *) key
 {
-
     NSMutableArray * theConnectionArray =  [[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue];
-    ALConnection * connection = [[theConnectionArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keystring == %@",key]] objectAtIndex:0];
-    [connection cancel];
-    [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
+    NSArray * filteredArray = [theConnectionArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keystring == %@",key]];
+    if(filteredArray.count >0 ){
+        ALConnection * connection = [filteredArray objectAtIndex:0];
+        [connection cancel];
+        [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
+    }else{
+        NSLog(@"connection is not found");
+    }
+    
 }
 
 -(ALChatCell_Image *) getCell:(NSString *)key{
@@ -773,8 +708,7 @@ ALMessageDBService  * dbService;
                 [[self mMessageListArray] addObjectsFromArray:sortedArray];
                
             }
-            NSLog(@" message json from client, lastSyncTime ::%@",[ALUserDefaultsHandler
-                                                      getLastSyncTime ] );
+
             [self.mTableView reloadData];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [super scrollTableViewToBottomWithAnimation:YES];
@@ -835,5 +769,17 @@ ALMessageDBService  * dbService;
     [self updateDeliveryReport:keyString];
 }
 
+-(void)handleAddress:(NSDictionary *)dict{
+    if([dict valueForKey:@"error"]){
+        //handlen error
+        
+    }else {
+      NSString *  address = [dict valueForKey:@"address"];
+      NSString *  googleurl = [dict valueForKey:@"googlelink"];
+      NSString * finalString = [address stringByAppendingString:googleurl];
+     [[self mSendMessageTextField] setText:finalString];
+        
+    }
+}
 
 @end
