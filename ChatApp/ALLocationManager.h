@@ -20,7 +20,7 @@
 
 -(instancetype) initWithDistanceFilter:(int) distance;
 
-@property(nonatomic) CLLocationManager *locationManager;
+@property(strong,nonatomic) CLLocationManager *locationManager;
 @property(nonatomic) CLGeocoder *geocoder;
 @property(nonatomic) CLPlacemark *placemark;
 @property(nonatomic) NSString* googleURL;
