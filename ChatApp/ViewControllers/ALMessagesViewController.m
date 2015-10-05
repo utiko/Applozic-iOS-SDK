@@ -206,7 +206,6 @@
     }
     _detailChatViewController.contactIds = contactIds;
     [self.navigationController pushViewController:_detailChatViewController animated:YES];
-    
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -293,10 +292,12 @@
     }
     else if(![updateUI boolValue])
     {
+        NSLog(@"#################It should never come here");
         [self createDetailChatViewController: contactId];
         [self.detailChatViewController fetchAndRefresh];
     }
     
+    [self.detailChatViewController setRefresh: TRUE];
 }
 
 - (void)dealloc {
