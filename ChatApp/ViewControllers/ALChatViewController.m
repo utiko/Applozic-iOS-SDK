@@ -60,13 +60,13 @@ ALMessageDBService  * dbService;
     [self initialSetUp];
     [self fetchMessageFromDB];
     [self loadChatView];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self.view endEditing:YES];
 
-   }
+}
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -88,7 +88,6 @@ ALMessageDBService  * dbService;
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
-
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -667,7 +666,6 @@ ALMessageDBService  * dbService;
             [self handleErrorStatus:theMessage];
             return ;
         }
-        [self.mSendMessageTextField resignFirstResponder];
         [self.mTableView reloadData];
         [self setRefreshMainView:TRUE];
     }];
