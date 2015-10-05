@@ -12,6 +12,7 @@
 #import "ALRegisterUserClientService.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageClientService.h"
+#import "ALUtilityClass.h"
 
 
 @interface ALLoginViewController ()<UITextFieldDelegate>
@@ -130,6 +131,15 @@
 
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
+    
+    if (self.userIdField.text.length == 0) {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:
+                                  @"Error" message:@"UserId can't be blank" delegate:self
+                                                 cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alertView show];
+        return;
+    }
+
 
     ALUser *user = [[ALUser alloc] init];
     [user setApplicationId:@"applozic-sample-app"];
