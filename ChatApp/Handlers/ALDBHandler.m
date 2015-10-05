@@ -327,9 +327,18 @@
     return result;
 }
 
+- (DB_CONTACT *) loadContactByKey:(NSString *) key value:(NSString*) value {
+    DB_CONTACT *dbContact = [self getContactByKey:key value:value];
+    if (!dbContact) {
+        dbContact = [[DB_CONTACT alloc] init];
+        dbContact.userId = value;
+        dbContact.displayName = value;
+    }
+    return dbContact;
+}
 
-- (NSManagedObject *)getContactByKey:(NSString *) key value:(NSString*) value {
-    
+
+- (DB_CONTACT *)getContactByKey:(NSString *) key value:(NSString*) value {
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CONTACT" inManagedObjectContext:dbHandler.managedObjectContext];
@@ -338,9 +347,18 @@
     [fetchRequest setPredicate:predicate];
     NSError *fetchError = nil;
     NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    
     if (result.count > 0) {
-        NSManagedObject* contact = [result objectAtIndex:0];
-        return contact;
+        DB_CONTACT* dbContact = [result objectAtIndex:0];
+       /* ALContact *contact = [[ALContact alloc]init];
+        contact.userId = dbContact.userId;
+        contact.fullName = dbContact.fullName;
+        contact.contactNumber = dbContact.contactNo;
+        contact.displayName = dbContact.displayName;
+        contact.contactImageUrl = dbContact.contactImageUrl;
+        contact.email = dbContact.email;
+        return contact;*/
+        return dbContact;
     } else {
         NSLog(@"contact not found with this key");
         return nil;
@@ -349,7 +367,7 @@
 
 -(BOOL)addContact:(ALContact *)userContact {
     
-    NSManagedObject* existingContact = [self getContactByKey:@"userId" value:[userContact userId]];
+    DB_CONTACT* existingContact = [self getContactByKey:@"userId" value:[userContact userId]];
     if (existingContact) {
         NSLog(@"Existing contact");
         return false;

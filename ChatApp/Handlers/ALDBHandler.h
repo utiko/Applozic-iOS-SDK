@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "DB_Contact.h"
 
 @class ALContact;
 
@@ -37,5 +38,8 @@
 
 -(BOOL)addContact:(ALContact *)userContact;
 
+- (DB_CONTACT *)getContactByKey:(NSString *) key value:(NSString*) value;
+
+- (DB_CONTACT *)loadContactByKey:(NSString *) key value:(NSString*) value;
 
 @end
