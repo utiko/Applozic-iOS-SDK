@@ -155,6 +155,12 @@ ALMessageDBService  * dbService;
 
 -(void) postMessage
 {
+    if (self.mSendMessageTextField.text.length == 0) {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:
+                                  @"Empty" message:@"Did you forget to type the message?" delegate:self
+                                                 cancelButtonTitle:nil otherButtonTitles:@"Yes, Let me add something", nil];
+        [alertView show];
+    }
     ALMessage * theMessage = [self getMessageToPost];
     [self.mMessageListArray addObject:theMessage];
     [self.mTableView reloadData];
