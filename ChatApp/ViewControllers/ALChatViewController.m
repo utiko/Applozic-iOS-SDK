@@ -30,6 +30,8 @@
 #import "ALMessageDBService.h"
 #import "ALImagePickerHandler.h"
 #import "ALLocationManager.h"
+#import "ALConstant.h"
+#import "DB_Contact.h"
 
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate>
@@ -70,12 +72,17 @@ ALMessageDBService  * dbService;
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if(self.refresh || ![[self.mMessageListArray[0] contactIds ] isEqualToString:self.contactIds] || self.mMessageListArray.count == 0) {
+    if(self.refresh || (self.mMessageListArray && self.mMessageListArray.count == 0) ||
+            !(self.mMessageListArray && [[self.mMessageListArray[0] contactIds] isEqualToString:self.contactIds])
+       ) {
         [self.mMessageListArray removeAllObjects];
         self.startIndex =0;
         [self fetchMessageFromDB];
         [self loadChatView];
         [super scrollTableViewToBottomWithAnimation:NO];
+        if (self.refresh) {
+            self.refresh = false;
+        }
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
@@ -105,7 +112,9 @@ ALMessageDBService  * dbService;
     [self.mTableView registerClass:[ALChatCell class] forCellReuseIdentifier:@"ChatCell"];
     [self.mTableView registerClass:[ALChatCell_Image class] forCellReuseIdentifier:@"ChatCell_Image"];
 
-    self.navigationItem.title = self.contactIds;
+    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+    _dbContact = [theDBHandler loadContactByKey:@"userId" value: self.contactIds];
+    self.navigationItem.title = [_dbContact displayName];
 }
 
 -(void)fetchMessageFromDB {
@@ -257,7 +266,7 @@ ALMessageDBService  * dbService;
 
 -(void) loadChatView
 {
-    self.navigationItem.title = self.contactIds;
+    self.navigationItem.title = [_dbContact displayName];
 
     BOOL isLoadEarlierTapped = self.mMessageListArray.count == 0 ? NO : YES ;
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
