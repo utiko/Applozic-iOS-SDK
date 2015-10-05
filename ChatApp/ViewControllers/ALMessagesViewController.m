@@ -16,6 +16,8 @@
 #import "ALMessageDBService.h"
 #import "ALLoginViewController.h"
 #import "ALRegisterUserClientService.h"
+#import "ALDBHandler.h"
+#import "ALContact.h"
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
@@ -171,9 +173,14 @@
     
     UILabel* nameIcon=(UILabel*)[contactCell viewWithTag:102];
     //    contactCell.mUserImageView.image = [UIImage imageNamed:@"ic_mobicom.png"];
-    contactCell.mUserNameLabel.text = message.to;
+    
+    ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
+    ALContact *alContact = [theDBHandler loadContactByKey:@"userId" value: message.to];
+    contactCell.mUserNameLabel.text = [alContact displayName];
+
+    //contactCell.mUserNameLabel.text = message.to;
     contactCell.mMessageLabel.text = message.message;
-    NSString *firstLetter = [message.to substringToIndex:1];
+    NSString *firstLetter = [[alContact displayName] substringToIndex:1];
     nameIcon.text=firstLetter;
     if ([message.type integerValue] == [FORWARD_STATUS integerValue])
         contactCell.mLastMessageStatusImageView.image = [UIImage imageNamed:@"mobicom_social_forward.png"];

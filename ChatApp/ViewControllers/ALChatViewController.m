@@ -117,8 +117,8 @@ ALMessageDBService  * dbService;
 
 -(void) setTitle {
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-    _dbContact = [theDBHandler loadContactByKey:@"userId" value: self.contactIds];
-    self.navigationItem.title = [_dbContact displayName];
+    _alContact = [theDBHandler loadContactByKey:@"userId" value: self.contactIds];
+    self.navigationItem.title = [_alContact displayName];
 }
 
 -(void)fetchMessageFromDB {

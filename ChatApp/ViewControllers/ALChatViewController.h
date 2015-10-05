@@ -14,7 +14,7 @@
 
 @interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
-@property (strong, nonatomic) ALContact *dbContact;
+@property (strong, nonatomic) ALContact *alContact;
 @property (strong, nonatomic) NSMutableArray *mMessageListArray;
 @property (strong, nonatomic) NSString * contactIds;
 @property (nonatomic) BOOL refreshMainView;
