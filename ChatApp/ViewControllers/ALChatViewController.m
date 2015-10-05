@@ -487,20 +487,25 @@ ALMessageDBService  * dbService;
     // save msg to db
     
     [self.mMessageListArray addObject:theMessage];
-    [self.mTableView reloadData];
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     DB_Message * theSmsEntity = [messageDBService createSMSEntityForDBInsertionWithMessage:theMessage];
     [theDBHandler.managedObjectContext save:nil];
     theMessage.msgDBObjectId = [theSmsEntity objectID];
-    dispatch_async(dispatch_get_main_queue(), ^{
+    
+    [self uploadImage:theMessage];
+    [self.mTableView reloadData];
+    [self scrollTableViewToBottomWithAnimation:NO];
 
-            [UIView animateWithDuration:.50 animations:^{
-            [self scrollTableViewToBottomWithAnimation:YES];
-        } completion:^(BOOL finished) {
-            [self uploadImage:theMessage];
-        }];
-    });
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//
+//            [UIView animateWithDuration:.25 animations:^{
+//        } completion:^(BOOL finished) {
+//            
+//
+//
+//        }];
+//    });
 }
 
 -(void)uploadImage:(ALMessage *)theMessage {
