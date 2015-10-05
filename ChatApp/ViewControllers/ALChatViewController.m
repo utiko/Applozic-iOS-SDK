@@ -70,7 +70,7 @@ ALMessageDBService  * dbService;
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if( !(self.mMessageListArray.count >0 &&
+    if(self.refresh || !(self.mMessageListArray.count >0 &&
           [[self.mMessageListArray[0] contactIds ] isEqualToString:self.contactIds])){
         [self.mMessageListArray removeAllObjects];
         self.startIndex =0;

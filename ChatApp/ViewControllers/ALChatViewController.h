@@ -16,6 +16,8 @@
 @property (strong, nonatomic) NSMutableArray *mMessageListArray;
 @property (strong, nonatomic) NSString * contactIds;
 @property (nonatomic) BOOL refreshMainView;
+@property (nonatomic) BOOL refresh;
+
 
 -(void)fetchAndRefresh;
 -(void)updateDeliveryReport:(NSString*)keyString;
