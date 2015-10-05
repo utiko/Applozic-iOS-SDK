@@ -300,9 +300,9 @@
     ALContact *contact3 = [[ALContact alloc] init];
     contact3.userId = @"applozic";
     contact3.fullName = @"applozic";
-    contact3.contactNumber = @"678906543";
-    contact3.displayName = @"Priyesh";
-    contact3.email = @"789@abc.com";
+    contact3.contactNumber = @"9535008745";
+    contact3.displayName = @"Applozic";
+    contact3.email = @"devashish@applozic.com";
     contact3.contactImageUrl = nil;
 
     [theDBHandler addListOfContacts:@[contact1,contact2,contact3]];
