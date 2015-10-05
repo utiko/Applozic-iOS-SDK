@@ -297,7 +297,7 @@
   
 }
 +(void) processImageDownloadforMessage:(ALMessage *) message withdelegate:(id)delegate{
-    NSString * urlString = [NSString stringWithFormat:@"%@/%@",APPLOGIC_IMAGEDOWNLOAD_BASEURL,message.fileMetas.keyString];
+    NSString * urlString = [NSString stringWithFormat:@"%@/rest/ws/file/%@",KBASE_URL,message.fileMetas.keyString];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:urlString paramString:nil];
     ALConnection * connection = [[ALConnection alloc] initWithRequest:theRequest delegate:delegate startImmediately:YES];
     connection.keystring = message.keyString;
