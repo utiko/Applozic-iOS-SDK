@@ -667,6 +667,7 @@ ALMessageDBService  * dbService;
             [self handleErrorStatus:theMessage];
             return ;
         }
+        [self.mSendMessageTextField resignFirstResponder];
         [self.mTableView reloadData];
         [self setRefreshMainView:TRUE];
     }];
