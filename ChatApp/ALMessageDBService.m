@@ -299,7 +299,7 @@
     // contact 3
     ALContact *contact3 = [[ALContact alloc] init];
     contact3.userId = @"applozic";
-    contact3.fullName = @"applozic";
+    contact3.fullName = @"Applozic";
     contact3.contactNumber = @"9535008745";
     contact3.displayName = @"Applozic";
     contact3.email = @"devashish@applozic.com";
