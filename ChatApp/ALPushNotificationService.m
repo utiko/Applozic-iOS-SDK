@@ -9,6 +9,7 @@
 #import "ALPushNotificationService.h"
 #import "ALMessageDBService.h"
 
+
 @implementation ALPushNotificationService
 
 + (NSArray *)ApplozicNotificationTypes
@@ -16,8 +17,7 @@
     static NSArray *notificationTypes;
     if (!notificationTypes)
     {
-        
-        notificationTypes = [[NSArray alloc] initWithObjects:@"MT_SYNC", @"MT_MARK_ALL_MESSAGE_AS_READ", @"MT_DELIVERED", @"MT_SYNC_PENDING", @"MT_DELETE_MESSAGE", @"MT_DELETE_MULTIPLE_MESSAGE", @"MT_DELETE_MESSAGE_CONTACT", @"MTEXTER_USER", @"MT_CONTACT_VERIFIED", @"MT_CONTACT_VERIFIED", @"MT_DEVICE_CONTACT_SYNC", @"MT_EMAIL_VERIFIED", @"MT_DEVICE_CONTACT_MESSAGE", @"MT_CANCEL_CALL", @"MT_MESSAGE", nil];
+        notificationTypes = [[NSArray alloc] initWithObjects:MT_SYNC, MT_MARK_ALL_MESSAGE_AS_READ, MT_DELIVERED,MT_SYNC_PENDING, MT_DELETE_MESSAGE, MT_DELETE_MULTIPLE_MESSAGE, MT_DELETE_MESSAGE_CONTACT, MTEXTER_USER, MT_CONTACT_VERIFIED, MT_CONTACT_VERIFIED, MT_DEVICE_CONTACT_SYNC, MT_EMAIL_VERIFIED,MT_DEVICE_CONTACT_MESSAGE, MT_CANCEL_CALL, MT_MESSAGE, nil];
     }
     return notificationTypes;
 }
@@ -34,9 +34,11 @@
     NSLog(@"update ui: %@", updateUI ? @"Yes": @"No");
     //[dictionary setObject:@"Yes" forKey:@"updateUI"]; // adds @"Bar"
 
+  
     if ([self isApplozicNotification:dictionary]) {
         //Todo: process it
         NSString *alertValue = [[dictionary valueForKey:@"aps"] valueForKey:@"alert"];
+
         NSLog(@"Alert: %@", alertValue);
         
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
@@ -45,13 +47,14 @@
         NSString *type = (NSString *)[dictionary valueForKey:@"AL_TYPE"];
         NSString *value = (NSString *)[dictionary valueForKey:@"AL_VALUE"];
         
-        if ([type isEqualToString:@"MT_SYNC"])
+        
+        if ([type isEqualToString:MT_SYNC])
         {
             NSLog(@"pushing to notification center");
             [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:value userInfo:dict];
             [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:value userInfo:dict];
 
-        } else if ([type isEqualToString: @"MT_DELIVERED"])
+        } else if ([type isEqualToString: MT_DELIVERED])
         {
             //TODO: move to db layer
             
@@ -60,11 +63,11 @@
             [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
             NSLog(@"delivery report for %@", deliveryParts[0]);
             [[ NSNotificationCenter defaultCenter] postNotificationName:@"deliveryReport" object:deliveryParts[0] userInfo:dictionary];
-        } else if ([type isEqualToString: @"MT_DELETE_MESSAGE_CONTACT"])
+        } else if ([type isEqualToString: MT_DELETE_MESSAGE_CONTACT])
         {
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
             [messageDBService deleteAllMessagesByContact: value];
-        } else if ([type isEqualToString: @"MT_DELETE_MESSAGE"])
+        } else if ([type isEqualToString: MT_DELETE_MESSAGE])
         {
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
             [messageDBService deleteMessageByKey: value];
