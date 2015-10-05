@@ -112,6 +112,10 @@ ALMessageDBService  * dbService;
     [self.mTableView registerClass:[ALChatCell class] forCellReuseIdentifier:@"ChatCell"];
     [self.mTableView registerClass:[ALChatCell_Image class] forCellReuseIdentifier:@"ChatCell_Image"];
 
+    [self setTitle];
+}
+
+-(void) setTitle {
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     _dbContact = [theDBHandler loadContactByKey:@"userId" value: self.contactIds];
     self.navigationItem.title = [_dbContact displayName];
@@ -266,8 +270,7 @@ ALMessageDBService  * dbService;
 
 -(void) loadChatView
 {
-    self.navigationItem.title = [_dbContact displayName];
-
+    [self setTitle];
     BOOL isLoadEarlierTapped = self.mMessageListArray.count == 0 ? NO : YES ;
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];

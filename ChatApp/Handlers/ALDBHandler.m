@@ -327,14 +327,22 @@
     return result;
 }
 
-- (DB_CONTACT *) loadContactByKey:(NSString *) key value:(NSString*) value {
+- (ALContact *) loadContactByKey:(NSString *) key value:(NSString*) value {
     DB_CONTACT *dbContact = [self getContactByKey:key value:value];
+    ALContact *contact = [[ALContact alloc]init];
+
     if (!dbContact) {
-        dbContact = [[DB_CONTACT alloc] init];
-        dbContact.userId = value;
-        dbContact.displayName = value;
+         contact.userId = value;
+         contact.displayName = value;
+         return contact;
     }
-    return dbContact;
+     contact.userId = dbContact.userId;
+     contact.fullName = dbContact.fullName;
+     contact.contactNumber = dbContact.contactNo;
+     contact.displayName = dbContact.displayName;
+     contact.contactImageUrl = dbContact.contactImageUrl;
+     contact.email = dbContact.email;
+     return contact;
 }
 
 

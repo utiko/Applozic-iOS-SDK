@@ -40,6 +40,6 @@
 
 - (DB_CONTACT *)getContactByKey:(NSString *) key value:(NSString*) value;
 
-- (DB_CONTACT *)loadContactByKey:(NSString *) key value:(NSString*) value;
+- (ALContact *)loadContactByKey:(NSString *) key value:(NSString*) value;
 
 @end
