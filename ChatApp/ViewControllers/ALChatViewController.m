@@ -71,14 +71,13 @@ ALMessageDBService  * dbService;
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    NSLog(@"viewWillAppear will be called ....");
+
 
     if(self.refresh || (self.mMessageListArray && self.mMessageListArray.count == 0) ||
             !(self.mMessageListArray && [[self.mMessageListArray[0] contactIds] isEqualToString:self.contactIds])
        ) {
-        [self.mMessageListArray removeAllObjects];
-        self.startIndex =0;
-        [self fetchMessageFromDB];
-        [self loadChatView];
+        [self reloadView];
         [super scrollTableViewToBottomWithAnimation:NO];
         if (self.refresh) {
             self.refresh = false;
@@ -580,7 +579,8 @@ ALMessageDBService  * dbService;
 
 -(void) showActionSheet
 {
-    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"current location",@"take photo",@"photo library", nil];
+//    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"current location",@"take photo",@"photo library", nil];
+    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"take photo",@"photo library", nil];
     [actionSheet showInView:self.view];
 }
 
@@ -595,12 +595,12 @@ ALMessageDBService  * dbService;
         [self openGallery];
 
     }]];
-    [theController addAction:[UIAlertAction actionWithTitle:@"current location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-       
-        _alLocationManager =[[ALLocationManager alloc] initWithDistanceFilter:20.0];
-        _alLocationManager.locationDelegate =self;
-        [_alLocationManager getAddress];
-    }]];
+//    [theController addAction:[UIAlertAction actionWithTitle:@"current location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//       
+//        _alLocationManager =[[ALLocationManager alloc] initWithDistanceFilter:20.0];
+//        _alLocationManager.locationDelegate =self;
+//        [_alLocationManager getAddress];
+//    }]];
 
     [self presentViewController:theController animated:YES completion:nil];
 }
@@ -745,13 +745,13 @@ ALMessageDBService  * dbService;
 
 -(void)individualNotificationhandler:(NSNotification *) notification
 {
-    [self setRefreshMainView:TRUE];    
+    [self setRefreshMainView:TRUE];
     // see if this view is visible or not...
     NSString * contactId = notification.object;
     NSDictionary *dict = notification.userInfo;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
     NSLog(@"Notification received by Individual chat list: %@", contactId);
-
+    
     
     if ([self.contactIds isEqualToString:contactId]) {
         //[self fetchAndRefresh];
@@ -759,24 +759,15 @@ ALMessageDBService  * dbService;
         [self fetchAndRefresh];
     } else if (![updateUI boolValue]) {
         NSLog(@"it was in background, updateUI is false");
-        [self.mMessageListArray removeAllObjects];
-        [self.mTableView reloadData];
-        
         self.contactIds = contactId;
-        [self fetchMessageFromDB];
-        [self loadChatView];
+        [self reloadView];
+        [self fetchAndRefresh];
     } else {
         NSLog(@"show notification as someone else thread is already opened");
-        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-        localNotification.userInfo = notification.userInfo;
-        localNotification.soundName = UILocalNotificationDefaultSoundName;
-        NSString *alertValue = [[notification.userInfo valueForKey:@"aps"] valueForKey:@"alert"];
-        
-        localNotification.alertBody = alertValue;
-        localNotification.fireDate = [NSDate date];
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+        NSString *alertValue = [dict valueForKey:@"alertValue"];
+        [ALUtilityClass displayNotification:alertValue delegate:self];
     }
-
+    
 }
 
 -(void)updateDeliveryStatus:(NSNotification *) notification
@@ -791,12 +782,20 @@ ALMessageDBService  * dbService;
         return;
         
     }else {
-      NSString *  address = [dict valueForKey:@"address"];
-      NSString *  googleurl = [dict valueForKey:@"googleurl"];
-      NSString * finalString = [address stringByAppendingString:googleurl];
-     [[self mSendMessageTextField] setText:finalString];
+        NSString *  address = [dict valueForKey:@"address"];
+        NSString *  googleurl = [dict valueForKey:@"googleurl"];
+        NSString * finalString = [address stringByAppendingString:googleurl];
+        [[self mSendMessageTextField] setText:finalString];
         
     }
+}
+
+-(void) reloadView{
+    [self.mMessageListArray removeAllObjects];
+    [self.mTableView reloadData];
+    self.startIndex =0;
+    [self fetchMessageFromDB];
+    [self loadChatView];
 }
 
 @end

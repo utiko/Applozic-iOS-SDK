@@ -201,4 +201,39 @@
     }];
 }
 
++(void)displayNotification:(NSString *)toastMessage delegate:(id)delegate
+{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^ {
+        UIWindow * keyWindow = [[UIApplication sharedApplication] keyWindow];
+        UILabel *toastView = [[UILabel alloc] init];
+        toastView.text = toastMessage;
+        toastView.backgroundColor = [UIColor grayColor];
+        toastView.textColor = [UIColor whiteColor];
+        toastView.textAlignment = NSTextAlignmentCenter;
+        toastView.frame = CGRectMake(0.0, 0.0, keyWindow.frame.size.width, 75.00);
+        toastView.layer.cornerRadius = 0;
+        toastView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tapGesture =
+        [[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(reloadView)];
+        [toastView addGestureRecognizer:tapGesture];
+
+        [keyWindow addSubview:toastView];
+        
+        //Action Event
+       
+        //Animation
+        [UIView animateWithDuration: 1.0f
+                              delay: 3.0f
+                            options: UIViewAnimationOptionCurveEaseOut
+                         animations: ^{
+                             toastView.alpha = 0.0;
+                         }
+                         completion: ^(BOOL finished) {
+                             [toastView removeFromSuperview];
+                         }
+         ];
+    }];
+}
+
+
 @end
