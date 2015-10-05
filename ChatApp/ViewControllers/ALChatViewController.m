@@ -65,7 +65,6 @@ ALMessageDBService  * dbService;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.view endEditing:YES];
-
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -88,6 +87,7 @@ ALMessageDBService  * dbService;
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
+    [self.mSendMessageTextField resignFirstResponder];
 }
 
 //------------------------------------------------------------------------------------------------------------------
