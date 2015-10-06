@@ -23,16 +23,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-    {
-        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-    }
-    else
-    {
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-         (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
-    }
+
     
     if (![ALUserDefaultsHandler isLoggedIn])
     {
@@ -109,17 +100,14 @@
                           ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
                           ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
     
-
-    //[ALUtilityClass displayToastWithMessage:(hexToken)];
-    
     NSString *apnDeviceToken = hexToken; //[[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding];
     NSLog(@"apnDeviceToken: %@", hexToken);
     
-    /*
+    
     if ([[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken])
     {
         return;
-    }*/
+    }
 
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
    
