@@ -164,6 +164,7 @@
         if ( lastSyncTime == NULL ){
             lastSyncTime = @"0";
         }
+        NSLog(@"last syncTime in call %@", lastSyncTime);
         NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/sync/messages",KBASE_URL];
         
         NSString * theParamString = [NSString stringWithFormat:@"deviceKeyString=%@&lastSyncTime=%@",deviceKeyString,lastSyncTime];
@@ -187,6 +188,8 @@
             }
             [ALUserDefaultsHandler
              setLastSyncTime:syncResponse.lastSyncTime];
+            NSLog(@"last syncTime in call %@", lastSyncTime);
+
             NSLog(@"sync feed ..%@", syncResponse.messagesList);
             
             ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
@@ -275,7 +278,7 @@
         if (imageData)
         {
             [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-            [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"image.jpg\"\r\n", FileParamConstant] dataUsingEncoding:NSUTF8StringEncoding]];
+            [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", FileParamConstant,message.fileMetas.name] dataUsingEncoding:NSUTF8StringEncoding]];
             [body appendData:[@"Content-Type:image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
             [body appendData:imageData];
             [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];

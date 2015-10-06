@@ -228,6 +228,11 @@
     }];
 }
 
++(NSString *)getFileNameWithCurrentTimeStamp{
+   
 
+    NSString *resultString = [@"IMG-" stringByAppendingString: @([[NSDate date] timeIntervalSince1970]).stringValue];
+    return resultString;
+}
 
 @end

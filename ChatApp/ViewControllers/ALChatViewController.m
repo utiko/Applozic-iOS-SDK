@@ -262,7 +262,7 @@ ALMessageDBService  * dbService;
     info.contentType = @"";
     info.createdAtTime = @"";
     info.keyString = @"";
-    info.name = @"";
+    info.name = [ALUtilityClass getFileNameWithCurrentTimeStamp];
     info.size = @"";
     info.suUserKeyString = @"";
     info.thumbnailUrl = @"";
@@ -439,6 +439,7 @@ ALMessageDBService  * dbService;
         NSDictionary *theJson = [NSJSONSerialization JSONObjectWithData:connection.mData options:NSJSONReadingMutableLeaves error:&theJsonError];
         NSDictionary *fileInfo = [theJson objectForKey:@"fileMeta"];
         [message.fileMetas populate:fileInfo ];
+        NSLog(@"f####ileName :: %@",message.fileMetas.name);
         ALMessage * almessage =  [ALMessageService processFileUploadSucess:message];
         
         [self sendMessage:almessage ];
@@ -497,6 +498,7 @@ ALMessageDBService  * dbService;
     // create message object
     ALMessage * theMessage = [self getMessageToPost];
     theMessage.fileMetas = [self getFileMetaInfo];
+    
     theMessage.imageFilePath = filePath.lastPathComponent;
     NSData *imageSize = [NSData dataWithContentsOfFile:filePath];
     theMessage.fileMetas.size = [NSString stringWithFormat:@"%lu",(unsigned long)imageSize.length];

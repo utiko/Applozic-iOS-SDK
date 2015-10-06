@@ -27,4 +27,6 @@
 +(void)displayToastWithMessage:(NSString *)toastMessage;
 
 +(void)displayNotification:(NSString *)toastMessage delegate:(id)delegate;
++(NSString *)getFileNameWithCurrentTimeStamp;
+
 @end

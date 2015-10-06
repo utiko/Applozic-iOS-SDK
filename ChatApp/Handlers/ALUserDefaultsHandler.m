@@ -137,7 +137,7 @@
 +(void )setLastSyncTime :( NSNumber *) lstSyncTime
 {
    lstSyncTime = @([lstSyncTime doubleValue] + 1);
-
+    NSLog(@"saving last Sync time in the preference ...%@" ,lstSyncTime);
     [[NSUserDefaults standardUserDefaults] setDouble:[lstSyncTime doubleValue] forKey:LAST_SYNC_TIME];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
