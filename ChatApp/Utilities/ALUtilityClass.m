@@ -214,26 +214,20 @@
         toastView.layer.cornerRadius = 0;
         toastView.userInteractionEnabled = YES;
         UITapGestureRecognizer *tapGesture =
-        [[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(reloadView)];
+        [[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(handleNotification:)];
         [toastView addGestureRecognizer:tapGesture];
 
         [keyWindow addSubview:toastView];
+        [keyWindow bringSubviewToFront:toastView];
+        //Timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(TimerCount) userInfo:nil repeats: NO];
+
         
         //Action Event
-       
-        //Animation
-        [UIView animateWithDuration: 1.0f
-                              delay: 3.0f
-                            options: UIViewAnimationOptionCurveEaseOut
-                         animations: ^{
-                             toastView.alpha = 0.0;
-                         }
-                         completion: ^(BOOL finished) {
-                             [toastView removeFromSuperview];
-                         }
-         ];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.25  * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [toastView removeFromSuperview];});
     }];
 }
+
 
 
 @end

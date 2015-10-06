@@ -32,6 +32,7 @@
 #import "ALLocationManager.h"
 #import "ALConstant.h"
 #import "DB_Contact.h"
+#import "ALNotificationView.h"
 
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate>
@@ -771,7 +772,10 @@ ALMessageDBService  * dbService;
     } else {
         NSLog(@"show notification as someone else thread is already opened");
         NSString *alertValue = [dict valueForKey:@"alertValue"];
-        [ALUtilityClass displayNotification:alertValue delegate:self];
+        ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
+        [ alnotification displayNotification:self];
+        [self fetchAndRefresh];
+
     }
     
 }
@@ -802,6 +806,17 @@ ALMessageDBService  * dbService;
     self.startIndex =0;
     [self fetchMessageFromDB];
     [self loadChatView];
+}
+
+-(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer{
+    
+    ALNotificationView * notificationView = (ALNotificationView*)gestureRecognizer.view;
+    
+    NSLog(@" got the UI label::%@" , notificationView.contactId);
+    self.contactIds = notificationView.contactId;
+    [self reloadView];
+    [self fetchAndRefresh];
+    
 }
 
 @end
