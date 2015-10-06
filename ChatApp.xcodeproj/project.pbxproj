@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2973A8CE1BB9F1C600F45094 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2973A8CD1BB9F1C600F45094 /* CoreLocation.framework */; };
+		6D30A0E31BC3C1F7005D5CF4 /* ALNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D30A0E21BC3C1F7005D5CF4 /* ALNotificationView.m */; };
 		6D8466901BC01F7800AEE06B /* ALLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D84668F1BC01F7800AEE06B /* ALLocationManager.m */; };
 		6D9056C11BBE6B6A009CFA85 /* ALMessageClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9056C01BBE6B6A009CFA85 /* ALMessageClientService.m */; };
 		6D95A3051BB971CE0047CAA6 /* ALPushNotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D95A3041BB971CE0047CAA6 /* ALPushNotificationService.m */; };
@@ -125,6 +126,8 @@
 
 /* Begin PBXFileReference section */
 		2973A8CD1BB9F1C600F45094 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		6D30A0E11BC3C1F7005D5CF4 /* ALNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALNotificationView.h; sourceTree = "<group>"; };
+		6D30A0E21BC3C1F7005D5CF4 /* ALNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALNotificationView.m; sourceTree = "<group>"; };
 		6D84668E1BC01F7800AEE06B /* ALLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALLocationManager.h; sourceTree = "<group>"; };
 		6D84668F1BC01F7800AEE06B /* ALLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALLocationManager.m; sourceTree = "<group>"; };
 		6D9056BF1BBE6B6A009CFA85 /* ALMessageClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMessageClientService.h; sourceTree = "<group>"; };
@@ -592,6 +595,8 @@
 				9C276D491B65035D005E76C7 /* ALChatCell.m */,
 				9C95DBCB1B80D68F0012A649 /* ALNewContactCell.h */,
 				9C95DBCC1B80D68F0012A649 /* ALNewContactCell.m */,
+				6D30A0E11BC3C1F7005D5CF4 /* ALNotificationView.h */,
+				6D30A0E21BC3C1F7005D5CF4 /* ALNotificationView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -874,6 +879,7 @@
 				E1D8D3891B89E7E700550675 /* SDWebImageDownloaderOperation.m in Sources */,
 				D0AE20FE1BB2CA0300F5C147 /* ALImagePickerHandler.m in Sources */,
 				9C276CFB1B64D59D005E76C7 /* ALMessageService.m in Sources */,
+				6D30A0E31BC3C1F7005D5CF4 /* ALNotificationView.m in Sources */,
 				9C87DD831B8EFBC1007CEE5F /* TPPropertyAnimation.m in Sources */,
 				9C276CEA1B642968005E76C7 /* ALContactCell.m in Sources */,
 				9C95DBCD1B80D68F0012A649 /* ALNewContactCell.m in Sources */,
@@ -1031,7 +1037,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1053,7 +1059,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
