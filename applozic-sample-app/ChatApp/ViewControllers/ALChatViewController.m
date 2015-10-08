@@ -153,6 +153,104 @@ ALMessageDBService  * dbService;
     [super didReceiveMemoryWarning];
 }
 
+-(void)setTableViewUpGesture{
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
+                                          initWithTarget:self action:@selector(handleLongPress:)];
+    lpgr.minimumPressDuration = 1.0f; //seconds
+    lpgr.allowableMovement = 100.0f;
+    
+    lpgr.delegate = self;
+    [self.mTableView addGestureRecognizer:lpgr];
+    
+}
+
+-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    
+    CGPoint p = [gestureRecognizer locationInView:self.mTableView];
+    
+    self.indexPathofSelection = [self.mTableView indexPathForRowAtPoint:p];
+    
+    NSLog(@"mMessageListMessage Array %@",self.mMessageListArrayKeyStrings[self.indexPathofSelection.row]);
+    
+    messageId=self.mMessageListArrayKeyStrings[self.indexPathofSelection.row];
+    
+    if (self.indexPathofSelection == nil)
+    {
+        NSLog(@"long press on table view but not on a row");
+    }
+    
+    else if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
+        
+    {
+    
+        NSLog(@"long press on table view at row %ld", (long)self.indexPathofSelection.row);
+        
+        CGRect targetRectangle = CGRectMake(p.x, p.y, 0, 0);
+        
+        [[UIMenuController sharedMenuController] setTargetRect:targetRectangle
+                                                        inView:self.mTableView];
+        
+        UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Delete"
+                                                          action:@selector(deleteAction:)];
+        
+        [[UIMenuController sharedMenuController] setMenuItems:@[menuItem]];
+        [[UIMenuController sharedMenuController]
+         setMenuVisible:YES animated:YES];
+        
+    }
+    
+    else {
+        NSLog(@"gestureRecognizer.state = %ld", (long)gestureRecognizer.state);
+    }
+}
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (BOOL)canPerformAction:(SEL)action
+              withSender:(id)sender
+{
+    BOOL result = NO;
+    if(@selector(copy:) == action || @selector(deleteAction:)==action)
+    {
+        result = YES;
+    }
+    return result;
+}
+
+
+//-------------------------------------
+#pragma mark - UIMenuController Actions
+//-------------------------------------
+
+
+// Default copy method
+- (void)copy:(id)sender {
+    
+    NSLog(@"Copy in ALChatViewController");
+    
+}
+
+
+-(void)deleteAction:(id)sender{
+    NSLog(@"Delete Menu item Pressed");
+    [ALMessageService deleteMessage:messageId andContactId:self.contactIds withCompletion:^(NSString* string,NSError* error){
+        if(!error ){
+            NSLog(@"No Error");
+        }
+    }];
+    
+    [self.mMessageListArray removeObjectAtIndex:self.indexPathofSelection.row];
+    [UIView animateWithDuration:1.0 animations:^{
+        //      [self loadChatView];
+        [self.mTableView reloadData];
+    }];
+    
+    
+    
+}
+
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark - IBActions
 //------------------------------------------------------------------------------------------------------------------
