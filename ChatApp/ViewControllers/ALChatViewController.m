@@ -262,7 +262,7 @@ ALMessageDBService  * dbService;
     info.contentType = @"";
     info.createdAtTime = @"";
     info.keyString = @"";
-    info.name = [ALUtilityClass getFileNameWithCurrentTimeStamp];
+    info.name =[ [ALUtilityClass getFileNameWithCurrentTimeStamp] stringByAppendingString:@".jpeg"];
     info.size = @"";
     info.suUserKeyString = @"";
     info.thumbnailUrl = @"";
