@@ -45,11 +45,14 @@
 
 @property (nonatomic,retain) UIImagePickerController * mImagePicker;
 @property (nonatomic)  ALLocationManager * alLocationManager;
+@property (nonatomic,weak) NSIndexPath *indexPathofSelection;
 @end
 
 @implementation ALChatViewController{
     
                UIActivityIndicatorView *loadingIndicator;
+    NSString *messageId;
+
 
 }
 
@@ -104,6 +107,7 @@ ALMessageDBService  * dbService;
     self.rp = 20;
     self.startIndex = 0 ;
     self.mMessageListArray = [NSMutableArray new];
+    self.mMessageListArrayKeyStrings=[NSMutableArray new];
     self.mImagePicker = [[UIImagePickerController alloc] init];
     self.mImagePicker.delegate = self;
 

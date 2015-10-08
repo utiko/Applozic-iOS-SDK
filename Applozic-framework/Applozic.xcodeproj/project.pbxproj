@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		298A3A581BC6E2F40079942E /* ALChatCostomization.plist in Resources */ = {isa = PBXBuildFile; fileRef = 298A3A571BC6E2F40079942E /* ALChatCostomization.plist */; settings = {ASSET_TAGS = (); }; };
+		298A3A5A1BC6E60B0079942E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 298A3A591BC6E60B0079942E /* Info.plist */; settings = {ASSET_TAGS = (); }; };
 		6D4F28BD1BC56F29007E7B35 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D4F28BC1BC56F29007E7B35 /* CoreLocation.framework */; };
 		6D6DF0811BC535C800EBA00F /* Applozic.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF0801BC535C800EBA00F /* Applozic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6DF13A1BC5364C00EBA00F /* ALLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF0881BC5364C00EBA00F /* ALLoginViewController.m */; };
@@ -82,7 +84,6 @@
 		6D6DF1841BC5364C00EBA00F /* DB_Message.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF0DB1BC5364C00EBA00F /* DB_Message.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6DF1851BC5364C00EBA00F /* DB_Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF0DC1BC5364C00EBA00F /* DB_Message.m */; };
 		6D6DF1861BC5364C00EBA00F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF0DD1BC5364C00EBA00F /* Images.xcassets */; };
-		6D6DF1871BC5364C00EBA00F /* ALChatCostomization.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF0E01BC5364C00EBA00F /* ALChatCostomization.plist */; };
 		6D6DF1881BC5364C00EBA00F /* ALConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF0E11BC5364C00EBA00F /* ALConstant.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6DF1891BC5364C00EBA00F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF0E21BC5364C00EBA00F /* Localizable.strings */; };
 		6D6DF18A1BC5364C00EBA00F /* crossButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF0E51BC5364C00EBA00F /* crossButton.png */; };
@@ -167,10 +168,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		298A3A571BC6E2F40079942E /* ALChatCostomization.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ALChatCostomization.plist; path = ../../../../../../Downloads/ALChatCostomization.plist; sourceTree = "<group>"; };
+		298A3A591BC6E60B0079942E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../../../Downloads/Info.plist; sourceTree = "<group>"; };
 		6D4F28BC1BC56F29007E7B35 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6D6DF07D1BC535C800EBA00F /* Applozic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Applozic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D6DF0801BC535C800EBA00F /* Applozic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Applozic.h; sourceTree = "<group>"; };
-		6D6DF0821BC535C800EBA00F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D6DF0881BC5364C00EBA00F /* ALLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALLoginViewController.m; path = ../ALLoginViewController.m; sourceTree = "<group>"; };
 		6D6DF0891BC5364C00EBA00F /* ALMessageDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMessageDBService.m; path = Applozic/ALMessageDBService.m; sourceTree = "<group>"; };
 		6D6DF08A1BC5364C00EBA00F /* ALPushNotificationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALPushNotificationService.m; path = Applozic/ALPushNotificationService.m; sourceTree = "<group>"; };
@@ -244,7 +246,6 @@
 		6D6DF0DB1BC5364C00EBA00F /* DB_Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DB_Message.h; path = Applozic/DomainClasses/DB_Message.h; sourceTree = "<group>"; };
 		6D6DF0DC1BC5364C00EBA00F /* DB_Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DB_Message.m; path = Applozic/DomainClasses/DB_Message.m; sourceTree = "<group>"; };
 		6D6DF0DD1BC5364C00EBA00F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
-		6D6DF0E01BC5364C00EBA00F /* ALChatCostomization.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ALChatCostomization.plist; sourceTree = "<group>"; };
 		6D6DF0E11BC5364C00EBA00F /* ALConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALConstant.h; sourceTree = "<group>"; };
 		6D6DF0E31BC5364C00EBA00F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D6DF0E51BC5364C00EBA00F /* crossButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crossButton.png; sourceTree = "<group>"; };
@@ -367,7 +368,7 @@
 			isa = PBXGroup;
 			children = (
 				6D6DF0801BC535C800EBA00F /* Applozic.h */,
-				6D6DF0821BC535C800EBA00F /* Info.plist */,
+				298A3A591BC6E60B0079942E /* Info.plist */,
 			);
 			path = Applozic;
 			sourceTree = "<group>";
@@ -418,7 +419,7 @@
 		6D6DF0DF1BC5364C00EBA00F /* Files */ = {
 			isa = PBXGroup;
 			children = (
-				6D6DF0E01BC5364C00EBA00F /* ALChatCostomization.plist */,
+				298A3A571BC6E2F40079942E /* ALChatCostomization.plist */,
 				6D6DF0E11BC5364C00EBA00F /* ALConstant.h */,
 				6D6DF0E21BC5364C00EBA00F /* Localizable.strings */,
 			);
@@ -824,6 +825,7 @@
 				6D6DF1B11BC5364C00EBA00F /* mobicom_social_share.png in Resources */,
 				6D6DF1931BC5364C00EBA00F /* ic_action_chat.png in Resources */,
 				6D6DF19E1BC5364C00EBA00F /* ic_action_settings.png in Resources */,
+				298A3A581BC6E2F40079942E /* ALChatCostomization.plist in Resources */,
 				6D6DF1991BC5364C00EBA00F /* ic_action_message_delivered.png in Resources */,
 				6D6DF1A41BC5364C00EBA00F /* ic_facebook.png in Resources */,
 				6D6DF1941BC5364C00EBA00F /* ic_action_edit.png in Resources */,
@@ -854,12 +856,12 @@
 				6D6DF1951BC5364C00EBA00F /* ic_action_email.png in Resources */,
 				6D6DF1AE1BC5364C00EBA00F /* mobicom_ic_action_send_now2.png in Resources */,
 				6D6DF1AF1BC5364C00EBA00F /* mobicom_social_forward.png in Resources */,
+				298A3A5A1BC6E60B0079942E /* Info.plist in Resources */,
 				6D6DF19F1BC5364C00EBA00F /* ic_action_time.png in Resources */,
 				6D6DF18B1BC5364C00EBA00F /* ic_action_about.png in Resources */,
 				6D6DF1A21BC5364C00EBA00F /* ic_contact_picture_holo_light.png in Resources */,
 				6D6DF1AA1BC5364C00EBA00F /* ic_upload.png in Resources */,
 				6D6DF18F1BC5364C00EBA00F /* ic_action_call.png in Resources */,
-				6D6DF1871BC5364C00EBA00F /* ALChatCostomization.plist in Resources */,
 				6D6DF19A1BC5364C00EBA00F /* ic_action_message_pending.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

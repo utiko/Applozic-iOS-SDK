@@ -203,9 +203,9 @@
     
   }
 
-+(void )deleteMessage:( NSString * ) keyString withCompletion:(void (^)(NSString *, NSError *))completion{
++(void )deleteMessage:( NSString * ) keyString andContactId:( NSString * )contactId withCompletion:(void (^)(NSString *, NSError *))completion{
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/delete",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"key=%@",keyString];
+    NSString * theParamString = [NSString stringWithFormat:@"key=%@&to=%@&contactNumber=%@",keyString,contactId,contactId];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
@@ -221,6 +221,7 @@
         
     }];
 }
+
 /*
  
  &requestSource=1"

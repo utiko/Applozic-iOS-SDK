@@ -28,7 +28,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "419"
-            endingLineNumber = "419">
+            endingLineNumber = "419"
+            landmarkName = "-connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -43,7 +45,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "297"
             endingLineNumber = "297"
-            landmarkName = "+processFileUploadSucess:"
+            landmarkName = "+proessUploadImageForMessage:databaseObj:uploadURL:withdelegate:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
