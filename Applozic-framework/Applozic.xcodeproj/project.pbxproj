@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		298A3A581BC6E2F40079942E /* ALChatCostomization.plist in Resources */ = {isa = PBXBuildFile; fileRef = 298A3A571BC6E2F40079942E /* ALChatCostomization.plist */; settings = {ASSET_TAGS = (); }; };
-		298A3A5A1BC6E60B0079942E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 298A3A591BC6E60B0079942E /* Info.plist */; settings = {ASSET_TAGS = (); }; };
 		6D4F28BD1BC56F29007E7B35 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D4F28BC1BC56F29007E7B35 /* CoreLocation.framework */; };
+		6D4F28FB1BC7A3D0007E7B35 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D4F28FA1BC7A3D0007E7B35 /* Info.plist */; };
+		6D4F28FD1BC7A41F007E7B35 /* ALChatCostomization.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D4F28FC1BC7A41F007E7B35 /* ALChatCostomization.plist */; };
 		6D6DF0811BC535C800EBA00F /* Applozic.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF0801BC535C800EBA00F /* Applozic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6DF13A1BC5364C00EBA00F /* ALLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF0881BC5364C00EBA00F /* ALLoginViewController.m */; };
 		6D6DF13B1BC5364C00EBA00F /* ALMessageDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF0891BC5364C00EBA00F /* ALMessageDBService.m */; };
@@ -168,9 +168,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		298A3A571BC6E2F40079942E /* ALChatCostomization.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ALChatCostomization.plist; path = ../../../../../../Downloads/ALChatCostomization.plist; sourceTree = "<group>"; };
-		298A3A591BC6E60B0079942E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../../../Downloads/Info.plist; sourceTree = "<group>"; };
 		6D4F28BC1BC56F29007E7B35 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		6D4F28FA1BC7A3D0007E7B35 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6D4F28FC1BC7A41F007E7B35 /* ALChatCostomization.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ALChatCostomization.plist; sourceTree = "<group>"; };
 		6D6DF07D1BC535C800EBA00F /* Applozic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Applozic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D6DF0801BC535C800EBA00F /* Applozic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Applozic.h; sourceTree = "<group>"; };
 		6D6DF0881BC5364C00EBA00F /* ALLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALLoginViewController.m; path = ../ALLoginViewController.m; sourceTree = "<group>"; };
@@ -367,8 +367,8 @@
 		6D6DF07F1BC535C800EBA00F /* Applozic */ = {
 			isa = PBXGroup;
 			children = (
+				6D4F28FA1BC7A3D0007E7B35 /* Info.plist */,
 				6D6DF0801BC535C800EBA00F /* Applozic.h */,
-				298A3A591BC6E60B0079942E /* Info.plist */,
 			);
 			path = Applozic;
 			sourceTree = "<group>";
@@ -419,7 +419,7 @@
 		6D6DF0DF1BC5364C00EBA00F /* Files */ = {
 			isa = PBXGroup;
 			children = (
-				298A3A571BC6E2F40079942E /* ALChatCostomization.plist */,
+				6D4F28FC1BC7A41F007E7B35 /* ALChatCostomization.plist */,
 				6D6DF0E11BC5364C00EBA00F /* ALConstant.h */,
 				6D6DF0E21BC5364C00EBA00F /* Localizable.strings */,
 			);
@@ -825,7 +825,7 @@
 				6D6DF1B11BC5364C00EBA00F /* mobicom_social_share.png in Resources */,
 				6D6DF1931BC5364C00EBA00F /* ic_action_chat.png in Resources */,
 				6D6DF19E1BC5364C00EBA00F /* ic_action_settings.png in Resources */,
-				298A3A581BC6E2F40079942E /* ALChatCostomization.plist in Resources */,
+				6D4F28FD1BC7A41F007E7B35 /* ALChatCostomization.plist in Resources */,
 				6D6DF1991BC5364C00EBA00F /* ic_action_message_delivered.png in Resources */,
 				6D6DF1A41BC5364C00EBA00F /* ic_facebook.png in Resources */,
 				6D6DF1941BC5364C00EBA00F /* ic_action_edit.png in Resources */,
@@ -856,7 +856,7 @@
 				6D6DF1951BC5364C00EBA00F /* ic_action_email.png in Resources */,
 				6D6DF1AE1BC5364C00EBA00F /* mobicom_ic_action_send_now2.png in Resources */,
 				6D6DF1AF1BC5364C00EBA00F /* mobicom_social_forward.png in Resources */,
-				298A3A5A1BC6E60B0079942E /* Info.plist in Resources */,
+				6D4F28FB1BC7A3D0007E7B35 /* Info.plist in Resources */,
 				6D6DF19F1BC5364C00EBA00F /* ic_action_time.png in Resources */,
 				6D6DF18B1BC5364C00EBA00F /* ic_action_about.png in Resources */,
 				6D6DF1A21BC5364C00EBA00F /* ic_contact_picture_holo_light.png in Resources */,
