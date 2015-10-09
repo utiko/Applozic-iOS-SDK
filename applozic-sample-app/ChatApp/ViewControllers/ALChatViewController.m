@@ -66,6 +66,7 @@ ALMessageDBService  * dbService;
     [self initialSetUp];
     [self fetchMessageFromDB];
     [self loadChatView];
+    [self setTableViewUpGesture];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -242,7 +243,7 @@ ALMessageDBService  * dbService;
     }];
     
     [self.mMessageListArray removeObjectAtIndex:self.indexPathofSelection.row];
-    [UIView animateWithDuration:1.0 animations:^{
+    [UIView animateWithDuration:1.5 animations:^{
         //      [self loadChatView];
         [self.mTableView reloadData];
     }];
@@ -393,6 +394,7 @@ ALMessageDBService  * dbService;
     for (DB_Message * theEntity in theArray) {
         ALMessage * theMessage = [ messageDBService createMessageForSMSEntity:theEntity];
         [self.mMessageListArray insertObject:theMessage atIndex:0];
+                [self.mMessageListArrayKeyStrings insertObject:theMessage.keyString atIndex:0];
     }
 
     [self.mTableView reloadData];
