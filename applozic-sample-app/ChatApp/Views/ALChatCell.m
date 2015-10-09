@@ -80,6 +80,8 @@
         
         [self.contentView addSubview:self.mMessageStatusImageView];
         
+        self.contentView.userInteractionEnabled=YES;
+        
     }
     
     return self;
