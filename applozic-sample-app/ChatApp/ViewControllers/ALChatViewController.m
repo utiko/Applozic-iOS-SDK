@@ -50,8 +50,8 @@
 
 @implementation ALChatViewController{
     
-               UIActivityIndicatorView *loadingIndicator;
-    NSString *messageId;
+            UIActivityIndicatorView *loadingIndicator;
+            NSString *messageId;
 
 
 }
@@ -221,9 +221,9 @@ ALMessageDBService  * dbService;
 }
 
 
-//-------------------------------------
+//------------------------------------------------------------------------------------------------------------------
 #pragma mark - UIMenuController Actions
-//-------------------------------------
+//------------------------------------------------------------------------------------------------------------------
 
 
 // Default copy method
@@ -239,6 +239,9 @@ ALMessageDBService  * dbService;
     [ALMessageService deleteMessage:messageId andContactId:self.contactIds withCompletion:^(NSString* string,NSError* error){
         if(!error ){
             NSLog(@"No Error");
+        }
+        else{
+            NSLog(@"some error");
         }
     }];
     
