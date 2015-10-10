@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		2973A8CE1BB9F1C600F45094 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2973A8CD1BB9F1C600F45094 /* CoreLocation.framework */; };
+		29E61A2C1BC7A6F600043D8A /* ALChatCostomization.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29E61A2A1BC7A6F600043D8A /* ALChatCostomization.plist */; settings = {ASSET_TAGS = (); }; };
+		29E61A2D1BC7A6F600043D8A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29E61A2B1BC7A6F600043D8A /* Info.plist */; settings = {ASSET_TAGS = (); }; };
 		6D30A0E31BC3C1F7005D5CF4 /* ALNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D30A0E21BC3C1F7005D5CF4 /* ALNotificationView.m */; };
 		6D8466901BC01F7800AEE06B /* ALLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D84668F1BC01F7800AEE06B /* ALLocationManager.m */; };
+		6D90232C1BC7A70000C4BF2B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D90232E1BC7A70000C4BF2B /* Localizable.strings */; };
 		6D9056C11BBE6B6A009CFA85 /* ALMessageClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9056C01BBE6B6A009CFA85 /* ALMessageClientService.m */; };
 		6D95A3051BB971CE0047CAA6 /* ALPushNotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D95A3041BB971CE0047CAA6 /* ALPushNotificationService.m */; };
 		6DD502E81BAB43F600F68D30 /* ALLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD502E71BAB43F600F68D30 /* ALLoginViewController.m */; };
@@ -126,10 +129,18 @@
 
 /* Begin PBXFileReference section */
 		2973A8CD1BB9F1C600F45094 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		29E61A2A1BC7A6F600043D8A /* ALChatCostomization.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ALChatCostomization.plist; sourceTree = "<group>"; };
+		29E61A2B1BC7A6F600043D8A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D30A0E11BC3C1F7005D5CF4 /* ALNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALNotificationView.h; sourceTree = "<group>"; };
 		6D30A0E21BC3C1F7005D5CF4 /* ALNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALNotificationView.m; sourceTree = "<group>"; };
 		6D84668E1BC01F7800AEE06B /* ALLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALLocationManager.h; sourceTree = "<group>"; };
 		6D84668F1BC01F7800AEE06B /* ALLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALLocationManager.m; sourceTree = "<group>"; };
+		6D90232A1BC7A5FE00C4BF2B /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Main.strings; sourceTree = "<group>"; };
+		6D90232B1BC7A5FE00C4BF2B /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		6D90232D1BC7A70000C4BF2B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6D90232F1BC7A81D00C4BF2B /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6D9023301BC7A93900C4BF2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6D9023641BC800C300C4BF2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		6D9056BF1BBE6B6A009CFA85 /* ALMessageClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMessageClientService.h; sourceTree = "<group>"; };
 		6D9056C01BBE6B6A009CFA85 /* ALMessageClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMessageClientService.m; sourceTree = "<group>"; };
 		6D95A3031BB971CE0047CAA6 /* ALPushNotificationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALPushNotificationService.h; sourceTree = "<group>"; };
@@ -400,6 +411,8 @@
 				9C276C9B1B640C33005E76C7 /* ChatApp */,
 				9C276CB51B640C33005E76C7 /* ChatAppTests */,
 				9C276C9A1B640C33005E76C7 /* Products */,
+				29E61A2A1BC7A6F600043D8A /* ALChatCostomization.plist */,
+				29E61A2B1BC7A6F600043D8A /* Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -512,6 +525,7 @@
 		9C276CD21B6410B2005E76C7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6D90232E1BC7A70000C4BF2B /* Localizable.strings */,
 				9C87DD7D1B8EFBB0007CEE5F /* ProgressView */,
 				E1D8D3601B89E7E600550675 /* lib */,
 				9C276CD31B6410B2005E76C7 /* Files */,
@@ -762,6 +776,7 @@
 			knownRegions = (
 				en,
 				Base,
+				hu,
 			);
 			mainGroup = 9C276C901B640C33005E76C7;
 			productRefGroup = 9C276C9A1B640C33005E76C7 /* Products */;
@@ -786,8 +801,10 @@
 				9C276D2E1B64EF1C005E76C7 /* ic_action_help.png in Resources */,
 				9C276D391B64EF1C005E76C7 /* ic_facebook.png in Resources */,
 				9C276D3E1B64EF1C005E76C7 /* ic_twitter.png in Resources */,
+				29E61A2C1BC7A6F600043D8A /* ALChatCostomization.plist in Resources */,
 				9C276D2B1B64EF1C005E76C7 /* ic_action_email.png in Resources */,
 				9C276D231B64EF1C005E76C7 /* ic_action_add.png in Resources */,
+				29E61A2D1BC7A6F600043D8A /* Info.plist in Resources */,
 				E15AF3B41B655384007AAC98 /* mobicom_ic_action_send_now2.png in Resources */,
 				9C276D301B64EF1C005E76C7 /* ic_action_message_pending.png in Resources */,
 				9C276D221B64EF1C005E76C7 /* ic_action_about.png in Resources */,
@@ -804,6 +821,7 @@
 				9C276D2F1B64EF1C005E76C7 /* ic_action_message_delivered.png in Resources */,
 				9C276D281B64EF1C005E76C7 /* ic_action_cancel.png in Resources */,
 				9C276D421B64EF1C005E76C7 /* mobicom_social_forward.png in Resources */,
+				6D90232C1BC7A70000C4BF2B /* Localizable.strings in Resources */,
 				E1D8D3941B8A345000550675 /* ic_download.png in Resources */,
 				9C276D411B64EF1C005E76C7 /* mobicom_ic_action_send.png in Resources */,
 				9C99CC351B9458B40066E8DF /* ic_upload.png in Resources */,
@@ -921,10 +939,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		6D90232E1BC7A70000C4BF2B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6D90232D1BC7A70000C4BF2B /* Base */,
+				6D90232F1BC7A81D00C4BF2B /* hu */,
+				6D9023301BC7A93900C4BF2B /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		9C276CA61B640C33005E76C7 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				9C276CA71B640C33005E76C7 /* Base */,
+				6D90232A1BC7A5FE00C4BF2B /* hu */,
+				6D9023641BC800C300C4BF2B /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -933,6 +963,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				9C276CAC1B640C33005E76C7 /* Base */,
+				6D90232B1BC7A5FE00C4BF2B /* hu */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
