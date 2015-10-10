@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6D4F28BD1BC56F29007E7B35 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D4F28BC1BC56F29007E7B35 /* CoreLocation.framework */; };
-		6D4F28FB1BC7A3D0007E7B35 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D4F28FA1BC7A3D0007E7B35 /* Info.plist */; };
-		6D4F28FD1BC7A41F007E7B35 /* ALChatCostomization.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D4F28FC1BC7A41F007E7B35 /* ALChatCostomization.plist */; };
 		6D6DF0811BC535C800EBA00F /* Applozic.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF0801BC535C800EBA00F /* Applozic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6DF13A1BC5364C00EBA00F /* ALLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF0881BC5364C00EBA00F /* ALLoginViewController.m */; };
 		6D6DF13B1BC5364C00EBA00F /* ALMessageDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF0891BC5364C00EBA00F /* ALMessageDBService.m */; };
@@ -84,6 +81,7 @@
 		6D6DF1841BC5364C00EBA00F /* DB_Message.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF0DB1BC5364C00EBA00F /* DB_Message.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6DF1851BC5364C00EBA00F /* DB_Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF0DC1BC5364C00EBA00F /* DB_Message.m */; };
 		6D6DF1861BC5364C00EBA00F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF0DD1BC5364C00EBA00F /* Images.xcassets */; };
+		6D6DF1871BC5364C00EBA00F /* ALChatCostomization.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF0E01BC5364C00EBA00F /* ALChatCostomization.plist */; };
 		6D6DF1881BC5364C00EBA00F /* ALConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF0E11BC5364C00EBA00F /* ALConstant.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6DF1891BC5364C00EBA00F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF0E21BC5364C00EBA00F /* Localizable.strings */; };
 		6D6DF18A1BC5364C00EBA00F /* crossButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF0E51BC5364C00EBA00F /* crossButton.png */; };
@@ -165,14 +163,13 @@
 		6D6DF1D61BC5364C00EBA00F /* TPPropertyAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF1341BC5364C00EBA00F /* TPPropertyAnimation.m */; };
 		6D6DF1D71BC5364C00EBA00F /* ALLoginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF1351BC5364C00EBA00F /* ALLoginViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6DF1D91BC5364C00EBA00F /* AppLozic.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF1371BC5364C00EBA00F /* AppLozic.xcdatamodeld */; };
+		6D88E1DA1BC8046500364C5B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D88E1D91BC8046500364C5B /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6D4F28BC1BC56F29007E7B35 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		6D4F28FA1BC7A3D0007E7B35 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6D4F28FC1BC7A41F007E7B35 /* ALChatCostomization.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ALChatCostomization.plist; sourceTree = "<group>"; };
 		6D6DF07D1BC535C800EBA00F /* Applozic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Applozic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D6DF0801BC535C800EBA00F /* Applozic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Applozic.h; sourceTree = "<group>"; };
+		6D6DF0821BC535C800EBA00F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D6DF0881BC5364C00EBA00F /* ALLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALLoginViewController.m; path = ../ALLoginViewController.m; sourceTree = "<group>"; };
 		6D6DF0891BC5364C00EBA00F /* ALMessageDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMessageDBService.m; path = Applozic/ALMessageDBService.m; sourceTree = "<group>"; };
 		6D6DF08A1BC5364C00EBA00F /* ALPushNotificationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALPushNotificationService.m; path = Applozic/ALPushNotificationService.m; sourceTree = "<group>"; };
@@ -246,6 +243,7 @@
 		6D6DF0DB1BC5364C00EBA00F /* DB_Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DB_Message.h; path = Applozic/DomainClasses/DB_Message.h; sourceTree = "<group>"; };
 		6D6DF0DC1BC5364C00EBA00F /* DB_Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DB_Message.m; path = Applozic/DomainClasses/DB_Message.m; sourceTree = "<group>"; };
 		6D6DF0DD1BC5364C00EBA00F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
+		6D6DF0E01BC5364C00EBA00F /* ALChatCostomization.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ALChatCostomization.plist; sourceTree = "<group>"; };
 		6D6DF0E11BC5364C00EBA00F /* ALConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALConstant.h; sourceTree = "<group>"; };
 		6D6DF0E31BC5364C00EBA00F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D6DF0E51BC5364C00EBA00F /* crossButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crossButton.png; sourceTree = "<group>"; };
@@ -327,6 +325,7 @@
 		6D6DF1341BC5364C00EBA00F /* TPPropertyAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPPropertyAnimation.m; sourceTree = "<group>"; };
 		6D6DF1351BC5364C00EBA00F /* ALLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALLoginViewController.h; path = ../ALLoginViewController.h; sourceTree = "<group>"; };
 		6D6DF1381BC5364C00EBA00F /* AppLozic.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppLozic.xcdatamodel; sourceTree = "<group>"; };
+		6D88E1D91BC8046500364C5B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -334,7 +333,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D4F28BD1BC56F29007E7B35 /* CoreLocation.framework in Frameworks */,
+				6D88E1DA1BC8046500364C5B /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,7 +343,7 @@
 		6D6DF0731BC535C800EBA00F = {
 			isa = PBXGroup;
 			children = (
-				6D4F28BC1BC56F29007E7B35 /* CoreLocation.framework */,
+				6D88E1D91BC8046500364C5B /* CoreLocation.framework */,
 				6D6DF1DD1BC5376800EBA00F /* ApplozicLibrary */,
 				6D6DF1DC1BC5375700EBA00F /* ApplozicCommons */,
 				6D6DF1DB1BC5371200EBA00F /* ApplozicUIWidget */,
@@ -367,8 +366,8 @@
 		6D6DF07F1BC535C800EBA00F /* Applozic */ = {
 			isa = PBXGroup;
 			children = (
-				6D4F28FA1BC7A3D0007E7B35 /* Info.plist */,
 				6D6DF0801BC535C800EBA00F /* Applozic.h */,
+				6D6DF0821BC535C800EBA00F /* Info.plist */,
 			);
 			path = Applozic;
 			sourceTree = "<group>";
@@ -419,7 +418,7 @@
 		6D6DF0DF1BC5364C00EBA00F /* Files */ = {
 			isa = PBXGroup;
 			children = (
-				6D4F28FC1BC7A41F007E7B35 /* ALChatCostomization.plist */,
+				6D6DF0E01BC5364C00EBA00F /* ALChatCostomization.plist */,
 				6D6DF0E11BC5364C00EBA00F /* ALConstant.h */,
 				6D6DF0E21BC5364C00EBA00F /* Localizable.strings */,
 			);
@@ -825,7 +824,6 @@
 				6D6DF1B11BC5364C00EBA00F /* mobicom_social_share.png in Resources */,
 				6D6DF1931BC5364C00EBA00F /* ic_action_chat.png in Resources */,
 				6D6DF19E1BC5364C00EBA00F /* ic_action_settings.png in Resources */,
-				6D4F28FD1BC7A41F007E7B35 /* ALChatCostomization.plist in Resources */,
 				6D6DF1991BC5364C00EBA00F /* ic_action_message_delivered.png in Resources */,
 				6D6DF1A41BC5364C00EBA00F /* ic_facebook.png in Resources */,
 				6D6DF1941BC5364C00EBA00F /* ic_action_edit.png in Resources */,
@@ -856,12 +854,12 @@
 				6D6DF1951BC5364C00EBA00F /* ic_action_email.png in Resources */,
 				6D6DF1AE1BC5364C00EBA00F /* mobicom_ic_action_send_now2.png in Resources */,
 				6D6DF1AF1BC5364C00EBA00F /* mobicom_social_forward.png in Resources */,
-				6D4F28FB1BC7A3D0007E7B35 /* Info.plist in Resources */,
 				6D6DF19F1BC5364C00EBA00F /* ic_action_time.png in Resources */,
 				6D6DF18B1BC5364C00EBA00F /* ic_action_about.png in Resources */,
 				6D6DF1A21BC5364C00EBA00F /* ic_contact_picture_holo_light.png in Resources */,
 				6D6DF1AA1BC5364C00EBA00F /* ic_upload.png in Resources */,
 				6D6DF18F1BC5364C00EBA00F /* ic_action_call.png in Resources */,
+				6D6DF1871BC5364C00EBA00F /* ALChatCostomization.plist in Resources */,
 				6D6DF19A1BC5364C00EBA00F /* ic_action_message_pending.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1045,7 +1043,8 @@
 		6D6DF0861BC535C800EBA00F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1053,8 +1052,9 @@
 				INFOPLIST_FILE = Applozic/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.applozic;
+				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "4d37e91d-81f0-4e07-9a48-53a0c72bed52";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -1062,7 +1062,8 @@
 		6D6DF0871BC535C800EBA00F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1070,8 +1071,9 @@
 				INFOPLIST_FILE = Applozic/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.applozic;
+				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "4d37e91d-81f0-4e07-9a48-53a0c72bed52";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
