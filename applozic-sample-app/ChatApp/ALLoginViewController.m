@@ -143,7 +143,7 @@
     
     NSString *email=emailField.text;
     BOOL authenticate = NO;
-    if([email isEqualToString:@""]||(![self validateEmail:email]))
+   /* if([email isEqualToString:@""]||(![self validateEmail:email]))
     {
         [self markField:false];
         errorlabel.text = NSLocalizedString(@"ERROR_EMAIL_ID", nil);
@@ -155,7 +155,7 @@
     {
         [self markField:true];
     }
-    
+    */
     if (self.userIdField.text.length == 0|| authenticate ==YES) {
         /*  UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:
          @"Error" message:@"UserId/Email ID can't be blank" delegate:self
@@ -166,7 +166,7 @@
         erroruser.hidden = NO;
         return;
     }
-    
+
     
     
     ALUser *user = [[ALUser alloc] init];

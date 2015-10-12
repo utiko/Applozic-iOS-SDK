@@ -213,7 +213,7 @@ ALMessageDBService  * dbService;
               withSender:(id)sender
 {
     BOOL result = NO;
-    if(@selector(copy:) == action || @selector(deleteAction:)==action)
+    if(@selector(copy:) == action || @selector(deleteAction:) == action)
     {
         result = YES;
     }
@@ -229,7 +229,15 @@ ALMessageDBService  * dbService;
 // Default copy method
 - (void)copy:(id)sender {
     
-    NSLog(@"Copy in ALChatViewController");
+    NSLog(@"Copy in ALChatViewController, messageId: %@", messageId);
+    ALMessage * alMessage =  [self getMessageFromViewList:@"keyString" withValue:messageId ];
+
+    
+    /*UITableViewCell *cell = [self.mTableView cellForRowAtIndexPath:self.indexPathofSelection];*/
+    
+    UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+    //[pasteBoard setString:cell.textLabel.text];
+    [pasteBoard setString:alMessage.message];
     
 }
 
