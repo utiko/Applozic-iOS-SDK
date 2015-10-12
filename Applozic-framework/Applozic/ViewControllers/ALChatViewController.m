@@ -45,20 +45,19 @@
 @property (nonatomic,retain) UIImagePickerController * mImagePicker;
 @property (nonatomic)  ALLocationManager * alLocationManager;
 @property (nonatomic,weak) NSIndexPath *indexPathofSelection;
-
 @end
 
 @implementation ALChatViewController{
     
-               UIActivityIndicatorView *loadingIndicator;
+    UIActivityIndicatorView *loadingIndicator;
     NSString *messageId;
-
-
+    
+    
 }
 
 ALMessageDBService  * dbService;
 //------------------------------------------------------------------------------------------------------------------
-    #pragma mark - View lifecycle
+#pragma mark - View lifecycle
 //------------------------------------------------------------------------------------------------------------------
 
 - (void)viewDidLoad {
@@ -77,10 +76,10 @@ ALMessageDBService  * dbService;
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     NSLog(@"viewWillAppear will be called ....");
-
-
+    
+    
     if(self.refresh || (self.mMessageListArray && self.mMessageListArray.count == 0) ||
-            !(self.mMessageListArray && [[self.mMessageListArray[0] contactIds] isEqualToString:self.contactIds])
+       !(self.mMessageListArray && [[self.mMessageListArray[0] contactIds] isEqualToString:self.contactIds])
        ) {
         [self reloadView];
         [super scrollTableViewToBottomWithAnimation:NO];
@@ -101,7 +100,7 @@ ALMessageDBService  * dbService;
 }
 
 //------------------------------------------------------------------------------------------------------------------
-    #pragma mark - SetUp/Theming
+#pragma mark - SetUp/Theming
 //------------------------------------------------------------------------------------------------------------------
 
 -(void)initialSetUp {
@@ -111,12 +110,12 @@ ALMessageDBService  * dbService;
     self.mMessageListArrayKeyStrings=[NSMutableArray new];
     self.mImagePicker = [[UIImagePickerController alloc] init];
     self.mImagePicker.delegate = self;
-
+    
     self.mSendMessageTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter message here" attributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
-
+    
     [self.mTableView registerClass:[ALChatCell class] forCellReuseIdentifier:@"ChatCell"];
     [self.mTableView registerClass:[ALChatCell_Image class] forCellReuseIdentifier:@"ChatCell_Image"];
-
+    
     [self setTitle];
 }
 
@@ -127,7 +126,7 @@ ALMessageDBService  * dbService;
 }
 
 -(void)fetchMessageFromDB {
-
+    
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     theRequest.predicate = [NSPredicate predicateWithFormat:@"contactId = %@",self.contactIds];
@@ -135,9 +134,9 @@ ALMessageDBService  * dbService;
     NSLog(@"%lu",(unsigned long)self.mTotalCount);
 }
 
-//This is just a test method 
+//This is just a test method
 -(void)refreshTable:(id)sender {
-
+    
     NSLog(@"calling refresh from server....");
     
     //TODO: get the user name, devicekey String and make server call...
@@ -148,132 +147,10 @@ ALMessageDBService  * dbService;
     [loadingIndicator startAnimating];
     [ self fetchAndRefresh ];
     [loadingIndicator stopAnimating];
-    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-}
-
-//------------------------------------------------------------------------------------------------------------------
-    #pragma mark - IBActions
-//------------------------------------------------------------------------------------------------------------------
-
--(void) postMessage
-{
-    if (self.mSendMessageTextField.text.length == 0) {
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:
-                                  @"Empty" message:@"Did you forget to type the message?" delegate:self
-                                                 cancelButtonTitle:nil otherButtonTitles:@"Yes, Let me add something", nil];
-        [alertView show];
-    }
-    ALMessage * theMessage = [self getMessageToPost];
-    [self.mMessageListArray addObject:theMessage];
-    [self.mTableView reloadData];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [super scrollTableViewToBottomWithAnimation:YES];
-    });
-    // save message to db
-    [self.mSendMessageTextField setText:nil];
-    self.mTotalCount = self.mTotalCount+1;
-    self.startIndex = self.startIndex + 1;
-    [ self sendMessage:theMessage];
-}
-
-
-//------------------------------------------------------------------------------------------------------------------
-    #pragma mark - TableView Datasource
-//------------------------------------------------------------------------------------------------------------------
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    return self.mMessageListArray.count > 0 ? self.mMessageListArray.count : 0;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    ALMessage * theMessage = self.mMessageListArray[indexPath.row];
-
-    if (theMessage.fileMetas.thumbnailUrl == nil ) { // textCell
-        
-        ALChatCell *theCell = (ALChatCell *)[tableView dequeueReusableCellWithIdentifier:@"ChatCell"];
-        theCell.tag = indexPath.row;
-        [theCell populateCell:theMessage viewSize:self.view.frame.size ];
-        return theCell;
-        
-    }
-    else
-    {
-        ALChatCell_Image *theCell = (ALChatCell_Image *)[tableView dequeueReusableCellWithIdentifier:@"ChatCell_Image"];
-        theCell.tag = indexPath.row;
-        theCell.delegate = self;
-        theCell.backgroundColor = [UIColor clearColor];
-        [theCell populateCell:theMessage viewSize:self.view.frame.size ];
-        [self.view layoutIfNeeded];
-        return theCell;
-       
-    }
-}
-
-//------------------------------------------------------------------------------------------------------------------
-    #pragma mark - TableView Delegate
-//------------------------------------------------------------------------------------------------------------------
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    ALMessage * theMessage = self.mMessageListArray[indexPath.row];
-    if (theMessage.fileMetas.thumbnailUrl == nil) {
-        CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:@"Helvetica-Bold" fontSize:15];
-        int extraSpace = 40 ;
-        return theTextSize.height+21+extraSpace;
-    }
-    else
-    {
-        return self.view.frame.size.width-110+40;
-    }
-}
-
-//------------------------------------------------------------------------------------------------------------------
-    #pragma mark - Helper Method
-//------------------------------------------------------------------------------------------------------------------
-
--(ALMessage *) getMessageToPost
-{
-    ALMessage * theMessage = [ALMessage new];
-
-    theMessage.type = @"5";
-    theMessage.contactIds = self.contactIds;//1
-    theMessage.to = self.contactIds;//2
-    theMessage.createdAtTime = [NSString stringWithFormat:@"%ld",(long)[[NSDate date] timeIntervalSince1970]*1000];
-    theMessage.deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString ];
-    theMessage.message = self.mSendMessageTextField.text;//3
-    theMessage.sendToDevice = NO;
-    theMessage.sent = NO;
-    theMessage.shared = NO;
-    theMessage.fileMetas = nil;
-    theMessage.read = NO;
-    theMessage.storeOnDevice = NO;
-    theMessage.keyString = @"test keystring";
-    theMessage.delivered=NO;
-    theMessage.fileMetaKeyStrings = @[];//4
-
-    return theMessage;
-}
-
--(ALFileMetaInfo *) getFileMetaInfo {
-
-    ALFileMetaInfo *info = [ALFileMetaInfo new];
-
-    info.blobKeyString = @"";
-    info.contentType = @"";
-    info.createdAtTime = @"";
-    info.keyString = @"";
-    info.name =[ [ALUtilityClass getFileNameWithCurrentTimeStamp] stringByAppendingString:@".jpeg"];
-    info.size = @"";
-    info.suUserKeyString = @"";
-    info.thumbnailUrl = @"";
-    info.progressValue = 0;
-
-    return info;
 }
 
 -(void)setTableViewUpGesture{
@@ -335,7 +212,7 @@ ALMessageDBService  * dbService;
               withSender:(id)sender
 {
     BOOL result = NO;
-    if(@selector(copy:) == action || @selector(deleteAction:)==action)
+    if(@selector(copy:) == action || @selector(deleteAction:) == action)
     {
         result = YES;
     }
@@ -351,7 +228,15 @@ ALMessageDBService  * dbService;
 // Default copy method
 - (void)copy:(id)sender {
     
-    NSLog(@"Copy in ALChatViewController");
+    NSLog(@"Copy in ALChatViewController, messageId: %@", messageId);
+    ALMessage * alMessage =  [self getMessageFromViewList:@"keyString" withValue:messageId ];
+    
+    
+    /*UITableViewCell *cell = [self.mTableView cellForRowAtIndexPath:self.indexPathofSelection];*/
+    
+    UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+    //[pasteBoard setString:cell.textLabel.text];
+    [pasteBoard setString:alMessage.message];
     
 }
 
@@ -365,13 +250,135 @@ ALMessageDBService  * dbService;
     }];
     
     [self.mMessageListArray removeObjectAtIndex:self.indexPathofSelection.row];
-    [UIView animateWithDuration:1.0 animations:^{
+    [UIView animateWithDuration:1.5 animations:^{
         //      [self loadChatView];
         [self.mTableView reloadData];
     }];
     
     
     
+}
+
+//------------------------------------------------------------------------------------------------------------------
+#pragma mark - IBActions
+//------------------------------------------------------------------------------------------------------------------
+
+-(void) postMessage
+{
+    if (self.mSendMessageTextField.text.length == 0) {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:
+                                  @"Empty" message:@"Did you forget to type the message?" delegate:self
+                                                 cancelButtonTitle:nil otherButtonTitles:@"Yes, Let me add something", nil];
+        [alertView show];
+    }
+    ALMessage * theMessage = [self getMessageToPost];
+    [self.mMessageListArray addObject:theMessage];
+    [self.mTableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [super scrollTableViewToBottomWithAnimation:YES];
+    });
+    // save message to db
+    [self.mSendMessageTextField setText:nil];
+    self.mTotalCount = self.mTotalCount+1;
+    self.startIndex = self.startIndex + 1;
+    [ self sendMessage:theMessage];
+}
+
+
+//------------------------------------------------------------------------------------------------------------------
+#pragma mark - TableView Datasource
+//------------------------------------------------------------------------------------------------------------------
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return self.mMessageListArray.count > 0 ? self.mMessageListArray.count : 0;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    ALMessage * theMessage = self.mMessageListArray[indexPath.row];
+    
+    if (theMessage.fileMetas.thumbnailUrl == nil ) { // textCell
+        
+        ALChatCell *theCell = (ALChatCell *)[tableView dequeueReusableCellWithIdentifier:@"ChatCell"];
+        theCell.tag = indexPath.row;
+        [theCell populateCell:theMessage viewSize:self.view.frame.size ];
+        return theCell;
+        
+    }
+    else
+    {
+        ALChatCell_Image *theCell = (ALChatCell_Image *)[tableView dequeueReusableCellWithIdentifier:@"ChatCell_Image"];
+        theCell.tag = indexPath.row;
+        theCell.delegate = self;
+        theCell.backgroundColor = [UIColor clearColor];
+        [theCell populateCell:theMessage viewSize:self.view.frame.size ];
+        [self.view layoutIfNeeded];
+        return theCell;
+        
+    }
+}
+
+//------------------------------------------------------------------------------------------------------------------
+#pragma mark - TableView Delegate
+//------------------------------------------------------------------------------------------------------------------
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ALMessage * theMessage = self.mMessageListArray[indexPath.row];
+    if (theMessage.fileMetas.thumbnailUrl == nil) {
+        CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:@"Helvetica-Bold" fontSize:15];
+        int extraSpace = 40 ;
+        return theTextSize.height+21+extraSpace;
+    }
+    else
+    {
+        return self.view.frame.size.width-110+40;
+    }
+}
+
+//------------------------------------------------------------------------------------------------------------------
+#pragma mark - Helper Method
+//------------------------------------------------------------------------------------------------------------------
+
+-(ALMessage *) getMessageToPost
+{
+    ALMessage * theMessage = [ALMessage new];
+    
+    theMessage.type = @"5";
+    theMessage.contactIds = self.contactIds;//1
+    theMessage.to = self.contactIds;//2
+    theMessage.createdAtTime = [NSString stringWithFormat:@"%ld",(long)[[NSDate date] timeIntervalSince1970]*1000];
+    theMessage.deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString ];
+    theMessage.message = self.mSendMessageTextField.text;//3
+    theMessage.sendToDevice = NO;
+    theMessage.sent = NO;
+    theMessage.shared = NO;
+    theMessage.fileMetas = nil;
+    theMessage.read = NO;
+    theMessage.storeOnDevice = NO;
+    theMessage.keyString = @"test keystring";
+    theMessage.delivered=NO;
+    theMessage.fileMetaKeyStrings = @[];//4
+    
+    return theMessage;
+}
+
+-(ALFileMetaInfo *) getFileMetaInfo {
+    
+    ALFileMetaInfo *info = [ALFileMetaInfo new];
+    
+    info.blobKeyString = @"";
+    info.contentType = @"";
+    info.createdAtTime = @"";
+    info.keyString = @"";
+    info.name =[ [ALUtilityClass getFileNameWithCurrentTimeStamp] stringByAppendingString:@".jpeg"];
+    info.size = @"";
+    info.suUserKeyString = @"";
+    info.thumbnailUrl = @"";
+    info.progressValue = 0;
+    
+    return info;
 }
 
 
@@ -387,18 +394,18 @@ ALMessageDBService  * dbService;
     theRequest.predicate = [NSPredicate predicateWithFormat:@"contactId = %@",self.contactIds];
     [theRequest setFetchOffset:self.startIndex];
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
-
+    
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
-
+    
     for (DB_Message * theEntity in theArray) {
         ALMessage * theMessage = [ messageDBService createMessageForSMSEntity:theEntity];
         [self.mMessageListArray insertObject:theMessage atIndex:0];
-        [self.mMessageListArrayKeyStrings   insertObject    :theMessage.keyString atIndex:0];
+        [self.mMessageListArrayKeyStrings insertObject:theMessage.keyString atIndex:0];
     }
-
+    
     [self.mTableView reloadData];
-
+    
     if (isLoadEarlierTapped) {
         if ((theArray != nil && theArray.count < self.rp )|| self.mMessageListArray.count == self.mTotalCount) {
             self.mTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -420,12 +427,12 @@ ALMessageDBService  * dbService;
             self.mTableView.tableHeaderView = self.mTableHeaderView;
         }
         self.startIndex = theArray.count;
-
+        
         if (self.mMessageListArray.count != 0) {
             CGRect theFrame = [self.mTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:theArray.count-1 inSection:0]];
             [self.mTableView setContentOffset:CGPointMake(0, theFrame.origin.y)];
         }
-
+        
     }
 }
 
@@ -453,7 +460,7 @@ ALMessageDBService  * dbService;
     imageCell.mMessage.fileMetas.progressValue = 0;
     imageCell.mDowloadRetryButton.alpha = 0;
     message.inProgress = YES;
-
+    
     NSMutableArray * theCurrentConnectionsArray = [[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue];
     NSArray * theFiletredArray = [theCurrentConnectionsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keystring == %@", message.keyString]];
     if (theFiletredArray.count == 0){
@@ -474,12 +481,12 @@ ALMessageDBService  * dbService;
     }else{
         NSLog(@"connection already present do nothing###");
     }
-   
+    
 }
 
 -(void)stopDownloadForIndex:(int)index andMessage:(ALMessage *)message {
     NSLog(@"Called get image stopDownloadForIndex stopDownloadForIndex ####");
-
+    
     ALChatCell_Image *imageCell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     imageCell.progresLabel.alpha = 0;
     imageCell.mDowloadRetryButton.alpha = 1;
@@ -490,10 +497,10 @@ ALMessageDBService  * dbService;
     }
     else // download or cancel
     {
-         [self releaseConnection:message.keyString];
-         [self handleErrorStatus:message];
+        [self releaseConnection:message.keyString];
+        [self handleErrorStatus:message];
     }
-
+    
 }
 
 -(void)showFullScreen:(UIViewController*)uiController{
@@ -511,7 +518,7 @@ ALMessageDBService  * dbService;
         NSLog(@" file posting done");
         return;
     }
-
+    
     ALChatCell_Image*  cell=  [self getCell:connection.keystring];
     cell.progresLabel.endDegree = [self bytesConvertsToDegree:[cell.mMessage.fileMetas.size floatValue] comingBytes:(CGFloat)connection.mData.length];;
     
@@ -531,7 +538,7 @@ ALMessageDBService  * dbService;
     
     [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
     dbService = [[ALMessageDBService alloc]init];
-
+    
     if ([connection.connectionType isEqualToString:@"Image Posting"]) {
         ALMessage * message = [self getMessageFromViewList:@"imageFilePath" withValue:connection.keystring];
         //get it fromDB ...we can move it to thread as nothing to show to user
@@ -565,7 +572,7 @@ ALMessageDBService  * dbService;
             message.imageFilePath =  smsEntity.filePath;
             [self.mTableView reloadData];
         }
-       
+        
     }
     
 }
@@ -573,7 +580,7 @@ ALMessageDBService  * dbService;
 //Error
 -(void)connection:(ALConnection *)connection didFailWithError:(NSError *)error
 {
-  //Tag should be something else...
+    //Tag should be something else...
     
     ALChatCell_Image*  imageCell=  [self getCell:connection.keystring];
     imageCell.progresLabel.alpha = 0;
@@ -593,10 +600,10 @@ ALMessageDBService  * dbService;
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-
+    
     UIImage * image = [info valueForKey:UIImagePickerControllerOriginalImage];
     image = [image getCompressedImageLessThanSize:5];
-
+    
     // save image to doc
     NSString * filePath = [ALImagePickerHandler saveImageToDocDirectory:image];
     // create message object
@@ -607,7 +614,7 @@ ALMessageDBService  * dbService;
     NSData *imageSize = [NSData dataWithContentsOfFile:filePath];
     theMessage.fileMetas.size = [NSString stringWithFormat:@"%lu",(unsigned long)imageSize.length];
     //theMessage.fileMetas.thumbnailUrl = filePath.lastPathComponent;
-
+    
     // save msg to db
     
     [self.mMessageListArray addObject:theMessage];
@@ -620,20 +627,20 @@ ALMessageDBService  * dbService;
     [self uploadImage:theMessage];
     [self.mTableView reloadData];
     [self scrollTableViewToBottomWithAnimation:NO];
-
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//
-//            [UIView animateWithDuration:.25 animations:^{
-//        } completion:^(BOOL finished) {
-//            
-//
-//
-//        }];
-//    });
+    
+    //    dispatch_async(dispatch_get_main_queue(), ^{
+    //
+    //            [UIView animateWithDuration:.25 animations:^{
+    //        } completion:^(BOOL finished) {
+    //
+    //
+    //
+    //        }];
+    //    });
 }
 
 -(void)uploadImage:(ALMessage *)theMessage {
-   
+    
     if (theMessage.fileMetas && [theMessage.type isEqualToString:@"5"]) {
         NSDictionary * userInfo = [theMessage dictionary];
         [self.mSendMessageTextField setText:nil];
@@ -663,7 +670,7 @@ ALMessageDBService  * dbService;
         dbMessage.inProgress = [NSNumber numberWithBool:YES];
         dbMessage.isUploadFailed=[NSNumber numberWithBool:NO];
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
-
+        
         // post image
         [ALMessageService sendPhotoForUserInfo:userInfo withCompletion:^(NSString *message, NSError *error) {
             if (error) {
@@ -685,14 +692,14 @@ ALMessageDBService  * dbService;
 {
     if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"photo library"])
         [self openGallery];
-
+    
     else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"take photo"])
         [self openCamera];
 }
 
 -(void) showActionSheet
 {
-//    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"current location",@"take photo",@"photo library", nil];
+    //    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"current location",@"take photo",@"photo library", nil];
     UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"take photo",@"photo library", nil];
     [actionSheet showInView:self.view];
 }
@@ -706,15 +713,15 @@ ALMessageDBService  * dbService;
     }]];
     [theController addAction:[UIAlertAction actionWithTitle:@"photo library" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self openGallery];
-
+        
     }]];
-//    [theController addAction:[UIAlertAction actionWithTitle:@"current location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//       
-//        _alLocationManager =[[ALLocationManager alloc] initWithDistanceFilter:20.0];
-//        _alLocationManager.locationDelegate =self;
-//        [_alLocationManager getAddress];
-//    }]];
-
+    //    [theController addAction:[UIAlertAction actionWithTitle:@"current location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    //
+    //        _alLocationManager =[[ALLocationManager alloc] initWithDistanceFilter:20.0];
+    //        _alLocationManager.locationDelegate =self;
+    //        [_alLocationManager getAddress];
+    //    }]];
+    
     [self presentViewController:theController animated:YES completion:nil];
 }
 
@@ -783,7 +790,7 @@ ALMessageDBService  * dbService;
                      }];
     NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
     ALChatCell_Image *cell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:path];
-
+    
     return cell;
 }
 
@@ -798,7 +805,7 @@ ALMessageDBService  * dbService;
         [self.mTableView reloadData];
         [self setRefreshMainView:TRUE];
     }];
-
+    
 }
 
 -(CGFloat)bytesConvertsToDegree:(CGFloat)totalBytesExpectedToWrite comingBytes:(CGFloat)totalBytesWritten {
@@ -815,7 +822,7 @@ ALMessageDBService  * dbService;
     if (filteredArray.count > 0) {
         return filteredArray[0];
     }
-
+    
     return nil;
 }
 
@@ -835,9 +842,9 @@ ALMessageDBService  * dbService;
                 NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
                 NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
                 [[self mMessageListArray] addObjectsFromArray:sortedArray];
-               
+                
             }
-
+            
             [self.mTableView reloadData];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [super scrollTableViewToBottomWithAnimation:YES];
@@ -845,7 +852,7 @@ ALMessageDBService  * dbService;
         }
     }];
     
-
+    
 }
 -(void)updateDeliveryReport:(NSString*)keyString{
     
@@ -881,7 +888,7 @@ ALMessageDBService  * dbService;
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
         [ alnotification displayNotification:self];
         [self fetchAndRefresh];
-
+        
     }
     
 }
