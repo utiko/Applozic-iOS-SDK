@@ -12,6 +12,7 @@
 		29E61A2D1BC7A6F600043D8A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29E61A2B1BC7A6F600043D8A /* Info.plist */; settings = {ASSET_TAGS = (); }; };
 		6D30A0E31BC3C1F7005D5CF4 /* ALNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D30A0E21BC3C1F7005D5CF4 /* ALNotificationView.m */; };
 		6D8466901BC01F7800AEE06B /* ALLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D84668F1BC01F7800AEE06B /* ALLocationManager.m */; };
+		6D90232C1BC7A70000C4BF2B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D90232E1BC7A70000C4BF2B /* Localizable.strings */; };
 		6D9056C11BBE6B6A009CFA85 /* ALMessageClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9056C01BBE6B6A009CFA85 /* ALMessageClientService.m */; };
 		6D95A3051BB971CE0047CAA6 /* ALPushNotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D95A3041BB971CE0047CAA6 /* ALPushNotificationService.m */; };
 		6DD502E81BAB43F600F68D30 /* ALLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD502E71BAB43F600F68D30 /* ALLoginViewController.m */; };
@@ -134,6 +135,12 @@
 		6D30A0E21BC3C1F7005D5CF4 /* ALNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALNotificationView.m; sourceTree = "<group>"; };
 		6D84668E1BC01F7800AEE06B /* ALLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALLocationManager.h; sourceTree = "<group>"; };
 		6D84668F1BC01F7800AEE06B /* ALLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALLocationManager.m; sourceTree = "<group>"; };
+		6D90232A1BC7A5FE00C4BF2B /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Main.strings; sourceTree = "<group>"; };
+		6D90232B1BC7A5FE00C4BF2B /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		6D90232D1BC7A70000C4BF2B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6D90232F1BC7A81D00C4BF2B /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6D9023301BC7A93900C4BF2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6D9023641BC800C300C4BF2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		6D9056BF1BBE6B6A009CFA85 /* ALMessageClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMessageClientService.h; sourceTree = "<group>"; };
 		6D9056C01BBE6B6A009CFA85 /* ALMessageClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMessageClientService.m; sourceTree = "<group>"; };
 		6D95A3031BB971CE0047CAA6 /* ALPushNotificationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALPushNotificationService.h; sourceTree = "<group>"; };
@@ -173,10 +180,10 @@
 		9C276CEE1B64D538005E76C7 /* ALMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMessage.m; path = DomainClasses/ALMessage.m; sourceTree = "<group>"; };
 		9C276CF01B64D56E005E76C7 /* ALParsingHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALParsingHandler.h; sourceTree = "<group>"; };
 		9C276CF11B64D56E005E76C7 /* ALParsingHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALParsingHandler.m; sourceTree = "<group>"; };
-		9C276CF21B64D56E005E76C7 /* ALRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALRequestHandler.h; sourceTree = "<group>"; };
-		9C276CF31B64D56E005E76C7 /* ALRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALRequestHandler.m; sourceTree = "<group>"; };
-		9C276CF41B64D56E005E76C7 /* ALResponseHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALResponseHandler.h; sourceTree = "<group>"; };
-		9C276CF51B64D56E005E76C7 /* ALResponseHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALResponseHandler.m; sourceTree = "<group>"; };
+		9C276CF21B64D56E005E76C7 /* ALRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALRequestHandler.h; path = Handlers/ALRequestHandler.h; sourceTree = "<group>"; };
+		9C276CF31B64D56E005E76C7 /* ALRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALRequestHandler.m; path = Handlers/ALRequestHandler.m; sourceTree = "<group>"; };
+		9C276CF41B64D56E005E76C7 /* ALResponseHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALResponseHandler.h; path = Handlers/ALResponseHandler.h; sourceTree = "<group>"; };
+		9C276CF51B64D56E005E76C7 /* ALResponseHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALResponseHandler.m; path = Handlers/ALResponseHandler.m; sourceTree = "<group>"; };
 		9C276CF91B64D59D005E76C7 /* ALMessageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALMessageService.h; path = Services/ALMessageService.h; sourceTree = "<group>"; };
 		9C276CFA1B64D59D005E76C7 /* ALMessageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMessageService.m; path = Services/ALMessageService.m; sourceTree = "<group>"; };
 		9C276CFC1B64DE8F005E76C7 /* ALUtilityClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUtilityClass.h; sourceTree = "<group>"; };
@@ -254,10 +261,10 @@
 		D0AE20FF1BB2D64D00F5C147 /* ALBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALBaseViewController.h; sourceTree = "<group>"; };
 		D0AE21001BB2D64D00F5C147 /* ALBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALBaseViewController.m; sourceTree = "<group>"; };
 		E15AF3B31B655384007AAC98 /* mobicom_ic_action_send_now2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mobicom_ic_action_send_now2.png; sourceTree = "<group>"; };
-		E16635B31B8CEBE9004687C8 /* ALConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALConnection.h; sourceTree = "<group>"; };
-		E16635B41B8CEBE9004687C8 /* ALConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALConnection.m; sourceTree = "<group>"; };
-		E16635B61B8CECEC004687C8 /* ALConnectionQueueHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALConnectionQueueHandler.h; sourceTree = "<group>"; };
-		E16635B71B8CECEC004687C8 /* ALConnectionQueueHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALConnectionQueueHandler.m; sourceTree = "<group>"; };
+		E16635B31B8CEBE9004687C8 /* ALConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALConnection.h; path = Handlers/ALConnection.h; sourceTree = "<group>"; };
+		E16635B41B8CEBE9004687C8 /* ALConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALConnection.m; path = Handlers/ALConnection.m; sourceTree = "<group>"; };
+		E16635B61B8CECEC004687C8 /* ALConnectionQueueHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALConnectionQueueHandler.h; path = Handlers/ALConnectionQueueHandler.h; sourceTree = "<group>"; };
+		E16635B71B8CECEC004687C8 /* ALConnectionQueueHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALConnectionQueueHandler.m; path = Handlers/ALConnectionQueueHandler.m; sourceTree = "<group>"; };
 		E1D8D34A1B89B91C00550675 /* ALFileMetaInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALFileMetaInfo.h; sourceTree = "<group>"; };
 		E1D8D34B1B89B91C00550675 /* ALFileMetaInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALFileMetaInfo.m; sourceTree = "<group>"; };
 		E1D8D3531B89CC2F00550675 /* DB_FileMetaInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DB_FileMetaInfo.h; sourceTree = "<group>"; };
@@ -317,6 +324,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D76E0C01BCB96DE003413B0 /* networkcommunication */ = {
+			isa = PBXGroup;
+			children = (
+				9C276CF21B64D56E005E76C7 /* ALRequestHandler.h */,
+				9C276CF31B64D56E005E76C7 /* ALRequestHandler.m */,
+				9C276CF41B64D56E005E76C7 /* ALResponseHandler.h */,
+				9C276CF51B64D56E005E76C7 /* ALResponseHandler.m */,
+				E16635B31B8CEBE9004687C8 /* ALConnection.h */,
+				E16635B41B8CEBE9004687C8 /* ALConnection.m */,
+				E16635B71B8CECEC004687C8 /* ALConnectionQueueHandler.m */,
+				E16635B61B8CECEC004687C8 /* ALConnectionQueueHandler.h */,
+			);
+			name = networkcommunication;
+			sourceTree = "<group>";
+		};
 		6D84668D1BC01F4C00AEE06B /* location */ = {
 			isa = PBXGroup;
 			children = (
@@ -421,6 +443,7 @@
 		9C276C9B1B640C33005E76C7 /* ChatApp */ = {
 			isa = PBXGroup;
 			children = (
+				6D76E0C01BCB96DE003413B0 /* networkcommunication */,
 				6D8EE6C11BB5A811005DF5DA /* ApplozicUIWidget */,
 				6D8EE6C01BB5A7FF005DF5DA /* ApplozicCommons */,
 				6D8EE6BD1BB5A736005DF5DA /* ApplozicLibrary */,
@@ -478,14 +501,6 @@
 				9C95DBB61B80C7C30012A649 /* ALDBHandler.h */,
 				9C95DBB71B80C7C30012A649 /* ALDBHandler.m */,
 				9C276CF11B64D56E005E76C7 /* ALParsingHandler.m */,
-				9C276CF21B64D56E005E76C7 /* ALRequestHandler.h */,
-				9C276CF31B64D56E005E76C7 /* ALRequestHandler.m */,
-				9C276CF41B64D56E005E76C7 /* ALResponseHandler.h */,
-				9C276CF51B64D56E005E76C7 /* ALResponseHandler.m */,
-				E16635B31B8CEBE9004687C8 /* ALConnection.h */,
-				E16635B41B8CEBE9004687C8 /* ALConnection.m */,
-				E16635B61B8CECEC004687C8 /* ALConnectionQueueHandler.h */,
-				E16635B71B8CECEC004687C8 /* ALConnectionQueueHandler.m */,
 				D0AE20FC1BB2CA0300F5C147 /* ALImagePickerHandler.h */,
 				D0AE20FD1BB2CA0300F5C147 /* ALImagePickerHandler.m */,
 			);
@@ -518,6 +533,7 @@
 		9C276CD21B6410B2005E76C7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6D90232E1BC7A70000C4BF2B /* Localizable.strings */,
 				9C87DD7D1B8EFBB0007CEE5F /* ProgressView */,
 				E1D8D3601B89E7E600550675 /* lib */,
 				9C276CD31B6410B2005E76C7 /* Files */,
@@ -768,6 +784,7 @@
 			knownRegions = (
 				en,
 				Base,
+				hu,
 			);
 			mainGroup = 9C276C901B640C33005E76C7;
 			productRefGroup = 9C276C9A1B640C33005E76C7 /* Products */;
@@ -812,6 +829,7 @@
 				9C276D2F1B64EF1C005E76C7 /* ic_action_message_delivered.png in Resources */,
 				9C276D281B64EF1C005E76C7 /* ic_action_cancel.png in Resources */,
 				9C276D421B64EF1C005E76C7 /* mobicom_social_forward.png in Resources */,
+				6D90232C1BC7A70000C4BF2B /* Localizable.strings in Resources */,
 				E1D8D3941B8A345000550675 /* ic_download.png in Resources */,
 				9C276D411B64EF1C005E76C7 /* mobicom_ic_action_send.png in Resources */,
 				9C99CC351B9458B40066E8DF /* ic_upload.png in Resources */,
@@ -929,10 +947,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		6D90232E1BC7A70000C4BF2B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6D90232D1BC7A70000C4BF2B /* Base */,
+				6D90232F1BC7A81D00C4BF2B /* hu */,
+				6D9023301BC7A93900C4BF2B /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		9C276CA61B640C33005E76C7 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				9C276CA71B640C33005E76C7 /* Base */,
+				6D90232A1BC7A5FE00C4BF2B /* hu */,
+				6D9023641BC800C300C4BF2B /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -941,6 +971,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				9C276CAC1B640C33005E76C7 /* Base */,
+				6D90232B1BC7A5FE00C4BF2B /* hu */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -1055,9 +1086,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.AppLozic.ChatApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.customer.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "5f8b7d87-59ae-448d-bb45-0d869971086f";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
@@ -1067,7 +1098,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1079,7 +1110,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.customer.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9846bd30-a9a2-4414-87d0-6ce9cb34432d";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

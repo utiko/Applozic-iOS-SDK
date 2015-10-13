@@ -54,7 +54,7 @@
 
 +(NSString*)getUserId;
 
-+(void) setLastSyncTime: (NSString *) lastSyncTime;
++(void) setLastSyncTime: (NSNumber *) lastSyncTime;
 
 +(NSString *)getLastSyncTime;
 +(NSString *)getUserKeyString;

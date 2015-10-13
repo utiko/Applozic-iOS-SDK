@@ -16,47 +16,295 @@
 		<data>
 		1UePb27agaIVZX0QwNjpI3DaqvA=
 		</data>
-		<key>Assets.car</key>
-		<data>
-		5yFock68fc6ekzzKteobsTaSABc=
-		</data>
-		<key>Base.lproj/Applozic.storyboardc/ALChatViewController.nib</key>
+		<key>Base.lproj/Applozic.storyboardc/ALChatViewController~ipad.nib/objects-8.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			xdqp2eJY/BfevBELBqn1q2cjemU=
+			uDBYFdL/DvS4q0Ew6/Tpp8aE8xE=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Base.lproj/Applozic.storyboardc/ALLoginViewController.nib</key>
+		<key>Base.lproj/Applozic.storyboardc/ALChatViewController~ipad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			4NpTFk/dyzIl/rMmm/MjpQLFm24=
+			A+4AsqGFy4/3ihhL3gXY/ECqbKI=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Base.lproj/Applozic.storyboardc/ALViewController.nib</key>
+		<key>Base.lproj/Applozic.storyboardc/ALChatViewController~iphone.nib/objects-8.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/H4cDkVgtb8tCr478s8+sT7Gdj4=
+			ORfwGizhMLXYyr0ixe/CWW1vl7c=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Base.lproj/Applozic.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib</key>
+		<key>Base.lproj/Applozic.storyboardc/ALChatViewController~iphone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			bSmBJZIc4QxOCBa/wZTie4piLWE=
+			RcU4QWL9GHn7rUep7oINbQDbBOc=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Base.lproj/Applozic.storyboardc/Info.plist</key>
+		<key>Base.lproj/Applozic.storyboardc/ALLoginViewController~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			21sgJN0nAklLIk1hkM10mXOpq0g=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALLoginViewController~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Piyi2fXcADDHMpWh5Ijcm7isjgU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALLoginViewController~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			u50UW1+/R5SdF3j6po75v/t15fg=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALLoginViewController~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			D8xz3NiEvaiHcexSYJV+zjsTMLk=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALViewController~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			IeCDZwCbL9hn8y5/gnBwM49BmZg=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALViewController~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			XI4b9dsLzYhIPgz6sgSLQj76a9A=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALViewController~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7i3b36E0OMB94cmFHeycVSGEcMM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALViewController~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			CG3MJgivZLr6nhVPRumPS43s4Fw=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NA5tiCudqG77SEy8tFrpuzqVBBM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7UxTmH6RZ84npH53HkGSsnRGkpI=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RlK28eJX2ePT+tmQ+NZGbenFVvI=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NWOAdgskuVPSYPlMbfW2zIGXOQc=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/gFB-TQ-g19-view-IEC-BM-wED~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			HrBGlCIoNRCqIlH8LxNUML4yNsg=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/gFB-TQ-g19-view-IEC-BM-wED~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ijAuLGGctgHDRgfz2dHePoVgHew=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/gFB-TQ-g19-view-IEC-BM-wED~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			yieIGiZz1XcBHOxV5C0L9XehfB8=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/gFB-TQ-g19-view-IEC-BM-wED~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			GIjEXHwoPt57vgKHhhGOJxshh04=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/messageTabBar~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			JHrQJMDOy4tLGwpoUfnjRboI6Uk=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/messageTabBar~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			SKZrIyunxwNE1pPOqcFbQ/PCoz0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/messageTabBar~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			2GEkb+2Ui1mMkL/nez1TiEvdqhM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/messageTabBar~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			As6fJXX5XG31XfI37jLSMnzr0Zo=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/oZy-jo-Qf5-view-8au-eI-HrA~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			6KopFaNxrNB6aiJ5FG60fTSRD0k=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/oZy-jo-Qf5-view-8au-eI-HrA~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Ympxq/h5PhDb0QH3zwkSUHl9dzc=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/oZy-jo-Qf5-view-8au-eI-HrA~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			tj6BFtMTxOYubhEfFv1guK8C8RA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/oZy-jo-Qf5-view-8au-eI-HrA~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			jKe5QCxsf99s/k2bRbTfVFYeNAQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/t0V-gj-2WO-view-Lzp-uV-zh7~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			5XqGnv302SjkEVCALElWnFVPeyU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/t0V-gj-2WO-view-Lzp-uV-zh7~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			bcuhQJHO6XwrEoXAY2NtcYldW70=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/t0V-gj-2WO-view-Lzp-uV-zh7~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			clzs4PNxpg2q7e9gXEO6HAqSrF4=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/t0V-gj-2WO-view-Lzp-uV-zh7~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Q+vZ4o02pUVKeTYkjT5qAmIIK58=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic~ipad.storyboardc/Info-8.0+.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
@@ -65,38 +313,29 @@
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Base.lproj/Applozic.storyboardc/gFB-TQ-g19-view-IEC-BM-wED.nib</key>
+		<key>Base.lproj/Applozic~ipad.storyboardc/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			0AvtCJvVn7BfYU7lckzF6rAeURA=
+			WadNHAhRSzwuJjoPlT+urBV/eYI=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Base.lproj/Applozic.storyboardc/messageTabBar.nib</key>
+		<key>Base.lproj/Applozic~iphone.storyboardc/Info-8.0+.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			HC1T3StVmBCAy3q1Iu1d0R53/qo=
+			X+S7XtxGsBXGAlNT2mWwhZRosNA=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Base.lproj/Applozic.storyboardc/oZy-jo-Qf5-view-8au-eI-HrA.nib</key>
+		<key>Base.lproj/Applozic~iphone.storyboardc/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			uk0wbgH6mLEEpzK6Lvy/bxYuuok=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Base.lproj/Applozic.storyboardc/t0V-gj-2WO-view-Lzp-uV-zh7.nib</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			TRD4tFjalfUOh7WFP+pYCvvNEHY=
+			X+S7XtxGsBXGAlNT2mWwhZRosNA=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -115,7 +354,7 @@
 		</data>
 		<key>Headers/ALChatViewController.h</key>
 		<data>
-		1rrmNHX+nHFtutDKtT8D5+lsU+s=
+		qcoZuaBuiRu7fmbyWeKzSVoDYnc=
 		</data>
 		<key>Headers/ALConnection.h</key>
 		<data>
@@ -179,7 +418,7 @@
 		</data>
 		<key>Headers/ALMessageService.h</key>
 		<data>
-		slUpOPpLZ/6GBvjpGKNihuR4A1Q=
+		vG4hk8SjUz8SuReO/UCeDvehpK8=
 		</data>
 		<key>Headers/ALMessagesViewController.h</key>
 		<data>
@@ -263,7 +502,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		EmR2YF63/GLrFnwdUTu9Y++vz+A=
+		RjoCYtjexEIbmYLs5QcFPGSwO/M=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -272,6 +511,10 @@
 		<key>crossButton.png</key>
 		<data>
 		YtFafJN9fojooDNn/HPtE89UH7c=
+		</data>
+		<key>embedded.mobileprovision</key>
+		<data>
+		Uj7OtnqlnyvP/9aCB0k1DEdxvZQ=
 		</data>
 		<key>en.lproj/Localizable.strings</key>
 		<dict>
@@ -453,47 +696,295 @@
 		<data>
 		1UePb27agaIVZX0QwNjpI3DaqvA=
 		</data>
-		<key>Assets.car</key>
-		<data>
-		5yFock68fc6ekzzKteobsTaSABc=
-		</data>
-		<key>Base.lproj/Applozic.storyboardc/ALChatViewController.nib</key>
+		<key>Base.lproj/Applozic.storyboardc/ALChatViewController~ipad.nib/objects-8.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			xdqp2eJY/BfevBELBqn1q2cjemU=
+			uDBYFdL/DvS4q0Ew6/Tpp8aE8xE=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Base.lproj/Applozic.storyboardc/ALLoginViewController.nib</key>
+		<key>Base.lproj/Applozic.storyboardc/ALChatViewController~ipad.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			4NpTFk/dyzIl/rMmm/MjpQLFm24=
+			A+4AsqGFy4/3ihhL3gXY/ECqbKI=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Base.lproj/Applozic.storyboardc/ALViewController.nib</key>
+		<key>Base.lproj/Applozic.storyboardc/ALChatViewController~iphone.nib/objects-8.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/H4cDkVgtb8tCr478s8+sT7Gdj4=
+			ORfwGizhMLXYyr0ixe/CWW1vl7c=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Base.lproj/Applozic.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib</key>
+		<key>Base.lproj/Applozic.storyboardc/ALChatViewController~iphone.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			bSmBJZIc4QxOCBa/wZTie4piLWE=
+			RcU4QWL9GHn7rUep7oINbQDbBOc=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Base.lproj/Applozic.storyboardc/Info.plist</key>
+		<key>Base.lproj/Applozic.storyboardc/ALLoginViewController~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			21sgJN0nAklLIk1hkM10mXOpq0g=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALLoginViewController~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Piyi2fXcADDHMpWh5Ijcm7isjgU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALLoginViewController~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			u50UW1+/R5SdF3j6po75v/t15fg=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALLoginViewController~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			D8xz3NiEvaiHcexSYJV+zjsTMLk=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALViewController~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			IeCDZwCbL9hn8y5/gnBwM49BmZg=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALViewController~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			XI4b9dsLzYhIPgz6sgSLQj76a9A=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALViewController~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7i3b36E0OMB94cmFHeycVSGEcMM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALViewController~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			CG3MJgivZLr6nhVPRumPS43s4Fw=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NA5tiCudqG77SEy8tFrpuzqVBBM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7UxTmH6RZ84npH53HkGSsnRGkpI=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RlK28eJX2ePT+tmQ+NZGbenFVvI=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NWOAdgskuVPSYPlMbfW2zIGXOQc=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/gFB-TQ-g19-view-IEC-BM-wED~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			HrBGlCIoNRCqIlH8LxNUML4yNsg=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/gFB-TQ-g19-view-IEC-BM-wED~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ijAuLGGctgHDRgfz2dHePoVgHew=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/gFB-TQ-g19-view-IEC-BM-wED~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			yieIGiZz1XcBHOxV5C0L9XehfB8=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/gFB-TQ-g19-view-IEC-BM-wED~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			GIjEXHwoPt57vgKHhhGOJxshh04=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/messageTabBar~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			JHrQJMDOy4tLGwpoUfnjRboI6Uk=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/messageTabBar~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			SKZrIyunxwNE1pPOqcFbQ/PCoz0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/messageTabBar~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			2GEkb+2Ui1mMkL/nez1TiEvdqhM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/messageTabBar~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			As6fJXX5XG31XfI37jLSMnzr0Zo=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/oZy-jo-Qf5-view-8au-eI-HrA~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			6KopFaNxrNB6aiJ5FG60fTSRD0k=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/oZy-jo-Qf5-view-8au-eI-HrA~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Ympxq/h5PhDb0QH3zwkSUHl9dzc=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/oZy-jo-Qf5-view-8au-eI-HrA~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			tj6BFtMTxOYubhEfFv1guK8C8RA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/oZy-jo-Qf5-view-8au-eI-HrA~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			jKe5QCxsf99s/k2bRbTfVFYeNAQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/t0V-gj-2WO-view-Lzp-uV-zh7~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			5XqGnv302SjkEVCALElWnFVPeyU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/t0V-gj-2WO-view-Lzp-uV-zh7~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			bcuhQJHO6XwrEoXAY2NtcYldW70=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/t0V-gj-2WO-view-Lzp-uV-zh7~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			clzs4PNxpg2q7e9gXEO6HAqSrF4=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/t0V-gj-2WO-view-Lzp-uV-zh7~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Q+vZ4o02pUVKeTYkjT5qAmIIK58=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic~ipad.storyboardc/Info-8.0+.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
@@ -502,38 +993,29 @@
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Base.lproj/Applozic.storyboardc/gFB-TQ-g19-view-IEC-BM-wED.nib</key>
+		<key>Base.lproj/Applozic~ipad.storyboardc/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			0AvtCJvVn7BfYU7lckzF6rAeURA=
+			WadNHAhRSzwuJjoPlT+urBV/eYI=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Base.lproj/Applozic.storyboardc/messageTabBar.nib</key>
+		<key>Base.lproj/Applozic~iphone.storyboardc/Info-8.0+.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			HC1T3StVmBCAy3q1Iu1d0R53/qo=
+			X+S7XtxGsBXGAlNT2mWwhZRosNA=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Base.lproj/Applozic.storyboardc/oZy-jo-Qf5-view-8au-eI-HrA.nib</key>
+		<key>Base.lproj/Applozic~iphone.storyboardc/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			uk0wbgH6mLEEpzK6Lvy/bxYuuok=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Base.lproj/Applozic.storyboardc/t0V-gj-2WO-view-Lzp-uV-zh7.nib</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			TRD4tFjalfUOh7WFP+pYCvvNEHY=
+			X+S7XtxGsBXGAlNT2mWwhZRosNA=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -552,7 +1034,7 @@
 		</data>
 		<key>Headers/ALChatViewController.h</key>
 		<data>
-		1rrmNHX+nHFtutDKtT8D5+lsU+s=
+		qcoZuaBuiRu7fmbyWeKzSVoDYnc=
 		</data>
 		<key>Headers/ALConnection.h</key>
 		<data>
@@ -616,7 +1098,7 @@
 		</data>
 		<key>Headers/ALMessageService.h</key>
 		<data>
-		slUpOPpLZ/6GBvjpGKNihuR4A1Q=
+		vG4hk8SjUz8SuReO/UCeDvehpK8=
 		</data>
 		<key>Headers/ALMessagesViewController.h</key>
 		<data>
@@ -705,6 +1187,10 @@
 		<key>crossButton.png</key>
 		<data>
 		YtFafJN9fojooDNn/HPtE89UH7c=
+		</data>
+		<key>embedded.mobileprovision</key>
+		<data>
+		Uj7OtnqlnyvP/9aCB0k1DEdxvZQ=
 		</data>
 		<key>en.lproj/Localizable.strings</key>
 		<dict>
