@@ -32,6 +32,7 @@
 #import "ALLocationManager.h"
 #import "ALConstant.h"
 #import "DB_Contact.h"
+#import "ALMapViewController.h"
 #import "ALNotificationView.h"
 
 
@@ -700,8 +701,8 @@ ALMessageDBService  * dbService;
 
 -(void) showActionSheet
 {
-//    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"current location",@"take photo",@"photo library", nil];
-    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"take photo",@"photo library", nil];
+    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"current location",@"take photo",@"photo library", nil];
+//    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"take photo",@"photo library", nil];
     [actionSheet showInView:self.view];
 }
 
@@ -716,12 +717,20 @@ ALMessageDBService  * dbService;
         [self openGallery];
 
     }]];
-//    [theController addAction:[UIAlertAction actionWithTitle:@"current location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//       
+    [theController addAction:[UIAlertAction actionWithTitle:@"current location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+       
 //        _alLocationManager =[[ALLocationManager alloc] initWithDistanceFilter:20.0];
 //        _alLocationManager.locationDelegate =self;
 //        [_alLocationManager getAddress];
-//    }]];
+        
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//        ALMapViewController *mapViewController = (ALMapViewController *)[storyboard instantiateViewControllerWithIdentifier:@"shareLoactionViewTag"];
+//      [self.window makeKeyAndVisible];
+//        [self.navigationController pushViewController:mapViewController
+//                                                     animated:YES
+//                                                  ];
+
+    }]];
 
     [self presentViewController:theController animated:YES completion:nil];
 }
