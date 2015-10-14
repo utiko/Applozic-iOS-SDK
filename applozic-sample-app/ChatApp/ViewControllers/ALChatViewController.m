@@ -272,6 +272,7 @@ ALMessageDBService  * dbService;
                                   @"Empty" message:@"Did you forget to type the message?" delegate:self
                                                  cancelButtonTitle:nil otherButtonTitles:@"Yes, Let me add something", nil];
         [alertView show];
+        return;
     }
     ALMessage * theMessage = [self getMessageToPost];
     [self.mMessageListArray addObject:theMessage];
