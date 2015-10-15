@@ -31,6 +31,7 @@
 #import "ALLocationManager.h"
 #import "ALConstant.h"
 #import "DB_Contact.h"
+#import "ALMapViewController.h"
 #import "ALNotificationView.h"
 
 
@@ -358,7 +359,7 @@ ALMessageDBService  * dbService;
     theMessage.fileMetas = nil;
     theMessage.read = NO;
     theMessage.storeOnDevice = NO;
-    theMessage.keyString = @"test keystring";
+    theMessage.keyString = [[NSUUID UUID] UUIDString];
     theMessage.delivered=NO;
     theMessage.fileMetaKeyStrings = @[];//4
     
@@ -372,7 +373,7 @@ ALMessageDBService  * dbService;
     info.blobKeyString = @"";
     info.contentType = @"";
     info.createdAtTime = @"";
-    info.keyString = @"";
+    info.keyString =nil;
     info.name =[ [ALUtilityClass getFileNameWithCurrentTimeStamp] stringByAppendingString:@".jpeg"];
     info.size = @"";
     info.suUserKeyString = @"";
@@ -474,11 +475,14 @@ ALMessageDBService  * dbService;
         dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
         
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
-        if ([message.type isEqualToString:@"5"]) { // upoad
+        if ([message.type isEqualToString:@"5"]&& !message.fileMetas.keyString) { // upoad
             [self uploadImage:message];
+            
         }else { //download
             [ALMessageService processImageDownloadforMessage:message withdelegate:self];
+            
         }
+        NSLog(@"starting thread for..%@", message.keyString);
     }else{
         NSLog(@"connection already present do nothing###");
     }
@@ -493,14 +497,7 @@ ALMessageDBService  * dbService;
     imageCell.mDowloadRetryButton.alpha = 1;
     message.inProgress = NO;
     [self handleErrorStatus:message];
-    if ([message.type isEqualToString:@"5"]) { // retry or cancel
-        [self releaseConnection:message.imageFilePath];
-    }
-    else // download or cancel
-    {
-        [self releaseConnection:message.keyString];
-        [self handleErrorStatus:message];
-    }
+    [self releaseConnection:message.keyString];
     
 }
 
@@ -529,7 +526,10 @@ ALMessageDBService  * dbService;
 -(void)connection:(ALConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
     
     ALChatCell_Image*  cell=  [self getCell:connection.keystring];
+    NSLog(@"found cell .. %@", cell);
     cell.mMessage.fileMetas.progressValue = [self bytesConvertsToDegree:totalBytesExpectedToWrite comingBytes:totalBytesWritten];
+    
+    NSLog(@" didSendBodyData...." );
     
 }
 
@@ -541,10 +541,10 @@ ALMessageDBService  * dbService;
     dbService = [[ALMessageDBService alloc]init];
     
     if ([connection.connectionType isEqualToString:@"Image Posting"]) {
-        ALMessage * message = [self getMessageFromViewList:@"imageFilePath" withValue:connection.keystring];
+        ALMessage * message = [self getMessageFromViewList:@"keyString" withValue:connection.keystring];
         //get it fromDB ...we can move it to thread as nothing to show to user
         if(!message){
-            DB_Message * dbMessage = (DB_Message*)[dbService getMessageByKey:@"filePath" value:connection.keystring];
+            DB_Message * dbMessage = (DB_Message*)[dbService getMessageByKey:@"keyString" value:connection.keystring];
             message = [ dbService createMessageForSMSEntity:dbMessage];
         }
         NSError * theJsonError = nil;
@@ -700,8 +700,8 @@ ALMessageDBService  * dbService;
 
 -(void) showActionSheet
 {
-    //    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"current location",@"take photo",@"photo library", nil];
-    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"take photo",@"photo library", nil];
+    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"current location",@"take photo",@"photo library", nil];
+    //    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"take photo",@"photo library", nil];
     [actionSheet showInView:self.view];
 }
 
@@ -716,12 +716,20 @@ ALMessageDBService  * dbService;
         [self openGallery];
         
     }]];
-    //    [theController addAction:[UIAlertAction actionWithTitle:@"current location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-    //
-    //        _alLocationManager =[[ALLocationManager alloc] initWithDistanceFilter:20.0];
-    //        _alLocationManager.locationDelegate =self;
-    //        [_alLocationManager getAddress];
-    //    }]];
+    [theController addAction:[UIAlertAction actionWithTitle:@"current location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        //        _alLocationManager =[[ALLocationManager alloc] initWithDistanceFilter:20.0];
+        //        _alLocationManager.locationDelegate =self;
+        //        [_alLocationManager getAddress];
+        
+        //        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        //        ALMapViewController *mapViewController = (ALMapViewController *)[storyboard instantiateViewControllerWithIdentifier:@"shareLoactionViewTag"];
+        //      [self.window makeKeyAndVisible];
+        //        [self.navigationController pushViewController:mapViewController
+        //                                                     animated:YES
+        //                                                  ];
+        
+    }]];
     
     [self presentViewController:theController animated:YES completion:nil];
 }
@@ -749,7 +757,7 @@ ALMessageDBService  * dbService;
 
 
 -(void) handleErrorStatus:(ALMessage *) message{
-    [ALUtilityClass displayToastWithMessage:@"network error." ];
+    //[ALUtilityClass displayToastWithMessage:@"network error." ];
     message.inProgress=NO;
     message.isUploadFailed=YES;
     NSError *error=nil;
@@ -781,8 +789,7 @@ ALMessageDBService  * dbService;
                      {
                          ALMessage *message = (ALMessage*)element;
                          
-                         if( ([ message.type isEqualToString:@"4" ]&& [ message.keyString isEqualToString:key ] )||
-                            ([ message.type isEqualToString:@"5" ]&& [ message.imageFilePath isEqualToString:key ]) )
+                         if( [ message.keyString isEqualToString:key ])
                          {
                              *stop = YES;
                              return YES;
@@ -803,6 +810,7 @@ ALMessageDBService  * dbService;
             [self handleErrorStatus:theMessage];
             return ;
         }
+        NSLog(@" sending message completed  reloading data :: %i", theMessage.inProgress);
         [self.mTableView reloadData];
         [self setRefreshMainView:TRUE];
     }];
