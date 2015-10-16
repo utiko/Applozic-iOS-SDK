@@ -17,7 +17,6 @@
 
 UIViewController * modalCon;
 
-
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -215,7 +214,14 @@ UIViewController * modalCon;
     self.mDateLabel.text = theDate;
    
     NSURL * theUrl = nil ;
-    
+    if([alMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"])
+    {
+        NSURL *ur=[NSURL URLWithString:alMessage.message];
+        NSData* data = [NSData dataWithContentsOfURL:ur];
+        UIImage *img = [UIImage imageWithData:data];
+        [self.mImageView setImage:img];
+        return self;
+    }
     if (alMessage.imageFilePath!=NULL) {
         
         NSString * docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -230,6 +236,8 @@ UIViewController * modalCon;
     return self;
     
 }
+
+
 
 #pragma mark - KAProgressLabel Delegate Methods -
 

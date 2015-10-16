@@ -221,6 +221,24 @@ ALMessageDBService  * dbService;
     return result;
 }
 
+#pragma  mark - ALMapViewController Delegate Methods -
+-(void) getUserCurrentLocation:googleMapUrl
+{
+    
+    ALMessage * theMessage = [self getMessageToPost];
+    theMessage.message=googleMapUrl;
+    [self.mMessageListArray addObject:theMessage];
+    [self.mTableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [super scrollTableViewToBottomWithAnimation:YES];
+    });
+    // save message to db
+    [self.mSendMessageTextField setText:nil];
+    self.mTotalCount = self.mTotalCount+1;
+    self.startIndex = self.startIndex + 1;
+    [ self sendMessage:theMessage];
+    
+}
 
 //-------------------------------------
 #pragma mark - UIMenuController Actions
@@ -301,6 +319,17 @@ ALMessageDBService  * dbService;
 
     ALMessage * theMessage = self.mMessageListArray[indexPath.row];
 
+    if([theMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"]){          ////
+        
+        ALChatCell_Image *theCell = (ALChatCell_Image *)[tableView dequeueReusableCellWithIdentifier:@"ChatCell_Image"];
+        theCell.tag = indexPath.row;
+        theCell.delegate = self;
+        theCell.backgroundColor = [UIColor clearColor];
+        [theCell populateCell:theMessage viewSize:self.view.frame.size ];
+        [self.view layoutIfNeeded];
+        return theCell;
+
+    }
     if (theMessage.fileMetas.thumbnailUrl == nil ) { // textCell
         
         ALChatCell *theCell = (ALChatCell *)[tableView dequeueReusableCellWithIdentifier:@"ChatCell"];
@@ -719,20 +748,14 @@ ALMessageDBService  * dbService;
 
     }]];
     [theController addAction:[UIAlertAction actionWithTitle:@"current location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-       
-//        _alLocationManager =[[ALLocationManager alloc] initWithDistanceFilter:20.0];
-//        _alLocationManager.locationDelegate =self;
-//        [_alLocationManager getAddress];
         
-//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//        ALMapViewController *mapViewController = (ALMapViewController *)[storyboard instantiateViewControllerWithIdentifier:@"shareLoactionViewTag"];
-//      [self.window makeKeyAndVisible];
-//        [self.navigationController pushViewController:mapViewController
-//                                                     animated:YES
-//                                                  ];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        ALMapViewController *vc = (ALMapViewController *)[storyboard instantiateViewControllerWithIdentifier:@"shareLoactionViewTag"];
+        vc.controllerDelegate = self;
+        [self.navigationController pushViewController:vc animated:YES];
 
     }]];
-
+    
     [self presentViewController:theController animated:YES completion:nil];
 }
 
