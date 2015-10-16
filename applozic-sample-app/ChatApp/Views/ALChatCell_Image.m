@@ -17,7 +17,6 @@
 
 UIViewController * modalCon;
 
-
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -182,19 +181,22 @@ UIViewController * modalCon;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width+10, self.mDateLabel.frame.origin.y, 20, 20);
         
-        if (alMessage.isUploadFailed == NO) {
-            self.mDowloadRetryButton.alpha = 0;
-        }else{
-         self.mDowloadRetryButton.alpha = 1;
-         [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
-         [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_upload.png"] forState:UIControlStateNormal];
+        self.progresLabel.alpha = 0;
+        self.mDowloadRetryButton.alpha = 0;
+        if (alMessage.inProgress == YES) {
+            self.progresLabel.alpha = 1;;
+            NSLog(@"calling you progress label....");
+        }else if( !alMessage.imageFilePath && alMessage.fileMetas.keyString){
+            self.mDowloadRetryButton.alpha = 1;
+            [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
+            [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_download.png"]
+                                      forState:UIControlStateNormal];
+        }else if (alMessage.imageFilePath && !alMessage.fileMetas.keyString){
+            self.mDowloadRetryButton.alpha = 1;
+            [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
+            [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_upload.png"] forState:UIControlStateNormal];
         }
         
-        if (alMessage.inProgress == YES) {
-            self.progresLabel.alpha = 1;
-        }else {
-            self.progresLabel.alpha = 0;
-        }
     }
     self.mDowloadRetryButton.frame = CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0 - 50 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2.0 - 15 , 100, 30);
   
@@ -215,7 +217,14 @@ UIViewController * modalCon;
     self.mDateLabel.text = theDate;
    
     NSURL * theUrl = nil ;
-    
+    if([alMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"])
+    {
+        NSURL *ur=[NSURL URLWithString:alMessage.message];
+        NSData* data = [NSData dataWithContentsOfURL:ur];
+        UIImage *img = [UIImage imageWithData:data];
+        [self.mImageView setImage:img];
+        return self;
+    }
     if (alMessage.imageFilePath!=NULL) {
         
         NSString * docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -230,6 +239,8 @@ UIViewController * modalCon;
     return self;
     
 }
+
+
 
 #pragma mark - KAProgressLabel Delegate Methods -
 

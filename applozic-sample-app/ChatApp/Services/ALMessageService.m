@@ -118,7 +118,6 @@
         f.numberStyle = NSNumberFormatterDecimalStyle;
         dbMessage.createdAt = [f numberFromString:createdAtFromServer];
         alMessage.keyString = dbMessage.keyString;
-        NSLog(@"saving key String%@", dbMessage.keyString);
         dbMessage.sentToServer=[NSNumber numberWithBool:YES];
         
         alMessage.keyString = dbMessage.keyString;
@@ -166,7 +165,7 @@
         }
         NSLog(@"last syncTime in call %@", lastSyncTime);
         NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/sync/messages",KBASE_URL];
-        
+    
         NSString * theParamString = [NSString stringWithFormat:@"deviceKeyString=%@&lastSyncTime=%@",deviceKeyString,lastSyncTime];
         
         NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
@@ -179,7 +178,6 @@
                 
                 return ;
             }
-            NSLog(@"sync feed json..%@", (NSString *)theJson);
             ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
             NSLog(@"count is: %lu", (unsigned long)syncResponse.messagesList.count);
             if(syncResponse.messagesList.count >0 ){
@@ -188,10 +186,6 @@
             }
             [ALUserDefaultsHandler
              setLastSyncTime:syncResponse.lastSyncTime];
-            NSLog(@"last syncTime in call %@", lastSyncTime);
-
-            NSLog(@"sync feed ..%@", syncResponse.messagesList);
-            
             ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
             [messageClientService updateDeliveryReports:syncResponse.messagesList];
         
@@ -252,6 +246,7 @@
 
 +(void) proessUploadImageForMessage:(ALMessage *)message databaseObj:(DB_FileMetaInfo *)fileMetaInfo uploadURL:(NSString *)uploadURL withdelegate:(id)delegate{
     
+   
     NSString * docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString * timestamp = message.imageFilePath;
     NSString * filePath = [docDirPath stringByAppendingPathComponent:timestamp];
@@ -290,11 +285,16 @@
         [request setHTTPBody:body];
         // set URL
         [request setURL:[NSURL URLWithString:uploadURL]];
+        NSMutableArray * theCurrentConnectionsArray = [[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue];
+        NSArray * theFiletredArray = [theCurrentConnectionsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keystring == %@", message.keyString]];
+        
+        if( theFiletredArray.count>0 ){
+            NSLog(@"upload is already running .....not starting new one ....");
+            return;
+        }
         ALConnection * connection = [[ALConnection alloc] initWithRequest:request delegate:delegate startImmediately:YES];
-        connection.keystring =message.imageFilePath;
+        connection.keystring =message.keyString;
         connection.connectionType = @"Image Posting";
-        //connection.msgDbObjectId = message.msgDBObjectId;
-       
         [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] addObject:connection];
     
     }
@@ -312,7 +312,7 @@
 +(ALMessage*) processFileUploadSucess: (ALMessage *) message{
     
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-    DB_Message *dbMessage =  (DB_Message*)[dbService getMessageByKey:@"filePath" value:message.imageFilePath];
+    DB_Message *dbMessage =  (DB_Message*)[dbService getMessageByKey:@"keyString" value:message.keyString];
     
     dbMessage.fileMetaInfo.blobKeyString = message.fileMetas.blobKeyString;
     dbMessage.fileMetaInfo.contentType = message.fileMetas.contentType;
