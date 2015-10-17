@@ -51,8 +51,8 @@
 
 @implementation ALChatViewController{
     
-            UIActivityIndicatorView *loadingIndicator;
-            NSString *messageId;
+    UIActivityIndicatorView *loadingIndicator;
+    NSString *messageId;
 
 
 }
