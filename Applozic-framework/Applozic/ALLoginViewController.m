@@ -35,7 +35,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [ self registerForNotification1];
+    [ self registerForNotification];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
                                    action:@selector(dismissKeyboard)];
