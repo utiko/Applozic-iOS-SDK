@@ -1,6 +1,8 @@
 language: objective-c
 cache: bundler
 xcode_project: Applozic-iOS-SDK/Applozic-framework/Applozic.xcodeproj
+xcode_scheme: Applozic
+osx_image: xcode6.4
 script:
   - xcodebuild -project Applozic-iOS-SDK/Applozic-framework/Applozic.xcodeproj -scheme Applozic -sdk iphonesimulator
 
