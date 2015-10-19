@@ -1,6 +1,8 @@
 language: objective-c
 cache: bundler
 xcode_project: Applozic-iOS-SDK/Applozic-framework/Applozic.xcodeproj
+script:
+  - xcodebuild -project Applozic.xcodeproj -scheme Applozic -sdk iphonesimulator
 
 notifications:
   email:
