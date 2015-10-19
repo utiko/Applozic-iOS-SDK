@@ -3,6 +3,8 @@ cache: bundler
 xcode_project: Applozic.xcodeproj
 xcode_scheme: Applozic
 osx_image: xcode6.4
+before_install:
+   -chmod u+x travis/before_script.sh
 before_script: travis/before_script.sh
 script: travis/script.sh
 
