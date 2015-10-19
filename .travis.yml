@@ -1,3 +1,5 @@
 language: objective-c
 cache: bundler
 xcode_project: Applozic-iOS-SDK/Applozic-framework/Applozic.xcodeproj
+xcodebuild -project {project}.xcodeproj -target {target} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+
