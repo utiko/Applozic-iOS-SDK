@@ -4,7 +4,7 @@ xcode_project: Applozic-iOS-SDK/tree/master/Applozic-framework/Applozic.xcodepro
 xcode_scheme: Applozic
 osx_image: xcode6.4
 script:
-  - xcodebuild -project Applozic-iOS-SDK/tree/master/Applozic-framework/Applozic.xcodeproj -scheme Applozic -sdk iphonesimulator
+  - xcodebuild -project Applozic-iOS-SDK/Applozic-framework/Applozic.xcodeproj -scheme Applozic -sdk iphonesimulator
 
 notifications:
   email:
