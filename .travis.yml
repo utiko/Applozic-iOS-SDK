@@ -1,8 +1,11 @@
 language: objective-c
-cache: bundler
-xcode_project: Applozic-iOS-SDK/Applozic-framework/Applozic.xcodeproj
-xcode_scheme: Applozic
-osx_image: xcode6.4
+osx_image: xcode7
+cache:
+  directories:
+  - vendor/bundle
+  - Pods
+
+
 #before_install:
 #   -chmod +x travis/before_script.sh
 #before_script: travis/before_script.sh
