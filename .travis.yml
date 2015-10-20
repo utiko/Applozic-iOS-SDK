@@ -1,6 +1,6 @@
 language: objective-c
 cache: bundler
-xcode_project: Applozic.xcodeproj
+xcode_project: Applozic-iOS-SDK/Applozic-framework/Applozic.xcodeproj
 xcode_scheme: Applozic
 osx_image: xcode6.4
 #before_install:
@@ -8,7 +8,7 @@ osx_image: xcode6.4
 #before_script: travis/before_script.sh
 #script: travis/script.sh
 
-script: xcodebuild -workspace project.xcworkspace -scheme project -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+script: xcodebuild -workspace Applozic-iOS-SDK/Applozic-framework/Applozic.xcodeproj/project.xcworkspace -scheme project -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
 
 notifications:
   email:
