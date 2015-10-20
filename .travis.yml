@@ -9,7 +9,7 @@ osx_image: xcode6.4
 #script: travis/script.sh
 
 script:
-      - make test
+      - make build
 
 notifications:
   email:
