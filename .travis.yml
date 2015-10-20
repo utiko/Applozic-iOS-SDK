@@ -8,7 +8,7 @@ osx_image: xcode6.4
 #before_script: travis/before_script.sh
 #script: travis/script.sh
 
-script: xcodebuild -workspace Applozic.xcworkspace -scheme Applozic -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+script: xcodebuild -workspace project.xcworkspace -scheme project -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
 
 notifications:
   email:
