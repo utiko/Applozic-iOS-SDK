@@ -1,0 +1,15 @@
+language: objective-c
+osx_image: xcode7
+
+#before_install:
+#   -chmod +x travis/before_script.sh
+#before_script: travis/before_script.sh
+#script: travis/script.sh
+
+script: xcodebuild -workspace ~Applozic-framework/Applozic.xcworkspace -scheme Applozic -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+
+notifications:
+  email:
+    recipients:
+      - ranjeet@applozic.com
+

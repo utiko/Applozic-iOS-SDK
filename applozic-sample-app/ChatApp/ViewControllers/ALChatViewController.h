@@ -4,7 +4,7 @@
 //
 //  Copyright (c) 2015 AppLozic. All rights reserved.
 //
-
+#import "ALMapViewController.h"
 #import <UIKit/UIKit.h>
 #import "ALMessage.h"
 #import "ALBaseViewController.h"
@@ -12,7 +12,7 @@
 #import "DB_CONTACT.h"
 #import "ALContact.h"
 
-@interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate>
 
 @property (strong, nonatomic) ALContact *alContact;
 @property (strong, nonatomic) NSMutableArray *mMessageListArray;

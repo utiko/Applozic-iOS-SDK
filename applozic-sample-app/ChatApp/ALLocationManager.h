@@ -26,7 +26,7 @@
 @property(nonatomic) NSString* googleURL;
 @property(nonatomic) NSString* addressString;
 
-@property(nonatomic,weak) id <ALLocationDelegate>locationDelegate;
+@property(nonatomic, weak) id <ALLocationDelegate>locationDelegate;
 -(void) getAddress;
 
 

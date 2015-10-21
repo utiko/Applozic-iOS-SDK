@@ -141,7 +141,7 @@
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
     
-    NSString *email=emailField.text;
+    NSString *email = emailField.text;
     BOOL authenticate = NO;
    /* if([email isEqualToString:@""]||(![self validateEmail:email]))
     {
