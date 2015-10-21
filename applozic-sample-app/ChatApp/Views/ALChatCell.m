@@ -89,8 +89,7 @@
         [self.contentView addSubview:self.mMessageStatusImageView];
         
         self.contentView.userInteractionEnabled=YES;
-        
-       // [self setTableViewUpGesture];
+      
     }
     
     return self;
@@ -211,89 +210,27 @@
     
     return stringSize;
 }
-/*
--(void)setTableViewUpGesture{
-    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
-                                          initWithTarget:self action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = 1.0f; //seconds
-    lpgr.allowableMovement = 100.0f;
+
+-(BOOL) canPerformAction:(SEL)action withSender:(id)sender {
+    return (action == @selector(copy:) || action == @selector(delete:));
+}
+
+
+
+
+// Default copy method
+- (void)copy:(id)sender {
     
-    lpgr.delegate = self;
-    [self addGestureRecognizer:lpgr];
+    NSLog(@"Copy in ALChatViewController, messageId: %@", self.mMessage.message);
+    UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+    //[pasteBoard setString:cell.textLabel.text];
+    [pasteBoard setString:self.mMessage.message];
     
 }
 
-//-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
-//{
-//    
-////    CGPoint p = [gestureRecognizer locationInView:self.mTableView];
-////    
-////    self.indexPathofSelection = [self.mTableView indexPathForRowAtPoint:p];
-////    
-////    messageId = self.mMessageListArrayKeyStrings[self.indexPathofSelection.row];
-////    index =  self.indexPathofSelection.row;
-////    
-////    NSLog(@"mMessageListMessage Array %@",self.mMessageListArrayKeyStrings[self.indexPathofSelection.row]);
-//    
-////    if (self.indexPathofSelection == nil)
-////    {
-////        NSLog(@"long press on table view but not on a row");
-////    }else
-//    if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
-//    
-//    {
-//        
-//      //  NSLog(@"long press on table view at row %ld", (long)self.indexPathofSelection.row);
-//        
-//        CGPoint p = [gestureRecognizer locationInView:self];
-//        CGRect targetRectangle = CGRectMake(p.x, p.y, 0, 0);
-//        
-//        [[UIMenuController sharedMenuController] setTargetRect:targetRectangle inView:self];
-//        
-//        UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteAction:)];
-//        
-//        [[UIMenuController sharedMenuController] setMenuItems:@[menuItem]];
-//        [[UIMenuController sharedMenuController] update];
-//
-//        [[UIMenuController sharedMenuController] setMenuVisible:YES animated:YES];
-//    }
-//    
-//    else {
-//        NSLog(@"gestureRecognizer.state = %ld", (long)gestureRecognizer.state);
-//        // NSLog(@"MAY BE GETTING URL");
-//    }
-//}
-//
-////-(void)deleteAction:(id)sender{
-////    NSLog(@"Delete Menu item Pressed");
-//////    ALMessage * alMessage = [self.mMessageListArray objectAtIndex:index ];
-//////    
-//////    [ALMessageService deleteMessage:alMessage.keyString andContactId:self.contactIds withCompletion:^(NSString* string,NSError* error){
-//////        if(!error ){
-//////            NSLog(@"No Error");
-//////        }
-//////    }];
-//////    
-//////    [self.mMessageListArray removeObjectAtIndex:self.indexPathofSelection.row];
-//////    [UIView animateWithDuration:1.5 animations:^{
-//////        //      [self loadChatView];
-//////        [self.mTableView reloadData];
-//////    }];
-//////    
-//////    
-////    
-////}
-- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
-{
-    BOOL result = NO;
+-(void) delete:(id)sender {
+    [ self.delegate deleteMessageFromView:self.mMessage];
+}
 
-    NSLog(@"==== sender: %@",sender);
-    NSLog(@"=====///// can perform method   ////=====");
-    if(@selector(copy:) == action || @selector(deleteAction:) == action)
-    {
-        result = YES;
-    }
-    NSLog(@"Result :%i",result);
-    return result;
-} */
+
 @end
