@@ -157,9 +157,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="logoutButton" destination="3pR-ud-INa" id="OZr-wH-8G8"/>
                         <outlet property="mActivityIndicator" destination="dlR-eX-vMZ" id="iW8-EO-GId"/>
                         <outlet property="mTableView" destination="S0P-A8-QJi" id="faw-jS-ahn"/>
                         <outlet property="mTableViewTopConstraint" destination="qlf-k3-4dr" id="ZwD-Zb-yoi"/>
+                        <outlet property="navBar" destination="lrz-ae-7pi" id="ELL-bc-fNj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
