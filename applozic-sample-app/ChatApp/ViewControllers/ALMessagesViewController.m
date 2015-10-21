@@ -18,6 +18,7 @@
 #import "ALRegisterUserClientService.h"
 #import "ALDBHandler.h"
 #import "ALContact.h"
+#import "ALUserDefaultsHandler.h"
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
@@ -31,6 +32,8 @@
 @interface ALMessagesViewController ()<UITableViewDataSource,UITableViewDelegate,ALMessagesDelegate>
 
 - (IBAction)logout:(id)sender;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
+@property (strong, nonatomic) IBOutlet UINavigationItem *navBar;
 
 // Constants
 
@@ -51,25 +54,15 @@
 #pragma mark - View lifecycle
 //------------------------------------------------------------------------------------------------------------------
 
-
-- (IBAction)logout:(id)sender {
-    
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    [registerUserClientService logout];
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main"
-                                                         bundle:nil];
-    ALLoginViewController *add =
-    [storyboard instantiateViewControllerWithIdentifier:@"ALLoginViewController"];
-    
-    [self presentViewController:add
-                       animated:YES
-                     completion:nil];
-}
-
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+
+    if(![ALUserDefaultsHandler isLogoutButtonVisible])
+    {
+        [self.navBar setRightBarButtonItems:nil]; 
+    }
+    
     [self setUpView];
     [self setUpTableView];
     self.mTableView.allowsMultipleSelectionDuringEditing = NO;
@@ -77,6 +70,7 @@
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
     [dBService getMessages];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -109,6 +103,18 @@
     [super viewWillDisappear:animated];
     
     self.navigationController.navigationBar.barTintColor = self.navColor;
+}
+
+- (IBAction)logout:(id)sender {
+    
+        ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+        [registerUserClientService logout];
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        ALLoginViewController *add = [storyboard instantiateViewControllerWithIdentifier:@"ALLoginViewController"];
+        
+        [self presentViewController:add animated:YES completion:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {

@@ -16,11 +16,15 @@
 #define APN_DEVICE_TOKEN @"APN_DEVICE_TOKEN"
 #define LAST_SYNC_TIME @"LAST_SYNC_TIME"
 #define CONVERSATION_DB_SYNCED @"CONVERSATION_DB_SYNCED"
-
+#define LOGOUT_BUTTON_VISIBLITY @"LOGOUT_BUTTON_VISIBLITY"
 
 #import <Foundation/Foundation.h>
 
 @interface ALUserDefaultsHandler : NSObject
+
++(void) setLogoutButtonVisible: (BOOL)flagValue;
+
++(BOOL) isLogoutButtonVisible;
 
 +(BOOL) isLoggedIn;
 

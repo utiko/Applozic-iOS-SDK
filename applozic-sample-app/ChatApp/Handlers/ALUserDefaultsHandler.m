@@ -10,6 +10,17 @@
 
 @implementation ALUserDefaultsHandler
 
++(void) setLogoutButtonVisible:(BOOL)flagValue
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flagValue forKey: LOGOUT_BUTTON_VISIBLITY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL) isLogoutButtonVisible
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:LOGOUT_BUTTON_VISIBLITY];
+}
+
 +(void) setApplicationKey:(NSString *)applicationKey
 {
     [[NSUserDefaults standardUserDefaults] setValue:applicationKey forKey:APPLICATION_KEY];
