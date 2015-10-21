@@ -10,7 +10,9 @@
 
 @interface ALChatCell : UITableViewCell
 
-@property (retain, nonatomic) UILabel *mMessageLabel;
+//@property (retain, nonatomic) UILabel *mMessageLabel;
+
+@property (retain, nonatomic) UITextView *mMessageLabel;
 
 @property (retain, nonatomic) UILabel *mDateLabel;
 

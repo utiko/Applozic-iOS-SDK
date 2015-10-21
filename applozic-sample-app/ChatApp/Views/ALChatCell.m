@@ -8,6 +8,7 @@
 #import "ALChatCell.h"
 #import "ALUtilityClass.h"
 #import "ALConstant.h"
+#import "ALUITextView.h"
 
 @implementation ALChatCell
 
@@ -38,10 +39,9 @@
         self.mUserProfileImageView.clipsToBounds = YES;
         
         [self.contentView addSubview:self.mUserProfileImageView];
-        
-        
-        self.mMessageLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 30, 100, 44)];
-        
+
+        self.mMessageLabel =[[ALUITextView alloc] init];
+        self.mMessageLabel.delegate = self.mMessageLabel;
         NSString *fontName = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_FONTNAME];
         
         if (!fontName) {
@@ -50,10 +50,18 @@
         
         self.mMessageLabel.font = [UIFont fontWithName:fontName size:15];
         
-        self.mMessageLabel.numberOfLines = 0;
+        //self.mMessageLabel.numberOfLines = 0;
         
         self.mMessageLabel.textColor = [UIColor grayColor];
         
+        self.mMessageLabel.selectable = YES;
+        self.mMessageLabel.editable = NO;
+        self.mMessageLabel.scrollEnabled = NO;
+        self.mMessageLabel.textContainerInset = UIEdgeInsetsZero;
+        self.mMessageLabel.textContainer.lineFragmentPadding = 0;
+        self.mMessageLabel.dataDetectorTypes = UIDataDetectorTypeLink;
+      
+       // self.mMessageLabel.userInteractionEnabled = YES;
         [self.contentView addSubview:self.mMessageLabel];
         
 
@@ -82,6 +90,7 @@
         
         self.contentView.userInteractionEnabled=YES;
         
+       // [self setTableViewUpGesture];
     }
     
     return self;
@@ -202,4 +211,89 @@
     
     return stringSize;
 }
+/*
+-(void)setTableViewUpGesture{
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
+                                          initWithTarget:self action:@selector(handleLongPress:)];
+    lpgr.minimumPressDuration = 1.0f; //seconds
+    lpgr.allowableMovement = 100.0f;
+    
+    lpgr.delegate = self;
+    [self addGestureRecognizer:lpgr];
+    
+}
+
+//-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
+//{
+//    
+////    CGPoint p = [gestureRecognizer locationInView:self.mTableView];
+////    
+////    self.indexPathofSelection = [self.mTableView indexPathForRowAtPoint:p];
+////    
+////    messageId = self.mMessageListArrayKeyStrings[self.indexPathofSelection.row];
+////    index =  self.indexPathofSelection.row;
+////    
+////    NSLog(@"mMessageListMessage Array %@",self.mMessageListArrayKeyStrings[self.indexPathofSelection.row]);
+//    
+////    if (self.indexPathofSelection == nil)
+////    {
+////        NSLog(@"long press on table view but not on a row");
+////    }else
+//    if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
+//    
+//    {
+//        
+//      //  NSLog(@"long press on table view at row %ld", (long)self.indexPathofSelection.row);
+//        
+//        CGPoint p = [gestureRecognizer locationInView:self];
+//        CGRect targetRectangle = CGRectMake(p.x, p.y, 0, 0);
+//        
+//        [[UIMenuController sharedMenuController] setTargetRect:targetRectangle inView:self];
+//        
+//        UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteAction:)];
+//        
+//        [[UIMenuController sharedMenuController] setMenuItems:@[menuItem]];
+//        [[UIMenuController sharedMenuController] update];
+//
+//        [[UIMenuController sharedMenuController] setMenuVisible:YES animated:YES];
+//    }
+//    
+//    else {
+//        NSLog(@"gestureRecognizer.state = %ld", (long)gestureRecognizer.state);
+//        // NSLog(@"MAY BE GETTING URL");
+//    }
+//}
+//
+////-(void)deleteAction:(id)sender{
+////    NSLog(@"Delete Menu item Pressed");
+//////    ALMessage * alMessage = [self.mMessageListArray objectAtIndex:index ];
+//////    
+//////    [ALMessageService deleteMessage:alMessage.keyString andContactId:self.contactIds withCompletion:^(NSString* string,NSError* error){
+//////        if(!error ){
+//////            NSLog(@"No Error");
+//////        }
+//////    }];
+//////    
+//////    [self.mMessageListArray removeObjectAtIndex:self.indexPathofSelection.row];
+//////    [UIView animateWithDuration:1.5 animations:^{
+//////        //      [self loadChatView];
+//////        [self.mTableView reloadData];
+//////    }];
+//////    
+//////    
+////    
+////}
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+{
+    BOOL result = NO;
+
+    NSLog(@"==== sender: %@",sender);
+    NSLog(@"=====///// can perform method   ////=====");
+    if(@selector(copy:) == action || @selector(deleteAction:) == action)
+    {
+        result = YES;
+    }
+    NSLog(@"Result :%i",result);
+    return result;
+} */
 @end
