@@ -328,7 +328,7 @@ UIViewController * modalCon;
         [modalCon.view addGestureRecognizer:modalTap];
         [self.delegate showFullScreen:modalCon];
     //}else{
-        NSLog(@" image is not present on  SDCARD...");
+      //  NSLog(@" image is not present on  SDCARD...");
     //}
     return;
 }
@@ -337,4 +337,14 @@ UIViewController * modalCon;
     
     [modalCon dismissViewControllerAnimated:YES completion:nil];
 }
+
+-(BOOL) canPerformAction:(SEL)action withSender:(id)sender {
+    return (action == @selector(delete:));
+}
+
+-(void) delete:(id)sender {
+    [ self.delegate deleteMessageFromView:self.mMessage];
+}
+
+
 @end

@@ -17,6 +17,7 @@
 -(void) downloadRetryButtonActionDelegate:(int) index andMessage:(ALMessage *) message;
 -(void) stopDownloadForIndex:(int)index andMessage:(ALMessage *)message;
 -(void) showFullScreen:(UIViewController *) fullView;
+-(void)deleteMessageFromView:(ALMessage *)message;
 
 @end
 
