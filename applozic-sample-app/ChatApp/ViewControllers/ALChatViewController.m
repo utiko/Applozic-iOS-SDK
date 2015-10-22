@@ -67,7 +67,6 @@ ALMessageDBService  * dbService;
     [self initialSetUp];
     [self fetchMessageFromDB];
     [self loadChatView];
-    [self setTableViewUpGesture];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -119,6 +118,7 @@ ALMessageDBService  * dbService;
 //    [self.mTableView registerClass:[ALChatCell_Image class] forCellReuseIdentifier:@"ChatCell_Image"];
 
     [self setTitle];
+
 }
 
 -(void) setTitle {
@@ -155,71 +155,10 @@ ALMessageDBService  * dbService;
     [super didReceiveMemoryWarning];
 }
 
--(void)setTableViewUpGesture{
-    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
-                                          initWithTarget:self action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = 1.0f; //seconds
-    lpgr.allowableMovement = 100.0f;
-    
-    lpgr.delegate = self;
-    [self.mTableView addGestureRecognizer:lpgr];
-    
-}
-
--(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
-{
-    
-    CGPoint p = [gestureRecognizer locationInView:self.mTableView];
-    
-    self.indexPathofSelection = [self.mTableView indexPathForRowAtPoint:p];
-    
-    NSLog(@"mMessageListMessage Array %@",self.mMessageListArrayKeyStrings[self.indexPathofSelection.row]);
-    
-    messageId=self.mMessageListArrayKeyStrings[self.indexPathofSelection.row];
-    
-    if (self.indexPathofSelection == nil)
-    {
-        NSLog(@"long press on table view but not on a row");
-    }
-    
-    else if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
-        
-    {
-    
-        NSLog(@"long press on table view at row %ld", (long)self.indexPathofSelection.row);
-        
-        CGRect targetRectangle = CGRectMake(p.x, p.y, 0, 0);
-        
-        [[UIMenuController sharedMenuController] setTargetRect:targetRectangle
-                                                        inView:self.mTableView];
-        
-        UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:@"Delete"
-                                                          action:@selector(deleteAction:)];
-        
-        [[UIMenuController sharedMenuController] setMenuItems:@[menuItem]];
-        [[UIMenuController sharedMenuController]
-         setMenuVisible:YES animated:YES];
-        
-    }
-    
-    else {
-        NSLog(@"gestureRecognizer.state = %ld", (long)gestureRecognizer.state);
-    }
-}
 - (BOOL)canBecomeFirstResponder {
     return YES;
 }
 
-- (BOOL)canPerformAction:(SEL)action
-              withSender:(id)sender
-{
-    BOOL result = NO;
-    if(@selector(copy:) == action || @selector(deleteAction:) == action)
-    {
-        result = YES;
-    }
-    return result;
-}
 
 #pragma  mark - ALMapViewController Delegate Methods -
 -(void) getUserCurrentLocation:googleMapUrl
@@ -337,6 +276,7 @@ ALMessageDBService  * dbService;
         
         ALChatCell *theCell = (ALChatCell *)[tableView dequeueReusableCellWithIdentifier:@"ChatCell"];
         theCell.tag = indexPath.row;
+        theCell.delegate = self;
         [theCell populateCell:theMessage viewSize:self.view.frame.size ];
         return theCell;
         
@@ -372,6 +312,17 @@ ALMessageDBService  * dbService;
     }
 }
 
+- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+-(BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+    return (action == @selector(copy:));
+}
+
+- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+    // required
+}
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark - Helper Method
 //------------------------------------------------------------------------------------------------------------------
@@ -484,6 +435,22 @@ ALMessageDBService  * dbService;
     {
         [self showActionAlert];
     }
+}
+
+#pragma mark chatCellDelegate
+
+-(void) deleteMessageFromView:(ALMessage *) message {
+    
+    [ALMessageService deleteMessage:message.keyString andContactId:self.contactIds withCompletion:^(NSString* string,NSError* error){
+        if(!error ){
+            NSLog(@"No Error");
+        }
+    }];
+    
+    [self.mMessageListArray removeObject:message];
+    [UIView animateWithDuration:1.5 animations:^{
+    [self.mTableView reloadData];
+    }];
 }
 
 #pragma mark chatCellImageDelegate

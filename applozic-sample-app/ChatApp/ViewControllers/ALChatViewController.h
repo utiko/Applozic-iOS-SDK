@@ -11,8 +11,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import "DB_CONTACT.h"
 #import "ALContact.h"
+#import "ALChatCell.h"
 
-@interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate>
+@interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate,ALChatCellDelegate>
 
 @property (strong, nonatomic) ALContact *alContact;
 @property (strong, nonatomic) NSMutableArray *mMessageListArray;

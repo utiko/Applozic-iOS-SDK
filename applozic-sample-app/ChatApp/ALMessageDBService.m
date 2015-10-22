@@ -101,13 +101,14 @@
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     
     NSManagedObject* message = [self getMessageByKey:@"keyString" value:keyString];
-    [dbHandler.managedObjectContext deleteObject:message];
-    NSError *error = nil;
-  
-    if ( [dbHandler.managedObjectContext save:&error]){
-        NSLog(@"message found and maked as deliverd");
-    } else {
-        NSLog(@"message not found with this key");
+    if(message){
+        [dbHandler.managedObjectContext deleteObject:message];
+        NSError *error = nil;
+        if ( [dbHandler.managedObjectContext save:&error]){
+            NSLog(@"message found ");
+        }
+    }else{
+         NSLog(@"message not found with this key");
     }
 }
 

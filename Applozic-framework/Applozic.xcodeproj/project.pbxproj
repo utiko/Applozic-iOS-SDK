@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D46B6C31BD025060014A5D3 /* ALMapViewController.h */; };
+		6D46B6C61BD025060014A5D3 /* ALMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D46B6C41BD025060014A5D3 /* ALMapViewController.m */; };
 		6D6DF0811BC535C800EBA00F /* Applozic.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF0801BC535C800EBA00F /* Applozic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6DF13A1BC5364C00EBA00F /* ALLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF0881BC5364C00EBA00F /* ALLoginViewController.m */; };
 		6D6DF13B1BC5364C00EBA00F /* ALMessageDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF0891BC5364C00EBA00F /* ALMessageDBService.m */; };
@@ -167,6 +169,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6D46B6C31BD025060014A5D3 /* ALMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMapViewController.h; sourceTree = "<group>"; };
+		6D46B6C41BD025060014A5D3 /* ALMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMapViewController.m; sourceTree = "<group>"; };
 		6D6DF07D1BC535C800EBA00F /* Applozic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Applozic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D6DF0801BC535C800EBA00F /* Applozic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Applozic.h; sourceTree = "<group>"; };
 		6D6DF0821BC535C800EBA00F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -397,6 +401,8 @@
 				6D6DF0AD1BC5364C00EBA00F /* ALMessagesViewController.m */,
 				6D6DF0AE1BC5364C00EBA00F /* ALNewContactsViewController.h */,
 				6D6DF0AF1BC5364C00EBA00F /* ALNewContactsViewController.m */,
+				6D46B6C31BD025060014A5D3 /* ALMapViewController.h */,
+				6D46B6C41BD025060014A5D3 /* ALMapViewController.m */,
 			);
 			name = ViewControllers;
 			path = Applozic/ViewControllers;
@@ -704,6 +710,7 @@
 				6D6DF17A1BC5364C00EBA00F /* ALRegistrationResponse.h in Headers */,
 				6D6DF16D1BC5364C00EBA00F /* ALPushNotificationService.h in Headers */,
 				6D6DF17E1BC5364C00EBA00F /* ALUser.h in Headers */,
+				6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */,
 				6D6DF14C1BC5364C00EBA00F /* ALUserDefaultsHandler.h in Headers */,
 				6D6DF1741BC5364C00EBA00F /* ALJson.h in Headers */,
 				6D6DF15A1BC5364C00EBA00F /* ALMessagesViewController.h in Headers */,
@@ -921,6 +928,7 @@
 				6D6DF1BD1BC5364C00EBA00F /* SDWebImageDownloader.m in Sources */,
 				6D6DF14F1BC5364C00EBA00F /* ALMessageService.m in Sources */,
 				6D6DF1551BC5364C00EBA00F /* UIImage+Utility.m in Sources */,
+				6D46B6C61BD025060014A5D3 /* ALMapViewController.m in Sources */,
 				6D6DF1531BC5364C00EBA00F /* ALUtilityClass.m in Sources */,
 				6D6DF1591BC5364C00EBA00F /* ALChatViewController.m in Sources */,
 				6D6DF13A1BC5364C00EBA00F /* ALLoginViewController.m in Sources */,

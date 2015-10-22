@@ -169,9 +169,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="logoutButton" destination="3pR-ud-INa" id="OZr-wH-8G8"/>
                         <outlet property="mActivityIndicator" destination="dlR-eX-vMZ" id="iW8-EO-GId"/>
                         <outlet property="mTableView" destination="S0P-A8-QJi" id="faw-jS-ahn"/>
                         <outlet property="mTableViewTopConstraint" destination="qlf-k3-4dr" id="ZwD-Zb-yoi"/>
+                        <outlet property="navBar" destination="lrz-ae-7pi" id="ELL-bc-fNj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -284,20 +286,32 @@
                                 <animations/>
                                 <state key="normal" title="Send Location"/>
                                 <connections>
-                                    <action selector="sendLocationAction:" destination="Jcz-BB-dxz" eventType="touchUpInside" id="HKv-4e-YXA"/>
+                                    <action selector="sendLocation:" destination="Jcz-BB-dxz" eventType="touchDown" id="Qop-GW-H2J"/>
                                 </connections>
                             </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="uEJ-oo-GLz" secondAttribute="centerX" id="BnD-S7-m2X"/>
+                            <constraint firstItem="uEJ-oo-GLz" firstAttribute="top" secondItem="qF4-qu-V6r" secondAttribute="bottom" constant="23" id="BsX-2e-PXH"/>
+                            <constraint firstItem="uEJ-oo-GLz" firstAttribute="leading" secondItem="Gop-mz-j8f" secondAttribute="leading" id="I9x-Dr-GfR"/>
+                            <constraint firstAttribute="centerX" secondItem="KAL-xm-Upd" secondAttribute="centerX" id="LaM-Oy-Znd"/>
+                            <constraint firstAttribute="trailing" secondItem="uEJ-oo-GLz" secondAttribute="trailing" id="QKm-qL-Uww"/>
+                            <constraint firstAttribute="centerX" secondItem="KAL-xm-Upd" secondAttribute="centerX" id="XY8-EA-S5A"/>
+                            <constraint firstAttribute="centerY" secondItem="KAL-xm-Upd" secondAttribute="centerY" id="buO-Do-NA2"/>
+                            <constraint firstItem="nG5-eB-qSq" firstAttribute="top" secondItem="KAL-xm-Upd" secondAttribute="bottom" constant="31" id="hsn-ip-WqX"/>
+                            <constraint firstItem="KAL-xm-Upd" firstAttribute="top" secondItem="uEJ-oo-GLz" secondAttribute="bottom" constant="24" id="rg6-gd-Et1"/>
+                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="sendLocationButton" destination="KAL-xm-Upd" id="CTX-v1-Ofc"/>
+                        <outlet property="mapKitView" destination="uEJ-oo-GLz" id="4Cz-Ec-0BB"/>
+                        <outlet property="sendLocationButton" destination="KAL-xm-Upd" id="dbG-FN-v4t"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zqg-iw-rq4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2575" y="913"/>
+            <point key="canvasLocation" x="2560" y="933"/>
         </scene>
         <!--Chat View Controller-->
         <scene sceneID="Qxl-dr-KMt">
@@ -372,24 +386,16 @@
                                 <exclude reference="oJd-yd-pFo"/>
                             </mask>
                         </variation>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="ICE-46-P9k" appends="YES" id="ctr-uZ-ujj"/>
-                        </connections>
                     </view>
                     <connections>
                         <outlet property="mActivityIndicator" destination="cVw-Po-VWO" id="7cC-PR-aCE"/>
                         <outlet property="mSendMessageTextField" destination="8vk-6r-Jow" id="A3x-vI-zuA"/>
                         <outlet property="mSendTextFieldBottomConstraint" destination="R74-pb-8FH" id="RCK-y9-Yig"/>
                         <outlet property="mTableView" destination="XrG-C6-GhS" id="dUZ-gm-Bt0"/>
-                        <outlet property="mTapGesture" destination="ICE-46-P9k" id="KGA-3J-6VV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KEu-PH-USU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="ICE-46-P9k">
-                    <connections>
-                        <action selector="handleTap:" destination="gFB-TQ-g19" id="R6I-38-Bua"/>
-                    </connections>
-                </tapGestureRecognizer>
+                <tapGestureRecognizer id="ICE-46-P9k"/>
             </objects>
             <point key="canvasLocation" x="2560" y="241"/>
         </scene>
@@ -529,6 +535,9 @@
                                         <rect key="frame" x="290" y="294" width="600" height="20"/>
                                         <animations/>
                                         <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
+                                        <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
+                                            <rect key="frame" x="290" y="294" width="400" height="20"/>
+                                        </variation>
                                     </activityIndicatorView>
                                 </subviews>
                                 <animations/>

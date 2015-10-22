@@ -54,7 +54,15 @@
     
     NSLog(@"latitude: %.8f && longitude: %.8f", region.center.latitude, region.center.longitude);
     
-    NSString * locationURL=[NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/staticmap?center=%.8f,%.8f&zoom=17&size=290x179&maptype=roadmap&format=png&visual_refresh=true&markers=%.8f,%.8f",region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
+    //static map location
+    
+ /*  NSString * locationURL=[NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/staticmap?center=%.8f,%.8f&zoom=17&size=290x179&maptype=roadmap&format=png&visual_refresh=true&markers=%.8f,%.8f",region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
+    */
+    
+            //simpe location link
+     
+    NSString * locationURL=[NSString stringWithFormat:@"http://maps.google.com/?ll=%.8f,%.8f", region.center.latitude, region.center.longitude];
+   
     
     [self.controllerDelegate getUserCurrentLocation:locationURL];
     

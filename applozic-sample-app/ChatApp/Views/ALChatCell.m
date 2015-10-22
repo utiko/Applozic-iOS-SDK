@@ -8,6 +8,7 @@
 #import "ALChatCell.h"
 #import "ALUtilityClass.h"
 #import "ALConstant.h"
+#import "ALUITextView.h"
 
 @implementation ALChatCell
 
@@ -38,10 +39,9 @@
         self.mUserProfileImageView.clipsToBounds = YES;
         
         [self.contentView addSubview:self.mUserProfileImageView];
-        
-        
-        self.mMessageLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 30, 100, 44)];
-        
+
+        self.mMessageLabel =[[ALUITextView alloc] init];
+        self.mMessageLabel.delegate = self.mMessageLabel;
         NSString *fontName = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_FONTNAME];
         
         if (!fontName) {
@@ -50,10 +50,18 @@
         
         self.mMessageLabel.font = [UIFont fontWithName:fontName size:15];
         
-        self.mMessageLabel.numberOfLines = 0;
+        //self.mMessageLabel.numberOfLines = 0;
         
         self.mMessageLabel.textColor = [UIColor grayColor];
         
+        self.mMessageLabel.selectable = YES;
+        self.mMessageLabel.editable = NO;
+        self.mMessageLabel.scrollEnabled = NO;
+        self.mMessageLabel.textContainerInset = UIEdgeInsetsZero;
+        self.mMessageLabel.textContainer.lineFragmentPadding = 0;
+        self.mMessageLabel.dataDetectorTypes = UIDataDetectorTypeLink;
+      
+       // self.mMessageLabel.userInteractionEnabled = YES;
         [self.contentView addSubview:self.mMessageLabel];
         
 
@@ -81,7 +89,7 @@
         [self.contentView addSubview:self.mMessageStatusImageView];
         
         self.contentView.userInteractionEnabled=YES;
-        
+      
     }
     
     return self;
@@ -202,4 +210,27 @@
     
     return stringSize;
 }
+
+-(BOOL) canPerformAction:(SEL)action withSender:(id)sender {
+    return (action == @selector(copy:) || action == @selector(delete:));
+}
+
+
+
+
+// Default copy method
+- (void)copy:(id)sender {
+    
+    NSLog(@"Copy in ALChatViewController, messageId: %@", self.mMessage.message);
+    UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+    //[pasteBoard setString:cell.textLabel.text];
+    [pasteBoard setString:self.mMessage.message];
+    
+}
+
+-(void) delete:(id)sender {
+    [ self.delegate deleteMessageFromView:self.mMessage];
+}
+
+
 @end

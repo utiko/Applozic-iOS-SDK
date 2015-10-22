@@ -8,9 +8,17 @@
 #import <UIKit/UIKit.h>
 #import "ALMessage.h"
 
+@protocol ALChatCellDelegate <NSObject>
+
+-(void) deleteMessageFromView:(ALMessage *) message;
+
+@end
+
 @interface ALChatCell : UITableViewCell
 
-@property (retain, nonatomic) UILabel *mMessageLabel;
+//@property (retain, nonatomic) UILabel *mMessageLabel;
+
+@property (retain, nonatomic) UITextView *mMessageLabel;
 
 @property (retain, nonatomic) UILabel *mDateLabel;
 
@@ -23,5 +31,8 @@
 @property (nonatomic, retain) UIImageView *mMessageStatusImageView;
 
 -(void)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize;
+
+@property (nonatomic, assign) id<ALChatCellDelegate> delegate;
+
 
 @end
