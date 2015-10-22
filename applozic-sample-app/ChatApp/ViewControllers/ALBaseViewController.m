@@ -8,6 +8,7 @@
 
 #import "ALBaseViewController.h"
 #import "ALUtilityClass.h"
+#import "ALUserDefaultsHandler.h"
 #import "ALConstant.h"
 
 @interface ALBaseViewController ()
@@ -104,10 +105,15 @@
 
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+
+    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+}
+
 -(void)viewWillDisappear:(BOOL)animated {
 
     self.navigationController.navigationBar.barTintColor = self.navColor;
-    self.tabBarController.tabBar.hidden = NO;
+    self.tabBarController.tabBar.hidden = [ALUserDefaultsHandler isBottomTabBarHidden];
 }
 
 // Setting up keyboard notifications.
