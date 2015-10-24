@@ -106,16 +106,16 @@ ALMessageDBService  * dbService;
 
 -(void)initialSetUp {
     self.rp = 20;
-    self.startIndex = 0 ;
+    self.startIndex = 0;
     self.mMessageListArray = [NSMutableArray new];
     self.mMessageListArrayKeyStrings=[NSMutableArray new];
     self.mImagePicker = [[UIImagePickerController alloc] init];
     self.mImagePicker.delegate = self;
 
     self.mSendMessageTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter message here" attributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
-
+    
     [self.mTableView registerClass:[ALChatCell class] forCellReuseIdentifier:@"ChatCell"];
-//    [self.mTableView registerClass:[ALChatCell_Image class] forCellReuseIdentifier:@"ChatCell_Image"];
+    [self.mTableView registerClass:[ALChatCell_Image class] forCellReuseIdentifier:@"ChatCell_Image"];
 
     [self setTitle];
 
@@ -230,7 +230,7 @@ ALMessageDBService  * dbService;
     if (self.mSendMessageTextField.text.length == 0) {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:
                                   @"Empty" message:@"Did you forget to type the message?" delegate:self
-                                                 cancelButtonTitle:nil otherButtonTitles:@"Yes, Let me add something", nil];
+                                                cancelButtonTitle:nil otherButtonTitles:@"Yes, Let me add something", nil];
         [alertView show];
         return;
     }
@@ -385,7 +385,7 @@ ALMessageDBService  * dbService;
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
 
     for (DB_Message * theEntity in theArray) {
-        ALMessage * theMessage = [ messageDBService createMessageForSMSEntity:theEntity];
+        ALMessage * theMessage = [messageDBService createMessageForSMSEntity:theEntity];
         [self.mMessageListArray insertObject:theMessage atIndex:0];
                 [self.mMessageListArrayKeyStrings insertObject:theMessage.keyString atIndex:0];
     }

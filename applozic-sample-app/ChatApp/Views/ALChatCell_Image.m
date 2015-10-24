@@ -133,10 +133,12 @@ UIViewController * modalCon;
     self.mMessage = alMessage;
     CGSize theDateSize = [self getSizeForText:theDate maxWidth:150 font:self.mDateLabel.font.fontName fontSize:self.mDateLabel.font.pointSize];
  
-    if ([alMessage.type isEqualToString:@"4"]) {
+    if ([alMessage.type isEqualToString:@"4"]) { //Recieved Message
         
         self.mUserProfileImageView.frame = CGRectMake(5, 5, 45, 45);
         self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+        
+        
         self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x+ self.mUserProfileImageView.frame.size.width+5 , 5, viewSize.width-110, viewSize.width-110);
         self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 15 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40 );
       
@@ -170,10 +172,12 @@ UIViewController * modalCon;
             
         }
 
-    }else{
+    }else{ //Sent Message
         
-        self.mUserProfileImageView.frame = CGRectMake(viewSize.width-50, 5, 45, 45);
-        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+//        self.mUserProfileImageView.frame = CGRectMake(viewSize.width-50, 5, 45, 45);
+//        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+        
+        
         self.mBubleImageView.frame = CGRectMake(viewSize.width - self.mUserProfileImageView.frame.origin.x + 5 , 5 ,viewSize.width-110, viewSize.width-110);
         self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y+15 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40);
         self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5 , theDateSize.width, 21);
