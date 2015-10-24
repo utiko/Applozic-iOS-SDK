@@ -7,6 +7,7 @@
 //
 
 #import "ALMapViewController.h"
+#import "ALUserDefaultsHandler.h"
 
 @interface ALMapViewController ()
 
@@ -42,6 +43,15 @@
     
     
 }
+
+-(void)viewWillDisappear:(BOOL)animated{
+[self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+[self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
