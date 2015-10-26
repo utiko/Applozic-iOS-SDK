@@ -24,4 +24,6 @@
 
 @property (nonatomic,retain) NSString * email;
 
+@property(nonatomic,retain) NSString * localImageResourceName;
+
 @end

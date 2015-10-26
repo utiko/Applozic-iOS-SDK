@@ -174,8 +174,6 @@
         
         NSLog(@"Registration response from server:%@", rResponse);
         
-      //  [self performSegueWithIdentifier:@"MessagesViewController" sender:self];
-        
         UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                                              bundle:[NSBundle bundleForClass:ALMessagesViewController.class]];
         UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];

@@ -16,11 +16,20 @@
 #define APN_DEVICE_TOKEN @"APN_DEVICE_TOKEN"
 #define LAST_SYNC_TIME @"LAST_SYNC_TIME"
 #define CONVERSATION_DB_SYNCED @"CONVERSATION_DB_SYNCED"
-
+#define LOGOUT_BUTTON_VISIBLITY @"LOGOUT_BUTTON_VISIBLITY"
+#define BOTTOM_TAB_BAR_VISIBLITY @"BOTTOM_TAB_BAR_VISIBLITY"
 
 #import <Foundation/Foundation.h>
 
 @interface ALUserDefaultsHandler : NSObject
+
++(void) setBottomTabBarHidden: (BOOL) visibleStatus;
+
++(BOOL) isBottomTabBarHidden;
+
++(void) setLogoutButtonVisible: (BOOL)flagValue;
+
++(BOOL) isLogoutButtonVisible;
 
 +(BOOL) isLoggedIn;
 
@@ -54,7 +63,7 @@
 
 +(NSString*)getUserId;
 
-+(void) setLastSyncTime: (NSString *) lastSyncTime;
++(void) setLastSyncTime: (NSNumber *) lastSyncTime;
 
 +(NSString *)getLastSyncTime;
 +(NSString *)getUserKeyString;

@@ -16,11 +16,24 @@
 		<data>
 		1UePb27agaIVZX0QwNjpI3DaqvA=
 		</data>
+		<key>Applozic Final Logo@3x.png</key>
+		<data>
+		fRmMP5LlXmRW+9yRwDG9Se8aUHM=
+		</data>
 		<key>Base.lproj/Applozic.storyboardc/ALChatViewController~ipad.nib/objects-8.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			uDBYFdL/DvS4q0Ew6/Tpp8aE8xE=
+			x0kq1mPEnj84h9dGUuRvXnt0qFA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALChatViewController~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			FDTQiBCvPvtc0P1M+v4iWzAERmw=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -29,7 +42,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			A+4AsqGFy4/3ihhL3gXY/ECqbKI=
+			ECZV2swmcgCQkWcOPXJgButggo8=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -38,7 +51,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ORfwGizhMLXYyr0ixe/CWW1vl7c=
+			LNaqO2U5u3PlwLHbkHTDA8cVi2w=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALChatViewController~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Q9LYHYsROCMJ4tjJlmwdyJ7OVkg=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -47,7 +69,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			RcU4QWL9GHn7rUep7oINbQDbBOc=
+			z8rJalnLCQwajLTe1rTZCJTgu3c=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -56,7 +78,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			21sgJN0nAklLIk1hkM10mXOpq0g=
+			hYNmi97vcGc20QeRNqy77G+GnMM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALLoginViewController~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			GQItdaN4iDOKqk7q4U4r5ZCGPWE=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -65,7 +96,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Piyi2fXcADDHMpWh5Ijcm7isjgU=
+			q9w1fXUkxUnA7SgQzRUeagZWhHA=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -74,7 +105,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			u50UW1+/R5SdF3j6po75v/t15fg=
+			cJPhV1IxQkc43cN5qKk5gFaw4Jc=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALLoginViewController~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			vfpMEaG3N1myOxI2vby0fzWpGDU=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -83,7 +123,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			D8xz3NiEvaiHcexSYJV+zjsTMLk=
+			HLNtnllPpNQKP55YxDce1eW3P/g=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -92,7 +132,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			IeCDZwCbL9hn8y5/gnBwM49BmZg=
+			hl0mgfqzYZGLHnTLPB17+x6bZsQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALViewController~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			IcuNplFcVNgIHX5Qe4Lvk6MNcSI=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -101,7 +150,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			XI4b9dsLzYhIPgz6sgSLQj76a9A=
+			GyFRBtGSC4OIgg1XYFl1L5R1cGs=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -110,7 +159,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			7i3b36E0OMB94cmFHeycVSGEcMM=
+			+rv/ex/Ex0TugkvXJukoClTp7Do=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALViewController~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			LnaeGY9jTuqdJYAY7Lyq74PWjJc=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -119,7 +177,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			CG3MJgivZLr6nhVPRumPS43s4Fw=
+			fsUNVYmB/qKV85plizJ7JQlZ55g=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -128,7 +186,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			NA5tiCudqG77SEy8tFrpuzqVBBM=
+			3W+vqBugfpnzF8XfCGo/yTiz8w8=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			WOgsuJGJ7Ywi/MoLGW5mpu+gIcY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -137,7 +204,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			7UxTmH6RZ84npH53HkGSsnRGkpI=
+			p/mGyhcxY7T653c7f13q0QiQUXI=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -146,7 +213,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			RlK28eJX2ePT+tmQ+NZGbenFVvI=
+			UZF+2b47BOEb39C5Zfw+oI29P4E=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			V9MXKquf7i+AI6QCgaiUrktUu98=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -155,7 +231,61 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			NWOAdgskuVPSYPlMbfW2zIGXOQc=
+			f8yXYJK2bM3p6YijcOuXmSqJdSQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/Jcz-BB-dxz-view-Gop-mz-j8f~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			LOQ3s5cTQiTCfUg+e08Mjhnjggs=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/Jcz-BB-dxz-view-Gop-mz-j8f~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			uU5WBZvyv88L8bLAESqEKAB6dfA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/Jcz-BB-dxz-view-Gop-mz-j8f~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			tqJyZzv4TTl+5knf5njQCNQsrsU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/Jcz-BB-dxz-view-Gop-mz-j8f~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			jPiMv13uVPXsNonHfE0NkWJBDro=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/Jcz-BB-dxz-view-Gop-mz-j8f~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Oyc4/HY8YTWmyLCLLpqlxLGE6ho=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/Jcz-BB-dxz-view-Gop-mz-j8f~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			SrnfHrg2coSxEhu/ZBft1WmfPJY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -164,7 +294,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			HrBGlCIoNRCqIlH8LxNUML4yNsg=
+			zln5XSr7repCTlqsvoQpv6fgffU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/gFB-TQ-g19-view-IEC-BM-wED~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			4GU4wsTYJKfHJmXwlVNaR7wan0g=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -173,7 +312,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ijAuLGGctgHDRgfz2dHePoVgHew=
+			X+DEbyzH9ipeOa/4juoBQ4Azy04=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -182,7 +321,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			yieIGiZz1XcBHOxV5C0L9XehfB8=
+			qA6Cxi7SoXfDnfLF1t1ZEyZufNI=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/gFB-TQ-g19-view-IEC-BM-wED~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NgOAId8iLtxpo+8W7rO31BcrvDo=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -191,7 +339,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			GIjEXHwoPt57vgKHhhGOJxshh04=
+			DiJ6a7Nt3ZzmtJrZXUbM2JDatIQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -200,7 +348,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			JHrQJMDOy4tLGwpoUfnjRboI6Uk=
+			xuI9DV8Kt9eE3zWxaYwhzB2ymuU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/messageTabBar~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			cY4JkrAKXpMFsUiPYegpD6vDtz4=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -209,7 +366,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			SKZrIyunxwNE1pPOqcFbQ/PCoz0=
+			NxKJkITHaqyV1g5wny7oEuUfzdA=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -218,7 +375,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			2GEkb+2Ui1mMkL/nez1TiEvdqhM=
+			uVx2WbyOWTNkEdr/6pG7Kj3y/rk=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/messageTabBar~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			1PGTd3Br9UQzYOdeCp97gXGK160=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -227,7 +393,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			As6fJXX5XG31XfI37jLSMnzr0Zo=
+			O9AMVx4od9aktQeYnMhURvUHpmQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -236,7 +402,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6KopFaNxrNB6aiJ5FG60fTSRD0k=
+			bjBmp/6eutiDLrR9mtZLoqzk1QE=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/oZy-jo-Qf5-view-8au-eI-HrA~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			p86VY98dCjVPvEwPCdZRx4Mpj2Q=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -245,7 +420,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Ympxq/h5PhDb0QH3zwkSUHl9dzc=
+			qKNuVvB0ucjOdA4a4loC2g1C3HU=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -254,7 +429,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			tj6BFtMTxOYubhEfFv1guK8C8RA=
+			50eNPrmWBvL7/VDnqZeTEEjci6s=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/oZy-jo-Qf5-view-8au-eI-HrA~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			kJflfD3Xhs0+ikY5zflcGR1brkk=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -263,7 +447,61 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			jKe5QCxsf99s/k2bRbTfVFYeNAQ=
+			s/g2eNlkz3rOlSicFBif6r4vSO0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/shareLoactionViewTag~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			WcL9CkwBnQ4Nxu899cBeozo2/1M=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/shareLoactionViewTag~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			AG11iZ7Wgfde4TTYrbJBWEmE2WQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/shareLoactionViewTag~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			n7APoBx9Cqe7TnzqbXa/80KUiaM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/shareLoactionViewTag~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			XJTRXJaJRiLYdpdCPubnAtBgNJA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/shareLoactionViewTag~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Mfmsrz/l0Zr9iLMwYTMPX8L2yBk=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/shareLoactionViewTag~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			tCc/THamrmiQ6zvykKkJuNdknMk=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -272,7 +510,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			5XqGnv302SjkEVCALElWnFVPeyU=
+			vb23eg/6BGQGeyG0ozoiNDQhIVQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/t0V-gj-2WO-view-Lzp-uV-zh7~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			f0Q64UphYRqQmWHCeqwWBmic6qs=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -281,7 +528,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			bcuhQJHO6XwrEoXAY2NtcYldW70=
+			uIJeEV4n2ShMgKj8gK1V4pmj9cM=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -290,7 +537,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			clzs4PNxpg2q7e9gXEO6HAqSrF4=
+			MKdnfIe4iBL8ABLHNxGnf/BzUbs=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/t0V-gj-2WO-view-Lzp-uV-zh7~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			YpF+eA/+Rdvj7tEb9g/kjiJFy4M=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -299,7 +555,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Q+vZ4o02pUVKeTYkjT5qAmIIK58=
+			M5SW3t4mQ4b30PeV6CdgstJtHPA=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -308,7 +564,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			X+S7XtxGsBXGAlNT2mWwhZRosNA=
+			23sWscQyzHvOZckE7VftZ3si2Xg=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -317,7 +573,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			WadNHAhRSzwuJjoPlT+urBV/eYI=
+			23sWscQyzHvOZckE7VftZ3si2Xg=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -326,7 +582,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			X+S7XtxGsBXGAlNT2mWwhZRosNA=
+			usE7oL+tArE1AENpJmUPh3MNWHQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -335,7 +591,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			X+S7XtxGsBXGAlNT2mWwhZRosNA=
+			8qGrxGbNgRcOAYiUS5z9QptaMVI=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -346,15 +602,15 @@
 		</data>
 		<key>Headers/ALChatCell.h</key>
 		<data>
-		4N+x0PtphsPRlSRAX64uO6YrGeM=
+		VPqCpzL6wfVZFsk5RNELiA3Jc3k=
 		</data>
 		<key>Headers/ALChatCell_Image.h</key>
 		<data>
-		HrwVwhS3Gg4mE8rk8x/TRcnew2M=
+		RrDNnjt+fLjN7upw0Wk+iGMzmqE=
 		</data>
 		<key>Headers/ALChatViewController.h</key>
 		<data>
-		qcoZuaBuiRu7fmbyWeKzSVoDYnc=
+		H1IsIrPeY0I1lNPYUBvydkndu1g=
 		</data>
 		<key>Headers/ALConnection.h</key>
 		<data>
@@ -370,11 +626,11 @@
 		</data>
 		<key>Headers/ALContact.h</key>
 		<data>
-		Q+MrQzHx4cAgPRVR7fCCtz5Jqa0=
+		dPEVc8heGsPnZkL+L8y7Efey8f0=
 		</data>
 		<key>Headers/ALContactCell.h</key>
 		<data>
-		UL9x6INLwrFIef/JryvqtC3+MXY=
+		YOBJlBKibLkTpyHesyxbAw9l0+g=
 		</data>
 		<key>Headers/ALDBHandler.h</key>
 		<data>
@@ -394,7 +650,7 @@
 		</data>
 		<key>Headers/ALLocationManager.h</key>
 		<data>
-		wWcgIfQJlFsVoDyElnsWN7x4SfY=
+		TH/Hp0lwbJqWDgm4/tF250w6M7A=
 		</data>
 		<key>Headers/ALLoginViewController.h</key>
 		<data>
@@ -418,11 +674,11 @@
 		</data>
 		<key>Headers/ALMessageService.h</key>
 		<data>
-		vG4hk8SjUz8SuReO/UCeDvehpK8=
+		VKYc4c/4UmJzOAJZzFFRjXBMWCs=
 		</data>
 		<key>Headers/ALMessagesViewController.h</key>
 		<data>
-		rAnEni4gNbniGoYxr3QfOo4UiQk=
+		ffq4neB84ZM5MxZz8Z78s8aUfuQ=
 		</data>
 		<key>Headers/ALNewContactCell.h</key>
 		<data>
@@ -466,7 +722,7 @@
 		</data>
 		<key>Headers/ALUserDefaultsHandler.h</key>
 		<data>
-		OFk2bIYs9592+se+SJOkdp70lQU=
+		UQa2JpBUAHKo8uUWLTEuFNoOyUs=
 		</data>
 		<key>Headers/ALUtilityClass.h</key>
 		<data>
@@ -502,19 +758,19 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		RjoCYtjexEIbmYLs5QcFPGSwO/M=
+		zW13cpJ5D/C9VV969AGW4mOfWvg=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
 		uf/ddsXhJV+tCDEEUvjQAE2NipM=
 		</data>
+		<key>applozic_logo.png</key>
+		<data>
+		mPsa1J3Q784+trnVS6uY9MbSnZw=
+		</data>
 		<key>crossButton.png</key>
 		<data>
 		YtFafJN9fojooDNn/HPtE89UH7c=
-		</data>
-		<key>embedded.mobileprovision</key>
-		<data>
-		Uj7OtnqlnyvP/9aCB0k1DEdxvZQ=
 		</data>
 		<key>en.lproj/Localizable.strings</key>
 		<dict>
@@ -525,6 +781,10 @@
 			<key>optional</key>
 			<true/>
 		</dict>
+		<key>full_moon.png</key>
+		<data>
+		cYLPv1WwuB7lEbPvc6/ky+mcgp8=
+		</data>
 		<key>ic_action_about.png</key>
 		<data>
 		VVrAfZRhTkJyX4+PPUG1pNr4kMg=
@@ -696,11 +956,24 @@
 		<data>
 		1UePb27agaIVZX0QwNjpI3DaqvA=
 		</data>
+		<key>Applozic Final Logo@3x.png</key>
+		<data>
+		fRmMP5LlXmRW+9yRwDG9Se8aUHM=
+		</data>
 		<key>Base.lproj/Applozic.storyboardc/ALChatViewController~ipad.nib/objects-8.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			uDBYFdL/DvS4q0Ew6/Tpp8aE8xE=
+			x0kq1mPEnj84h9dGUuRvXnt0qFA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALChatViewController~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			FDTQiBCvPvtc0P1M+v4iWzAERmw=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -709,7 +982,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			A+4AsqGFy4/3ihhL3gXY/ECqbKI=
+			ECZV2swmcgCQkWcOPXJgButggo8=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -718,7 +991,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ORfwGizhMLXYyr0ixe/CWW1vl7c=
+			LNaqO2U5u3PlwLHbkHTDA8cVi2w=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALChatViewController~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Q9LYHYsROCMJ4tjJlmwdyJ7OVkg=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -727,7 +1009,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			RcU4QWL9GHn7rUep7oINbQDbBOc=
+			z8rJalnLCQwajLTe1rTZCJTgu3c=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -736,7 +1018,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			21sgJN0nAklLIk1hkM10mXOpq0g=
+			hYNmi97vcGc20QeRNqy77G+GnMM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALLoginViewController~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			GQItdaN4iDOKqk7q4U4r5ZCGPWE=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -745,7 +1036,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Piyi2fXcADDHMpWh5Ijcm7isjgU=
+			q9w1fXUkxUnA7SgQzRUeagZWhHA=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -754,7 +1045,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			u50UW1+/R5SdF3j6po75v/t15fg=
+			cJPhV1IxQkc43cN5qKk5gFaw4Jc=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALLoginViewController~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			vfpMEaG3N1myOxI2vby0fzWpGDU=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -763,7 +1063,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			D8xz3NiEvaiHcexSYJV+zjsTMLk=
+			HLNtnllPpNQKP55YxDce1eW3P/g=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -772,7 +1072,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			IeCDZwCbL9hn8y5/gnBwM49BmZg=
+			hl0mgfqzYZGLHnTLPB17+x6bZsQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALViewController~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			IcuNplFcVNgIHX5Qe4Lvk6MNcSI=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -781,7 +1090,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			XI4b9dsLzYhIPgz6sgSLQj76a9A=
+			GyFRBtGSC4OIgg1XYFl1L5R1cGs=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -790,7 +1099,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			7i3b36E0OMB94cmFHeycVSGEcMM=
+			+rv/ex/Ex0TugkvXJukoClTp7Do=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/ALViewController~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			LnaeGY9jTuqdJYAY7Lyq74PWjJc=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -799,7 +1117,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			CG3MJgivZLr6nhVPRumPS43s4Fw=
+			fsUNVYmB/qKV85plizJ7JQlZ55g=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -808,7 +1126,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			NA5tiCudqG77SEy8tFrpuzqVBBM=
+			3W+vqBugfpnzF8XfCGo/yTiz8w8=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			WOgsuJGJ7Ywi/MoLGW5mpu+gIcY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -817,7 +1144,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			7UxTmH6RZ84npH53HkGSsnRGkpI=
+			p/mGyhcxY7T653c7f13q0QiQUXI=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -826,7 +1153,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			RlK28eJX2ePT+tmQ+NZGbenFVvI=
+			UZF+2b47BOEb39C5Zfw+oI29P4E=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			V9MXKquf7i+AI6QCgaiUrktUu98=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -835,7 +1171,61 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			NWOAdgskuVPSYPlMbfW2zIGXOQc=
+			f8yXYJK2bM3p6YijcOuXmSqJdSQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/Jcz-BB-dxz-view-Gop-mz-j8f~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			LOQ3s5cTQiTCfUg+e08Mjhnjggs=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/Jcz-BB-dxz-view-Gop-mz-j8f~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			uU5WBZvyv88L8bLAESqEKAB6dfA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/Jcz-BB-dxz-view-Gop-mz-j8f~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			tqJyZzv4TTl+5knf5njQCNQsrsU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/Jcz-BB-dxz-view-Gop-mz-j8f~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			jPiMv13uVPXsNonHfE0NkWJBDro=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/Jcz-BB-dxz-view-Gop-mz-j8f~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Oyc4/HY8YTWmyLCLLpqlxLGE6ho=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/Jcz-BB-dxz-view-Gop-mz-j8f~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			SrnfHrg2coSxEhu/ZBft1WmfPJY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -844,7 +1234,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			HrBGlCIoNRCqIlH8LxNUML4yNsg=
+			zln5XSr7repCTlqsvoQpv6fgffU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/gFB-TQ-g19-view-IEC-BM-wED~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			4GU4wsTYJKfHJmXwlVNaR7wan0g=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -853,7 +1252,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ijAuLGGctgHDRgfz2dHePoVgHew=
+			X+DEbyzH9ipeOa/4juoBQ4Azy04=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -862,7 +1261,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			yieIGiZz1XcBHOxV5C0L9XehfB8=
+			qA6Cxi7SoXfDnfLF1t1ZEyZufNI=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/gFB-TQ-g19-view-IEC-BM-wED~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NgOAId8iLtxpo+8W7rO31BcrvDo=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -871,7 +1279,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			GIjEXHwoPt57vgKHhhGOJxshh04=
+			DiJ6a7Nt3ZzmtJrZXUbM2JDatIQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -880,7 +1288,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			JHrQJMDOy4tLGwpoUfnjRboI6Uk=
+			xuI9DV8Kt9eE3zWxaYwhzB2ymuU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/messageTabBar~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			cY4JkrAKXpMFsUiPYegpD6vDtz4=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -889,7 +1306,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			SKZrIyunxwNE1pPOqcFbQ/PCoz0=
+			NxKJkITHaqyV1g5wny7oEuUfzdA=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -898,7 +1315,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			2GEkb+2Ui1mMkL/nez1TiEvdqhM=
+			uVx2WbyOWTNkEdr/6pG7Kj3y/rk=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/messageTabBar~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			1PGTd3Br9UQzYOdeCp97gXGK160=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -907,7 +1333,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			As6fJXX5XG31XfI37jLSMnzr0Zo=
+			O9AMVx4od9aktQeYnMhURvUHpmQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -916,7 +1342,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6KopFaNxrNB6aiJ5FG60fTSRD0k=
+			bjBmp/6eutiDLrR9mtZLoqzk1QE=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/oZy-jo-Qf5-view-8au-eI-HrA~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			p86VY98dCjVPvEwPCdZRx4Mpj2Q=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -925,7 +1360,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Ympxq/h5PhDb0QH3zwkSUHl9dzc=
+			qKNuVvB0ucjOdA4a4loC2g1C3HU=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -934,7 +1369,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			tj6BFtMTxOYubhEfFv1guK8C8RA=
+			50eNPrmWBvL7/VDnqZeTEEjci6s=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/oZy-jo-Qf5-view-8au-eI-HrA~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			kJflfD3Xhs0+ikY5zflcGR1brkk=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -943,7 +1387,61 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			jKe5QCxsf99s/k2bRbTfVFYeNAQ=
+			s/g2eNlkz3rOlSicFBif6r4vSO0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/shareLoactionViewTag~ipad.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			WcL9CkwBnQ4Nxu899cBeozo2/1M=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/shareLoactionViewTag~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			AG11iZ7Wgfde4TTYrbJBWEmE2WQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/shareLoactionViewTag~ipad.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			n7APoBx9Cqe7TnzqbXa/80KUiaM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/shareLoactionViewTag~iphone.nib/objects-8.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			XJTRXJaJRiLYdpdCPubnAtBgNJA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/shareLoactionViewTag~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Mfmsrz/l0Zr9iLMwYTMPX8L2yBk=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/shareLoactionViewTag~iphone.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			tCc/THamrmiQ6zvykKkJuNdknMk=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -952,7 +1450,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			5XqGnv302SjkEVCALElWnFVPeyU=
+			vb23eg/6BGQGeyG0ozoiNDQhIVQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/t0V-gj-2WO-view-Lzp-uV-zh7~ipad.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			f0Q64UphYRqQmWHCeqwWBmic6qs=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -961,7 +1468,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			bcuhQJHO6XwrEoXAY2NtcYldW70=
+			uIJeEV4n2ShMgKj8gK1V4pmj9cM=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -970,7 +1477,16 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			clzs4PNxpg2q7e9gXEO6HAqSrF4=
+			MKdnfIe4iBL8ABLHNxGnf/BzUbs=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Base.lproj/Applozic.storyboardc/t0V-gj-2WO-view-Lzp-uV-zh7~iphone.nib/objects.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			YpF+eA/+Rdvj7tEb9g/kjiJFy4M=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -979,7 +1495,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Q+vZ4o02pUVKeTYkjT5qAmIIK58=
+			M5SW3t4mQ4b30PeV6CdgstJtHPA=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -988,7 +1504,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			X+S7XtxGsBXGAlNT2mWwhZRosNA=
+			23sWscQyzHvOZckE7VftZ3si2Xg=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -997,7 +1513,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			WadNHAhRSzwuJjoPlT+urBV/eYI=
+			23sWscQyzHvOZckE7VftZ3si2Xg=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -1006,7 +1522,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			X+S7XtxGsBXGAlNT2mWwhZRosNA=
+			usE7oL+tArE1AENpJmUPh3MNWHQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -1015,7 +1531,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			X+S7XtxGsBXGAlNT2mWwhZRosNA=
+			8qGrxGbNgRcOAYiUS5z9QptaMVI=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -1026,15 +1542,15 @@
 		</data>
 		<key>Headers/ALChatCell.h</key>
 		<data>
-		4N+x0PtphsPRlSRAX64uO6YrGeM=
+		VPqCpzL6wfVZFsk5RNELiA3Jc3k=
 		</data>
 		<key>Headers/ALChatCell_Image.h</key>
 		<data>
-		HrwVwhS3Gg4mE8rk8x/TRcnew2M=
+		RrDNnjt+fLjN7upw0Wk+iGMzmqE=
 		</data>
 		<key>Headers/ALChatViewController.h</key>
 		<data>
-		qcoZuaBuiRu7fmbyWeKzSVoDYnc=
+		H1IsIrPeY0I1lNPYUBvydkndu1g=
 		</data>
 		<key>Headers/ALConnection.h</key>
 		<data>
@@ -1050,11 +1566,11 @@
 		</data>
 		<key>Headers/ALContact.h</key>
 		<data>
-		Q+MrQzHx4cAgPRVR7fCCtz5Jqa0=
+		dPEVc8heGsPnZkL+L8y7Efey8f0=
 		</data>
 		<key>Headers/ALContactCell.h</key>
 		<data>
-		UL9x6INLwrFIef/JryvqtC3+MXY=
+		YOBJlBKibLkTpyHesyxbAw9l0+g=
 		</data>
 		<key>Headers/ALDBHandler.h</key>
 		<data>
@@ -1074,7 +1590,7 @@
 		</data>
 		<key>Headers/ALLocationManager.h</key>
 		<data>
-		wWcgIfQJlFsVoDyElnsWN7x4SfY=
+		TH/Hp0lwbJqWDgm4/tF250w6M7A=
 		</data>
 		<key>Headers/ALLoginViewController.h</key>
 		<data>
@@ -1098,11 +1614,11 @@
 		</data>
 		<key>Headers/ALMessageService.h</key>
 		<data>
-		vG4hk8SjUz8SuReO/UCeDvehpK8=
+		VKYc4c/4UmJzOAJZzFFRjXBMWCs=
 		</data>
 		<key>Headers/ALMessagesViewController.h</key>
 		<data>
-		rAnEni4gNbniGoYxr3QfOo4UiQk=
+		ffq4neB84ZM5MxZz8Z78s8aUfuQ=
 		</data>
 		<key>Headers/ALNewContactCell.h</key>
 		<data>
@@ -1146,7 +1662,7 @@
 		</data>
 		<key>Headers/ALUserDefaultsHandler.h</key>
 		<data>
-		OFk2bIYs9592+se+SJOkdp70lQU=
+		UQa2JpBUAHKo8uUWLTEuFNoOyUs=
 		</data>
 		<key>Headers/ALUtilityClass.h</key>
 		<data>
@@ -1184,13 +1700,13 @@
 		<data>
 		uf/ddsXhJV+tCDEEUvjQAE2NipM=
 		</data>
+		<key>applozic_logo.png</key>
+		<data>
+		mPsa1J3Q784+trnVS6uY9MbSnZw=
+		</data>
 		<key>crossButton.png</key>
 		<data>
 		YtFafJN9fojooDNn/HPtE89UH7c=
-		</data>
-		<key>embedded.mobileprovision</key>
-		<data>
-		Uj7OtnqlnyvP/9aCB0k1DEdxvZQ=
 		</data>
 		<key>en.lproj/Localizable.strings</key>
 		<dict>
@@ -1201,6 +1717,10 @@
 			<key>optional</key>
 			<true/>
 		</dict>
+		<key>full_moon.png</key>
+		<data>
+		cYLPv1WwuB7lEbPvc6/ky+mcgp8=
+		</data>
 		<key>ic_action_about.png</key>
 		<data>
 		VVrAfZRhTkJyX4+PPUG1pNr4kMg=
