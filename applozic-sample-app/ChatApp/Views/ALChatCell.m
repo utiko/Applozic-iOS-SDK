@@ -106,6 +106,7 @@
 
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize {
     
+     self.mUserProfileImageView.alpha=1;
     BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[alMessage.createdAtTime doubleValue]/1000]];
     
     NSString * theDate = [NSString stringWithFormat:@"%@",[alMessage getCreatedAtTime:today]];
@@ -143,7 +144,7 @@
     }
     else    //Sent Message
     {
-        
+        self.mUserProfileImageView.alpha=0;
         self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 45, 45);
 //        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
         
