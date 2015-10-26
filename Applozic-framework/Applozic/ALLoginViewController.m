@@ -18,12 +18,17 @@
 @interface ALLoginViewController ()<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *userIdField;
-@property (weak, nonatomic) IBOutlet UITextField *emailField;
+@property (strong, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UIButton *getStarted;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mActivityIndicator;
+@property (strong, nonatomic) IBOutlet UILabel *errorlabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *erroruser;
+- (void)markField:(BOOL)flag;
+- (BOOL)validateEmail:(NSString *)emailStr;
 
 @end
 
@@ -33,6 +38,8 @@
 //      View lifecycle
 //-------------------------------------------------------------------------------------------------------------------
 
+@synthesize emailField, errorlabel, erroruser;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [ self registerForNotification];
@@ -40,8 +47,7 @@
                                    initWithTarget:self
                                    action:@selector(dismissKeyboard)];
     
-    [self.view addGestureRecognizer:tap];
-
+    [self.view addGestureRecognizer:tap];    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -131,31 +137,52 @@
 //-------------------------------------------------------------------------------------------------------------------
 
 - (IBAction)login:(id)sender {
-
+    
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
     
-    if (self.userIdField.text.length == 0) {
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:
-                                  @"Error" message:@"UserId can't be blank" delegate:self
-                                                 cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alertView show];
+    NSString *email = emailField.text;
+    BOOL authenticate = NO;
+   /* if([email isEqualToString:@""]||(![self validateEmail:email]))
+    {
+        [self markField:false];
+        errorlabel.text = NSLocalizedString(@"ERROR_EMAIL_ID", nil);
+       // errorlabel.text=@"incoreet email";
+        errorlabel.hidden = NO;
+        authenticate = YES;
+    }
+    else
+    {
+        [self markField:true];
+    }
+    */
+    if (self.userIdField.text.length == 0|| authenticate ==YES) {
+        /*  UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:
+         @"Error" message:@"UserId/Email ID can't be blank" delegate:self
+         cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+         [alertView show];*/
+        erroruser.text = NSLocalizedString(@"ERROR_USER_ID", nil);
+       // erroruser.text =@"error user id";
+        erroruser.hidden = NO;
         return;
     }
 
-
+    
+    [ALUserDefaultsHandler setLogoutButtonVisible: YES];
+    [ALUserDefaultsHandler setBottomTabBarHidden: NO];
+    
     ALUser *user = [[ALUser alloc] init];
     [user setApplicationId:@"applozic-sample-app"];
     [user setUserId:[self.userIdField text]];
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
-
+    
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-
+    
     [self.mActivityIndicator startAnimating];
     [registerUserClientService initWithCompletion:user withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         [self.mActivityIndicator stopAnimating];
-
+        
         if (error) {
             NSLog(@"%@",error);
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response"
@@ -169,14 +196,38 @@
             ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
             [messageClientService addWelcomeMessage];
         }
-      
+        
         NSLog(@"Registration response from server:%@", rResponse);
         
         [self performSegueWithIdentifier:@"MessagesViewController" sender:self];
-
+        
     }];
-
+    
+    
+    
+    
 }
+
+- (BOOL)validateEmail:(NSString *)emailStr {
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:emailStr];
+}
+
+-(void)markField:(BOOL)flag
+{
+    if(flag==false){
+        emailField.layer.masksToBounds=YES;
+        emailField.layer.borderColor=[[UIColor redColor] CGColor];
+        emailField.layer.borderWidth=1.0f;
+        
+    }
+    else
+    {
+        emailField.layer.borderColor=[[UIColor clearColor] CGColor];
+    }
+}
+
 
 //-------------------------------------------------------------------------------------------------------------------
 //     Textfield delegate methods

@@ -17,7 +17,6 @@
 
 UIViewController * modalCon;
 
-
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -26,7 +25,7 @@ UIViewController * modalCon;
         
         self.backgroundColor = [UIColor colorWithRed:224.0/255 green:224.0/255 blue:224.0/255 alpha:1];
         
-        
+    
         mUserProfileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 45, 45)];
         
         mUserProfileImageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -34,8 +33,8 @@ UIViewController * modalCon;
         mUserProfileImageView.clipsToBounds = YES;
         
         [self.contentView addSubview:mUserProfileImageView];
-        
-        
+
+
         mBubleImageView = [[UIImageView alloc] init];
         
         mBubleImageView.frame = CGRectMake(mUserProfileImageView.frame.origin.x+mUserProfileImageView.frame.size.width+5 , 5, self.frame.size.width-110, self.frame.size.width-110);
@@ -45,7 +44,7 @@ UIViewController * modalCon;
         mBubleImageView.backgroundColor = [UIColor whiteColor];
         
         [self.contentView addSubview:mBubleImageView];
-        
+
         
         mImageView = [[UIImageView alloc] init];
         
@@ -64,7 +63,7 @@ UIViewController * modalCon;
         
         [self.contentView addSubview:mImageView];
         
-        
+
         mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(mBubleImageView.frame.origin.x + 5, mImageView.frame.origin.y + mImageView.frame.size.height + 5, 100, 20)];
         
         mDateLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
@@ -133,26 +132,26 @@ UIViewController * modalCon;
     NSString * theDate = [NSString stringWithFormat:@"%@",[alMessage getCreatedAtTime:today]];
     self.mMessage = alMessage;
     CGSize theDateSize = [self getSizeForText:theDate maxWidth:150 font:self.mDateLabel.font.fontName fontSize:self.mDateLabel.font.pointSize];
-    
+ 
     if ([alMessage.type isEqualToString:@"4"]) {
         
         self.mUserProfileImageView.frame = CGRectMake(5, 5, 45, 45);
         self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
         self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x+ self.mUserProfileImageView.frame.size.width+5 , 5, viewSize.width-110, viewSize.width-110);
         self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 15 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40 );
-        
+      
         self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5, theDateSize.width , 20);
-        
+     
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
-        
+   
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
         if (alMessage.imageFilePath == NULL) {
-            
+      
             self.mDowloadRetryButton.alpha = 1;
-            
+
             [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
-            
+   
             [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_download.png"]
                                       forState:UIControlStateNormal];
         }else{
@@ -170,7 +169,7 @@ UIViewController * modalCon;
             self.progresLabel.alpha = 0;
             
         }
-        
+
     }else{
         
         self.mUserProfileImageView.frame = CGRectMake(viewSize.width-50, 5, 45, 45);
@@ -200,7 +199,7 @@ UIViewController * modalCon;
         
     }
     self.mDowloadRetryButton.frame = CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0 - 50 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2.0 - 15 , 100, 30);
-    
+  
     if ([alMessage.type isEqualToString:@"5"]) {
         
         if(alMessage.delivered==YES){
@@ -214,11 +213,18 @@ UIViewController * modalCon;
         }
         
     }
-    
+   
     self.mDateLabel.text = theDate;
-    
+   
     NSURL * theUrl = nil ;
-    
+    if([alMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"])
+    {
+        NSURL *ur=[NSURL URLWithString:alMessage.message];
+        NSData* data = [NSData dataWithContentsOfURL:ur];
+        UIImage *img = [UIImage imageWithData:data];
+        [self.mImageView setImage:img];
+        return self;
+    }
     if (alMessage.imageFilePath!=NULL) {
         
         NSString * docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -233,6 +239,8 @@ UIViewController * modalCon;
     return self;
     
 }
+
+
 
 #pragma mark - KAProgressLabel Delegate Methods -
 
@@ -308,19 +316,19 @@ UIViewController * modalCon;
 -(void)imageFullScreen:(UITapGestureRecognizer*)sender {
     
     //if ( self.mMessage.imageFilePath ){
-    
-    modalCon = [[UIViewController alloc] init];
-    modalCon.view.backgroundColor=[UIColor blackColor];
-    modalCon.view.userInteractionEnabled=YES;
-    UIImageView *imageViewNew = [[UIImageView alloc] initWithFrame:modalCon.view.frame];
-    imageViewNew.contentMode=UIViewContentModeScaleAspectFit;
-    imageViewNew.image=mImageView.image;
-    [modalCon.view addSubview:imageViewNew];
-    UITapGestureRecognizer *modalTap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissModalView:)];
-    [modalCon.view addGestureRecognizer:modalTap];
-    [self.delegate showFullScreen:modalCon];
+        
+        modalCon = [[UIViewController alloc] init];
+        modalCon.view.backgroundColor=[UIColor blackColor];
+        modalCon.view.userInteractionEnabled=YES;
+        UIImageView *imageViewNew = [[UIImageView alloc] initWithFrame:modalCon.view.frame];
+        imageViewNew.contentMode=UIViewContentModeScaleAspectFit;
+        imageViewNew.image=mImageView.image;
+        [modalCon.view addSubview:imageViewNew];
+        UITapGestureRecognizer *modalTap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissModalView:)];
+        [modalCon.view addGestureRecognizer:modalTap];
+        [self.delegate showFullScreen:modalCon];
     //}else{
-    NSLog(@" image is not present on  SDCARD...");
+      //  NSLog(@" image is not present on  SDCARD...");
     //}
     return;
 }
@@ -329,4 +337,14 @@ UIViewController * modalCon;
     
     [modalCon dismissViewControllerAnimated:YES completion:nil];
 }
+
+-(BOOL) canPerformAction:(SEL)action withSender:(id)sender {
+    return (action == @selector(delete:));
+}
+
+-(void) delete:(id)sender {
+    [ self.delegate deleteMessageFromView:self.mMessage];
+}
+
+
 @end

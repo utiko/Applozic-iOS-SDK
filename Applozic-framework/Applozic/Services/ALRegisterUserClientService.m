@@ -12,6 +12,7 @@
 #import "ALRegisterUserClientService.h"
 #import "ALRequestHandler.h"
 #import "ALResponseHandler.h"
+#import "ALParsingHandler.h"
 #import "ALUtilityClass.h"
 #import "ALRegistrationResponse.h"
 #import "ALUserDefaultsHandler.h"

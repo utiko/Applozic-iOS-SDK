@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8142"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -87,6 +87,15 @@
                                                         <constraint firstAttribute="width" constant="19" id="hrm-84-lit"/>
                                                     </constraints>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ic_action_camera" translatesAutoresizingMaskIntoConstraints="NO" id="ng6-Us-xRU">
+                                                    <rect key="frame" x="128" y="38" width="27" height="25"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nFm-Yv-yQF">
+                                                    <rect key="frame" x="158" y="40" width="118" height="22"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="centerY" secondItem="r8N-HC-XMt" secondAttribute="centerY" multiplier="1.6" id="9NR-g0-85k"/>
@@ -118,6 +127,8 @@
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="imageMarker" destination="ng6-Us-xRU" id="pm3-Sb-8uh"/>
+                                            <outlet property="imageNameLabel" destination="nFm-Yv-yQF" id="iDb-5E-j1g"/>
                                             <outlet property="mLastMessageStatusImageView" destination="CTq-fC-xpM" id="V9d-bx-mbA"/>
                                             <outlet property="mMessageLabel" destination="mUK-kK-XjJ" id="Qjk-1k-vcd"/>
                                             <outlet property="mTimeLabel" destination="r8N-HC-XMt" id="g1W-I7-CN0"/>
@@ -157,9 +168,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="logoutButton" destination="3pR-ud-INa" id="OZr-wH-8G8"/>
                         <outlet property="mActivityIndicator" destination="dlR-eX-vMZ" id="iW8-EO-GId"/>
                         <outlet property="mTableView" destination="S0P-A8-QJi" id="faw-jS-ahn"/>
                         <outlet property="mTableViewTopConstraint" destination="qlf-k3-4dr" id="ZwD-Zb-yoi"/>
+                        <outlet property="navBar" destination="lrz-ae-7pi" id="ELL-bc-fNj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -245,6 +258,56 @@
             </objects>
             <point key="canvasLocation" x="1883" y="933"/>
         </scene>
+        <!--Map View Controller-->
+        <scene sceneID="soh-3d-q0E">
+            <objects>
+                <viewController storyboardIdentifier="shareLoactionViewTag" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Jcz-BB-dxz" customClass="ALMapViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qF4-qu-V6r"/>
+                        <viewControllerLayoutGuide type="bottom" id="nG5-eB-qSq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Gop-mz-j8f">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="uEJ-oo-GLz">
+                                <rect key="frame" x="0.0" y="43" width="600" height="464"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KAL-xm-Upd">
+                                <rect key="frame" x="194" y="531" width="193" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="8R7-t2-hhj"/>
+                                    <constraint firstAttribute="width" constant="193" id="Ju4-J0-o2Z"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <state key="normal" title="Send Location"/>
+                                <connections>
+                                    <action selector="sendLocation:" destination="Jcz-BB-dxz" eventType="touchDown" id="Qop-GW-H2J"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="uEJ-oo-GLz" secondAttribute="centerX" id="BnD-S7-m2X"/>
+                            <constraint firstItem="uEJ-oo-GLz" firstAttribute="top" secondItem="qF4-qu-V6r" secondAttribute="bottom" constant="23" id="BsX-2e-PXH"/>
+                            <constraint firstItem="uEJ-oo-GLz" firstAttribute="leading" secondItem="Gop-mz-j8f" secondAttribute="leading" id="I9x-Dr-GfR"/>
+                            <constraint firstAttribute="centerX" secondItem="KAL-xm-Upd" secondAttribute="centerX" id="LaM-Oy-Znd"/>
+                            <constraint firstAttribute="trailing" secondItem="uEJ-oo-GLz" secondAttribute="trailing" id="QKm-qL-Uww"/>
+                            <constraint firstAttribute="centerX" secondItem="KAL-xm-Upd" secondAttribute="centerX" id="XY8-EA-S5A"/>
+                            <constraint firstAttribute="centerY" secondItem="KAL-xm-Upd" secondAttribute="centerY" id="buO-Do-NA2"/>
+                            <constraint firstItem="nG5-eB-qSq" firstAttribute="top" secondItem="KAL-xm-Upd" secondAttribute="bottom" constant="31" id="hsn-ip-WqX"/>
+                            <constraint firstItem="KAL-xm-Upd" firstAttribute="top" secondItem="uEJ-oo-GLz" secondAttribute="bottom" constant="24" id="rg6-gd-Et1"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapKitView" destination="uEJ-oo-GLz" id="4Cz-Ec-0BB"/>
+                        <outlet property="sendLocationButton" destination="KAL-xm-Upd" id="dbG-FN-v4t"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zqg-iw-rq4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2560" y="933"/>
+        </scene>
         <!--Chat View Controller-->
         <scene sceneID="Qxl-dr-KMt">
             <objects>
@@ -313,24 +376,16 @@
                                 <exclude reference="oJd-yd-pFo"/>
                             </mask>
                         </variation>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="ICE-46-P9k" appends="YES" id="ctr-uZ-ujj"/>
-                        </connections>
                     </view>
                     <connections>
                         <outlet property="mActivityIndicator" destination="cVw-Po-VWO" id="7cC-PR-aCE"/>
                         <outlet property="mSendMessageTextField" destination="8vk-6r-Jow" id="A3x-vI-zuA"/>
                         <outlet property="mSendTextFieldBottomConstraint" destination="R74-pb-8FH" id="RCK-y9-Yig"/>
                         <outlet property="mTableView" destination="XrG-C6-GhS" id="dUZ-gm-Bt0"/>
-                        <outlet property="mTapGesture" destination="ICE-46-P9k" id="KGA-3J-6VV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KEu-PH-USU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="ICE-46-P9k">
-                    <connections>
-                        <action selector="handleTap:" destination="gFB-TQ-g19" id="R6I-38-Bua"/>
-                    </connections>
-                </tapGestureRecognizer>
+                <tapGestureRecognizer id="ICE-46-P9k"/>
             </objects>
             <point key="canvasLocation" x="2560" y="241"/>
         </scene>
@@ -428,6 +483,18 @@
                                                     <action selector="login:" destination="t0V-gj-2WO" eventType="touchUpInside" id="3Tt-Tf-FYS"/>
                                                 </connections>
                                             </button>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vI1-qW-PVa">
+                                                <rect key="frame" x="22" y="251" width="200" height="10"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yer-io-s6o">
+                                                <rect key="frame" x="22" y="200" width="200" height="10"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -446,8 +513,11 @@
                                         </constraints>
                                     </view>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="BnH-B4-bms">
-                                        <rect key="frame" x="290" y="294" width="20" height="20"/>
+                                        <rect key="frame" x="290" y="294" width="600" height="20"/>
                                         <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
+                                        <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
+                                            <rect key="frame" x="290" y="294" width="400" height="20"/>
+                                        </variation>
                                     </activityIndicatorView>
                                 </subviews>
                                 <constraints>
@@ -472,6 +542,8 @@
                     </view>
                     <connections>
                         <outlet property="emailField" destination="7iM-P1-Q0S" id="hlX-tn-C1k"/>
+                        <outlet property="errorlabel" destination="vI1-qW-PVa" id="p6d-Fn-aKG"/>
+                        <outlet property="erroruser" destination="yer-io-s6o" id="Me0-n1-KWg"/>
                         <outlet property="getStarted" destination="1Kf-N3-0PL" id="mEn-LY-XzQ"/>
                         <outlet property="mActivityIndicator" destination="BnH-B4-bms" id="eYB-yj-M8S"/>
                         <outlet property="passwordField" destination="HdR-Cv-Mvf" id="GZk-3o-jRU"/>
@@ -481,12 +553,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VsK-qJ-ZRd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-694" y="627"/>
+            <point key="canvasLocation" x="-989" y="621"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ifH-x1-rz7">
             <objects>
-                <tabBarController storyboardIdentifier="messageTabBar" automaticallyAdjustsScrollViewInsets="NO" id="nQk-LM-enC" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="nQk-LM-enC" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="JXc-Sf-dHL">
@@ -502,5 +574,25 @@
             </objects>
             <point key="canvasLocation" x="48" y="603"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="AtM-cU-yRi">
+            <objects>
+                <viewController id="I5j-EQ-Hl5" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cei-9O-f0U"/>
+                        <viewControllerLayoutGuide type="bottom" id="3bn-X4-nqC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="NEu-IK-TY3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WFM-dg-q86" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
     </scenes>
+    <resources>
+        <image name="ic_action_camera" width="16" height="16"/>
+    </resources>
 </document>

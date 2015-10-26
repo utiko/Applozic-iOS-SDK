@@ -19,4 +19,9 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *mLastMessageStatusImageView;
 
+@property (weak, nonatomic) IBOutlet UILabel *imageNameLabel;
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageMarker;
+
+
 @end

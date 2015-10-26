@@ -8,6 +8,7 @@
 
 #import "ALBaseViewController.h"
 #import "ALUtilityClass.h"
+#import "ALUserDefaultsHandler.h"
 #import "ALConstant.h"
 
 @interface ALBaseViewController ()
@@ -80,8 +81,7 @@
         self.navColor = [self.navigationController.navigationBar barTintColor];
     }
     UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
-    //self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
-    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil]];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
 }
 
 
@@ -105,10 +105,15 @@
 
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+
+    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+}
+
 -(void)viewWillDisappear:(BOOL)animated {
 
     self.navigationController.navigationBar.barTintColor = self.navColor;
-    self.tabBarController.tabBar.hidden = NO;
+    self.tabBarController.tabBar.hidden = [ALUserDefaultsHandler isBottomTabBarHidden];
 }
 
 // Setting up keyboard notifications.

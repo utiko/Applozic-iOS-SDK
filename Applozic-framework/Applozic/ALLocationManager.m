@@ -33,7 +33,7 @@
 {
     [_locationManager requestWhenInUseAuthorization];
     [_locationManager startUpdatingLocation];
-   // [_locationManager requestLocation];
+    //[_locationManager requestLocation];
     NSLog(@"get Address...####");
 
 
