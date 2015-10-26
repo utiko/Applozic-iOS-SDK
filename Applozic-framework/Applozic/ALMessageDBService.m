@@ -101,13 +101,14 @@
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     
     NSManagedObject* message = [self getMessageByKey:@"keyString" value:keyString];
-    [dbHandler.managedObjectContext deleteObject:message];
-    NSError *error = nil;
-  
-    if ( [dbHandler.managedObjectContext save:&error]){
-        NSLog(@"message found and maked as deliverd");
-    } else {
-        NSLog(@"message not found with this key");
+    if(message){
+        [dbHandler.managedObjectContext deleteObject:message];
+        NSError *error = nil;
+        if ( [dbHandler.managedObjectContext save:&error]){
+            NSLog(@"message found ");
+        }
+    }else{
+         NSLog(@"message not found with this key");
     }
 }
 
@@ -280,12 +281,12 @@
 
     // contact 1
     ALContact *contact1 = [[ALContact alloc] init];
-    contact1.userId = @"111";
-    contact1.fullName = @"Gaurav Nigam";
+    contact1.userId = @"adarshk";
+    contact1.fullName = @"Rathan";
     contact1.contactNumber = @"1234561234";
-    contact1.displayName = @"Gaurav";
+    contact1.displayName = @"Rathan";
     contact1.email = @"123@abc.com";
-    contact1.contactImageUrl = nil;
+    contact1.contactImageUrl = @"http://applozic.com/resources/images/aboutus/rathan.jpg";
 
     // contact 2
     ALContact *contact2 = [[ALContact alloc] init];
@@ -330,11 +331,7 @@
 
         NSArray * theArray =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
         DB_Message * theSmsEntity = theArray.firstObject;
-        ALMessage * theMessage = [ALMessage new];
-        theMessage.to = theSmsEntity.to;
-        theMessage.message = theSmsEntity.messageText;
-        theMessage.contactIds = theSmsEntity.contactId;
-        theMessage.type = theSmsEntity.type;
+        ALMessage * theMessage = [self createMessageForSMSEntity:theSmsEntity];
         theMessage.createdAtTime = [NSString stringWithFormat:@"%@",theSmsEntity.createdAt];
         [messagesArray addObject:theMessage];
     }

@@ -10,6 +10,27 @@
 
 @implementation ALUserDefaultsHandler
 
++(void) setBottomTabBarHidden:(BOOL)visibleStatus {
+    [[NSUserDefaults standardUserDefaults] setBool:visibleStatus forKey: BOTTOM_TAB_BAR_VISIBLITY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL) isBottomTabBarHidden
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey: BOTTOM_TAB_BAR_VISIBLITY];
+}
+
++(void) setLogoutButtonVisible:(BOOL)flagValue
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flagValue forKey: LOGOUT_BUTTON_VISIBLITY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL) isLogoutButtonVisible
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:LOGOUT_BUTTON_VISIBLITY];
+}
+
 +(void) setApplicationKey:(NSString *)applicationKey
 {
     [[NSUserDefaults standardUserDefaults] setValue:applicationKey forKey:APPLICATION_KEY];

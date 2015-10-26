@@ -60,8 +60,6 @@
         
         self.mMessageLabel.font = [UIFont fontWithName:fontName size:15];
         
-        //self.mMessageLabel.numberOfLines = 0;
-        
         self.mMessageLabel.textColor = [UIColor grayColor];
         
         self.mMessageLabel.selectable = YES;
@@ -70,8 +68,7 @@
         self.mMessageLabel.textContainerInset = UIEdgeInsetsZero;
         self.mMessageLabel.textContainer.lineFragmentPadding = 0;
         self.mMessageLabel.dataDetectorTypes = UIDataDetectorTypeLink;
-      
-       // self.mMessageLabel.userInteractionEnabled = YES;
+
         [self.contentView addSubview:self.mMessageLabel];
         
 

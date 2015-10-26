@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ALChatViewController.h"
+#import "ALContactCell.h"
 
 @interface ALMessagesViewController : UIViewController
 
@@ -15,6 +16,8 @@
 -(void)createDetailChatViewController: (NSString *) contactIds;
 
 -(void)pushNotificationhandler:(NSNotification *) notification;
+
+-(void)displayAttachmentMediaType:(ALMessage *)message andContactCell:(ALContactCell *)contactCell;
 
 @end
 

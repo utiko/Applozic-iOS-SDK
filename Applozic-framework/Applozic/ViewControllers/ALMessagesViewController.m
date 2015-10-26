@@ -7,7 +7,6 @@
 
 #import "ALMessagesViewController.h"
 #import "ALConstant.h"
-#import "ALContactCell.h"
 #import "ALMessageService.h"
 #import "ALMessage.h"
 #import "ALChatViewController.h"
@@ -18,6 +17,7 @@
 #import "ALRegisterUserClientService.h"
 #import "ALDBHandler.h"
 #import "ALContact.h"
+#import "ALUserDefaultsHandler.h"
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
@@ -31,6 +31,8 @@
 @interface ALMessagesViewController ()<UITableViewDataSource,UITableViewDelegate,ALMessagesDelegate>
 
 - (IBAction)logout:(id)sender;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
+@property (strong, nonatomic) IBOutlet UINavigationItem *navBar;
 
 // Constants
 
@@ -51,25 +53,15 @@
 #pragma mark - View lifecycle
 //------------------------------------------------------------------------------------------------------------------
 
-
-- (IBAction)logout:(id)sender {
-    
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    [registerUserClientService logout];
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main"
-                                                         bundle:nil];
-    ALLoginViewController *add =
-    [storyboard instantiateViewControllerWithIdentifier:@"ALLoginViewController"];
-    
-    [self presentViewController:add
-                       animated:YES
-                     completion:nil];
-}
-
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+
+    if(![ALUserDefaultsHandler isLogoutButtonVisible])
+    {
+        [self.navBar setRightBarButtonItems:nil]; 
+    }
+    
     [self setUpView];
     [self setUpTableView];
     self.mTableView.allowsMultipleSelectionDuringEditing = NO;
@@ -77,10 +69,13 @@
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
     [dBService getMessages];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
@@ -103,12 +98,25 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     
+    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     //unregister for notification
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushNotification" object:nil];
     
     [super viewWillDisappear:animated];
     
     self.navigationController.navigationBar.barTintColor = self.navColor;
+}
+
+- (IBAction)logout:(id)sender {
+    
+        ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+        [registerUserClientService logout];
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        ALLoginViewController *add = [storyboard instantiateViewControllerWithIdentifier:@"ALLoginViewController"];
+        
+        [self presentViewController:add animated:YES completion:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -190,16 +198,51 @@
     BOOL isToday = [ALUtilityClass isToday:[NSDate dateWithTimeIntervalSince1970:[message.createdAtTime doubleValue]/1000]];
     contactCell.mTimeLabel.text = [message getCreatedAtTime:isToday];
     
+    [self displayAttachmentMediaType:message andContactCell: contactCell];
+    
     return contactCell;
 }
 
+-(void)displayAttachmentMediaType:(ALMessage *)message andContactCell:(ALContactCell *)contactCell{
+    
+    if([message.fileMetas.contentType isEqual:@"image/jpeg"]||[message.fileMetas.contentType isEqual:@"image/png"]
+       ||[message.fileMetas.contentType isEqual:@"image/gif"]||[message.fileMetas.contentType isEqual:@"image/tiff"]
+       ||[message.fileMetas.contentType isEqual:@"video/mp4"])
+    {
+        contactCell.mMessageLabel.hidden = YES;
+        contactCell.imageMarker.hidden = NO;
+        contactCell.imageNameLabel.hidden = NO;
+        
+        if([message.fileMetas.contentType isEqual:@"video/mp4"])
+        {
+            contactCell.imageNameLabel.text = @"Video";
+            contactCell.imageMarker.image = [UIImage imageNamed:@"applozic_ic_action_video.png"];
+        }
+        else
+        {
+            contactCell.imageNameLabel.text = @"Image";
+        }
+    }
+    else if (message.message.length == 0)           //other than video and image
+    {
+        contactCell.imageNameLabel.text = @"Attachment";
+        contactCell.imageMarker.image = [UIImage imageNamed:@"ic_action_attachment.png"];
+    }
+    else
+    {
+        contactCell.imageNameLabel.hidden = YES;
+        contactCell.imageMarker.hidden = YES;
+    }
+
+}
+
 //------------------------------------------------------------------------------------------------------------------
-#pragma mark - Table View Delegate Methods
+#pragma mark - Table View Delegate Methods                 //method to enter achat/ select aparticular cell in table
 //------------------------------------------------------------------------------------------------------------------
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    ALMessage * message=  self.mContactsMessageListArray[indexPath.row];
+    ALMessage * message =  self.mContactsMessageListArray[indexPath.row];
     
     [self createDetailChatViewController: message.contactIds];
     

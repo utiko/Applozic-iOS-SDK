@@ -7,7 +7,6 @@
 
 #import "ALMessagesViewController.h"
 #import "ALConstant.h"
-#import "ALContactCell.h"
 #import "ALMessageService.h"
 #import "ALMessage.h"
 #import "ALChatViewController.h"
@@ -199,16 +198,51 @@
     BOOL isToday = [ALUtilityClass isToday:[NSDate dateWithTimeIntervalSince1970:[message.createdAtTime doubleValue]/1000]];
     contactCell.mTimeLabel.text = [message getCreatedAtTime:isToday];
     
+    [self displayAttachmentMediaType:message andContactCell: contactCell];
+    
     return contactCell;
 }
 
+-(void)displayAttachmentMediaType:(ALMessage *)message andContactCell:(ALContactCell *)contactCell{
+    
+    if([message.fileMetas.contentType isEqual:@"image/jpeg"]||[message.fileMetas.contentType isEqual:@"image/png"]
+       ||[message.fileMetas.contentType isEqual:@"image/gif"]||[message.fileMetas.contentType isEqual:@"image/tiff"]
+       ||[message.fileMetas.contentType isEqual:@"video/mp4"])
+    {
+        contactCell.mMessageLabel.hidden = YES;
+        contactCell.imageMarker.hidden = NO;
+        contactCell.imageNameLabel.hidden = NO;
+        
+        if([message.fileMetas.contentType isEqual:@"video/mp4"])
+        {
+            contactCell.imageNameLabel.text = @"Video";
+            contactCell.imageMarker.image = [UIImage imageNamed:@"applozic_ic_action_video.png"];
+        }
+        else
+        {
+            contactCell.imageNameLabel.text = @"Image";
+        }
+    }
+    else if (message.message.length == 0)           //other than video and image
+    {
+        contactCell.imageNameLabel.text = @"Attachment";
+        contactCell.imageMarker.image = [UIImage imageNamed:@"ic_action_attachment.png"];
+    }
+    else
+    {
+        contactCell.imageNameLabel.hidden = YES;
+        contactCell.imageMarker.hidden = YES;
+    }
+
+}
+
 //------------------------------------------------------------------------------------------------------------------
-#pragma mark - Table View Delegate Methods
+#pragma mark - Table View Delegate Methods                 //method to enter achat/ select aparticular cell in table
 //------------------------------------------------------------------------------------------------------------------
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    ALMessage * message=  self.mContactsMessageListArray[indexPath.row];
+    ALMessage * message =  self.mContactsMessageListArray[indexPath.row];
     
     [self createDetailChatViewController: message.contactIds];
     

@@ -14,6 +14,7 @@
 #import "ALChatViewController.h"
 #import "ALUtilityClass.h"
 #import "ALConstant.h"
+#import "ALUserDefaultsHandler.h"
 
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
@@ -75,7 +76,9 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
+    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
@@ -84,6 +87,11 @@
         // iOS 7.0 or later
         self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
     }
+}
+
+-(void) viewWillDisappear:(BOOL)animated{
+
+    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

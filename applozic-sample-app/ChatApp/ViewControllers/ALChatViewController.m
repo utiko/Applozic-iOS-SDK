@@ -263,7 +263,7 @@ ALMessageDBService  * dbService;
 
     ALMessage * theMessage = self.mMessageListArray[indexPath.row];
 
-    if([theMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"]){          ////
+    if([theMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"]){
         
         ALChatCell_Image *theCell = (ALChatCell_Image *)[tableView dequeueReusableCellWithIdentifier:@"ChatCell_Image"];
         theCell.tag = indexPath.row;
@@ -477,7 +477,7 @@ ALMessageDBService  * dbService;
         dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
         
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
-        if ([message.type isEqualToString:@"5"]&& !message.fileMetas.keyString) { // upoad
+        if ([message.type isEqualToString:@"5"]&& !message.fileMetas.keyString) { // upload
             [self uploadImage:message];
             
         }else { //download
@@ -635,9 +635,6 @@ ALMessageDBService  * dbService;
 //
 //            [UIView animateWithDuration:.25 animations:^{
 //        } completion:^(BOOL finished) {
-//            
-//
-//
 //        }];
 //    });
 }

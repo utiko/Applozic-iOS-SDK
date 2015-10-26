@@ -10,6 +10,7 @@
 		2973A8CE1BB9F1C600F45094 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2973A8CD1BB9F1C600F45094 /* CoreLocation.framework */; };
 		29E61A2C1BC7A6F600043D8A /* ALChatCostomization.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29E61A2A1BC7A6F600043D8A /* ALChatCostomization.plist */; };
 		29E61A2D1BC7A6F600043D8A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29E61A2B1BC7A6F600043D8A /* Info.plist */; };
+		6D298CE11BDB60C600BAF917 /* applozic_ic_action_video.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D298CE01BDB60C600BAF917 /* applozic_ic_action_video.png */; };
 		6D30A0E31BC3C1F7005D5CF4 /* ALNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D30A0E21BC3C1F7005D5CF4 /* ALNotificationView.m */; };
 		6D46B6B61BCD81180014A5D3 /* ALMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D46B6B51BCD81180014A5D3 /* ALMapViewController.m */; };
 		6D46B6BA1BCD8BA90014A5D3 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D46B6B91BCD8BA90014A5D3 /* MapKit.framework */; };
@@ -136,6 +137,7 @@
 		2973A8CD1BB9F1C600F45094 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		29E61A2A1BC7A6F600043D8A /* ALChatCostomization.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ALChatCostomization.plist; path = ../ALChatCostomization.plist; sourceTree = "<group>"; };
 		29E61A2B1BC7A6F600043D8A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
+		6D298CE01BDB60C600BAF917 /* applozic_ic_action_video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = applozic_ic_action_video.png; path = ../../../../../../../../Downloads/applozic_ic_action_video.png; sourceTree = "<group>"; };
 		6D30A0E11BC3C1F7005D5CF4 /* ALNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALNotificationView.h; path = Views/ALNotificationView.h; sourceTree = "<group>"; };
 		6D30A0E21BC3C1F7005D5CF4 /* ALNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALNotificationView.m; path = Views/ALNotificationView.m; sourceTree = "<group>"; };
 		6D46B6B41BCD81180014A5D3 /* ALMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMapViewController.h; sourceTree = "<group>"; };
@@ -625,6 +627,7 @@
 				9C276D011B64EF1C005E76C7 /* ic_action_attachment.png */,
 				9C87DD221B889BA2007CEE5F /* ic_action_attachment2.png */,
 				9C276D021B64EF1C005E76C7 /* ic_action_call_holo_light.png */,
+				6D298CE01BDB60C600BAF917 /* applozic_ic_action_video.png */,
 				9C276D031B64EF1C005E76C7 /* ic_action_call.png */,
 				9C276D041B64EF1C005E76C7 /* ic_action_camera.png */,
 				9C276D051B64EF1C005E76C7 /* ic_action_cancel.png */,
@@ -669,9 +672,9 @@
 				9C276CD81B641112005E76C7 /* ALMessagesViewController.h */,
 				9C276CD91B641112005E76C7 /* ALMessagesViewController.m */,
 				D0AE20FF1BB2D64D00F5C147 /* ALBaseViewController.h */,
+				D0AE21001BB2D64D00F5C147 /* ALBaseViewController.m */,
 				6DD502E61BAB43F600F68D30 /* ALLoginViewController.h */,
 				6DD502E71BAB43F600F68D30 /* ALLoginViewController.m */,
-				D0AE21001BB2D64D00F5C147 /* ALBaseViewController.m */,
 				9C276D451B64F695005E76C7 /* ALChatViewController.h */,
 				9C276D461B64F695005E76C7 /* ALChatViewController.m */,
 				9C95DBC81B80D5C70012A649 /* ALNewContactsViewController.h */,
@@ -872,6 +875,7 @@
 				9C276D3A1B64EF1C005E76C7 /* ic_google_plus.png in Resources */,
 				9C276D241B64EF1C005E76C7 /* ic_action_attachment.png in Resources */,
 				9C276D361B64EF1C005E76C7 /* ic_action_video.png in Resources */,
+				6D298CE11BDB60C600BAF917 /* applozic_ic_action_video.png in Resources */,
 				9C276D271B64EF1C005E76C7 /* ic_action_camera.png in Resources */,
 				9C276CE51B6414FC005E76C7 /* Localizable.strings in Resources */,
 				9C47ED031B79F3A70092517C /* ALChatCostomization.plist in Resources */,
