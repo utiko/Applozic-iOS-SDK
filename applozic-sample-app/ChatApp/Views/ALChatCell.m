@@ -9,6 +9,10 @@
 #import "ALUtilityClass.h"
 #import "ALConstant.h"
 #import "ALUITextView.h"
+// Constants
+#define MT_INBOX_CONSTANT "4"
+#define MT_OUTBOX_CONSTANT "5"
+
 
 @implementation ALChatCell
 
@@ -111,10 +115,9 @@
     
     //MT_INBOX(Short.valueOf("4")),
    // MT_OUTBOX(Short.valueOf("5")),
-    if ([alMessage.type isEqualToString:@"4"]) {
+    if ([alMessage.type isEqualToString:@MT_INBOX_CONSTANT]/*[alMessage.type isEqualToString:@"4"]*/) { //Recieved Message
         
         self.mUserProfileImageView.frame = CGRectMake(8, 0, 45, 45);
-        
         self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
         
         self.mMessageLabel.frame = CGRectMake(65 , 5, theTextSize.width, theTextSize.height);
@@ -135,16 +138,18 @@
         
         self.mMessageStatusImageView.alpha =0;
     }
-    else
+    else    //Sent Message
     {
-       self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 45, 45);
-        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+        
+//        self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 45, 45);
+//        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+        
         int imgVwWidth = theTextSize.width>150?theTextSize.width+14:150;
         
         int imgVwHeight = theTextSize.height+21>45?theTextSize.height+21+10:45;
-        
-        self.mBubleImageView.frame = CGRectMake(viewSize.width - 58 - imgVwWidth , 0 ,imgVwWidth  ,imgVwHeight);
-        
+                
+        self.mBubleImageView.frame = CGRectMake(viewSize.width - imgVwWidth -10 , 0 ,imgVwWidth  ,imgVwHeight);
+        self.mBubleImageView.frame = CGRectMake(viewSize.width - imgVwWidth -10 , 0 ,imgVwWidth  ,imgVwHeight);
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x+8, 5, theTextSize.width, theTextSize.height);
         
         self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 8, self.mMessageLabel.frame.origin.y + self.mMessageLabel.frame.size.height +3 , theDateSize.width, 21);
@@ -157,7 +162,7 @@
         
     }
     
-    if ([alMessage.type isEqualToString:@"5"]) {
+    if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]/*[alMessage.type isEqualToString:@"5"]*/) {
         self.mMessageStatusImageView.alpha =1;
         if(alMessage.delivered==YES){
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
