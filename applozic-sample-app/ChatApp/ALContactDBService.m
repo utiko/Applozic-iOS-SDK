@@ -148,6 +148,7 @@
         userContact.contactNo = contact.contactNumber;
         userContact.contactImageUrl = contact.contactImageUrl;
         userContact.displayName = contact.displayName;
+        userContact.localImageResourceName = contact.localImageResourceName;
         
     }
     
@@ -196,6 +197,7 @@
     contact.displayName = dbContact.displayName;
     contact.contactImageUrl = dbContact.contactImageUrl;
     contact.email = dbContact.email;
+    contact.localImageResourceName = dbContact.localImageResourceName;
     return contact;
 }
 
@@ -253,6 +255,8 @@
     contact.email = userContact.email;
     
     contact.contactImageUrl = userContact.contactImageUrl;
+    
+    contact.localImageResourceName =userContact.localImageResourceName;
     
     NSError *error = nil;
     

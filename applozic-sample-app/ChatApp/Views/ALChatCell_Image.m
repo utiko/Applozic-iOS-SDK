@@ -8,6 +8,9 @@
 
 #import "ALChatCell_Image.h"
 #import "UIImageView+WebCache.h"
+#import "ALDBHandler.h"
+#import "ALContact.h"
+#import "ALContactDBService.h"
 // Constants
 #define MT_INBOX_CONSTANT "4"
 #define MT_OUTBOX_CONSTANT "5"
@@ -38,6 +41,7 @@ UIViewController * modalCon;
         [self.contentView addSubview:mUserProfileImageView];
 
 
+        
         mBubleImageView = [[UIImageView alloc] init];
         
         mBubleImageView.frame = CGRectMake(mUserProfileImageView.frame.origin.x+mUserProfileImageView.frame.size.width+5 , 5, self.frame.size.width-110, self.frame.size.width-110);
@@ -49,22 +53,25 @@ UIViewController * modalCon;
         [self.contentView addSubview:mBubleImageView];
 
         
+        
         mImageView = [[UIImageView alloc] init];
         
         mImageView.frame = CGRectMake(mBubleImageView.frame.origin.x + 5 , mBubleImageView.frame.origin.y + 15 , mBubleImageView.frame.size.width - 10 , mBubleImageView.frame.size.height - 40 );
         
         mImageView.contentMode = UIViewContentModeScaleAspectFill;
-        
         mImageView.clipsToBounds = YES;
-        
         mImageView.backgroundColor = [UIColor grayColor];
         mImageView.clipsToBounds = YES;
         mImageView.userInteractionEnabled = YES;
+        
+        
+        
         UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageFullScreen:)];
         tapper.numberOfTapsRequired = 1;
         [mImageView addGestureRecognizer:tapper];
         
         [self.contentView addSubview:mImageView];
+        
         
 
         mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(mBubleImageView.frame.origin.x + 5, mImageView.frame.origin.y + mImageView.frame.size.height + 5, 100, 20)];
@@ -75,11 +82,14 @@ UIViewController * modalCon;
         
         mDateLabel.numberOfLines = 1;
         
+        
+        
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         self.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0  alpha:1];
         
         [self.contentView addSubview:mDateLabel];
+        
         
         
         mMessageStatusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(mDateLabel.frame.origin.x+mDateLabel.frame.size.width, mDateLabel.frame.origin.y, 20, 20)];
@@ -89,6 +99,7 @@ UIViewController * modalCon;
         mMessageStatusImageView.backgroundColor = [UIColor clearColor];
         
         [self.contentView addSubview:mMessageStatusImageView];
+        
         
         
         progresLabel = [[KAProgressLabel alloc] initWithFrame:CGRectMake(mImageView.frame.origin.x + mImageView.frame.size.width/2.0 , mImageView.frame.origin.y + mImageView.frame.size.height/2.0 , 50, 50)];
@@ -102,6 +113,8 @@ UIViewController * modalCon;
         progresLabel.trackColor = [UIColor redColor];
         progresLabel.progressColor = [UIColor greenColor];
         [self.contentView addSubview:progresLabel];
+        
+        
         
         mDowloadRetryButton = [UIButton buttonWithType:UIButtonTypeCustom];
         
@@ -129,7 +142,7 @@ UIViewController * modalCon;
 
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize {
     
-    
+    self.mUserProfileImageView.alpha=1;
     
     BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[alMessage.createdAtTime doubleValue]/1000]];
     NSString * theDate = [NSString stringWithFormat:@"%@",[alMessage getCreatedAtTime:today]];
@@ -175,13 +188,41 @@ UIViewController * modalCon;
             
         }
 
+        ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
+        ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
+        if(alContact.contactImageUrl)
+        {
+            NSURL * theUrl1 = [NSURL URLWithString:alContact.contactImageUrl];
+            [self.mUserProfileImageView sd_setImageWithURL:theUrl1];
+        }
+        else if (alContact.localImageResourceName)
+        {
+            UIImage *someImage = [UIImage imageNamed:alContact.localImageResourceName];
+            UIImageView* imageView = [[UIImageView alloc] initWithImage:someImage];
+            imageView.frame = CGRectMake(0,0, 50,50);
+            [self.mUserProfileImageView addSubview:imageView];
+            
+        }
+        else
+        {
+            NSLog(@"Default Image for this chat/profile ");
+        }
+
+        
     }else{ //Sent Message
         
+
         self.mUserProfileImageView.frame = CGRectMake(viewSize.width-50, 5, 45, 45);
-//        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
-        
-        
+
         self.mBubleImageView.frame = CGRectMake(viewSize.width - self.mUserProfileImageView.frame.origin.x + 50 , 5 ,viewSize.width-110, viewSize.width-110);
+
+
+//        self.mUserProfileImageView.frame = CGRectMake(viewSize.width-50, 5, 45, 45);
+//        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+        self.mUserProfileImageView.alpha=0;
+        
+        self.mBubleImageView.frame = CGRectMake(viewSize.width-220 /*- self.mUserProfileImageView.frame.origin.x + 50 */, 5 ,viewSize.width-110, viewSize.width-110);
+
         self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y+15 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40);
         self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5 , theDateSize.width, 21);
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;

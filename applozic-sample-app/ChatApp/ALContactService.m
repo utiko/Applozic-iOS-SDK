@@ -93,7 +93,7 @@
     contact1.contactNumber = @"1234561234";
     contact1.displayName = @"Adarsh";
     contact1.email = @"123@abc.com";
-    contact1.contactImageUrl =@" http://www.applozic.com/resources/images/applozic_logo.gif";
+    contact1.contactImageUrl = @" http://www.applozic.com/resources/images/applozic_logo.gif";
     
     // contact 2
     ALContact *contact2 = [[ALContact alloc] init];

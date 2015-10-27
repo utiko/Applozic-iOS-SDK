@@ -286,7 +286,9 @@
     contact1.contactNumber = @"1234561234";
     contact1.displayName = @"Rathan";
     contact1.email = @"123@abc.com";
-    contact1.contactImageUrl = @"http://applozic.com/resources/images/aboutus/rathan.jpg";
+   // contact1.contactImageUrl = @"http://applozic.com/resources/images/aboutus/rathan.jpg";
+     contact1.contactImageUrl = nil;
+    contact1.localImageResourceName = @"4.jpg";
 
     // contact 2
     ALContact *contact2 = [[ALContact alloc] init];
@@ -305,6 +307,8 @@
     contact3.displayName = @"Applozic";
     contact3.email = @"devashish@applozic.com";
     contact3.contactImageUrl = nil;
+//  contact3.contactImageUrl = @"http://applozic.com/resources/images/aboutus/rathan.jpg";
+    contact3.localImageResourceName = @"1.jpg";
 
     [theDBHandler addListOfContacts:@[contact1,contact2,contact3]];
 }

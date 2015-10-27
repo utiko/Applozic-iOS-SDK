@@ -25,16 +25,6 @@
         
         self.backgroundColor = [UIColor colorWithRed:224.0/255 green:224.0/255 blue:224.0/255 alpha:1];
         
-        self.mBubleImageView = [[UIImageView alloc] init];
-        
-        self.mBubleImageView.frame = CGRectMake(5, 5, 100, 44);
-        
-        self.mBubleImageView.contentMode = UIViewContentModeScaleToFill;
-        
-        self.mBubleImageView.backgroundColor = [UIColor whiteColor];
-        
-        [self.contentView addSubview:self.mBubleImageView];
-        
         
         self.mUserProfileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 45, 45)];
         
@@ -43,6 +33,22 @@
         self.mUserProfileImageView.clipsToBounds = YES;
         
         [self.contentView addSubview:self.mUserProfileImageView];
+        
+    
+        
+        self.mBubleImageView = [[UIImageView alloc] init];
+        
+//        self.mBubleImageView.frame = CGRectMake(5, 5, 100, 44);
+        
+        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x+self.mUserProfileImageView.frame.size.width+5 , 5, self.frame.size.width-110, self.frame.size.width-110);
+        
+        self.mBubleImageView.contentMode = UIViewContentModeScaleToFill;
+        
+        self.mBubleImageView.backgroundColor = [UIColor whiteColor];
+        
+        [self.contentView addSubview:self.mBubleImageView];
+        
+
 
         self.mMessageLabel =[[ALUITextView alloc] init];
         self.mMessageLabel.delegate = self.mMessageLabel;
@@ -100,6 +106,7 @@
 
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize {
     
+     self.mUserProfileImageView.alpha=1;
     BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[alMessage.createdAtTime doubleValue]/1000]];
     
     NSString * theDate = [NSString stringWithFormat:@"%@",[alMessage getCreatedAtTime:today]];
@@ -137,8 +144,8 @@
     }
     else    //Sent Message
     {
-        
-//        self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 45, 45);
+        self.mUserProfileImageView.alpha=0;
+        self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 45, 45);
 //        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
         
         int imgVwWidth = theTextSize.width>150?theTextSize.width+14:150;

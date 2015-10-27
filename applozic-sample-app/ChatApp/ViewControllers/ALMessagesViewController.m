@@ -18,6 +18,7 @@
 #import "ALDBHandler.h"
 #import "ALContact.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALContactDBService.h"
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
@@ -182,11 +183,11 @@
     UILabel* nameIcon=(UILabel*)[contactCell viewWithTag:102];
     //    contactCell.mUserImageView.image = [UIImage imageNamed:@"ic_mobicom.png"];
     
-    ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
-    ALContact *alContact = [theDBHandler loadContactByKey:@"userId" value: message.to];
+
+    ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
+    ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];             
     contactCell.mUserNameLabel.text = [alContact displayName];
 
-    //contactCell.mUserNameLabel.text = message.to;
     contactCell.mMessageLabel.text = message.message;
     NSString *firstLetter = [[alContact displayName] substringToIndex:1];
     nameIcon.text=firstLetter;
@@ -199,7 +200,31 @@
     contactCell.mTimeLabel.text = [message getCreatedAtTime:isToday];
     
     [self displayAttachmentMediaType:message andContactCell: contactCell];
-    
+   
+    // here for msg dashboard profile pic
+
+    if(alContact.contactImageUrl)
+    {
+        UIImage *someImage = [UIImage imageNamed:alContact.contactImageUrl];
+        UIImageView* imageView = [[UIImageView alloc] initWithImage:someImage];
+        imageView.frame = CGRectMake(0,0, 50,50);
+        [contactCell.mUserImageView addSubview:imageView];
+        nameIcon.hidden = TRUE;
+    }
+    else if (alContact.localImageResourceName)
+    {
+        UIImage *someImage = [UIImage imageNamed:alContact.localImageResourceName];
+        UIImageView* imageView = [[UIImageView alloc] initWithImage:someImage];
+        imageView.frame = CGRectMake(0,0, 50,50);
+        [contactCell.mUserImageView addSubview:imageView];
+         nameIcon.hidden = TRUE;
+    }
+    else
+    {
+         NSString *firstLetter = [[alContact displayName] substringToIndex:1];
+         nameIcon.text=firstLetter;
+    }
+  
     return contactCell;
 }
 
