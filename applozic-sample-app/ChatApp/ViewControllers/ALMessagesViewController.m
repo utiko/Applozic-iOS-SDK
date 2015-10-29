@@ -19,6 +19,7 @@
 #import "ALContact.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALContactDBService.h"
+#import "UIImageView+WebCache.h"
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
@@ -177,6 +178,8 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *cellIdentifier = @"ContactCell";
+
+    
     ALContactCell *contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     ALMessage *message = (ALMessage *)self.mContactsMessageListArray[indexPath.row];
     
@@ -189,8 +192,7 @@
     contactCell.mUserNameLabel.text = [alContact displayName];
 
     contactCell.mMessageLabel.text = message.message;
-    NSString *firstLetter = [[alContact displayName] substringToIndex:1];
-    nameIcon.text=firstLetter;
+    contactCell.mMessageLabel.hidden = FALSE;
     if ([message.type integerValue] == [FORWARD_STATUS integerValue])
         contactCell.mLastMessageStatusImageView.image = [UIImage imageNamed:@"mobicom_social_forward.png"];
     else if ([message.type integerValue] == [REPLIED_STATUS integerValue])
@@ -202,27 +204,36 @@
     [self displayAttachmentMediaType:message andContactCell: contactCell];
    
     // here for msg dashboard profile pic
+    NSString *firstLetter = [[alContact displayName] substringToIndex:1];
+    nameIcon.text=firstLetter;
+   
+    contactCell.mUserImageView.hidden=FALSE;
 
-    if(alContact.contactImageUrl)
-    {
-        UIImage *someImage = [UIImage imageNamed:alContact.contactImageUrl];
-        UIImageView* imageView = [[UIImageView alloc] initWithImage:someImage];
-        imageView.frame = CGRectMake(0,0, 50,50);
-        [contactCell.mUserImageView addSubview:imageView];
-        nameIcon.hidden = TRUE;
-    }
-    else if (alContact.localImageResourceName)
+    NSLog(@"message.to and index %@   %i", message.to, indexPath.row);
+
+    if (alContact.localImageResourceName)
     {
         UIImage *someImage = [UIImage imageNamed:alContact.localImageResourceName];
-        UIImageView* imageView = [[UIImageView alloc] initWithImage:someImage];
-        imageView.frame = CGRectMake(0,0, 50,50);
-        [contactCell.mUserImageView addSubview:imageView];
-         nameIcon.hidden = TRUE;
+
+        [contactCell.mUserImageView  setImage:someImage];
+        nameIcon.hidden = TRUE;
+        NSLog(@"image from local : %@", alContact.localImageResourceName);
     }
+    else if(alContact.contactImageUrl)
+    {
+        NSURL * theUrl1 = [NSURL URLWithString:alContact.contactImageUrl];
+        [contactCell.mUserImageView sd_setImageWithURL:theUrl1];
+        nameIcon.hidden = TRUE;
+        NSLog(@"DASHBOARD IF URL: %@", alContact.contactImageUrl);
+    }
+    
     else
     {
+         nameIcon.hidden = FALSE;
          NSString *firstLetter = [[alContact displayName] substringToIndex:1];
          nameIcon.text=firstLetter;
+         contactCell.mUserImageView.hidden=TRUE ;
+
     }
   
     return contactCell;
@@ -240,17 +251,17 @@
         
         if([message.fileMetas.contentType isEqual:@"video/mp4"])
         {
-            contactCell.imageNameLabel.text = @"Video";
+            contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_VIDEO", nil);
             contactCell.imageMarker.image = [UIImage imageNamed:@"applozic_ic_action_video.png"];
         }
         else
         {
-            contactCell.imageNameLabel.text = @"Image";
+            contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_IMAGE", nil);
         }
     }
     else if (message.message.length == 0)           //other than video and image
     {
-        contactCell.imageNameLabel.text = @"Attachment";
+        contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_ATTACHMENT", nil);
         contactCell.imageMarker.image = [UIImage imageNamed:@"ic_action_attachment.png"];
     }
     else

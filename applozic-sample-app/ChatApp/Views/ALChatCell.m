@@ -9,6 +9,8 @@
 #import "ALUtilityClass.h"
 #import "ALConstant.h"
 #import "ALUITextView.h"
+#import "UIImageView+WebCache.h"
+#import "ALContactDBService.h"
 // Constants
 #define MT_INBOX_CONSTANT "4"
 #define MT_OUTBOX_CONSTANT "5"
@@ -141,6 +143,28 @@
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
         
         self.mMessageStatusImageView.alpha =0;
+        
+        ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
+        ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
+       
+        if (alContact.localImageResourceName)
+        {
+            self.mUserProfileImageView.image = [UIImage imageNamed:alContact.localImageResourceName];
+            
+        }
+        else  if(alContact.contactImageUrl)
+        {
+            NSURL * theUrl1 = [NSURL URLWithString:alContact.contactImageUrl];
+            [self.mUserProfileImageView sd_setImageWithURL:theUrl1];
+        }
+        else
+        {
+            self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+            NSLog(@"Default Image for this chat/profile ");
+        }
+
+        
+        
     }
     else    //Sent Message
     {

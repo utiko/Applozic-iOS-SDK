@@ -91,7 +91,6 @@ UIViewController * modalCon;
         [self.contentView addSubview:mDateLabel];
         
         
-        
         mMessageStatusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(mDateLabel.frame.origin.x+mDateLabel.frame.size.width, mDateLabel.frame.origin.y, 20, 20)];
         
         mMessageStatusImageView.contentMode = UIViewContentModeScaleToFill;
@@ -100,8 +99,7 @@ UIViewController * modalCon;
         
         [self.contentView addSubview:mMessageStatusImageView];
         
-        
-        
+
         progresLabel = [[KAProgressLabel alloc] initWithFrame:CGRectMake(mImageView.frame.origin.x + mImageView.frame.size.width/2.0 , mImageView.frame.origin.y + mImageView.frame.size.height/2.0 , 50, 50)];
         progresLabel.delegate = self;
         [progresLabel setTrackWidth: 5.0];
@@ -141,7 +139,6 @@ UIViewController * modalCon;
 }
 
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize {
-    
     self.mUserProfileImageView.alpha=1;
     
     BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[alMessage.createdAtTime doubleValue]/1000]];
@@ -190,35 +187,35 @@ UIViewController * modalCon;
 
         ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
         ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
-        if(alContact.contactImageUrl)
+      
+        if (alContact.localImageResourceName)
+        {
+
+              self.mUserProfileImageView.image = [UIImage imageNamed:alContact.localImageResourceName];
+            
+        }
+        else if(alContact.contactImageUrl)
         {
             NSURL * theUrl1 = [NSURL URLWithString:alContact.contactImageUrl];
             [self.mUserProfileImageView sd_setImageWithURL:theUrl1];
         }
-        else if (alContact.localImageResourceName)
-        {
-            UIImage *someImage = [UIImage imageNamed:alContact.localImageResourceName];
-            UIImageView* imageView = [[UIImageView alloc] initWithImage:someImage];
-            imageView.frame = CGRectMake(0,0, 50,50);
-            [self.mUserProfileImageView addSubview:imageView];
-            
-        }
         else
         {
-            NSLog(@"Default Image for this chat/profile ");
+            self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+            NSLog(@"Default Image for this chat/profile (_Image Cell)");
         }
 
         
     }else{ //Sent Message
         
-        self.mUserProfileImageView.frame = CGRectMake(viewSize.width-50, 5, 45, 45);
+        self.mUserProfileImageView.frame = CGRectMake(viewSize.width - 50, 5, 45, 45);
 
         self.mBubleImageView.frame = CGRectMake(viewSize.width - self.mUserProfileImageView.frame.origin.x + 50 , 5 ,viewSize.width-110, viewSize.width-110);
 
-
         self.mUserProfileImageView.alpha=0;
-        
-        self.mBubleImageView.frame = CGRectMake(viewSize.width-220 /*- self.mUserProfileImageView.frame.origin.x + 50 */, 5 ,viewSize.width-110, viewSize.width-110);
+         
+         
+      //previous  self.mBubleImageView.frame = CGRectMake(viewSize.width-220 /*- self.mUserProfileImageView.frame.origin.x + 50 */, 5 ,viewSize.width-110, viewSize.width-110);
         self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y+15 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40);
         self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5 , theDateSize.width, 21);
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
@@ -228,7 +225,7 @@ UIViewController * modalCon;
         self.progresLabel.alpha = 0;
         self.mDowloadRetryButton.alpha = 0;
         if (alMessage.inProgress == YES) {
-            self.progresLabel.alpha = 1;;
+            self.progresLabel.alpha = 1;
             NSLog(@"calling you progress label....");
         }else if( !alMessage.imageFilePath && alMessage.fileMetas.keyString){
             self.mDowloadRetryButton.alpha = 1;
@@ -278,7 +275,7 @@ UIViewController * modalCon;
     else{
         theUrl = [NSURL URLWithString:alMessage.fileMetas.thumbnailUrl];
     }
-    NSLog(@"theUrl::%@",  theUrl);
+    NSLog(@"theUrl:%@",  theUrl);
     [self.mImageView sd_setImageWithURL:theUrl];
     return self;
     

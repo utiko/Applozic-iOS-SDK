@@ -292,12 +292,13 @@
 
     // contact 2
     ALContact *contact2 = [[ALContact alloc] init];
-    contact2.userId = @"222";
-    contact2.fullName = @"Navneet Nav";
+    contact2.userId = @"marvel";
+    contact2.fullName = @"abhishek thapliyal";
     contact2.contactNumber = @"987651234";
-    contact2.displayName = @"Navneet";
+    contact2.displayName = @"abhishek";
     contact2.email = @"456@abc.com";
     contact2.contactImageUrl = nil;
+    contact2.localImageResourceName = @"4.jpg";
 
     // contact 3
     ALContact *contact3 = [[ALContact alloc] init];
@@ -309,8 +310,17 @@
     contact3.contactImageUrl = nil;
 //  contact3.contactImageUrl = @"http://applozic.com/resources/images/aboutus/rathan.jpg";
     contact3.localImageResourceName = @"1.jpg";
+    
+    ALContact *contact4 = [[ALContact alloc] init];
+    contact4.userId = @"don";
+    contact4.fullName = @"DON";
+    contact4.contactNumber = @"1299834";
+    contact4.displayName = @"DON";
+    contact4.email = @"don@baba.com";
+    contact4.contactImageUrl = @"http://tinyhousetalk.com/wp-content/uploads/320-Sq-Ft-Orange-Container-Guest-House-00.jpg";
+    contact4.localImageResourceName = nil;
 
-    [theDBHandler addListOfContacts:@[contact1,contact2,contact3]];
+    [theDBHandler addListOfContacts:@[contact1,contact2,contact3,contact4]];
 }
 
 -(void)fetchConversationsGroupByContactId
