@@ -14,6 +14,7 @@
 #import "ALMessage.h"
 #import "DB_FileMetaInfo.h"
 #import "ALMessageService.h"
+#import "ALContactService.h"
 
 @implementation ALMessageDBService
 
@@ -275,38 +276,8 @@
 
 -(void)syncConactsDB
 {
-    //TODO: Update with valid contacts.
-    // adding default data
-    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-
-    // contact 1
-    ALContact *contact1 = [[ALContact alloc] init];
-    contact1.userId = @"adarshk";
-    contact1.fullName = @"Rathan";
-    contact1.contactNumber = @"1234561234";
-    contact1.displayName = @"Rathan";
-    contact1.email = @"123@abc.com";
-    contact1.contactImageUrl = @"http://applozic.com/resources/images/aboutus/rathan.jpg";
-
-    // contact 2
-    ALContact *contact2 = [[ALContact alloc] init];
-    contact2.userId = @"222";
-    contact2.fullName = @"Navneet Nav";
-    contact2.contactNumber = @"987651234";
-    contact2.displayName = @"Navneet";
-    contact2.email = @"456@abc.com";
-    contact2.contactImageUrl = nil;
-
-    // contact 3
-    ALContact *contact3 = [[ALContact alloc] init];
-    contact3.userId = @"applozic";
-    contact3.fullName = @"Applozic";
-    contact3.contactNumber = @"9535008745";
-    contact3.displayName = @"Applozic";
-    contact3.email = @"devashish@applozic.com";
-    contact3.contactImageUrl = nil;
-
-    [theDBHandler addListOfContacts:@[contact1,contact2,contact3]];
+    ALContactService *contactservice = [[ALContactService alloc] init];
+    [contactservice insertInitialContacts];
 }
 
 -(void)fetchConversationsGroupByContactId

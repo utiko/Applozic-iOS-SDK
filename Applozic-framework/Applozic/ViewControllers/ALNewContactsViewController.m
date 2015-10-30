@@ -162,7 +162,7 @@
         contact.displayName = dbContact.displayName;
         contact.contactImageUrl = dbContact.contactImageUrl;
         contact.email = dbContact.email;
-        
+        contact.localImageResourceName = dbContact.localImageResourceName;
         [self.contactList addObject:contact];
     }
     

@@ -167,9 +167,7 @@
         return;
     }
 
-    
     [ALUserDefaultsHandler setLogoutButtonVisible: YES];
-    [ALUserDefaultsHandler setBottomTabBarHidden: NO];
     
     ALUser *user = [[ALUser alloc] init];
     [user setApplicationId:@"applozic-sample-app"];

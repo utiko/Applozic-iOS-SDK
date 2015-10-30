@@ -17,5 +17,5 @@
 @dynamic displayName;
 @dynamic contactImageUrl;
 @dynamic email;
-
+@dynamic localImageResourceName;
 @end

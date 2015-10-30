@@ -36,7 +36,7 @@
             
             return ;
         }
-        
+       
         ALMessageList *messageListResponse=  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
         completion(messageListResponse.messageList,nil);
@@ -78,20 +78,20 @@
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
     NSError *theError=nil;
     [[ NSNotificationCenter defaultCenter] postNotificationName:@"updateConversationTableNotification" object:alMessage userInfo:nil];
-    
+
     if (alMessage.msgDBObjectId==nil){
         NSLog(@"message not in DB new insertion.");
-        
+
         dbMessage =[dbService addMessage:alMessage];
     }else{
         NSLog(@"message found in DB just getting it not inserting new one...");
         dbMessage =(DB_Message*)[dbService getMeesageById:alMessage.msgDBObjectId error:&theError];
     }
-    //convert to dic
+       //convert to dic
     NSDictionary * userInfo = [alMessage dictionary ];
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/send",KBASE_URL];
     NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
-    
+   
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"SEND MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
@@ -106,7 +106,7 @@
         NSString *statusStr = (NSString *)theJson;
         //TODO: move to db layer
         NSArray *response = [statusStr componentsSeparatedByString:@","];
-        
+
         ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
         dbMessage.isSent = [NSNumber numberWithBool:YES];
         dbMessage.keyString = response[0];
@@ -124,7 +124,7 @@
         alMessage.inProgress=dbMessage.inProgress.boolValue;
         alMessage.isUploadFailed=dbMessage.isUploadFailed.boolValue;
         alMessage.sent = dbMessage.isSent.boolValue;
-        
+
         [theDBHandler.managedObjectContext save:nil];
         completion(statusStr,nil);
         
@@ -135,7 +135,7 @@
 +(void) sendPhotoForUserInfo:(NSDictionary *)userInfo withCompletion:(void(^)(NSString * message, NSError *error)) completion {
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/file/url",KBASE_URL];
-    
+
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:nil];
     
     [ALResponseHandler processRequest:theRequest andTag:@"CREATE FILE URL" WithCompletionHandler:^(id theJson, NSError *theError) {
@@ -148,7 +148,7 @@
         }
         
         NSString *imagePostingURL = (NSString *)theJson;
-        
+    
         completion(imagePostingURL,nil);
         
     }];
@@ -164,7 +164,7 @@
         }
         NSLog(@"last syncTime in call %@", lastSyncTime);
         NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/sync/messages",KBASE_URL];
-        
+    
         NSString * theParamString = [NSString stringWithFormat:@"deviceKeyString=%@&lastSyncTime=%@",deviceKeyString,lastSyncTime];
         
         NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
@@ -187,14 +187,14 @@
              setLastSyncTime:syncResponse.lastSyncTime];
             ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
             [messageClientService updateDeliveryReports:syncResponse.messagesList];
-            
+        
             completion(syncResponse.messagesList,nil);
             
         }];
-        
+
     }
     
-}
+  }
 
 +(void )deleteMessage:( NSString * ) keyString andContactId:( NSString * )contactId withCompletion:(void (^)(NSString *, NSError *))completion{
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/delete",KBASE_URL];
@@ -245,7 +245,7 @@
 
 +(void) proessUploadImageForMessage:(ALMessage *)message databaseObj:(DB_FileMetaInfo *)fileMetaInfo uploadURL:(NSString *)uploadURL withdelegate:(id)delegate{
     
-    
+   
     NSString * docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString * timestamp = message.imageFilePath;
     NSString * filePath = [docDirPath stringByAppendingPathComponent:timestamp];
@@ -295,9 +295,9 @@
         connection.keystring =message.keyString;
         connection.connectionType = @"Image Posting";
         [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] addObject:connection];
-        
-    }
     
+    }
+  
 }
 +(void) processImageDownloadforMessage:(ALMessage *) message withdelegate:(id)delegate{
     NSString * urlString = [NSString stringWithFormat:@"%@/rest/ws/file/%@",KBASE_URL,message.fileMetas.keyString];

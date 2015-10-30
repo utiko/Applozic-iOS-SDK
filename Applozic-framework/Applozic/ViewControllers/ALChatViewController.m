@@ -25,7 +25,6 @@
 #import "ALConnection.h"
 #import "ALConnectionQueueHandler.h"
 #import "ALRequestHandler.h"
-#import "ALParsingHandler.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageDBService.h"
 #import "ALImagePickerHandler.h"
@@ -108,14 +107,14 @@ ALMessageDBService  * dbService;
 
 -(void)initialSetUp {
     self.rp = 20;
-    self.startIndex = 0 ;
+    self.startIndex = 0;
     self.mMessageListArray = [NSMutableArray new];
     self.mMessageListArrayKeyStrings=[NSMutableArray new];
     self.mImagePicker = [[UIImagePickerController alloc] init];
     self.mImagePicker.delegate = self;
 
     self.mSendMessageTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter message here" attributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
-
+    
     [self.mTableView registerClass:[ALChatCell class] forCellReuseIdentifier:@"ChatCell"];
     [self.mTableView registerClass:[ALChatCell_Image class] forCellReuseIdentifier:@"ChatCell_Image"];
 
@@ -181,6 +180,47 @@ ALMessageDBService  * dbService;
     
 }
 
+//------------------------------------------------------------------------------------------------------------------
+#pragma mark - UIMenuController Actions
+//------------------------------------------------------------------------------------------------------------------
+
+
+// Default copy method
+- (void)copy:(id)sender {
+    
+    NSLog(@"Copy in ALChatViewController, messageId: %@", messageId);
+    ALMessage * alMessage =  [self getMessageFromViewList:@"keyString" withValue:messageId ];
+
+    
+    /*UITableViewCell *cell = [self.mTableView cellForRowAtIndexPath:self.indexPathofSelection];*/
+    
+    UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+    //[pasteBoard setString:cell.textLabel.text];
+    [pasteBoard setString:alMessage.message];
+    
+}
+
+
+-(void)deleteAction:(id)sender{
+    NSLog(@"Delete Menu item Pressed");
+    [ALMessageService deleteMessage:messageId andContactId:self.contactIds withCompletion:^(NSString* string,NSError* error){
+        if(!error ){
+            NSLog(@"No Error");
+        }
+        else{
+            NSLog(@"some error");
+        }
+    }];
+    
+    [self.mMessageListArray removeObjectAtIndex:self.indexPathofSelection.row];
+    [UIView animateWithDuration:1.5 animations:^{
+        //      [self loadChatView];
+        [self.mTableView reloadData];
+    }];
+    
+    
+    
+}
 
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark - IBActions
@@ -191,7 +231,7 @@ ALMessageDBService  * dbService;
     if (self.mSendMessageTextField.text.length == 0) {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:
                                   @"Empty" message:@"Did you forget to type the message?" delegate:self
-                                                 cancelButtonTitle:nil otherButtonTitles:@"Yes, Let me add something", nil];
+                                                cancelButtonTitle:nil otherButtonTitles:@"Yes, Let me add something", nil];
         [alertView show];
         return;
     }
@@ -346,7 +386,7 @@ ALMessageDBService  * dbService;
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
 
     for (DB_Message * theEntity in theArray) {
-        ALMessage * theMessage = [ messageDBService createMessageForSMSEntity:theEntity];
+        ALMessage * theMessage = [messageDBService createMessageForSMSEntity:theEntity];
         [self.mMessageListArray insertObject:theMessage atIndex:0];
                 [self.mMessageListArrayKeyStrings insertObject:theMessage.keyString atIndex:0];
     }

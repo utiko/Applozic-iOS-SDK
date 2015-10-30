@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8175.2" systemVersion="14F27" minimumToolsVersion="Xcode 4.3">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="14F27" minimumToolsVersion="Xcode 4.3">
     <entity name="DB_CONTACT" representedClassName="DB_CONTACT" syncable="YES">
         <attribute name="contactImageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contactNo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fullName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="localImageResourceName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="DB_FileMetaInfo" representedClassName="DB_FileMetaInfo" syncable="YES">
@@ -40,7 +41,7 @@
         <relationship name="fileMetaInfo" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DB_FileMetaInfo" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DB_CONTACT" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="DB_CONTACT" positionX="0" positionY="0" width="128" height="150"/>
         <element name="DB_FileMetaInfo" positionX="0" positionY="0" width="128" height="165"/>
         <element name="DB_Message" positionX="0" positionY="0" width="128" height="330"/>
     </elements>

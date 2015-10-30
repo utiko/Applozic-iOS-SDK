@@ -18,5 +18,6 @@
 @property (nonatomic, retain) NSString * displayName;
 @property (nonatomic, retain) NSString * contactImageUrl;
 @property (nonatomic, retain) NSString * email;
+@property (nonatomic, retain) NSString * localImageResourceName;
 
 @end

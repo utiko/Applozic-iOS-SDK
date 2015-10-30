@@ -24,4 +24,8 @@
 
 @property (nonatomic,retain) NSString * email;
 
+@property(nonatomic,retain) NSString * localImageResourceName;
+
+-(instancetype)initWithDict:(NSDictionary * ) dictionary;
+-(void)populateDataFromDictonary:(NSDictionary *)dict;
 @end
