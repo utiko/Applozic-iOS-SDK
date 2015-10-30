@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D46B6C31BD025060014A5D3 /* ALMapViewController.h */; };
+		6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D46B6C31BD025060014A5D3 /* ALMapViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D46B6C61BD025060014A5D3 /* ALMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D46B6C41BD025060014A5D3 /* ALMapViewController.m */; };
 		6D6DF0811BC535C800EBA00F /* Applozic.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF0801BC535C800EBA00F /* Applozic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6DF13A1BC5364C00EBA00F /* ALLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF0881BC5364C00EBA00F /* ALLoginViewController.m */; };
@@ -166,11 +166,11 @@
 		6D6DF1D71BC5364C00EBA00F /* ALLoginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF1351BC5364C00EBA00F /* ALLoginViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6DF1D91BC5364C00EBA00F /* AppLozic.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF1371BC5364C00EBA00F /* AppLozic.xcdatamodeld */; };
 		6D88E1DA1BC8046500364C5B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D88E1D91BC8046500364C5B /* CoreLocation.framework */; };
-		6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547631BE38DFF00776652 /* ALContactDBService.h */; };
+		6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547631BE38DFF00776652 /* ALContactDBService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D95476A1BE38DFF00776652 /* ALContactDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547641BE38DFF00776652 /* ALContactDBService.m */; };
-		6D95476B1BE38DFF00776652 /* ALContactService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547651BE38DFF00776652 /* ALContactService.h */; };
+		6D95476B1BE38DFF00776652 /* ALContactService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547651BE38DFF00776652 /* ALContactService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D95476C1BE38DFF00776652 /* ALContactService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547661BE38DFF00776652 /* ALContactService.m */; };
-		6D95476D1BE38DFF00776652 /* ALUITextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547671BE38DFF00776652 /* ALUITextView.h */; };
+		6D95476D1BE38DFF00776652 /* ALUITextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547671BE38DFF00776652 /* ALUITextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D95476E1BE38DFF00776652 /* ALUITextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547681BE38DFF00776652 /* ALUITextView.m */; };
 /* End PBXBuildFile section */
 
@@ -728,7 +728,6 @@
 				6D6DF17A1BC5364C00EBA00F /* ALRegistrationResponse.h in Headers */,
 				6D6DF16D1BC5364C00EBA00F /* ALPushNotificationService.h in Headers */,
 				6D6DF17E1BC5364C00EBA00F /* ALUser.h in Headers */,
-				6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */,
 				6D6DF14C1BC5364C00EBA00F /* ALUserDefaultsHandler.h in Headers */,
 				6D6DF1741BC5364C00EBA00F /* ALJson.h in Headers */,
 				6D6DF15A1BC5364C00EBA00F /* ALMessagesViewController.h in Headers */,
@@ -757,12 +756,15 @@
 				6D6DF1721BC5364C00EBA00F /* ALFileMetaInfo.h in Headers */,
 				6D6DF1661BC5364C00EBA00F /* ALNotificationView.h in Headers */,
 				6D6DF1801BC5364C00EBA00F /* DB_CONTACT.h in Headers */,
-				6D95476B1BE38DFF00776652 /* ALContactService.h in Headers */,
 				6D6DF1601BC5364C00EBA00F /* ALChatCell_Image.h in Headers */,
 				6D6DF13E1BC5364C00EBA00F /* ALConnection.h in Headers */,
 				6D6DF1561BC5364C00EBA00F /* ALBaseViewController.h in Headers */,
 				6D6DF1401BC5364C00EBA00F /* ALConnectionQueueHandler.h in Headers */,
 				6D6DF1841BC5364C00EBA00F /* DB_Message.h in Headers */,
+				6D95476B1BE38DFF00776652 /* ALContactService.h in Headers */,
+				6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */,
+				6D95476D1BE38DFF00776652 /* ALUITextView.h in Headers */,
+				6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */,
 				6D6DF1D71BC5364C00EBA00F /* ALLoginViewController.h in Headers */,
 				6D6DF1541BC5364C00EBA00F /* UIImage+Utility.h in Headers */,
 				6D6DF1CF1BC5364C00EBA00F /* UIImageView+WebCache.h in Headers */,
@@ -770,10 +772,8 @@
 				6D6DF1BC1BC5364C00EBA00F /* SDWebImageDownloader.h in Headers */,
 				6D6DF1B61BC5364C00EBA00F /* SDImageCache.h in Headers */,
 				6D6DF1C91BC5364C00EBA00F /* UIImage+MultiFormat.h in Headers */,
-				6D95476D1BE38DFF00776652 /* ALUITextView.h in Headers */,
 				6D6DF1C51BC5364C00EBA00F /* UIButton+WebCache.h in Headers */,
 				6D6DF1C71BC5364C00EBA00F /* UIImage+GIF.h in Headers */,
-				6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */,
 				6D6DF1B41BC5364C00EBA00F /* NSData+ImageContentType.h in Headers */,
 				6D6DF1CB1BC5364C00EBA00F /* UIImage+WebP.h in Headers */,
 				6D6DF1C31BC5364C00EBA00F /* SDWebImagePrefetcher.h in Headers */,
