@@ -34,5 +34,6 @@
 
 - (ALContact *)loadContactByKey:(NSString *) key value:(NSString*) value;
 
+- (void) insertInitialContacts;
 
 @end

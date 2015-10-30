@@ -11,6 +11,7 @@
 @implementation ALContact
 
 
+
 -(instancetype)initWithDict:(NSDictionary * ) dictionary {
     self = [super init];
     [self populateDataFromDictonary:dictionary];
@@ -21,13 +22,12 @@
 -(void)populateDataFromDictonary:(NSDictionary *)dict{
     
     self.userId = [dict objectForKey:@"userId"] ;
-    self.contactImageUrl=[dict objectForKey:@"contactImageUrl"];
-    self.contactNumber=[dict objectForKey:@"contactNumber"];
-    self.displayName=[dict objectForKey:@"displayName"];
-    self.contactImageUrl=[dict objectForKey:@"contactImageUrl"];
-    self.email=[dict objectForKey:@"email"];
-    self.localImageResourceName=[dict objectForKey:@"localImageResourceName"];
+    self.fullName = [dict objectForKey:@"fullName"];
+    self.contactNumber = [dict objectForKey:@"contactNumber"];
+    self.displayName = [dict objectForKey:@"displayName"];
+    self.contactImageUrl = [dict objectForKey:@"contactImageUrl"];
+    self.email = [dict objectForKey:@"email"];
+    self.localImageResourceName = [dict objectForKey:@"localImageResourceName"];
 }
-
 
 @end

@@ -14,6 +14,7 @@
 #import "ALMessage.h"
 #import "DB_FileMetaInfo.h"
 #import "ALMessageService.h"
+#import "ALContactService.h"
 
 @implementation ALMessageDBService
 
@@ -275,52 +276,8 @@
 
 -(void)syncConactsDB
 {
-    //TODO: Update with valid contacts.
-    // adding default data
-    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-
-    // contact 1
-    ALContact *contact1 = [[ALContact alloc] init];
-    contact1.userId = @"adarshk";
-    contact1.fullName = @"Rathan";
-    contact1.contactNumber = @"1234561234";
-    contact1.displayName = @"Rathan";
-    contact1.email = @"123@abc.com";
-   // contact1.contactImageUrl = @"http://applozic.com/resources/images/aboutus/rathan.jpg";
-     contact1.contactImageUrl = nil;
-    contact1.localImageResourceName = @"4.jpg";
-
-    // contact 2
-    ALContact *contact2 = [[ALContact alloc] init];
-    contact2.userId = @"marvel";
-    contact2.fullName = @"abhishek thapliyal";
-    contact2.contactNumber = @"987651234";
-    contact2.displayName = @"abhishek";
-    contact2.email = @"456@abc.com";
-    contact2.contactImageUrl = nil;
-    contact2.localImageResourceName = @"4.jpg";
-
-    // contact 3
-    ALContact *contact3 = [[ALContact alloc] init];
-    contact3.userId = @"applozic";
-    contact3.fullName = @"Applozic";
-    contact3.contactNumber = @"9535008745";
-    contact3.displayName = @"Applozic";
-    contact3.email = @"devashish@applozic.com";
-    contact3.contactImageUrl = nil;
-//  contact3.contactImageUrl = @"http://applozic.com/resources/images/aboutus/rathan.jpg";
-    contact3.localImageResourceName = @"1.jpg";
-    
-    ALContact *contact4 = [[ALContact alloc] init];
-    contact4.userId = @"don";
-    contact4.fullName = @"DON";
-    contact4.contactNumber = @"1299834";
-    contact4.displayName = @"DON";
-    contact4.email = @"don@baba.com";
-    contact4.contactImageUrl = @"http://tinyhousetalk.com/wp-content/uploads/320-Sq-Ft-Orange-Container-Guest-House-00.jpg";
-    contact4.localImageResourceName = nil;
-
-    [theDBHandler addListOfContacts:@[contact1,contact2,contact3,contact4]];
+    ALContactService *contactservice = [[ALContactService alloc] init];
+    [contactservice insertInitialContacts];
 }
 
 -(void)fetchConversationsGroupByContactId

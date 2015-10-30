@@ -8,6 +8,7 @@
 
 #import "ALContactService.h"
 #import "ALContactDBService.h"
+#import "ALDBHandler.h"
 
 @implementation ALContactService
 
@@ -85,24 +86,30 @@
   Helper method for demo purpose
  */
 - (void) insertInitialContacts{
-
+    //TODO: Update with valid contacts.
+    // adding default data
+    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+    
     // contact 1
     ALContact *contact1 = [[ALContact alloc] init];
-    contact1.userId = @"111";
-    contact1.fullName = @"Adarsh Kumar";
+    contact1.userId = @"adarshk";
+    contact1.fullName = @"Rathan";
     contact1.contactNumber = @"1234561234";
-    contact1.displayName = @"Adarsh";
+    contact1.displayName = @"Rathan";
     contact1.email = @"123@abc.com";
-    contact1.contactImageUrl = @" http://www.applozic.com/resources/images/applozic_logo.gif";
+    // contact1.contactImageUrl = @"http://applozic.com/resources/images/aboutus/rathan.jpg";
+    contact1.contactImageUrl = nil;
+    contact1.localImageResourceName = @"4.jpg";
     
     // contact 2
     ALContact *contact2 = [[ALContact alloc] init];
-    contact2.userId = @"222";
-    contact2.fullName = @"Abhishek Thapiyal";
-    contact2.contactNumber = @"9876512340";
-    contact2.displayName = @"Navneet";
+    contact2.userId = @"marvel";
+    contact2.fullName = @"abhishek thapliyal";
+    contact2.contactNumber = @"987651234";
+    contact2.displayName = @"abhishek";
     contact2.email = @"456@abc.com";
     contact2.contactImageUrl = nil;
+    contact2.localImageResourceName = @"4.jpg";
     
     // contact 3
     ALContact *contact3 = [[ALContact alloc] init];
@@ -112,24 +119,34 @@
     contact3.displayName = @"Applozic";
     contact3.email = @"devashish@applozic.com";
     contact3.contactImageUrl = nil;
+    //  contact3.contactImageUrl = @"http://applozic.com/resources/images/aboutus/rathan.jpg";
+    contact3.localImageResourceName = @"1.jpg";
     
-    //From json....
+    ALContact *contact4 = [[ALContact alloc] init];
+    contact4.userId = @"don";
+    contact4.fullName = @"DON";
+    contact4.contactNumber = @"1299834";
+    contact4.displayName = @"DON";
+    contact4.email = @"don@baba.com";
+    contact4.contactImageUrl = @"http://tinyhousetalk.com/wp-content/uploads/320-Sq-Ft-Orange-Container-Guest-House-00.jpg";
+    contact4.localImageResourceName = nil;
     
-//    NSString * jsonString = @"{
-//    "userId":"adarshk",
-//    "fullName":"Adarsh kumar",
-//    "contactNumber":"9742689004",
-//    "displayName":"Adarsh",
-//    "contactImageUrl":"http://www.applozic.com/resources/images/applozic_logo.gif",
-//    "email":"adarsh@applozic.com"
-//    "localImageResourceName":"abcdEfgh"
-//}"
-//    
-    [self addListOfContacts:@[contact1,contact2,contact3]];
+    NSMutableDictionary *demodictionary = [[NSMutableDictionary alloc] init];
+    [demodictionary setValue:@"aman999" forKey:@"userId"];
+    [demodictionary setValue:@"aman sharma" forKey:@"fullName"];
+    [demodictionary setValue:@"75760462" forKey:@"contactNumber"];
+    [demodictionary setValue:@"aman" forKey:@"displayName"];
+    [demodictionary setValue:@"aman@applozic.com" forKey:@"email"];
+    [demodictionary setValue:@"http://images.landofnod.com/is/image/LandOfNod/Letter_Giant_Enough_A_231533_LL/$web_zoom$&wid=550&hei=550&/1308310656/not-giant-enough-letter-a.jpg" forKey:@"contactImageUrl"];
+    [demodictionary setValue:nil forKey:@"localImageResourceName"];
+    
+    ALContact *contact5 = [[ALContact alloc] initWithDict:demodictionary];
+    
+    [theDBHandler addListOfContacts:@[contact1, contact2, contact3, contact4, contact5]];
+   
 }
 
-/*
- */
+
 
 
 

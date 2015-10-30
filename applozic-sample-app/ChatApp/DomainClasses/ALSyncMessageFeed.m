@@ -9,7 +9,6 @@
 #import "ALSyncMessageFeed.h"
 
 #import "ALMessage.h"
-#import "ALParsingHandler.h"
 
 
 @implementation ALSyncMessageFeed
