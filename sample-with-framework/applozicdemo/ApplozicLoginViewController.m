@@ -134,6 +134,10 @@
 
 - (IBAction)login:(id)sender {
     
+    // Initial login view .....
+    [ALUserDefaultsHandler setLogoutButtonVisible: NO];
+    [ALUserDefaultsHandler setBottomTabBarHidden:NO];
+    
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
     
