@@ -164,9 +164,7 @@ UIViewController * modalCon;
         if (alMessage.imageFilePath == NULL) {
       
             self.mDowloadRetryButton.alpha = 1;
-
             [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
-   
             [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_download.png"]
                                       forState:UIControlStateNormal];
         }else{
@@ -176,7 +174,6 @@ UIViewController * modalCon;
         }if (alMessage.inProgress == YES) {
             
             self.progresLabel.alpha = 1;
-            
             self.mDowloadRetryButton.alpha = 0;
             
         }else {
