@@ -251,17 +251,20 @@
         
         if([message.fileMetas.contentType isEqual:@"video/mp4"])
         {
-            contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_VIDEO", nil);
+//            contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_VIDEO", nil);
+            contactCell.imageNameLabel.text = NSLocalizedString(@"Video", nil);
             contactCell.imageMarker.image = [UIImage imageNamed:@"applozic_ic_action_video.png"];
         }
         else
         {
-            contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_IMAGE", nil);
+           // contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_IMAGE", nil);
+            contactCell.imageNameLabel.text = NSLocalizedString(@"Image", nil);
         }
     }
     else if (message.message.length == 0)           //other than video and image
     {
-        contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_ATTACHMENT", nil);
+//        contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_ATTACHMENT", nil);
+        contactCell.imageNameLabel.text = NSLocalizedString(@"Attachment", nil);
         contactCell.imageMarker.image = [UIImage imageNamed:@"ic_action_attachment.png"];
     }
     else
