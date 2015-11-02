@@ -81,23 +81,21 @@
 }
 
 
+//----------------------------------------------------------------------------------------------------------------------
+// Helper method for demo purpose. This method shows possible ways to insert contact and save it in local database.
+//----------------------------------------------------------------------------------------------------------------------
 
-/*
-  Helper method for demo purpose
- */
 - (void) insertInitialContacts{
-    //TODO: Update with valid contacts.
-    // adding default data
+
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     
-    // contact 1
+    //contact 1
     ALContact *contact1 = [[ALContact alloc] init];
     contact1.userId = @"adarshk";
     contact1.fullName = @"Rathan";
     contact1.contactNumber = @"1234561234";
     contact1.displayName = @"Rathan";
     contact1.email = @"123@abc.com";
-    // contact1.contactImageUrl = @"http://applozic.com/resources/images/aboutus/rathan.jpg";
     contact1.contactImageUrl = nil;
     contact1.localImageResourceName = @"4.jpg";
     
@@ -111,25 +109,25 @@
     contact2.contactImageUrl = nil;
     contact2.localImageResourceName = @"4.jpg";
     
-    // contact 3
-    ALContact *contact3 = [[ALContact alloc] init];
-    contact3.userId = @"applozic";
-    contact3.fullName = @"Applozic";
-    contact3.contactNumber = @"9535008745";
-    contact3.displayName = @"Applozic";
-    contact3.email = @"devashish@applozic.com";
-    contact3.contactImageUrl = nil;
-    //  contact3.contactImageUrl = @"http://applozic.com/resources/images/aboutus/rathan.jpg";
-    contact3.localImageResourceName = @"1.jpg";
     
-    ALContact *contact4 = [[ALContact alloc] init];
-    contact4.userId = @"don";
-    contact4.fullName = @"DON";
-    contact4.contactNumber = @"1299834";
-    contact4.displayName = @"DON";
-    contact4.email = @"don@baba.com";
-    contact4.contactImageUrl = @"http://tinyhousetalk.com/wp-content/uploads/320-Sq-Ft-Orange-Container-Guest-House-00.jpg";
-    contact4.localImageResourceName = nil;
+    ALContact *contact3 = [[ALContact alloc] init];
+    contact3.userId = @"don";
+    contact3.fullName = @"DON";
+    contact3.contactNumber = @"1299834";
+    contact3.displayName = @"DON";
+    contact3.email = @"don@baba.com";
+    contact3.contactImageUrl = @"http://tinyhousetalk.com/wp-content/uploads/320-Sq-Ft-Orange-Container-Guest-House-00.jpg";
+    contact3.localImageResourceName = nil;
+    
+
+    
+    //Contact -------- Example with json
+    
+    NSString *jsonString =@"{\"userId\": \"applozic\",\"fullName\": \"Applozic\",\"contactNumber\": \"9535008745\",\"displayName\": \"Applozic Support\",\"contactImageUrl\": \"http://applozic.com/resources/images/aboutus/rathan.jpg\",\"email\": \"devashish@applozic.com\",\"localImageResourceName\":null}";
+    
+    ALContact *contact4 = [[ALContact alloc] initWithJSONString:jsonString];
+
+    //Contact ------- Example with dictonary
     
     NSMutableDictionary *demodictionary = [[NSMutableDictionary alloc] init];
     [demodictionary setValue:@"aman999" forKey:@"userId"];
@@ -141,14 +139,8 @@
     [demodictionary setValue:nil forKey:@"localImageResourceName"];
     
     ALContact *contact5 = [[ALContact alloc] initWithDict:demodictionary];
-    
     [theDBHandler addListOfContacts:@[contact1, contact2, contact3, contact4, contact5]];
    
 }
-
-
-
-
-
 
 @end
