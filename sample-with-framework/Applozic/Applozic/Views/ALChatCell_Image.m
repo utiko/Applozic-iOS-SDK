@@ -100,17 +100,6 @@ UIViewController * modalCon;
         [self.contentView addSubview:mMessageStatusImageView];
         
 
-        progresLabel = [[KAProgressLabel alloc] initWithFrame:CGRectMake(mImageView.frame.origin.x + mImageView.frame.size.width/2.0 , mImageView.frame.origin.y + mImageView.frame.size.height/2.0 , 50, 50)];
-        progresLabel.delegate = self;
-        [progresLabel setTrackWidth: 5.0];
-        [progresLabel setProgressWidth: 5];
-        [progresLabel setStartDegree:0];
-        [progresLabel setEndDegree:0];
-        [progresLabel setRoundedCornersWidth:1];
-        progresLabel.fillColor = [[UIColor lightGrayColor] colorWithAlphaComponent:.3];
-        progresLabel.trackColor = [UIColor redColor];
-        progresLabel.progressColor = [UIColor greenColor];
-        [self.contentView addSubview:progresLabel];
         
         
         
@@ -140,6 +129,8 @@ UIViewController * modalCon;
 
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize {
     self.mUserProfileImageView.alpha=1;
+    self.progresLabel.alpha = 0;
+    self.mDowloadRetryButton.alpha = 0;
     
     BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[alMessage.createdAtTime doubleValue]/1000]];
     NSString * theDate = [NSString stringWithFormat:@"%@",[alMessage getCreatedAtTime:today]];
@@ -154,7 +145,8 @@ UIViewController * modalCon;
         
         self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x+ self.mUserProfileImageView.frame.size.width+5 , 5, viewSize.width-110, viewSize.width-110);
         self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 15 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40 );
-      
+        [self setupProgress];
+
         self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5, theDateSize.width , 20);
      
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
@@ -218,7 +210,8 @@ UIViewController * modalCon;
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width+10, self.mDateLabel.frame.origin.y, 20, 20);
-        
+        [self setupProgress];
+
         self.progresLabel.alpha = 0;
         self.mDowloadRetryButton.alpha = 0;
         if (alMessage.inProgress == YES) {
@@ -251,7 +244,7 @@ UIViewController * modalCon;
         }
         
     }
-   
+    
     self.mDateLabel.text = theDate;
    
     NSURL * theUrl = nil ;
@@ -369,6 +362,21 @@ UIViewController * modalCon;
       //  NSLog(@" image is not present on  SDCARD...");
     //}
     return;
+}
+
+-(void)setupProgress{
+    progresLabel = [[KAProgressLabel alloc] initWithFrame:CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0-25, mImageView.frame.origin.y + mImageView.frame.size.height/2.0-25, 50, 50)];
+    progresLabel.delegate = self;
+    [progresLabel setTrackWidth: 5.0];
+    [progresLabel setProgressWidth: 5];
+    [progresLabel setStartDegree:0];
+    [progresLabel setEndDegree:0];
+    [progresLabel setRoundedCornersWidth:1];
+    progresLabel.fillColor = [[UIColor lightGrayColor] colorWithAlphaComponent:.3];
+    progresLabel.trackColor = [UIColor redColor];
+    progresLabel.progressColor = [UIColor greenColor];
+    [self.contentView addSubview:progresLabel];
+
 }
 
 -(void)dismissModalView:(UITapGestureRecognizer*)gesture{
