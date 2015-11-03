@@ -27,9 +27,9 @@
 
 +(BOOL) isBottomTabBarHidden;
 
-+(void) setLogoutButtonVisible: (BOOL)flagValue;
++(void) setLogoutButtonHidden: (BOOL)flagValue;
 
-+(BOOL) isLogoutButtonVisible;
++(BOOL) isLogoutButtonHidden;
 
 +(BOOL) isLoggedIn;
 

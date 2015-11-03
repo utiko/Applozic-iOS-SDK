@@ -27,8 +27,7 @@
 @property(nonatomic) NSString* addressString;
 
 @property(nonatomic, weak) id <ALLocationDelegate>locationDelegate;
+
 -(void) getAddress;
-
-
 
 @end

@@ -161,13 +161,13 @@
          @"Error" message:@"UserId/Email ID can't be blank" delegate:self
          cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
          [alertView show];*/
-        erroruser.text = NSLocalizedString(@"ERROR_USER_ID", nil);
+      //  erroruser.text = NSLocalizedString(@"ERROR_USER_ID", nil);
        // erroruser.text =@"error user id";
         erroruser.hidden = NO;
         return;
     }
 
-    [ALUserDefaultsHandler setLogoutButtonVisible: NO];
+    [ALUserDefaultsHandler setLogoutButtonHidden:NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     
     ALUser *user = [[ALUser alloc] init];
@@ -202,9 +202,6 @@
         
     }];
     
-    
-    
-    
 }
 
 - (BOOL)validateEmail:(NSString *)emailStr {
@@ -215,7 +212,7 @@
 
 -(void)markField:(BOOL)flag
 {
-    if(flag==false){
+    if(flag == false){
         emailField.layer.masksToBounds=YES;
         emailField.layer.borderColor=[[UIColor redColor] CGColor];
         emailField.layer.borderWidth=1.0f;

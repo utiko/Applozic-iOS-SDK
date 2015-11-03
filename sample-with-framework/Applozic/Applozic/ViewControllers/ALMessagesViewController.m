@@ -13,13 +13,14 @@
 #import "ALUtilityClass.h"
 #import "ALContact.h"
 #import "ALMessageDBService.h"
-#import "ALLoginViewController.h"
 #import "ALRegisterUserClientService.h"
 #import "ALDBHandler.h"
 #import "ALContact.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALContactDBService.h"
 #import "UIImageView+WebCache.h"
+//#import "ApplozicLoginViewController.h"
+
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
@@ -59,11 +60,6 @@
     
     [super viewDidLoad];
 
-    if(![ALUserDefaultsHandler isLogoutButtonVisible])
-    {
-        [self.navBar setRightBarButtonItems:nil]; 
-    }
-    
     [self setUpView];
     [self setUpTableView];
     self.mTableView.allowsMultipleSelectionDuringEditing = NO;
@@ -76,6 +72,11 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    if([ALUserDefaultsHandler isLogoutButtonHidden])
+    {
+        [self.navBar setRightBarButtonItems:nil];
+    }
     
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
@@ -114,10 +115,10 @@
         ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
         [registerUserClientService logout];
         
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        ALLoginViewController *add = [storyboard instantiateViewControllerWithIdentifier:@"ALLoginViewController"];
-        
-        [self presentViewController:add animated:YES completion:nil];
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil]; // ApplozicLoginViewController.m
+        //ALLoginViewController *add = [storyboard instantiateViewControllerWithIdentifier:@"ALLoginViewController"];
+    
+    //   [self presentViewController:add animated:YES completion:nil];
     
 }
 

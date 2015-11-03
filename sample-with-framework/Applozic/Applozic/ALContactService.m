@@ -97,7 +97,7 @@
     contact1.displayName = @"Rathan";
     contact1.email = @"123@abc.com";
     contact1.contactImageUrl = nil;
-    contact1.localImageResourceName = @"4.jpg";
+    contact1.localImageResourceName = @"1.jpg";
     
     // contact 2
     ALContact *contact2 = [[ALContact alloc] init];
@@ -107,7 +107,7 @@
     contact2.displayName = @"abhishek";
     contact2.email = @"456@abc.com";
     contact2.contactImageUrl = nil;
-    contact2.localImageResourceName = @"4.jpg";
+    contact2.localImageResourceName = @"1.jpg";
     
     
     ALContact *contact3 = [[ALContact alloc] init];
@@ -123,11 +123,11 @@
     
     //Contact -------- Example with json
     
-    NSString *jsonString =@"{\"userId\": \"applozic\",\"fullName\": \"Applozic\",\"contactNumber\": \"9535008745\",\"displayName\": \"Applozic Support\",\"contactImageUrl\": \"http://applozic.com/resources/images/aboutus/rathan.jpg\",\"email\": \"devashish@applozic.com\",\"localImageResourceName\":null}";
-    
-    ALContact *contact4 = [[ALContact alloc] initWithJSONString:jsonString];
-
-    //Contact ------- Example with dictonary
+//    NSString *jsonString =@"{\"userId\": \"applozic\",\"fullName\": \"Applozic\",\"contactNumber\": \"9535008745\",\"displayName\": \"Applozic Support\",\"contactImageUrl\": \"http://applozic.com/resources/images/aboutus/rathan.jpg\",\"email\": \"devashish@applozic.com\",\"localImageResourceName\":null}";
+//    
+//    ALContact *contact4 = [[ALContact alloc] initWithJSONString:jsonString];
+//
+//    //Contact ------- Example with dictonary
     
     NSMutableDictionary *demodictionary = [[NSMutableDictionary alloc] init];
     [demodictionary setValue:@"aman999" forKey:@"userId"];
@@ -139,7 +139,8 @@
     [demodictionary setValue:nil forKey:@"localImageResourceName"];
     
     ALContact *contact5 = [[ALContact alloc] initWithDict:demodictionary];
-    [theDBHandler addListOfContacts:@[contact1, contact2, contact3, contact4, contact5]];
+ //   [theDBHandler addListOfContacts:@[contact1, contact2, contact3, contact4, contact5]];
+    [theDBHandler addListOfContacts:@[contact1, contact2, contact3, contact5]];
    
 }
 

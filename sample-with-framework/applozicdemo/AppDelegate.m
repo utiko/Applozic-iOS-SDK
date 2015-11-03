@@ -6,13 +6,12 @@
 //
 
 #import "AppDelegate.h"
-#import <Applozic/ALDBHandler.h>
 #import <Applozic/ALUserDefaultsHandler.h>
 #import <Applozic/ALRegisterUserClientService.h>
 #import <Applozic/ALPushNotificationService.h>
 #import <Applozic/ALUtilityClass.h>
 #import "ApplozicLoginViewController.h"
-
+#import "Applozic/ALDBHandler.h"
 @interface AppDelegate ()
 
 @end
