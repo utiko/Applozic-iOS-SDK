@@ -19,7 +19,7 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALContactDBService.h"
 #import "UIImageView+WebCache.h"
-//#import "ApplozicLoginViewController.h"
+#import "ALLoginViewController.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -115,10 +115,10 @@
         ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
         [registerUserClientService logout];
         
-//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil]; // ApplozicLoginViewController.m
-        //ALLoginViewController *add = [storyboard instantiateViewControllerWithIdentifier:@"ALLoginViewController"];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil]; // ApplozicLoginViewController.m
+        ALLoginViewController *add = [storyboard instantiateViewControllerWithIdentifier:@"ALLoginViewController"];
     
-    //   [self presentViewController:add animated:YES completion:nil];
+       [self presentViewController:add animated:YES completion:nil];
     
 }
 

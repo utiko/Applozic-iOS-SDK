@@ -167,7 +167,7 @@
         return;
     }
 
-    [ALUserDefaultsHandler setLogoutButtonVisible: NO];
+    [ALUserDefaultsHandler setLogoutButtonHidden: NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     
     ALUser *user = [[ALUser alloc] init];
