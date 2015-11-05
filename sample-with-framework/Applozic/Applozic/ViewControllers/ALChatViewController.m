@@ -302,7 +302,17 @@ ALMessageDBService  * dbService;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ALMessage * theMessage = self.mMessageListArray[indexPath.row];
-    if (theMessage.fileMetas.thumbnailUrl == nil) {
+    
+    
+    if((theMessage.message.length > 0) && (theMessage.fileMetas.thumbnailUrl!=nil))
+    {
+        
+        CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:@"Helvetica-Bold" fontSize:15];
+        
+        return theTextSize.height + self.view.frame.size.width - 30;
+    }
+    
+    else if (theMessage.fileMetas.thumbnailUrl == nil) {
         CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:@"Helvetica-Bold" fontSize:15];
         int extraSpace = 40 ;
         return theTextSize.height+21+extraSpace;
@@ -601,22 +611,38 @@ ALMessageDBService  * dbService;
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
-
     UIImage * image = [info valueForKey:UIImagePickerControllerOriginalImage];
     image = [image getCompressedImageLessThanSize:5];
+    
+   // UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    //
+    ALAttachmentController *obtext;
+    if(image)
+    {
+        obtext = [storyboard instantiateViewControllerWithIdentifier:@"imageandtext"];
+        [obtext setImagedocument:image];
+        [self.navigationController pushViewController:obtext animated:YES];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+    obtext.imagecontrollerDelegate = self;
 
+}
+
+-(void)check:(UIImage *)imageFile andText:(NSString *)textwithimage
+{
     // save image to doc
-    NSString * filePath = [ALImagePickerHandler saveImageToDocDirectory:image];
+    NSLog(@"check method of delegate and text: %@", textwithimage);
+    NSString * filePath = [ALImagePickerHandler saveImageToDocDirectory:imageFile];
     // create message object
     ALMessage * theMessage = [self getMessageToPost];
     theMessage.fileMetas = [self getFileMetaInfo];
-    
+    theMessage.message = textwithimage;
     theMessage.imageFilePath = filePath.lastPathComponent;
     NSData *imageSize = [NSData dataWithContentsOfFile:filePath];
     theMessage.fileMetas.size = [NSString stringWithFormat:@"%lu",(unsigned long)imageSize.length];
     //theMessage.fileMetas.thumbnailUrl = filePath.lastPathComponent;
-
+    
     // save msg to db
     
     [self.mMessageListArray addObject:theMessage];
@@ -629,14 +655,9 @@ ALMessageDBService  * dbService;
     [self uploadImage:theMessage];
     [self.mTableView reloadData];
     [self scrollTableViewToBottomWithAnimation:NO];
-
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//
-//            [UIView animateWithDuration:.25 animations:^{
-//        } completion:^(BOOL finished) {
-//        }];
-//    });
+    
 }
+
 
 -(void)uploadImage:(ALMessage *)theMessage {
    

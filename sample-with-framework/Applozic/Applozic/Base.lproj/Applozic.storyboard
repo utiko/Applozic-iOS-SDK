@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -389,6 +389,55 @@
                 <tapGestureRecognizer id="ICE-46-P9k"/>
             </objects>
             <point key="canvasLocation" x="2560" y="241"/>
+        </scene>
+        <!--Attachment Controller-->
+        <scene sceneID="mJq-Dy-oId">
+            <objects>
+                <viewController storyboardIdentifier="imageandtext" id="9Kc-h0-N6T" customClass="ALAttachmentController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="te2-S7-jhz"/>
+                        <viewControllerLayoutGuide type="bottom" id="wTT-RG-3dD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DZT-X2-YPk">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NYg-qP-EJK">
+                                <rect key="frame" x="20" y="71" width="334" height="284"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="seD-Kt-6V0">
+                                <rect key="frame" x="20" y="526" width="159" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Send"/>
+                                <connections>
+                                    <action selector="sendButtonAction:" destination="9Kc-h0-N6T" eventType="touchUpInside" id="J40-Nz-rZb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vwv-Cy-FMy">
+                                <rect key="frame" x="193" y="526" width="159" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="cancelButtonAction:" destination="9Kc-h0-N6T" eventType="touchUpInside" id="Yug-Su-vmi"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="IDw-v3-UNo">
+                                <rect key="frame" x="20" y="368" width="332" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageText" destination="IDw-v3-UNo" id="qur-bj-oc2"/>
+                        <outlet property="pickedImageView" destination="NYg-qP-EJK" id="bUQ-71-ECD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hM0-Wd-eVG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3329" y="241"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="44I-5Y-y8P">
