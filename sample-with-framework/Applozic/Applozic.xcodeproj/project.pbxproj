@@ -165,6 +165,8 @@
 		6D6DF1D91BC5364C00EBA00F /* AppLozic.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF1371BC5364C00EBA00F /* AppLozic.xcdatamodeld */; };
 		6D7AFD181BE9FDF5009DDC1D /* ALLoginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D7AFD161BE9FDF5009DDC1D /* ALLoginViewController.h */; };
 		6D7AFD191BE9FDF5009DDC1D /* ALLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D7AFD171BE9FDF5009DDC1D /* ALLoginViewController.m */; };
+		6D7AFD251BECF061009DDC1D /* ALSendMessageResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D7AFD231BECF061009DDC1D /* ALSendMessageResponse.h */; };
+		6D7AFD261BECF061009DDC1D /* ALSendMessageResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D7AFD241BECF061009DDC1D /* ALSendMessageResponse.m */; };
 		6D88E1DA1BC8046500364C5B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D88E1D91BC8046500364C5B /* CoreLocation.framework */; };
 		6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547631BE38DFF00776652 /* ALContactDBService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D95476A1BE38DFF00776652 /* ALContactDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547641BE38DFF00776652 /* ALContactDBService.m */; };
@@ -334,6 +336,8 @@
 		6D6DF1381BC5364C00EBA00F /* AppLozic.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppLozic.xcdatamodel; sourceTree = "<group>"; };
 		6D7AFD161BE9FDF5009DDC1D /* ALLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALLoginViewController.h; sourceTree = "<group>"; };
 		6D7AFD171BE9FDF5009DDC1D /* ALLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALLoginViewController.m; sourceTree = "<group>"; };
+		6D7AFD231BECF061009DDC1D /* ALSendMessageResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSendMessageResponse.h; sourceTree = "<group>"; };
+		6D7AFD241BECF061009DDC1D /* ALSendMessageResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALSendMessageResponse.m; sourceTree = "<group>"; };
 		6D88E1D91BC8046500364C5B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6D9547631BE38DFF00776652 /* ALContactDBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALContactDBService.h; path = Applozic/ALContactDBService.h; sourceTree = "<group>"; };
 		6D9547641BE38DFF00776652 /* ALContactDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALContactDBService.m; path = Applozic/ALContactDBService.m; sourceTree = "<group>"; };
@@ -613,6 +617,8 @@
 				6D6DF0BF1BC5364C00EBA00F /* ALMessageDBService.h */,
 				6D6DF09F1BC5364C00EBA00F /* ALMessageService.m */,
 				6D6DF09E1BC5364C00EBA00F /* ALMessageService.h */,
+				6D7AFD231BECF061009DDC1D /* ALSendMessageResponse.h */,
+				6D7AFD241BECF061009DDC1D /* ALSendMessageResponse.m */,
 			);
 			name = message;
 			sourceTree = "<group>";
@@ -739,6 +745,7 @@
 				6D6DF1D51BC5364C00EBA00F /* TPPropertyAnimation.h in Headers */,
 				6D6DF1621BC5364C00EBA00F /* ALContactCell.h in Headers */,
 				6D6DF16C1BC5364C00EBA00F /* ALMessageDBService.h in Headers */,
+				6D7AFD251BECF061009DDC1D /* ALSendMessageResponse.h in Headers */,
 				6D6DF1681BC5364C00EBA00F /* ALLocationManager.h in Headers */,
 				6D6DF14E1BC5364C00EBA00F /* ALMessageService.h in Headers */,
 				6D6DF1821BC5364C00EBA00F /* DB_FileMetaInfo.h in Headers */,
@@ -944,6 +951,7 @@
 				6D6DF16B1BC5364C00EBA00F /* ALMessageClientService.m in Sources */,
 				6D6DF1CC1BC5364C00EBA00F /* UIImage+WebP.m in Sources */,
 				6D6DF1C11BC5364C00EBA00F /* SDWebImageManager.m in Sources */,
+				6D7AFD261BECF061009DDC1D /* ALSendMessageResponse.m in Sources */,
 				6D6DF1D91BC5364C00EBA00F /* AppLozic.xcdatamodeld in Sources */,
 				6D6DF1B71BC5364C00EBA00F /* SDImageCache.m in Sources */,
 				6D6DF1771BC5364C00EBA00F /* ALMessage.m in Sources */,

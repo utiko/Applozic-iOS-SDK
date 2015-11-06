@@ -14,7 +14,7 @@
 
 @dynamic contactId;
 @dynamic createdAt;
-@dynamic deviceKeyString;
+@dynamic deviceKey;
 @dynamic filePath;
 @dynamic isRead;
 @dynamic isSent;
@@ -22,9 +22,9 @@
 @dynamic isShared;
 @dynamic isStoredOnDevice;
 @dynamic isUploadFailed;
-@dynamic keyString;
+@dynamic key;
 @dynamic messageText;
-@dynamic suUserKeyString;
+@dynamic userKey;
 @dynamic to;
 @dynamic type;
 @dynamic inProgress;

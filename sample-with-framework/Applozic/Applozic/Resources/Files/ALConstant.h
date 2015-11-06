@@ -6,7 +6,10 @@
 //
 
 
-#define KBASE_URL @"https://applozic.appspot.com"
+//#define KBASE_URL @"https://applozic.appspot.com"
+
+#define KBASE_URL @"https://dashboard.applozic.com"
+#define KBASE_FILE_URL @"https://applozic.appspot.com"
 
 //#define KBASE_URL @"http://push.mobi-com.appspot.com"
 

@@ -27,7 +27,7 @@
     for (ALMessage * theMessage in messageList) {
         
         //Duplicate check before inserting into DB...
-        NSManagedObject *message =  [self getMessageByKey:@"keyString" value:theMessage.keyString];
+        NSManagedObject *message =  [self getMessageByKey:@"key" value:theMessage.key];
         if(message!=nil){
             //NSLog(@"message with key %@ found",theMessage.keyString );
             continue;
@@ -320,15 +320,15 @@
     
     theSmsEntity.contactId = theMessage.contactIds;
     theSmsEntity.createdAt = [NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
-    theSmsEntity.deviceKeyString = theMessage.deviceKeyString;
+    theSmsEntity.deviceKey = theMessage.deviceKey;
     theSmsEntity.isRead = [NSNumber numberWithBool:theMessage.read];
     theSmsEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
     theSmsEntity.isSentToDevice = [NSNumber numberWithBool:theMessage.sendToDevice];
     theSmsEntity.isShared = [NSNumber numberWithBool:theMessage.shared];
     theSmsEntity.isStoredOnDevice = [NSNumber numberWithBool:theMessage.storeOnDevice];
-    theSmsEntity.keyString = theMessage.keyString;
+    theSmsEntity.key = theMessage.key;
     theSmsEntity.messageText = theMessage.message;
-    theSmsEntity.suUserKeyString = theMessage.suUserKeyString;
+    theSmsEntity.userKey = theMessage.userKey;
     theSmsEntity.to = theMessage.to;
     theSmsEntity.type = theMessage.type;
     theSmsEntity.delivered = [NSNumber numberWithBool:theMessage.delivered];
@@ -349,19 +349,19 @@
     
     DB_FileMetaInfo * fileMetaInfo = [NSEntityDescription insertNewObjectForEntityForName:@"DB_FileMetaInfo" inManagedObjectContext:theDBHandler.managedObjectContext];
     
-    fileMetaInfo.blobKeyString = fileInfo.blobKeyString;
+    fileMetaInfo.blobKeyString = fileInfo.blobKey;
     
     fileMetaInfo.contentType = fileInfo.contentType;
     
     fileMetaInfo.createdAtTime = fileInfo.createdAtTime;
     
-    fileMetaInfo.keyString = fileInfo.keyString;
+    fileMetaInfo.key = fileInfo.key;
     
     fileMetaInfo.name = fileInfo.name;
     
     fileMetaInfo.size = fileInfo.size;
     
-    fileMetaInfo.suUserKeyString = fileInfo.suUserKeyString;
+    fileMetaInfo.suUserKeyString = fileInfo.userKey;
     
     fileMetaInfo.thumbnailUrl = fileInfo.thumbnailUrl;
     
@@ -373,9 +373,9 @@
     ALMessage * theMessage = [ALMessage new];
     
     theMessage.msgDBObjectId = [theEntity objectID];
-    theMessage.keyString = theEntity.keyString;
-    theMessage.deviceKeyString = theEntity.deviceKeyString;
-    theMessage.suUserKeyString = theEntity.suUserKeyString;
+    theMessage.key = theEntity.key;
+    theMessage.deviceKey = theEntity.deviceKey;
+    theMessage.userKey = theEntity.userKey;
     theMessage.to = theEntity.to;
     theMessage.message = theEntity.messageText;
     theMessage.sent = theEntity.isSent.boolValue;
@@ -395,13 +395,13 @@
     // file meta info
     
     ALFileMetaInfo * theFileMeta = [ALFileMetaInfo new];
-    theFileMeta.blobKeyString = theEntity.fileMetaInfo.blobKeyString;
+    theFileMeta.blobKey = theEntity.fileMetaInfo.blobKeyString;
     theFileMeta.contentType = theEntity.fileMetaInfo.contentType;
     theFileMeta.createdAtTime = theEntity.fileMetaInfo.createdAtTime;
-    theFileMeta.keyString = theEntity.fileMetaInfo.keyString;
+    theFileMeta.key = theEntity.fileMetaInfo.key;
     theFileMeta.name = theEntity.fileMetaInfo.name;
     theFileMeta.size = theEntity.fileMetaInfo.size;
-    theFileMeta.suUserKeyString = theEntity.fileMetaInfo.suUserKeyString;
+    theFileMeta.userKey = theEntity.fileMetaInfo.suUserKeyString;
     theFileMeta.thumbnailUrl = theEntity.fileMetaInfo.thumbnailUrl;
     theMessage.fileMetas = theFileMeta;
     return theMessage;
@@ -411,15 +411,15 @@
     
     NSError *error=nil;
     DB_Message * db_Message = (DB_Message*)[self getMeesageById:almessage.msgDBObjectId error:&error];
-    almessage.fileMetaKeyStrings = @[almessage.fileMetas.keyString];
+    almessage.fileMetaKey = @[almessage.fileMetas.key];
     
-    db_Message.fileMetaInfo.blobKeyString = almessage.fileMetas.blobKeyString;
+    db_Message.fileMetaInfo.blobKeyString = almessage.fileMetas.blobKey;
     db_Message.fileMetaInfo.contentType = almessage.fileMetas.contentType;
     db_Message.fileMetaInfo.createdAtTime = almessage.fileMetas.createdAtTime;
-    db_Message.fileMetaInfo.keyString = almessage.fileMetas.keyString;
+    db_Message.fileMetaInfo.key = almessage.fileMetas.key;
     db_Message.fileMetaInfo.name = almessage.fileMetas.name;
     db_Message.fileMetaInfo.size = almessage.fileMetas.size;
-    db_Message.fileMetaInfo.suUserKeyString = almessage.fileMetas.suUserKeyString;
+    db_Message.fileMetaInfo.suUserKeyString = almessage.fileMetas.userKey;
     [[ALDBHandler sharedInstance].managedObjectContext save:nil];
     
 }

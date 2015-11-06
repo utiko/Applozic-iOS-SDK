@@ -20,15 +20,15 @@
 -(void) updateDeliveryReports:(NSMutableArray *) messages
 {
     for (ALMessage * theMessage in messages) {
-        [self updateDeliveryReport:theMessage.pairedMessageKeyString userId:theMessage.contactIds];
+        [self updateDeliveryReport:theMessage.pairedMessageKeyString];
     }
 }
 
--(void) updateDeliveryReport: (NSString *) key userId: (NSString *) userId
+-(void) updateDeliveryReport: (NSString *) key
 {
     
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/sms/mtext/delivered",KBASE_URL];
-    NSString *theParamString = [NSString stringWithFormat:@"smsKeyString=%@&userId=%@&contactNumber=%@", key, [ALUserDefaultsHandler getUserId], userId];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delivered",KBASE_URL];
+    NSString *theParamString = [NSString stringWithFormat:@"key=%@", key];
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
@@ -59,16 +59,16 @@
     theMessage.contactIds = @"applozic";//1
     theMessage.to = @"applozic";//2
     theMessage.createdAtTime = [NSString stringWithFormat:@"%ld",(long)[[NSDate date] timeIntervalSince1970]*1000];
-    theMessage.deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString ];
+    theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString ];
     theMessage.message = @"Welcome to Applozic! Drop a message here or contact us at devashish@applozic.com for any queries. Thanks";//3
     theMessage.sendToDevice = NO;
     theMessage.sent = NO;
     theMessage.shared = NO;
     theMessage.fileMetas = nil;
     theMessage.read = NO;
-    theMessage.keyString = @"welcome-message-temp-key-string";
+    theMessage.key = @"welcome-message-temp-key-string";
     theMessage.delivered=NO;
-    theMessage.fileMetaKeyStrings = @[];//4
+    theMessage.fileMetaKey = @"";//4
     
     [messageDBService createSMSEntityForDBInsertionWithMessage:theMessage];
     [theDBHandler.managedObjectContext save:nil];

@@ -22,19 +22,19 @@
     
     // key String
     
-    self.keyString =  [super getStringFromJsonValue:messageJson[@"keyString"]];
+    self.key =  [super getStringFromJsonValue:messageJson[@"key"]];
     
     self.pairedMessageKeyString = [super getStringFromJsonValue:messageJson[@"pairedMessageKeyString"]];
     
     
     // device keyString
     
-    self.deviceKeyString = [self getStringFromJsonValue:messageJson[@"deviceKeyString"]];
+    self.deviceKey = [self getStringFromJsonValue:messageJson[@"deviceKey"]];
     
     
     // su user keyString
     
-    self.suUserKeyString = [self getStringFromJsonValue:messageJson[@"suUserKeyString"]];
+    self.userKey = [self getStringFromJsonValue:messageJson[@"suUserKeyString"]];
     
     
     // to
@@ -96,40 +96,24 @@
     self.delivered = [self getBoolFromJsonValue:messageJson[@"delivered"]];
     // file meta info
     
-    NSArray * fileMetas = messageJson[@"fileMetas"];
-    
-    if ([self validateJsonArrayClass:fileMetas]) {
-        
-        if (fileMetas.count > 0) {
-            
-            NSDictionary * fileMetaDict = fileMetas[0];
-            
+     NSDictionary * fileMetaDict = messageJson[@"fileMeta"];
+
             if ([self validateJsonClass:fileMetaDict]) {
                 
                 ALFileMetaInfo * theFileMetaInfo = [ALFileMetaInfo new];
                 
-                theFileMetaInfo.blobKeyString = [self getStringFromJsonValue:fileMetaDict[@"blobKeyString"]];
-                
+                theFileMetaInfo.blobKey = [self getStringFromJsonValue:fileMetaDict[@"blobKey"]];
                 theFileMetaInfo.contentType = [self getStringFromJsonValue:fileMetaDict[@"contentType"]];
-                
                 theFileMetaInfo.createdAtTime = [self getStringFromJsonValue:fileMetaDict[@"createdAtTime"]];
-                
-                theFileMetaInfo.keyString = [self getStringFromJsonValue:fileMetaDict[@"keyString"]];
-                
+                theFileMetaInfo.key = [self getStringFromJsonValue:fileMetaDict[@"key"]];
                 theFileMetaInfo.name = [self getStringFromJsonValue:fileMetaDict[@"name"]];
-                
-                theFileMetaInfo.suUserKeyString = [self getStringFromJsonValue:fileMetaDict[@"suUserKeyString"]];
-                
+                theFileMetaInfo.userKey = [self getStringFromJsonValue:fileMetaDict[@"userKey"]];
                 theFileMetaInfo.size = [self getStringFromJsonValue:fileMetaDict[@"size"]];
-                
                 theFileMetaInfo.thumbnailUrl = [self getStringFromJsonValue:fileMetaDict[@"thumbnailUrl"]];
-                
+                theFileMetaInfo.url = [self getStringFromJsonValue:fileMetaDict[@"url"]];
+
                 self.fileMetas = theFileMetaInfo;
             }
-        }
-    }
-    
-   
 }
 
 

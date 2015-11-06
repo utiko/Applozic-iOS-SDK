@@ -217,12 +217,12 @@ UIViewController * modalCon;
         if (alMessage.inProgress == YES) {
             self.progresLabel.alpha = 1;
             NSLog(@"calling you progress label....");
-        }else if( !alMessage.imageFilePath && alMessage.fileMetas.keyString){
+        }else if( !alMessage.imageFilePath && alMessage.fileMetas.key){
             self.mDowloadRetryButton.alpha = 1;
             [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
             [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_download.png"]
                                       forState:UIControlStateNormal];
-        }else if (alMessage.imageFilePath && !alMessage.fileMetas.keyString){
+        }else if (alMessage.imageFilePath && !alMessage.fileMetas.key){
             self.mDowloadRetryButton.alpha = 1;
             [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
             [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_upload.png"] forState:UIControlStateNormal];

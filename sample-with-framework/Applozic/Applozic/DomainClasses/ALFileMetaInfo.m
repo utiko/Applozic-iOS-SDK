@@ -27,14 +27,15 @@
 }
 
 -(ALFileMetaInfo *) populate:(NSDictionary *)dict {
-    self.blobKeyString=[dict objectForKey:@"blobKeyString"];
+    self.blobKey=[dict objectForKey:@"blobKey"];
     self.contentType=[dict objectForKey:@"contentType"];
     self.createdAtTime=[dict objectForKey:@"createdAtTime"];
-    self.keyString=[dict objectForKey:@"keyString"];
+    self.key=[dict objectForKey:@"key"];
     self.name=[dict objectForKey:@"name"];
     self.size=[dict objectForKey:@"size"];
-    self.suUserKeyString=[dict objectForKey:@"suUserKeyString"];
+    self.userKey=[dict objectForKey:@"suUserKeyString"];
     self.thumbnailUrl=[dict objectForKey:@"thumbnailUrl"];
+    self.url= [dict objectForKey:@"url"];
     return self;
 
 }
