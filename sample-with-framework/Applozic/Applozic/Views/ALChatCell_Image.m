@@ -156,7 +156,7 @@ UIViewController * modalCon;
         if (alMessage.imageFilePath == NULL) {
       
             self.mDowloadRetryButton.alpha = 1;
-            [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
+            [self.mDowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
             [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_download.png"]
                                       forState:UIControlStateNormal];
         }else{
@@ -217,14 +217,14 @@ UIViewController * modalCon;
         if (alMessage.inProgress == YES) {
             self.progresLabel.alpha = 1;
             NSLog(@"calling you progress label....");
-        }else if( !alMessage.imageFilePath && alMessage.fileMetas.key){
+        }else if( !alMessage.imageFilePath && alMessage.fileMeta.blobKey){
             self.mDowloadRetryButton.alpha = 1;
-            [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
+            [self.mDowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
             [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_download.png"]
                                       forState:UIControlStateNormal];
-        }else if (alMessage.imageFilePath && !alMessage.fileMetas.key){
+        }else if (alMessage.imageFilePath && !alMessage.fileMeta.blobKey){
             self.mDowloadRetryButton.alpha = 1;
-            [self.mDowloadRetryButton setTitle:[alMessage.fileMetas getTheSize] forState:UIControlStateNormal];
+            [self.mDowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
             [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_upload.png"] forState:UIControlStateNormal];
         }
         
@@ -263,7 +263,7 @@ UIViewController * modalCon;
         theUrl = [NSURL fileURLWithPath:filePath];
     }
     else{
-        theUrl = [NSURL URLWithString:alMessage.fileMetas.thumbnailUrl];
+        theUrl = [NSURL URLWithString:alMessage.fileMeta.thumbnailUrl];
     }
     NSLog(@"theUrl:%@",  theUrl);
     [self.mImageView sd_setImageWithURL:theUrl];
@@ -299,18 +299,18 @@ UIViewController * modalCon;
 
 - (void)dealloc
 {
-    if(_mMessage.fileMetas){
-        [_mMessage.fileMetas removeObserver:self forKeyPath:@"progressValue" context:nil];
+    if(_mMessage.fileMeta){
+        [_mMessage.fileMeta removeObserver:self forKeyPath:@"progressValue" context:nil];
     }
 }
 
 -(void)setMMessage:(ALMessage *)mMessage{
     //TODO: error ...observer shoud be there...
-    if(_mMessage.fileMetas){
-        [_mMessage.fileMetas removeObserver:self forKeyPath:@"progressValue" context:nil];
+    if(_mMessage.fileMeta){
+        [_mMessage.fileMeta removeObserver:self forKeyPath:@"progressValue" context:nil];
     }
     _mMessage = mMessage;
-    [_mMessage.fileMetas addObserver:self forKeyPath:@"progressValue" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+    [_mMessage.fileMeta addObserver:self forKeyPath:@"progressValue" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

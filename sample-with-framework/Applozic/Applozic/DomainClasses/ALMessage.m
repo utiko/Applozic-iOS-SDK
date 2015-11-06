@@ -112,7 +112,7 @@
                 theFileMetaInfo.thumbnailUrl = [self getStringFromJsonValue:fileMetaDict[@"thumbnailUrl"]];
                 theFileMetaInfo.url = [self getStringFromJsonValue:fileMetaDict[@"url"]];
 
-                self.fileMetas = theFileMetaInfo;
+                self.fileMeta = theFileMetaInfo;
             }
 }
 
@@ -129,7 +129,7 @@
 -(BOOL)isDownloadRequire{
     
     //TODO:check for SD card
-    if ( self.fileMetas && !self.imageFilePath){
+    if ( self.fileMeta && !self.imageFilePath){
         return YES;
     }
     return NO;
@@ -137,7 +137,7 @@
 
 -(BOOL)isUploadRequire{
     //TODO:check for SD card
-    if ( (self.imageFilePath && !self.fileMetas && [ self.type  isEqualToString:@"5"]) || self.isUploadFailed==YES){
+    if ( (self.imageFilePath && !self.fileMeta && [ self.type  isEqualToString:@"5"]) || self.isUploadFailed==YES){
         return YES;
     }
     return NO;

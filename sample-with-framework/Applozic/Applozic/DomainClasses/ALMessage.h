@@ -41,7 +41,7 @@
 
 @property (nonatomic, assign) BOOL storeOnDevice;
 
-@property (nonatomic,retain) ALFileMetaInfo * fileMetas;
+@property (nonatomic,retain) ALFileMetaInfo * fileMeta;
 
 @property (nonatomic,assign) BOOL read;
 

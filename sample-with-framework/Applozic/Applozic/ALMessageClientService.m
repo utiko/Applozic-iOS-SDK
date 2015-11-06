@@ -64,7 +64,7 @@
     theMessage.sendToDevice = NO;
     theMessage.sent = NO;
     theMessage.shared = NO;
-    theMessage.fileMetas = nil;
+    theMessage.fileMeta = nil;
     theMessage.read = NO;
     theMessage.key = @"welcome-message-temp-key-string";
     theMessage.delivered=NO;

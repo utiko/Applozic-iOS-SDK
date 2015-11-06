@@ -273,7 +273,7 @@ ALMessageDBService  * dbService;
         return theCell;
 
     }
-    if (theMessage.fileMetas.thumbnailUrl == nil ) { // textCell
+    if (theMessage.fileMeta.thumbnailUrl == nil ) { // textCell
         
         ALChatCell *theCell = (ALChatCell *)[tableView dequeueReusableCellWithIdentifier:@"ChatCell"];
         theCell.tag = indexPath.row;
@@ -302,7 +302,7 @@ ALMessageDBService  * dbService;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ALMessage * theMessage = self.mMessageListArray[indexPath.row];
-    if (theMessage.fileMetas.thumbnailUrl == nil) {
+    if (theMessage.fileMeta.thumbnailUrl == nil) {
         CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:@"Helvetica-Bold" fontSize:15];
         int extraSpace = 40 ;
         return theTextSize.height+21+extraSpace;
@@ -342,7 +342,7 @@ ALMessageDBService  * dbService;
     theMessage.sendToDevice = NO;
     theMessage.sent = NO;
     theMessage.shared = NO;
-    theMessage.fileMetas = nil;
+    theMessage.fileMeta = nil;
     theMessage.read = NO;
     theMessage.storeOnDevice = NO;
     theMessage.key = [[NSUUID UUID] UUIDString];
@@ -461,7 +461,7 @@ ALMessageDBService  * dbService;
 {
     ALChatCell_Image *imageCell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     imageCell.progresLabel.alpha = 1;
-    imageCell.mMessage.fileMetas.progressValue = 0;
+    imageCell.mMessage.fileMeta.progressValue = 0;
     imageCell.mDowloadRetryButton.alpha = 0;
     message.inProgress = YES;
 
@@ -477,7 +477,7 @@ ALMessageDBService  * dbService;
         dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
         
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
-        if ([message.type isEqualToString:@"5"]&& !message.fileMetas.key) { // upload
+        if ([message.type isEqualToString:@"5"]&& !message.fileMeta.key) { // upload
             [self uploadImage:message];
             
         }else { //download
@@ -520,7 +520,7 @@ ALMessageDBService  * dbService;
     }
 
     ALChatCell_Image*  cell=  [self getCell:connection.keystring];
-    cell.progresLabel.endDegree = [self bytesConvertsToDegree:[cell.mMessage.fileMetas.size floatValue] comingBytes:(CGFloat)connection.mData.length];;
+    cell.progresLabel.endDegree = [self bytesConvertsToDegree:[cell.mMessage.fileMeta.size floatValue] comingBytes:(CGFloat)connection.mData.length];;
     
 }
 
@@ -529,7 +529,7 @@ ALMessageDBService  * dbService;
     
     ALChatCell_Image*  cell=  [self getCell:connection.keystring];
     NSLog(@"found cell .. %@", cell);
-    cell.mMessage.fileMetas.progressValue = [self bytesConvertsToDegree:totalBytesExpectedToWrite comingBytes:totalBytesWritten];
+    cell.mMessage.fileMeta.progressValue = [self bytesConvertsToDegree:totalBytesExpectedToWrite comingBytes:totalBytesWritten];
     
     NSLog(@" didSendBodyData...." );
     
@@ -552,8 +552,8 @@ ALMessageDBService  * dbService;
         NSError * theJsonError = nil;
         NSDictionary *theJson = [NSJSONSerialization JSONObjectWithData:connection.mData options:NSJSONReadingMutableLeaves error:&theJsonError];
         NSDictionary *fileInfo = [theJson objectForKey:@"fileMeta"];
-        [message.fileMetas populate:fileInfo ];
-        NSLog(@"f####ileName :: %@",message.fileMetas.name);
+        [message.fileMeta populate:fileInfo ];
+        NSLog(@"f####ileName :: %@",message.fileMeta.name);
         ALMessage * almessage =  [ALMessageService processFileUploadSucess:message];
         
         [self sendMessage:almessage ];
@@ -611,11 +611,11 @@ ALMessageDBService  * dbService;
     NSString * filePath = [ALImagePickerHandler saveImageToDocDirectory:image];
     // create message object
     ALMessage * theMessage = [self getMessageToPost];
-    theMessage.fileMetas = [self getFileMetaInfo];
+    theMessage.fileMeta = [self getFileMetaInfo];
     
     theMessage.imageFilePath = filePath.lastPathComponent;
     NSData *imageSize = [NSData dataWithContentsOfFile:filePath];
-    theMessage.fileMetas.size = [NSString stringWithFormat:@"%lu",(unsigned long)imageSize.length];
+    theMessage.fileMeta.size = [NSString stringWithFormat:@"%lu",(unsigned long)imageSize.length];
     //theMessage.fileMetas.thumbnailUrl = filePath.lastPathComponent;
 
     // save msg to db
@@ -641,7 +641,7 @@ ALMessageDBService  * dbService;
 
 -(void)uploadImage:(ALMessage *)theMessage {
    
-    if (theMessage.fileMetas && [theMessage.type isEqualToString:@"5"]) {
+    if (theMessage.fileMeta && [theMessage.type isEqualToString:@"5"]) {
         NSDictionary * userInfo = [theMessage dictionary];
         [self.mSendMessageTextField setText:nil];
         self.mTotalCount = self.mTotalCount+1;
@@ -661,7 +661,7 @@ ALMessageDBService  * dbService;
         }
         
         imageCell.progresLabel.alpha = 1;
-        imageCell.mMessage.fileMetas.progressValue = 0;
+        imageCell.mMessage.fileMeta.progressValue = 0;
         imageCell.mDowloadRetryButton.alpha = 0;
         imageCell.mMessage.inProgress = YES;
         NSError *error=nil;

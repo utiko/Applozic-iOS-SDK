@@ -242,15 +242,15 @@
 
 -(void)displayAttachmentMediaType:(ALMessage *)message andContactCell:(ALContactCell *)contactCell{
     
-    if([message.fileMetas.contentType isEqual:@"image/jpeg"]||[message.fileMetas.contentType isEqual:@"image/png"]
-       ||[message.fileMetas.contentType isEqual:@"image/gif"]||[message.fileMetas.contentType isEqual:@"image/tiff"]
-       ||[message.fileMetas.contentType isEqual:@"video/mp4"])
+    if([message.fileMeta.contentType isEqual:@"image/jpeg"]||[message.fileMeta.contentType isEqual:@"image/png"]
+       ||[message.fileMeta.contentType isEqual:@"image/gif"]||[message.fileMeta.contentType isEqual:@"image/tiff"]
+       ||[message.fileMeta.contentType isEqual:@"video/mp4"])
     {
         contactCell.mMessageLabel.hidden = YES;
         contactCell.imageMarker.hidden = NO;
         contactCell.imageNameLabel.hidden = NO;
         
-        if([message.fileMetas.contentType isEqual:@"video/mp4"])
+        if([message.fileMeta.contentType isEqual:@"video/mp4"])
         {
 //            contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_VIDEO", nil);
             contactCell.imageNameLabel.text = NSLocalizedString(@"Video", nil);

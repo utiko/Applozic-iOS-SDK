@@ -197,8 +197,8 @@
   }
 
 +(void )deleteMessage:( NSString * ) keyString andContactId:( NSString * )contactId withCompletion:(void (^)(NSString *, NSError *))completion{
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/delete",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"key=%@&to=%@&contactNumber=%@",keyString,contactId,contactId];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delete",KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"key=%@&userId=%@",keyString,contactId];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
@@ -216,13 +216,11 @@
 }
 
 /*
- 
- &requestSource=1"
- +"&suUserKeyString=
+ https://dashboard.applozic.com/rest/ws/message/delete/conversation?userId=iosdev2
  */
 +(void)deleteMessageThread:( NSString * ) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/sms/deleteConversion",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"contactNumber=%@&requestSource=1&suUserKeyString=%@",contactId,[ALUserDefaultsHandler getUserKeyString ]];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delete/conversation",KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
@@ -273,7 +271,7 @@
         if (imageData)
         {
             [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-            [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", FileParamConstant,message.fileMetas.name] dataUsingEncoding:NSUTF8StringEncoding]];
+            [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", FileParamConstant,message.fileMeta.name] dataUsingEncoding:NSUTF8StringEncoding]];
             [body appendData:[@"Content-Type:image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
             [body appendData:imageData];
             [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -300,7 +298,7 @@
   
 }
 +(void) processImageDownloadforMessage:(ALMessage *) message withdelegate:(id)delegate{
-    NSString * urlString = [NSString stringWithFormat:@"%@/rest/ws/aws/file/%@",KBASE_FILE_URL,message.fileMetas.blobKey];
+    NSString * urlString = [NSString stringWithFormat:@"%@/rest/ws/aws/file/%@",KBASE_FILE_URL,message.fileMeta.blobKey];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:urlString paramString:nil];
     ALConnection * connection = [[ALConnection alloc] initWithRequest:theRequest delegate:delegate startImmediately:YES];
     connection.keystring = message.key;
@@ -313,14 +311,14 @@
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
     DB_Message *dbMessage =  (DB_Message*)[dbService getMessageByKey:@"key" value:message.key];
     
-    dbMessage.fileMetaInfo.blobKeyString = message.fileMetas.blobKey;
-    dbMessage.fileMetaInfo.contentType = message.fileMetas.contentType;
-    dbMessage.fileMetaInfo.createdAtTime = message.fileMetas.createdAtTime;
-    dbMessage.fileMetaInfo.key = message.fileMetas.key;
-    dbMessage.fileMetaInfo.name = message.fileMetas.name;
-    dbMessage.fileMetaInfo.size = message.fileMetas.size;
-    dbMessage.fileMetaInfo.suUserKeyString = message.fileMetas.userKey;
-    message.fileMetaKey = message.fileMetas.key;
+    dbMessage.fileMetaInfo.blobKeyString = message.fileMeta.blobKey;
+    dbMessage.fileMetaInfo.contentType = message.fileMeta.contentType;
+    dbMessage.fileMetaInfo.createdAtTime = message.fileMeta.createdAtTime;
+    dbMessage.fileMetaInfo.key = message.fileMeta.key;
+    dbMessage.fileMetaInfo.name = message.fileMeta.name;
+    dbMessage.fileMetaInfo.size = message.fileMeta.size;
+    dbMessage.fileMetaInfo.suUserKeyString = message.fileMeta.userKey;
+    message.fileMetaKey = message.fileMeta.key;
     [[ALDBHandler sharedInstance].managedObjectContext save:nil];
     return message;
 }

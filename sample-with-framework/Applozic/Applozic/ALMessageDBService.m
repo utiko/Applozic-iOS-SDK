@@ -336,8 +336,8 @@
     theSmsEntity.filePath = theMessage.imageFilePath;
     theSmsEntity.inProgress = [ NSNumber numberWithBool:theMessage.inProgress];
     theSmsEntity.isUploadFailed=[ NSNumber numberWithBool:theMessage.isUploadFailed];
-    if(theMessage.fileMetas != nil) {
-        DB_FileMetaInfo *  fileInfo =  [self createFileMetaInfoEntityForDBInsertionWithMessage:theMessage.fileMetas];
+    if(theMessage.fileMeta != nil) {
+        DB_FileMetaInfo *  fileInfo =  [self createFileMetaInfoEntityForDBInsertionWithMessage:theMessage.fileMeta];
         theSmsEntity.fileMetaInfo = fileInfo;
     }
     return theSmsEntity;
@@ -403,7 +403,7 @@
     theFileMeta.size = theEntity.fileMetaInfo.size;
     theFileMeta.userKey = theEntity.fileMetaInfo.suUserKeyString;
     theFileMeta.thumbnailUrl = theEntity.fileMetaInfo.thumbnailUrl;
-    theMessage.fileMetas = theFileMeta;
+    theMessage.fileMeta = theFileMeta;
     return theMessage;
 }
 
@@ -411,15 +411,15 @@
     
     NSError *error=nil;
     DB_Message * db_Message = (DB_Message*)[self getMeesageById:almessage.msgDBObjectId error:&error];
-    almessage.fileMetaKey = @[almessage.fileMetas.key];
+    almessage.fileMetaKey = @[almessage.fileMeta.key];
     
-    db_Message.fileMetaInfo.blobKeyString = almessage.fileMetas.blobKey;
-    db_Message.fileMetaInfo.contentType = almessage.fileMetas.contentType;
-    db_Message.fileMetaInfo.createdAtTime = almessage.fileMetas.createdAtTime;
-    db_Message.fileMetaInfo.key = almessage.fileMetas.key;
-    db_Message.fileMetaInfo.name = almessage.fileMetas.name;
-    db_Message.fileMetaInfo.size = almessage.fileMetas.size;
-    db_Message.fileMetaInfo.suUserKeyString = almessage.fileMetas.userKey;
+    db_Message.fileMetaInfo.blobKeyString = almessage.fileMeta.blobKey;
+    db_Message.fileMetaInfo.contentType = almessage.fileMeta.contentType;
+    db_Message.fileMetaInfo.createdAtTime = almessage.fileMeta.createdAtTime;
+    db_Message.fileMetaInfo.key = almessage.fileMeta.key;
+    db_Message.fileMetaInfo.name = almessage.fileMeta.name;
+    db_Message.fileMetaInfo.size = almessage.fileMeta.size;
+    db_Message.fileMetaInfo.suUserKeyString = almessage.fileMeta.userKey;
     [[ALDBHandler sharedInstance].managedObjectContext save:nil];
     
 }
