@@ -18,6 +18,7 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageClientService.h"
 #import "ALSendMessageResponse.h"
+#import "ALUserService.h"
 
 @implementation ALMessageService
 
@@ -42,7 +43,7 @@
         ALMessageList *messageListResponse=  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
         completion(messageListResponse.messageList,nil);
-        
+        [ALUserService processContactFromMessages:[messageListResponse messageList]];
     }];
     
 }
@@ -189,7 +190,7 @@
             [messageClientService updateDeliveryReports:syncResponse.messagesList];
         
             completion(syncResponse.messagesList,nil);
-            
+            [ALUserService getUserInfo:@""];
         }];
 
     }
