@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DEA3131BEDEC1F004B8085 /* ALUserService.h */; settings = {ASSET_TAGS = (); }; };
-		29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DEA3141BEDEC1F004B8085 /* ALUserService.m */; settings = {ASSET_TAGS = (); }; };
+		29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DEA3131BEDEC1F004B8085 /* ALUserService.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DEA3141BEDEC1F004B8085 /* ALUserService.m */; };
 		6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D46B6C31BD025060014A5D3 /* ALMapViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D46B6C61BD025060014A5D3 /* ALMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D46B6C41BD025060014A5D3 /* ALMapViewController.m */; };
 		6D6DF0811BC535C800EBA00F /* Applozic.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF0801BC535C800EBA00F /* Applozic.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -773,9 +773,9 @@
 				6D6DF1401BC5364C00EBA00F /* ALConnectionQueueHandler.h in Headers */,
 				6D6DF1841BC5364C00EBA00F /* DB_Message.h in Headers */,
 				6D95476B1BE38DFF00776652 /* ALContactService.h in Headers */,
-				29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */,
 				6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */,
 				6D95476D1BE38DFF00776652 /* ALUITextView.h in Headers */,
+				29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */,
 				6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */,
 				6D6DF1541BC5364C00EBA00F /* UIImage+Utility.h in Headers */,
 				6D7AFD181BE9FDF5009DDC1D /* ALLoginViewController.h in Headers */,

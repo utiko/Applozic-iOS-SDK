@@ -63,6 +63,8 @@
 
 @property(nonatomic,assign) long messageId;
 
+@property(nonatomic,retain)NSString * applicationId;
+
 
 -(NSString *)getCreatedAtTime:(BOOL)today;
 

@@ -357,7 +357,7 @@ ALMessageDBService  * dbService;
 
     ALFileMetaInfo *info = [ALFileMetaInfo new];
 
-    info.blobKey = @"";
+    info.blobKey = nil;
     info.contentType = @"";
     info.createdAtTime = @"";
     info.key =nil;

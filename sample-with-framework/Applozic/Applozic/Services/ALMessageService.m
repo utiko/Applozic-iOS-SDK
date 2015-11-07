@@ -167,7 +167,7 @@
         NSLog(@"last syncTime in call %@", lastSyncTime);
         NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/sync",KBASE_URL];
     
-        NSString * theParamString = [NSString stringWithFormat:@"deviceKey=%@&lastSyncTime=%@",deviceKeyString,lastSyncTime];
+        NSString * theParamString = [NSString stringWithFormat:@"lastSyncTime=%@",lastSyncTime];
         
         NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
         
@@ -184,6 +184,8 @@
             if(syncResponse.messagesList.count >0 ){
                 ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
                 [dbService addMessageList:syncResponse.messagesList];
+               // [ALUserService processContactFromMessages:syncResponse.messageList];
+
             }
             [ALUserDefaultsHandler
              setLastSyncTime:syncResponse.lastSyncTime];
@@ -217,9 +219,7 @@
     }];
 }
 
-/*
- https://dashboard.applozic.com/rest/ws/message/delete/conversation?userId=iosdev2
- */
+
 +(void)deleteMessageThread:( NSString * ) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delete/conversation",KBASE_URL];
     NSString * theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
