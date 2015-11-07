@@ -33,6 +33,7 @@
 #import "DB_Contact.h"
 #import "ALMapViewController.h"
 #import "ALNotificationView.h"
+#import "ALUserService.h"
 
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate>
@@ -845,8 +846,15 @@ ALMessageDBService  * dbService;
                 [[self mMessageListArray] addObjectsFromArray:sortedArray];
                
             }
-
+            NSArray* theFil=[messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];
+            NSLog(@"theFile %@",theFil);
+            
+            [ALUserService processContactFromMessages:theFil];
             [self.mTableView reloadData];
+            
+            //RELOAD TITLE
+            [self setTitle];
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 [super scrollTableViewToBottomWithAnimation:YES];
             });
