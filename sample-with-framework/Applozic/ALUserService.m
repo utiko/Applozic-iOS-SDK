@@ -55,10 +55,7 @@
         [repString appendString:strr];
     }
     NSLog(@"rep String %@",repString);
-    
-    
-    
-    
+
 //    [ALUserService getUserInfo:repString];
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/v1/info?%@",KBASE_URL,repString];
     NSString * theParamString = nil;
@@ -88,50 +85,6 @@
    
 }
 
-
-
-+(void)getUserInfo:(NSString*) userIds{
-
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/list",KBASE_URL];
-    
-    NSString * theParamString = nil;
-    
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
-    
-    [ALResponseHandler processRequest:theRequest andTag:@"GET MESSAGES GROUP BY CONTACT" WithCompletionHandler:^(id theJson, NSError *theError) {
-        
-        if (theError) {
-            
-        return ;
-        }
-        
-        ALMessageList *messageListResponse=  [[ALMessageList alloc] initWithJSONString:theJson] ;
-                
-    [ALUserService processContactFromMessages:[messageListResponse messageList]];
-    }];
-    
-    
-    ///////////////#####Before####/////////
-    //    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/v1/info?%@",KBASE_URL,userIds];
-    //    NSString * theParamString = nil;
-    //    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
-    //
-    //    [ALResponseHandler processRequest:theRequest andTag:@"GET A DISPLAY NAME" WithCompletionHandler:^(id theJson, NSError *theError) {
-    //
-    //        if (theError) {
-    //            return ;
-    //        }
-    //        NSDictionary* userIDs=[[NSDictionary alloc] initWithDictionary:theJson];
-    //        NSLog(@"userIDs theJSON %@",userIDs);
-    //
-    //    }];
-    //return nil;
-    
-    
-    
-    
-
-}
 
 
 

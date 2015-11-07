@@ -15,6 +15,4 @@
 
 @interface ALUserService : NSObject
 + (void)processContactFromMessages:(NSArray *) messagesArr;
-+(void)getUserInfo:(NSString*) repString;
-
 @end

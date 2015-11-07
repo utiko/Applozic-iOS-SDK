@@ -846,17 +846,15 @@ ALMessageDBService  * dbService;
                 [[self mMessageListArray] addObjectsFromArray:sortedArray];
                
             }
-            NSArray* theFil=[messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];
-            NSLog(@"theFile %@",theFil);
-            
-            [ALUserService processContactFromMessages:theFil];
-            [self.mTableView reloadData];
-            
-            //RELOAD TITLE
+           
+            [ALUserService processContactFromMessages:messageList];
             [self setTitle];
+            [self.mTableView reloadData];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [super scrollTableViewToBottomWithAnimation:YES];
+                [self setTitle];
+               
             });
         }
     }];

@@ -43,6 +43,7 @@
         ALMessageList *messageListResponse=  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
         completion(messageListResponse.messageList,nil);
+        
         [ALUserService processContactFromMessages:[messageListResponse messageList]];
     }];
     
@@ -190,7 +191,7 @@
             [messageClientService updateDeliveryReports:syncResponse.messagesList];
         
             completion(syncResponse.messagesList,nil);
-            [ALUserService getUserInfo:@""];
+            
         }];
 
     }
