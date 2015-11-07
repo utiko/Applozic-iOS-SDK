@@ -198,6 +198,11 @@
 
 
 - (IBAction)sendAction:(id)sender {
-    [self postMessage];
+   
+    self.sendMessageTextView.text = [self.sendMessageTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if(self.sendMessageTextView.text.length > 0){
+        [self postMessage];
+    }
+    
 }
 @end
