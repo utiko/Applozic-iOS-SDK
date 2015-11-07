@@ -65,11 +65,15 @@
     
     [request addValue:[ALUserDefaultsHandler getApplicationKey] forHTTPHeaderField:@"Application-Key"];
     [request addValue:@"true" forHTTPHeaderField:@"UserId-Enabled"];
+    [request addValue:[ALUserDefaultsHandler getDeviceKeyString] forHTTPHeaderField:@"deviceKey"];
+
     
     NSString *authStr = [NSString stringWithFormat:@"%@:%@",[ALUserDefaultsHandler getUserId] , [ALUserDefaultsHandler getDeviceKeyString]];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authString = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
     [request setValue:authString forHTTPHeaderField:@"Authorization"];
+    //Add header for device key ....
+    
     NSLog(@"Basic string...%@",authString);
 }
 @end

@@ -166,7 +166,7 @@
         NSLog(@"last syncTime in call %@", lastSyncTime);
         NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/sync",KBASE_URL];
     
-        NSString * theParamString = [NSString stringWithFormat:@"deviceKey=%@&lastSyncTime=%@",deviceKeyString,lastSyncTime];
+        NSString * theParamString = [NSString stringWithFormat:@"lastSyncTime=%@",lastSyncTime];
         
         NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
         
@@ -183,6 +183,8 @@
             if(syncResponse.messagesList.count >0 ){
                 ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
                 [dbService addMessageList:syncResponse.messagesList];
+               // [ALUserService processContactFromMessages:syncResponse.messageList];
+
             }
             [ALUserDefaultsHandler
              setLastSyncTime:syncResponse.lastSyncTime];
@@ -190,7 +192,7 @@
             [messageClientService updateDeliveryReports:syncResponse.messagesList];
         
             completion(syncResponse.messagesList,nil);
-            [ALUserService getUserInfo:@""];
+
         }];
 
     }

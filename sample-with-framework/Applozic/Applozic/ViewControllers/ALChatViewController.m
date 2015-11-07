@@ -849,7 +849,7 @@ ALMessageDBService  * dbService;
             NSArray* theFil=[messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];
             NSLog(@"theFile %@",theFil);
             
-            [ALUserService processContactFromMessages:theFil];
+           // [ALUserService processContactFromMessages:theFil];
             [self.mTableView reloadData];
             
             //RELOAD TITLE

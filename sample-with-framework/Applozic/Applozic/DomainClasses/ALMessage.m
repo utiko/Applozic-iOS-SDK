@@ -24,7 +24,7 @@
     
     self.key =  [super getStringFromJsonValue:messageJson[@"key"]];
     
-    self.pairedMessageKeyString = [super getStringFromJsonValue:messageJson[@"pairedMessageKeyString"]];
+    self.pairedMessageKeyString = [super getStringFromJsonValue:messageJson[@"pairedMessageKey"]];
     
     
     // device keyString
