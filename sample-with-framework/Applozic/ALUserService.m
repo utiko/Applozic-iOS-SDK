@@ -44,9 +44,6 @@
                 [contactIdsArr addObject:appStr];
             
             }
-//            NSLog(@"messaeg Arr %@", messagesArr);
-
-//            NSLog(@"contactIdsArr %@",contactIdsArr);
             NSLog(@"contact ID(s) %@",msg.contactIds);
         }
     
