@@ -215,9 +215,7 @@
     }];
 }
 
-/*
- https://dashboard.applozic.com/rest/ws/message/delete/conversation?userId=iosdev2
- */
+
 +(void)deleteMessageThread:( NSString * ) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delete/conversation",KBASE_URL];
     NSString * theParamString = [NSString stringWithFormat:@"userId=%@",contactId];

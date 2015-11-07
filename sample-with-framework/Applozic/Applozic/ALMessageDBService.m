@@ -411,7 +411,7 @@
     
     NSError *error=nil;
     DB_Message * db_Message = (DB_Message*)[self getMeesageById:almessage.msgDBObjectId error:&error];
-    almessage.fileMetaKey = @[almessage.fileMeta.key];
+    almessage.fileMetaKey = almessage.fileMeta.key;
     
     db_Message.fileMetaInfo.blobKeyString = almessage.fileMeta.blobKey;
     db_Message.fileMetaInfo.contentType = almessage.fileMeta.contentType;
