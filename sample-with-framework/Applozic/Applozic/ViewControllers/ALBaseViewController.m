@@ -11,7 +11,7 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALConstant.h"
 
-@interface ALBaseViewController ()
+@interface ALBaseViewController ()<UITextViewDelegate>
 
 
 @property (nonatomic,retain) UIButton * rightViewButton;
@@ -55,11 +55,11 @@
     [self.mTableHeaderView addSubview:mLoadEarlierMessagesButton];
 
     // textfield right view
-    self.mSendMessageTextField.rightViewMode = UITextFieldViewModeAlways;
-    self.rightViewButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+
+    self.sendButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     [self.rightViewButton setImage:[UIImage imageNamed:@"mobicom_ic_action_send_now2.png"] forState:UIControlStateNormal];
     [self.rightViewButton addTarget:self action:@selector(postMessage) forControlEvents:UIControlEventTouchUpInside];
-    [self.mSendMessageTextField setRightView:self.rightViewButton];
+    [self.view addSubview:self.sendButton];
 }
 
 -(void)setUpTheming {
@@ -136,7 +136,7 @@
     NSDictionary * theDictionary = notification.userInfo;
     NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    self.mSendTextFieldBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y;
+    self.checkBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y;
 
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
@@ -153,7 +153,7 @@
 {
     NSDictionary * theDictionary = notification.userInfo;
     NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
-    self.mSendTextFieldBottomConstraint.constant = 0;
+    self.checkBottomConstraint.constant = 0;
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
 
@@ -173,17 +173,20 @@
 #pragma mark - Textfield Delegates
 //------------------------------------------------------------------------------------------------------------------
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
+-(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+    UITouch* touch=[[event allTouches] anyObject];
+    if([self.sendMessageTextView isFirstResponder]&&[touch view]!=self.sendMessageTextView){
+        [self.sendMessageTextView resignFirstResponder];
+        
+    }
 }
 
 #pragma mark tap gesture
 
 - (IBAction)handleTap:(UITapGestureRecognizer *)sender {
-    if ([self.mSendMessageTextField isFirstResponder]) {
-        [self.mSendMessageTextField resignFirstResponder];
+    if ([self.sendMessageTextView isFirstResponder]) {
+        [self.sendMessageTextView resignFirstResponder];
     }
 }
 
@@ -194,4 +197,7 @@
 }
 
 
+- (IBAction)sendAction:(id)sender {
+    [self postMessage];
+}
 @end

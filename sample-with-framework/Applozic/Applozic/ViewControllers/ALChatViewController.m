@@ -98,7 +98,7 @@ ALMessageDBService  * dbService;
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
-    [self.mSendMessageTextField resignFirstResponder];
+    [self.sendMessageTextView resignFirstResponder];
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ ALMessageDBService  * dbService;
     self.mImagePicker = [[UIImagePickerController alloc] init];
     self.mImagePicker.delegate = self;
 
-    self.mSendMessageTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter message here" attributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+   // self.sendMessageTextView.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter message here" attributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
     
     [self.mTableView registerClass:[ALChatCell class] forCellReuseIdentifier:@"ChatCell"];
     [self.mTableView registerClass:[ALChatCell_Image class] forCellReuseIdentifier:@"ChatCell_Image"];
@@ -173,7 +173,7 @@ ALMessageDBService  * dbService;
         [super scrollTableViewToBottomWithAnimation:YES];
     });
     // save message to db
-    [self.mSendMessageTextField setText:nil];
+    [self.sendMessageTextView setText:nil];
     self.mTotalCount = self.mTotalCount+1;
     self.startIndex = self.startIndex + 1;
     [ self sendMessage:theMessage];
@@ -228,7 +228,7 @@ ALMessageDBService  * dbService;
 
 -(void) postMessage
 {
-    if (self.mSendMessageTextField.text.length == 0) {
+    if (self.sendMessageTextView.text.length == 0) {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:
                                   @"Empty" message:@"Did you forget to type the message?" delegate:self
                                                 cancelButtonTitle:nil otherButtonTitles:@"Yes, Let me add something", nil];
@@ -242,7 +242,7 @@ ALMessageDBService  * dbService;
         [super scrollTableViewToBottomWithAnimation:YES];
     });
     // save message to db
-    [self.mSendMessageTextField setText:nil];
+    [self.sendMessageTextView setText:nil];
     self.mTotalCount = self.mTotalCount+1;
     self.startIndex = self.startIndex + 1;
     [ self sendMessage:theMessage];
@@ -347,7 +347,7 @@ ALMessageDBService  * dbService;
     theMessage.to = self.contactIds;//2
     theMessage.createdAtTime = [NSString stringWithFormat:@"%ld",(long)[[NSDate date] timeIntervalSince1970]*1000];
     theMessage.deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString ];
-    theMessage.message = self.mSendMessageTextField.text;//3
+    theMessage.message = self.sendMessageTextView.text;//3
     theMessage.sendToDevice = NO;
     theMessage.sent = NO;
     theMessage.shared = NO;
@@ -663,7 +663,7 @@ ALMessageDBService  * dbService;
    
     if (theMessage.fileMetas && [theMessage.type isEqualToString:@"5"]) {
         NSDictionary * userInfo = [theMessage dictionary];
-        [self.mSendMessageTextField setText:nil];
+        [self.sendMessageTextView setText:nil];
         self.mTotalCount = self.mTotalCount+1;
         self.startIndex = self.startIndex + 1;
         
@@ -930,7 +930,7 @@ ALMessageDBService  * dbService;
         NSString *  address = [dict valueForKey:@"address"];
         NSString *  googleurl = [dict valueForKey:@"googleurl"];
         NSString * finalString = [address stringByAppendingString:googleurl];
-        [[self mSendMessageTextField] setText:finalString];
+        [[self sendMessageTextView] setText:finalString];
         
     }
 }
