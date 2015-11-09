@@ -42,6 +42,8 @@
 
 @property (nonatomic, assign) id<ALChatCellImageDelegate> delegate;
 
+@property (nonatomic, strong) UITextView *imageWithText;
+
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize;
 
 
