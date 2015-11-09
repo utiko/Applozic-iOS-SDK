@@ -7,10 +7,10 @@
 //
 
 #import "ApplozicLoginViewController.h"
-#import  <Applozic/ALUser.h>
-#import  <Applozic/ALUserDefaultsHandler.h>
-#import  <Applozic/ALMessageClientService.h>
-#import  <Applozic/ALRegistrationResponse.h>
+#import <Applozic/ALUser.h>
+#import <Applozic/ALUserDefaultsHandler.h>
+#import <Applozic/ALMessageClientService.h>
+#import <Applozic/ALRegistrationResponse.h>
 #import <Applozic/ALRegisterUserClientService.h>
 #import <Applozic/ALMessagesViewController.h>
 

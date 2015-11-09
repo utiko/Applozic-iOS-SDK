@@ -99,7 +99,7 @@ ALMessageDBService  * dbService;
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
-    [self.mSendMessageTextField resignFirstResponder];
+    [self.sendMessageTextView resignFirstResponder];
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -114,7 +114,7 @@ ALMessageDBService  * dbService;
     self.mImagePicker = [[UIImagePickerController alloc] init];
     self.mImagePicker.delegate = self;
 
-    self.mSendMessageTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter message here" attributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+   // self.sendMessageTextView.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter message here" attributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
     
     [self.mTableView registerClass:[ALChatCell class] forCellReuseIdentifier:@"ChatCell"];
     [self.mTableView registerClass:[ALChatCell_Image class] forCellReuseIdentifier:@"ChatCell_Image"];
@@ -174,7 +174,7 @@ ALMessageDBService  * dbService;
         [super scrollTableViewToBottomWithAnimation:YES];
     });
     // save message to db
-    [self.mSendMessageTextField setText:nil];
+    [self.sendMessageTextView setText:nil];
     self.mTotalCount = self.mTotalCount+1;
     self.startIndex = self.startIndex + 1;
     [ self sendMessage:theMessage];
@@ -229,7 +229,7 @@ ALMessageDBService  * dbService;
 
 -(void) postMessage
 {
-    if (self.mSendMessageTextField.text.length == 0) {
+    if (self.sendMessageTextView.text.length == 0) {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:
                                   @"Empty" message:@"Did you forget to type the message?" delegate:self
                                                 cancelButtonTitle:nil otherButtonTitles:@"Yes, Let me add something", nil];
@@ -243,7 +243,7 @@ ALMessageDBService  * dbService;
         [super scrollTableViewToBottomWithAnimation:YES];
     });
     // save message to db
-    [self.mSendMessageTextField setText:nil];
+    [self.sendMessageTextView setText:nil];
     self.mTotalCount = self.mTotalCount+1;
     self.startIndex = self.startIndex + 1;
     [ self sendMessage:theMessage];
@@ -303,7 +303,16 @@ ALMessageDBService  * dbService;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ALMessage * theMessage = self.mMessageListArray[indexPath.row];
-    if (theMessage.fileMeta.thumbnailUrl == nil) {
+    
+    if((theMessage.message.length > 0) && (theMessage.fileMeta.thumbnailUrl!=nil))
+    {
+        
+        CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:@"Helvetica-Bold" fontSize:15];
+        
+        return theTextSize.height + self.view.frame.size.width - 30;
+    }
+    
+    else if (theMessage.fileMeta.thumbnailUrl == nil) {
         CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:@"Helvetica-Bold" fontSize:15];
         int extraSpace = 40 ;
         return theTextSize.height+21+extraSpace;
@@ -339,7 +348,7 @@ ALMessageDBService  * dbService;
     theMessage.createdAtTime = @((long long)([[NSDate date] timeIntervalSince1970] * 1000.0)).stringValue;
     NSLog(@" Date TIme stamp::: %@",     theMessage.createdAtTime );
     theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString ];
-    theMessage.message = self.mSendMessageTextField.text;//3
+    theMessage.message = self.sendMessageTextView.text;//3
     theMessage.sendToDevice = NO;
     theMessage.sent = NO;
     theMessage.shared = NO;
@@ -603,22 +612,38 @@ ALMessageDBService  * dbService;
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
-
     UIImage * image = [info valueForKey:UIImagePickerControllerOriginalImage];
     image = [image getCompressedImageLessThanSize:5];
+    
+   // UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    //
+    ALAttachmentController *obtext;
+    if(image)
+    {
+        obtext = [storyboard instantiateViewControllerWithIdentifier:@"imageandtext"];
+        [obtext setImagedocument:image];
+        [self.navigationController pushViewController:obtext animated:YES];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+    obtext.imagecontrollerDelegate = self;
 
+}
+
+-(void)check:(UIImage *)imageFile andText:(NSString *)textwithimage
+{
     // save image to doc
-    NSString * filePath = [ALImagePickerHandler saveImageToDocDirectory:image];
+    NSLog(@"check method of delegate and text: %@", textwithimage);
+    NSString * filePath = [ALImagePickerHandler saveImageToDocDirectory:imageFile];
     // create message object
     ALMessage * theMessage = [self getMessageToPost];
     theMessage.fileMeta = [self getFileMetaInfo];
-    
+    theMessage.message = textwithimage;
     theMessage.imageFilePath = filePath.lastPathComponent;
     NSData *imageSize = [NSData dataWithContentsOfFile:filePath];
     theMessage.fileMeta.size = [NSString stringWithFormat:@"%lu",(unsigned long)imageSize.length];
     //theMessage.fileMetas.thumbnailUrl = filePath.lastPathComponent;
-
+    
     // save msg to db
     
     [self.mMessageListArray addObject:theMessage];
@@ -631,20 +656,15 @@ ALMessageDBService  * dbService;
     [self uploadImage:theMessage];
     [self.mTableView reloadData];
     [self scrollTableViewToBottomWithAnimation:NO];
-
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//
-//            [UIView animateWithDuration:.25 animations:^{
-//        } completion:^(BOOL finished) {
-//        }];
-//    });
+    
 }
+
 
 -(void)uploadImage:(ALMessage *)theMessage {
    
     if (theMessage.fileMeta && [theMessage.type isEqualToString:@"5"]) {
         NSDictionary * userInfo = [theMessage dictionary];
-        [self.mSendMessageTextField setText:nil];
+        [self.sendMessageTextView setText:nil];
         self.mTotalCount = self.mTotalCount+1;
         self.startIndex = self.startIndex + 1;
         
@@ -915,7 +935,7 @@ ALMessageDBService  * dbService;
         NSString *  address = [dict valueForKey:@"address"];
         NSString *  googleurl = [dict valueForKey:@"googleurl"];
         NSString * finalString = [address stringByAppendingString:googleurl];
-        [[self mSendMessageTextField] setText:finalString];
+        [[self sendMessageTextView] setText:finalString];
         
     }
 }

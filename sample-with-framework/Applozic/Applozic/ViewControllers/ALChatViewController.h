@@ -12,8 +12,9 @@
 #import "DB_CONTACT.h"
 #import "ALContact.h"
 #import "ALChatCell.h"
+#import "ALAttachmentController.h"
 
-@interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate,ALChatCellDelegate>
+@interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate,ALChatCellDelegate,ALImageWithTextControllerDelegate>
 
 @property (strong, nonatomic) ALContact *alContact;
 @property (strong, nonatomic) NSMutableArray *mMessageListArray;

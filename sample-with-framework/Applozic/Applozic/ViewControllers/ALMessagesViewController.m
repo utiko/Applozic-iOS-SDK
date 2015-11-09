@@ -117,7 +117,7 @@
         ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
         [registerUserClientService logout];
         
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil]; // ApplozicLoginViewController.m
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         ALLoginViewController *add = [storyboard instantiateViewControllerWithIdentifier:@"ALLoginViewController"];
     
        [self presentViewController:add animated:YES completion:nil];
