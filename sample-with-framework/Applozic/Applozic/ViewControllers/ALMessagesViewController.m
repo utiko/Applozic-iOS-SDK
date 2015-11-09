@@ -97,6 +97,8 @@
         [dBService getMessages];
         [_detailChatViewController setRefreshMainView:FALSE];
     }
+    
+    [self.mTableView reloadData];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -191,7 +193,7 @@
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
     ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];             
     contactCell.mUserNameLabel.text = [alContact displayName];
-
+    NSLog(@"mUserName Label : %@",contactCell.mUserNameLabel.text);
     contactCell.mMessageLabel.text = message.message;
     contactCell.mMessageLabel.hidden = FALSE;
     if ([message.type integerValue] == [FORWARD_STATUS integerValue])
@@ -210,7 +212,7 @@
    
     contactCell.mUserImageView.hidden=FALSE;
 
-    NSLog(@"message.to and index %@   %i", message.to, indexPath.row);
+    NSLog(@"message.to and index %@   %li", message.to, (long)indexPath.row);
 
     if (alContact.localImageResourceName)
     {
@@ -242,15 +244,15 @@
 
 -(void)displayAttachmentMediaType:(ALMessage *)message andContactCell:(ALContactCell *)contactCell{
     
-    if([message.fileMetas.contentType isEqual:@"image/jpeg"]||[message.fileMetas.contentType isEqual:@"image/png"]
-       ||[message.fileMetas.contentType isEqual:@"image/gif"]||[message.fileMetas.contentType isEqual:@"image/tiff"]
-       ||[message.fileMetas.contentType isEqual:@"video/mp4"])
+    if([message.fileMeta.contentType isEqual:@"image/jpeg"]||[message.fileMeta.contentType isEqual:@"image/png"]
+       ||[message.fileMeta.contentType isEqual:@"image/gif"]||[message.fileMeta.contentType isEqual:@"image/tiff"]
+       ||[message.fileMeta.contentType isEqual:@"video/mp4"])
     {
         contactCell.mMessageLabel.hidden = YES;
         contactCell.imageMarker.hidden = NO;
         contactCell.imageNameLabel.hidden = NO;
         
-        if([message.fileMetas.contentType isEqual:@"video/mp4"])
+        if([message.fileMeta.contentType isEqual:@"video/mp4"])
         {
 //            contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_VIDEO", nil);
             contactCell.imageNameLabel.text = NSLocalizedString(@"Video", nil);

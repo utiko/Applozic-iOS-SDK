@@ -55,5 +55,5 @@ FOUNDATION_EXPORT const unsigned char ApplozicVersionString[];
 #import <Applozic/ALBaseViewController.h>
 #import <Applozic/ALConnectionQueueHandler.h>
 #import <Applozic/DB_Message.h>
-#import <Applozic/ALLoginViewController.h>
+//#import <Applozic/ALLoginViewController.h>
 #import <Applozic/UIImage+Utility.h>

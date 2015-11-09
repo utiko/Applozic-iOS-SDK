@@ -22,7 +22,7 @@
 
 -(void) initWithCompletion:(ALUser *)user withCompletion:(void(^)(ALRegistrationResponse * response, NSError *error)) completion
 {
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/registration/v1/register",KBASE_URL];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/register/client",KBASE_URL];
     [ALUserDefaultsHandler setApplicationKey: user.applicationId];
     [user setDeviceType:1];
     [user setPrefContactAPI:2];
@@ -72,8 +72,8 @@
         [ALUserDefaultsHandler setEmailVerified: user.emailVerified];
         [ALUserDefaultsHandler setDisplayName: user.displayName];
         [ALUserDefaultsHandler setEmailId:user.emailId];
-        [ALUserDefaultsHandler setDeviceKeyString:response.deviceKeyString];
-        [ALUserDefaultsHandler setUserKeyString:response.suUserKeyString];
+        [ALUserDefaultsHandler setDeviceKeyString:response.deviceKey];
+        [ALUserDefaultsHandler setUserKeyString:response.userKey];
         [ALUserDefaultsHandler setLastSyncTime:response.lastSyncTime];
         completion(response,nil);
         

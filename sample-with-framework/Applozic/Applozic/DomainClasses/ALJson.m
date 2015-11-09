@@ -61,7 +61,7 @@
         }
         else if ([value isKindOfClass:[NSObject class]]) {
             if ([value isKindOfClass:[ALFileMetaInfo class]]) {
-                [dictionary setObject:@[[value dictionary]] forKey:key];
+                [dictionary setObject:[value dictionary] forKey:key];
             }
             
         }

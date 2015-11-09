@@ -14,7 +14,7 @@
 @dynamic blobKeyString;
 @dynamic contentType;
 @dynamic createdAtTime;
-@dynamic keyString;
+@dynamic key;
 @dynamic name;
 @dynamic size;
 @dynamic suUserKeyString;

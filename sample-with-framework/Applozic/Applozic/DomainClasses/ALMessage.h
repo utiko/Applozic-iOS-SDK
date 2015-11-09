@@ -13,13 +13,13 @@
 
 @interface ALMessage : ALJson
 
-@property (nonatomic, copy) NSString * keyString;
+@property (nonatomic, copy) NSString * key;
 
 @property (nonatomic, copy) NSString * pairedMessageKeyString;
 
-@property (nonatomic, copy) NSString * deviceKeyString;
+@property (nonatomic, copy) NSString * deviceKey;
 
-@property (nonatomic, copy) NSString * suUserKeyString;
+@property (nonatomic, copy) NSString * userKey;
 
 @property (nonatomic, copy) NSString * to;
 
@@ -41,7 +41,7 @@
 
 @property (nonatomic, assign) BOOL storeOnDevice;
 
-@property (nonatomic,retain) ALFileMetaInfo * fileMetas;
+@property (nonatomic,retain) ALFileMetaInfo * fileMeta;
 
 @property (nonatomic,assign) BOOL read;
 
@@ -49,7 +49,7 @@
 
 @property (nonatomic,assign) BOOL inProgress;
 
-@property (nonatomic, strong)NSArray *fileMetaKeyStrings;
+@property (nonatomic, strong)NSString *fileMetaKey;
 
 @property (nonatomic, assign) BOOL isUploadFailed;
 
@@ -58,6 +58,13 @@
 @property(nonatomic,assign)BOOL sentToServer;
 
 @property(nonatomic,copy) NSManagedObjectID * msgDBObjectId;
+
+@property(nonatomic,assign) NSString *pairedMessageKey;
+
+@property(nonatomic,assign) long messageId;
+
+@property(nonatomic,retain)NSString * applicationId;
+
 
 -(NSString *)getCreatedAtTime:(BOOL)today;
 

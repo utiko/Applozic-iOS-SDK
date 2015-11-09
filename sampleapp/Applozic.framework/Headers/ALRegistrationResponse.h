@@ -12,8 +12,8 @@
 @interface ALRegistrationResponse : ALJson
 
 @property NSString *message;
-@property NSString *deviceKeyString;
-@property NSString *suUserKeyString;
+@property NSString *deviceKey;
+@property NSString *userKey;
 @property NSString *contactNumber;
 @property NSString *lastSyncTime;
 

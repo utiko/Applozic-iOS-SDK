@@ -17,14 +17,17 @@
 #import "ALConnectionQueueHandler.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageClientService.h"
+#import "ALSendMessageResponse.h"
+#import "ALUserService.h"
 
 @implementation ALMessageService
 
 +(void) getMessagesListGroupByContactswithCompletion:(void(^)(NSMutableArray * messages, NSError * error)) completion {
     
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/list",KBASE_URL];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
     
-    NSString * theParamString = nil;
+    
+    NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@",@"0"];
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
@@ -41,6 +44,7 @@
         
         completion(messageListResponse.messageList,nil);
         
+        [ALUserService processContactFromMessages:[messageListResponse messageList]];
     }];
     
 }
@@ -48,7 +52,7 @@
 +(void)getMessageListForUser:(NSString *)userId startIndex:(NSString *)startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSString *)endTimeStamp withCompletion:(void (^)(NSMutableArray *, NSError *))completion
 {
     
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/list",KBASE_URL];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
     
     NSString * theParamString = [NSString stringWithFormat:@"userId=%@&startIndex=%@&pageSize=%@&endTime=%@",userId,startIndex,pageSize,endTimeStamp];
     
@@ -89,7 +93,7 @@
     }
        //convert to dic
     NSDictionary * userInfo = [alMessage dictionary ];
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/send",KBASE_URL];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/send",KBASE_URL];
     NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
    
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
@@ -105,21 +109,19 @@
         
         NSString *statusStr = (NSString *)theJson;
         //TODO: move to db layer
-        NSArray *response = [statusStr componentsSeparatedByString:@","];
+        ALSendMessageResponse  *response = [[ALSendMessageResponse alloc] initWithJSONString:statusStr ];
 
         ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
         dbMessage.isSent = [NSNumber numberWithBool:YES];
-        dbMessage.keyString = response[0];
+        dbMessage.key = response.messageKey;
         dbMessage.inProgress = [NSNumber numberWithBool:NO];
         dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
-        NSString * createdAtFromServer =[NSString stringWithFormat:@"%@",(NSString*)response[1]];
-        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-        f.numberStyle = NSNumberFormatterDecimalStyle;
-        dbMessage.createdAt = [f numberFromString:createdAtFromServer];
-        alMessage.keyString = dbMessage.keyString;
+
+        dbMessage.createdAt =response.createdAt;
+        alMessage.key = dbMessage.key;
         dbMessage.sentToServer=[NSNumber numberWithBool:YES];
         
-        alMessage.keyString = dbMessage.keyString;
+        alMessage.key = dbMessage.key;
         alMessage.sentToServer= dbMessage.sentToServer.boolValue;
         alMessage.inProgress=dbMessage.inProgress.boolValue;
         alMessage.isUploadFailed=dbMessage.isUploadFailed.boolValue;
@@ -134,7 +136,7 @@
 
 +(void) sendPhotoForUserInfo:(NSDictionary *)userInfo withCompletion:(void(^)(NSString * message, NSError *error)) completion {
     
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/file/url",KBASE_URL];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/aws/file/url",KBASE_FILE_URL];
 
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:nil];
     
@@ -163,9 +165,9 @@
             lastSyncTime = @"0";
         }
         NSLog(@"last syncTime in call %@", lastSyncTime);
-        NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/sync/messages",KBASE_URL];
+        NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/sync",KBASE_URL];
     
-        NSString * theParamString = [NSString stringWithFormat:@"deviceKeyString=%@&lastSyncTime=%@",deviceKeyString,lastSyncTime];
+        NSString * theParamString = [NSString stringWithFormat:@"lastSyncTime=%@",lastSyncTime];
         
         NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
         
@@ -182,6 +184,8 @@
             if(syncResponse.messagesList.count >0 ){
                 ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
                 [dbService addMessageList:syncResponse.messagesList];
+               // [ALUserService processContactFromMessages:syncResponse.messageList];
+
             }
             [ALUserDefaultsHandler
              setLastSyncTime:syncResponse.lastSyncTime];
@@ -197,8 +201,8 @@
   }
 
 +(void )deleteMessage:( NSString * ) keyString andContactId:( NSString * )contactId withCompletion:(void (^)(NSString *, NSError *))completion{
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/mobicomkit/v1/message/delete",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"key=%@&to=%@&contactNumber=%@",keyString,contactId,contactId];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delete",KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"key=%@&userId=%@",keyString,contactId];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
@@ -215,14 +219,10 @@
     }];
 }
 
-/*
- 
- &requestSource=1"
- +"&suUserKeyString=
- */
+
 +(void)deleteMessageThread:( NSString * ) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/sms/deleteConversion",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"contactNumber=%@&requestSource=1&suUserKeyString=%@",contactId,[ALUserDefaultsHandler getUserKeyString ]];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delete/conversation",KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
@@ -273,7 +273,7 @@
         if (imageData)
         {
             [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-            [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", FileParamConstant,message.fileMetas.name] dataUsingEncoding:NSUTF8StringEncoding]];
+            [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", FileParamConstant,message.fileMeta.name] dataUsingEncoding:NSUTF8StringEncoding]];
             [body appendData:[@"Content-Type:image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
             [body appendData:imageData];
             [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -285,14 +285,14 @@
         // set URL
         [request setURL:[NSURL URLWithString:uploadURL]];
         NSMutableArray * theCurrentConnectionsArray = [[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue];
-        NSArray * theFiletredArray = [theCurrentConnectionsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keystring == %@", message.keyString]];
+        NSArray * theFiletredArray = [theCurrentConnectionsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keystring == %@", message.key]];
         
         if( theFiletredArray.count>0 ){
             NSLog(@"upload is already running .....not starting new one ....");
             return;
         }
         ALConnection * connection = [[ALConnection alloc] initWithRequest:request delegate:delegate startImmediately:YES];
-        connection.keystring =message.keyString;
+        connection.keystring =message.key;
         connection.connectionType = @"Image Posting";
         [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] addObject:connection];
     
@@ -300,10 +300,10 @@
   
 }
 +(void) processImageDownloadforMessage:(ALMessage *) message withdelegate:(id)delegate{
-    NSString * urlString = [NSString stringWithFormat:@"%@/rest/ws/file/%@",KBASE_URL,message.fileMetas.keyString];
+    NSString * urlString = [NSString stringWithFormat:@"%@/rest/ws/aws/file/%@",KBASE_FILE_URL,message.fileMeta.blobKey];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:urlString paramString:nil];
     ALConnection * connection = [[ALConnection alloc] initWithRequest:theRequest delegate:delegate startImmediately:YES];
-    connection.keystring = message.keyString;
+    connection.keystring = message.key;
     connection.connectionType = @"Image Downloading";
     [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] addObject:connection];
 }
@@ -311,16 +311,16 @@
 +(ALMessage*) processFileUploadSucess: (ALMessage *) message{
     
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-    DB_Message *dbMessage =  (DB_Message*)[dbService getMessageByKey:@"keyString" value:message.keyString];
+    DB_Message *dbMessage =  (DB_Message*)[dbService getMessageByKey:@"key" value:message.key];
     
-    dbMessage.fileMetaInfo.blobKeyString = message.fileMetas.blobKeyString;
-    dbMessage.fileMetaInfo.contentType = message.fileMetas.contentType;
-    dbMessage.fileMetaInfo.createdAtTime = message.fileMetas.createdAtTime;
-    dbMessage.fileMetaInfo.keyString = message.fileMetas.keyString;
-    dbMessage.fileMetaInfo.name = message.fileMetas.name;
-    dbMessage.fileMetaInfo.size = message.fileMetas.size;
-    dbMessage.fileMetaInfo.suUserKeyString = message.fileMetas.suUserKeyString;
-    message.fileMetaKeyStrings = @[message.fileMetas.keyString];
+    dbMessage.fileMetaInfo.blobKeyString = message.fileMeta.blobKey;
+    dbMessage.fileMetaInfo.contentType = message.fileMeta.contentType;
+    dbMessage.fileMetaInfo.createdAtTime = message.fileMeta.createdAtTime;
+    dbMessage.fileMetaInfo.key = message.fileMeta.key;
+    dbMessage.fileMetaInfo.name = message.fileMeta.name;
+    dbMessage.fileMetaInfo.size = message.fileMeta.size;
+    dbMessage.fileMetaInfo.suUserKeyString = message.fileMeta.userKey;
+    message.fileMetaKey = message.fileMeta.key;
     [[ALDBHandler sharedInstance].managedObjectContext save:nil];
     return message;
 }

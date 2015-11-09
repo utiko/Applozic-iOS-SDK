@@ -26,6 +26,8 @@
 
 @property(nonatomic,retain) NSString * localImageResourceName;
 
+@property(nonatomic,retain)NSString * applicationId;
+
 -(instancetype)initWithDict:(NSDictionary * ) dictionary;
 -(void)populateDataFromDictonary:(NSDictionary *)dict;
 @end
