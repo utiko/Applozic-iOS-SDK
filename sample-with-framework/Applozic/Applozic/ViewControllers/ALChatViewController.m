@@ -110,7 +110,6 @@ ALMessageDBService  * dbService;
     self.rp = 20;
     self.startIndex = 0;
     self.mMessageListArray = [NSMutableArray new];
-    self.mMessageListArrayKeyStrings=[NSMutableArray new];
     self.mImagePicker = [[UIImagePickerController alloc] init];
     self.mImagePicker.delegate = self;
 
@@ -399,7 +398,7 @@ ALMessageDBService  * dbService;
     for (DB_Message * theEntity in theArray) {
         ALMessage * theMessage = [messageDBService createMessageForSMSEntity:theEntity];
         [self.mMessageListArray insertObject:theMessage atIndex:0];
-                [self.mMessageListArrayKeyStrings insertObject:theMessage.key atIndex:0];
+        //[self.mMessageListArrayKeyStrings insertObject:theMessage.key atIndex:0];
     }
 
     [self.mTableView reloadData];
