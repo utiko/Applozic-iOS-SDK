@@ -63,7 +63,7 @@
     
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     
-    NSManagedObject* message = [self getMessageByKey:@"keyString"  value:keyString];
+    NSManagedObject* message = [self getMessageByKey:@"key"  value:keyString];
     [message setValue:[NSNumber numberWithBool:YES] forKey:@"delivered"];
     NSError *error = nil;
     if ( [dbHandler.managedObjectContext save:&error]){
