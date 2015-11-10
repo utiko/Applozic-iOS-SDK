@@ -20,6 +20,13 @@
     self.imageText.delegate = self;
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    
+    self.imageText.layer.masksToBounds=YES;
+    self.imageText.layer.borderColor=[[UIColor brownColor] CGColor];
+    self.imageText.layer.borderWidth=1.0f;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

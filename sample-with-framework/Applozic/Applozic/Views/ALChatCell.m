@@ -254,7 +254,7 @@
 // Default copy method
 - (void)copy:(id)sender {
     
-    NSLog(@"Copy in ALChatViewController, messageId: %@", self.mMessage.message);
+    NSLog(@"Copy in ALCHATCELL, messageId: %@", self.mMessage.message);
     UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
     //[pasteBoard setString:cell.textLabel.text];
     [pasteBoard setString:self.mMessage.message];
