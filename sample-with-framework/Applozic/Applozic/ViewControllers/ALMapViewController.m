@@ -16,7 +16,7 @@
 @end
 
 @implementation ALMapViewController
-@synthesize locationManager;
+@synthesize locationManager, region;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -32,16 +32,15 @@
     if([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]){
         [self.locationManager requestWhenInUseAuthorization];
     }
+    
+    region = self.mapKitView.region;
+
     [self.locationManager startUpdatingLocation];
-    
-    //self.mapKitView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    
+
     [self.mapKitView setShowsUserLocation:YES];
     [self.mapKitView setDelegate:self];
-    // [self.view addSubview:self.mapKitView];
     
-    
-    
+  
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -60,18 +59,19 @@
 
 - (IBAction)sendLocation:(id)sender {
     NSLog(@"location sending .... ");
-    MKCoordinateRegion region = self.mapKitView.region;
     
+   
     NSLog(@"latitude: %.8f && longitude: %.8f", region.center.latitude, region.center.longitude);
     
     //static map location
+    
     
  /*  NSString * locationURL=[NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/staticmap?center=%.8f,%.8f&zoom=17&size=290x179&maptype=roadmap&format=png&visual_refresh=true&markers=%.8f,%.8f",region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
     */
     
             //simpe location link
      
-    NSString * locationURL=[NSString stringWithFormat:@"http://maps.google.com/?ll=%.8f,%.8f", region.center.latitude, region.center.longitude];
+    NSString * locationURL=[NSString stringWithFormat:@"http://maps.google.com/?ll=%.8f,%.8f,15z", region.center.latitude, region.center.longitude];
    
     
     [self.controllerDelegate getUserCurrentLocation:locationURL];
@@ -122,7 +122,7 @@
 
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     
-    [self.mapKitView setRegion:MKCoordinateRegionMake(userLocation.coordinate, MKCoordinateSpanMake(0.01f, 0.01f)) animated:YES];
+    [self.mapKitView setRegion:MKCoordinateRegionMake(userLocation.coordinate, MKCoordinateSpanMake(0.002f, 0.002f)) animated:YES];
     
 }
 
