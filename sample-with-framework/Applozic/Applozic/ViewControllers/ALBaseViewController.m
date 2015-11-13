@@ -94,7 +94,13 @@
 }
 
 -(void)back:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+   
+    UIViewController *  uiController = [self.navigationController popViewControllerAnimated:YES];
+    
+    if(!uiController){
+        [self  dismissViewControllerAnimated:YES completion:nil];
+    }
+    
 }
 
 -(void)refreshTable:(id)sender {
