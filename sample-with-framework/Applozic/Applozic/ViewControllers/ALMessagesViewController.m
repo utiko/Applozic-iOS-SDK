@@ -37,6 +37,9 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
 @property (strong, nonatomic) IBOutlet UINavigationItem *navBar;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
+- (IBAction)backButtonAction:(id)sender;
+
 // Constants
 
 // IBOutlet
@@ -394,5 +397,13 @@
 
 - (void)dealloc {
     
+}
+- (IBAction)backButtonAction:(id)sender {
+    
+    UIViewController *  uiController = [self.navigationController popViewControllerAnimated:YES];
+    
+    if(!uiController){
+        [self  dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 @end
