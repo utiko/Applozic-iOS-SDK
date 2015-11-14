@@ -134,6 +134,8 @@
 
 - (IBAction)login:(id)sender {
     
+    [ALUserDefaultsHandler setBackButtonHidden:YES];
+
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
     
@@ -174,7 +176,6 @@
         
         NSLog(@"Registration response from server:%@", rResponse);
         
-      //  [self performSegueWithIdentifier:@"MessagesViewController" sender:self];
         
         UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                                              bundle:[NSBundle bundleForClass:ALMessagesViewController.class]];

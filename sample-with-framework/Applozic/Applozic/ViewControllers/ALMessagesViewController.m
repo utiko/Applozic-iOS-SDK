@@ -80,6 +80,10 @@
     {
         [self.navBar setRightBarButtonItems:nil];
     }
+    if([ALUserDefaultsHandler isBackButtonHidden])
+    {
+        [self.navBar setLeftBarButtonItems:nil];
+    }
     
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     

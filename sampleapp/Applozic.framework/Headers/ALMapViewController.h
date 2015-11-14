@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *sendLocationButton;
 @property (weak, nonatomic) IBOutlet MKMapView *mapKitView;
 @property (strong, nonatomic ) CLLocationManager *locationManager;
+@property  MKCoordinateRegion region;
 
 @property(nonatomic, weak) id<ALMapViewControllerDelegate>controllerDelegate;
 

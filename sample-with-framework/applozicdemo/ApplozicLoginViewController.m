@@ -137,7 +137,8 @@
     // Initial login view .....
     [ALUserDefaultsHandler setLogoutButtonHidden:NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
-    
+ 
+
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
     
@@ -181,6 +182,7 @@
         //-----------------------------------------------------------------------
          // Launching Chat Screens ...
         //-----------------------------------------------------------------------
+        
         
         UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
                                                              bundle:nil];
