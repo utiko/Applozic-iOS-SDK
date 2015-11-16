@@ -70,7 +70,7 @@
     theMessage.delivered=NO;
     theMessage.fileMetaKey = @"";//4
     
-    [messageDBService createSMSEntityForDBInsertionWithMessage:theMessage];
+    [messageDBService createMessageEntityForDBInsertionWithMessage:theMessage];
     [theDBHandler.managedObjectContext save:nil];
 
 }
