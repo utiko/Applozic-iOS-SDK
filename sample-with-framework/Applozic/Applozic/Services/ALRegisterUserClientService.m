@@ -126,7 +126,7 @@
     //[session subscribeToTopic:@"status" atLevel:MQTTQosLevelAtLeastOnce];
     [_session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"1"] dataUsingEncoding:NSUTF8StringEncoding]
                          onTopic:@"status"
-                          retain:NO
+                          retain:YES
                              qos:MQTTQosLevelAtMostOnce];
     NSLog(@"published");
 }
