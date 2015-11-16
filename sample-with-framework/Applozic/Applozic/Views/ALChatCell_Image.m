@@ -319,7 +319,7 @@ UIViewController * modalCon;
     else{
         theUrl = [NSURL URLWithString:alMessage.fileMeta.thumbnailUrl];
     }
-    NSLog(@"theUrl:%@",  theUrl);
+    
     [self.mImageView sd_setImageWithURL:theUrl];
     return self;
     

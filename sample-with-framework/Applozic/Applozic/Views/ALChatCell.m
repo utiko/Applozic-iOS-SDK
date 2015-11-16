@@ -162,7 +162,6 @@
         else
         {
             self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
-            NSLog(@"Default Image for this chat/profile ");
         }
 
         
@@ -172,7 +171,6 @@
     {
         self.mUserProfileImageView.alpha=0;
         self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 45, 45);
-//        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
         
         int imgVwWidth = theTextSize.width>150?theTextSize.width+14:150;
         

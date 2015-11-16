@@ -200,7 +200,6 @@
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
     ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];             
     contactCell.mUserNameLabel.text = [alContact displayName];
-    NSLog(@"mUserName Label : %@",contactCell.mUserNameLabel.text);
     contactCell.mMessageLabel.text = message.message;
     contactCell.mMessageLabel.hidden = FALSE;
     if ([message.type integerValue] == [FORWARD_STATUS integerValue])
@@ -219,22 +218,18 @@
    
     contactCell.mUserImageView.hidden=FALSE;
 
-    NSLog(@"message.to and index %@   %li", message.to, (long)indexPath.row);
-
     if (alContact.localImageResourceName)
     {
         UIImage *someImage = [UIImage imageNamed:alContact.localImageResourceName];
 
         [contactCell.mUserImageView  setImage:someImage];
         nameIcon.hidden = TRUE;
-        NSLog(@"image from local : %@", alContact.localImageResourceName);
     }
     else if(alContact.contactImageUrl)
     {
         NSURL * theUrl1 = [NSURL URLWithString:alContact.contactImageUrl];
         [contactCell.mUserImageView sd_setImageWithURL:theUrl1];
         nameIcon.hidden = TRUE;
-        NSLog(@"DASHBOARD IF URL: %@", alContact.contactImageUrl);
     }
     
     else

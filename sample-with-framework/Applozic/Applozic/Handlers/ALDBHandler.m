@@ -371,7 +371,6 @@
         
         return dbContact;
     } else {
-        NSLog(@"contact not found with this key");
         return nil;
     }
 }

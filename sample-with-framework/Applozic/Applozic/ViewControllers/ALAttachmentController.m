@@ -38,7 +38,6 @@
 }
 
 - (IBAction)sendButtonAction:(id)sender {
-    NSLog(@"SEND BUTTON CALLED");
  
     [self.imagecontrollerDelegate check:self.imagedocument andText:self.imageText.text];
     [self.navigationController popViewControllerAnimated:YES];

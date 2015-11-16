@@ -77,7 +77,7 @@ ALMessageDBService  * dbService;
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden: YES];
-    NSLog(@"viewWillAppear will be called ....");
+//    NSLog(@"viewWillAppear will be called ....");
 
 
     if(self.refresh || (self.mMessageListArray && self.mMessageListArray.count == 0) ||
@@ -134,7 +134,7 @@ ALMessageDBService  * dbService;
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     theRequest.predicate = [NSPredicate predicateWithFormat:@"contactId = %@",self.contactIds];
     self.mTotalCount = [theDbHandler.managedObjectContext countForFetchRequest:theRequest error:nil];
-    NSLog(@"%lu",(unsigned long)self.mTotalCount);
+   // NSLog(@"%lu",(unsigned long)self.mTotalCount);
 }
 
 //This is just a test method 
