@@ -74,7 +74,7 @@
         [ALUserDefaultsHandler setEmailId:user.emailId];
         [ALUserDefaultsHandler setDeviceKeyString:response.deviceKey];
         [ALUserDefaultsHandler setUserKeyString:response.userKey];
-        [ALUserDefaultsHandler setLastSyncTime:response.lastSyncTime];
+        [ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.lastSyncTime];
         completion(response,nil);
         
     }];
