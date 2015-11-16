@@ -44,7 +44,7 @@
         
         completion(messageListResponse.messageList,nil);
         
-        [ALUserService processContactFromMessages:[messageListResponse messageList]];
+       // [ALUserService processContactFromMessages:[messageListResponse messageList]];
     }];
     
 }

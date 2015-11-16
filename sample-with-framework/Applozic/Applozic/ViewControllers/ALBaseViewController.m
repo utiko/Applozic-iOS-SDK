@@ -94,7 +94,13 @@
 }
 
 -(void)back:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+   
+    UIViewController *  uiController = [self.navigationController popViewControllerAnimated:YES];
+    
+    if(!uiController){
+        [self  dismissViewControllerAnimated:YES completion:nil];
+    }
+    
 }
 
 -(void)refreshTable:(id)sender {
@@ -107,13 +113,13 @@
 
 -(void)viewWillAppear:(BOOL)animated{
 
-    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+    [self.tabBarController.tabBar setHidden: YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
 
     self.navigationController.navigationBar.barTintColor = self.navColor;
-    self.tabBarController.tabBar.hidden = [ALUserDefaultsHandler isBottomTabBarHidden];
+    self.tabBarController.tabBar.hidden = YES;
 }
 
 // Setting up keyboard notifications.

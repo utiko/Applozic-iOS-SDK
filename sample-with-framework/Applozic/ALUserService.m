@@ -54,8 +54,8 @@
     NSLog(@"rep String %@",repString);
 
 //    [ALUserService getUserInfo:repString];
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/v1/info?%@",KBASE_URL,repString];
-    NSString * theParamString = nil;
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/v1/info",KBASE_URL];
+    NSString * theParamString = repString;
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"GET ALl DISPLAY NAMES" WithCompletionHandler:^(id theJson, NSError *theError) {

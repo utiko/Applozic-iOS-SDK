@@ -7,9 +7,11 @@
 
 
 //#define KBASE_URL @"https://applozic.appspot.com"
-
-//#define KBASE_URL @"https://dashboard.applozic.com"
 #define KBASE_URL @"https://apps.applozic.com"
+//#define KBASE_URL @"http://dashboard.mobicomkit.com"
+
+#define MQTT_URL @"tcp://apps.applozic.com"
+#define MQTT_PORT @"1883"
 
 #define KBASE_FILE_URL @"https://applozic.appspot.com"
 

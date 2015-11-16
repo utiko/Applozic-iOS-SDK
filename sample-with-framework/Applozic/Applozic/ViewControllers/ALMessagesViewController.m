@@ -37,6 +37,9 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
 @property (strong, nonatomic) IBOutlet UINavigationItem *navBar;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
+- (IBAction)backButtonAction:(id)sender;
+
 // Constants
 
 // IBOutlet
@@ -76,6 +79,10 @@
     if([ALUserDefaultsHandler isLogoutButtonHidden])
     {
         [self.navBar setRightBarButtonItems:nil];
+    }
+    if([ALUserDefaultsHandler isBackButtonHidden])
+    {
+        [self.navBar setLeftBarButtonItems:nil];
     }
     
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
@@ -394,5 +401,13 @@
 
 - (void)dealloc {
     
+}
+- (IBAction)backButtonAction:(id)sender {
+    
+    UIViewController *  uiController = [self.navigationController popViewControllerAnimated:YES];
+    
+    if(!uiController){
+        [self  dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 @end

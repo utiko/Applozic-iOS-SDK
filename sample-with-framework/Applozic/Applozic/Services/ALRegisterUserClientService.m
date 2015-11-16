@@ -16,6 +16,13 @@
 #import "ALRegistrationResponse.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageDBService.h"
+#import "MQTTClient/MQTTSession.h"
+
+@interface ALRegisterUserClientService()
+
+@property MQTTSession *session;
+
+@end
 
 @implementation ALRegisterUserClientService
 
@@ -74,7 +81,7 @@
         [ALUserDefaultsHandler setEmailId:user.emailId];
         [ALUserDefaultsHandler setDeviceKeyString:response.deviceKey];
         [ALUserDefaultsHandler setUserKeyString:response.userKey];
-        [ALUserDefaultsHandler setLastSyncTime:response.lastSyncTime];
+        [ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.lastSyncTime];
         completion(response,nil);
         
     }];
@@ -92,6 +99,48 @@
         [user setUserId:[ALUserDefaultsHandler getUserId]];
         [self initWithCompletion:user withCompletion: completion];
     }
+}
+
+
+-(void) connect {
+    if (![ALUserDefaultsHandler isLoggedIn]) {
+        return;
+    }
+    
+    NSLog(@"connecting to mqtt server");
+    _session = [[MQTTSession alloc]initWithClientId:[NSString stringWithFormat:@"%@-%f",
+                                                    [ALUserDefaultsHandler getUserKeyString],fmod([[NSDate date] timeIntervalSince1970], 10.0)]];
+    _session.protocolLevel = 4;
+    _session.willFlag = TRUE;
+    _session.willTopic = @"status";
+    _session.willMsg = [[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"0"] dataUsingEncoding:NSUTF8StringEncoding];
+    _session.willQoS = MQTTQosLevelAtMostOnce;
+    
+    // Set delegate appropriately to receive various events
+    // See MQTTSession.h for information on various handlers
+    // you can subscribe to.
+    //[session setDelegate:self];
+    
+    [_session connectAndWaitToHost:MQTT_URL port:[MQTT_PORT intValue] usingSSL:NO];
+    NSLog(@"connected...");
+    //[session subscribeToTopic:@"status" atLevel:MQTTQosLevelAtLeastOnce];
+    [_session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"1"] dataUsingEncoding:NSUTF8StringEncoding]
+                         onTopic:@"status"
+                          retain:YES
+                             qos:MQTTQosLevelAtMostOnce];
+    NSLog(@"published");
+}
+
+-(void) disconnect {
+    if (![ALUserDefaultsHandler isLoggedIn]) {
+        return;
+    }
+    NSLog(@"disconnecting from mqtt server");
+    [_session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"0"] dataUsingEncoding:NSUTF8StringEncoding]
+                         onTopic:@"status"
+                          retain:NO
+                             qos:MQTTQosLevelAtMostOnce];
+    [_session close];
 }
 
 -(void) logout

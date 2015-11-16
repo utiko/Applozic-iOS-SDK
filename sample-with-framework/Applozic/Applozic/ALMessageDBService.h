@@ -49,9 +49,9 @@
 -(BOOL) isMessageTableEmpty;
 -(void)deleteAllObjectsInCoreData;
 
--(DB_Message *) createSMSEntityForDBInsertionWithMessage:(ALMessage *) theMessage;
+-(DB_Message *) createMessageEntityForDBInsertionWithMessage:(ALMessage *) theMessage;
 -(DB_FileMetaInfo *) createFileMetaInfoEntityForDBInsertionWithMessage:(ALFileMetaInfo *) fileInfo;
--(ALMessage *) createMessageForSMSEntity:(DB_Message *) theEntity;
+-(ALMessage *) createMessageEntity:(DB_Message *) theEntity;
 
 
 @property(nonatomic,weak) id <ALMessagesDelegate>delegate;

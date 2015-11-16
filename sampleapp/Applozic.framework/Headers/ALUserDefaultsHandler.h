@@ -18,6 +18,7 @@
 #define CONVERSATION_DB_SYNCED @"CONVERSATION_DB_SYNCED"
 #define LOGOUT_BUTTON_VISIBLITY @"LOGOUT_BUTTON_VISIBLITY"
 #define BOTTOM_TAB_BAR_VISIBLITY @"BOTTOM_TAB_BAR_VISIBLITY"
+#define BACK_BTN_VISIBILITY_ON_CON_LIST @"BACK_BTN_VISIBILITY_ON_CON_LIST"
 
 #import <Foundation/Foundation.h>
 
@@ -30,6 +31,10 @@
 +(void) setLogoutButtonHidden: (BOOL)flagValue;
 
 +(BOOL) isLogoutButtonHidden;
+
++(void) setBackButtonHidden: (BOOL)flagValue;
+
++(BOOL) isBackButtonHidden;
 
 +(BOOL) isLoggedIn;
 

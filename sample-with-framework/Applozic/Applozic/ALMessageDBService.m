@@ -33,9 +33,9 @@
             continue;
         }
         
-        DB_Message * theSmsEntity= [self createSMSEntityForDBInsertionWithMessage:theMessage];
+        DB_Message * theMessageEntity= [self createMessageEntityForDBInsertionWithMessage:theMessage];
         [theDBHandler.managedObjectContext save:nil];
-        theMessage.msgDBObjectId = theSmsEntity.objectID;
+        theMessage.msgDBObjectId = theMessageEntity.objectID;
 
     }
     
@@ -45,7 +45,7 @@
 
 -(DB_Message*)addMessage:(ALMessage*) message{
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-    DB_Message* dbMessag = [self createSMSEntityForDBInsertionWithMessage:message];
+    DB_Message* dbMessag = [self createMessageEntityForDBInsertionWithMessage:message];
     [theDBHandler.managedObjectContext save:nil];
     message.msgDBObjectId = dbMessag.objectID;
     return dbMessag;
@@ -301,9 +301,9 @@
         [theRequest setFetchLimit:1];
 
         NSArray * theArray =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
-        DB_Message * theSmsEntity = theArray.firstObject;
-        ALMessage * theMessage = [self createMessageForSMSEntity:theSmsEntity];
-        theMessage.createdAtTime = [NSString stringWithFormat:@"%@",theSmsEntity.createdAt];
+        DB_Message * theMessageEntity = theArray.firstObject;
+        ALMessage * theMessage = [self createMessageEntity:theMessageEntity];
+        theMessage.createdAtTime = [NSString stringWithFormat:@"%@",theMessageEntity.createdAt];
         [messagesArray addObject:theMessage];
     }
 
@@ -312,35 +312,35 @@
     }
 }
 
--(DB_Message *) createSMSEntityForDBInsertionWithMessage:(ALMessage *) theMessage
+-(DB_Message *) createMessageEntityForDBInsertionWithMessage:(ALMessage *) theMessage
 {
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     
-    DB_Message * theSmsEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
+    DB_Message * theMessageEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
     
-    theSmsEntity.contactId = theMessage.contactIds;
-    theSmsEntity.createdAt = [NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
-    theSmsEntity.deviceKey = theMessage.deviceKey;
-    theSmsEntity.isRead = [NSNumber numberWithBool:theMessage.read];
-    theSmsEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
-    theSmsEntity.isSentToDevice = [NSNumber numberWithBool:theMessage.sendToDevice];
-    theSmsEntity.isShared = [NSNumber numberWithBool:theMessage.shared];
-    theSmsEntity.isStoredOnDevice = [NSNumber numberWithBool:theMessage.storeOnDevice];
-    theSmsEntity.key = theMessage.key;
-    theSmsEntity.messageText = theMessage.message;
-    theSmsEntity.userKey = theMessage.userKey;
-    theSmsEntity.to = theMessage.to;
-    theSmsEntity.type = theMessage.type;
-    theSmsEntity.delivered = [NSNumber numberWithBool:theMessage.delivered];
-    theSmsEntity.sentToServer = [NSNumber numberWithBool:theMessage.sentToServer];
-    theSmsEntity.filePath = theMessage.imageFilePath;
-    theSmsEntity.inProgress = [ NSNumber numberWithBool:theMessage.inProgress];
-    theSmsEntity.isUploadFailed=[ NSNumber numberWithBool:theMessage.isUploadFailed];
+    theMessageEntity.contactId = theMessage.contactIds;
+    theMessageEntity.createdAt = [NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
+    theMessageEntity.deviceKey = theMessage.deviceKey;
+    theMessageEntity.isRead = [NSNumber numberWithBool:theMessage.read];
+    theMessageEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
+    theMessageEntity.isSentToDevice = [NSNumber numberWithBool:theMessage.sendToDevice];
+    theMessageEntity.isShared = [NSNumber numberWithBool:theMessage.shared];
+    theMessageEntity.isStoredOnDevice = [NSNumber numberWithBool:theMessage.storeOnDevice];
+    theMessageEntity.key = theMessage.key;
+    theMessageEntity.messageText = theMessage.message;
+    theMessageEntity.userKey = theMessage.userKey;
+    theMessageEntity.to = theMessage.to;
+    theMessageEntity.type = theMessage.type;
+    theMessageEntity.delivered = [NSNumber numberWithBool:theMessage.delivered];
+    theMessageEntity.sentToServer = [NSNumber numberWithBool:theMessage.sentToServer];
+    theMessageEntity.filePath = theMessage.imageFilePath;
+    theMessageEntity.inProgress = [ NSNumber numberWithBool:theMessage.inProgress];
+    theMessageEntity.isUploadFailed=[ NSNumber numberWithBool:theMessage.isUploadFailed];
     if(theMessage.fileMeta != nil) {
         DB_FileMetaInfo *  fileInfo =  [self createFileMetaInfoEntityForDBInsertionWithMessage:theMessage.fileMeta];
-        theSmsEntity.fileMetaInfo = fileInfo;
+        theMessageEntity.fileMetaInfo = fileInfo;
     }
-    return theSmsEntity;
+    return theMessageEntity;
 }
 
 -(DB_FileMetaInfo *) createFileMetaInfoEntityForDBInsertionWithMessage:(ALFileMetaInfo *) fileInfo
@@ -368,7 +368,7 @@
     return fileMetaInfo;
 }
 
--(ALMessage *) createMessageForSMSEntity:(DB_Message *) theEntity
+-(ALMessage *) createMessageEntity:(DB_Message *) theEntity
 {
     ALMessage * theMessage = [ALMessage new];
     

@@ -137,7 +137,8 @@
     // Initial login view .....
     [ALUserDefaultsHandler setLogoutButtonHidden:NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
-    
+ 
+
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
     
@@ -178,12 +179,15 @@
         
         NSLog(@"Registration response from server:%@", rResponse);
         
-      //  [self performSegueWithIdentifier:@"MessagesViewController" sender:self];
+        //-----------------------------------------------------------------------
+         // Launching Chat Screens ...
+        //-----------------------------------------------------------------------
         
-        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                                             bundle:[NSBundle bundleForClass:ALMessagesViewController.class]];
-        UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
-        [self presentViewController:theTabBar animated:YES completion:nil];
+        
+        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
+                                                             bundle:nil];
+        UIViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
+        [self presentViewController:controller animated:YES completion:nil];
         
     }];
     

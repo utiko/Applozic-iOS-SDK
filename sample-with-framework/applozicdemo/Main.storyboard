@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -107,6 +108,91 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VsK-qJ-ZRd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="118" y="627"/>
+        </scene>
+        <!--Launch Chat From Simple View Controller-->
+        <scene sceneID="h9q-Jh-0nx">
+            <objects>
+                <viewController storyboardIdentifier="LaunchChatFromSimpleViewController" id="Zmt-x5-PHb" customClass="LaunchChatFromSimpleViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gZt-cC-Hdr"/>
+                        <viewControllerLayoutGuide type="bottom" id="EpC-Dg-hf7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8nS-Zj-qCT">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Pw-n4-Uqk">
+                                <rect key="frame" x="217" y="294" width="167" height="62"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="62" id="LDk-cL-Toi"/>
+                                    <constraint firstAttribute="width" constant="167" id="ooH-NF-8sC"/>
+                                </constraints>
+                                <state key="normal" title="Launch Chat">
+                                    <color key="titleShadowColor" red="0.79895767500000003" green="0.94653931469999997" blue="1" alpha="0.28000000000000003" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="mChatLaunchButton:" destination="Zmt-x5-PHb" eventType="touchUpInside" id="IQI-Gg-W3t"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yMM-21-yms">
+                                <rect key="frame" x="235" y="148" width="149" height="54"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="54" id="9ae-yw-PQj"/>
+                                    <constraint firstAttribute="width" secondItem="yMM-21-yms" secondAttribute="height" multiplier="149:54" id="uWU-7n-2Yj"/>
+                                    <constraint firstAttribute="width" constant="149" id="y4g-yN-aBT"/>
+                                </constraints>
+                                <state key="normal" title="Launch Chat List"/>
+                                <connections>
+                                    <action selector="mLaunchChatList:" destination="Zmt-x5-PHb" eventType="touchUpInside" id="hB7-kF-9Xx"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2Pw-n4-Uqk" firstAttribute="centerX" secondItem="8nS-Zj-qCT" secondAttribute="centerX" id="4Mw-hc-zug"/>
+                            <constraint firstItem="EpC-Dg-hf7" firstAttribute="top" secondItem="2Pw-n4-Uqk" secondAttribute="bottom" constant="244" id="8ta-aV-JKR"/>
+                            <constraint firstItem="2Pw-n4-Uqk" firstAttribute="top" secondItem="yMM-21-yms" secondAttribute="bottom" constant="92" id="Nwp-hM-iF9"/>
+                            <constraint firstItem="yMM-21-yms" firstAttribute="trailing" secondItem="2Pw-n4-Uqk" secondAttribute="trailing" id="y2p-QB-ScI"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zGT-YX-H57" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1063" y="565"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="5PI-Fd-jr0">
+            <objects>
+                <viewController id="g8A-8a-z6j" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="PRU-Uo-9xY"/>
+                        <viewControllerLayoutGuide type="bottom" id="Agm-OE-Z4N"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8Rf-IN-dh4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qA9-l0-12c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="KeY-nu-DTI">
+            <objects>
+                <viewController id="poq-3Z-coT" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3wN-sj-zgP"/>
+                        <viewControllerLayoutGuide type="bottom" id="Wlu-BY-OB2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="NYj-pc-5HS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ywc-xK-9Xg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
 </document>

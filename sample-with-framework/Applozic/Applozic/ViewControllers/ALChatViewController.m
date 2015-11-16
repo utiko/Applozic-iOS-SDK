@@ -76,7 +76,7 @@ ALMessageDBService  * dbService;
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+    [self.tabBarController.tabBar setHidden: YES];
     NSLog(@"viewWillAppear will be called ....");
 
 
@@ -96,7 +96,7 @@ ALMessageDBService  * dbService;
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+    [self.tabBarController.tabBar setHidden: YES];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
     [self.sendMessageTextView resignFirstResponder];
@@ -396,7 +396,7 @@ ALMessageDBService  * dbService;
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
 
     for (DB_Message * theEntity in theArray) {
-        ALMessage * theMessage = [messageDBService createMessageForSMSEntity:theEntity];
+        ALMessage * theMessage = [messageDBService createMessageEntity:theEntity];
         [self.mMessageListArray insertObject:theMessage atIndex:0];
         //[self.mMessageListArrayKeyStrings insertObject:theMessage.key atIndex:0];
     }
@@ -556,7 +556,7 @@ ALMessageDBService  * dbService;
         //get it fromDB ...we can move it to thread as nothing to show to user
         if(!message){
             DB_Message * dbMessage = (DB_Message*)[dbService getMessageByKey:@"key" value:connection.keystring];
-            message = [ dbService createMessageForSMSEntity:dbMessage];
+            message = [ dbService createMessageEntity:dbMessage];
         }
         NSError * theJsonError = nil;
         NSDictionary *theJson = [NSJSONSerialization JSONObjectWithData:connection.mData options:NSJSONReadingMutableLeaves error:&theJsonError];
@@ -572,16 +572,16 @@ ALMessageDBService  * dbService;
         NSString * filePath = [docPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.local",connection.keystring]];
         [connection.mData writeToFile:filePath atomically:YES];
         // update db
-        DB_Message * smsEntity = (DB_Message*)[dbService getMessageByKey:@"key" value:connection.keystring];
-        smsEntity.inProgress = [NSNumber numberWithBool:NO];
-        smsEntity.isUploadFailed=[NSNumber numberWithBool:NO];
-        smsEntity.filePath = [NSString stringWithFormat:@"%@.local",connection.keystring];
+        DB_Message * messageEntity = (DB_Message*)[dbService getMessageByKey:@"key" value:connection.keystring];
+        messageEntity.inProgress = [NSNumber numberWithBool:NO];
+        messageEntity.isUploadFailed=[NSNumber numberWithBool:NO];
+        messageEntity.filePath = [NSString stringWithFormat:@"%@.local",connection.keystring];
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
         ALMessage * message = [self getMessageFromViewList:@"key" withValue:connection.keystring];
         if(message){
             message.isUploadFailed =NO;
             message.inProgress=NO;
-            message.imageFilePath =  smsEntity.filePath;
+            message.imageFilePath =  messageEntity.filePath;
             [self.mTableView reloadData];
         }
        
@@ -648,9 +648,9 @@ ALMessageDBService  * dbService;
     [self.mMessageListArray addObject:theMessage];
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
-    DB_Message * theSmsEntity = [messageDBService createSMSEntityForDBInsertionWithMessage:theMessage];
+    DB_Message * theMessageEntity = [messageDBService createMessageEntityForDBInsertionWithMessage:theMessage];
     [theDBHandler.managedObjectContext save:nil];
-    theMessage.msgDBObjectId = [theSmsEntity objectID];
+    theMessage.msgDBObjectId = [theMessageEntity objectID];
     
     [self uploadImage:theMessage];
     [self.mTableView reloadData];

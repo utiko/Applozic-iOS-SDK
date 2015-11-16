@@ -4,8 +4,13 @@
   'roots': [
     {
       'type': 'directory',
-      'name': "/Users/devashish/Library/Developer/Xcode/DerivedData/applozicdemo-cisomivsmvlvdwbaltwsqqesbefz/Build/Products/Debug-iphoneos/Applozic.framework/Headers",
+      'name': "/Users/devashish/Library/Developer/Xcode/DerivedData/applozicdemo-cisomivsmvlvdwbaltwsqqesbefz/Build/Products/Debug-iphonesimulator/Applozic.framework/Headers",
       'contents': [
+        {
+          'type': 'file',
+          'name': "ALAttachmentController.h",
+          'external-contents': "/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ViewControllers/ALAttachmentController.h"
+        },
         {
           'type': 'file',
           'name': "ALBaseViewController.h",
@@ -85,11 +90,6 @@
           'type': 'file',
           'name': "ALLocationManager.h",
           'external-contents': "/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ALLocationManager.h"
-        },
-        {
-          'type': 'file',
-          'name': "ALLoginViewController.h",
-          'external-contents': "/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ALLoginViewController.h"
         },
         {
           'type': 'file',
@@ -194,7 +194,7 @@
         {
           'type': 'file',
           'name': "Applozic-Swift.h",
-          'external-contents': "/Users/devashish/Library/Developer/Xcode/DerivedData/applozicdemo-cisomivsmvlvdwbaltwsqqesbefz/Build/Products/Debug-iphoneos/Applozic.framework/Headers/Applozic-Swift.h"
+          'external-contents': "/Users/devashish/Library/Developer/Xcode/DerivedData/applozicdemo-cisomivsmvlvdwbaltwsqqesbefz/Build/Products/Debug-iphonesimulator/Applozic.framework/Headers/Applozic-Swift.h"
         },
         {
           'type': 'file',
@@ -235,12 +235,23 @@
     },
     {
       'type': 'directory',
-      'name': "/Users/devashish/Library/Developer/Xcode/DerivedData/applozicdemo-cisomivsmvlvdwbaltwsqqesbefz/Build/Products/Debug-iphoneos/Applozic.framework/Modules",
+      'name': "/Users/devashish/Library/Developer/Xcode/DerivedData/applozicdemo-cisomivsmvlvdwbaltwsqqesbefz/Build/Products/Debug-iphonesimulator/Applozic.framework/Modules",
       'contents': [
         {
           'type': 'file',
           'name': "module.modulemap",
-          'external-contents': "/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphoneos/Applozic.build/module.modulemap"
+          'external-contents': "/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/module.modulemap"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/devashish/Library/Developer/Xcode/DerivedData/applozicdemo-cisomivsmvlvdwbaltwsqqesbefz/Build/Products/Debug-iphonesimulator/Applozic.framework/PrivateHeaders",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "ALUserService.h",
+          'external-contents': "/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALUserService.h"
         }
       ]
     }

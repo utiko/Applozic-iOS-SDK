@@ -31,6 +31,17 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:LOGOUT_BUTTON_VISIBLITY];
 }
 
++(void) setBackButtonHidden:(BOOL)flagValue
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flagValue forKey:BACK_BTN_VISIBILITY_ON_CON_LIST];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL) isBackButtonHidden
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:BACK_BTN_VISIBILITY_ON_CON_LIST];
+}
+
 +(void) setApplicationKey:(NSString *)applicationKey
 {
     [[NSUserDefaults standardUserDefaults] setValue:applicationKey forKey:APPLICATION_KEY];
