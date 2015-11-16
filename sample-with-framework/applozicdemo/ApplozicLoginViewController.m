@@ -135,7 +135,7 @@
 - (IBAction)login:(id)sender {
     
     // Initial login view .....
-    [ALUserDefaultsHandler setLogoutButtonHidden:NO];
+    [ALUserDefaultsHandler setLogoutButtonHidden:YES];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
  
 
