@@ -69,7 +69,7 @@
     if ( [dbHandler.managedObjectContext save:&error]){
         NSLog(@"message found and maked as deliverd");
     } else {
-        NSLog(@"message not found with this key");
+        //NSLog(@"message not found with this key");
     }
     
 }
@@ -85,7 +85,7 @@
     if ( [dbHandler.managedObjectContext save:&error]){
         NSLog(@"message found and maked as deliverd");
     } else {
-        NSLog(@"message not found with this key");
+       // NSLog(@"message not found with this key");
     }
 }
 
@@ -109,7 +109,7 @@
             NSLog(@"message found ");
         }
     }else{
-         NSLog(@"message not found with this key");
+        // NSLog(@"message not found with this key");
     }
 }
 
@@ -202,7 +202,7 @@
         NSManagedObject* message = [result objectAtIndex:0];
         return message;
     } else {
-        NSLog(@"message not found with this key");
+      //  NSLog(@"message not found with this key");
         return nil;
     }
 }
