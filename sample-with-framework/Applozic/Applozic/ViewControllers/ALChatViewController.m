@@ -863,12 +863,13 @@ ALMessageDBService  * dbService;
                 NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
                 NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
                 [[self mMessageListArray] addObjectsFromArray:sortedArray];
-               
+             
+                [ALUserService processContactFromMessages:messageList];
+                [self setTitle];
+                [self.mTableView reloadData];
             }
            
-            [ALUserService processContactFromMessages:messageList];
-            [self setTitle];
-            [self.mTableView reloadData];
+            
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [super scrollTableViewToBottomWithAnimation:YES];

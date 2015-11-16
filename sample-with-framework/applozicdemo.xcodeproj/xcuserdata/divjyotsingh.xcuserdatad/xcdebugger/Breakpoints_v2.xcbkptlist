@@ -47,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "829"
             endingLineNumber = "829"
-            landmarkName = "-getMessageFromViewList:withValue:"
+            landmarkName = "-sendMessage:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -63,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "840"
             endingLineNumber = "840"
-            landmarkName = "-fetchAndRefresh"
+            landmarkName = "-getMessageFromViewList:withValue:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
