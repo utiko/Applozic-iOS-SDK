@@ -113,13 +113,13 @@
 
 -(void)viewWillAppear:(BOOL)animated{
 
-    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+    [self.tabBarController.tabBar setHidden: YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
 
     self.navigationController.navigationBar.barTintColor = self.navColor;
-    self.tabBarController.tabBar.hidden = [ALUserDefaultsHandler isBottomTabBarHidden];
+    self.tabBarController.tabBar.hidden = YES;
 }
 
 // Setting up keyboard notifications.

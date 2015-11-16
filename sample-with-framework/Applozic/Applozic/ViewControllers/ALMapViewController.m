@@ -44,11 +44,11 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-[self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+[self.tabBarController.tabBar setHidden: YES];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-[self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+[self.tabBarController.tabBar setHidden: YES];
 }
 
 

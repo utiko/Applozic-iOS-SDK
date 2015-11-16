@@ -60,7 +60,9 @@
             fontName = DEFAULT_FONT_NAME;
         }
         
-        self.mMessageLabel.font = [UIFont fontWithName:fontName size:15];
+//        self.mMessageLabel.font = [UIFont fontWithName:fontName size:15];
+        
+         self.mMessageLabel.font = [UIFont fontWithName:@"Helvetica" size:15];
         
         self.mMessageLabel.textColor = [UIColor grayColor];
         
