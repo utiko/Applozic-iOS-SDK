@@ -18,9 +18,9 @@
 
 -(void) updateApnDeviceTokenWithCompletion:(NSString *)apnDeviceToken withCompletion:(void(^)(ALRegistrationResponse * message, NSError * error)) completion;
 
--(void) connect;
++(void) connect;
 
--(void) disconnect;
++(void) disconnect;
 
 -(void) logout;
 
