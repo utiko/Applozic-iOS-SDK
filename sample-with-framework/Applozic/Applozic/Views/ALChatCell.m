@@ -72,7 +72,8 @@
         self.mMessageLabel.textContainerInset = UIEdgeInsetsZero;
         self.mMessageLabel.textContainer.lineFragmentPadding = 0;
         self.mMessageLabel.dataDetectorTypes = UIDataDetectorTypeLink;
-
+        self.mMessageLabel.userInteractionEnabled=NO;
+        
         [self.contentView addSubview:self.mMessageLabel];
         
 
@@ -100,7 +101,6 @@
         [self.contentView addSubview:self.mMessageStatusImageView];
         
         self.contentView.userInteractionEnabled=YES;
-      
     }
     
     return self;
@@ -244,6 +244,7 @@
     return stringSize;
 }
 
+
 -(BOOL) canPerformAction:(SEL)action withSender:(id)sender {
     return (action == @selector(copy:) || action == @selector(delete:));
 }
@@ -254,10 +255,15 @@
 // Default copy method
 - (void)copy:(id)sender {
     
-    NSLog(@"Copy in ALCHATCELL, messageId: %@", self.mMessage.message);
+    NSLog(@"Copy in ALChatCell, messageId: %@", self.mMessage.message);
     UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
-    //[pasteBoard setString:cell.textLabel.text];
+    if(self.mMessage.message!=NULL){
+//    [pasteBoard setString:cell.textLabel.text];
     [pasteBoard setString:self.mMessage.message];
+    }
+    else{
+        [pasteBoard setString:@""];
+    }
     
 }
 
