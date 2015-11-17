@@ -78,7 +78,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    [self.tabBarController.tabBar setHidden: YES];
+    [self.tabBarController.tabBar setHidden: NO];
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
@@ -91,7 +91,7 @@
 
 -(void) viewWillDisappear:(BOOL)animated{
 
-    [self.tabBarController.tabBar setHidden: YES];
+    [self.tabBarController.tabBar setHidden: NO];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
