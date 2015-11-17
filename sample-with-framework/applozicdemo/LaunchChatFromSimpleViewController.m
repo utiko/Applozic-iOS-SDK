@@ -64,7 +64,7 @@
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
-    chatView.contactIds =@"adarshk";
+    chatView.contactIds =@"applozic";
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
     [self presentViewController:conversationViewNavController animated:YES completion:nil];
     
