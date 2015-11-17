@@ -33,13 +33,10 @@
         [self.locationManager requestWhenInUseAuthorization];
     }
     
-    region = self.mapKitView.region;
-
     [self.locationManager startUpdatingLocation];
-
+    
     [self.mapKitView setShowsUserLocation:YES];
     [self.mapKitView setDelegate:self];
-    
   
 }
 
@@ -60,7 +57,10 @@
 - (IBAction)sendLocation:(id)sender {
     NSLog(@"location sending .... ");
     
-   
+    region = self.mapKitView.region;
+    
+    
+    
     NSLog(@"latitude: %.8f && longitude: %.8f", region.center.latitude, region.center.longitude);
     
     //static map location
