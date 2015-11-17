@@ -191,13 +191,16 @@ ALMessageDBService  * dbService;
     NSLog(@"Copy in ALChatViewController, messageId: %@", messageId);
     ALMessage * alMessage =  [self getMessageFromViewList:@"key" withValue:messageId ];
 
-    
-    /*UITableViewCell *cell = [self.mTableView cellForRowAtIndexPath:self.indexPathofSelection];*/
-    
     UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+    /*UITableViewCell *cell = [self.mTableView cellForRowAtIndexPath:self.indexPathofSelection];*/
+    if(alMessage.message!=NULL){
+    
     //[pasteBoard setString:cell.textLabel.text];
     [pasteBoard setString:alMessage.message];
-    
+    }
+    else{
+    [pasteBoard setString:@""];
+    }
 }
 
 

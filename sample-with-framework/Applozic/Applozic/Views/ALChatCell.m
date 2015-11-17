@@ -257,6 +257,7 @@
     
     NSLog(@"Copy in ALChatCell, messageId: %@", self.mMessage.message);
     UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+    
     if(self.mMessage.message!=NULL){
 //    [pasteBoard setString:cell.textLabel.text];
     [pasteBoard setString:self.mMessage.message];
