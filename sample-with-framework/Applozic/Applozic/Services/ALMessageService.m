@@ -325,4 +325,28 @@
     return message;
 }
 
++(void)markConversationAsRead: (NSString *) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
+    
+    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+    [dbService markConversationAsRead:contactId];
+    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/read/conversation",KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"MARK_CONVERSATION_AS_READ" WithCompletionHandler:^(id theJson, NSError *theError) {
+        if (theError) {
+            completion(nil,theError);
+            NSLog(@"theError");
+            return ;
+        }else{
+            //read sucessfull
+            NSLog(@"sucessfully marked read !");
+        }
+        NSLog(@"Response: %@", (NSString *)theJson);
+        completion((NSString *)theJson,nil);
+    }];
+}
+
 @end

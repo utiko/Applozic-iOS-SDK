@@ -34,7 +34,7 @@
 #import "ALMapViewController.h"
 #import "ALNotificationView.h"
 #import "ALUserService.h"
-
+#import "ALMessageService.h"
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate>
 
@@ -66,6 +66,14 @@ ALMessageDBService  * dbService;
     [super viewDidLoad];
     [self initialSetUp];
     [self fetchMessageFromDB];
+//    [ALMessageService markConversationAsRead: self.contactIds withCompletion:^(NSString* string,NSError* error){
+//        if(!error ){
+//            NSLog(@"No Error");
+//        }
+//        else{
+//            NSLog(@"some error");
+//        }
+//    }];
     [self loadChatView];
 }
 
