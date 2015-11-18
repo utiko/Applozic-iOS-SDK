@@ -217,11 +217,11 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    self.stopSearchText = searchText;
+    self.stopSearchText = searchText; NSLog(@"searchText %@",searchText);
     [self.filteredContactList removeAllObjects];
     if (searchText.length!=0) {
         
-        NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"email CONTAINS[cd] %@ OR userId CONTAINS[cd] %@ OR contactNumber CONTAINS[cd] %@", searchText, searchText, searchText];
+        NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"email CONTAINS[cd] %@ OR userId CONTAINS[cd] %@ OR contactNumber CONTAINS[cd] %@ OR fullName CONTAINS[cd] %@", searchText, searchText, searchText,searchText];
         NSArray *searchResults = [self.contactList filteredArrayUsingPredicate:searchPredicate];
         
         [self.filteredContactList addObjectsFromArray:searchResults];
