@@ -17,6 +17,8 @@
 
 -(void)getMessagesArray:(NSMutableArray*)messagesArray;
 
+- (NSArray *)getUnreadMessages:(NSString *) contactId;
+
 @end
 
 @interface ALMessageDBService : NSObject
@@ -31,6 +33,7 @@
                              error:(NSError **)error;
 - (NSManagedObject *)getMessageByKey:(NSString *) key value:(NSString*) value;
 
+-(void)markConversationAsRead:(NSString *) contactId;
 
 
 

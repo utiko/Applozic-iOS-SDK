@@ -207,6 +207,43 @@
     }
 }
 
+-(void)markConversationAsRead:(NSString *) contactId
+{
+   NSArray *messages  = [self getUnreadMessages:contactId];
+    
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    
+    
+    for (NSString *msg in messages) {
+        
+        NSLog(@"MSG : %@", msg);
+        
+        [msg setValue:[NSNumber numberWithBool:YES] forKey:@"isRead"];
+        
+        NSError *error = nil;
+        
+        if ( [dbHandler.managedObjectContext save:&error])
+        {
+            NSLog(@"message found and maked as deliverd");
+        }
+   
+    }
+}
+
+- (NSArray *)getUnreadMessages:(NSString *) contactId
+{
+    
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K=%@",@"contactId",contactId];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:predicate];
+    NSError *fetchError = nil;
+    NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    return result;
+}
+
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark - ALMessagesViewController DB Operations.
 //------------------------------------------------------------------------------------------------------------------

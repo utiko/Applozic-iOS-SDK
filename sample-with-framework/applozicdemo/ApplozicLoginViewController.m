@@ -184,10 +184,16 @@
         //-----------------------------------------------------------------------
         
         
-        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
-                                                             bundle:nil];
-        UIViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
-        [self presentViewController:controller animated:YES completion:nil];
+//        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
+//                                                             bundle:nil];
+//        UIViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
+//        [self presentViewController:controller animated:YES completion:nil];
+        
+        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                                             bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+        UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
+        [self presentViewController:theTabBar animated:YES completion:nil];
+        
         
     }];
     
