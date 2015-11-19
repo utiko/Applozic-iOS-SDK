@@ -207,7 +207,7 @@
     
     self.mDateLabel.text = theDate;
     
-    if([alMessage.message hasPrefix:@"http://"]==YES){
+    if([alMessage.message hasPrefix:@"http://"]==YES || [alMessage.message hasPrefix:@"https://"]==YES ){
         self.mMessageLabel.userInteractionEnabled=YES;
     }
     else {
