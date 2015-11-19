@@ -120,6 +120,7 @@
         dbMessage.createdAt =response.createdAt;
         alMessage.key = dbMessage.key;
         dbMessage.sentToServer=[NSNumber numberWithBool:YES];
+        dbMessage.isRead=[NSNumber numberWithBool:YES];
         
         alMessage.key = dbMessage.key;
         alMessage.sentToServer= dbMessage.sentToServer.boolValue;

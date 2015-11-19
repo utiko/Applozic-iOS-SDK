@@ -236,11 +236,14 @@
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K=%@",@"contactId",contactId];
+    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"%K=%@",@"contactId",contactId];
+    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"%K=0",@"isRead"];
+    NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
     [fetchRequest setEntity:entity];
     [fetchRequest setPredicate:predicate];
     NSError *fetchError = nil;
     NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    NSLog(@"the fetch request %@",fetchRequest);
     return result;
 }
 
@@ -423,7 +426,7 @@
     theMessage.contactIds = theEntity.contactId;
     theMessage.storeOnDevice = theEntity.isStoredOnDevice.boolValue;
     theMessage.inProgress =theEntity.inProgress.boolValue;
-    theMessage.read = theEntity.isRead.boolValue;
+    theMessage.read = theEntity.isRead.boolValue; NSLog(@"the Read Value %hhd",theMessage.read);
     theMessage.imageFilePath = theEntity.filePath;
     theMessage.delivered = theEntity.delivered.boolValue;
     theMessage.sentToServer = theEntity.sentToServer.boolValue;
