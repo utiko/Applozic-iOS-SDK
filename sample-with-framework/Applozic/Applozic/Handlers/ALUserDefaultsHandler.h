@@ -19,10 +19,16 @@
 #define LOGOUT_BUTTON_VISIBLITY @"LOGOUT_BUTTON_VISIBLITY"
 #define BOTTOM_TAB_BAR_VISIBLITY @"BOTTOM_TAB_BAR_VISIBLITY"
 #define BACK_BTN_VISIBILITY_ON_CON_LIST @"BACK_BTN_VISIBILITY_ON_CON_LIST"
+#define CONVERSATION_CONTACT_IMAGE_VISIBILITY @"CONVERSATION_CONTACT_IMAGE_VISIBILITY"
+
 
 #import <Foundation/Foundation.h>
 
 @interface ALUserDefaultsHandler : NSObject
+
++(void) setConversationContactImageVisibility: (BOOL) visibility;
+
++(BOOL) isConversationContactImageVisible;
 
 +(void) setBottomTabBarHidden: (BOOL) visibleStatus;
 

@@ -73,14 +73,17 @@ ALMessageDBService  * dbService;
     [super viewDidLoad];
     [self initialSetUp];
     [self fetchMessageFromDB];
-//    [ALMessageService markConversationAsRead: self.contactIds withCompletion:^(NSString* string,NSError* error){
-//        if(!error ){
-//            NSLog(@"No Error");
-//        }
-//        else{
-//            NSLog(@"some error");
-//        }
-//    }];
+    [ALMessageService markConversationAsRead: self.contactIds withCompletion:^(NSString* string,NSError* error){
+        if(!error ){
+            NSLog(@"No Error");
+        }
+        else{
+            NSLog(@"some error");
+            ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
+            [messageDBService getUnreadMessages:@"applozic"];
+        }
+    }];
+    
     [self loadChatView];
 }
 
