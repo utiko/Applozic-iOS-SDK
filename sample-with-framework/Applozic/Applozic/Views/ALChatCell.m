@@ -206,6 +206,13 @@
     self.mMessageLabel.text = alMessage.message;
     
     self.mDateLabel.text = theDate;
+    
+    if([alMessage.message hasPrefix:@"http://"]==YES){
+        self.mMessageLabel.userInteractionEnabled=YES;
+    }
+    else {
+        self.mMessageLabel.userInteractionEnabled=NO;
+    }
     return self;
     
 }
