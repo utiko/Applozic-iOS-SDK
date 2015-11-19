@@ -45,8 +45,15 @@
 @property (nonatomic,assign) NSUInteger mTotalCount;
 
 @property (nonatomic,retain) UIImagePickerController * mImagePicker;
+
 @property (nonatomic)  ALLocationManager * alLocationManager;
+
+- (IBAction)loadEarlierButtonAction:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UIButton *loadEarlierAction;
+
 @property (nonatomic,weak) NSIndexPath *indexPathofSelection;
+
 @end
 
 @implementation ALChatViewController{
@@ -80,6 +87,8 @@ ALMessageDBService  * dbService;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.view endEditing:YES];
+    [self.loadEarlierAction setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -968,6 +977,35 @@ ALMessageDBService  * dbService;
     [self reloadView];
     [self fetchAndRefresh];
     
+}
+
+- (IBAction)loadEarlierButtonAction:(id)sender {
+    
+    NSString *time;
+//    ALMessage * theMessage = self.mMessageListArray[0];
+    if(self.mMessageListArray.count > 0 && self.mMessageListArray != NULL){
+        ALMessage * theMessage = self.mMessageListArray[0];
+        time = theMessage.createdAtTime;
+    }
+    else{
+        time = NULL;
+    }
+    [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time withCompletion:^(NSMutableArray *messages, NSError *error){
+        if(!error )
+        {
+            NSLog(@"No Error");
+            ALMessageDBService *msgDBService = [[ALMessageDBService alloc] init];
+            [msgDBService addMessageList:messages];
+            [self reloadView];
+            [self fetchAndRefresh];
+        }
+        else
+        {
+            NSLog(@"some error");
+        }
+    
+    }];
+
 }
 
 @end
