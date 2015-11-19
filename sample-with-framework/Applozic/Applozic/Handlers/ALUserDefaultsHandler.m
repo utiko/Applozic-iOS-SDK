@@ -10,6 +10,15 @@
 
 @implementation ALUserDefaultsHandler
 
++(void) setConversationContactImageVisibility:(BOOL)visibility{
+    [[NSUserDefaults standardUserDefaults] setBool:visibility forKey:CONVERSATION_CONTACT_IMAGE_VISIBILITY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL) isConversationContactImageVisible {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:CONVERSATION_CONTACT_IMAGE_VISIBILITY];
+}
+
 +(void) setBottomTabBarHidden:(BOOL)visibleStatus {
     [[NSUserDefaults standardUserDefaults] setBool:visibleStatus forKey:BOTTOM_TAB_BAR_VISIBLITY];
     [[NSUserDefaults standardUserDefaults] synchronize];
