@@ -56,6 +56,8 @@
 
 -(void)processLoadEarlierMessages;
 
+-(void)processMarkRead;
+
 @end
 
 @implementation ALChatViewController{
@@ -75,6 +77,11 @@ ALMessageDBService  * dbService;
     [super viewDidLoad];
     [self initialSetUp];
     [self fetchMessageFromDB];
+    [self processMarkRead];
+    [self loadChatView];
+}
+
+-(void)processMarkRead{
     [ALMessageService markConversationAsRead: self.contactIds withCompletion:^(NSString* string,NSError* error){
         if(!error ){
             NSLog(@"No Error");
@@ -85,8 +92,8 @@ ALMessageDBService  * dbService;
             [messageDBService getUnreadMessages:@"applozic"];
         }
     }];
-    
-    [self loadChatView];
+
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -907,6 +914,7 @@ ALMessageDBService  * dbService;
                 [self setTitle];
                
             });
+            NSLog(@"FETCH AND REFRESH METHOD");
         }
     }];
     
@@ -935,6 +943,8 @@ ALMessageDBService  * dbService;
         //[self fetchAndRefresh];
         NSLog(@"current contact thread is opened");
         [self fetchAndRefresh];
+        [self processMarkRead];
+        NSLog(@"INDIVIDUAL NOTIFICATION HANDLER");
     } else if (![updateUI boolValue]) {
         NSLog(@"it was in background, updateUI is false");
         self.contactIds = contactId;
