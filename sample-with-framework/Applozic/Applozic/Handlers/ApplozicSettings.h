@@ -1,0 +1,20 @@
+//
+//  ApplozicSettings.h
+//  Applozic
+//
+//  Created by devashish on 20/11/2015.
+//  Copyright © 2015 applozic Inc. All rights reserved.
+//
+
+#define USER_PROILE_PROPERTY @"USER_PROILE_PROPERTY"
+
+#import <Foundation/Foundation.h>
+
+
+@interface ApplozicSettings : NSObject
+
++(void)setUserProfileHidden: (BOOL)flag;
+
++(BOOL)isUserProfileHidden;
+
+@end

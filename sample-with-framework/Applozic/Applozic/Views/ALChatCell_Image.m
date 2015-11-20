@@ -11,6 +11,8 @@
 #import "ALDBHandler.h"
 #import "ALContact.h"
 #import "ALContactDBService.h"
+#import "ApplozicSettings.h"
+
 // Constants
 #define MT_INBOX_CONSTANT "4"
 #define MT_OUTBOX_CONSTANT "5"
@@ -152,11 +154,19 @@ UIViewController * modalCon;
     
     if ([alMessage.type isEqualToString:@MT_INBOX_CONSTANT]) { //@"4" //Recieved Message
         
-        self.mUserProfileImageView.frame = CGRectMake(5, 5, 45, 45);
+        if([ApplozicSettings isUserProfileHidden])
+        {
+            self.mUserProfileImageView.frame = CGRectMake(8, 0, 0, 45);
+        }
+        else
+        {
+            self.mUserProfileImageView.frame = CGRectMake(8, 0, 45, 45);
+        }
+        
         self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
         
         
-        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x+ self.mUserProfileImageView.frame.size.width+5 , 5, viewSize.width-110, viewSize.width-110);
+        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width-110, viewSize.width-110);
         self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 15 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40 );
         [self setupProgress];
         

@@ -13,8 +13,7 @@
 #import <Applozic/ALRegistrationResponse.h>
 #import <Applozic/ALRegisterUserClientService.h>
 #import <Applozic/ALMessagesViewController.h>
-
-
+#import <Applozic/ApplozicSettings.h>
 
 @interface ApplozicLoginViewController ()
 
@@ -137,7 +136,7 @@
     // Initial login view .....
     [ALUserDefaultsHandler setLogoutButtonHidden:NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
- 
+    [ApplozicSettings setUserProfileHidden:NO];
 
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
