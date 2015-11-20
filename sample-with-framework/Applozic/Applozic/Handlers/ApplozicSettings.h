@@ -17,4 +17,6 @@
 
 +(BOOL)isUserProfileHidden;
 
++(void) clearAllSettings;
+
 @end

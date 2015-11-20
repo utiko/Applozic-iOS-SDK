@@ -17,6 +17,7 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageDBService.h"
 #import "MQTTClient/MQTTSession.h"
+#import "ApplozicSettings.h"
 
 @implementation ALRegisterUserClientService
 
@@ -156,6 +157,7 @@ static MQTTSession *session;
     [ALRegisterUserClientService disconnect];
     [[UIApplication sharedApplication] unregisterForRemoteNotifications];
     [ALUserDefaultsHandler clearAll];
+    [ApplozicSettings clearAllSettings];
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     [messageDBService deleteAllObjectsInCoreData];
 }

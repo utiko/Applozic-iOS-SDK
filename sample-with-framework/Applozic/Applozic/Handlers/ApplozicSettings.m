@@ -24,4 +24,11 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:USER_PROILE_PROPERTY];
 }
 
++(void) clearAllSettings
+{
+    NSLog(@"cleared");
+    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+}
+
 @end
