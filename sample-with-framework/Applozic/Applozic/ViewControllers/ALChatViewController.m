@@ -54,6 +54,8 @@
 
 @property (nonatomic,weak) NSIndexPath *indexPathofSelection;
 
+-(void)processLoadEarlierMessages;
+
 @end
 
 @implementation ALChatViewController{
@@ -112,6 +114,12 @@ ALMessageDBService  * dbService;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:) name:@"deliveryReport" object:nil];
+    
+    if(self.mMessageListArray.count == 1)
+    {
+        [self processLoadEarlierMessages];
+    }
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -984,8 +992,13 @@ ALMessageDBService  * dbService;
 
 - (IBAction)loadEarlierButtonAction:(id)sender {
     
+    [self processLoadEarlierMessages];
+
+}
+
+-(void)processLoadEarlierMessages{
+    
     NSString *time;
-//    ALMessage * theMessage = self.mMessageListArray[0];
     if(self.mMessageListArray.count > 0 && self.mMessageListArray != NULL){
         ALMessage * theMessage = self.mMessageListArray[0];
         time = theMessage.createdAtTime;
@@ -998,7 +1011,18 @@ ALMessageDBService  * dbService;
         {
             NSLog(@"No Error");
             ALMessageDBService *msgDBService = [[ALMessageDBService alloc] init];
-            [msgDBService addMessageList:messages];
+            
+            if(messages.count == 0)
+            {
+                [self.loadEarlierAction setHidden:YES];
+            }
+            else
+            {
+                [self.loadEarlierAction setHidden:NO];
+                [msgDBService addMessageList:messages];
+            }
+            
+            
             [self reloadView];
             [self fetchAndRefresh];
         }
@@ -1006,7 +1030,7 @@ ALMessageDBService  * dbService;
         {
             NSLog(@"some error");
         }
-    
+        
     }];
 
 }
