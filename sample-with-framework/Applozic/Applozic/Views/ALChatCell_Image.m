@@ -11,7 +11,7 @@
 #import "ALDBHandler.h"
 #import "ALContact.h"
 #import "ALContactDBService.h"
-#import "ApplozicSettings.h"
+#import "ALApplozicSettings.h"
 
 // Constants
 #define MT_INBOX_CONSTANT "4"
@@ -154,7 +154,7 @@ UIViewController * modalCon;
     
     if ([alMessage.type isEqualToString:@MT_INBOX_CONSTANT]) { //@"4" //Recieved Message
         
-        if([ApplozicSettings isUserProfileHidden])
+        if([ALApplozicSettings isUserProfileHidden])
         {
             self.mUserProfileImageView.frame = CGRectMake(8, 0, 0, 45);
         }

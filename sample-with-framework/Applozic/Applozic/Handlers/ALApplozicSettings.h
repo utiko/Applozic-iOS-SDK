@@ -1,5 +1,5 @@
 //
-//  ApplozicSettings.h
+//  ALApplozicSettings.h
 //  Applozic
 //
 //  Created by devashish on 20/11/2015.
@@ -11,7 +11,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface ApplozicSettings : NSObject
+@interface ALApplozicSettings : NSObject
 
 +(void)setUserProfileHidden: (BOOL)flag;
 

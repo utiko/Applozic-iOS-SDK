@@ -1,18 +1,18 @@
 //
-//  ApplozicSettings.m
+//  ALApplozicSettings.m
 //  Applozic
 //
 //  Created by devashish on 20/11/2015.
 //  Copyright © 2015 applozic Inc. All rights reserved.
 //
 
-#import "ApplozicSettings.h"
+#import "ALApplozicSettings.h"
 
-@interface ApplozicSettings ()
+@interface ALApplozicSettings ()
 
 @end
 
-@implementation ApplozicSettings
+@implementation ALApplozicSettings
 
 +(void)setUserProfileHidden: (BOOL)flag{
 

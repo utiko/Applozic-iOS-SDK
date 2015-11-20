@@ -11,7 +11,7 @@
 #import "ALUITextView.h"
 #import "UIImageView+WebCache.h"
 #import "ALContactDBService.h"
-#import "ApplozicSettings.h"
+#import "ALApplozicSettings.h"
 
 // Constants
 #define MT_INBOX_CONSTANT "4"
@@ -127,7 +127,7 @@
    // MT_OUTBOX(Short.valueOf("5")),
     if ([alMessage.type isEqualToString:@MT_INBOX_CONSTANT]/*[alMessage.type isEqualToString:@"4"]*/) { //Recieved Message
         
-        if([ApplozicSettings isUserProfileHidden])
+        if([ALApplozicSettings isUserProfileHidden])
         {
             self.mUserProfileImageView.frame = CGRectMake(8, 0, 0, 45);
         }
