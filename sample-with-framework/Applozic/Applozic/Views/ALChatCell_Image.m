@@ -162,6 +162,14 @@ UIViewController * modalCon;
         {
             self.mUserProfileImageView.frame = CGRectMake(8, 0, 45, 45);
         }
+        if([ALApplozicSettings getReceiveMsgColour])
+        {
+            self.mBubleImageView.backgroundColor = [ALApplozicSettings getReceiveMsgColour];
+        }
+        else
+        {
+            self.mBubleImageView.backgroundColor = [UIColor whiteColor];
+        }
         
         self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
         
@@ -239,6 +247,16 @@ UIViewController * modalCon;
         
         
     }else{ //Sent Message
+        
+        
+        if([ALApplozicSettings getSendMsgColour])
+        {
+            self.mBubleImageView.backgroundColor = [ALApplozicSettings getSendMsgColour];
+        }
+        else
+        {
+            self.mBubleImageView.backgroundColor = [UIColor whiteColor];
+        }
         
         self.mUserProfileImageView.frame = CGRectMake(viewSize.width - 50, 5, 45, 45);
         

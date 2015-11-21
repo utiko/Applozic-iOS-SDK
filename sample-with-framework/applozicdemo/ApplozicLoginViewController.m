@@ -138,6 +138,14 @@
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     [ALApplozicSettings setUserProfileHidden:NO];
 
+    // Custom Color RGB Format
+  
+    // [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:0.447f green:0.737f blue:0.831f alpha:1]];
+    //  [ALApplozicSettings setColourForSendMessages:[UIColor colorWithRed:0.347f green:0.337f blue:0.531f alpha:1]];
+    
+    [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
+    [ALApplozicSettings setColourForSendMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
+    
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
     

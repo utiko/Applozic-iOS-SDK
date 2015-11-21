@@ -136,6 +136,16 @@
             self.mUserProfileImageView.frame = CGRectMake(8, 0, 45, 45);
         }
         
+        if([ALApplozicSettings getReceiveMsgColour])
+        {
+            self.mBubleImageView.backgroundColor = [ALApplozicSettings getReceiveMsgColour];
+            self.mMessageLabel.backgroundColor = [ALApplozicSettings getReceiveMsgColour];
+        }
+        else
+        {
+            self.mBubleImageView.backgroundColor = [UIColor whiteColor];
+            self.mMessageLabel.backgroundColor = [UIColor whiteColor];
+        }
         self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
         
         int imgVwWidth = theTextSize.width>150?theTextSize.width+20+14:150;
@@ -179,6 +189,16 @@
     }
     else    //Sent Message
     {
+        if([ALApplozicSettings getSendMsgColour])
+        {
+            self.mBubleImageView.backgroundColor = [ALApplozicSettings getSendMsgColour];
+            self.mMessageLabel.backgroundColor = [ALApplozicSettings getSendMsgColour];
+        }
+        else
+        {
+            self.mBubleImageView.backgroundColor = [UIColor whiteColor];
+            self.mMessageLabel.backgroundColor = [UIColor whiteColor];
+        }
         self.mUserProfileImageView.alpha=0;
         self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 45, 45);
         
