@@ -34,6 +34,8 @@
         
         self.mUserProfileImageView.contentMode = UIViewContentModeScaleAspectFill;
         
+        self.mUserProfileImageView.layer.cornerRadius=self.mUserProfileImageView.frame.size.width/2;
+        
         self.mUserProfileImageView.clipsToBounds = YES;
         
         [self.contentView addSubview:self.mUserProfileImageView];

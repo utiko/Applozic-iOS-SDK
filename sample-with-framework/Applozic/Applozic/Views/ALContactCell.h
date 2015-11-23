@@ -23,5 +23,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageMarker;
 
+@property (weak, nonatomic) IBOutlet UIImageView *mCountImageView;
 
 @end

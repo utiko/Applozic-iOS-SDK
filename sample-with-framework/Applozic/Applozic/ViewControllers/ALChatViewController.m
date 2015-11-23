@@ -88,8 +88,6 @@ ALMessageDBService  * dbService;
         }
         else{
             NSLog(@"some error");
-            ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
-            [messageDBService getUnreadMessages:@"applozic"];
         }
     }];
 
