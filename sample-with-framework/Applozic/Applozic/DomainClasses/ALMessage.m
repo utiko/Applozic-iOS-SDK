@@ -120,8 +120,43 @@
 -(NSString *)getCreatedAtTime:(BOOL)today {
     
     NSString *formattedStr = today?@"hh:mm":@"dd MMM hh:mm";
+
+    NSString *formattedDateStr;
+   
+    NSDate *currentTime = [[NSDate alloc] init];
+
+    float msgTime = [self.createdAtTime floatValue];
+
+    NSDate *msgDate = [[NSDate alloc] init];
+    msgDate = [NSDate dateWithTimeIntervalSince1970:msgTime/1000];
+    NSTimeInterval difference = [currentTime timeIntervalSinceDate:msgDate];
     
-    NSString *formattedDateStr = [ALUtilityClass formatTimestamp:[self.createdAtTime doubleValue] toFormat:formattedStr];
+    float minutes;
+    if(difference <= 3600)
+    {
+        if(difference <= 60)
+        {
+            formattedDateStr = @"Just Now";
+        }
+        else
+        {
+            minutes = difference/60;
+            formattedDateStr = [NSString stringWithFormat:@"%.0f", minutes];
+            formattedDateStr = [formattedDateStr stringByAppendingString:@" min"];
+        }
+    }
+    else if(difference <= 7200)
+    {
+        minutes = (difference - 3600)/60;
+        formattedDateStr = [NSString stringWithFormat:@"%.0f", minutes];
+        NSString *hour = @"1hr";
+        formattedDateStr = [hour stringByAppendingString:formattedDateStr];
+        formattedDateStr = [formattedDateStr stringByAppendingString:@"min"];
+    }
+    else
+    {
+       formattedDateStr = [ALUtilityClass formatTimestamp:[self.createdAtTime doubleValue] toFormat:formattedStr];
+    }
     
     return formattedDateStr;
 }
