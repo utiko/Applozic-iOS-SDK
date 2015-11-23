@@ -39,7 +39,7 @@ UIViewController * modalCon;
         mUserProfileImageView.contentMode = UIViewContentModeScaleAspectFill;
         
         mUserProfileImageView.clipsToBounds = YES;
-        
+        mUserProfileImageView.layer.cornerRadius=mUserProfileImageView.frame.size.width/2;
         [self.contentView addSubview:mUserProfileImageView];
         
         
@@ -64,6 +64,7 @@ UIViewController * modalCon;
         mImageView.clipsToBounds = YES;
         mImageView.backgroundColor = [UIColor grayColor];
         mImageView.clipsToBounds = YES;
+//        mImageView.layer.cornerRadius=mImageView.frame.size.width/2; NSLog(@"mImageView.frame.size.width/2 %f",mImageView.frame.size.width/2);
         mImageView.userInteractionEnabled = YES;
         
         

@@ -20,6 +20,7 @@
 #import "ALContactDBService.h"
 #import "UIImageView+WebCache.h"
 #import "ALLoginViewController.h"
+#import "ALColorUtility.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -50,7 +51,8 @@
 // Private Varibles
 @property (nonatomic, strong) NSMutableArray * mContactsMessageListArray;
 @property (nonatomic, strong) UIColor *navColor;
-
+@property (nonatomic,strong) NSArray *unreadCount;
+@property (nonatomic,strong) NSArray* colors;
 @end
 
 @implementation ALMessagesViewController
@@ -71,6 +73,7 @@
     dBService.delegate = self;
     [dBService getMessages];
     
+    self.unreadCount=[[NSArray alloc] init];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -151,6 +154,9 @@
         self.navColor = [self.navigationController.navigationBar tintColor];
     else
         self.navColor = [self.navigationController.navigationBar barTintColor];
+    
+    
+    self.colors=[[NSArray alloc] initWithObjects:@"#617D8A",@"#628B70",@"#8C8863",@"8B627D",@"8B6F62", nil];
 }
 
 -(void)setUpTableView {
@@ -194,9 +200,10 @@
     ALMessage *message = (ALMessage *)self.mContactsMessageListArray[indexPath.row];
     
     UILabel* nameIcon=(UILabel*)[contactCell viewWithTag:102];
-    //    contactCell.mUserImageView.image = [UIImage imageNamed:@"ic_mobicom.png"];
+    nameIcon.textColor=[UIColor whiteColor];
+    UILabel* unread=(UILabel*)[contactCell viewWithTag:104];
     
-
+    
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
     ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];             
     contactCell.mUserNameLabel.text = [alContact displayName];
@@ -213,11 +220,43 @@
     [self displayAttachmentMediaType:message andContactCell: contactCell];
    
     // here for msg dashboard profile pic
-    NSString *firstLetter = [[alContact displayName] substringToIndex:1];
+    NSString *firstLetter = [[[alContact displayName] substringToIndex:1] uppercaseString];
     nameIcon.text=firstLetter;
    
-    contactCell.mUserImageView.hidden=FALSE;
+    
+    
+    ///////////$$$$$$$$$$$$$$$$//////////////////////COUNT//////////////////////$$$$$$$$$$$$$$$$///////////
+    
+    ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
+    self.unreadCount=[messageDBService getUnreadMessages:[alContact userId]];
+    
+    NSLog(@"self.unreadCount Array of ||%@|| withCount ||%lu|| is %@",[alContact userId],(unsigned long)self.unreadCount.count,self.unreadCount);
+    
+    if(self.unreadCount.count!=0){
+        unread.text=[NSString stringWithFormat:@"%lu",(unsigned long)self.unreadCount.count];
+    }
+    else{
+        unread.hidden=TRUE;
+        contactCell.mCountImageView.hidden=TRUE;
+    }
+    
+    
+    
 
+    contactCell.mUserImageView.hidden=FALSE;
+    contactCell.mUserImageView.layer.cornerRadius=contactCell.mUserImageView.frame.size.width/2;
+    contactCell.mCountImageView.layer.cornerRadius=contactCell.mCountImageView.frame.size.width/2;
+
+///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
+    
+    NSUInteger randomIndex = random()% [self.colors count];
+    contactCell.mUserImageView.image= [ALColorUtility imageWithSize:CGRectMake(0,0,55,55)
+                                                      WithHexString:self.colors[randomIndex] ];
+    
+
+///////////$$$$$$$$$$$$$$$$//////////////////////$$$$$$$$$$$$$$$$//////////////////////$$$$$$$$$$$$$$$$///////////
+   
+    
     if (alContact.localImageResourceName)
     {
         UIImage *someImage = [UIImage imageNamed:alContact.localImageResourceName];
@@ -236,8 +275,8 @@
     {
          nameIcon.hidden = FALSE;
          NSString *firstLetter = [[alContact displayName] substringToIndex:1];
-         nameIcon.text=firstLetter;
-         contactCell.mUserImageView.hidden=TRUE ;
+         nameIcon.text=[firstLetter uppercaseString];
+//         contactCell.mUserImageView.hidden=TRUE;
 
     }
   
