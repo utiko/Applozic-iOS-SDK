@@ -329,7 +329,13 @@
 +(void)markConversationAsRead: (NSString *) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
     
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-    [dbService markConversationAsRead:contactId];
+    
+    NSUInteger count = [dbService markConversationAsRead:contactId];
+    
+    if(count == 0)
+    {
+        return;
+    }
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/read/conversation",KBASE_URL];
     NSString * theParamString = [NSString stringWithFormat:@"userId=%@",contactId];

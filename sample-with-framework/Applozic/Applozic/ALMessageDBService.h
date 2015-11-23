@@ -33,7 +33,7 @@
                              error:(NSError **)error;
 - (NSManagedObject *)getMessageByKey:(NSString *) key value:(NSString*) value;
 
--(void)markConversationAsRead:(NSString *) contactId;
+-(NSUInteger)markConversationAsRead:(NSString *) contactId;
 
 
 

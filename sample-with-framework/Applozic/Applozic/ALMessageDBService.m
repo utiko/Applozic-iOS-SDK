@@ -207,7 +207,7 @@
     }
 }
 
--(void)markConversationAsRead:(NSString *) contactId
+-(NSUInteger)markConversationAsRead:(NSString *) contactId
 {
    NSArray *messages  = [self getUnreadMessages:contactId];
     
@@ -228,6 +228,7 @@
         }
    
     }
+    return messages.count;
 }
 
 - (NSArray *)getUnreadMessages:(NSString *) contactId
