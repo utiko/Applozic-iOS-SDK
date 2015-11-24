@@ -17,10 +17,12 @@
 
 -(void)getMessagesArray:(NSMutableArray*)messagesArray;
 
+- (NSArray *)getUnreadMessages:(NSString *) contactId;
+
 @end
 
 @interface ALMessageDBService : NSObject
-
+- (NSArray *)getUnreadMessages:(NSString *) contactId;
 //Add Message APIS
 -(void)addMessageList:(NSMutableArray*) messageList;
 -(DB_Message*)addMessage:(ALMessage*) message;
@@ -31,6 +33,7 @@
                              error:(NSError **)error;
 - (NSManagedObject *)getMessageByKey:(NSString *) key value:(NSString*) value;
 
+-(NSUInteger)markConversationAsRead:(NSString *) contactId;
 
 
 
@@ -49,9 +52,9 @@
 -(BOOL) isMessageTableEmpty;
 -(void)deleteAllObjectsInCoreData;
 
--(DB_Message *) createSMSEntityForDBInsertionWithMessage:(ALMessage *) theMessage;
+-(DB_Message *) createMessageEntityForDBInsertionWithMessage:(ALMessage *) theMessage;
 -(DB_FileMetaInfo *) createFileMetaInfoEntityForDBInsertionWithMessage:(ALFileMetaInfo *) fileInfo;
--(ALMessage *) createMessageForSMSEntity:(DB_Message *) theEntity;
+-(ALMessage *) createMessageEntity:(DB_Message *) theEntity;
 
 
 @property(nonatomic,weak) id <ALMessagesDelegate>delegate;

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		29CBF2021C0303A700BE6A20 /* ALColorUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 29CBF2001C0303A700BE6A20 /* ALColorUtility.h */; settings = {ASSET_TAGS = (); }; };
-		29CBF2031C0303A700BE6A20 /* ALColorUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CBF2011C0303A700BE6A20 /* ALColorUtility.m */; settings = {ASSET_TAGS = (); }; };
+		29CBF2021C0303A700BE6A20 /* ALColorUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 29CBF2001C0303A700BE6A20 /* ALColorUtility.h */; };
+		29CBF2031C0303A700BE6A20 /* ALColorUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CBF2011C0303A700BE6A20 /* ALColorUtility.m */; };
 		29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DEA3131BEDEC1F004B8085 /* ALUserService.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DEA3141BEDEC1F004B8085 /* ALUserService.m */; };
 		6D15F2461BEB6AE00069BE1A /* ALAttachmentController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D15F2441BEB6AE00069BE1A /* ALAttachmentController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -182,7 +182,6 @@
 		6D95476C1BE38DFF00776652 /* ALContactService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547661BE38DFF00776652 /* ALContactService.m */; };
 		6D95476D1BE38DFF00776652 /* ALUITextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547671BE38DFF00776652 /* ALUITextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D95476E1BE38DFF00776652 /* ALUITextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547681BE38DFF00776652 /* ALUITextView.m */; };
-		98708DE71BFA1F640095E6C9 /* MQTTClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98708DE61BFA1F640095E6C9 /* MQTTClient.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -362,7 +361,6 @@
 		6D9547661BE38DFF00776652 /* ALContactService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALContactService.m; path = Applozic/ALContactService.m; sourceTree = "<group>"; };
 		6D9547671BE38DFF00776652 /* ALUITextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALUITextView.h; path = Applozic/ALUITextView.h; sourceTree = "<group>"; };
 		6D9547681BE38DFF00776652 /* ALUITextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALUITextView.m; path = Applozic/ALUITextView.m; sourceTree = "<group>"; };
-		98708DE61BFA1F640095E6C9 /* MQTTClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MQTTClient.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -371,7 +369,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D88E1DA1BC8046500364C5B /* CoreLocation.framework in Frameworks */,
-				98708DE71BFA1F640095E6C9 /* MQTTClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,7 +378,6 @@
 		6D6DF0731BC535C800EBA00F = {
 			isa = PBXGroup;
 			children = (
-				98708DE61BFA1F640095E6C9 /* MQTTClient.framework */,
 				6D88E1D91BC8046500364C5B /* CoreLocation.framework */,
 				6D6DF1DD1BC5376800EBA00F /* ApplozicLibrary */,
 				6D6DF1DC1BC5375700EBA00F /* ApplozicCommons */,
@@ -936,14 +932,14 @@
 /* Begin PBXShellScriptBuildPhase section */
 		6DAA09DB1BE4AD8800CBF133 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\nset +u\n# Avoid recursively calling this script.\nif [[ $SF_MASTER_SCRIPT_RUNNING ]]\nthen\nexit 0\nfi\nset -u\nexport SF_MASTER_SCRIPT_RUNNING=1\n\n\n# Constants\nSF_TARGET_NAME=${PROJECT_NAME}\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Take build target\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nSF_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n#if [[ \"$SF_SDK_PLATFORM\" = \"iphoneos\" ]]\n#then\n#echo \"Please choose iPhone simulator as the build target.\"\n#exit 1\n#fi\n\nIPHONE_DEVICE_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos\n\n#simulator\nxcodebuild -target \"${PROJECT_NAME}\" -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build\n\n\n# Build the other (non-simulator) platform\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" CONFIGURATION_BUILD_DIR=\"${IPHONE_DEVICE_BUILD_DIR}/arm64\" SYMROOT=\"${SYMROOT}\" ARCHS='arm64' VALID_ARCHS='arm64' $ACTION\n\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\"  CONFIGURATION_BUILD_DIR=\"${IPHONE_DEVICE_BUILD_DIR}/armv7\" SYMROOT=\"${SYMROOT}\" ARCHS='armv7 armv7s' VALID_ARCHS='armv7 armv7s' $ACTION\n\n\n# Copy the framework structure to the universal folder (clean it first)\nrm -rf \"${UNIVERSAL_OUTPUTFOLDER}\"\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\"\n\n# Smash them together to combine all architectures\nlipo -create  \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/arm64/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/armv7/${PROJECT_NAME}.framework/${PROJECT_NAME}\" -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}\"";
 		};
