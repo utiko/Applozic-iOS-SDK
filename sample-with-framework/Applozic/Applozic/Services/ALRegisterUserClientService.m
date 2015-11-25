@@ -146,13 +146,21 @@ static MQTTSession *session;
     if (session == nil) {
         [ALRegisterUserClientService connectToMQTT];
     }
-    [session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"1"] dataUsingEncoding:NSUTF8StringEncoding]
+    [session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], status] dataUsingEncoding:NSUTF8StringEncoding]
                         onTopic:@"status"
                          retain:NO
                             qos:MQTTQosLevelExactlyOnce];
 }
 
++(void) disconnect {
+    NSString *userKey = [ALUserDefaultsHandler getUserKeyString];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [ALRegisterUserClientService disconnect: userKey];
+    });
+}
+
 +(void) disconnect: (NSString *) userKey {
+    /*
     if (session == nil) {
         return;
     }
@@ -164,6 +172,7 @@ static MQTTSession *session;
                             qos:MQTTQosLevelExactlyOnce];
     [session close];
     //session = nil;
+    NSLog(@"disconnected");*/
 }
 
 -(void) logout
