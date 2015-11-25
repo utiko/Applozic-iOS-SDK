@@ -241,14 +241,21 @@
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
-    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"%K=%@",@"contactId",contactId];
+    NSPredicate *predicate;
+
     NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"%K=0",@"isRead"];
-    NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
+    if (contactId) {
+        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"%K=%@",@"contactId",contactId];
+        predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
+    } else {
+        predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate2]];
+    }
     [fetchRequest setEntity:entity];
     [fetchRequest setPredicate:predicate];
     NSError *fetchError = nil;
     NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
     NSLog(@"the fetch request %@",fetchRequest);
+    NSLog(@"COUNT VALUE: %lu", result.count);
     return result;
 }
 
