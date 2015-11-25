@@ -134,7 +134,7 @@ static MQTTSession *session;
                             onTopic:@"status"
                              retain:NO
                                 qos:MQTTQosLevelAtLeastOnce];
-        NSLog(@"###published");
+        NSLog(@"Published connected.");
     });
 }
 
