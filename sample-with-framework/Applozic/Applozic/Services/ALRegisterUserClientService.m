@@ -105,7 +105,6 @@ static MQTTSession *session;
     NSLog(@"connecting to mqtt server");
     session = [[MQTTSession alloc]initWithClientId:[NSString stringWithFormat:@"%@-%f",
                                                     [ALUserDefaultsHandler getUserKeyString],fmod([[NSDate date] timeIntervalSince1970], 10.0)]];
-    
     session.protocolLevel = 4;
     session.willFlag = TRUE;
     session.willTopic = @"status";
@@ -123,37 +122,50 @@ static MQTTSession *session;
 }
 
 +(void) connect {
+    if (![ALUserDefaultsHandler isLoggedIn]) {
+        return;
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (![ALUserDefaultsHandler isLoggedIn]) {
-            return;
-        }
         if (session == nil) {
             [ALRegisterUserClientService connectToMQTT];
         }
-        [session subscribeToTopic:@"status" atLevel:MQTTQosLevelAtLeastOnce];
-        [session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"1"] dataUsingEncoding:NSUTF8StringEncoding]
-                            onTopic:@"status"
-                             retain:NO
-                                qos:MQTTQosLevelAtMostOnce];
+        //[session subscribeToTopic:@"status" atLevel:MQTTQosLevelAtLeastOnce];
+        [ALRegisterUserClientService publishStatus:@"1"];
         NSLog(@"published");
     });
 }
 
-+(void) disconnect {
++(void) publishStatus:(NSString *) status {
+    if (session == nil) {
+        [ALRegisterUserClientService connectToMQTT];
+    }
+    [session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"1"] dataUsingEncoding:NSUTF8StringEncoding]
+                        onTopic:@"status"
+                         retain:NO
+                            qos:MQTTQosLevelExactlyOnce];
+}
+
++(void) disconnect: (NSString *) userKey {
     if (![ALUserDefaultsHandler isLoggedIn] && session == nil) {
         return;
     }
     NSLog(@"disconnecting from mqtt server");
-    [session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"0"] dataUsingEncoding:NSUTF8StringEncoding]
+    //[ALRegisterUserClientService publishStatus:@"0"];
+    [session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", userKey, @"0"] dataUsingEncoding:NSUTF8StringEncoding]
                         onTopic:@"status"
-                        retain:YES
-                            qos:MQTTQosLevelAtMostOnce];
+                         retain:NO
+                            qos:MQTTQosLevelExactlyOnce];
     [session close];
+    //session = nil;
 }
 
 -(void) logout
 {
-    [ALRegisterUserClientService disconnect];
+    NSString *userKey = [ALUserDefaultsHandler getUserKeyString];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [ALRegisterUserClientService disconnect: userKey];
+    });
     [[UIApplication sharedApplication] unregisterForRemoteNotifications];
     [ALUserDefaultsHandler clearAll];
     [ALApplozicSettings clearAllSettings];
