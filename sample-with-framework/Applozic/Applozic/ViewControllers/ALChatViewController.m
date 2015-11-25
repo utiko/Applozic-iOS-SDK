@@ -58,6 +58,8 @@
 
 -(void)processMarkRead;
 
+-(void)fetchAndRefresh:(BOOL)flag;
+
 @end
 
 @implementation ALChatViewController{
@@ -883,8 +885,11 @@ ALMessageDBService  * dbService;
     return nil;
 }
 
-
 -(void)fetchAndRefresh{
+[self fetchAndRefresh:NO];
+}
+
+-(void)fetchAndRefresh:(BOOL)flag{
     NSString *deviceKeyString =[ALUserDefaultsHandler getDeviceKeyString ] ;
     
     [ ALMessageService getLatestMessageForUser: deviceKeyString withCompletion:^(NSMutableArray  *messageList, NSError *error) {
@@ -899,10 +904,14 @@ ALMessageDBService  * dbService;
                 NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
                 NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
                 [[self mMessageListArray] addObjectsFromArray:sortedArray];
-             
+
                 [ALUserService processContactFromMessages:messageList];
                 [self setTitle];
                 [self.mTableView reloadData];
+                if(flag)
+                {
+                    [self processMarkRead];
+                }
             }
            
             
@@ -940,8 +949,8 @@ ALMessageDBService  * dbService;
     if ([self.contactIds isEqualToString:contactId]) {
         //[self fetchAndRefresh];
         NSLog(@"current contact thread is opened");
-        [self fetchAndRefresh];
-        [self processMarkRead];
+        [self fetchAndRefresh:YES];
+        //[self processMarkRead];
         NSLog(@"INDIVIDUAL NOTIFICATION HANDLER");
     } else if (![updateUI boolValue]) {
         NSLog(@"it was in background, updateUI is false");
