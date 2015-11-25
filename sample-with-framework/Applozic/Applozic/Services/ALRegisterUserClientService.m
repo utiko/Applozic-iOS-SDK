@@ -98,6 +98,12 @@ static MQTTSession *session;
     }
 }
 
++(void) asyncConnectToMQTT {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self connectToMQTT];
+    });
+}
+
 +(void) connectToMQTT {
     if (![ALUserDefaultsHandler isLoggedIn]) {
         return;
@@ -147,7 +153,7 @@ static MQTTSession *session;
 }
 
 +(void) disconnect: (NSString *) userKey {
-    if (![ALUserDefaultsHandler isLoggedIn] && session == nil) {
+    if (session == nil) {
         return;
     }
     NSLog(@"disconnecting from mqtt server");
@@ -163,14 +169,15 @@ static MQTTSession *session;
 -(void) logout
 {
     NSString *userKey = [ALUserDefaultsHandler getUserKeyString];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [ALRegisterUserClientService disconnect: userKey];
-    });
     [[UIApplication sharedApplication] unregisterForRemoteNotifications];
     [ALUserDefaultsHandler clearAll];
     [ALApplozicSettings clearAllSettings];
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     [messageDBService deleteAllObjectsInCoreData];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [ALRegisterUserClientService disconnect: userKey];
+    });
 }
 
 @end
