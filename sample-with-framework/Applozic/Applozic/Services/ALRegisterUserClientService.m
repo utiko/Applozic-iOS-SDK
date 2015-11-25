@@ -123,10 +123,11 @@ static MQTTSession *session;
 }
 
 +(void) connect {
+    if (![ALUserDefaultsHandler isLoggedIn]) {
+        return;
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (![ALUserDefaultsHandler isLoggedIn]) {
-            return;
-        }
+
         if (session == nil) {
             [ALRegisterUserClientService connectToMQTT];
         }
