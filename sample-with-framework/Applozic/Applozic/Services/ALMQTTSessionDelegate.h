@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MQTTSession.h"
 
-@interface ApplozicMQTTSessionDelegate : NSObject <MQTTSessionDelegate>
+@interface ALMQTTSessionDelegate : NSObject <MQTTSessionDelegate>
 
 
 @end

@@ -198,8 +198,8 @@
 		982F13111C05D6050024678E /* MQTTSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F13011C05D6040024678E /* MQTTSessionManager.m */; };
 		982F13121C05D6050024678E /* MQTTSSLSecurityPolicy.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F13021C05D6040024678E /* MQTTSSLSecurityPolicy.h */; };
 		982F13131C05D6050024678E /* MQTTSSLSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F13031C05D6040024678E /* MQTTSSLSecurityPolicy.m */; };
-		982F131C1C06373A0024678E /* ApplozicMQTTSessionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F131A1C06373A0024678E /* ApplozicMQTTSessionDelegate.h */; };
-		982F131D1C06373A0024678E /* ApplozicMQTTSessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F131B1C06373A0024678E /* ApplozicMQTTSessionDelegate.m */; };
+		982F131C1C06373A0024678E /* ALMQTTSessionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F131A1C06373A0024678E /* ALMQTTSessionDelegate.h */; };
+		982F131D1C06373A0024678E /* ALMQTTSessionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F131B1C06373A0024678E /* ALMQTTSessionDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -395,8 +395,8 @@
 		982F13011C05D6040024678E /* MQTTSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSessionManager.m; path = Applozic/MQTT/MQTTSessionManager.m; sourceTree = "<group>"; };
 		982F13021C05D6040024678E /* MQTTSSLSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTSSLSecurityPolicy.h; path = Applozic/MQTT/MQTTSSLSecurityPolicy.h; sourceTree = "<group>"; };
 		982F13031C05D6040024678E /* MQTTSSLSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSSLSecurityPolicy.m; path = Applozic/MQTT/MQTTSSLSecurityPolicy.m; sourceTree = "<group>"; };
-		982F131A1C06373A0024678E /* ApplozicMQTTSessionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApplozicMQTTSessionDelegate.h; path = Applozic/Services/ApplozicMQTTSessionDelegate.h; sourceTree = "<group>"; };
-		982F131B1C06373A0024678E /* ApplozicMQTTSessionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApplozicMQTTSessionDelegate.m; path = Applozic/Services/ApplozicMQTTSessionDelegate.m; sourceTree = "<group>"; };
+		982F131A1C06373A0024678E /* ALMQTTSessionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALMQTTSessionDelegate.h; path = Applozic/Services/ALMQTTSessionDelegate.h; sourceTree = "<group>"; };
+		982F131B1C06373A0024678E /* ALMQTTSessionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMQTTSessionDelegate.m; path = Applozic/Services/ALMQTTSessionDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -808,8 +808,8 @@
 		982F13151C06369E0024678E /* mqtt */ = {
 			isa = PBXGroup;
 			children = (
-				982F131A1C06373A0024678E /* ApplozicMQTTSessionDelegate.h */,
-				982F131B1C06373A0024678E /* ApplozicMQTTSessionDelegate.m */,
+				982F131A1C06373A0024678E /* ALMQTTSessionDelegate.h */,
+				982F131B1C06373A0024678E /* ALMQTTSessionDelegate.m */,
 			);
 			name = mqtt;
 			sourceTree = "<group>";
@@ -891,7 +891,7 @@
 				6D6DF1C31BC5364C00EBA00F /* SDWebImagePrefetcher.h in Headers */,
 				6D6DF1C01BC5364C00EBA00F /* SDWebImageManager.h in Headers */,
 				6D6DF1C21BC5364C00EBA00F /* SDWebImageOperation.h in Headers */,
-				982F131C1C06373A0024678E /* ApplozicMQTTSessionDelegate.h in Headers */,
+				982F131C1C06373A0024678E /* ALMQTTSessionDelegate.h in Headers */,
 				6D6DF1B81BC5364C00EBA00F /* SDWebImageCompat.h in Headers */,
 				6D6DF1D11BC5364C00EBA00F /* UIView+WebCacheOperation.h in Headers */,
 				6D6DF1BA1BC5364C00EBA00F /* SDWebImageDecoder.h in Headers */,
@@ -1037,7 +1037,7 @@
 				6D6DF14D1BC5364C00EBA00F /* ALUserDefaultsHandler.m in Sources */,
 				6D6DF1C81BC5364C00EBA00F /* UIImage+GIF.m in Sources */,
 				6D36F2091BFF3EE3003D46D3 /* ALApplozicSettings.m in Sources */,
-				982F131D1C06373A0024678E /* ApplozicMQTTSessionDelegate.m in Sources */,
+				982F131D1C06373A0024678E /* ALMQTTSessionDelegate.m in Sources */,
 				6D6DF1811BC5364C00EBA00F /* DB_CONTACT.m in Sources */,
 				6D6DF1BF1BC5364C00EBA00F /* SDWebImageDownloaderOperation.m in Sources */,
 				6D6DF1711BC5364C00EBA00F /* ALContact.m in Sources */,
@@ -1235,7 +1235,7 @@
 				);
 				INFOPLIST_FILE = Applozic/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework;
@@ -1260,7 +1260,7 @@
 				);
 				INFOPLIST_FILE = Applozic/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework;

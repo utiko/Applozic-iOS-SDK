@@ -6,9 +6,9 @@
 //  Copyright © 2015 applozic Inc. All rights reserved.
 //
 
-#import "ApplozicMQTTSessionDelegate.h"
+#import "ALMQTTSessionDelegate.h"
 
-@implementation ApplozicMQTTSessionDelegate
+@implementation ALMQTTSessionDelegate
 
 - (void)handleEvent:(MQTTSession *)session
               event:(MQTTSessionEvent)eventCode

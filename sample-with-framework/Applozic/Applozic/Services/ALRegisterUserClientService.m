@@ -18,7 +18,7 @@
 #import "ALMessageDBService.h"
 #import "MQTTSession.h"
 #import "ALApplozicSettings.h"
-#import "ApplozicMQTTSessionDelegate.h"
+#import "ALMQTTSessionDelegate.h"
 
 @implementation ALRegisterUserClientService
 
@@ -115,9 +115,9 @@ static MQTTSession *session;
     // Set delegate appropriately to receive various events
     // See MQTTSession.h for information on various handlers
     // you can subscribe to.
-    ApplozicMQTTSessionDelegate *applozicMQTTSessionDelegate = [[ApplozicMQTTSessionDelegate alloc] init];
+    ALMQTTSessionDelegate *alMQTTSessionDelegate = [[ALMQTTSessionDelegate alloc] init];
 
-    [session setDelegate:applozicMQTTSessionDelegate];
+    [session setDelegate:alMQTTSessionDelegate];
     NSLog(@"waiting for connect...");
 
     [session connectAndWaitToHost:MQTT_URL port:[MQTT_PORT intValue] usingSSL:NO];
@@ -149,6 +149,7 @@ static MQTTSession *session;
             [self connectToMQTT];
         }
         [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtLeastOnce];
+    //[session subscribeToTopic:@"topic/*" atLevel:MQTTQosLevelAtLeastOnce];
         NSLog(@"Subscribed.");
     //});
 }
