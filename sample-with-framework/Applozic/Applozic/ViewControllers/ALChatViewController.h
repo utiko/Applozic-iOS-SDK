@@ -31,5 +31,7 @@
 
 -(void)updateDeliveryStatus:(NSNotification *) notification;
 
+-(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue;
+
 
 @end

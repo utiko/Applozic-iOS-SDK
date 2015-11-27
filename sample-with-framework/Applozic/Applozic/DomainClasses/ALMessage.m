@@ -19,7 +19,6 @@
 -(void)parseMessage:(id) messageJson;
 {
     
-    
     // key String
     
     self.key =  [super getStringFromJsonValue:messageJson[@"key"]];

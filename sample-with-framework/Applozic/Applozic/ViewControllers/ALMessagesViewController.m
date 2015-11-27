@@ -21,6 +21,7 @@
 #import "UIImageView+WebCache.h"
 #import "ALLoginViewController.h"
 #import "ALColorUtility.h"
+#import "ALMQTTConversationService.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -32,7 +33,7 @@
 // Private interface
 //------------------------------------------------------------------------------------------------------------------
 
-@interface ALMessagesViewController ()<UITableViewDataSource,UITableViewDelegate,ALMessagesDelegate>
+@interface ALMessagesViewController ()<UITableViewDataSource,UITableViewDelegate,ALMessagesDelegate, ALMQTTConversationDelegate>
 
 - (IBAction)logout:(id)sender;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
@@ -74,6 +75,9 @@
     [dBService getMessages];
     
     self.unreadCount=[[NSArray alloc] init];
+    ALMQTTConversationService *alMqttConversationService = [ALMQTTConversationService sharedInstance];
+    [alMqttConversationService subscribeToConversation];
+    alMqttConversationService.mqttConversationDelegate = self;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -410,6 +414,18 @@
     [self.view layoutIfNeeded];
 }
 
+-(void) syncCall:(ALMessage *) alMessage {
+    ALMessageDBService *dBService = [ALMessageDBService new];
+    dBService.delegate = self;
+    [dBService fetchAndRefreshFromServerForPush];
+
+    [self.detailChatViewController setRefresh: TRUE];
+    if ([self.detailChatViewController contactIds] != nil) {
+        //Todo: set value of updateUI and [self.detailChatViewController contactIds] with actual contactId of the message
+        [self.detailChatViewController syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
+    }
+}
+
 
 -(void)pushNotificationhandler:(NSNotification *) notification{
     NSString * contactId = notification.object;
@@ -418,19 +434,16 @@
     
     if (self.isViewLoaded && self.view.window && [updateUI boolValue])
     {
-        //Show notification...
-        ALMessageDBService *dBService = [ALMessageDBService new];
-        dBService.delegate = self;
-        [dBService fetchAndRefreshFromServerForPush];
+        [self syncCall:nil];
     }
     else if(![updateUI boolValue])
     {
         NSLog(@"#################It should never come here");
         [self createDetailChatViewController: contactId];
         [self.detailChatViewController fetchAndRefresh];
+        [self.detailChatViewController setRefresh: TRUE];
     }
     
-    [self.detailChatViewController setRefresh: TRUE];
 }
 
 - (void)dealloc {

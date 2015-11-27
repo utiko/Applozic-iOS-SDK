@@ -67,7 +67,7 @@ static MQTTSession *session;
             return;
         }
         
-        if (session == nil) {
+        if (session == nil || session.status != MQTTSessionStatusConnected) {
             [self createSession];
         }
         
@@ -76,21 +76,7 @@ static MQTTSession *session;
                              retain:NO
                                 qos:MQTTQosLevelAtMostOnce];
         NSLog(@"Published connected.");
-
-        [self subscribeToConversation];
     });
-}
-
--(void) subscribeToConversation {
-    if (session == nil) {
-        [self createSession];
-    }
-    if (session.status == MQTTSessionStatusConnected) {
-        //[session subscribeToTopic:@"status" atLevel:MQTTQosLevelAtMostOnce];
-        [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
-    }
-    
-    NSLog(@"Subscribed.");
 }
 
 -(void) disconnectToApplozic {
@@ -112,10 +98,16 @@ static MQTTSession *session;
     });
 }
 
+- (void)session:(MQTTSession*)session newMessage:(NSData*)data onTopic:(NSString*)topic {
+    NSLog(@"##################MQTT NEW MESSAGE");
+}
+
+
 - (void)newMessage:(MQTTSession *)session data:(NSData *)data onTopic:(NSString *)topic qos:(MQTTQosLevel)qos retained:(BOOL)retained mid:(unsigned int)mid
 {
     NSLog(@"MQTT got new message");
-    
+    NSLog(@"data: %@", data);
+    NSLog(@"topic: %@", topic);
 }
 
 - (void)subAckReceived:(MQTTSession *)session msgID:(UInt16)msgID grantedQoss:(NSArray *)qoss
@@ -139,7 +131,7 @@ static MQTTSession *session;
 }
 
 - (void)received:(MQTTSession *)session type:(int)type qos:(MQTTQosLevel)qos retained:(BOOL)retained duped:(BOOL)duped mid:(UInt16)mid data:(NSData *)data {
-    NSLog(@"###received command");
+    NSLog(@"###MQTTreceived command");
     NSLog(@"####type: %i", type);
     NSLog(@"####data: %@", data);
 }
