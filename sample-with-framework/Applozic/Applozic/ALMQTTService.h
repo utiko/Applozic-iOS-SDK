@@ -10,7 +10,7 @@
 #import "MQTTSession.h"
 #import "MQTTSessionManager.h"
 
-@interface ALMQTTService : NSObject <MQTTSessionDelegate> //<MQTTSessionManagerDelegate>
+@interface ALMQTTService : NSObject <MQTTSessionDelegate>
 
 +(ALMQTTService *)sharedInstance;
 
@@ -23,5 +23,4 @@
 -(void) disconnectToApplozic: (NSString *) userKey;
 
 -(void) subscribeToConversation;
-
 @end

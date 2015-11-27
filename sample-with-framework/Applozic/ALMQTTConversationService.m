@@ -1,27 +1,26 @@
 //
-//  ALMQTTService.m
+//  ALMQTTConversationService.m
 //  Applozic
 //
-//  Created by Applozic Inc on 11/26/15.
+//  Created by Applozic Inc on 11/27/15.
 //  Copyright © 2015 applozic Inc. All rights reserved.
 //
 
-#import "ALMQTTService.h"
-#import "ALUserDefaultsHandler.h"
-#import "MQTTSessionManager.h"
+#import "ALMQTTConversationService.h"
 #import "MQTTSession.h"
+#import "ALUserDefaultsHandler.h"
 #import "ALConstant.h"
 
-@implementation ALMQTTService
+@implementation ALMQTTConversationService
 
 static MQTTSession *session;
 
-+(ALMQTTService *)sharedInstance
++(ALMQTTConversationService *)sharedInstance
 {
-    static ALMQTTService *sharedInstance = nil;
+    static ALMQTTConversationService *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[ALMQTTService alloc] init];
+        sharedInstance = [[ALMQTTConversationService alloc] init];
     });
     return sharedInstance;
 }
@@ -60,42 +59,14 @@ static MQTTSession *session;
     NSLog(@"#####MQTT: %@", topic);
 }
 
+-(void) subscribeToConversation {
 
--(void) connectToApplozic {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (![ALUserDefaultsHandler isLoggedIn]) {
-            return;
-        }
-        
-        if (session == nil || session.status != MQTTSessionStatusConnected) {
-            [self createSession];
-        }
-        
-        [session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"1"] dataUsingEncoding:NSUTF8StringEncoding]
-                            onTopic:@"status"
-                             retain:NO
-                                qos:MQTTQosLevelAtMostOnce];
-        NSLog(@"Published connected.");
-    });
-}
-
--(void) disconnectToApplozic {
-    NSString *userKey = [ALUserDefaultsHandler getUserKeyString];
-    [self disconnectToApplozic: userKey];
-}
-
--(void) disconnectToApplozic: (NSString *) userKey {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (session == nil) {
-            return;
-        }
-        [session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", userKey, @"0"] dataUsingEncoding:NSUTF8StringEncoding]
-                            onTopic:@"status"
-                             retain:NO
-                                qos:MQTTQosLevelAtMostOnce];
-        [session close];
-        NSLog(@"Disconnected from mqtt");
-    });
+    [self createSession];
+    if (session.status == MQTTSessionStatusConnected) {
+        [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
+    }
+    
+    NSLog(@"Subscribed.");
 }
 
 - (void)session:(MQTTSession*)session newMessage:(NSData*)data onTopic:(NSString*)topic {
@@ -107,14 +78,17 @@ static MQTTSession *session;
 {
     NSLog(@"MQTT got new message");
     NSLog(@"data: %@", data);
+    NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"json: %@",myString);
     NSLog(@"topic: %@", topic);
+    
+    [self.mqttConversationDelegate syncCall];
 }
 
 - (void)subAckReceived:(MQTTSession *)session msgID:(UInt16)msgID grantedQoss:(NSArray *)qoss
 {
     NSLog(@"subscribed");
 }
-
 
 - (void)connected:(MQTTSession *)session {
     NSLog(@"####delegate callback for connected.");

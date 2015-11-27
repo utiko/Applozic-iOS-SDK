@@ -22,8 +22,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    
-    
     if (![ALUserDefaultsHandler isLoggedIn])
     {
         // Get login screen from storyboard and present it

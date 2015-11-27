@@ -202,6 +202,8 @@
 		982F13131C05D6050024678E /* MQTTSSLSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F13031C05D6040024678E /* MQTTSSLSecurityPolicy.m */; };
 		98BD87491C07503E0019915D /* ALMQTTService.h in Headers */ = {isa = PBXBuildFile; fileRef = 98BD87471C07503E0019915D /* ALMQTTService.h */; };
 		98BD874A1C07503E0019915D /* ALMQTTService.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BD87481C07503E0019915D /* ALMQTTService.m */; };
+		98E1AB971C08718700BE6312 /* ALMQTTConversationService.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E1AB951C08718600BE6312 /* ALMQTTConversationService.h */; };
+		98E1AB981C08718700BE6312 /* ALMQTTConversationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E1AB961C08718700BE6312 /* ALMQTTConversationService.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -401,6 +403,8 @@
 		982F13031C05D6040024678E /* MQTTSSLSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSSLSecurityPolicy.m; path = Applozic/MQTT/MQTTSSLSecurityPolicy.m; sourceTree = "<group>"; };
 		98BD87471C07503E0019915D /* ALMQTTService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALMQTTService.h; path = Applozic/ALMQTTService.h; sourceTree = "<group>"; };
 		98BD87481C07503E0019915D /* ALMQTTService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMQTTService.m; path = Applozic/ALMQTTService.m; sourceTree = "<group>"; };
+		98E1AB951C08718600BE6312 /* ALMQTTConversationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMQTTConversationService.h; sourceTree = "<group>"; };
+		98E1AB961C08718700BE6312 /* ALMQTTConversationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMQTTConversationService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -816,6 +820,8 @@
 			children = (
 				98BD87471C07503E0019915D /* ALMQTTService.h */,
 				98BD87481C07503E0019915D /* ALMQTTService.m */,
+				98E1AB951C08718600BE6312 /* ALMQTTConversationService.h */,
+				98E1AB961C08718700BE6312 /* ALMQTTConversationService.m */,
 			);
 			name = mqtt;
 			sourceTree = "<group>";
@@ -837,6 +843,7 @@
 				6D6DF1741BC5364C00EBA00F /* ALJson.h in Headers */,
 				982F13041C05D6050024678E /* MQTTClient-Prefix.pch in Headers */,
 				6D6DF15A1BC5364C00EBA00F /* ALMessagesViewController.h in Headers */,
+				98E1AB971C08718700BE6312 /* ALMQTTConversationService.h in Headers */,
 				6D6DF1881BC5364C00EBA00F /* ALConstant.h in Headers */,
 				6D6DF1581BC5364C00EBA00F /* ALChatViewController.h in Headers */,
 				6D6DF1D31BC5364C00EBA00F /* KAProgressLabel.h in Headers */,
@@ -1070,6 +1077,7 @@
 				6D6DF1CA1BC5364C00EBA00F /* UIImage+MultiFormat.m in Sources */,
 				6D6DF13B1BC5364C00EBA00F /* ALMessageDBService.m in Sources */,
 				6D6DF16B1BC5364C00EBA00F /* ALMessageClientService.m in Sources */,
+				98E1AB981C08718700BE6312 /* ALMQTTConversationService.m in Sources */,
 				982F13111C05D6050024678E /* MQTTSessionManager.m in Sources */,
 				6D6DF1CC1BC5364C00EBA00F /* UIImage+WebP.m in Sources */,
 				6D6DF1C11BC5364C00EBA00F /* SDWebImageManager.m in Sources */,
