@@ -76,7 +76,6 @@ static MQTTSession *session;
     id result = [NSJSONSerialization JSONObjectWithData:messageData
                                                 options:NSJSONReadingAllowFragments
                                                   error:NULL];
-    NSString *contactId = [result objectForKey:@"contactIds"];
     ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:result];
     [self.mqttConversationDelegate syncCall: alMessage];
 }
@@ -90,6 +89,8 @@ static MQTTSession *session;
 }
 
 - (void)connectionClosed:(MQTTSession *)session {
+    NSLog(@"MQTT connection closed");
+    //Todo: inform controller about connection closed.
 }
 
 - (void)handleEvent:(MQTTSession *)session

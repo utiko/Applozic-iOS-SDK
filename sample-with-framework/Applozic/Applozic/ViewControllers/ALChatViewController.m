@@ -85,7 +85,6 @@ ALMessageDBService  * dbService;
     [self fetchMessageFromDB];
     [self processMarkRead];
     [self loadChatView];
-    //[[ALMQTTService sharedInstance] subscribeToConversation];
 }
 
 -(void)processMarkRead{
