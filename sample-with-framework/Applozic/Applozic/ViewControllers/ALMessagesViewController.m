@@ -230,7 +230,7 @@
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     self.unreadCount=[messageDBService getUnreadMessages:[alContact userId]];
     
-    NSLog(@"self.unreadCount Array of ||%@|| withCount ||%lu|| is %@",[alContact userId],(unsigned long)self.unreadCount.count,self.unreadCount);
+   // NSLog(@"self.unreadCount Array of ||%@|| withCount ||%lu|| is %@",[alContact userId],(unsigned long)self.unreadCount.count,self.unreadCount);
     
     if(self.unreadCount.count!=0){
         unread.text=[NSString stringWithFormat:@"%lu",(unsigned long)self.unreadCount.count];

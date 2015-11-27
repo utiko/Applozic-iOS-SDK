@@ -82,6 +82,15 @@
     }
     UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
+
+    self.label = [[UILabel alloc] initWithFrame: CGRectMake(80,26,223,21)];
+    self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.label.backgroundColor = [UIColor clearColor];
+    [self.label setFont:[UIFont fontWithName:@"Helvetica" size:10]];
+    self.label.textAlignment = UITextAlignmentCenter;
+
+    [self.navigationController.navigationBar addSubview:self.label];
+ 
 }
 
 

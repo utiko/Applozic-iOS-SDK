@@ -35,6 +35,7 @@
 #import "ALNotificationView.h"
 #import "ALUserService.h"
 #import "ALMessageService.h"
+#import "ALUserDetail.h"
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate>
 
@@ -59,6 +60,8 @@
 -(void)processMarkRead;
 
 -(void)fetchAndRefresh:(BOOL)flag;
+
+-(void)serverCallForLastSeen;
 
 @end
 
@@ -106,8 +109,7 @@ ALMessageDBService  * dbService;
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden: YES];
-//    NSLog(@"viewWillAppear will be called ....");
-
+    [self.label setHidden:NO];
 
     if(self.refresh || (self.mMessageListArray && self.mMessageListArray.count == 0) ||
             !(self.mMessageListArray && [[self.mMessageListArray[0] contactIds] isEqualToString:self.contactIds])
@@ -127,6 +129,8 @@ ALMessageDBService  * dbService;
         [self processLoadEarlierMessages];
     }
     
+        [self serverCallForLastSeen];
+   
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -135,6 +139,7 @@ ALMessageDBService  * dbService;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
     [self.sendMessageTextView resignFirstResponder];
+    [self.label setHidden:YES];
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -1052,4 +1057,43 @@ ALMessageDBService  * dbService;
 
 }
 
+-(void)serverCallForLastSeen
+{
+    [ALMessageService userDetailServerCall:self.contactIds withCompletion:^(ALUserDetail *alUserDetail){
+        if(alUserDetail)
+        {
+            NSString *tempString = [NSString stringWithFormat:@"%@", alUserDetail.lastSeenAtTime];
+            NSCharacterSet *charsToTrim = [NSCharacterSet characterSetWithCharactersInString:@"()  \n\""];
+            tempString = [tempString stringByTrimmingCharactersInSet:charsToTrim];
+            NSString *string = @"Last Seen At ";
+            string = [string stringByAppendingString: tempString];
+    
+            NSMutableString *temp = tempString;
+            double value = [temp doubleValue];
+            NSLog(@"FLOAT VALUE %f",[temp doubleValue]);
+            
+            if(value > 0)
+            {
+                NSDate *date  = [[NSDate alloc] init];
+                date = [NSDate dateWithTimeIntervalSince1970:(value / 1000)];
+            
+                NSDateFormatter *format = [[NSDateFormatter alloc] init];
+                [format setDateFormat:@"dd/MM/yyyy hh:mm a"];
+                [self.label setText:[format stringFromDate:date]];
+               
+            }
+            else
+            {
+                [self.label setText:@""];
+            }
+            
+        }
+        else
+        {
+            NSLog(@"CHECK SERVER CALL");
+        }
+      
+    
+     }];
+}
 @end
