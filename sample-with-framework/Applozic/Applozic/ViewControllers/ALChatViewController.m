@@ -110,7 +110,8 @@ ALMessageDBService  * dbService;
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden: YES];
     [self.label setHidden:NO];
-
+   
+   
     if(self.refresh || (self.mMessageListArray && self.mMessageListArray.count == 0) ||
             !(self.mMessageListArray && [[self.mMessageListArray[0] contactIds] isEqualToString:self.contactIds])
        ) {
@@ -1074,12 +1075,63 @@ ALMessageDBService  * dbService;
             
             if(value > 0)
             {
-                NSDate *date  = [[NSDate alloc] init];
-                date = [NSDate dateWithTimeIntervalSince1970:(value / 1000)];
-            
+                NSDate *date  = [[NSDate alloc] initWithTimeIntervalSince1970:(value/1000)];
+                
+                NSDate *current = [[NSDate alloc] init];
+                NSTimeInterval difference =[current timeIntervalSinceDate:date];
+                
+                NSDate *today = [NSDate date];
+                NSDate *yesterday = [today dateByAddingTimeInterval: -86400.0];
                 NSDateFormatter *format = [[NSDateFormatter alloc] init];
-                [format setDateFormat:@"dd/MM/yyyy hh:mm a"];
-                [self.label setText:[format stringFromDate:date]];
+                [format setDateFormat:@"dd/MM/yyyy"];
+                NSString *todaydate = [format stringFromDate:current];
+                NSString *yesterdaydate =[format stringFromDate:yesterday];
+                NSString *serverdate =[format stringFromDate:date];
+                
+                if([serverdate compare:todaydate] == NSOrderedSame)
+                {
+                    NSString *str = @"Last seen Today ";
+                    if(difference <= 60)
+                    {
+                        [self.label setText:[str stringByAppendingString:@"Just Now"]];
+                    }
+                    else{
+                        NSString *theTime;
+                        int hours =  difference / 3600;
+                        int minutes = (difference - hours * 3600 ) / 60;
+                        NSLog(@"MIN : %d",minutes);
+                        NSLog(@"hr : %d",hours);
+                        NSLog(@"differeence = %f",difference);
+                        if(hours > 0){
+                            theTime = [NSString stringWithFormat:@"%.2d:%.2d", hours, minutes];
+                            str = [str stringByAppendingString:theTime];
+                            str = [str stringByAppendingString:@" hr Ago"];
+                        }
+                        else{
+                            theTime = [NSString stringWithFormat:@"%.2d", minutes];
+                            str = [str stringByAppendingString:theTime];
+                            str = [str stringByAppendingString:@" min Ago"];
+                        }
+                     
+                        NSLog(@"str :%@",str);
+                        [self.label setText:str];
+                    }
+                   
+                }
+                else if ([serverdate compare:yesterdaydate] == NSOrderedSame)
+                {
+                    NSString *str = @"Last seen Yesteraday at ";
+                    [format setDateFormat:@"hh:mm a"];
+                    str = [str stringByAppendingString:[format stringFromDate:date]];
+                    [self.label setText:str];
+                }
+                else
+                {
+                    [format setDateFormat:@"EE,MMM dd,YYYY"];
+                    NSString *str = @"Last Seen at ";
+                    str = [str stringByAppendingString:[format stringFromDate:date]];
+                    [self.label setText:str];
+                }
                
             }
             else
