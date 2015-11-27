@@ -16,13 +16,10 @@
 #import "ALRegistrationResponse.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageDBService.h"
-#import "MQTTSession.h"
 #import "ALApplozicSettings.h"
-#import "ALMQTTSessionDelegate.h"
+#import "ALMQTTService.h"
 
 @implementation ALRegisterUserClientService
-
-static MQTTSession *session;
 
 -(void) initWithCompletion:(ALUser *)user withCompletion:(void(^)(ALRegistrationResponse * response, NSError *error)) completion
 {
@@ -99,79 +96,13 @@ static MQTTSession *session;
     }
 }
 
--(void) connectToMQTT {
-    if (![ALUserDefaultsHandler isLoggedIn]) {
-        return;
-    }
-    NSLog(@"connecting to mqtt server");
-    session = [[MQTTSession alloc]initWithClientId:[NSString stringWithFormat:@"%@-%f",
-                                                    [ALUserDefaultsHandler getUserKeyString],fmod([[NSDate date] timeIntervalSince1970], 10.0)]];
-    session.protocolLevel = 4;
-    session.willFlag = TRUE;
-    session.willTopic = @"status";
-    session.willMsg = [[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"0"] dataUsingEncoding:NSUTF8StringEncoding];
-    session.willQoS = MQTTQosLevelAtMostOnce;
-    
-    // Set delegate appropriately to receive various events
-    // See MQTTSession.h for information on various handlers
-    // you can subscribe to.
-    ALMQTTSessionDelegate *alMQTTSessionDelegate = [[ALMQTTSessionDelegate alloc] init];
-
-    [session setDelegate:alMQTTSessionDelegate];
-    NSLog(@"waiting for connect...");
-
-    [session connectAndWaitToHost:MQTT_URL port:[MQTT_PORT intValue] usingSSL:NO];
-    NSLog(@"connected...");
-}
-
 -(void) connect {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (![ALUserDefaultsHandler isLoggedIn]) {
-            return;
-        }
-        if (session == nil) {
-            [self connectToMQTT];
-        }
-        //[session subscribeToTopic:@"status" atLevel:MQTTQosLevelAtLeastOnce];
-        [self subscribeToConversation];
-        
-        [session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"1"] dataUsingEncoding:NSUTF8StringEncoding]
-                            onTopic:@"status"
-                             retain:NO
-                                qos:MQTTQosLevelAtLeastOnce];
-        NSLog(@"Published connected.");
-    });
-}
-
--(void) subscribeToConversation {
-   // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (session == nil) {
-            [self connectToMQTT];
-        }
-        [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtLeastOnce];
-    //[session subscribeToTopic:@"topic/*" atLevel:MQTTQosLevelAtLeastOnce];
-        NSLog(@"Subscribed.");
-    //});
+    [[ALMQTTService sharedInstance] connectToApplozic];
 }
 
 -(void) disconnect {
-    NSString *userKey = [ALUserDefaultsHandler getUserKeyString];
-    [self disconnect: userKey];
+    [[ALMQTTService sharedInstance] disconnectToApplozic];
 }
-
--(void) disconnect: (NSString *) userKey {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (session == nil) {
-            return;
-        }
-        [session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", userKey, @"0"] dataUsingEncoding:NSUTF8StringEncoding]
-                            onTopic:@"status"
-                             retain:NO
-                                qos:MQTTQosLevelAtLeastOnce];
-        [session close];
-        NSLog(@"Disconnected from mqtt");
-    });
-  }
 
 -(void) logout
 {
@@ -182,7 +113,7 @@ static MQTTSession *session;
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     [messageDBService deleteAllObjectsInCoreData];
     
-    [self disconnect: userKey];
+    [[ALMQTTService sharedInstance] disconnectToApplozic: userKey];
 }
 
 @end
