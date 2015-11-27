@@ -10,12 +10,7 @@
 #import "MQTTSession.h"
 #import "MQTTSessionManager.h"
 
-@interface ALMQTTService : NSObject <MQTTSessionDelegate>
-
-@property (strong, nonatomic) MQTTSessionManager *manager;
-
-@property (strong, nonatomic) NSDictionary *mqttSettings;
-
+@interface ALMQTTService : NSObject <MQTTSessionDelegate> //<MQTTSessionManagerDelegate>
 
 +(ALMQTTService *)sharedInstance;
 

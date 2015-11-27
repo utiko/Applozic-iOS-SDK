@@ -200,7 +200,6 @@
 		982F13131C05D6050024678E /* MQTTSSLSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F13031C05D6040024678E /* MQTTSSLSecurityPolicy.m */; };
 		98BD87491C07503E0019915D /* ALMQTTService.h in Headers */ = {isa = PBXBuildFile; fileRef = 98BD87471C07503E0019915D /* ALMQTTService.h */; };
 		98BD874A1C07503E0019915D /* ALMQTTService.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BD87481C07503E0019915D /* ALMQTTService.m */; };
-		98BD874C1C0766260019915D /* mqtt.plist in Resources */ = {isa = PBXBuildFile; fileRef = 98BD874B1C0766260019915D /* mqtt.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -398,7 +397,6 @@
 		982F13031C05D6040024678E /* MQTTSSLSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSSLSecurityPolicy.m; path = Applozic/MQTT/MQTTSSLSecurityPolicy.m; sourceTree = "<group>"; };
 		98BD87471C07503E0019915D /* ALMQTTService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALMQTTService.h; path = Applozic/ALMQTTService.h; sourceTree = "<group>"; };
 		98BD87481C07503E0019915D /* ALMQTTService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMQTTService.m; path = Applozic/ALMQTTService.m; sourceTree = "<group>"; };
-		98BD874B1C0766260019915D /* mqtt.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mqtt.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -647,7 +645,6 @@
 				6D6DF1E01BC5379C00EBA00F /* push */,
 				6D6DF1DF1BC5379300EBA00F /* message */,
 				6D6DF1DE1BC5378900EBA00F /* location */,
-				98BD874B1C0766260019915D /* mqtt.plist */,
 			);
 			name = ApplozicLibrary;
 			sourceTree = "<group>";
@@ -1002,7 +999,6 @@
 				6D6DF1AF1BC5364C00EBA00F /* mobicom_social_forward.png in Resources */,
 				6D6DF19F1BC5364C00EBA00F /* ic_action_time.png in Resources */,
 				6D6DF18B1BC5364C00EBA00F /* ic_action_about.png in Resources */,
-				98BD874C1C0766260019915D /* mqtt.plist in Resources */,
 				6D6DF1A21BC5364C00EBA00F /* ic_contact_picture_holo_light.png in Resources */,
 				6D6DF1AA1BC5364C00EBA00F /* ic_upload.png in Resources */,
 				6D6DF18F1BC5364C00EBA00F /* ic_action_call.png in Resources */,
