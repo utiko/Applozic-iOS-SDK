@@ -36,6 +36,7 @@
 #import "ALUserService.h"
 #import "ALMessageService.h"
 #import "ALUserDetail.h"
+#import "ALMQTTService.h"
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate>
 
@@ -84,6 +85,7 @@ ALMessageDBService  * dbService;
     [self fetchMessageFromDB];
     [self processMarkRead];
     [self loadChatView];
+    //[[ALMQTTService sharedInstance] subscribeToConversation];
 }
 
 -(void)processMarkRead{
@@ -605,7 +607,6 @@ ALMessageDBService  * dbService;
         NSDictionary *theJson = [NSJSONSerialization JSONObjectWithData:connection.mData options:NSJSONReadingMutableLeaves error:&theJsonError];
         NSDictionary *fileInfo = [theJson objectForKey:@"fileMeta"];
         [message.fileMeta populate:fileInfo ];
-        NSLog(@"f####ileName :: %@",message.fileMeta.name);
         ALMessage * almessage =  [ALMessageService processFileUploadSucess:message];
         
         [self sendMessage:almessage ];
@@ -948,9 +949,13 @@ ALMessageDBService  * dbService;
     NSString * contactId = notification.object;
     NSDictionary *dict = notification.userInfo;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
+    NSString *alertValue = [dict valueForKey:@"alertValue"];
     NSLog(@"Notification received by Individual chat list: %@", contactId);
-    
-    
+    [self syncCall:contactId updateUI:updateUI alertValue:alertValue];
+}
+
+-(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue
+{
     if ([self.contactIds isEqualToString:contactId]) {
         //[self fetchAndRefresh];
         NSLog(@"current contact thread is opened");
@@ -964,13 +969,11 @@ ALMessageDBService  * dbService;
         [self fetchAndRefresh];
     } else {
         NSLog(@"show notification as someone else thread is already opened");
-        NSString *alertValue = [dict valueForKey:@"alertValue"];
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
         [ alnotification displayNotification:self];
         [self fetchAndRefresh];
-
     }
-    
+
 }
 
 -(void)updateDeliveryStatus:(NSNotification *) notification

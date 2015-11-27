@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "MQTTSession.h"
+#import "ALMessage.h"
 
 @protocol ALMQTTConversationDelegate <NSObject>
--(void) syncCall;
+-(void) syncCall:(ALMessage *) alMessage;
 @end
 
 @interface ALMQTTConversationService : NSObject <MQTTSessionDelegate>
