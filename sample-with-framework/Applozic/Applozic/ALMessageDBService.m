@@ -438,7 +438,7 @@
     theMessage.contactIds = theEntity.contactId;
     theMessage.storeOnDevice = theEntity.isStoredOnDevice.boolValue;
     theMessage.inProgress =theEntity.inProgress.boolValue;
-    theMessage.read = theEntity.isRead.boolValue; NSLog(@"the Read Value of %@ is %hhd",theMessage.contactIds,theMessage.read);
+    theMessage.read = theEntity.isRead.boolValue;   //NSLog(@"the Read Value of %@ is %hhd",theMessage.contactIds,theMessage.read);
     theMessage.imageFilePath = theEntity.filePath;
     theMessage.delivered = theEntity.delivered.boolValue;
     theMessage.sentToServer = theEntity.sentToServer.boolValue;
