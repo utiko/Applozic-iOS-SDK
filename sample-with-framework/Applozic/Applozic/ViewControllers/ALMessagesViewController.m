@@ -414,12 +414,16 @@
     [self.view layoutIfNeeded];
 }
 
--(void) syncCall {
+-(void) syncCall:(ALMessage *) alMessage {
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
     [dBService fetchAndRefreshFromServerForPush];
 
     [self.detailChatViewController setRefresh: TRUE];
+    if ([self.detailChatViewController contactIds] != nil) {
+        //Todo: set value of updateUI and [self.detailChatViewController contactIds] with actual contactId of the message
+        [self.detailChatViewController syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
+    }
 }
 
 
@@ -430,19 +434,16 @@
     
     if (self.isViewLoaded && self.view.window && [updateUI boolValue])
     {
-        //Show notification...
-        ALMessageDBService *dBService = [ALMessageDBService new];
-        dBService.delegate = self;
-        [dBService fetchAndRefreshFromServerForPush];
+        [self syncCall:nil];
     }
     else if(![updateUI boolValue])
     {
         NSLog(@"#################It should never come here");
         [self createDetailChatViewController: contactId];
         [self.detailChatViewController fetchAndRefresh];
+        [self.detailChatViewController setRefresh: TRUE];
     }
     
-    [self.detailChatViewController setRefresh: TRUE];
 }
 
 - (void)dealloc {

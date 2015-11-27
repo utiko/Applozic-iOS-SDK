@@ -10,6 +10,7 @@
 #import "MQTTSession.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALConstant.h"
+#import "ALMessage.h"
 
 @implementation ALMQTTConversationService
 
@@ -46,21 +47,7 @@ static MQTTSession *session;
     NSLog(@"connected...");
 }
 
-
-/*
- * MQTTSessionManagerDelegate
- */
-- (void)handleMessage:(NSData *)data onTopic:(NSString *)topic retained:(BOOL)retained {
-    /*
-     * MQTTClient: process received message
-     */
-    NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"#####MQTT: %@", dataString);
-    NSLog(@"#####MQTT: %@", topic);
-}
-
 -(void) subscribeToConversation {
-
     [self createSession];
     if (session.status == MQTTSessionStatusConnected) {
         [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
@@ -70,19 +57,28 @@ static MQTTSession *session;
 }
 
 - (void)session:(MQTTSession*)session newMessage:(NSData*)data onTopic:(NSString*)topic {
-    NSLog(@"##################MQTT NEW MESSAGE");
+    NSLog(@"MQTT got new message");
 }
 
 
 - (void)newMessage:(MQTTSession *)session data:(NSData *)data onTopic:(NSString *)topic qos:(MQTTQosLevel)qos retained:(BOOL)retained mid:(unsigned int)mid
 {
-    NSLog(@"MQTT got new message");
-    NSLog(@"data: %@", data);
-    NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"json: %@",myString);
-    NSLog(@"topic: %@", topic);
+    /*NSString *fullMessage = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"MQTT got new message: %@", fullMessage);*/
     
-    [self.mqttConversationDelegate syncCall];
+    NSError *error = nil;
+    NSDictionary *theMessageDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    NSString *messageJson = [theMessageDict objectForKey:@"message"];
+    
+    NSData *messageData = [messageJson
+                    dataUsingEncoding:NSUTF8StringEncoding];
+    
+    id result = [NSJSONSerialization JSONObjectWithData:messageData
+                                                options:NSJSONReadingAllowFragments
+                                                  error:NULL];
+    NSString *contactId = [result objectForKey:@"contactIds"];
+    ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:result];
+    [self.mqttConversationDelegate syncCall: alMessage];
 }
 
 - (void)subAckReceived:(MQTTSession *)session msgID:(UInt16)msgID grantedQoss:(NSArray *)qoss
@@ -91,23 +87,18 @@ static MQTTSession *session;
 }
 
 - (void)connected:(MQTTSession *)session {
-    NSLog(@"####delegate callback for connected.");
 }
 
 - (void)connectionClosed:(MQTTSession *)session {
-    NSLog(@"####disconnect from mqtt");
 }
 
 - (void)handleEvent:(MQTTSession *)session
               event:(MQTTSessionEvent)eventCode
               error:(NSError *)error {
-    NSLog(@"####inside handleEvent");
 }
 
 - (void)received:(MQTTSession *)session type:(int)type qos:(MQTTQosLevel)qos retained:(BOOL)retained duped:(BOOL)duped mid:(UInt16)mid data:(NSData *)data {
-    NSLog(@"###MQTTreceived command");
-    NSLog(@"####type: %i", type);
-    NSLog(@"####data: %@", data);
+    
 }
 
 

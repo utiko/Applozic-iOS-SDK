@@ -25,38 +25,35 @@
 
 + (void)processContactFromMessages:(NSArray *) messagesArr{
     
-    
-    
     NSMutableOrderedSet* contactIdsArr=[[NSMutableOrderedSet alloc] init ];
    
     NSMutableString * repString=[[NSMutableString alloc] init];
     
     ALContactDBService* dbObj=[[ALContactDBService alloc] init];
     
-   
-    
-        for(ALMessage* msg in messagesArr){
-        
-
-            if(![dbObj getContactByKey:@"userId" value:msg.contactIds]){
-                NSMutableString* appStr=[[NSMutableString alloc] initWithString:msg.contactIds];
-                [appStr insertString:@"&userIds=" atIndex:0];
-                [contactIdsArr addObject:appStr];
-            
-            }
-            NSLog(@"contact ID(s) %@",msg.contactIds);
+    for(ALMessage* msg in messagesArr) {
+        if(![dbObj getContactByKey:@"userId" value:msg.contactIds]) {
+            NSMutableString* appStr=[[NSMutableString alloc] initWithString:msg.contactIds];
+            [appStr insertString:@"&userIds=" atIndex:0];
+            [contactIdsArr addObject:appStr];
         }
+        NSLog(@"contact ID(s) %@",msg.contactIds);
+    }
+    
+    if ([contactIdsArr count] == 0) {
+        return;
+    };
     
     
     for(NSString* strr in contactIdsArr){
         [repString appendString:strr];
     }
+    
     NSLog(@"rep String %@",repString);
 
 //    [ALUserService getUserInfo:repString];
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/v1/info",KBASE_URL];
-    NSString * theParamString = repString;
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:repString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"GET ALl DISPLAY NAMES" WithCompletionHandler:^(id theJson, NSError *theError) {
         
