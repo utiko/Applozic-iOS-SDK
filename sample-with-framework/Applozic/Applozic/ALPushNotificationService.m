@@ -33,7 +33,6 @@
 {
     NSLog(@"update ui: %@", updateUI ? @"Yes": @"No");
     //[dictionary setObject:@"Yes" forKey:@"updateUI"]; // adds @"Bar"
-
   
     if ([self isApplozicNotification:dictionary]) {
         //Todo: process it
@@ -46,7 +45,6 @@
 
         NSString *type = (NSString *)[dictionary valueForKey:@"AL_TYPE"];
         NSString *value = (NSString *)[dictionary valueForKey:@"AL_VALUE"];
-        
         
         if ([type isEqualToString:MT_SYNC])
         {

@@ -11,6 +11,7 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALConstant.h"
 #import "ALMessage.h"
+#import "ALMessageDBService.h"
 
 @implementation ALMQTTConversationService
 
@@ -73,6 +74,12 @@ static MQTTSession *session;
     
     if ([type isEqualToString:@"MESSAGE_DELIVERED_READ"]) {
         NSLog(@"mark as read and delivered");
+    } else if ([type isEqualToString:@"MESSAGE_DELIVERED"]) {
+       /* NSArray *deliveryParts = [value componentsSeparatedByString:@","];
+        ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
+        [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
+        NSLog(@"delivery report for %@", deliveryParts[0]);*/
+        //Todo: update ui
     } else if ([type isEqualToString: @"MESSAGE_RECEIVED"]) {
         NSString *messageJson = [theMessageDict objectForKey:@"message"];
         
