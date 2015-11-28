@@ -60,4 +60,34 @@
     return receiveColour;
 }
 
++(void)setColourForNavigation:(UIColor *)barColour
+{
+    NSData *barColourData = [NSKeyedArchiver archivedDataWithRootObject:barColour];
+    [[NSUserDefaults standardUserDefaults] setObject:barColourData forKey:NAVIGATION_BAR_COLOUR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+}
+
++(UIColor *)getColourForNavigation
+{
+    NSData *barColourData = [[NSUserDefaults standardUserDefaults] objectForKey:@"NAVIGATION_BAR_COLOUR"];
+    UIColor *barColour = [NSKeyedUnarchiver unarchiveObjectWithData:barColourData];
+    return barColour;
+}
+
++(void)setColourForNavigationItem:(UIColor *)barItemColour
+{
+    NSData *barItemColourData = [NSKeyedArchiver archivedDataWithRootObject:barItemColour];
+    [[NSUserDefaults standardUserDefaults] setObject:barItemColourData forKey:NAVIGATION_BAR_ITEM_COLOUR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+}
+
++(UIColor *)getColourForNavigationItem
+{
+    NSData *barItemColourData = [[NSUserDefaults standardUserDefaults] objectForKey:@"NAVIGATION_BAR_ITEM_COLOUR"];
+    UIColor *barItemColour = [NSKeyedUnarchiver unarchiveObjectWithData:barItemColourData];
+    return barItemColour;
+}
+
 @end

@@ -254,7 +254,7 @@
     [fetchRequest setPredicate:predicate];
     NSError *fetchError = nil;
     NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
-    NSLog(@"the fetch request %@",fetchRequest);
+    //NSLog(@"the fetch request %@",fetchRequest);
     NSLog(@"COUNT VALUE: %lu", result.count);
     return result;
 }

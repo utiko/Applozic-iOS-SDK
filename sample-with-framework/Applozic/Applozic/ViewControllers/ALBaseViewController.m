@@ -10,6 +10,7 @@
 #import "ALUtilityClass.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALConstant.h"
+#import "ALApplozicSettings.h"
 
 @interface ALBaseViewController ()<UITextViewDelegate>
 
@@ -26,14 +27,17 @@
     [self setUpTableView];
     [self setUpTheming];
     [self registerForKeyboardNotifications];
-
+    
+   
     self.tabBarController.tabBar.hidden = YES;
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
         self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
+      
     } else {
         // iOS 7.0 or later
         self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
+        
     }
 
     if ([ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_BACKGROUND_COLOR])
@@ -66,6 +70,7 @@
     UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
     if (!color) {
         color = [UIColor blackColor];
+       // color = [UIColor whiteColor];
     }
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                     color,NSForegroundColorAttributeName,nil];
@@ -122,12 +127,15 @@
 
 -(void)viewWillAppear:(BOOL)animated{
 
+ //  [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+  //  [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
+    
     [self.tabBarController.tabBar setHidden: YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
 
-    self.navigationController.navigationBar.barTintColor = self.navColor;
+    //self.navigationController.navigationBar.barTintColor = self.navColor;
     self.tabBarController.tabBar.hidden = YES;
 }
 

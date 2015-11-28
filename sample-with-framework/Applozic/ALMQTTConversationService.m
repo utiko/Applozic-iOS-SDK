@@ -27,8 +27,7 @@ static MQTTSession *session;
     return sharedInstance;
 }
 
-
--(void) subscribeToConversation {
+-(void) createSession {
     if (![ALUserDefaultsHandler isLoggedIn]) {
         return;
     }
@@ -36,6 +35,7 @@ static MQTTSession *session;
     
     session = [[MQTTSession alloc]initWithClientId:[NSString stringWithFormat:@"%@-%f",
                                                     [ALUserDefaultsHandler getUserKeyString],fmod([[NSDate date] timeIntervalSince1970], 10.0)]];
+    //session.protocolLevel = 4;
     session.willFlag = TRUE;
     session.willTopic = @"status";
     session.willMsg = [[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"0"] dataUsingEncoding:NSUTF8StringEncoding];
@@ -43,25 +43,24 @@ static MQTTSession *session;
     [session setDelegate:self];
     NSLog(@"waiting for connect...");
     
-    [session connectToHost:MQTT_URL port:[MQTT_PORT intValue] withConnectionHandler:^(MQTTSessionEvent event) {
-        if (event == MQTTSessionEventConnected) {
-            NSLog(@"MQTT: Subscribing to conversation topic.");
-            [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
-        }
-    } messageHandler:^(NSData *data, NSString *topic) {
-        
-    }];
+    [session connectAndWaitToHost:MQTT_URL port:[MQTT_PORT intValue] usingSSL:NO];
     
-    NSLog(@"MQTT: connected...");
+    NSLog(@"connected...");
+}
 
-    /*if (session.status == MQTTSessionStatusConnected) {
+-(void) subscribeToConversation {
+    [self createSession];
+    if (session.status == MQTTSessionStatusConnected) {
         [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
-    }*/
+    }
+    
+    NSLog(@"Subscribed.");
 }
 
 - (void)session:(MQTTSession*)session newMessage:(NSData*)data onTopic:(NSString*)topic {
     NSLog(@"MQTT got new message");
 }
+
 
 - (void)newMessage:(MQTTSession *)session data:(NSData *)data onTopic:(NSString *)topic qos:(MQTTQosLevel)qos retained:(BOOL)retained mid:(unsigned int)mid
 {
