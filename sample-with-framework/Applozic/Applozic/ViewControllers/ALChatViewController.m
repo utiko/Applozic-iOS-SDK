@@ -105,14 +105,14 @@ ALMessageDBService  * dbService;
     [self.view endEditing:YES];
     [self.loadEarlierAction setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
+    //[self.label setTextColor:[UIColor whiteColor]];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden: YES];
     [self.label setHidden:NO];
-   
-   
+    
     if(self.refresh || (self.mMessageListArray && self.mMessageListArray.count == 0) ||
             !(self.mMessageListArray && [[self.mMessageListArray[0] contactIds] isEqualToString:self.contactIds])
        ) {

@@ -126,7 +126,7 @@
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
-    NSLog(@"Failed to get token, error: %@", error);
+    //NSLog(@"Failed to get token, error: %@", error);
 }
 
 @end

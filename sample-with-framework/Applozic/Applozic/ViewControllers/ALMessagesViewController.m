@@ -22,6 +22,7 @@
 #import "ALLoginViewController.h"
 #import "ALColorUtility.h"
 #import "ALMQTTConversationService.h"
+#import "ALApplozicSettings.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -76,7 +77,7 @@
     
     self.unreadCount=[[NSArray alloc] init];
     ALMQTTConversationService *alMqttConversationService = [ALMQTTConversationService sharedInstance];
-    [alMqttConversationService subscribeToConversation];
+    //[alMqttConversationService subscribeToConversation];
     alMqttConversationService.mqttConversationDelegate = self;
 }
 
@@ -112,6 +113,10 @@
         [_detailChatViewController setRefreshMainView:FALSE];
     }
     
+
+   // [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+   // [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
+    
     [self.mTableView reloadData];
 }
 
@@ -123,7 +128,7 @@
     
     [super viewWillDisappear:animated];
     
-    self.navigationController.navigationBar.barTintColor = self.navColor;
+   // self.navigationController.navigationBar.barTintColor = self.navColor;
 }
 
 - (IBAction)logout:(id)sender {
@@ -147,6 +152,7 @@
     UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
     if (!color) {
         color = [UIColor blackColor];
+    //    color = [UIColor whiteColor];
     }
     NSLog(@"%@",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]);
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -154,12 +160,11 @@
     self.navigationController.navigationBar.titleTextAttributes = textAttributes;
     self.navigationItem.title = @"Conversation";
     
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1){
         self.navColor = [self.navigationController.navigationBar tintColor];
-    else
+    } else{
         self.navColor = [self.navigationController.navigationBar barTintColor];
-    
-    
+        }
     self.colors=[[NSArray alloc] initWithObjects:@"#617D8A",@"#628B70",@"#8C8863",@"8B627D",@"8B6F62", nil];
 }
 

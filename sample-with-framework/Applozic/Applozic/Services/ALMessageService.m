@@ -44,7 +44,7 @@
         ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
         completion(messageListResponse.messageList,nil);
-        NSLog(@"message list response THE JSON %@",theJson);
+        //NSLog(@"message list response THE JSON %@",theJson);
 //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
     }];
     
@@ -70,7 +70,7 @@
         ALMessageList *messageListResponse=  [[ALMessageList alloc] initWithJSONString:theJson];
         
         completion(messageListResponse.messageList,nil);
-        NSLog(@"message list response THE JSON %@",theJson);
+       // NSLog(@"message list response THE JSON %@",theJson);
     }];
     
 }
