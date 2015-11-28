@@ -27,7 +27,8 @@ static MQTTSession *session;
     return sharedInstance;
 }
 
--(void) createSession {
+
+-(void) subscribeToConversation {
     if (![ALUserDefaultsHandler isLoggedIn]) {
         return;
     }
@@ -35,7 +36,6 @@ static MQTTSession *session;
     
     session = [[MQTTSession alloc]initWithClientId:[NSString stringWithFormat:@"%@-%f",
                                                     [ALUserDefaultsHandler getUserKeyString],fmod([[NSDate date] timeIntervalSince1970], 10.0)]];
-    //session.protocolLevel = 4;
     session.willFlag = TRUE;
     session.willTopic = @"status";
     session.willMsg = [[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"0"] dataUsingEncoding:NSUTF8StringEncoding];
@@ -43,24 +43,25 @@ static MQTTSession *session;
     [session setDelegate:self];
     NSLog(@"waiting for connect...");
     
-    [session connectAndWaitToHost:MQTT_URL port:[MQTT_PORT intValue] usingSSL:NO];
+    [session connectToHost:MQTT_URL port:[MQTT_PORT intValue] withConnectionHandler:^(MQTTSessionEvent event) {
+        if (event == MQTTSessionEventConnected) {
+            NSLog(@"MQTT: Subscribing to conversation topic.");
+            [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
+        }
+    } messageHandler:^(NSData *data, NSString *topic) {
+        
+    }];
     
-    NSLog(@"connected...");
-}
-
--(void) subscribeToConversation {
-    [self createSession];
-    if (session.status == MQTTSessionStatusConnected) {
-        [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
-    }
+    NSLog(@"MQTT: connected...");
     
-    NSLog(@"Subscribed.");
+    /*if (session.status == MQTTSessionStatusConnected) {
+     [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
+     }*/
 }
 
 - (void)session:(MQTTSession*)session newMessage:(NSData*)data onTopic:(NSString*)topic {
     NSLog(@"MQTT got new message");
 }
-
 
 - (void)newMessage:(MQTTSession *)session data:(NSData *)data onTopic:(NSString *)topic qos:(MQTTQosLevel)qos retained:(BOOL)retained mid:(unsigned int)mid
 {
@@ -74,10 +75,10 @@ static MQTTSession *session;
     if ([type isEqualToString:@"MESSAGE_DELIVERED_READ"]) {
         NSLog(@"mark as read and delivered");
     } else if ([type isEqualToString:@"MESSAGE_DELIVERED"]) {
-       /* NSArray *deliveryParts = [value componentsSeparatedByString:@","];
-        ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
-        [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
-        NSLog(@"delivery report for %@", deliveryParts[0]);*/
+        /* NSArray *deliveryParts = [value componentsSeparatedByString:@","];
+         ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
+         [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
+         NSLog(@"delivery report for %@", deliveryParts[0]);*/
         //Todo: update ui
     } else if ([type isEqualToString: @"MESSAGE_RECEIVED"]) {
         NSString *messageJson = [theMessageDict objectForKey:@"message"];
@@ -91,7 +92,7 @@ static MQTTSession *session;
         ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:result];
         [self.mqttConversationDelegate syncCall: alMessage];
     }
-   }
+}
 
 - (void)subAckReceived:(MQTTSession *)session msgID:(UInt16)msgID grantedQoss:(NSArray *)qoss
 {
