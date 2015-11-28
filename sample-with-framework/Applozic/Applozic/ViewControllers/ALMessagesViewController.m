@@ -58,6 +58,8 @@
 
 @implementation ALMessagesViewController
 
+ALMQTTConversationService *alMqttConversationService;
+
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - View lifecycle
 //------------------------------------------------------------------------------------------------------------------
@@ -75,10 +77,10 @@
     [dBService getMessages];
     
     self.unreadCount=[[NSArray alloc] init];
-    ALMQTTConversationService *alMqttConversationService = [ALMQTTConversationService sharedInstance];
-    [alMqttConversationService subscribeToConversation];
+    alMqttConversationService = [ALMQTTConversationService sharedInstance];
     alMqttConversationService.mqttConversationDelegate = self;
-}
+    [alMqttConversationService subscribeToConversation];
+  }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
