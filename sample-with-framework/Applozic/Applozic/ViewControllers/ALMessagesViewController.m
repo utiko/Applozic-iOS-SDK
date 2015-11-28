@@ -433,6 +433,12 @@ ALMQTTConversationService *alMqttConversationService;
     }
 }
 
+-(void) delivered:(NSString *)messageKey contactId:(NSString *)contactId {
+    if ([[self.detailChatViewController contactIds] isEqualToString: contactId]) {
+        [self.detailChatViewController updateDeliveryReport: messageKey];
+    }
+}
+
 
 -(void)pushNotificationhandler:(NSNotification *) notification{
     NSString * contactId = notification.object;

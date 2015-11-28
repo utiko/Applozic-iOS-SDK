@@ -75,11 +75,11 @@ static MQTTSession *session;
     if ([type isEqualToString:@"MESSAGE_DELIVERED_READ"]) {
         NSLog(@"mark as read and delivered");
     } else if ([type isEqualToString:@"MESSAGE_DELIVERED"]) {
-        /* NSArray *deliveryParts = [value componentsSeparatedByString:@","];
+         NSArray *deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
          ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
          [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
-         NSLog(@"delivery report for %@", deliveryParts[0]);*/
-        //Todo: update ui
+         NSLog(@"delivery report for %@", deliveryParts[0]);
+        [self.mqttConversationDelegate delivered: deliveryParts[0] contactId:deliveryParts[1]];
     } else if ([type isEqualToString: @"MESSAGE_RECEIVED"]) {
         NSString *messageJson = [theMessageDict objectForKey:@"message"];
         
