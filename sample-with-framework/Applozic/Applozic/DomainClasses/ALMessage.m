@@ -160,6 +160,15 @@
     return formattedDateStr;
 }
 
+-(NSString *)getCreatedAtTimeChat:(BOOL)today {
+    
+    NSString *formattedStr = today?@"hh:mm":@"dd MMM hh:mm";
+    
+    NSString *formattedDateStr = [ALUtilityClass formatTimestamp:[self.createdAtTime doubleValue] toFormat:formattedStr];
+    
+    return formattedDateStr;
+    
+}
 -(BOOL)isDownloadRequire{
     
     //TODO:check for SD card
