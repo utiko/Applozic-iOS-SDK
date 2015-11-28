@@ -1073,7 +1073,7 @@ ALMessageDBService  * dbService;
     
             NSMutableString *temp = tempString;
             double value = [temp doubleValue];
-            NSLog(@"FLOAT VALUE %f",[temp doubleValue]);
+          //  NSLog(@"FLOAT VALUE %f",[temp doubleValue]);
             
             if(value > 0)
             {
@@ -1101,9 +1101,9 @@ ALMessageDBService  * dbService;
                         NSString *theTime;
                         int hours =  difference / 3600;
                         int minutes = (difference - hours * 3600 ) / 60;
-                        NSLog(@"MIN : %d",minutes);
-                        NSLog(@"hr : %d",hours);
-                        NSLog(@"differeence = %f",difference);
+//                        NSLog(@"MIN : %d",minutes);
+//                        NSLog(@"hr : %d",hours);
+//                        NSLog(@"differeence = %f",difference);
                         if(hours > 0){
                             theTime = [NSString stringWithFormat:@"%.2d:%.2d", hours, minutes];
                             str = [str stringByAppendingString:theTime];
@@ -1115,7 +1115,7 @@ ALMessageDBService  * dbService;
                             str = [str stringByAppendingString:@" min Ago"];
                         }
                      
-                        NSLog(@"str :%@",str);
+                      //  NSLog(@"str :%@",str);
                         [self.label setText:str];
                     }
                    

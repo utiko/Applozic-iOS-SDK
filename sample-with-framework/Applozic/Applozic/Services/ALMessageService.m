@@ -372,7 +372,7 @@
         }
         else
         {
-           NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
+          // NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
            ALUserDetail *userDetailObject = [[ALUserDetail alloc] initWithJSONString:theJson];
           // [userDetailObject userDetail];
          completionMark(userDetailObject);
