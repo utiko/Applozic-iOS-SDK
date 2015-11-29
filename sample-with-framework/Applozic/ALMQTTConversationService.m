@@ -100,10 +100,13 @@ static MQTTSession *session;
 }
 
 - (void)connected:(MQTTSession *)session {
+    
 }
 
 - (void)connectionClosed:(MQTTSession *)session {
     NSLog(@"MQTT connection closed");
+    [self.mqttConversationDelegate mqttConnectionClosed];
+
     //Todo: inform controller about connection closed.
 }
 

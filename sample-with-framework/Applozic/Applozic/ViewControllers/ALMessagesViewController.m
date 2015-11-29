@@ -80,8 +80,19 @@ ALMQTTConversationService *alMqttConversationService;
     self.unreadCount=[[NSArray alloc] init];
     alMqttConversationService = [ALMQTTConversationService sharedInstance];
     alMqttConversationService.mqttConversationDelegate = self;
-    [alMqttConversationService subscribeToConversation];
-  }
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alMqttConversationService subscribeToConversation];
+    });
+                   
+}
+
+-(void) mqttConnectionClosed {
+    NSLog(@"MQTT connection closed, subscribing again.");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alMqttConversationService subscribeToConversation];
+    });
+}
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

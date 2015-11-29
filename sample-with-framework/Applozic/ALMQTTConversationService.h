@@ -13,6 +13,7 @@
 @protocol ALMQTTConversationDelegate <NSObject>
 -(void) syncCall:(ALMessage *) alMessage;
 -(void) delivered:(NSString *) messageKey contactId: (NSString *) contactId;
+-(void) mqttConnectionClosed;
 @end
 
 @interface ALMQTTConversationService : NSObject <MQTTSessionDelegate>
