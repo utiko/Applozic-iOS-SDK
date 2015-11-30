@@ -902,7 +902,6 @@ ALMessageDBService  * dbService;
         if (error) {
             NSLog(@"%@",error);
             return ;
-            
         } else {
             if (messageList.count > 0 ){
                 NSArray * theFilteredArray = [messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];

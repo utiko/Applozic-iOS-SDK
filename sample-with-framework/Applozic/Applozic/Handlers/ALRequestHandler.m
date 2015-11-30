@@ -65,7 +65,7 @@
     
     [request addValue:[ALUserDefaultsHandler getApplicationKey] forHTTPHeaderField:@"Application-Key"];
     [request addValue:@"true" forHTTPHeaderField:@"UserId-Enabled"];
-    [request addValue:[ALUserDefaultsHandler getDeviceKeyString] forHTTPHeaderField:@"Device-key"];
+    [request addValue:[ALUserDefaultsHandler getDeviceKeyString] forHTTPHeaderField:@"Device-Key"];
     [request addValue:@"1" forHTTPHeaderField:@"Source"];
 
     
