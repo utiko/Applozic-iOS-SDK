@@ -117,23 +117,20 @@ static MQTTSession *session;
 
 
 - (void)connected:(MQTTSession *)session {
-    NSLog(@"####delegate callback for connected.");
+    
 }
 
 - (void)connectionClosed:(MQTTSession *)session {
-    NSLog(@"####disconnect from mqtt");
+    
 }
 
 - (void)handleEvent:(MQTTSession *)session
               event:(MQTTSessionEvent)eventCode
               error:(NSError *)error {
-    NSLog(@"####inside handleEvent");
 }
 
 - (void)received:(MQTTSession *)session type:(int)type qos:(MQTTQosLevel)qos retained:(BOOL)retained duped:(BOOL)duped mid:(UInt16)mid data:(NSData *)data {
-    NSLog(@"###MQTTreceived command");
-    NSLog(@"####type: %i", type);
-    NSLog(@"####data: %@", data);
+  
 }
 
 

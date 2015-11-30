@@ -448,6 +448,7 @@ ALMessageDBService  * dbService;
 
     [self.mTableView reloadData];
 
+
     if (isLoadEarlierTapped) {
         if ((theArray != nil && theArray.count < self.rp )|| self.mMessageListArray.count == self.mTotalCount) {
             self.mTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -470,10 +471,13 @@ ALMessageDBService  * dbService;
         }
         self.startIndex = theArray.count;
 
-        if (self.mMessageListArray.count != 0) {
+        /*if (self.mMessageListArray.count != 0) {
             CGRect theFrame = [self.mTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:theArray.count-1 inSection:0]];
             [self.mTableView setContentOffset:CGPointMake(0, theFrame.origin.y)];
-        }
+        }*/
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [super scrollTableViewToBottomWithAnimation:YES];
+        });
 
     }
 }
@@ -922,7 +926,6 @@ ALMessageDBService  * dbService;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [super scrollTableViewToBottomWithAnimation:YES];
                 [self setTitle];
-               
             });
             NSLog(@"FETCH AND REFRESH METHOD");
         }
@@ -954,7 +957,6 @@ ALMessageDBService  * dbService;
 -(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue
 {
     if ([self.contactIds isEqualToString:contactId]) {
-        //[self fetchAndRefresh];
         NSLog(@"current contact thread is opened");
         [self fetchAndRefresh:YES];
         //[self processMarkRead];
@@ -1013,19 +1015,17 @@ ALMessageDBService  * dbService;
 }
 
 - (IBAction)loadEarlierButtonAction:(id)sender {
-    
     [self processLoadEarlierMessages];
-
 }
 
 -(void)processLoadEarlierMessages{
     
     NSString *time;
-    if(self.mMessageListArray.count > 0 && self.mMessageListArray != NULL){
+    if(self.mMessageListArray.count > 0 && self.mMessageListArray != NULL) {
         ALMessage * theMessage = self.mMessageListArray[0];
         time = theMessage.createdAtTime;
     }
-    else{
+    else {
         time = NULL;
     }
     [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time withCompletion:^(NSMutableArray *messages, NSError *error){

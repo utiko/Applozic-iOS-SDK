@@ -253,7 +253,6 @@ ALMQTTConversationService *alMqttConversationService;
     
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     self.unreadCount=[messageDBService getUnreadMessages:[alContact userId]];
-    NSLog(@"unread count for userId: %@ is %ld", [alContact userId], (unsigned long)self.unreadCount.count);
     
    // NSLog(@"self.unreadCount Array of ||%@|| withCount ||%lu|| is %@",[alContact userId],(unsigned long)self.unreadCount.count,self.unreadCount);
     
