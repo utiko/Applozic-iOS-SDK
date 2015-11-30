@@ -402,7 +402,7 @@ UIViewController * modalCon;
     [self setNeedsDisplay];
     self.progresLabel.startDegree =0;
     self.progresLabel.endDegree = metaInfo.progressValue;
-    NSLog(@"##observer is called....%f",self.progresLabel.endDegree );
+   // NSLog(@"##observer is called....%f",self.progresLabel.endDegree );
 }
 
 - (CGSize)getSizeForText:(NSString *)text maxWidth:(CGFloat)width font:(NSString *)fontName fontSize:(float)fontSize {
