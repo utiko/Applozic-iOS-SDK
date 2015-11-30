@@ -27,7 +27,6 @@ static MQTTSession *session;
     return sharedInstance;
 }
 
-
 -(void) subscribeToConversation {
     if (![ALUserDefaultsHandler isLoggedIn]) {
         return;
@@ -45,8 +44,9 @@ static MQTTSession *session;
     
     [session connectToHost:MQTT_URL port:[MQTT_PORT intValue] withConnectionHandler:^(MQTTSessionEvent event) {
         if (event == MQTTSessionEventConnected) {
-            NSLog(@"MQTT: Subscribing to conversation topic.");
+            NSLog(@"MQTT: Subscribing to conversation topics.");
             [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
+            [session subscribeToTopic:[NSString stringWithFormat:@"typing-%@-%@", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId]] atLevel:MQTTQosLevelAtMostOnce];
         }
     } messageHandler:^(NSData *data, NSString *topic) {
         
@@ -67,31 +67,39 @@ static MQTTSession *session;
 {
     NSString *fullMessage = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"MQTT got new message: %@", fullMessage);
-    
+
     NSError *error = nil;
     NSDictionary *theMessageDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     NSString *type = [theMessageDict objectForKey:@"type"];
+    NSString *instantMessageJson = [theMessageDict objectForKey:@"message"];
     
-    if ([type isEqualToString:@"MESSAGE_DELIVERED_READ"]) {
-        NSLog(@"mark as read and delivered");
-    } else if ([type isEqualToString:@"MESSAGE_DELIVERED"]) {
-         NSArray *deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
-         ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
-         [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
-         NSLog(@"delivery report for %@", deliveryParts[0]);
-        [self.mqttConversationDelegate delivered: deliveryParts[0] contactId:deliveryParts[1]];
-    } else if ([type isEqualToString: @"MESSAGE_RECEIVED"]) {
-        NSString *messageJson = [theMessageDict objectForKey:@"message"];
-        
-        NSData *messageData = [messageJson
-                               dataUsingEncoding:NSUTF8StringEncoding];
-        
-        id result = [NSJSONSerialization JSONObjectWithData:messageData
-                                                    options:NSJSONReadingAllowFragments
-                                                      error:NULL];
-        ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:result];
-        [self.mqttConversationDelegate syncCall: alMessage];
+    if ([topic hasPrefix:@"typing"]) {
+        NSArray *typingParts = [instantMessageJson componentsSeparatedByString:@"/"];
+        NSString *applicationKey = typingParts[0]; //Note: will get used once we support messaging from one app to another
+        NSString *userId = typingParts[1];
+        BOOL typingStatus = [typingParts[2] boolValue];
+        [self.mqttConversationDelegate updateTypingStatus:applicationKey userId:userId status:typingStatus];
+    } else {
+        if ([type isEqualToString:@"MESSAGE_DELIVERED_READ"]) {
+            NSLog(@"mark as read and delivered");
+        } else if ([type isEqualToString:@"MESSAGE_DELIVERED"]) {
+            NSArray *deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
+            ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
+            [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
+            NSLog(@"delivery report for %@", deliveryParts[0]);
+            [self.mqttConversationDelegate delivered: deliveryParts[0] contactId:deliveryParts[1]];
+        } else if ([type isEqualToString: @"MESSAGE_RECEIVED"]) {
+            NSData *messageData = [instantMessageJson
+                                   dataUsingEncoding:NSUTF8StringEncoding];
+            
+            id result = [NSJSONSerialization JSONObjectWithData:messageData
+                                                        options:NSJSONReadingAllowFragments
+                                                          error:NULL];
+            ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:result];
+            [self.mqttConversationDelegate syncCall: alMessage];
+        }
     }
+  
 }
 
 - (void)subAckReceived:(MQTTSession *)session msgID:(UInt16)msgID grantedQoss:(NSArray *)qoss
@@ -119,5 +127,10 @@ static MQTTSession *session;
     
 }
 
+-(void) updateTypingStatus: (NSString *) userId typing: (BOOL) typing
+{
+    NSData* data=[[NSString stringWithFormat:@"%@,%@,%i", [ALUserDefaultsHandler getApplicationKey],userId, typing ? 1 : 0] dataUsingEncoding:NSUTF8StringEncoding];
+    [session publishDataAtMostOnce:data onTopic:[NSString stringWithFormat:@"typing-%@-%@", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId]]];
+}
 
 @end

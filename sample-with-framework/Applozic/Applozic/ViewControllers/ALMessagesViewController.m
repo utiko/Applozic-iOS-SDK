@@ -87,6 +87,11 @@ ALMQTTConversationService *alMqttConversationService;
                    
 }
 
+-(void) updateTypingStatus:(NSString *)applicationKey userId:(NSString *)userId status:(BOOL)status
+{
+    NSLog(@"Received typing status %d for: %@", status, userId);
+}
+
 -(void) mqttConnectionClosed {
     NSLog(@"MQTT connection closed, subscribing again.");
     dispatch_async(dispatch_get_main_queue(), ^{
