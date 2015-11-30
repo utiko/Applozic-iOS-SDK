@@ -89,11 +89,11 @@ ALMessageDBService  * dbService;
 
 -(void)processMarkRead{
     [ALMessageService markConversationAsRead: self.contactIds withCompletion:^(NSString* string,NSError* error){
-        if(!error ){
-            NSLog(@"No Error");
+        if(!error) {
+            NSLog(@"Marked messages as read for %@", self.contactIds);
         }
-        else{
-            NSLog(@"some error");
+        else {
+            NSLog(@"Error while marking messages as read.");
         }
     }];
 

@@ -106,6 +106,8 @@ ALMQTTConversationService *alMqttConversationService;
         [self.navBar setLeftBarButtonItems:nil];
     }
     
+    self.detailChatViewController.contactIds = nil;
+    
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
@@ -175,9 +177,9 @@ ALMQTTConversationService *alMqttConversationService;
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1){
         self.navColor = [self.navigationController.navigationBar tintColor];
-    } else{
+    } else {
         self.navColor = [self.navigationController.navigationBar barTintColor];
-        }
+    }
     self.colors=[[NSArray alloc] initWithObjects:@"#617D8A",@"#628B70",@"#8C8863",@"8B627D",@"8B6F62", nil];
 }
 
@@ -251,6 +253,7 @@ ALMQTTConversationService *alMqttConversationService;
     
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     self.unreadCount=[messageDBService getUnreadMessages:[alContact userId]];
+    NSLog(@"unread count for userId: %@ is %ld", [alContact userId], (unsigned long)self.unreadCount.count);
     
    // NSLog(@"self.unreadCount Array of ||%@|| withCount ||%lu|| is %@",[alContact userId],(unsigned long)self.unreadCount.count,self.unreadCount);
     
@@ -262,9 +265,6 @@ ALMQTTConversationService *alMqttConversationService;
         contactCell.mCountImageView.hidden=TRUE;
     }
     
-    
-    
-
     contactCell.mUserImageView.hidden=FALSE;
     contactCell.mUserImageView.layer.cornerRadius=contactCell.mUserImageView.frame.size.width/2;
     contactCell.mCountImageView.layer.cornerRadius=contactCell.mCountImageView.frame.size.width/2;

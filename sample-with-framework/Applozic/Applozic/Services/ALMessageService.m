@@ -27,7 +27,6 @@
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
     
-    
     NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@",@"0"];
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
@@ -121,7 +120,7 @@
         dbMessage.createdAt =response.createdAt;
         alMessage.key = dbMessage.key;
         dbMessage.sentToServer=[NSNumber numberWithBool:YES];
-        dbMessage.isRead=[NSNumber numberWithBool:YES]; NSLog(@"dbMessage.isRead %@",dbMessage.isRead);
+        dbMessage.isRead=[NSNumber numberWithBool:YES];
         
         alMessage.key = dbMessage.key;
         alMessage.sentToServer= dbMessage.sentToServer.boolValue;
@@ -330,6 +329,7 @@
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
     
     NSUInteger count = [dbService markConversationAsRead:contactId];
+    NSLog(@"Found %ld messages for marking as read.", count);
     
     if(count == 0)
     {

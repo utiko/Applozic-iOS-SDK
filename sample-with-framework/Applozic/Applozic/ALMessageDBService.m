@@ -215,7 +215,7 @@
 
 -(NSUInteger)markConversationAsRead:(NSString *) contactId
 {
-   NSArray *messages  = [self getUnreadMessages:contactId];
+    NSArray *messages  = [self getUnreadMessages:contactId];
     
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     
@@ -230,9 +230,8 @@
         
         if ( [dbHandler.managedObjectContext save:&error])
         {
-            NSLog(@"message found and maked as deliverd");
+            NSLog(@"message found and marked as read.");
         }
-   
     }
     return messages.count;
 }
@@ -256,8 +255,10 @@
     [fetchRequest setPredicate:predicate];
     NSError *fetchError = nil;
     NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
-    //NSLog(@"the fetch request %@",fetchRequest);
-   // NSLog(@"COUNT VALUE: %lu", result.count);
+    if ([contactId isEqualToString:@"applozic"]) {
+        NSLog(@"the fetch request %@",fetchRequest);
+        NSLog(@"COUNT VALUE: %lu", result.count);
+    }
     return result;
 }
 
@@ -374,7 +375,7 @@
     theMessageEntity.contactId = theMessage.contactIds;
     theMessageEntity.createdAt = [NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
     theMessageEntity.deviceKey = theMessage.deviceKey;
-    theMessageEntity.isRead = [NSNumber numberWithBool:theMessage.read];
+    theMessageEntity.isRead = [NSNumber numberWithBool:([theMessageEntity.type isEqualToString:@"5"] ? TRUE : theMessage.read)];
     theMessageEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
     theMessageEntity.isSentToDevice = [NSNumber numberWithBool:theMessage.sendToDevice];
     theMessageEntity.isShared = [NSNumber numberWithBool:theMessage.shared];

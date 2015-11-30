@@ -28,7 +28,7 @@
 
 -(void) updateDeliveryReport: (NSString *) key
 {
-    
+    NSLog(@"updating delivery report for: %@", key);
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delivered",KBASE_URL];
     NSString *theParamString=[NSString stringWithFormat:@"userId=%@&key=%@",[ALUserDefaultsHandler getUserId],key];
     
