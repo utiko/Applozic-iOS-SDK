@@ -1066,12 +1066,9 @@ ALMessageDBService  * dbService;
             NSString *tempString = [NSString stringWithFormat:@"%@", alUserDetail.lastSeenAtTime];
             NSCharacterSet *charsToTrim = [NSCharacterSet characterSetWithCharactersInString:@"()  \n\""];
             tempString = [tempString stringByTrimmingCharactersInSet:charsToTrim];
-            NSString *string = @"Last Seen At ";
-            string = [string stringByAppendingString: tempString];
     
             NSMutableString *temp = tempString;
             double value = [temp doubleValue];
-          //  NSLog(@"FLOAT VALUE %f",[temp doubleValue]);
             
             if(value > 0)
             {
@@ -1090,18 +1087,16 @@ ALMessageDBService  * dbService;
                 
                 if([serverdate compare:todaydate] == NSOrderedSame)
                 {
-                    NSString *str = @"Last seen Today ";
+                    NSString *str = @"Last Seen Today ";
                     if(difference <= 60)
                     {
-                        [self.label setText:[str stringByAppendingString:@"Just Now"]];
+                        [self.label setText:@"Last Seen Just Now"];
                     }
                     else{
                         NSString *theTime;
                         int hours =  difference / 3600;
                         int minutes = (difference - hours * 3600 ) / 60;
-//                        NSLog(@"MIN : %d",minutes);
-//                        NSLog(@"hr : %d",hours);
-//                        NSLog(@"differeence = %f",difference);
+
                         if(hours > 0){
                             theTime = [NSString stringWithFormat:@"%.2d:%.2d", hours, minutes];
                             str = [str stringByAppendingString:theTime];
@@ -1113,14 +1108,14 @@ ALMessageDBService  * dbService;
                             str = [str stringByAppendingString:@" min Ago"];
                         }
                      
-                      //  NSLog(@"str :%@",str);
+
                         [self.label setText:str];
                     }
                    
                 }
                 else if ([serverdate compare:yesterdaydate] == NSOrderedSame)
                 {
-                    NSString *str = @"Last seen Yesteraday at ";
+                    NSString *str = @"Last Seen Yesterday ";
                     [format setDateFormat:@"hh:mm a"];
                     str = [str stringByAppendingString:[format stringFromDate:date]];
                     [self.label setText:str];
@@ -1128,7 +1123,7 @@ ALMessageDBService  * dbService;
                 else
                 {
                     [format setDateFormat:@"EE,MMM dd,YYYY"];
-                    NSString *str = @"Last Seen at ";
+                    NSString *str = @"Last Seen ";
                     str = [str stringByAppendingString:[format stringFromDate:date]];
                     [self.label setText:str];
                 }
