@@ -21,7 +21,8 @@
 
 //Add message APIS
 
--(void)addMessageList:(NSMutableArray*) messageList {
+-(NSMutableArray *) addMessageList:(NSMutableArray*) messageList {
+    NSMutableArray *messageArray = [[NSMutableArray alloc] init];
    
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     for (ALMessage * theMessage in messageList) {
@@ -29,18 +30,19 @@
         //Duplicate check before inserting into DB...
         NSManagedObject *message =  [self getMessageByKey:@"key" value:theMessage.key];
         if(message!=nil){
-            //NSLog(@"message with key %@ found",theMessage.keyString );
+            NSLog(@"Skipping duplicate message found with key %@", theMessage.key);
             continue;
         }
         
         DB_Message * theMessageEntity= [self createMessageEntityForDBInsertionWithMessage:theMessage];
         [theDBHandler.managedObjectContext save:nil];
         theMessage.msgDBObjectId = theMessageEntity.objectID;
-
+        
+        [messageArray addObject:theMessage];
     }
     
     [theDBHandler.managedObjectContext save:nil];
-
+    return messageArray;
 }
 
 -(DB_Message*)addMessage:(ALMessage*) message{
@@ -293,7 +295,6 @@
 }
 
 -(void)fetchAndRefreshFromServerForPush{
-    
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     
     [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {

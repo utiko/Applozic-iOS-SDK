@@ -20,7 +20,9 @@
 -(void) updateDeliveryReports:(NSMutableArray *) messages
 {
     for (ALMessage * theMessage in messages) {
-        [self updateDeliveryReport:theMessage.pairedMessageKeyString];
+        if ([theMessage.type isEqualToString: @"4"]) {
+            [self updateDeliveryReport:theMessage.pairedMessageKeyString];
+        }
     }
 }
 

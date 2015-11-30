@@ -892,7 +892,7 @@ ALMessageDBService  * dbService;
 }
 
 -(void)fetchAndRefresh{
-[self fetchAndRefresh:NO];
+    [self fetchAndRefresh:NO];
 }
 
 -(void)fetchAndRefresh:(BOOL)flag{
@@ -919,8 +919,6 @@ ALMessageDBService  * dbService;
                     [self processMarkRead];
                 }
             }
-           
-            
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [super scrollTableViewToBottomWithAnimation:YES];

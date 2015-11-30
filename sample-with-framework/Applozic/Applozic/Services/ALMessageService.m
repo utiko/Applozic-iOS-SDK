@@ -181,21 +181,19 @@
                 
                 return ;
             }
+            
+            NSMutableArray *messageArray = [[NSMutableArray alloc] init];
             ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
             NSLog(@"count is: %lu", (unsigned long)syncResponse.messagesList.count);
             if(syncResponse.messagesList.count >0 ){
                 ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-                [dbService addMessageList:syncResponse.messagesList];
+                messageArray = [dbService addMessageList:syncResponse.messagesList];
                // [ALUserService processContactFromMessages:syncResponse.messageList];
-
             }
-            [ALUserDefaultsHandler
-             setLastSyncTime:syncResponse.lastSyncTime];
+            [ALUserDefaultsHandler setLastSyncTime:syncResponse.lastSyncTime];
             ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
             [messageClientService updateDeliveryReports:syncResponse.messagesList];
-        
-            completion(syncResponse.messagesList,nil);
-            
+            completion(messageArray, nil);
         }];
 
     }
