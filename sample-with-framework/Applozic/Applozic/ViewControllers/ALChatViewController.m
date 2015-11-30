@@ -112,6 +112,7 @@ ALMessageDBService  * dbService;
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden: YES];
     [self.label setHidden:NO];
+    [self.loadEarlierAction setHidden:NO];
     
     if(self.refresh || (self.mMessageListArray && self.mMessageListArray.count == 0) ||
             !(self.mMessageListArray && [[self.mMessageListArray[0] contactIds] isEqualToString:self.contactIds])
