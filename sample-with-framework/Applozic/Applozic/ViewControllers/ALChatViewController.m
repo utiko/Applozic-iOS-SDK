@@ -112,6 +112,7 @@ ALMessageDBService  * dbService;
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden: YES];
     [self.label setHidden:NO];
+    [self.loadEarlierAction setHidden:NO];
     
     if(self.refresh || (self.mMessageListArray && self.mMessageListArray.count == 0) ||
             !(self.mMessageListArray && [[self.mMessageListArray[0] contactIds] isEqualToString:self.contactIds])
@@ -586,10 +587,10 @@ ALMessageDBService  * dbService;
 -(void)connection:(ALConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
     
     ALChatCell_Image*  cell=  [self getCell:connection.keystring];
-    NSLog(@"found cell .. %@", cell);
+   // NSLog(@"found cell .. %@", cell);
     cell.mMessage.fileMeta.progressValue = [self bytesConvertsToDegree:totalBytesExpectedToWrite comingBytes:totalBytesWritten];
     
-    NSLog(@" didSendBodyData...." );
+   // NSLog(@" didSendBodyData...." );
     
 }
 

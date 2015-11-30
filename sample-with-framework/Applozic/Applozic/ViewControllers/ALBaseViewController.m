@@ -85,8 +85,9 @@
         // iOS 7.0 or later
         self.navColor = [self.navigationController.navigationBar barTintColor];
     }
-    UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
+   // UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
+   // self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:refreshButton ,nil];
 
     self.label = [[UILabel alloc] initWithFrame: CGRectMake(80,26,223,21)];
     self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -228,5 +229,8 @@
         [self postMessage];
     }
     
+}
+- (IBAction)attachmentActionMethod:(id)sender {
+    [self attachmentAction];
 }
 @end

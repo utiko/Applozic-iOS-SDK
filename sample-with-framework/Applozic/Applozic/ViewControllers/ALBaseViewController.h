@@ -26,5 +26,6 @@
 - (IBAction)sendAction:(id)sender;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *checkBottomConstraint;
 
+- (IBAction)attachmentActionMethod:(id)sender;
 @property (strong, nonatomic) UILabel *label;
 @end
