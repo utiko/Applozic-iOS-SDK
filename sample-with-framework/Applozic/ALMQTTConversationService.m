@@ -80,9 +80,10 @@ static MQTTSession *session;
         BOOL typingStatus = [typingParts[2] boolValue];
         [self.mqttConversationDelegate updateTypingStatus:applicationKey userId:userId status:typingStatus];
     } else {
-        if ([type isEqualToString:@"MESSAGE_DELIVERED_READ"]) {
+        /*if ([type isEqualToString:@"MESSAGE_DELIVERED_READ"]) {
             NSLog(@"mark as read and delivered");
-        } else if ([type isEqualToString:@"MESSAGE_DELIVERED"]) {
+        } else*/
+        if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]) {
             NSArray *deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
             [messageDBService updateMessageDeliveryReport:deliveryParts[0]];

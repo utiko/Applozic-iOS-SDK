@@ -20,6 +20,7 @@
     //self.isRegisterdIdInvalid = [syncMessageResponse valueForKey:@"regIdInvalid"];
     NSMutableArray *messageList = [syncMessageResponse valueForKey:@"messages"];
     [self parseMessagseArray:messageList];
+    self.deliveredMessageKeys = [syncMessageResponse valueForKey:@"deliveredMessageKeys"];
     return self;
 }
 

@@ -189,6 +189,10 @@
                 messageArray = [dbService addMessageList:syncResponse.messagesList];
                // [ALUserService processContactFromMessages:syncResponse.messageList];
             }
+            
+            if (syncResponse.deliveredMessageKeys.count > 0) {
+                [ALMessageService updateDeliveredReport: syncResponse.deliveredMessageKeys];
+            }
             [ALUserDefaultsHandler setLastSyncTime:syncResponse.lastSyncTime];
             ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
             [messageClientService updateDeliveryReports:syncResponse.messagesList];
@@ -198,6 +202,13 @@
     }
     
   }
+
++(void) updateDeliveredReport: (NSArray *) deliveredMessageKeys {
+    for (id key in deliveredMessageKeys) {
+        ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
+        [messageDBService updateMessageDeliveryReport:key];
+    }
+}
 
 +(void )deleteMessage:( NSString * ) keyString andContactId:( NSString * )contactId withCompletion:(void (^)(NSString *, NSError *))completion{
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delete",KBASE_URL];

@@ -17,6 +17,8 @@
 
 @property(nonatomic) NSMutableArray * messagesList;
 
+@property(nonatomic) NSMutableArray *deliveredMessageKeys;
+
 @property(nonatomic, assign) BOOL sent;
 
 @property(nonatomic, assign) BOOL isRegisterdIdInvalid;
