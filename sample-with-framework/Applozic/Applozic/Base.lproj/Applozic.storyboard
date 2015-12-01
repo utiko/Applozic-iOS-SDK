@@ -421,7 +421,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="arI-8a-uqq">
                                 <rect key="frame" x="540" y="550" width="40" height="48"/>
                                 <animations/>
-                                <state key="normal" title="Button" image="mobicom_ic_action_send_now"/>
+                                <state key="normal" title="Button" image="mobicom_ic_action_send_now.png"/>
                                 <connections>
                                     <action selector="sendAction:" destination="gFB-TQ-g19" eventType="touchDown" id="HaH-Jv-0rC"/>
                                 </connections>
@@ -758,6 +758,6 @@
     <resources>
         <image name="ic_action_attachment2.png" width="36" height="36"/>
         <image name="ic_action_camera" width="64" height="64"/>
-        <image name="mobicom_ic_action_send_now" width="48" height="48"/>
+        <image name="mobicom_ic_action_send_now.png" width="48" height="48"/>
     </resources>
 </document>

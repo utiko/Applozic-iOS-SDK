@@ -40,7 +40,8 @@
         
         [self.contentView addSubview:self.mUserProfileImageView];
         
-    
+        self.status = @"";
+        self.string = @"Delivered ";
         
         self.mBubleImageView = [[UIImageView alloc] init];
         
@@ -102,7 +103,7 @@
         
         self.mMessageStatusImageView.backgroundColor = [UIColor clearColor];
         
-        [self.contentView addSubview:self.mMessageStatusImageView];
+       // [self.contentView addSubview:self.mMessageStatusImageView];
         
         self.contentView.userInteractionEnabled=YES;
     }
@@ -158,7 +159,9 @@
         
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 7 , 5, theTextSize.width, theTextSize.height);
         
-        self.mDateLabel.frame = CGRectMake(self.mMessageLabel.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mMessageLabel.frame.size.height + 3, theDateSize.width , 21);
+//        self.mDateLabel.frame = CGRectMake(self.mMessageLabel.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mMessageLabel.frame.size.height + 3, theDateSize.width , 21);
+        
+        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mBubleImageView.frame.size.height - 8, theDateSize.width + 20 , 21);
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         
@@ -212,7 +215,14 @@
         self.mBubleImageView.frame = CGRectMake(viewSize.width - imgVwWidth -10 , 0 ,imgVwWidth  ,imgVwHeight);
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x+8, 5, theTextSize.width, theTextSize.height);
         
-        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 8, self.mMessageLabel.frame.origin.y + self.mMessageLabel.frame.size.height +3 , theDateSize.width, 21);
+//        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 8, self.mMessageLabel.frame.origin.y + self.mMessageLabel.frame.size.height +3 , theDateSize.width, 21);
+        
+        if(alMessage.delivered == YES){
+        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - (self.string.length + theDateSize.width + 35) , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 3 , self.string.length + theDateSize.width + 50, 21);
+        }
+        else{
+            self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) -theDateSize.width  , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 3 , theDateSize.width + 20, 21);
+        }
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         
@@ -224,21 +234,26 @@
     
     if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]/*[alMessage.type isEqualToString:@"5"]*/) {
         self.mMessageStatusImageView.alpha =1;
-        if(alMessage.delivered==YES){
+        if(alMessage.delivered == YES){
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
+            self.status = @"Delivered ";
         }
-        else if(alMessage.sent==YES){
+        else if(alMessage.sent == YES){
              self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_sent.png"];
+            self.status = @"";
         }else{
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_about.png"];
-            
+            self.status = @"";
         }
     }
     
     self.mMessageLabel.text = alMessage.message;
-    
+    if(![self.status isEqualToString:@""]){
+        self.mDateLabel.text = [self.status stringByAppendingString:theDate];
+    }
+    else{
     self.mDateLabel.text = theDate;
-    
+    }
     if([alMessage.message hasPrefix:@"http://"]==YES || [alMessage.message hasPrefix:@"https://"]==YES ){
         self.mMessageLabel.userInteractionEnabled=YES;
     }

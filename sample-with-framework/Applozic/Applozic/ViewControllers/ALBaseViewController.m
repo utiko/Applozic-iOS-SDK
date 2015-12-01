@@ -61,7 +61,7 @@
     // textfield right view
 
     self.sendButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    [self.rightViewButton setImage:[UIImage imageNamed:@"mobicom_ic_action_send_now2.png"] forState:UIControlStateNormal];
+    [self.rightViewButton setImage:[UIImage imageNamed:@"mobicom_ic_action_send_now.png"] forState:UIControlStateNormal];
     [self.rightViewButton addTarget:self action:@selector(postMessage) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.sendButton];
 }

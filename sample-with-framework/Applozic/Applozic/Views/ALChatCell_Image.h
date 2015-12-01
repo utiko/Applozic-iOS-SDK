@@ -46,7 +46,9 @@
 
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize;
 
+@property (strong, nonatomic) NSString *status;
 
+@property (strong, nonatomic) NSString *string;
 
 
 @end
