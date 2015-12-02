@@ -1090,7 +1090,8 @@ ALMessageDBService  * dbService;
                     NSString *str = @"Last Seen Today ";
                     if(difference <= 60)
                     {
-                        [self.label setText:@"Last Seen Just Now"];
+//                        [self.label setText:@"Last Seen Just Now"];
+                        [self.label setText:@"Online"];
                     }
                     else{
                         NSString *theTime;
