@@ -14,6 +14,7 @@
 #import <Applozic/ALRegisterUserClientService.h>
 #import <Applozic/ALMessagesViewController.h>
 #import <Applozic/ALApplozicSettings.h>
+#import <Applozic/ALDataNetworkConnection.h>
 
 @interface ApplozicLoginViewController ()
 
@@ -53,6 +54,8 @@
     [super viewWillAppear:animated];
     
     [self registerForKeyboardNotifications];
+    
+    [ALDataNetworkConnection checkDataNetworkAvailable];
     
 }
 
