@@ -16,7 +16,8 @@
 {
     
     NSDateFormatter * formatter =  [[NSDateFormatter alloc] init];
-    
+    [formatter setAMSymbol:@"am"];
+    [formatter setPMSymbol:@"pm"];
     [formatter setDateFormat:forMatStr];
     formatter.timeZone = [NSTimeZone localTimeZone];
     

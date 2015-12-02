@@ -1100,12 +1100,12 @@ ALMessageDBService  * dbService;
                         if(hours > 0){
                             theTime = [NSString stringWithFormat:@"%.2d:%.2d", hours, minutes];
                             str = [str stringByAppendingString:theTime];
-                            str = [str stringByAppendingString:@" hr Ago"];
+                            str = [str stringByAppendingString:@" hr ago"];
                         }
                         else{
                             theTime = [NSString stringWithFormat:@"%.2d", minutes];
                             str = [str stringByAppendingString:theTime];
-                            str = [str stringByAppendingString:@" min Ago"];
+                            str = [str stringByAppendingString:@" min ago"];
                         }
                      
 
