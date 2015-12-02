@@ -23,6 +23,7 @@
 #import "ALColorUtility.h"
 #import "ALMQTTConversationService.h"
 #import "ALApplozicSettings.h"
+#import "ALDataNetworkConnection.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -56,6 +57,7 @@
 @property (nonatomic,strong) NSArray *unreadCount;
 @property (nonatomic,strong) NSArray* colors;
 @property (strong, nonatomic) UILabel *emptyConversationText;
+@property (strong, nonatomic) UILabel *dataAvailablityLabel;
 @end
 
 @implementation ALMessagesViewController
@@ -91,7 +93,12 @@ ALMQTTConversationService *alMqttConversationService;
     [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:self.emptyConversationText];
     
-    
+    self.dataAvailablityLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tabBarController.tabBar.frame.origin.x, self.tabBarController.tabBar.frame.origin.y - 30, self.view.frame.size.width, 30)];
+    [self.dataAvailablityLabel setText:@"NO INTERNET CONNECTION"];
+    [self.dataAvailablityLabel setBackgroundColor:[UIColor colorWithRed:179.0/255 green:32.0/255 blue:35.0/255 alpha:1]];
+    [self.dataAvailablityLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.dataAvailablityLabel setTextColor:[UIColor whiteColor]];
+    [self.view addSubview:self.dataAvailablityLabel];
 }
 
 -(void) updateTypingStatus:(NSString *)applicationKey userId:(NSString *)userId status:(BOOL)status
@@ -101,12 +108,17 @@ ALMQTTConversationService *alMqttConversationService;
 
 -(void) mqttConnectionClosed {
     NSLog(@"MQTT connection closed, subscribing again.");
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [alMqttConversationService subscribeToConversation];
-    });
+   
+    if([ALDataNetworkConnection checkDataNetworkAvailable])
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [alMqttConversationService subscribeToConversation];
+        });
+    
+   
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+   
     [super viewWillAppear:animated];
     
     if([ALUserDefaultsHandler isLogoutButtonHidden])
@@ -146,10 +158,23 @@ ALMQTTConversationService *alMqttConversationService;
     
     [self.mTableView reloadData];
     [self.emptyConversationText setHidden:YES];
+    [self.dataAvailablityLabel setHidden:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    if (![ALDataNetworkConnection checkDataNetworkAvailable])
+    {
+        [self.dataAvailablityLabel setHidden:NO];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5  * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [self.dataAvailablityLabel setHidden:YES];
+        });
+    }
+    else
+    {
+        [self.dataAvailablityLabel setHidden:YES];
+    }
+    
     [self performSelector:@selector(emptyConversationAlertLabel) withObject:nil afterDelay:2.0];
 }
 
