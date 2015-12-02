@@ -118,7 +118,7 @@
 
 -(NSString *)getCreatedAtTime:(BOOL)today {
     
-    NSString *formattedStr = today?@"hh:mm":@"dd MMM hh:mm";
+    NSString *formattedStr = today?@"hh:mm a":@"dd MMM hh:mm";
 
     NSString *formattedDateStr;
    
@@ -142,19 +142,27 @@
             minutes = difference/60;
             formattedDateStr = [NSString stringWithFormat:@"%.0f", minutes];
             formattedDateStr = [formattedDateStr stringByAppendingString:@" min"];
+            if([formattedDateStr hasPrefix:@"0"])
+            {
+                formattedDateStr = [formattedDateStr substringFromIndex:[@"0" length]];
+            }
         }
     }
     else if(difference <= 7200)
     {
         minutes = (difference - 3600)/60;
         formattedDateStr = [NSString stringWithFormat:@"%.0f", minutes];
-        NSString *hour = @"1hr";
+        NSString *hour = @"1h ";
         formattedDateStr = [hour stringByAppendingString:formattedDateStr];
         formattedDateStr = [formattedDateStr stringByAppendingString:@"min"];
     }
     else
     {
        formattedDateStr = [ALUtilityClass formatTimestamp:[self.createdAtTime doubleValue] toFormat:formattedStr];
+        if([formattedDateStr hasPrefix:@"0"])
+        {
+            formattedDateStr = [formattedDateStr substringFromIndex:[@"0" length]];
+        }
     }
     
     return formattedDateStr;
@@ -162,10 +170,13 @@
 
 -(NSString *)getCreatedAtTimeChat:(BOOL)today {
     
-    NSString *formattedStr = today?@"hh:mm":@"dd MMM hh:mm";
+    NSString *formattedStr = today?@"hh:mm a":@"dd MMM hh:mm a";
     
     NSString *formattedDateStr = [ALUtilityClass formatTimestamp:[self.createdAtTime doubleValue] toFormat:formattedStr];
-    
+    if([formattedDateStr hasPrefix:@"0"])
+    {
+        formattedDateStr = [formattedDateStr substringFromIndex:[@"0" length]];
+    }
     return formattedDateStr;
     
 }
