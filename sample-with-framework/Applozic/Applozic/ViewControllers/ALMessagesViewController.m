@@ -103,7 +103,12 @@ ALMQTTConversationService *alMqttConversationService;
 
 -(void) updateTypingStatus:(NSString *)applicationKey userId:(NSString *)userId status:(BOOL)status
 {
-    NSLog(@"Received typing status %d for: %@", status, userId);
+    NSLog(@"==== Received typing status %d for: %@ ====", status, userId);
+    
+    if ([self.detailChatViewController.contactIds isEqualToString:userId])
+     {
+         [self.detailChatViewController showTypingLabel:status userId:userId];
+     }
 }
 
 -(void) mqttConnectionClosed {

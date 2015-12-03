@@ -28,7 +28,8 @@
     [self setUpTheming];
     [self registerForKeyboardNotifications];
     
-   
+    self.sendMessageTextView.delegate = self;
+    
     self.tabBarController.tabBar.hidden = YES;
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
@@ -97,6 +98,14 @@
 
     [self.navigationController.navigationBar addSubview:self.label];
  
+    self.typingLabel = [[UILabel alloc] initWithFrame: CGRectMake(10,self.tabBarController.tabBar.frame.origin.y - 40, self.view.frame.size.width, 30)];
+    self.typingLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.typingLabel.backgroundColor = [UIColor clearColor];
+    self.typingLabel.textColor = [UIColor grayColor];
+    [self.typingLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+    self.typingLabel.textAlignment = UITextAlignmentLeft;
+    [self.view addSubview:self.typingLabel];
+    
 }
 
 
@@ -200,11 +209,14 @@
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     
-    UITouch* touch=[[event allTouches] anyObject];
-    if([self.sendMessageTextView isFirstResponder]&&[touch view]!=self.sendMessageTextView){
-        [self.sendMessageTextView resignFirstResponder];
-        
-    }
+//    UITouch* touch=[[event allTouches] anyObject];
+//    if([self.sendMessageTextView isFirstResponder]&&[touch view]!=self.sendMessageTextView){
+//        [self.sendMessageTextView resignFirstResponder];
+//        
+//    }
+    [self.view endEditing:YES];
+    [super touchesBegan:touches withEvent:event];
+    [self.sendMessageTextView resignFirstResponder];
 }
 
 #pragma mark tap gesture
@@ -224,9 +236,11 @@
 
 - (IBAction)sendAction:(id)sender {
    
+    [self.sendMessageTextView resignFirstResponder];
     self.sendMessageTextView.text = [self.sendMessageTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if(self.sendMessageTextView.text.length > 0){
         [self postMessage];
+        
     }
     
 }

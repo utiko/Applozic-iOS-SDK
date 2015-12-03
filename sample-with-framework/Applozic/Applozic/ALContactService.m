@@ -9,6 +9,7 @@
 #import "ALContactService.h"
 #import "ALContactDBService.h"
 #import "ALDBHandler.h"
+#import "ALUserDefaultsHandler.h"
 
 @implementation ALContactService
 
@@ -98,6 +99,7 @@
     contact1.email = @"123@abc.com";
     contact1.contactImageUrl = nil;
     contact1.localImageResourceName = @"1.jpg";
+    contact1.applicationId = [ALUserDefaultsHandler getApplicationKey];
     
     // contact 2
     ALContact *contact2 = [[ALContact alloc] init];
@@ -108,7 +110,7 @@
     contact2.email = @"456@abc.com";
     contact2.contactImageUrl = nil;
     contact2.localImageResourceName = @"1.jpg";
-    
+    contact2.applicationId = [ALUserDefaultsHandler getApplicationKey];
     
     ALContact *contact3 = [[ALContact alloc] init];
     contact3.userId = @"don";
@@ -118,7 +120,7 @@
     contact3.email = @"don@baba.com";
     contact3.contactImageUrl = @"http://tinyhousetalk.com/wp-content/uploads/320-Sq-Ft-Orange-Container-Guest-House-00.jpg";
     contact3.localImageResourceName = nil;
-    
+    contact3.applicationId = [ALUserDefaultsHandler getApplicationKey];
 
     
     //Contact -------- Example with json
@@ -137,6 +139,7 @@
     [demodictionary setValue:@"aman@applozic.com" forKey:@"email"];
     [demodictionary setValue:@"http://images.landofnod.com/is/image/LandOfNod/Letter_Giant_Enough_A_231533_LL/$web_zoom$&wid=550&hei=550&/1308310656/not-giant-enough-letter-a.jpg" forKey:@"contactImageUrl"];
     [demodictionary setValue:nil forKey:@"localImageResourceName"];
+    [demodictionary setValue:[ALUserDefaultsHandler getApplicationKey] forKey:@"applicationId"];
     
     ALContact *contact5 = [[ALContact alloc] initWithDict:demodictionary];
  //   [theDBHandler addListOfContacts:@[contact1, contact2, contact3, contact4, contact5]];
