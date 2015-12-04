@@ -140,7 +140,7 @@
     [ALUserDefaultsHandler setLogoutButtonHidden:NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     [ALApplozicSettings setUserProfileHidden:NO];
-
+    [ALApplozicSettings hideRefreshButton:NO];
     // Custom Color RGB Format
   
     // [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:0.447f green:0.737f blue:0.831f alpha:1]];
