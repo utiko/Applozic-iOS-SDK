@@ -11,6 +11,7 @@
 #import "ALMessageList.h"
 #import "ALMessage.h"
 #import "DB_FileMetaInfo.h"
+#import "ALUserDetail.h"
 
 @interface ALMessageService : NSObject
 
@@ -36,5 +37,7 @@
 +(void )deleteMessage:( NSString * ) keyString andContactId:( NSString * )contactId withCompletion:(void (^)(NSString *, NSError *))completion;
 
 +(void)markConversationAsRead: (NSString *) contactId withCompletion:(void (^)(NSString *, NSError *))completion;
+
++(void)userDetailServerCall:(NSString *)contactId withCompletion:(void(^)(ALUserDetail *))completionMark;
 
 @end

@@ -14,7 +14,7 @@
 #import "ALChatCell.h"
 #import "ALAttachmentController.h"
 
-@interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate,ALChatCellDelegate,ALImageWithTextControllerDelegate>
+@interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate,ALChatCellDelegate,ALImageWithTextControllerDelegate>
 
 @property (strong, nonatomic) ALContact *alContact;
 @property (strong, nonatomic) NSMutableArray *mMessageListArray;
@@ -31,5 +31,8 @@
 
 -(void)updateDeliveryStatus:(NSNotification *) notification;
 
+-(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue;
+
+-(void)showTypingLabel:(BOOL)flag userId:(NSString *)userId;
 
 @end

@@ -32,5 +32,9 @@
 
 @property (nonatomic, assign) id<ALChatCellDelegate> delegate;
 
+@property (strong, nonatomic) NSString *status;
+
+@property (strong, nonatomic) NSString *string;
+
 
 @end
