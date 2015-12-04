@@ -47,7 +47,7 @@
         
 //        self.mBubleImageView.frame = CGRectMake(5, 5, 100, 44);
         
-        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x+self.mUserProfileImageView.frame.size.width+5 , 5, self.frame.size.width-110, self.frame.size.width-110);
+    //    self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x+self.mUserProfileImageView.frame.size.width+5 , 5, self.frame.size.width-110, self.frame.size.width-110);
         
         self.mBubleImageView.contentMode = UIViewContentModeScaleToFill;
         
@@ -151,13 +151,16 @@
         }
         self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
         
-        int imgVwWidth = theTextSize.width>150?theTextSize.width+20+14:150;
+//        int imgVwWidth = theTextSize.width>150?theTextSize.width+20+14:150;
+//        
+//        int imgVwHeight = theTextSize.height+21>45?theTextSize.height+21+10:45;
+//        
+//        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, imgVwWidth , imgVwHeight);
         
-        int imgVwHeight = theTextSize.height+21>45?theTextSize.height+21+10:45;
-        
-        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, imgVwWidth , imgVwHeight);
+        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, theTextSize.width + 14 , theTextSize.height + 10);
         
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 7 , 5, theTextSize.width, theTextSize.height);
+        
         
 //        self.mDateLabel.frame = CGRectMake(self.mMessageLabel.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mMessageLabel.frame.size.height + 3, theDateSize.width , 21);
         
@@ -207,12 +210,15 @@
         self.mUserProfileImageView.alpha=0;
         self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 45, 45);
         
-        int imgVwWidth = theTextSize.width>150?theTextSize.width+14:150;
+//        int imgVwWidth = theTextSize.width>150?theTextSize.width+14:150;
+//        
+//        int imgVwHeight = theTextSize.height+21>45?theTextSize.height+21+10:45;
         
-        int imgVwHeight = theTextSize.height+21>45?theTextSize.height+21+10:45;
-                
-        self.mBubleImageView.frame = CGRectMake(viewSize.width - imgVwWidth -10 , 0 ,imgVwWidth  ,imgVwHeight);
-        self.mBubleImageView.frame = CGRectMake(viewSize.width - imgVwWidth -10 , 0 ,imgVwWidth  ,imgVwHeight);
+ //       self.mBubleImageView.frame = CGRectMake(viewSize.width - imgVwWidth -10 , 0 ,imgVwWidth  ,imgVwHeight);
+        
+         self.mBubleImageView.frame = CGRectMake(viewSize.width - theTextSize.width-24 , 0 ,theTextSize.width+14  ,theTextSize.height+10);
+
+        
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x+8, 5, theTextSize.width, theTextSize.height);
         
 //        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 8, self.mMessageLabel.frame.origin.y + self.mMessageLabel.frame.size.height +3 , theDateSize.width, 21);
