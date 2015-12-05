@@ -90,13 +90,13 @@ static MQTTSession *session;
             NSLog(@"delivery report for %@", deliveryParts[0]);
             [self.mqttConversationDelegate delivered: deliveryParts[0] contactId:deliveryParts[1]];
         } else if ([type isEqualToString: @"MESSAGE_RECEIVED"]) {
-            NSData *messageData = [instantMessageJson
+           /* NSData *messageData = [instantMessageJson
                                    dataUsingEncoding:NSUTF8StringEncoding];
             
             id result = [NSJSONSerialization JSONObjectWithData:messageData
                                                         options:NSJSONReadingAllowFragments
-                                                          error:NULL];
-            ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:result];
+                                                          error:NULL];*/
+            ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
             [self.mqttConversationDelegate syncCall: alMessage];
         }
     }
