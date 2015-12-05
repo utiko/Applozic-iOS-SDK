@@ -74,7 +74,7 @@ static MQTTSession *session;
     NSString *instantMessageJson = [theMessageDict objectForKey:@"message"];
     
     if ([topic hasPrefix:@"typing"]) {
-        NSArray *typingParts = [instantMessageJson componentsSeparatedByString:@"/"];
+        NSArray *typingParts = [fullMessage componentsSeparatedByString:@","];
         NSString *applicationKey = typingParts[0]; //Note: will get used once we support messaging from one app to another
         NSString *userId = typingParts[1];
         BOOL typingStatus = [typingParts[2] boolValue];
@@ -128,8 +128,9 @@ static MQTTSession *session;
     
 }
 
--(void) updateTypingStatus: (NSString *) userId typing: (BOOL) typing
+-(void) sendTypingStatus:(NSString *) applicationKey userID:(NSString *) userId typing: (BOOL) typing;
 {
+     NSLog(@"Received typing status in MQTTCONVERSationSERvice  %d for: %@", typing, userId);
     NSData* data=[[NSString stringWithFormat:@"%@,%@,%i", [ALUserDefaultsHandler getApplicationKey],userId, typing ? 1 : 0] dataUsingEncoding:NSUTF8StringEncoding];
     [session publishDataAtMostOnce:data onTopic:[NSString stringWithFormat:@"typing-%@-%@", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId]]];
 }

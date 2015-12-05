@@ -23,6 +23,7 @@
 #import "ALColorUtility.h"
 #import "ALMQTTConversationService.h"
 #import "ALApplozicSettings.h"
+#import "ALDataNetworkConnection.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -42,7 +43,7 @@
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
 - (IBAction)backButtonAction:(id)sender;
-
+-(void)emptyConversationAlertLabel;
 // Constants
 
 // IBOutlet
@@ -55,6 +56,8 @@
 @property (nonatomic, strong) UIColor *navColor;
 @property (nonatomic,strong) NSArray *unreadCount;
 @property (nonatomic,strong) NSArray* colors;
+@property (strong, nonatomic) UILabel *emptyConversationText;
+@property (strong, nonatomic) UILabel *dataAvailablityLabel;
 @end
 
 @implementation ALMessagesViewController
@@ -84,22 +87,43 @@ ALMQTTConversationService *alMqttConversationService;
     dispatch_async(dispatch_get_main_queue(), ^{
         [alMqttConversationService subscribeToConversation];
     });
-                   
+    
+    self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 15 + self.view.frame.size.width/8, self.view.frame.origin.y + self.view.frame.size.height/2, 250, 30)];
+    [self.emptyConversationText setText:@"You have no conversation yet"];
+    [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
+    [self.view addSubview:self.emptyConversationText];
+    
+    self.dataAvailablityLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tabBarController.tabBar.frame.origin.x, self.tabBarController.tabBar.frame.origin.y - 30, self.view.frame.size.width, 30)];
+    [self.dataAvailablityLabel setText:@"NO INTERNET CONNECTION"];
+    [self.dataAvailablityLabel setBackgroundColor:[UIColor colorWithRed:179.0/255 green:32.0/255 blue:35.0/255 alpha:1]];
+    [self.dataAvailablityLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.dataAvailablityLabel setTextColor:[UIColor whiteColor]];
+    [self.view addSubview:self.dataAvailablityLabel];
 }
 
 -(void) updateTypingStatus:(NSString *)applicationKey userId:(NSString *)userId status:(BOOL)status
 {
-    NSLog(@"Received typing status %d for: %@", status, userId);
+    NSLog(@"==== Received typing status %d for: %@ ====", status, userId);
+    
+    if ([self.detailChatViewController.contactIds isEqualToString:userId])
+     {
+         [self.detailChatViewController showTypingLabel:status userId:userId];
+     }
 }
 
 -(void) mqttConnectionClosed {
     NSLog(@"MQTT connection closed, subscribing again.");
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [alMqttConversationService subscribeToConversation];
-    });
+   
+    if([ALDataNetworkConnection checkDataNetworkAvailable])
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [alMqttConversationService subscribeToConversation];
+        });
+    
+   
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+   
     [super viewWillAppear:animated];
     
     if([ALUserDefaultsHandler isLogoutButtonHidden])
@@ -138,6 +162,37 @@ ALMQTTConversationService *alMqttConversationService;
    // [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
     
     [self.mTableView reloadData];
+    [self.emptyConversationText setHidden:YES];
+    [self.dataAvailablityLabel setHidden:YES];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    if (![ALDataNetworkConnection checkDataNetworkAvailable])
+    {
+        [self.dataAvailablityLabel setHidden:NO];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5  * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [self.dataAvailablityLabel setHidden:YES];
+        });
+    }
+    else
+    {
+        [self.dataAvailablityLabel setHidden:YES];
+    }
+    
+    [self performSelector:@selector(emptyConversationAlertLabel) withObject:nil afterDelay:2.0];
+}
+
+-(void)emptyConversationAlertLabel
+{
+    if(self.mContactsMessageListArray.count == 0)
+    {
+        [self.emptyConversationText setHidden:NO];
+    }
+    else
+    {
+        [self.emptyConversationText setHidden:YES];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -394,7 +449,7 @@ ALMQTTConversationService *alMqttConversationService;
             
             NSLog(@"getting filteredArray ::%lu", (unsigned long)theFilteredArray.count );
             [self.mContactsMessageListArray removeObjectsInArray:theFilteredArray ];
-            
+            [self emptyConversationAlertLabel];
             [self.mTableView reloadData];
         }];
     }

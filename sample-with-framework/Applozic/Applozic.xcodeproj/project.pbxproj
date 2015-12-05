@@ -184,6 +184,8 @@
 		6D95476C1BE38DFF00776652 /* ALContactService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547661BE38DFF00776652 /* ALContactService.m */; };
 		6D95476D1BE38DFF00776652 /* ALUITextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547671BE38DFF00776652 /* ALUITextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D95476E1BE38DFF00776652 /* ALUITextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547681BE38DFF00776652 /* ALUITextView.m */; };
+		6DB665071C0EE5EC004D04A8 /* ALDataNetworkConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6DB665081C0EE5EC004D04A8 /* ALDataNetworkConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB665061C0EE5EC004D04A8 /* ALDataNetworkConnection.m */; };
 		982F13041C05D6050024678E /* MQTTClient-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */; };
 		982F13051C05D6050024678E /* MQTTClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F51C05D6040024678E /* MQTTClient.h */; };
 		982F13061C05D6050024678E /* MQTTDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F61C05D6040024678E /* MQTTDecoder.h */; };
@@ -385,6 +387,8 @@
 		6D9547661BE38DFF00776652 /* ALContactService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALContactService.m; path = Applozic/ALContactService.m; sourceTree = "<group>"; };
 		6D9547671BE38DFF00776652 /* ALUITextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALUITextView.h; path = Applozic/ALUITextView.h; sourceTree = "<group>"; };
 		6D9547681BE38DFF00776652 /* ALUITextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALUITextView.m; path = Applozic/ALUITextView.m; sourceTree = "<group>"; };
+		6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDataNetworkConnection.h; sourceTree = "<group>"; };
+		6DB665061C0EE5EC004D04A8 /* ALDataNetworkConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDataNetworkConnection.m; sourceTree = "<group>"; };
 		982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MQTTClient-Prefix.pch"; path = "Applozic/MQTT/MQTTClient-Prefix.pch"; sourceTree = "<group>"; };
 		982F12F51C05D6040024678E /* MQTTClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTClient.h; path = Applozic/MQTT/MQTTClient.h; sourceTree = "<group>"; };
 		982F12F61C05D6040024678E /* MQTTDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTDecoder.h; path = Applozic/MQTT/MQTTDecoder.h; sourceTree = "<group>"; };
@@ -788,6 +792,8 @@
 				6D6DF09A1BC5364C00EBA00F /* ALResponseHandler.m */,
 				6D6DF08E1BC5364C00EBA00F /* ALConnection.m */,
 				6D6DF08D1BC5364C00EBA00F /* ALConnection.h */,
+				6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */,
+				6DB665061C0EE5EC004D04A8 /* ALDataNetworkConnection.m */,
 			);
 			name = networkcommunication;
 			sourceTree = "<group>";
@@ -876,6 +882,7 @@
 				6D6DF1721BC5364C00EBA00F /* ALFileMetaInfo.h in Headers */,
 				6D6DF1661BC5364C00EBA00F /* ALNotificationView.h in Headers */,
 				6D6DF1801BC5364C00EBA00F /* DB_CONTACT.h in Headers */,
+				6DB665071C0EE5EC004D04A8 /* ALDataNetworkConnection.h in Headers */,
 				6D6DF1601BC5364C00EBA00F /* ALChatCell_Image.h in Headers */,
 				6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */,
 				6D6DF13E1BC5364C00EBA00F /* ALConnection.h in Headers */,
@@ -1112,6 +1119,7 @@
 				6D6DF14F1BC5364C00EBA00F /* ALMessageService.m in Sources */,
 				6D6DF1551BC5364C00EBA00F /* UIImage+Utility.m in Sources */,
 				6D46B6C61BD025060014A5D3 /* ALMapViewController.m in Sources */,
+				6DB665081C0EE5EC004D04A8 /* ALDataNetworkConnection.m in Sources */,
 				6D6DF1531BC5364C00EBA00F /* ALUtilityClass.m in Sources */,
 				6D95476C1BE38DFF00776652 /* ALContactService.m in Sources */,
 				982F13131C05D6050024678E /* MQTTSSLSecurityPolicy.m in Sources */,

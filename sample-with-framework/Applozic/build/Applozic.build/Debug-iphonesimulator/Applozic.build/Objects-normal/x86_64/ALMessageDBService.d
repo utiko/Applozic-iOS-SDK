@@ -14,4 +14,5 @@ dependencies: \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Resources/Files/ALConstant.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALSyncMessageFeed.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALMessageList.h \
+  /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/ALUserDetail.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ALContactService.h

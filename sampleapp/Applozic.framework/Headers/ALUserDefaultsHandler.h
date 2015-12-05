@@ -78,5 +78,5 @@
 
 +(NSString *)getLastSyncTime;
 +(NSString *)getUserKeyString;
-
++(NSString *)getDisplayName;
 @end

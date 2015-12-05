@@ -28,7 +28,8 @@
     [self setUpTheming];
     [self registerForKeyboardNotifications];
     
-   
+    self.sendMessageTextView.delegate = self;
+    
     self.tabBarController.tabBar.hidden = YES;
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
@@ -61,7 +62,7 @@
     // textfield right view
 
     self.sendButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    [self.rightViewButton setImage:[UIImage imageNamed:@"mobicom_ic_action_send_now2.png"] forState:UIControlStateNormal];
+    [self.rightViewButton setImage:[UIImage imageNamed:@"mobicom_ic_action_send_now.png"] forState:UIControlStateNormal];
     [self.rightViewButton addTarget:self action:@selector(postMessage) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.sendButton];
 }
@@ -85,10 +86,12 @@
         // iOS 7.0 or later
         self.navColor = [self.navigationController.navigationBar barTintColor];
     }
-   // UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
+  
+    if(![ALApplozicSettings isRefreshButtonHidden]){
+    // UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
    // self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:refreshButton ,nil];
-
+    }
     self.label = [[UILabel alloc] initWithFrame: CGRectMake(80,26,223,21)];
     self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.label.backgroundColor = [UIColor clearColor];
@@ -97,6 +100,14 @@
 
     [self.navigationController.navigationBar addSubview:self.label];
  
+    self.typingLabel = [[UILabel alloc] initWithFrame: CGRectMake(10,self.tabBarController.tabBar.frame.origin.y - 40, self.view.frame.size.width, 30)];
+    self.typingLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.typingLabel.backgroundColor = [UIColor clearColor];
+    self.typingLabel.textColor = [UIColor grayColor];
+    [self.typingLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+    self.typingLabel.textAlignment = UITextAlignmentLeft;
+    [self.view addSubview:self.typingLabel];
+    
 }
 
 
@@ -162,7 +173,7 @@
     NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     self.checkBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y;
-
+    self.typingLabel.frame = CGRectMake(10,keyboardEndFrame.origin.y - 90, self.view.frame.size.width, 30);
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         [self scrollTableViewToBottomWithAnimation:YES];
@@ -179,6 +190,7 @@
     NSDictionary * theDictionary = notification.userInfo;
     NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     self.checkBottomConstraint.constant = 0;
+    self.typingLabel.frame = CGRectMake(10,self.tabBarController.tabBar.frame.origin.y - 40, self.view.frame.size.width, 30);
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
 
@@ -200,11 +212,14 @@
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     
-    UITouch* touch=[[event allTouches] anyObject];
-    if([self.sendMessageTextView isFirstResponder]&&[touch view]!=self.sendMessageTextView){
-        [self.sendMessageTextView resignFirstResponder];
-        
-    }
+//    UITouch* touch=[[event allTouches] anyObject];
+//    if([self.sendMessageTextView isFirstResponder]&&[touch view]!=self.sendMessageTextView){
+//        [self.sendMessageTextView resignFirstResponder];
+//        
+//    }
+    [self.view endEditing:YES];
+    [super touchesBegan:touches withEvent:event];
+    [self.sendMessageTextView resignFirstResponder];
 }
 
 #pragma mark tap gesture
@@ -224,9 +239,11 @@
 
 - (IBAction)sendAction:(id)sender {
    
+    [self.sendMessageTextView resignFirstResponder];
     self.sendMessageTextView.text = [self.sendMessageTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if(self.sendMessageTextView.text.length > 0){
         [self postMessage];
+        
     }
     
 }

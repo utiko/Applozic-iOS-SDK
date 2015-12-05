@@ -42,7 +42,8 @@ UIViewController * modalCon;
         mUserProfileImageView.layer.cornerRadius=mUserProfileImageView.frame.size.width/2;
         [self.contentView addSubview:mUserProfileImageView];
         
-        
+        self.status = @"";
+        self.string = @"Delivered ";
         
         mBubleImageView = [[UIImageView alloc] init];
         
@@ -100,7 +101,7 @@ UIViewController * modalCon;
         
         mMessageStatusImageView.backgroundColor = [UIColor clearColor];
         
-        [self.contentView addSubview:mMessageStatusImageView];
+       // [self.contentView addSubview:mMessageStatusImageView];
         
         
         
@@ -175,11 +176,16 @@ UIViewController * modalCon;
         self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
         
         
-        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width-110, viewSize.width-110);
-        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 15 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40 );
+        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width - 120, viewSize.width - 120);
+        
+//        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 15 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40 );
+        
+        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10 );
+        
         [self setupProgress];
         
-        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5, theDateSize.width , 20);
+//        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5, theDateSize.width , 20);
+        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width , 21);
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
@@ -261,16 +267,28 @@ UIViewController * modalCon;
         
         self.mUserProfileImageView.frame = CGRectMake(viewSize.width - 50, 5, 45, 45);
         
-        self.mBubleImageView.frame = CGRectMake(viewSize.width - self.mUserProfileImageView.frame.origin.x + 50 , 5 ,viewSize.width-110, viewSize.width-110);
+        self.mBubleImageView.frame = CGRectMake(viewSize.width - self.mUserProfileImageView.frame.origin.x + 60 , 0, viewSize.width - 120, viewSize.width - 120);
         
         self.mUserProfileImageView.alpha=0;
         
-        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y+15 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40);
+//        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y+15 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40);
         
-        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5 , theDateSize.width, 20);
+          self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
+        
+//        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5 , theDateSize.width, 20);
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
+        
+        
+        if(alMessage.delivered == YES){
+            self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - (self.string.length + theDateSize.width + 35) , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, self.string.length + theDateSize.width + 50, 21);
+        }
+        else{
+            self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) -theDateSize.width  , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width + 20, 21);
+        }
+        
+        
         
         if(alMessage.message.length > 0)
         {
@@ -328,7 +346,13 @@ UIViewController * modalCon;
         
     }
     imageWithText.text = alMessage.message;
-    self.mDateLabel.text = theDate;
+   // self.mDateLabel.text = theDate;
+    if(![self.status isEqualToString:@""]){
+        self.mDateLabel.text = [self.string stringByAppendingString:theDate];
+    }
+    else{
+        self.mDateLabel.text = theDate;
+    }
     
     NSURL * theUrl = nil ;
     if([alMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"])

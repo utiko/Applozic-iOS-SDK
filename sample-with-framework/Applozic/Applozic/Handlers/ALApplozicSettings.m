@@ -16,13 +16,13 @@
 
 +(void)setUserProfileHidden: (BOOL)flag
 {
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:USER_PROILE_PROPERTY];
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:USER_PROFILE_PROPERTY];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 +(BOOL)isUserProfileHidden
 {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:USER_PROILE_PROPERTY];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:USER_PROFILE_PROPERTY];
 }
 
 +(void) clearAllSettings
@@ -88,6 +88,17 @@
     NSData *barItemColourData = [[NSUserDefaults standardUserDefaults] objectForKey:@"NAVIGATION_BAR_ITEM_COLOUR"];
     UIColor *barItemColour = [NSKeyedUnarchiver unarchiveObjectWithData:barItemColourData];
     return barItemColour;
+}
+
++(void)hideRefreshButton:(BOOL)state
+{
+    [[NSUserDefaults standardUserDefaults] setBool:state forKey:REFRESH_BUTTON_VISIBILITY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)isRefreshButtonHidden
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:REFRESH_BUTTON_VISIBILITY];
 }
 
 @end

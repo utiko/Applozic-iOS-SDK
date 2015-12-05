@@ -73,4 +73,6 @@
 -(BOOL)isDownloadRequire;
 -(BOOL)isUploadRequire;
 
+-(NSString *)getCreatedAtTimeChat:(BOOL)today;
+
 @end

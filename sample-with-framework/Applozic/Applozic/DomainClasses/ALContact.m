@@ -28,6 +28,7 @@
     self.contactImageUrl = [dict objectForKey:@"contactImageUrl"];
     self.email = [dict objectForKey:@"email"];
     self.localImageResourceName = [dict objectForKey:@"localImageResourceName"];
+    self.applicationId = [dict objectForKey:@"applicationId"];
 }
 
 @end

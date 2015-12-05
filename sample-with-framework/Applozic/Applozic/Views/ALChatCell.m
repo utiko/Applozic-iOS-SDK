@@ -40,13 +40,14 @@
         
         [self.contentView addSubview:self.mUserProfileImageView];
         
-    
+        self.status = @"";
+        self.string = @"Delivered ";
         
         self.mBubleImageView = [[UIImageView alloc] init];
         
 //        self.mBubleImageView.frame = CGRectMake(5, 5, 100, 44);
         
-        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x+self.mUserProfileImageView.frame.size.width+5 , 5, self.frame.size.width-110, self.frame.size.width-110);
+    //    self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x+self.mUserProfileImageView.frame.size.width+5 , 5, self.frame.size.width-110, self.frame.size.width-110);
         
         self.mBubleImageView.contentMode = UIViewContentModeScaleToFill;
         
@@ -102,7 +103,7 @@
         
         self.mMessageStatusImageView.backgroundColor = [UIColor clearColor];
         
-        [self.contentView addSubview:self.mMessageStatusImageView];
+       // [self.contentView addSubview:self.mMessageStatusImageView];
         
         self.contentView.userInteractionEnabled=YES;
     }
@@ -150,15 +151,20 @@
         }
         self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
         
-        int imgVwWidth = theTextSize.width>150?theTextSize.width+20+14:150;
+//        int imgVwWidth = theTextSize.width>150?theTextSize.width+20+14:150;
+//        
+//        int imgVwHeight = theTextSize.height+21>45?theTextSize.height+21+10:45;
+//        
+//        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, imgVwWidth , imgVwHeight);
         
-        int imgVwHeight = theTextSize.height+21>45?theTextSize.height+21+10:45;
-        
-        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, imgVwWidth , imgVwHeight);
+        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, theTextSize.width + 14 , theTextSize.height + 10);
         
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 7 , 5, theTextSize.width, theTextSize.height);
         
-        self.mDateLabel.frame = CGRectMake(self.mMessageLabel.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mMessageLabel.frame.size.height + 3, theDateSize.width , 21);
+        
+//        self.mDateLabel.frame = CGRectMake(self.mMessageLabel.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mMessageLabel.frame.size.height + 3, theDateSize.width , 21);
+        
+        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mBubleImageView.frame.size.height - 5, theDateSize.width + 20 , 21);
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         
@@ -204,15 +210,25 @@
         self.mUserProfileImageView.alpha=0;
         self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 45, 45);
         
-        int imgVwWidth = theTextSize.width>150?theTextSize.width+14:150;
+//        int imgVwWidth = theTextSize.width>150?theTextSize.width+14:150;
+//        
+//        int imgVwHeight = theTextSize.height+21>45?theTextSize.height+21+10:45;
         
-        int imgVwHeight = theTextSize.height+21>45?theTextSize.height+21+10:45;
-                
-        self.mBubleImageView.frame = CGRectMake(viewSize.width - imgVwWidth -10 , 0 ,imgVwWidth  ,imgVwHeight);
-        self.mBubleImageView.frame = CGRectMake(viewSize.width - imgVwWidth -10 , 0 ,imgVwWidth  ,imgVwHeight);
+ //       self.mBubleImageView.frame = CGRectMake(viewSize.width - imgVwWidth -10 , 0 ,imgVwWidth  ,imgVwHeight);
+        
+         self.mBubleImageView.frame = CGRectMake(viewSize.width - theTextSize.width-24 , 0 ,theTextSize.width+14  ,theTextSize.height+10);
+
+        
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x+8, 5, theTextSize.width, theTextSize.height);
         
-        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 8, self.mMessageLabel.frame.origin.y + self.mMessageLabel.frame.size.height +3 , theDateSize.width, 21);
+//        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 8, self.mMessageLabel.frame.origin.y + self.mMessageLabel.frame.size.height +3 , theDateSize.width, 21);
+        
+        if(alMessage.delivered == YES){
+        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - (self.string.length + theDateSize.width + 35) , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, self.string.length + theDateSize.width + 50, 21);
+        }
+        else{
+            self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) -theDateSize.width  , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width + 20, 21);
+        }
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         
@@ -224,21 +240,26 @@
     
     if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]/*[alMessage.type isEqualToString:@"5"]*/) {
         self.mMessageStatusImageView.alpha =1;
-        if(alMessage.delivered==YES){
+        if(alMessage.delivered == YES){
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
+            self.status = @"Delivered ";
         }
-        else if(alMessage.sent==YES){
+        else if(alMessage.sent == YES){
              self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_sent.png"];
+            self.status = @"";
         }else{
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_about.png"];
-            
+            self.status = @"";
         }
     }
     
     self.mMessageLabel.text = alMessage.message;
-    
+    if(![self.status isEqualToString:@""]){
+        self.mDateLabel.text = [self.status stringByAppendingString:theDate];
+    }
+    else{
     self.mDateLabel.text = theDate;
-    
+    }
     if([alMessage.message hasPrefix:@"http://"]==YES || [alMessage.message hasPrefix:@"https://"]==YES ){
         self.mMessageLabel.userInteractionEnabled=YES;
     }

@@ -28,4 +28,5 @@
 
 - (IBAction)attachmentActionMethod:(id)sender;
 @property (strong, nonatomic) UILabel *label;
+@property (strong, nonatomic) UILabel *typingLabel;
 @end

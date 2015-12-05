@@ -37,6 +37,7 @@
 #import "ALMessageService.h"
 #import "ALUserDetail.h"
 #import "ALMQTTService.h"
+#import "ALMQTTConversationService.h"
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate>
 
@@ -55,6 +56,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *loadEarlierAction;
 
 @property (nonatomic,weak) NSIndexPath *indexPathofSelection;
+
+@property (nonatomic) ALMQTTConversationService *mqttObject;
 
 -(void)processLoadEarlierMessages;
 
@@ -85,6 +88,8 @@ ALMessageDBService  * dbService;
     [self fetchMessageFromDB];
     [self processMarkRead];
     [self loadChatView];
+    
+    self.mqttObject = [[ALMQTTConversationService alloc] init];
 }
 
 -(void)processMarkRead{
@@ -113,6 +118,7 @@ ALMessageDBService  * dbService;
     [self.tabBarController.tabBar setHidden: YES];
     [self.label setHidden:NO];
     [self.loadEarlierAction setHidden:NO];
+    self.typingLabel.hidden = YES;
     
     if(self.refresh || (self.mMessageListArray && self.mMessageListArray.count == 0) ||
             !(self.mMessageListArray && [[self.mMessageListArray[0] contactIds] isEqualToString:self.contactIds])
@@ -133,7 +139,7 @@ ALMessageDBService  * dbService;
     }
     
         [self serverCallForLastSeen];
-   
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -143,6 +149,7 @@ ALMessageDBService  * dbService;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
     [self.sendMessageTextView resignFirstResponder];
     [self.label setHidden:YES];
+     [self.typingLabel setHidden:YES];
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -1090,7 +1097,8 @@ ALMessageDBService  * dbService;
                     NSString *str = @"Last Seen Today ";
                     if(difference <= 60)
                     {
-                        [self.label setText:@"Last Seen Just Now"];
+//                        [self.label setText:@"Last Seen Just Now"];
+                        [self.label setText:@"Online"];
                     }
                     else{
                         NSString *theTime;
@@ -1100,12 +1108,12 @@ ALMessageDBService  * dbService;
                         if(hours > 0){
                             theTime = [NSString stringWithFormat:@"%.2d:%.2d", hours, minutes];
                             str = [str stringByAppendingString:theTime];
-                            str = [str stringByAppendingString:@" hr Ago"];
+                            str = [str stringByAppendingString:@" hr ago"];
                         }
                         else{
                             theTime = [NSString stringWithFormat:@"%.2d", minutes];
                             str = [str stringByAppendingString:theTime];
-                            str = [str stringByAppendingString:@" min Ago"];
+                            str = [str stringByAppendingString:@" min ago"];
                         }
                      
 
@@ -1139,8 +1147,53 @@ ALMessageDBService  * dbService;
         {
             NSLog(@"CHECK SERVER CALL");
         }
-      
-    
      }];
 }
+
+-(void)showTypingLabel:(BOOL)flag userId:(NSString *)userId
+{
+    if(flag && [self.alContact.userId isEqualToString: userId])
+    {
+        NSString *msg = self.alContact.displayName;
+        [self.typingLabel setText:[msg stringByAppendingString:@" is typing..."]];
+        [self.typingLabel setHidden:NO];
+    }
+    else
+    {
+        [self.typingLabel setHidden:YES];
+    }
+}
+
+//======================================================
+#pragma textview delegate
+//======================================================
+
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if(self.alContact.applicationId == NULL)
+    {
+        self.alContact.applicationId = [ALUserDefaultsHandler getApplicationKey];
+        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:[ALUserDefaultsHandler getUserId] typing:YES];
+    }
+    else
+    {
+        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:[ALUserDefaultsHandler getUserId] typing:YES];
+    }
+}
+
+-(void)textViewDidEndEditing:(UITextView *)textView
+{
+    if(self.alContact.applicationId == NULL)
+    {
+        self.alContact.applicationId = [ALUserDefaultsHandler getApplicationKey];
+        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:[ALUserDefaultsHandler getUserId]typing:NO];
+    }
+    else
+    {
+        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:[ALUserDefaultsHandler getUserId] typing:NO];
+    }
+
+}
+
+
 @end
