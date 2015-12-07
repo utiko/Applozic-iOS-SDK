@@ -117,7 +117,7 @@ ALMessageDBService  * dbService;
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden: YES];
     [self.label setHidden:NO];
-    [self.loadEarlierAction setHidden:NO];
+    [self.loadEarlierAction setHidden:YES];
     self.typingLabel.hidden = YES;
     
     if(self.refresh || (self.mMessageListArray && self.mMessageListArray.count == 0) ||
@@ -1195,5 +1195,19 @@ ALMessageDBService  * dbService;
 
 }
 
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+     NSLog(@"DidEndDecelerating");
+    if(scrollView.contentOffset.y < 0)
+    {
+       //  NSLog(@"REACHED TOP");
+        [self.loadEarlierAction setHidden:NO];
+    }
+    else
+    {
+      //   NSLog(@"REACHED BOTTOM");
+        [self.loadEarlierAction setHidden:YES];
+    }
+}
 
 @end
