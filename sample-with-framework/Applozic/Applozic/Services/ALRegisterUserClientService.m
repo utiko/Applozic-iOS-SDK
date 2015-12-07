@@ -7,7 +7,7 @@
 //
 
 #define INVALID_APPLICATIONID = @"INVALID_APPLICATIONID"
-
+#define VERSION_CODE @"105"
 
 #import "ALRegisterUserClientService.h"
 #import "ALRequestHandler.h"
@@ -30,7 +30,7 @@
     [user setPrefContactAPI:2];
     [user setEmailVerified:true];
     [user setDeviceType:4];
-    [user setAppVersionCode: @"71"];
+    [user setAppVersionCode: VERSION_CODE];
     [user setRegistrationId: [ALUserDefaultsHandler getApnDeviceToken]];
     
     //NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];

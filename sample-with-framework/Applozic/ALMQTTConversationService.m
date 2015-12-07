@@ -71,7 +71,7 @@ static MQTTSession *session;
     NSError *error = nil;
     NSDictionary *theMessageDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     NSString *type = [theMessageDict objectForKey:@"type"];
-    NSString *instantMessageJson = [theMessageDict objectForKey:@"message"];
+  //  NSString *instantMessageJson = [theMessageDict objectForKey:@"message"];
     
     if ([topic hasPrefix:@"typing"]) {
         NSArray *typingParts = [fullMessage componentsSeparatedByString:@","];
@@ -83,13 +83,13 @@ static MQTTSession *session;
         /*if ([type isEqualToString:@"MESSAGE_DELIVERED_READ"]) {
             NSLog(@"mark as read and delivered");
         } else*/
-        if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]) {
+        if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:@"APPLOZIC_04"]||[type isEqualToString:@"APPLOZIC_08"]) {
             NSArray *deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
             [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
             NSLog(@"delivery report for %@", deliveryParts[0]);
             [self.mqttConversationDelegate delivered: deliveryParts[0] contactId:deliveryParts[1]];
-        } else if ([type isEqualToString: @"MESSAGE_RECEIVED"]) {
+        } else if ([type isEqualToString: @"MESSAGE_RECEIVED"]||[type isEqualToString:@"APPLOZIC_01"]) {
            /* NSData *messageData = [instantMessageJson
                                    dataUsingEncoding:NSUTF8StringEncoding];
             
