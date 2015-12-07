@@ -139,7 +139,7 @@
     // Initial login view .....
     [ALUserDefaultsHandler setLogoutButtonHidden:NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
-    [ALApplozicSettings setUserProfileHidden:NO];
+    [ALApplozicSettings setUserProfileHidden:YES];
     [ALApplozicSettings hideRefreshButton:NO];
     // Custom Color RGB Format
   

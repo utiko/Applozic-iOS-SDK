@@ -36,5 +36,6 @@
 
 @property (strong, nonatomic) NSString *string;
 
+@property (nonatomic, retain) UIImageView *partBubble;
 
 @end

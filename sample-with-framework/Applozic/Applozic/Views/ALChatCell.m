@@ -55,7 +55,9 @@
         
         [self.contentView addSubview:self.mBubleImageView];
         
-
+        self.partBubble=[[UIImageView alloc] init];
+        [self.contentView addSubview:self.partBubble];
+        self.partBubble.contentMode = UIViewContentModeScaleToFill;
 
         self.mMessageLabel =[[ALUITextView alloc] init];
         self.mMessageLabel.delegate = self.mMessageLabel;
@@ -157,10 +159,14 @@
 //        
 //        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, imgVwWidth , imgVwHeight);
         
-        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, theTextSize.width + 14 , theTextSize.height + 10);
+        self.partBubble.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x, 0, 18, 18);
         
-        self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 7 , 5, theTextSize.width, theTextSize.height);
+        self.partBubble.image = [UIImage imageNamed:@"receive_Part.png"];
         
+        self.mBubleImageView.frame = CGRectMake(self.partBubble.frame.origin.x + self.partBubble.frame.size.width, 0, theTextSize.width + 18 , theTextSize.height + 20);
+        
+        self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 10 , 10, theTextSize.width, theTextSize.height);
+        self.mMessageLabel.textColor = [UIColor grayColor];
         
 //        self.mDateLabel.frame = CGRectMake(self.mMessageLabel.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mMessageLabel.frame.size.height + 3, theDateSize.width , 21);
         
@@ -208,7 +214,8 @@
             self.mMessageLabel.backgroundColor = [UIColor whiteColor];
         }
         self.mUserProfileImageView.alpha=0;
-        self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 45, 45);
+//        self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 45, 45);
+         self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 0, 45);
         
 //        int imgVwWidth = theTextSize.width>150?theTextSize.width+14:150;
 //        
@@ -216,10 +223,19 @@
         
  //       self.mBubleImageView.frame = CGRectMake(viewSize.width - imgVwWidth -10 , 0 ,imgVwWidth  ,imgVwHeight);
         
-         self.mBubleImageView.frame = CGRectMake(viewSize.width - theTextSize.width-24 , 0 ,theTextSize.width+14  ,theTextSize.height+10);
-
         
-        self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x+8, 5, theTextSize.width, theTextSize.height);
+        
+        self.partBubble.image = [UIImage imageNamed:@"sentPart.png"];
+        
+        self.mBubleImageView.frame = CGRectMake((viewSize.width - theTextSize.width - 24) - 22 , 0 ,theTextSize.width + 18  ,theTextSize.height + 20);
+        
+        self.partBubble.frame=CGRectMake(viewSize.width-28, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 18, 18, 18);
+        
+        self.mMessageLabel.backgroundColor = [UIColor clearColor];
+        self.mMessageLabel.textColor = [UIColor whiteColor];
+        self.mBubleImageView.backgroundColor = [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1];
+        
+        self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 10, 10, theTextSize.width, theTextSize.height);
         
 //        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 8, self.mMessageLabel.frame.origin.y + self.mMessageLabel.frame.size.height +3 , theDateSize.width, 21);
         

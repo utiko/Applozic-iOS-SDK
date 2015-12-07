@@ -55,7 +55,9 @@ UIViewController * modalCon;
         
         [self.contentView addSubview:mBubleImageView];
         
-        
+        self.partImageBubble = [[UIImageView alloc] init];
+        [self.contentView addSubview:self.partImageBubble];
+        self.partImageBubble.contentMode = UIViewContentModeScaleToFill;
         
         mImageView = [[UIImageView alloc] init];
         
@@ -175,8 +177,14 @@ UIViewController * modalCon;
         
         self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
         
+        self.partImageBubble.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x, 0, 18, 18);
         
-        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width - 120, viewSize.width - 120);
+        self.partImageBubble.image = [UIImage imageNamed:@"receive_Part.png"];
+        
+//        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width - 120, viewSize.width - 120);
+        
+        self.mBubleImageView.frame = CGRectMake(self.partImageBubble.frame.origin.x + self.partImageBubble.frame.size.width , 0, viewSize.width - 120, viewSize.width - 120);
+    
         
 //        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 15 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40 );
         
@@ -265,10 +273,15 @@ UIViewController * modalCon;
             self.mBubleImageView.backgroundColor = [UIColor whiteColor];
         }
         
-        self.mUserProfileImageView.frame = CGRectMake(viewSize.width - 50, 5, 45, 45);
+        self.mUserProfileImageView.frame = CGRectMake(viewSize.width - 50, 5, 0, 45);
         
-        self.mBubleImageView.frame = CGRectMake(viewSize.width - self.mUserProfileImageView.frame.origin.x + 60 , 0, viewSize.width - 120, viewSize.width - 120);
+        self.partImageBubble.image = [UIImage imageNamed:@"sentPart.png"];
         
+        self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60) - 18, 0, viewSize.width - 120, viewSize.width - 120);
+        
+        self.mBubleImageView.backgroundColor = [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1];
+        
+        self.partImageBubble.frame = CGRectMake(viewSize.width - 28, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 18, 18, 18);
         self.mUserProfileImageView.alpha=0;
         
 //        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y+15 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40);
