@@ -28,7 +28,7 @@
 
 @property (nonatomic, retain) UIImageView *mMessageStatusImageView;
 
--(void)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize;
+-(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize;
 
 @property (nonatomic, assign) id<ALChatCellDelegate> delegate;
 
