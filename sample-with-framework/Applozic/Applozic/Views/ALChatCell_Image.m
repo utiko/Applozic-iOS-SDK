@@ -136,7 +136,7 @@ UIViewController * modalCon;
         imageWithText.dataDetectorTypes = UIDataDetectorTypeAll;
         
         
-        [self.contentView addSubview:imageWithText];
+     //   [self.contentView addSubview:imageWithText];
         
     }
     
