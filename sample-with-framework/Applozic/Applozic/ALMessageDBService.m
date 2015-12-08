@@ -386,6 +386,8 @@
     theMessageEntity.filePath = theMessage.imageFilePath;
     theMessageEntity.inProgress = [ NSNumber numberWithBool:theMessage.inProgress];
     theMessageEntity.isUploadFailed=[ NSNumber numberWithBool:theMessage.isUploadFailed];
+    theMessageEntity.contentType = theMessage.contentType;
+    
     if(theMessage.fileMeta != nil) {
         DB_FileMetaInfo *  fileInfo =  [self createFileMetaInfoEntityForDBInsertionWithMessage:theMessage.fileMeta];
         theMessageEntity.fileMetaInfo = fileInfo;
@@ -441,6 +443,7 @@
     theMessage.delivered = theEntity.delivered.boolValue;
     theMessage.sentToServer = theEntity.sentToServer.boolValue;
     theMessage.isUploadFailed = theEntity.isUploadFailed.boolValue;
+    theMessage.contentType = theEntity.contentType;
     
     // file meta info
     

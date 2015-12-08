@@ -31,5 +31,6 @@
 @dynamic delivered;
 @dynamic sentToServer;
 @dynamic fileMetaInfo;
+@dynamic contentType;
 
 @end

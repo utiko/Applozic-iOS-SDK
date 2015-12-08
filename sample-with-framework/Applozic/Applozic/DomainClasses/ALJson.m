@@ -118,4 +118,14 @@
     return NO;
 }
 
+-(short)getShortFromJsonValue:(id) jsonValue
+{
+
+    if(jsonValue != [NSNull null] && jsonValue != nil)
+    {
+        return [jsonValue shortValue];
+    }
+    return 0;
+}
+
 @end

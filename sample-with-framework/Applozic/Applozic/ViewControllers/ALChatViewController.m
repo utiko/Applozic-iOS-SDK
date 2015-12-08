@@ -410,7 +410,8 @@ ALMessageDBService  * dbService;
     theMessage.key = [[NSUUID UUID] UUIDString];
     theMessage.delivered=NO;
     theMessage.fileMetaKey = nil;//4
-
+    theMessage.contentType = 0; //TO-DO chnge after...
+    
     return theMessage;
 }
 

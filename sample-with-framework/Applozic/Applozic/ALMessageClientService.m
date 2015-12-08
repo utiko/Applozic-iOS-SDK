@@ -71,6 +71,7 @@
     theMessage.key = @"welcome-message-temp-key-string";
     theMessage.delivered=NO;
     theMessage.fileMetaKey = @"";//4
+    theMessage.contentType = 0;
     
     [messageDBService createMessageEntityForDBInsertionWithMessage:theMessage];
     [theDBHandler.managedObjectContext save:nil];

@@ -168,6 +168,17 @@
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 10 , 10, theTextSize.width, theTextSize.height);
         self.mMessageLabel.textColor = [UIColor grayColor];
         
+       // if([alMessage.message rangeOfString:@"<html>"].location != NSNotFound && [alMessage.message rangeOfString:@"</html>"].location != NSNotFound)
+        if(alMessage.contentType == 3)
+        {
+
+            NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[alMessage.message dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+            
+            self.mMessageLabel.attributedText = attributedString;
+        }
+        else{
+         self.mMessageLabel.text = alMessage.message;
+        }
 //        self.mDateLabel.frame = CGRectMake(self.mMessageLabel.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mMessageLabel.frame.size.height + 3, theDateSize.width , 21);
         
         self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mBubleImageView.frame.size.height - 5, theDateSize.width + 20 , 21);
@@ -223,7 +234,7 @@
         
  //       self.mBubleImageView.frame = CGRectMake(viewSize.width - imgVwWidth -10 , 0 ,imgVwWidth  ,imgVwHeight);
         
-        
+         self.mMessageLabel.text = alMessage.message;
         
         self.partBubble.image = [UIImage imageNamed:@"sentPart.png"];
         
@@ -269,7 +280,7 @@
         }
     }
     
-    self.mMessageLabel.text = alMessage.message;
+   
     if(![self.status isEqualToString:@""]){
         self.mDateLabel.text = [self.status stringByAppendingString:theDate];
     }

@@ -93,6 +93,11 @@
     
     //develired
     self.delivered = [self getBoolFromJsonValue:messageJson[@"delivered"]];
+    
+    //contentType
+    
+    self.contentType = [self getShortFromJsonValue:messageJson[@"contentType"]];
+    
     // file meta info
     
      NSDictionary * fileMetaDict = messageJson[@"fileMeta"];

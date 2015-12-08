@@ -65,6 +65,7 @@
 
 @property(nonatomic,retain)NSString * applicationId;
 
+@property(nonatomic) short contentType;
 
 -(NSString *)getCreatedAtTime:(BOOL)today;
 
