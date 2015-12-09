@@ -79,6 +79,8 @@
         [ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.lastSyncTime];
         [self connect];
         
+        ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
+        [ almessageDBService fetchAndRefreshFromServer];
         completion(response,nil);
     }];
     

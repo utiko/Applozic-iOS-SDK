@@ -356,7 +356,11 @@
         theMessage.createdAtTime = [NSString stringWithFormat:@"%@",theMessageEntity.createdAt];
         [messagesArray addObject:theMessage];
     }
-
+    if(!self.delegate ){
+        NSLog(@"delegate is not set.");
+        return;
+    }
+    
     if ([self.delegate respondsToSelector:@selector(getMessagesArray:)]) {
         [self.delegate getMessagesArray:messagesArray];
     }
