@@ -233,7 +233,8 @@ ALMQTTConversationService *alMqttConversationService;
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                     color,NSForegroundColorAttributeName,nil];
     self.navigationController.navigationBar.titleTextAttributes = textAttributes;
-    self.navigationItem.title = @"Conversation";
+//    self.navigationItem.title = @"Conversation";
+    self.navigationItem.title = [ALApplozicSettings getTitleForConversationScreen];
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1){
         self.navColor = [self.navigationController.navigationBar tintColor];

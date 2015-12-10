@@ -141,6 +141,7 @@
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     [ALApplozicSettings setUserProfileHidden:YES];
     [ALApplozicSettings hideRefreshButton:NO];
+    [ALApplozicSettings setTitleForConversationScreen:@"Conversation"];
     // Custom Color RGB Format
   
     // [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:0.447f green:0.737f blue:0.831f alpha:1]];

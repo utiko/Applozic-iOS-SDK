@@ -14,6 +14,17 @@
 
 @implementation ALApplozicSettings
 
++(void)setTitleForConversationScreen:(NSString *)titleText
+{
+    [[NSUserDefaults standardUserDefaults] setValue:titleText forKey:CONVERSATION_TITLE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getTitleForConversationScreen
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:CONVERSATION_TITLE];
+}
+
 +(void)setUserProfileHidden: (BOOL)flag
 {
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:USER_PROFILE_PROPERTY];
