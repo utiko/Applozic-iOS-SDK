@@ -19,6 +19,7 @@
     self.userKey = [registrationResponse valueForKey:@"userKey"];
     self.contactNumber = [registrationResponse valueForKey:@"contactNumber"];
     self.lastSyncTime = [registrationResponse valueForKey:@"lastSyncTime"];
+    self.currentTimeStamp = [registrationResponse valueForKey:@"currentTimeStamp"];
     return self;
 }
 @end

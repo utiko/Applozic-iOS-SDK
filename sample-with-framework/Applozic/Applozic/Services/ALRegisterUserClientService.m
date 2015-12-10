@@ -76,7 +76,10 @@
         [ALUserDefaultsHandler setEmailId:user.emailId];
         [ALUserDefaultsHandler setDeviceKeyString:response.deviceKey];
         [ALUserDefaultsHandler setUserKeyString:response.userKey];
-        [ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.lastSyncTime];
+        //[ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.lastSyncTime];
+        
+        [ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.currentTimeStamp];
+
         [self connect];
         
         ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];

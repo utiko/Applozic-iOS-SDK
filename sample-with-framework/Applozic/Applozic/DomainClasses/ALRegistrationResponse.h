@@ -16,6 +16,5 @@
 @property NSString *userKey;
 @property NSString *contactNumber;
 @property NSString *lastSyncTime;
-
-
+@property NSString *currentTimeStamp;
 @end
