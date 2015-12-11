@@ -300,7 +300,7 @@
             NSLog(@"%@",error);
             return ;
         }
-        [self addMessageList:messageArray];
+        //[self addMessageList:messageArray];
         [self fetchConversationsGroupByContactId];
     }];
 
@@ -350,8 +350,8 @@
         [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
         [theRequest setFetchLimit:1];
 
-        NSArray * theArray =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
-        DB_Message * theMessageEntity = theArray.firstObject;
+        NSArray * theArray1 =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
+        DB_Message * theMessageEntity = theArray1.firstObject;
         ALMessage * theMessage = [self createMessageEntity:theMessageEntity];
         theMessage.createdAtTime = [NSString stringWithFormat:@"%@",theMessageEntity.createdAt];
         [messagesArray addObject:theMessage];

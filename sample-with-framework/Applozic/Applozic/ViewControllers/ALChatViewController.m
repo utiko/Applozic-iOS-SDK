@@ -39,6 +39,7 @@
 #import "ALMQTTService.h"
 #import "ALMQTTConversationService.h"
 
+
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate>
 
 @property (nonatomic, assign) NSInteger startIndex;
@@ -67,6 +68,7 @@
 
 -(void)serverCallForLastSeen;
 
+
 @end
 
 @implementation ALChatViewController{
@@ -90,6 +92,7 @@ ALMessageDBService  * dbService;
     [self loadChatView];
     
     self.mqttObject = [[ALMQTTConversationService alloc] init];
+    
 }
 
 -(void)processMarkRead{

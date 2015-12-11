@@ -13,10 +13,13 @@
 		29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DEA3141BEDEC1F004B8085 /* ALUserService.m */; };
 		6D15F2461BEB6AE00069BE1A /* ALAttachmentController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D15F2441BEB6AE00069BE1A /* ALAttachmentController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D15F2471BEB6AE00069BE1A /* ALAttachmentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D15F2451BEB6AE00069BE1A /* ALAttachmentController.m */; };
+		6D28D3C31C1AA9AA003817C3 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D28D3C11C1AA9AA003817C3 /* Reachability.h */; };
+		6D28D3C41C1AA9AA003817C3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D28D3C21C1AA9AA003817C3 /* Reachability.m */; };
 		6D36F2081BFF3EE3003D46D3 /* ALApplozicSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D36F2061BFF3EE3003D46D3 /* ALApplozicSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D36F2091BFF3EE3003D46D3 /* ALApplozicSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D36F2071BFF3EE3003D46D3 /* ALApplozicSettings.m */; };
 		6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D46B6C31BD025060014A5D3 /* ALMapViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D46B6C61BD025060014A5D3 /* ALMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D46B6C41BD025060014A5D3 /* ALMapViewController.m */; };
+		6D5439DC1C19B8D600C686BC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D5439DB1C19B8D600C686BC /* SystemConfiguration.framework */; };
 		6D6DF0811BC535C800EBA00F /* Applozic.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF0801BC535C800EBA00F /* Applozic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6DF13B1BC5364C00EBA00F /* ALMessageDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF0891BC5364C00EBA00F /* ALMessageDBService.m */; };
 		6D6DF13C1BC5364C00EBA00F /* ALPushNotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF08A1BC5364C00EBA00F /* ALPushNotificationService.m */; };
@@ -215,10 +218,13 @@
 		29DEA3141BEDEC1F004B8085 /* ALUserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserService.m; sourceTree = "<group>"; };
 		6D15F2441BEB6AE00069BE1A /* ALAttachmentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAttachmentController.h; sourceTree = "<group>"; };
 		6D15F2451BEB6AE00069BE1A /* ALAttachmentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALAttachmentController.m; sourceTree = "<group>"; };
+		6D28D3C11C1AA9AA003817C3 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		6D28D3C21C1AA9AA003817C3 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		6D36F2061BFF3EE3003D46D3 /* ALApplozicSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALApplozicSettings.h; path = Applozic/Handlers/ALApplozicSettings.h; sourceTree = "<group>"; };
 		6D36F2071BFF3EE3003D46D3 /* ALApplozicSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALApplozicSettings.m; path = Applozic/Handlers/ALApplozicSettings.m; sourceTree = "<group>"; };
 		6D46B6C31BD025060014A5D3 /* ALMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMapViewController.h; sourceTree = "<group>"; };
 		6D46B6C41BD025060014A5D3 /* ALMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMapViewController.m; sourceTree = "<group>"; };
+		6D5439DB1C19B8D600C686BC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6D6DF07D1BC535C800EBA00F /* Applozic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Applozic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D6DF0801BC535C800EBA00F /* Applozic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Applozic.h; sourceTree = "<group>"; };
 		6D6DF0891BC5364C00EBA00F /* ALMessageDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMessageDBService.m; path = Applozic/ALMessageDBService.m; sourceTree = "<group>"; };
@@ -416,6 +422,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D5439DC1C19B8D600C686BC /* SystemConfiguration.framework in Frameworks */,
 				6D88E1DA1BC8046500364C5B /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,6 +433,7 @@
 		6D6DF0731BC535C800EBA00F = {
 			isa = PBXGroup;
 			children = (
+				6D5439DB1C19B8D600C686BC /* SystemConfiguration.framework */,
 				982F12F31C05D5620024678E /* MQTT */,
 				6D88E1D91BC8046500364C5B /* CoreLocation.framework */,
 				6D6DF1DD1BC5376800EBA00F /* ApplozicLibrary */,
@@ -784,6 +792,8 @@
 		6D6DF1E71BC53C4200EBA00F /* networkcommunication */ = {
 			isa = PBXGroup;
 			children = (
+				6D28D3C11C1AA9AA003817C3 /* Reachability.h */,
+				6D28D3C21C1AA9AA003817C3 /* Reachability.m */,
 				6D6DF0901BC5364C00EBA00F /* ALConnectionQueueHandler.m */,
 				6D6DF08F1BC5364C00EBA00F /* ALConnectionQueueHandler.h */,
 				6D6DF0991BC5364C00EBA00F /* ALResponseHandler.h */,
@@ -908,6 +918,7 @@
 				98BD87491C07503E0019915D /* ALMQTTService.h in Headers */,
 				6D6DF1C51BC5364C00EBA00F /* UIButton+WebCache.h in Headers */,
 				6D6DF1C71BC5364C00EBA00F /* UIImage+GIF.h in Headers */,
+				6D28D3C31C1AA9AA003817C3 /* Reachability.h in Headers */,
 				6D6DF1B41BC5364C00EBA00F /* NSData+ImageContentType.h in Headers */,
 				6D6DF1CB1BC5364C00EBA00F /* UIImage+WebP.h in Headers */,
 				6D6DF1C31BC5364C00EBA00F /* SDWebImagePrefetcher.h in Headers */,
@@ -1061,6 +1072,7 @@
 				6D6DF1811BC5364C00EBA00F /* DB_CONTACT.m in Sources */,
 				6D6DF1BF1BC5364C00EBA00F /* SDWebImageDownloaderOperation.m in Sources */,
 				6D6DF1711BC5364C00EBA00F /* ALContact.m in Sources */,
+				6D28D3C41C1AA9AA003817C3 /* Reachability.m in Sources */,
 				6D6DF1631BC5364C00EBA00F /* ALContactCell.m in Sources */,
 				6D6DF15D1BC5364C00EBA00F /* ALNewContactsViewController.m in Sources */,
 				6D6DF1831BC5364C00EBA00F /* DB_FileMetaInfo.m in Sources */,
