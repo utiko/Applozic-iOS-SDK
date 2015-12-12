@@ -1098,10 +1098,10 @@ ALMessageDBService  * dbService;
                 
                 if([serverdate compare:todaydate] == NSOrderedSame)
                 {
-                    NSString *str = @"Last Seen Today ";
+                    NSString *str = @"Last seen today ";
                     if(difference <= 60)
                     {
-//                        [self.label setText:@"Last Seen Just Now"];
+//                        [self.label setText:@"Last seen Just Now"];
                         [self.label setText:@"Online"];
                     }
                     else{
@@ -1111,13 +1111,22 @@ ALMessageDBService  * dbService;
 
                         if(hours > 0){
                             theTime = [NSString stringWithFormat:@"%.2d:%.2d", hours, minutes];
+                            if([theTime hasPrefix:@"0"])
+                            {
+                                theTime = [theTime substringFromIndex:[@"0" length]];
+                            }
                             str = [str stringByAppendingString:theTime];
-                            str = [str stringByAppendingString:@" hr ago"];
+                            str = [str stringByAppendingString:@" hrs ago"];
                         }
                         else{
                             theTime = [NSString stringWithFormat:@"%.2d", minutes];
+                            if([theTime hasPrefix:@"0"])
+                            {
+                                theTime = [theTime substringFromIndex:[@"0" length]];
+                            }
                             str = [str stringByAppendingString:theTime];
-                            str = [str stringByAppendingString:@" min ago"];
+                            
+                            str = [str stringByAppendingString:@" mins ago"];
                         }
                      
 
@@ -1127,15 +1136,19 @@ ALMessageDBService  * dbService;
                 }
                 else if ([serverdate compare:yesterdaydate] == NSOrderedSame)
                 {
-                    NSString *str = @"Last Seen Yesterday ";
+                    NSString *str = @"Last seen yesterday ";
                     [format setDateFormat:@"hh:mm a"];
                     str = [str stringByAppendingString:[format stringFromDate:date]];
+                    if([str hasPrefix:@"0"])
+                    {
+                        str = [str substringFromIndex:[@"0" length]];
+                    }
                     [self.label setText:str];
                 }
                 else
                 {
                     [format setDateFormat:@"EE,MMM dd,YYYY"];
-                    NSString *str = @"Last Seen ";
+                    NSString *str = @"Last seen ";
                     str = [str stringByAppendingString:[format stringFromDate:date]];
                     [self.label setText:str];
                 }
