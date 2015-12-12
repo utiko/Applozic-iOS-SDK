@@ -265,18 +265,18 @@
         
     }
     
+    self.status = @"";
+
     if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]/*[alMessage.type isEqualToString:@"5"]*/) {
         self.mMessageStatusImageView.alpha =1;
-        if(alMessage.delivered == YES){
+        if(alMessage.delivered == YES) {
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
             self.status = @"Delivered ";
         }
         else if(alMessage.sent == YES){
-             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_sent.png"];
-            self.status = @"";
+            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_sent.png"];
         }else{
             self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_about.png"];
-            self.status = @"";
         }
     }
     
