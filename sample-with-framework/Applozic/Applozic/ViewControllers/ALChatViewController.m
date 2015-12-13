@@ -1200,13 +1200,8 @@ ALMessageDBService  * dbService;
     if(self.alContact.applicationId == NULL)
     {
         self.alContact.applicationId = [ALUserDefaultsHandler getApplicationKey];
-        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:[ALUserDefaultsHandler getUserId]typing:NO];
     }
-    else
-    {
-        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:[ALUserDefaultsHandler getUserId] typing:NO];
-    }
-
+    [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:NO];
 }
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
