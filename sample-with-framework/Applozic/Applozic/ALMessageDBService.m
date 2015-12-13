@@ -217,21 +217,16 @@
 {
     NSArray *messages  = [self getUnreadMessages:contactId];
     
-    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
-    
-    
-    for (NSString *msg in messages) {
-        
-        NSLog(@"MSG : %@", msg);
-        
-        [msg setValue:[NSNumber numberWithBool:YES] forKey:@"isRead"];
-        
-        NSError *error = nil;
-        
-        if ( [dbHandler.managedObjectContext save:&error])
-        {
-            NSLog(@"message found and marked as read.");
-        }
+    if(messages.count >0 ){
+        NSBatchUpdateRequest *req = [[NSBatchUpdateRequest alloc] initWithEntityName:@"DB_Message"];
+        req.predicate = [NSPredicate predicateWithFormat:@"contactId==%@",contactId];
+        req.propertiesToUpdate = @{
+                                   @"isRead" : @(YES)
+                                   };
+        req.resultType = NSUpdatedObjectsCountResultType;
+        ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+        NSBatchUpdateResult *res = (NSBatchUpdateResult *)[dbHandler.managedObjectContext executeRequest:req error:nil];
+        NSLog(@"%@ objects updated", res.result);
     }
     return messages.count;
 }
@@ -244,7 +239,7 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
     NSPredicate *predicate;
 
-    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"%K=0",@"isRead"];
+    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"isRead==%@ AND type==%@",@"0",@"4"];
     if (contactId) {
         NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"%K=%@",@"contactId",contactId];
         predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
@@ -352,8 +347,8 @@
 
         NSArray * theArray1 =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
         DB_Message * theMessageEntity = theArray1.firstObject;
+
         ALMessage * theMessage = [self createMessageEntity:theMessageEntity];
-        theMessage.createdAtTime = [NSString stringWithFormat:@"%@",theMessageEntity.createdAt];
         [messagesArray addObject:theMessage];
     }
     if(!self.delegate ){
@@ -361,8 +356,14 @@
         return;
     }
     
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime"
+                                                 ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSMutableArray *sortedArray = [[messagesArray sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
+    
     if ([self.delegate respondsToSelector:@selector(getMessagesArray:)]) {
-        [self.delegate getMessagesArray:messagesArray];
+        [self.delegate getMessagesArray:sortedArray];
     }
 }
 
@@ -373,7 +374,7 @@
     DB_Message * theMessageEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
     
     theMessageEntity.contactId = theMessage.contactIds;
-    theMessageEntity.createdAt = [NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
+    theMessageEntity.createdAt =  theMessage.createdAtTime;//[NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
     theMessageEntity.deviceKey = theMessage.deviceKey;
     theMessageEntity.isRead = [NSNumber numberWithBool:([theMessageEntity.type isEqualToString:@"5"] ? TRUE : theMessage.read)];
     theMessageEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
@@ -437,12 +438,12 @@
     theMessage.sent = theEntity.isSent.boolValue;
     theMessage.sendToDevice = theEntity.isSentToDevice.boolValue;
     theMessage.shared = theEntity.isShared.boolValue;
-    theMessage.createdAtTime = [NSString stringWithFormat:@"%@",theEntity.createdAt];
+    theMessage.createdAtTime = theEntity.createdAt;
     theMessage.type = theEntity.type;
     theMessage.contactIds = theEntity.contactId;
     theMessage.storeOnDevice = theEntity.isStoredOnDevice.boolValue;
     theMessage.inProgress =theEntity.inProgress.boolValue;
-    theMessage.read = theEntity.isRead.boolValue;   //NSLog(@"the Read Value of %@ is %hhd",theMessage.contactIds,theMessage.read);
+    theMessage.read = theEntity.isRead.boolValue;
     theMessage.imageFilePath = theEntity.filePath;
     theMessage.delivered = theEntity.delivered.boolValue;
     theMessage.sentToServer = theEntity.sentToServer.boolValue;

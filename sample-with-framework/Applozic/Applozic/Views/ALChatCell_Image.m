@@ -295,15 +295,14 @@ UIViewController * modalCon;
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         
-        
-        if(alMessage.delivered == YES){
+        self.status = @"";
+        if([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT] && alMessage.delivered == YES){
             self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - (self.string.length + theDateSize.width + 35) , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, self.string.length + theDateSize.width + 50, 21);
+            self.status = self.string;
         }
-        else{
+        else {
             self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) -theDateSize.width  , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width + 20, 21);
         }
-        
-        
         
         if(alMessage.message.length > 0)
         {

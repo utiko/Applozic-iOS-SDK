@@ -128,4 +128,14 @@
     return 0;
 }
 
+-(NSNumber *)getNSNumberFromJsonValue:(id) jsonValue
+{
+    
+    if(jsonValue != [NSNull null] && jsonValue != nil)
+    {
+        return [NSNumber numberWithDouble:[jsonValue doubleValue]];
+    }
+    return 0;
+}
+
 @end

@@ -88,7 +88,6 @@ ALMessageDBService  * dbService;
     [super viewDidLoad];
     [self initialSetUp];
     [self fetchMessageFromDB];
-    [self processMarkRead];
     [self loadChatView];
     
     self.mqttObject = [[ALMQTTConversationService alloc] init];
@@ -113,6 +112,8 @@ ALMessageDBService  * dbService;
     [self.view endEditing:YES];
     [self.loadEarlierAction setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
+    [self processMarkRead];
+
     //[self.label setTextColor:[UIColor whiteColor]];
 }
 
@@ -409,8 +410,7 @@ ALMessageDBService  * dbService;
     theMessage.type = @"5";
     theMessage.contactIds = self.contactIds;//1
     theMessage.to = self.contactIds;//2
-    theMessage.createdAtTime = @((long long)([[NSDate date] timeIntervalSince1970] * 1000.0)).stringValue;
-    NSLog(@" Date TIme stamp::: %@",     theMessage.createdAtTime );
+    theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceReferenceDate]];
     theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString ];
     theMessage.message = self.sendMessageTextView.text;//3
     theMessage.sendToDevice = NO;
@@ -433,7 +433,7 @@ ALMessageDBService  * dbService;
 
     info.blobKey = nil;
     info.contentType = @"";
-    info.createdAtTime = @"";
+    info.createdAtTime = nil;
     info.key =nil;
     info.name =[ [ALUtilityClass getFileNameWithCurrentTimeStamp] stringByAppendingString:@".jpeg"];
     info.size = @"";
@@ -1041,7 +1041,7 @@ ALMessageDBService  * dbService;
 
 -(void)processLoadEarlierMessages{
     
-    NSString *time;
+    NSNumber *time;
     if(self.mMessageListArray.count > 0 && self.mMessageListArray != NULL) {
         ALMessage * theMessage = self.mMessageListArray[0];
         time = theMessage.createdAtTime;
@@ -1049,7 +1049,7 @@ ALMessageDBService  * dbService;
     else {
         time = NULL;
     }
-    [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time withCompletion:^(NSMutableArray *messages, NSError *error){
+    [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time.stringValue withCompletion:^(NSMutableArray *messages, NSError *error){
         if(!error )
         {
             NSLog(@"No Error");
@@ -1107,10 +1107,10 @@ ALMessageDBService  * dbService;
                 
                 if([serverdate compare:todaydate] == NSOrderedSame)
                 {
-                    NSString *str = @"Last Seen Today ";
+                    NSString *str = @"Last seen today ";
                     if(difference <= 60)
                     {
-//                        [self.label setText:@"Last Seen Just Now"];
+//                        [self.label setText:@"Last seen Just Now"];
                         [self.label setText:@"Online"];
                     }
                     else{
@@ -1120,13 +1120,22 @@ ALMessageDBService  * dbService;
 
                         if(hours > 0){
                             theTime = [NSString stringWithFormat:@"%.2d:%.2d", hours, minutes];
+                            if([theTime hasPrefix:@"0"])
+                            {
+                                theTime = [theTime substringFromIndex:[@"0" length]];
+                            }
                             str = [str stringByAppendingString:theTime];
-                            str = [str stringByAppendingString:@" hr ago"];
+                            str = [str stringByAppendingString:@" hrs ago"];
                         }
                         else{
                             theTime = [NSString stringWithFormat:@"%.2d", minutes];
+                            if([theTime hasPrefix:@"0"])
+                            {
+                                theTime = [theTime substringFromIndex:[@"0" length]];
+                            }
                             str = [str stringByAppendingString:theTime];
-                            str = [str stringByAppendingString:@" min ago"];
+                            
+                            str = [str stringByAppendingString:@" mins ago"];
                         }
                      
 
@@ -1136,15 +1145,19 @@ ALMessageDBService  * dbService;
                 }
                 else if ([serverdate compare:yesterdaydate] == NSOrderedSame)
                 {
-                    NSString *str = @"Last Seen Yesterday ";
+                    NSString *str = @"Last seen yesterday ";
                     [format setDateFormat:@"hh:mm a"];
                     str = [str stringByAppendingString:[format stringFromDate:date]];
+                    if([str hasPrefix:@"0"])
+                    {
+                        str = [str substringFromIndex:[@"0" length]];
+                    }
                     [self.label setText:str];
                 }
                 else
                 {
                     [format setDateFormat:@"EE,MMM dd,YYYY"];
-                    NSString *str = @"Last Seen ";
+                    NSString *str = @"Last seen ";
                     str = [str stringByAppendingString:[format stringFromDate:date]];
                     [self.label setText:str];
                 }

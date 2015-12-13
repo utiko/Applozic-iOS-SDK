@@ -14,7 +14,7 @@
 
 @property (nonatomic, retain) NSString * blobKeyString;
 @property (nonatomic, retain) NSString * contentType;
-@property (nonatomic, retain) NSString * createdAtTime;
+@property (nonatomic, retain) NSNumber * createdAtTime;
 @property (nonatomic, retain) NSString * key;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * size;

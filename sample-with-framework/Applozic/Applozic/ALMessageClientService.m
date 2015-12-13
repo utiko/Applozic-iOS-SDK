@@ -60,8 +60,8 @@
     theMessage.type = @"4";
     theMessage.contactIds = @"applozic";//1
     theMessage.to = @"applozic";//2
-    theMessage.createdAtTime = [NSString stringWithFormat:@"%ld",(long)[[NSDate date] timeIntervalSince1970]*1000];
-    theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString ];
+    theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+    theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
     theMessage.message = @"Welcome to Applozic! Drop a message here or contact us at devashish@applozic.com for any queries. Thanks";//3
     theMessage.sendToDevice = NO;
     theMessage.sent = NO;

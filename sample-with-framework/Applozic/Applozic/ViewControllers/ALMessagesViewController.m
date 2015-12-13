@@ -261,8 +261,6 @@ ALMQTTConversationService *alMqttConversationService;
         dispatch_async(dispatch_get_main_queue(), ^{
             [alMqttConversationService subscribeToConversation];
         });
-    
-   
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -461,6 +459,8 @@ ALMQTTConversationService *alMqttConversationService;
    // NSLog(@"self.unreadCount Array of ||%@|| withCount ||%lu|| is %@",[alContact userId],(unsigned long)self.unreadCount.count,self.unreadCount);
     
     if(self.unreadCount.count!=0){
+        unread.hidden=FALSE;
+        contactCell.mCountImageView.hidden=FALSE;
         unread.text=[NSString stringWithFormat:@"%lu",(unsigned long)self.unreadCount.count];
     }
     else{
@@ -610,7 +610,7 @@ ALMQTTConversationService *alMqttConversationService;
     NSArray * theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",theMessage.contactIds]];
     
     ALMessage * theLatestMessage = theFilteredArray.firstObject;
-    if ([theMessage.createdAtTime isEqualToString:theLatestMessage.createdAtTime] == NO) {
+    if (![theMessage.createdAtTime isEqualToNumber: theLatestMessage.createdAtTime]) {
         [self.mContactsMessageListArray removeObject:theLatestMessage];
         [self.mContactsMessageListArray insertObject:theMessage atIndex:0];
         [self.mTableView reloadData];
