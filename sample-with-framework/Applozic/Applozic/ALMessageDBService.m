@@ -64,6 +64,12 @@
    NSManagedObject *obj =  [theDBHandler.managedObjectContext existingObjectWithID:objectID error:error];
    return obj;
 }
+
+-(void) updateDeliveryReportForContact: (NSString *) contactId {
+    //Todo: update delivery report for all messages of contactId
+}
+
+
 //update Message APIS
 -(void)updateMessageDeliveryReport:(NSString*)keyString{
     

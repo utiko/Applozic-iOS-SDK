@@ -951,9 +951,12 @@ ALMessageDBService  * dbService;
             NSLog(@"FETCH AND REFRESH METHOD");
         }
     }];
-    
-
 }
+
+-(void) updateDeliveryReportForConversation {
+    //Todo: update all delivery report in all messages
+}
+
 -(void)updateDeliveryReport:(NSString*)key{
     
     ALMessage * alMessage =  [self getMessageFromViewList:@"key" withValue:key ];

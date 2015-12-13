@@ -13,6 +13,7 @@
 @protocol ALMQTTConversationDelegate <NSObject>
 -(void) syncCall:(ALMessage *) alMessage;
 -(void) delivered:(NSString *) messageKey contactId: (NSString *) contactId;
+-(void) updateDeliveryStatusForContact: (NSString *) contactId;
 -(void) updateTypingStatus: (NSString *) applicationKey userId: (NSString *) userId status: (BOOL) status;
 -(void) mqttConnectionClosed;
 @end
@@ -26,5 +27,6 @@
 -(void) sendTypingStatus:(NSString *) applicationKey userID:(NSString *) userId typing: (BOOL) typing;
 
 @property(nonatomic, weak) id<ALMQTTConversationDelegate>mqttConversationDelegate;
+
 
 @end
