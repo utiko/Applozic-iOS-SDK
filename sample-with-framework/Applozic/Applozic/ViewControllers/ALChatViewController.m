@@ -160,7 +160,7 @@ ALMessageDBService  * dbService;
 //------------------------------------------------------------------------------------------------------------------
 
 -(void)initialSetUp {
-    self.rp = 20;
+    self.rp = 200;
     self.startIndex = 0;
     self.mMessageListArray = [NSMutableArray new];
     self.mImagePicker = [[UIImagePickerController alloc] init];
@@ -236,47 +236,49 @@ ALMessageDBService  * dbService;
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - UIMenuController Actions
 //------------------------------------------------------------------------------------------------------------------
-
+//-(BOOL) canPerformAction:(SEL)action withSender:(id)sender {
+//    return (action == @selector(copy:) || action == @selector(deleteAction:));
+//}
 
 // Default copy method
-- (void)copy:(id)sender {
-    
-    NSLog(@"Copy in ALChatViewController, messageId: %@", messageId);
-    ALMessage * alMessage =  [self getMessageFromViewList:@"key" withValue:messageId ];
-
-    UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
-    /*UITableViewCell *cell = [self.mTableView cellForRowAtIndexPath:self.indexPathofSelection];*/
-    if(alMessage.message!=NULL){
-    
-    //[pasteBoard setString:cell.textLabel.text];
-    [pasteBoard setString:alMessage.message];
-    }
-    else{
-    [pasteBoard setString:@""];
-    }
-}
-
-
--(void)deleteAction:(id)sender{
-    NSLog(@"Delete Menu item Pressed");
-    [ALMessageService deleteMessage:messageId andContactId:self.contactIds withCompletion:^(NSString* string,NSError* error){
-        if(!error ){
-            NSLog(@"No Error");
-        }
-        else{
-            NSLog(@"some error");
-        }
-    }];
-    
-    [self.mMessageListArray removeObjectAtIndex:self.indexPathofSelection.row];
-    [UIView animateWithDuration:1.5 animations:^{
-        //      [self loadChatView];
-        [self.mTableView reloadData];
-    }];
-    
-    
-    
-}
+//- (void)copy:(id)sender {
+//    
+//    NSLog(@"Copy in ALChatViewController, messageId: %@", messageId);
+//    ALMessage * alMessage =  [self getMessageFromViewList:@"key" withValue:messageId ];
+//
+//    UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+//    /*UITableViewCell *cell = [self.mTableView cellForRowAtIndexPath:self.indexPathofSelection];*/
+//    if(alMessage.message!=NULL){
+//    
+//    //[pasteBoard setString:cell.textLabel.text];
+//    [pasteBoard setString:alMessage.message];
+//    }
+//    else{
+//    [pasteBoard setString:@""];
+//    }
+//}
+//
+//
+//-(void)deleteAction:(id)sender{
+//    NSLog(@"Delete Menu item Pressed in AlChatViewController");
+//    [ALMessageService deleteMessage:messageId andContactId:self.contactIds withCompletion:^(NSString* string,NSError* error){
+//        if(!error ){
+//            NSLog(@"No Error");
+//        }
+//        else{
+//            NSLog(@"some error");
+//        }
+//    }];
+//    
+//    [self.mMessageListArray removeObjectAtIndex:self.indexPathofSelection.row];
+//    [UIView animateWithDuration:1.5 animations:^{
+//        //      [self loadChatView];
+//        [self.mTableView reloadData];
+//    }];
+//    
+//    
+//    
+//}
 
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark - IBActions
@@ -388,6 +390,13 @@ ALMessageDBService  * dbService;
 
 - (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
     // required
+    if (action == @selector(copy:)) {
+        NSLog(@"COPY");
+        [self copy:NULL];
+    }
+    if (action == @selector(deleteAction:)) {
+        NSLog(@"DELETE ACTION");
+    }
 }
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark - Helper Method
@@ -515,7 +524,7 @@ ALMessageDBService  * dbService;
     
     [ALMessageService deleteMessage:message.key andContactId:self.contactIds withCompletion:^(NSString* string,NSError* error){
         if(!error ){
-            NSLog(@"No Error");
+            NSLog(@"No Error: deleteMessageFromView");
         }
     }];
     

@@ -107,7 +107,7 @@
     
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     
-    NSManagedObject* message = [self getMessageByKey:@"keyString" value:keyString];
+    NSManagedObject* message = [self getMessageByKey:@"key" value:keyString];
     if(message){
         [dbHandler.managedObjectContext deleteObject:message];
         NSError *error = nil;
@@ -199,7 +199,7 @@
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K=%@",key,value];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %@",key,value];
     [fetchRequest setEntity:entity];
     [fetchRequest setPredicate:predicate];
     NSError *fetchError = nil;
