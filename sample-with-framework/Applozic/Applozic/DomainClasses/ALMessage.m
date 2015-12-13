@@ -63,7 +63,7 @@
     
     // createdAtTime
     
-    self.createdAtTime = [self getStringFromJsonValue:messageJson[@"createdAtTime"]];
+    self.createdAtTime = [self getNSNumberFromJsonValue:messageJson[@"createdAtTime"]];
     
     
     // type
@@ -108,7 +108,7 @@
                 
                 theFileMetaInfo.blobKey = [self getStringFromJsonValue:fileMetaDict[@"blobKey"]];
                 theFileMetaInfo.contentType = [self getStringFromJsonValue:fileMetaDict[@"contentType"]];
-                theFileMetaInfo.createdAtTime = [self getStringFromJsonValue:fileMetaDict[@"createdAtTime"]];
+                theFileMetaInfo.createdAtTime = [self getNSNumberFromJsonValue:fileMetaDict[@"createdAtTime"]];
                 theFileMetaInfo.key = [self getStringFromJsonValue:fileMetaDict[@"key"]];
                 theFileMetaInfo.name = [self getStringFromJsonValue:fileMetaDict[@"name"]];
                 theFileMetaInfo.userKey = [self getStringFromJsonValue:fileMetaDict[@"userKey"]];

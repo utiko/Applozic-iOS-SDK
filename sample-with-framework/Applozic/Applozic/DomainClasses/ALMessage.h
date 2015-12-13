@@ -31,7 +31,7 @@
 
 @property (nonatomic, assign) BOOL shared;
 
-@property (nonatomic, copy) NSString * createdAtTime;
+@property (nonatomic, copy) NSNumber * createdAtTime;
 
 @property (nonatomic, copy) NSString * type;
 

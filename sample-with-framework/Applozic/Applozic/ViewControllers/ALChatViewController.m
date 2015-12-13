@@ -400,8 +400,7 @@ ALMessageDBService  * dbService;
     theMessage.type = @"5";
     theMessage.contactIds = self.contactIds;//1
     theMessage.to = self.contactIds;//2
-    theMessage.createdAtTime = @((long long)([[NSDate date] timeIntervalSince1970] * 1000.0)).stringValue;
-    NSLog(@" Date TIme stamp::: %@",     theMessage.createdAtTime );
+    theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceReferenceDate]];
     theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString ];
     theMessage.message = self.sendMessageTextView.text;//3
     theMessage.sendToDevice = NO;
@@ -424,7 +423,7 @@ ALMessageDBService  * dbService;
 
     info.blobKey = nil;
     info.contentType = @"";
-    info.createdAtTime = @"";
+    info.createdAtTime = nil;
     info.key =nil;
     info.name =[ [ALUtilityClass getFileNameWithCurrentTimeStamp] stringByAppendingString:@".jpeg"];
     info.size = @"";
@@ -1032,7 +1031,7 @@ ALMessageDBService  * dbService;
 
 -(void)processLoadEarlierMessages{
     
-    NSString *time;
+    NSNumber *time;
     if(self.mMessageListArray.count > 0 && self.mMessageListArray != NULL) {
         ALMessage * theMessage = self.mMessageListArray[0];
         time = theMessage.createdAtTime;
@@ -1040,7 +1039,7 @@ ALMessageDBService  * dbService;
     else {
         time = NULL;
     }
-    [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time withCompletion:^(NSMutableArray *messages, NSError *error){
+    [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time.stringValue withCompletion:^(NSMutableArray *messages, NSError *error){
         if(!error )
         {
             NSLog(@"No Error");

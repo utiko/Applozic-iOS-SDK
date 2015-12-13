@@ -21,7 +21,7 @@
 @property (nonatomic,copy) NSString * size;
 @property (nonatomic,copy) NSString * contentType;
 @property (nonatomic,copy) NSString * thumbnailUrl;
-@property (nonatomic,copy) NSString * createdAtTime;
+@property (nonatomic,copy) NSNumber * createdAtTime;
 
 @property (nonatomic, assign) CGFloat progressValue;
 

@@ -352,8 +352,8 @@
 
         NSArray * theArray1 =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
         DB_Message * theMessageEntity = theArray1.firstObject;
+
         ALMessage * theMessage = [self createMessageEntity:theMessageEntity];
-        theMessage.createdAtTime = [NSString stringWithFormat:@"%@",theMessageEntity.createdAt];
         [messagesArray addObject:theMessage];
     }
     if(!self.delegate ){
@@ -361,8 +361,14 @@
         return;
     }
     
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime"
+                                                 ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSMutableArray *sortedArray = [[messagesArray sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
+    
     if ([self.delegate respondsToSelector:@selector(getMessagesArray:)]) {
-        [self.delegate getMessagesArray:messagesArray];
+        [self.delegate getMessagesArray:sortedArray];
     }
 }
 
@@ -373,7 +379,7 @@
     DB_Message * theMessageEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
     
     theMessageEntity.contactId = theMessage.contactIds;
-    theMessageEntity.createdAt = [NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
+    theMessageEntity.createdAt =  theMessage.createdAtTime;//[NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
     theMessageEntity.deviceKey = theMessage.deviceKey;
     theMessageEntity.isRead = [NSNumber numberWithBool:([theMessageEntity.type isEqualToString:@"5"] ? TRUE : theMessage.read)];
     theMessageEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
@@ -437,12 +443,12 @@
     theMessage.sent = theEntity.isSent.boolValue;
     theMessage.sendToDevice = theEntity.isSentToDevice.boolValue;
     theMessage.shared = theEntity.isShared.boolValue;
-    theMessage.createdAtTime = [NSString stringWithFormat:@"%@",theEntity.createdAt];
+    theMessage.createdAtTime = theEntity.createdAt;
     theMessage.type = theEntity.type;
     theMessage.contactIds = theEntity.contactId;
     theMessage.storeOnDevice = theEntity.isStoredOnDevice.boolValue;
     theMessage.inProgress =theEntity.inProgress.boolValue;
-    theMessage.read = theEntity.isRead.boolValue;   //NSLog(@"the Read Value of %@ is %hhd",theMessage.contactIds,theMessage.read);
+    theMessage.read = theEntity.isRead.boolValue;
     theMessage.imageFilePath = theEntity.filePath;
     theMessage.delivered = theEntity.delivered.boolValue;
     theMessage.sentToServer = theEntity.sentToServer.boolValue;
