@@ -88,7 +88,6 @@ ALMessageDBService  * dbService;
     [super viewDidLoad];
     [self initialSetUp];
     [self fetchMessageFromDB];
-    [self processMarkRead];
     [self loadChatView];
     
     self.mqttObject = [[ALMQTTConversationService alloc] init];
@@ -113,6 +112,8 @@ ALMessageDBService  * dbService;
     [self.view endEditing:YES];
     [self.loadEarlierAction setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
+    [self processMarkRead];
+
     //[self.label setTextColor:[UIColor whiteColor]];
 }
 
