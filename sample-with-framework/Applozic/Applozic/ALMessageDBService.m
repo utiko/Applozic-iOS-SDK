@@ -217,21 +217,16 @@
 {
     NSArray *messages  = [self getUnreadMessages:contactId];
     
-    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
-    
-    
-    for (NSString *msg in messages) {
-        
-        NSLog(@"MSG : %@", msg);
-        
-        [msg setValue:[NSNumber numberWithBool:YES] forKey:@"isRead"];
-        
-        NSError *error = nil;
-        
-        if ( [dbHandler.managedObjectContext save:&error])
-        {
-            NSLog(@"message found and marked as read.");
-        }
+    if(messages.count >0 ){
+        NSBatchUpdateRequest *req = [[NSBatchUpdateRequest alloc] initWithEntityName:@"DB_Message"];
+        req.predicate = [NSPredicate predicateWithFormat:@"contactId==%@",contactId];
+        req.propertiesToUpdate = @{
+                                   @"isRead" : @(YES)
+                                   };
+        req.resultType = NSUpdatedObjectsCountResultType;
+        ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+        NSBatchUpdateResult *res = (NSBatchUpdateResult *)[dbHandler.managedObjectContext executeRequest:req error:nil];
+        NSLog(@"%@ objects updated", res.result);
     }
     return messages.count;
 }
@@ -244,7 +239,7 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
     NSPredicate *predicate;
 
-    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"%K=0",@"isRead"];
+    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"isRead==%@ AND type==%@",@"0",@"4"];
     if (contactId) {
         NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"%K=%@",@"contactId",contactId];
         predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];

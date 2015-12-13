@@ -79,6 +79,7 @@
         self.mMessageLabel.textContainerInset = UIEdgeInsetsZero;
         self.mMessageLabel.textContainer.lineFragmentPadding = 0;
         self.mMessageLabel.dataDetectorTypes = UIDataDetectorTypeLink;
+        
         self.mMessageLabel.userInteractionEnabled=NO;
         
         [self.contentView addSubview:self.mMessageLabel];
@@ -168,6 +169,11 @@
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 10 , 10, theTextSize.width, theTextSize.height);
         self.mMessageLabel.textColor = [UIColor grayColor];
         
+        self.mMessageLabel.linkTextAttributes = @{
+                                                  NSForegroundColorAttributeName : [UIColor grayColor],
+                                                  NSUnderlineStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleThick]
+                                                  };
+        
        // if([alMessage.message rangeOfString:@"<html>"].location != NSNotFound && [alMessage.message rangeOfString:@"</html>"].location != NSNotFound)
         if(alMessage.contentType == 3)
         {
@@ -244,6 +250,12 @@
         
         self.mMessageLabel.backgroundColor = [UIColor clearColor];
         self.mMessageLabel.textColor = [UIColor whiteColor];
+        
+        self.mMessageLabel.linkTextAttributes = @{
+                                                  NSForegroundColorAttributeName : [UIColor whiteColor],
+                                                  NSUnderlineStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleThick]
+                                                  };
+        
         self.mBubleImageView.backgroundColor = [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1];
         
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 10, 10, theTextSize.width, theTextSize.height);
