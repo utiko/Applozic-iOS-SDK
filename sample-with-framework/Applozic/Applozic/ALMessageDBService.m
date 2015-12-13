@@ -374,7 +374,7 @@
     DB_Message * theMessageEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
     
     theMessageEntity.contactId = theMessage.contactIds;
-    theMessageEntity.createdAt =  theMessage.createdAtTime;//[NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
+    theMessageEntity.createdAt =  theMessage.createdAtTime;
     theMessageEntity.deviceKey = theMessage.deviceKey;
     theMessageEntity.isRead = [NSNumber numberWithBool:([theMessageEntity.type isEqualToString:@"5"] ? TRUE : theMessage.read)];
     theMessageEntity.isSent = [NSNumber numberWithBool:theMessage.sent];

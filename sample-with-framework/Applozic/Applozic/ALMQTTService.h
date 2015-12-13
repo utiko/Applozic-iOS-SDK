@@ -22,5 +22,4 @@
 
 -(void) disconnectToApplozic: (NSString *) userKey;
 
--(void) subscribeToConversation;
 @end

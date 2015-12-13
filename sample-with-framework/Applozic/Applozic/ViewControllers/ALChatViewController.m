@@ -410,7 +410,7 @@ ALMessageDBService  * dbService;
     theMessage.type = @"5";
     theMessage.contactIds = self.contactIds;//1
     theMessage.to = self.contactIds;//2
-    theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceReferenceDate]];
+    theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
     theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString ];
     theMessage.message = self.sendMessageTextView.text;//3
     theMessage.sendToDevice = NO;
@@ -1087,12 +1087,11 @@ ALMessageDBService  * dbService;
             NSCharacterSet *charsToTrim = [NSCharacterSet characterSetWithCharactersInString:@"()  \n\""];
             tempString = [tempString stringByTrimmingCharactersInSet:charsToTrim];
     
-            NSMutableString *temp = tempString;
-            double value = [temp doubleValue];
+            double value = [tempString doubleValue];
             
             if(value > 0)
             {
-                NSDate *date  = [[NSDate alloc] initWithTimeIntervalSince1970:(value/1000)];
+                NSDate *date  = [[NSDate alloc] initWithTimeIntervalSince1970:value/1000];
                 
                 NSDate *current = [[NSDate alloc] init];
                 NSTimeInterval difference =[current timeIntervalSinceDate:date];
