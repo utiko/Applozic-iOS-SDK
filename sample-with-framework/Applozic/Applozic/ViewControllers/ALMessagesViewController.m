@@ -610,7 +610,7 @@ ALMQTTConversationService *alMqttConversationService;
     NSArray * theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",theMessage.contactIds]];
     
     ALMessage * theLatestMessage = theFilteredArray.firstObject;
-    if (![theMessage.createdAtTime isEqualToNumber: theLatestMessage.createdAtTime]) {
+    if (theLatestMessage != nil && ![theMessage.createdAtTime isEqualToNumber: theLatestMessage.createdAtTime]) {
         [self.mContactsMessageListArray removeObject:theLatestMessage];
         [self.mContactsMessageListArray insertObject:theMessage atIndex:0];
         [self.mTableView reloadData];

@@ -130,9 +130,9 @@ static MQTTSession *session;
 
 -(void) sendTypingStatus:(NSString *) applicationKey userID:(NSString *) userId typing: (BOOL) typing;
 {
-     NSLog(@"Received typing status in MQTTCONVERSationSERvice  %d for: %@", typing, userId);
-    NSData* data=[[NSString stringWithFormat:@"%@,%@,%i", [ALUserDefaultsHandler getApplicationKey],userId, typing ? 1 : 0] dataUsingEncoding:NSUTF8StringEncoding];
-    [session publishDataAtMostOnce:data onTopic:[NSString stringWithFormat:@"typing-%@-%@", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId]]];
+     NSLog(@"Sending typing status %d to: %@", typing, userId);
+    NSData* data=[[NSString stringWithFormat:@"%@,%@,%i", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId], typing ? 1 : 0] dataUsingEncoding:NSUTF8StringEncoding];
+    [session publishDataAtMostOnce:data onTopic:[NSString stringWithFormat:@"typing-%@-%@", applicationKey, userId]];
 }
 
 @end
