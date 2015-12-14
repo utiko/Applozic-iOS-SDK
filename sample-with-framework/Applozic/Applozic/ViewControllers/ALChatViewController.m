@@ -1069,28 +1069,13 @@ ALMessageDBService  * dbService;
             }
             [self.mMessageListArray addObjectsFromArray:messages];
             
-<<<<<<< HEAD
             for (ALMessage * msg in messages) {
                 [self.mMessageListArray insertObject:msg atIndex:0];
             }
             self.startIndex = self.startIndex + messages.count;
             [self.mTableView reloadData];
 
-           // [self reloadView];
-            //[self fetchAndRefresh];
-=======
-            /*if(userDetailArray.count == 0)
-            {
-                NSLog(@"ARRAY OF USER DETAIL IS EMPTY");
-            }
-            else
-            {
-                [contactDBService addUserDetail:userDetailArray];
-            }*/
-            
-            [self reloadView];
-            [self fetchAndRefresh];
->>>>>>> origin/master
+
         }
         else
         {
