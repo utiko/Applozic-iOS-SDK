@@ -42,6 +42,7 @@
 
 //update Message APIS
 -(void)updateMessageDeliveryReport:(NSString*) messageKeyString;
+-(void)updateDeliveryReportForContact: (NSString *) contactId;
 -(void)updateMessageSyncStatus:(NSString*) keyString;
 -(void)updateFileMetaInfo:(ALMessage *) almessage;
 

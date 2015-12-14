@@ -261,8 +261,6 @@ ALMQTTConversationService *alMqttConversationService;
         dispatch_async(dispatch_get_main_queue(), ^{
             [alMqttConversationService subscribeToConversation];
         });
-    
-   
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -658,7 +656,7 @@ ALMQTTConversationService *alMqttConversationService;
     NSArray * theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",theMessage.contactIds]];
     
     ALMessage * theLatestMessage = theFilteredArray.firstObject;
-    if ([theMessage.createdAtTime isEqualToString:theLatestMessage.createdAtTime] == NO) {
+    if (theLatestMessage != nil && ![theMessage.createdAtTime isEqualToNumber: theLatestMessage.createdAtTime]) {
         [self.mContactsMessageListArray removeObject:theLatestMessage];
         [self.mContactsMessageListArray insertObject:theMessage atIndex:0];
         [self.mTableView reloadData];
@@ -702,6 +700,12 @@ ALMQTTConversationService *alMqttConversationService;
 -(void) delivered:(NSString *)messageKey contactId:(NSString *)contactId {
     if ([[self.detailChatViewController contactIds] isEqualToString: contactId]) {
         [self.detailChatViewController updateDeliveryReport: messageKey];
+    }
+}
+
+-(void) updateDeliveryStatusForContact: (NSString *) contactId {
+    if ([[self.detailChatViewController contactIds] isEqualToString: contactId]) {
+        [self.detailChatViewController updateDeliveryReportForConversation];
     }
 }
 

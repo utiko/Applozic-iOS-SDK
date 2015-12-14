@@ -12,6 +12,8 @@
 #import "ALContact.h"
 #import "ALContactDBService.h"
 #import "ALApplozicSettings.h"
+#import "ALMessageService.h"
+#import "ALMessageDBService.h"
 
 // Constants
 #define MT_INBOX_CONSTANT "4"
@@ -293,17 +295,14 @@ UIViewController * modalCon;
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         
-        
-        if(alMessage.delivered == YES){
+        self.status = @"";
+        if([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT] && alMessage.delivered == YES){
             self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - (self.string.length + theDateSize.width + 35) , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, self.string.length + theDateSize.width + 50, 21);
             self.status = self.string;
         }
-        else{
+        else {
             self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) -theDateSize.width  , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width + 20, 21);
-            self.status = @"";
         }
-        
-        
         
         if(alMessage.message.length > 0)
         {
@@ -511,7 +510,26 @@ UIViewController * modalCon;
 }
 
 -(void) delete:(id)sender {
-    [ self.delegate deleteMessageFromView:self.mMessage];
+    
+    //db
+    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+    [dbService deleteMessageByKey:self.mMessage.key];
+    
+    
+    //UI
+    NSLog(@"message to deleteUI %@",self.mMessage.message);[self.delegate deleteMessageFromView:self.mMessage];
+    
+    //serverCall
+    [ALMessageService deleteMessage:[NSString stringWithFormat:@"%ld",self.mMessage.messageId] andContactId:self.mMessage.contactIds withCompletion:^(NSString* string,NSError* error){
+        if(!error ){
+            NSLog(@"No Error");
+        }
+        else{
+            NSLog(@"some error");
+        }
+    }];
+    
+
 }
 
 

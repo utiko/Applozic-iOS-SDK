@@ -12,6 +12,8 @@
 #import "UIImageView+WebCache.h"
 #import "ALContactDBService.h"
 #import "ALApplozicSettings.h"
+#import "ALMessageService.h"
+#import "ALMessageDBService.h"
 
 // Constants
 #define MT_INBOX_CONSTANT "4"
@@ -299,7 +301,8 @@
     else{
     self.mDateLabel.text = theDate;
     }
-    if([alMessage.message hasPrefix:@"http://"]==YES || [alMessage.message hasPrefix:@"https://"]==YES ){
+    
+    if([alMessage.message hasPrefix:@"http://"]==YES || [alMessage.message hasPrefix:@"https://"]==YES || [alMessage.message hasPrefix:@"www."]==YES ){
         self.mMessageLabel.userInteractionEnabled=YES;
     }
     else {
@@ -368,7 +371,33 @@
 }
 
 -(void) delete:(id)sender {
-    [ self.delegate deleteMessageFromView:self.mMessage];
+    
+    NSLog(@"Delete in ALChatCell pressed");
+    
+    //db
+    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+    [dbService deleteMessageByKey:self.mMessage.key];
+
+    
+    //UI
+    NSLog(@"message to deleteUI %@",self.mMessage.message);[self.delegate deleteMessageFromView:self.mMessage];
+    
+    //serverCall
+    [ALMessageService deleteMessage:[NSString stringWithFormat:@"%ld",self.mMessage.messageId] andContactId:self.mMessage.contactIds withCompletion:^(NSString* string,NSError* error){
+        if(!error ){
+            NSLog(@"No Error");
+        }
+        else{
+            NSLog(@"some error");
+        }
+    }];
+    
+    
+    
+    
+    
+    
+    
 }
 
 

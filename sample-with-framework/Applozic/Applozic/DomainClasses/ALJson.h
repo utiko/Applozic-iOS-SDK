@@ -24,4 +24,6 @@
 
 -(short)getShortFromJsonValue:(id) jsonValue;
 
+-(NSNumber *) getNSNumberFromJsonValue:(id) jsonValue;
+
 @end

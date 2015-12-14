@@ -17,6 +17,16 @@
 
 static MQTTSession *session;
 
+/*
+ MESSAGE_RECEIVED("APPLOZIC_01"), MESSAGE_SENT("APPLOZIC_02"),
+ MESSAGE_SENT_UPDATE("APPLOZIC_03"), MESSAGE_DELIVERED("APPLOZIC_04"),
+ MESSAGE_DELETED("APPLOZIC_05"), CONVERSATION_DELETED("APPLOZIC_06"),
+ MESSAGE_READ("APPLOZIC_07"), MESSAGE_DELIVERED_AND_READ("APPLOZIC_08"),
+ CONVERSATION_READ("APPLOZIC_09"), CONVERSATION_DELIVERED_AND_READ("APPLOZIC_10"),
+ USER_CONNECTED("APPLOZIC_11"), USER_DISCONNECTED("APPLOZIC_12"),
+ GROUP_DELETED("APPLOZIC_13"), GROUP_LEFT("APPLOZIC_14");
+ */
+
 +(ALMQTTConversationService *)sharedInstance
 {
     static ALMQTTConversationService *sharedInstance = nil;
@@ -98,6 +108,12 @@ static MQTTSession *session;
                                                           error:NULL];*/
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
             [self.mqttConversationDelegate syncCall: alMessage];
+        } else if ([type isEqualToString:@"APPLOZIC_10"]) {
+            //String contactId = mqttMessageResponse.getMessage().toString();
+            NSString *contactId = [theMessageDict objectForKey:@"message"];
+            ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
+            [messageDBService updateDeliveryReportForContact:contactId];
+            [self.mqttConversationDelegate updateDeliveryStatusForContact: contactId];
         }
     }
   
@@ -130,9 +146,9 @@ static MQTTSession *session;
 
 -(void) sendTypingStatus:(NSString *) applicationKey userID:(NSString *) userId typing: (BOOL) typing;
 {
-     NSLog(@"Received typing status in MQTTCONVERSationSERvice  %d for: %@", typing, userId);
-    NSData* data=[[NSString stringWithFormat:@"%@,%@,%i", [ALUserDefaultsHandler getApplicationKey],userId, typing ? 1 : 0] dataUsingEncoding:NSUTF8StringEncoding];
-    [session publishDataAtMostOnce:data onTopic:[NSString stringWithFormat:@"typing-%@-%@", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId]]];
+     NSLog(@"Sending typing status %d to: %@", typing, userId);
+    NSData* data=[[NSString stringWithFormat:@"%@,%@,%i", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId], typing ? 1 : 0] dataUsingEncoding:NSUTF8StringEncoding];
+    [session publishDataAtMostOnce:data onTopic:[NSString stringWithFormat:@"typing-%@-%@", applicationKey, userId]];
 }
 
 @end

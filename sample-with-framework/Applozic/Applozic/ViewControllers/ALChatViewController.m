@@ -161,7 +161,7 @@ ALMessageDBService  * dbService;
 //------------------------------------------------------------------------------------------------------------------
 
 -(void)initialSetUp {
-    self.rp = 20;
+    self.rp = 200;
     self.startIndex = 0;
     self.mMessageListArray = [NSMutableArray new];
     self.mImagePicker = [[UIImagePickerController alloc] init];
@@ -237,47 +237,49 @@ ALMessageDBService  * dbService;
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - UIMenuController Actions
 //------------------------------------------------------------------------------------------------------------------
-
+//-(BOOL) canPerformAction:(SEL)action withSender:(id)sender {
+//    return (action == @selector(copy:) || action == @selector(deleteAction:));
+//}
 
 // Default copy method
-- (void)copy:(id)sender {
-    
-    NSLog(@"Copy in ALChatViewController, messageId: %@", messageId);
-    ALMessage * alMessage =  [self getMessageFromViewList:@"key" withValue:messageId ];
-
-    UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
-    /*UITableViewCell *cell = [self.mTableView cellForRowAtIndexPath:self.indexPathofSelection];*/
-    if(alMessage.message!=NULL){
-    
-    //[pasteBoard setString:cell.textLabel.text];
-    [pasteBoard setString:alMessage.message];
-    }
-    else{
-    [pasteBoard setString:@""];
-    }
-}
-
-
--(void)deleteAction:(id)sender{
-    NSLog(@"Delete Menu item Pressed");
-    [ALMessageService deleteMessage:messageId andContactId:self.contactIds withCompletion:^(NSString* string,NSError* error){
-        if(!error ){
-            NSLog(@"No Error");
-        }
-        else{
-            NSLog(@"some error");
-        }
-    }];
-    
-    [self.mMessageListArray removeObjectAtIndex:self.indexPathofSelection.row];
-    [UIView animateWithDuration:1.5 animations:^{
-        //      [self loadChatView];
-        [self.mTableView reloadData];
-    }];
-    
-    
-    
-}
+//- (void)copy:(id)sender {
+//    
+//    NSLog(@"Copy in ALChatViewController, messageId: %@", messageId);
+//    ALMessage * alMessage =  [self getMessageFromViewList:@"key" withValue:messageId ];
+//
+//    UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+//    /*UITableViewCell *cell = [self.mTableView cellForRowAtIndexPath:self.indexPathofSelection];*/
+//    if(alMessage.message!=NULL){
+//    
+//    //[pasteBoard setString:cell.textLabel.text];
+//    [pasteBoard setString:alMessage.message];
+//    }
+//    else{
+//    [pasteBoard setString:@""];
+//    }
+//}
+//
+//
+//-(void)deleteAction:(id)sender{
+//    NSLog(@"Delete Menu item Pressed in AlChatViewController");
+//    [ALMessageService deleteMessage:messageId andContactId:self.contactIds withCompletion:^(NSString* string,NSError* error){
+//        if(!error ){
+//            NSLog(@"No Error");
+//        }
+//        else{
+//            NSLog(@"some error");
+//        }
+//    }];
+//    
+//    [self.mMessageListArray removeObjectAtIndex:self.indexPathofSelection.row];
+//    [UIView animateWithDuration:1.5 animations:^{
+//        //      [self loadChatView];
+//        [self.mTableView reloadData];
+//    }];
+//    
+//    
+//    
+//}
 
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark - IBActions
@@ -389,6 +391,13 @@ ALMessageDBService  * dbService;
 
 - (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
     // required
+    if (action == @selector(copy:)) {
+        NSLog(@"COPY");
+        [self copy:NULL];
+    }
+    if (action == @selector(deleteAction:)) {
+        NSLog(@"DELETE ACTION");
+    }
 }
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark - Helper Method
@@ -401,8 +410,7 @@ ALMessageDBService  * dbService;
     theMessage.type = @"5";
     theMessage.contactIds = self.contactIds;//1
     theMessage.to = self.contactIds;//2
-    theMessage.createdAtTime = @((long long)([[NSDate date] timeIntervalSince1970] * 1000.0)).stringValue;
-    NSLog(@" Date TIme stamp::: %@",     theMessage.createdAtTime );
+    theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
     theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString ];
     theMessage.message = self.sendMessageTextView.text;//3
     theMessage.sendToDevice = NO;
@@ -425,7 +433,7 @@ ALMessageDBService  * dbService;
 
     info.blobKey = nil;
     info.contentType = @"";
-    info.createdAtTime = @"";
+    info.createdAtTime = nil;
     info.key =nil;
     info.name =[ [ALUtilityClass getFileNameWithCurrentTimeStamp] stringByAppendingString:@".jpeg"];
     info.size = @"";
@@ -516,7 +524,7 @@ ALMessageDBService  * dbService;
     
     [ALMessageService deleteMessage:message.key andContactId:self.contactIds withCompletion:^(NSString* string,NSError* error){
         if(!error ){
-            NSLog(@"No Error");
+            NSLog(@"No Error: deleteMessageFromView");
         }
     }];
     
@@ -943,9 +951,12 @@ ALMessageDBService  * dbService;
             NSLog(@"FETCH AND REFRESH METHOD");
         }
     }];
-    
-
 }
+
+-(void) updateDeliveryReportForConversation {
+    //Todo: update all delivery report in all messages
+}
+
 -(void)updateDeliveryReport:(NSString*)key{
     
     ALMessage * alMessage =  [self getMessageFromViewList:@"key" withValue:key ];
@@ -1033,7 +1044,7 @@ ALMessageDBService  * dbService;
 
 -(void)processLoadEarlierMessages{
     
-    NSString *time;
+    NSNumber *time;
     if(self.mMessageListArray.count > 0 && self.mMessageListArray != NULL) {
         ALMessage * theMessage = self.mMessageListArray[0];
         time = theMessage.createdAtTime;
@@ -1041,7 +1052,7 @@ ALMessageDBService  * dbService;
     else {
         time = NULL;
     }
-    [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time withCompletion:^(NSMutableArray *messages, NSError *error){
+    [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time.stringValue withCompletion:^(NSMutableArray *messages, NSError *error){
         if(!error )
         {
             NSLog(@"No Error");
@@ -1079,12 +1090,11 @@ ALMessageDBService  * dbService;
             NSCharacterSet *charsToTrim = [NSCharacterSet characterSetWithCharactersInString:@"()  \n\""];
             tempString = [tempString stringByTrimmingCharactersInSet:charsToTrim];
     
-            NSMutableString *temp = tempString;
-            double value = [temp doubleValue];
+            double value = [tempString doubleValue];
             
             if(value > 0)
             {
-                NSDate *date  = [[NSDate alloc] initWithTimeIntervalSince1970:(value/1000)];
+                NSDate *date  = [[NSDate alloc] initWithTimeIntervalSince1970:value/1000];
                 
                 NSDate *current = [[NSDate alloc] init];
                 NSTimeInterval difference =[current timeIntervalSinceDate:date];
@@ -1191,12 +1201,9 @@ ALMessageDBService  * dbService;
     if(self.alContact.applicationId == NULL)
     {
         self.alContact.applicationId = [ALUserDefaultsHandler getApplicationKey];
-        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:[ALUserDefaultsHandler getUserId] typing:YES];
     }
-    else
-    {
-        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:[ALUserDefaultsHandler getUserId] typing:YES];
-    }
+    [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:YES];
+
 }
 
 -(void)textViewDidEndEditing:(UITextView *)textView
@@ -1204,13 +1211,8 @@ ALMessageDBService  * dbService;
     if(self.alContact.applicationId == NULL)
     {
         self.alContact.applicationId = [ALUserDefaultsHandler getApplicationKey];
-        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:[ALUserDefaultsHandler getUserId]typing:NO];
     }
-    else
-    {
-        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:[ALUserDefaultsHandler getUserId] typing:NO];
-    }
-
+    [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:NO];
 }
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView

@@ -223,9 +223,11 @@
             
             return ;
         }
-        NSLog(@"Response of delete: %@", (NSString *)theJson);
-        completion((NSString *)theJson,nil);
-        
+        else{
+            //delete sucessfull/reponse
+            NSLog(@"Response of delete: %@", (NSString *)theJson);
+            completion((NSString *)theJson,nil);
+        }
     }];
 }
 

@@ -64,6 +64,12 @@
    NSManagedObject *obj =  [theDBHandler.managedObjectContext existingObjectWithID:objectID error:error];
    return obj;
 }
+
+-(void) updateDeliveryReportForContact: (NSString *) contactId {
+    //Todo: update delivery report for all messages of contactId
+}
+
+
 //update Message APIS
 -(void)updateMessageDeliveryReport:(NSString*)keyString{
     
@@ -107,7 +113,7 @@
     
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     
-    NSManagedObject* message = [self getMessageByKey:@"keyString" value:keyString];
+    NSManagedObject* message = [self getMessageByKey:@"key" value:keyString];
     if(message){
         [dbHandler.managedObjectContext deleteObject:message];
         NSError *error = nil;
@@ -199,7 +205,7 @@
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K=%@",key,value];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %@",key,value];
     [fetchRequest setEntity:entity];
     [fetchRequest setPredicate:predicate];
     NSError *fetchError = nil;
@@ -362,8 +368,8 @@
 
         NSArray * theArray1 =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
         DB_Message * theMessageEntity = theArray1.firstObject;
+
         ALMessage * theMessage = [self createMessageEntity:theMessageEntity];
-        theMessage.createdAtTime = [NSString stringWithFormat:@"%@",theMessageEntity.createdAt];
         [messagesArray addObject:theMessage];
     }
     if(!self.delegate ){
@@ -371,8 +377,14 @@
         return;
     }
     
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime"
+                                                 ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSMutableArray *sortedArray = [[messagesArray sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
+    
     if ([self.delegate respondsToSelector:@selector(getMessagesArray:)]) {
-        [self.delegate getMessagesArray:messagesArray];
+        [self.delegate getMessagesArray:sortedArray];
     }
 }
 
@@ -383,7 +395,7 @@
     DB_Message * theMessageEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
     
     theMessageEntity.contactId = theMessage.contactIds;
-    theMessageEntity.createdAt = [NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
+    theMessageEntity.createdAt =  theMessage.createdAtTime;
     theMessageEntity.deviceKey = theMessage.deviceKey;
     theMessageEntity.isRead = [NSNumber numberWithBool:([theMessageEntity.type isEqualToString:@"5"] ? TRUE : theMessage.read)];
     theMessageEntity.isSent = [NSNumber numberWithBool:theMessage.sent];
@@ -447,12 +459,12 @@
     theMessage.sent = theEntity.isSent.boolValue;
     theMessage.sendToDevice = theEntity.isSentToDevice.boolValue;
     theMessage.shared = theEntity.isShared.boolValue;
-    theMessage.createdAtTime = [NSString stringWithFormat:@"%@",theEntity.createdAt];
+    theMessage.createdAtTime = theEntity.createdAt;
     theMessage.type = theEntity.type;
     theMessage.contactIds = theEntity.contactId;
     theMessage.storeOnDevice = theEntity.isStoredOnDevice.boolValue;
     theMessage.inProgress =theEntity.inProgress.boolValue;
-    theMessage.read = theEntity.isRead.boolValue;   //NSLog(@"the Read Value of %@ is %hhd",theMessage.contactIds,theMessage.read);
+    theMessage.read = theEntity.isRead.boolValue;
     theMessage.imageFilePath = theEntity.filePath;
     theMessage.delivered = theEntity.delivered.boolValue;
     theMessage.sentToServer = theEntity.sentToServer.boolValue;

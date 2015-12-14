@@ -63,7 +63,7 @@
     
     // createdAtTime
     
-    self.createdAtTime = [self getStringFromJsonValue:messageJson[@"createdAtTime"]];
+    self.createdAtTime = [self getNSNumberFromJsonValue:messageJson[@"createdAtTime"]];
     
     
     // type
@@ -108,7 +108,7 @@
                 
                 theFileMetaInfo.blobKey = [self getStringFromJsonValue:fileMetaDict[@"blobKey"]];
                 theFileMetaInfo.contentType = [self getStringFromJsonValue:fileMetaDict[@"contentType"]];
-                theFileMetaInfo.createdAtTime = [self getStringFromJsonValue:fileMetaDict[@"createdAtTime"]];
+                theFileMetaInfo.createdAtTime = [self getNSNumberFromJsonValue:fileMetaDict[@"createdAtTime"]];
                 theFileMetaInfo.key = [self getStringFromJsonValue:fileMetaDict[@"key"]];
                 theFileMetaInfo.name = [self getStringFromJsonValue:fileMetaDict[@"name"]];
                 theFileMetaInfo.userKey = [self getStringFromJsonValue:fileMetaDict[@"userKey"]];
@@ -129,10 +129,8 @@
    
     NSDate *currentTime = [[NSDate alloc] init];
 
-    float msgTime = [self.createdAtTime floatValue];
-
     NSDate *msgDate = [[NSDate alloc] init];
-    msgDate = [NSDate dateWithTimeIntervalSince1970:msgTime/1000];
+    msgDate = [NSDate dateWithTimeIntervalSince1970:self.createdAtTime.doubleValue/1000];
     NSTimeInterval difference = [currentTime timeIntervalSinceDate:msgDate];
     
     float minutes;
@@ -159,7 +157,7 @@
     }
     else
     {
-       formattedDateStr = [ALUtilityClass formatTimestamp:[self.createdAtTime doubleValue] toFormat:formattedStr];
+       formattedDateStr = [ALUtilityClass formatTimestamp:[self.createdAtTime doubleValue]/1000 toFormat:formattedStr];
     }
     
     return formattedDateStr;
@@ -169,7 +167,7 @@
     
     NSString *formattedStr = today?@"hh:mm a":@"dd MMM hh:mm a";
     
-    NSString *formattedDateStr = [ALUtilityClass formatTimestamp:[self.createdAtTime doubleValue] toFormat:formattedStr];
+    NSString *formattedDateStr = [ALUtilityClass formatTimestamp:[self.createdAtTime doubleValue]/1000 toFormat:formattedStr];
 
     return formattedDateStr;
     
