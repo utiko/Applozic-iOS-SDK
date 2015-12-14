@@ -17,7 +17,6 @@
 
 -(void)getMessagesArray:(NSMutableArray*)messagesArray;
 
--(NSArray *)getUnreadMessages:(NSString *) contactId;
 -(void) updateMessageList:(NSMutableArray*)messagesArray;
 
 @end
