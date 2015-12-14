@@ -687,12 +687,12 @@ ALMQTTConversationService *alMqttConversationService;
     
     [self.detailChatViewController setRefresh: TRUE];
     if ([self.detailChatViewController contactIds] != nil) {
-        NSLog(@"executing if part...");
+       // NSLog(@"executing if part...");
 
         //Todo: set value of updateUI and [self.detailChatViewController contactIds] with actual contactId of the message
         [self.detailChatViewController syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
     } else {
-        NSLog(@"executing else part....");
+       // NSLog(@"executing else part....");
         [dBService fetchAndRefreshQuickConversation];
     }
 }
