@@ -290,15 +290,30 @@
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     
     [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
-       
         if (error) {
             NSLog(@"%@",error);
             return ;
         }
-        //[self addMessageList:messageArray];
-        [self fetchConversationsGroupByContactId];
+      //  [self addMessageList:messageArray];
+       [self fetchConversationsGroupByContactId];
     }];
 
+}
+
+
+-(void)fetchAndRefreshQuickConversation{
+    NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
+    
+    [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
+        if (error) {
+            NSLog(@"%@",error);
+            return ;
+        }
+        [self addMessageList:messageArray];
+        [self.delegate updateMessageList:messageArray];
+        //[self fetchConversationsGroupByContactId];
+    }];
+    
 }
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark -  Helper methods

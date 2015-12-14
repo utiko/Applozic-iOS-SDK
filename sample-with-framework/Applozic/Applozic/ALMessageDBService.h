@@ -18,6 +18,7 @@
 -(void)getMessagesArray:(NSMutableArray*)messagesArray;
 
 - (NSArray *)getUnreadMessages:(NSString *) contactId;
+-(void) updateMessageList:(NSMutableArray*)messagesArray;
 
 @end
 
@@ -29,6 +30,8 @@
 -(void)getMessages;
 -(void)fetchAndRefreshFromServer;
 -(void)fetchAndRefreshFromServerForPush;
+-(void)fetchAndRefreshQuickConversation;
+
 -(NSManagedObject *)getMeesageById:(NSManagedObjectID *)objectID
                              error:(NSError **)error;
 - (NSManagedObject *)getMessageByKey:(NSString *) key value:(NSString*) value;
