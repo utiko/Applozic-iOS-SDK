@@ -268,7 +268,7 @@
     return result;
 }
 
-<<<<<<< HEAD
+
 -(void)addUserDetails:(NSMutableArray *)userDetails
 {
    // NSMutableArray *userDetailArray = [[NSMutableArray alloc] init];
@@ -318,7 +318,17 @@
     return theUserDetailEntity;
 }
 
--(BOOL)updateUserDetail:(ALUserDetail *)userDetail;
+-(void) updateConnectedStatus: (NSString *) userId lastSeenAt:(NSNumber *) lastSeenAt  connected: (BOOL) connected
+{
+    ALUserDetail *ob = [[ALUserDetail alloc]init];
+    ob.lastSeenAtTime = [lastSeenAt stringValue];
+    ob.connected = [NSString stringWithFormat:@"%d",connected];
+    ob.userId = userId;
+    
+    [self updateUserDetail:ob];
+}
+
+-(BOOL)updateUserDetail:(ALUserDetail *)userDetail
 {
     BOOL success = NO;
     
@@ -340,12 +350,6 @@
     
     if(result.count>0)
     {
-=======
--(void) updateConnectedStatus: (NSString *) userId lastSeenAt:(NSNumber *) lastSeenAt  connected: (BOOL) connected {
-    //Todo: update connected status in database.
-}
-
->>>>>>> origin/master
 
         NSManagedObject *ob = [result objectAtIndex:0];
         [ob setValue:[NSNumber numberWithDouble:[userDetail.lastSeenAtTime doubleValue]] forKey:@"lastSeenAt"];

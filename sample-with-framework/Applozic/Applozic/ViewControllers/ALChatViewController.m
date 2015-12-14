@@ -1095,6 +1095,7 @@ ALMessageDBService  * dbService;
     [ALMessageService userDetailServerCall:self.contactIds withCompletion:^(ALUserDetail *alUserDetail){
         if(alUserDetail)
         {
+            [[[ALContactDBService alloc]init] updateUserDetail:alUserDetail];
             NSString *tempString = [NSString stringWithFormat:@"%@", alUserDetail.lastSeenAtTime];
             NSCharacterSet *charsToTrim = [NSCharacterSet characterSetWithCharactersInString:@"()  \n\""];
             tempString = [tempString stringByTrimmingCharactersInSet:charsToTrim];

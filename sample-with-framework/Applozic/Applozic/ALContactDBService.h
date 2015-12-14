@@ -37,4 +37,6 @@
 
 -(DB_CONTACT*) createUserDetailEntityForDBInsertionWithUserDetail:(ALUserDetail *) userDetail;
 
+-(BOOL)updateUserDetail:(ALUserDetail *)userDetail;
+
 @end
