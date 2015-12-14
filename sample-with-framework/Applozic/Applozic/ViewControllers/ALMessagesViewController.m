@@ -112,6 +112,13 @@ ALMQTTConversationService *alMqttConversationService;
     [self viewDidLoadPart];
 }
 
+-(void) ViewDidUnload
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alMqttConversationService unsubscribeToConversation];
+    });
+}
+
 -(void)viewDidLoadPart
 {
     

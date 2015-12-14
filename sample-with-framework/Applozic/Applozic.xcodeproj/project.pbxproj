@@ -207,8 +207,6 @@
 		982F13131C05D6050024678E /* MQTTSSLSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F13031C05D6040024678E /* MQTTSSLSecurityPolicy.m */; };
 		984219251C1EDEC00016B733 /* ALSyncCallService.h in Headers */ = {isa = PBXBuildFile; fileRef = 984219231C1EDEC00016B733 /* ALSyncCallService.h */; };
 		984219261C1EDEC00016B733 /* ALSyncCallService.m in Sources */ = {isa = PBXBuildFile; fileRef = 984219241C1EDEC00016B733 /* ALSyncCallService.m */; };
-		98BD87491C07503E0019915D /* ALMQTTService.h in Headers */ = {isa = PBXBuildFile; fileRef = 98BD87471C07503E0019915D /* ALMQTTService.h */; };
-		98BD874A1C07503E0019915D /* ALMQTTService.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BD87481C07503E0019915D /* ALMQTTService.m */; };
 		98E1AB971C08718700BE6312 /* ALMQTTConversationService.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E1AB951C08718600BE6312 /* ALMQTTConversationService.h */; };
 		98E1AB981C08718700BE6312 /* ALMQTTConversationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E1AB961C08718700BE6312 /* ALMQTTConversationService.m */; };
 /* End PBXBuildFile section */
@@ -415,8 +413,6 @@
 		982F13031C05D6040024678E /* MQTTSSLSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSSLSecurityPolicy.m; path = Applozic/MQTT/MQTTSSLSecurityPolicy.m; sourceTree = "<group>"; };
 		984219231C1EDEC00016B733 /* ALSyncCallService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSyncCallService.h; sourceTree = "<group>"; };
 		984219241C1EDEC00016B733 /* ALSyncCallService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALSyncCallService.m; sourceTree = "<group>"; };
-		98BD87471C07503E0019915D /* ALMQTTService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALMQTTService.h; path = Applozic/ALMQTTService.h; sourceTree = "<group>"; };
-		98BD87481C07503E0019915D /* ALMQTTService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMQTTService.m; path = Applozic/ALMQTTService.m; sourceTree = "<group>"; };
 		98E1AB951C08718600BE6312 /* ALMQTTConversationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMQTTConversationService.h; sourceTree = "<group>"; };
 		98E1AB961C08718700BE6312 /* ALMQTTConversationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMQTTConversationService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -839,8 +835,6 @@
 		982F13151C06369E0024678E /* mqtt */ = {
 			isa = PBXGroup;
 			children = (
-				98BD87471C07503E0019915D /* ALMQTTService.h */,
-				98BD87481C07503E0019915D /* ALMQTTService.m */,
 				98E1AB951C08718600BE6312 /* ALMQTTConversationService.h */,
 				98E1AB961C08718700BE6312 /* ALMQTTConversationService.m */,
 			);
@@ -930,7 +924,6 @@
 				6D6DF1BC1BC5364C00EBA00F /* SDWebImageDownloader.h in Headers */,
 				6D6DF1B61BC5364C00EBA00F /* SDImageCache.h in Headers */,
 				6D6DF1C91BC5364C00EBA00F /* UIImage+MultiFormat.h in Headers */,
-				98BD87491C07503E0019915D /* ALMQTTService.h in Headers */,
 				6D6DF1C51BC5364C00EBA00F /* UIButton+WebCache.h in Headers */,
 				6D6DF1C71BC5364C00EBA00F /* UIImage+GIF.h in Headers */,
 				6D28D3C31C1AA9AA003817C3 /* Reachability.h in Headers */,
@@ -1106,7 +1099,6 @@
 				982F13071C05D6050024678E /* MQTTDecoder.m in Sources */,
 				6D95476A1BE38DFF00776652 /* ALContactDBService.m in Sources */,
 				29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */,
-				98BD874A1C07503E0019915D /* ALMQTTService.m in Sources */,
 				6D15F2471BEB6AE00069BE1A /* ALAttachmentController.m in Sources */,
 				6D6DF1B91BC5364C00EBA00F /* SDWebImageCompat.m in Sources */,
 				6D6DF1CA1BC5364C00EBA00F /* UIImage+MultiFormat.m in Sources */,

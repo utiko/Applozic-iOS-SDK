@@ -17,7 +17,6 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageDBService.h"
 #import "ALApplozicSettings.h"
-#import "ALMQTTService.h"
 #import "ALMQTTConversationService.h"
 
 @implementation ALRegisterUserClientService
@@ -104,7 +103,7 @@
 
 -(void) connect {
     
-    [[ALMQTTService sharedInstance] connectToApplozic];
+    //[[ALMQTTService sharedInstance] connectToApplozic];
 }
 
 -(void) disconnect {
@@ -112,7 +111,7 @@
     ALMQTTConversationService *ob  = [[ALMQTTConversationService alloc] init];
     [ob sendTypingStatus:[ALUserDefaultsHandler getApplicationKey] userID:[ALUserDefaultsHandler getUserId] typing:NO];
     
-    [[ALMQTTService sharedInstance] disconnectToApplozic];
+    [[ALMQTTConversationService sharedInstance] unsubscribeToConversation];
 }
 
 -(void) logout
@@ -124,7 +123,7 @@
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     [messageDBService deleteAllObjectsInCoreData];
     
-    [[ALMQTTService sharedInstance] disconnectToApplozic: userKey];
+    [[ALMQTTConversationService sharedInstance] unsubscribeToConversation: userKey];
 }
 
 @end

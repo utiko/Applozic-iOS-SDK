@@ -36,7 +36,6 @@
 #import "ALUserService.h"
 #import "ALMessageService.h"
 #import "ALUserDetail.h"
-#import "ALMQTTService.h"
 #import "ALMQTTConversationService.h"
 
 
@@ -142,8 +141,7 @@ ALMessageDBService  * dbService;
         [self processLoadEarlierMessages];
     }
     
-        [self serverCallForLastSeen];
-    
+    [self serverCallForLastSeen];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {

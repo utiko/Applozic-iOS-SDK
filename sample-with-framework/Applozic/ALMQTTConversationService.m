@@ -55,6 +55,11 @@ static MQTTSession *session;
     
     [session connectToHost:MQTT_URL port:[MQTT_PORT intValue] withConnectionHandler:^(MQTTSessionEvent event) {
         if (event == MQTTSessionEventConnected) {
+            [session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"1"] dataUsingEncoding:NSUTF8StringEncoding]
+                                onTopic:@"status"
+                                 retain:NO
+                                    qos:MQTTQosLevelAtMostOnce];
+
             NSLog(@"MQTT: Subscribing to conversation topics.");
             [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
             [session subscribeToTopic:[NSString stringWithFormat:@"typing-%@-%@", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId]] atLevel:MQTTQosLevelAtMostOnce];
@@ -69,6 +74,8 @@ static MQTTSession *session;
      [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
      }*/
 }
+
+
 
 - (void)session:(MQTTSession*)session newMessage:(NSData*)data onTopic:(NSString*)topic {
     NSLog(@"MQTT got new message");
@@ -91,9 +98,6 @@ static MQTTSession *session;
         BOOL typingStatus = [typingParts[2] boolValue];
         [self.mqttConversationDelegate updateTypingStatus:applicationKey userId:userId status:typingStatus];
     } else {
-        /*if ([type isEqualToString:@"MESSAGE_DELIVERED_READ"]) {
-            NSLog(@"mark as read and delivered");
-        } else*/
         if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:@"APPLOZIC_04"]||[type isEqualToString:@"APPLOZIC_08"]) {
             NSArray *deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
             [self.alSyncCallService updateMessageDeliveryReport:deliveryParts[0]];
@@ -113,22 +117,7 @@ static MQTTSession *session;
             NSArray *parts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
             [self.alSyncCallService updateConnectedStatus: parts[0] lastSeenAt: parts[1] connected: NO];
         }
-        /*if (NOTIFICATION_TYPE.USER_CONNECTED.getValue().equals(mqttMessageResponse.getType())) {
-            syncCallService.updateConnectedStatus(mqttMessageResponse.getMessage().toString(), new Date(), true);
-        }
-        
-        if (NOTIFICATION_TYPE.USER_DISCONNECTED.getValue().equals(mqttMessageResponse.getType())) {
-            //disconnect comes with timestamp, ranjeet,1449866097000
-            String[] parts = mqttMessageResponse.getMessage().toString().split(",");
-            String userId = parts[0];
-            Date lastSeenAt = new Date();
-            if (parts.length >= 2) {
-                lastSeenAt = new Date(Long.valueOf(parts[1]));
-            }
-            syncCallService.updateConnectedStatus(userId, lastSeenAt, false);
-        }*/
     }
-  
 }
 
 - (void)subAckReceived:(MQTTSession *)session msgID:(UInt16)msgID grantedQoss:(NSArray *)qoss
@@ -161,6 +150,27 @@ static MQTTSession *session;
      NSLog(@"Sending typing status %d to: %@", typing, userId);
     NSData* data=[[NSString stringWithFormat:@"%@,%@,%i", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId], typing ? 1 : 0] dataUsingEncoding:NSUTF8StringEncoding];
     [session publishDataAtMostOnce:data onTopic:[NSString stringWithFormat:@"typing-%@-%@", applicationKey, userId]];
+}
+
+-(void) unsubscribeToConversation {
+    NSString *userKey = [ALUserDefaultsHandler getUserKeyString];
+    [self unsubscribeToConversation: userKey];
+}
+
+-(void) unsubscribeToConversation: (NSString *) userKey {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (session == nil) {
+            return;
+        }
+        [session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", userKey, @"0"] dataUsingEncoding:NSUTF8StringEncoding]
+                            onTopic:@"status"
+                             retain:NO
+                                qos:MQTTQosLevelAtMostOnce];
+        [session unsubscribeTopic:[ALUserDefaultsHandler getUserKeyString]];
+        [session unsubscribeTopic:[NSString stringWithFormat:@"typing-%@-%@", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId]]];
+        [session close];
+        NSLog(@"Disconnected from mqtt");
+    });
 }
 
 @end
