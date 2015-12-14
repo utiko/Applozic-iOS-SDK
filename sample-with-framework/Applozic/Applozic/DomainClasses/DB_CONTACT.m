@@ -18,4 +18,7 @@
 @dynamic contactImageUrl;
 @dynamic email;
 @dynamic localImageResourceName;
+@dynamic lastSeenAt;
+@dynamic connected;
+
 @end

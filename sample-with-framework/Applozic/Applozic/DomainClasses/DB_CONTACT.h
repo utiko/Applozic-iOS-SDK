@@ -19,5 +19,7 @@
 @property (nonatomic, retain) NSString * contactImageUrl;
 @property (nonatomic, retain) NSString * email;
 @property (nonatomic, retain) NSString * localImageResourceName;
+@property (nonatomic, retain) NSNumber * lastSeenAt;
+@property (nonatomic) BOOL connected;
 
 @end

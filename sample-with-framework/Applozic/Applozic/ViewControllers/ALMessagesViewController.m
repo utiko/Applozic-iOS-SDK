@@ -230,8 +230,7 @@ ALMQTTConversationService *alMqttConversationService;
            // NSLog(@"========== IF internetConnectionReach ============");
             
            
-            ALMessageDBService *ob = [[ALMessageDBService alloc] init];
-            [ob fetchAndRefreshFromServerForPush];
+            [ALMessageService processLatestMessagesGroupByContact];
             //changes required
             
 
@@ -280,6 +279,7 @@ ALMQTTConversationService *alMqttConversationService;
     
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
+    
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
         self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
@@ -298,9 +298,9 @@ ALMQTTConversationService *alMqttConversationService;
         [_detailChatViewController setRefreshMainView:FALSE];
     }
     
-
-   // [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
-   // [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+    [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
     
     [self.mTableView reloadData];
     [self.emptyConversationText setHidden:YES];
@@ -367,8 +367,8 @@ ALMQTTConversationService *alMqttConversationService;
 -(void)setUpView {
     UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
     if (!color) {
-        color = [UIColor blackColor];
-    //    color = [UIColor whiteColor];
+     //   color = [UIColor blackColor];
+        color = [UIColor whiteColor];
     }
     NSLog(@"%@",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]);
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:

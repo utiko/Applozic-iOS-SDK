@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ALContact.h"
 #import "DB_CONTACT.h"
+#import "ALUserDetail.h"
 
 @interface ALContactDBService : NSObject
 
@@ -29,5 +30,9 @@
 - (DB_CONTACT *)getContactByKey:(NSString *) key value:(NSString*) value;
 
 - (ALContact *)loadContactByKey:(NSString *) key value:(NSString*) value;
+
+-(void)addUserDetails:(NSMutableArray *)userDetails;
+
+-(DB_CONTACT*) createUserDetailEntityForDBInsertionWithUserDetail:(ALUserDetail *) userDetail;
 
 @end

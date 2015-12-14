@@ -19,6 +19,7 @@
 #import "ALApplozicSettings.h"
 #import "ALMQTTService.h"
 #import "ALMQTTConversationService.h"
+#import "ALMessageService.h"
 
 @implementation ALRegisterUserClientService
 
@@ -82,8 +83,7 @@
 
         [self connect];
         
-        ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
-        [ almessageDBService fetchAndRefreshFromServer];
+        [ALMessageService processLatestMessagesGroupByContact];
         completion(response,nil);
     }];
     
