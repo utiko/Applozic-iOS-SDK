@@ -306,7 +306,6 @@
 
 }
 
-
 -(void)fetchAndRefreshQuickConversation{
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     
