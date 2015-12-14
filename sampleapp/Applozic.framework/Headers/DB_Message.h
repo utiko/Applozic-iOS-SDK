@@ -13,6 +13,7 @@
 
 @interface DB_Message : NSManagedObject
 
+@property (nonatomic) short contentType;
 @property (nonatomic, retain) NSString * contactId;
 @property (nonatomic, retain) NSNumber * createdAt;
 @property (nonatomic, retain) NSString * deviceKey;

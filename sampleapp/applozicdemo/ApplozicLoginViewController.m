@@ -13,7 +13,7 @@
 #import  <Applozic/ALRegistrationResponse.h>
 #import <Applozic/ALRegisterUserClientService.h>
 #import <Applozic/ALMessagesViewController.h>
-
+#import <Applozic/ALApplozicSettings.h>
 
 
 @interface ApplozicLoginViewController ()
@@ -135,7 +135,12 @@
 - (IBAction)login:(id)sender {
     
     [ALUserDefaultsHandler setBackButtonHidden:YES];
-
+    [ALUserDefaultsHandler setLogoutButtonHidden:NO];
+    [ALUserDefaultsHandler setBottomTabBarHidden:NO];
+    [ALApplozicSettings setUserProfileHidden:YES];
+    [ALApplozicSettings hideRefreshButton:NO];
+    
+    [ALApplozicSettings setTitleForConversationScreen:@"Conversation"];
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
     
