@@ -217,7 +217,7 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    self.stopSearchText = searchText; NSLog(@"searchText %@",searchText);
+    self.stopSearchText = searchText; 
     [self.filteredContactList removeAllObjects];
     if (searchText.length!=0) {
         

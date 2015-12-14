@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MQTTSession.h"
 #import "ALMessage.h"
+#import "ALSyncCallService.h"
 
 @protocol ALMQTTConversationDelegate <NSObject>
 -(void) syncCall:(ALMessage *) alMessage;
@@ -22,11 +23,12 @@
 
 +(ALMQTTConversationService *)sharedInstance;
 
+@property(nonatomic, weak) ALSyncCallService *alSyncCallService;
+
 -(void) subscribeToConversation;
 
 -(void) sendTypingStatus:(NSString *) applicationKey userID:(NSString *) userId typing: (BOOL) typing;
 
-@property(nonatomic, weak) id<ALMQTTConversationDelegate>mqttConversationDelegate;
-
+@property(nonatomic, strong) id<ALMQTTConversationDelegate>mqttConversationDelegate;
 
 @end

@@ -268,6 +268,7 @@
     return result;
 }
 
+<<<<<<< HEAD
 -(void)addUserDetails:(NSMutableArray *)userDetails
 {
    // NSMutableArray *userDetailArray = [[NSMutableArray alloc] init];
@@ -339,6 +340,12 @@
     
     if(result.count>0)
     {
+=======
+-(void) updateConnectedStatus: (NSString *) userId lastSeenAt:(NSNumber *) lastSeenAt  connected: (BOOL) connected {
+    //Todo: update connected status in database.
+}
+
+>>>>>>> origin/master
 
         NSManagedObject *ob = [result objectAtIndex:0];
         [ob setValue:[NSNumber numberWithDouble:[userDetail.lastSeenAtTime doubleValue]] forKey:@"lastSeenAt"];

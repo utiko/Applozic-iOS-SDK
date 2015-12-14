@@ -66,7 +66,16 @@
 }
 
 -(void) updateDeliveryReportForContact: (NSString *) contactId {
-    //Todo: update delivery report for all messages of contactId
+ 
+    NSBatchUpdateRequest *req = [[NSBatchUpdateRequest alloc] initWithEntityName:@"DB_Message"];
+        req.predicate = [NSPredicate predicateWithFormat:@"contactId==%@",contactId];
+        req.propertiesToUpdate = @{
+                                   @"delivered" : @(YES)
+                                   };
+        req.resultType = NSUpdatedObjectsCountResultType;
+        ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+        NSBatchUpdateResult *res = (NSBatchUpdateResult *)[dbHandler.managedObjectContext executeRequest:req error:nil];
+        NSLog(@"%@ objects updated", res.result);
 }
 
 
@@ -305,7 +314,6 @@
     }];
 
 }
-
 
 -(void)fetchAndRefreshQuickConversation{
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
