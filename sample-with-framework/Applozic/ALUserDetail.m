@@ -39,4 +39,21 @@
     //NSLog(@"UNREAD COUNT : %@",self.unreadCount);
 }
 
+-(id)initWithDictonary:(NSDictionary *)messageDictonary{
+    [self parseMessage:messageDictonary];
+    return self;
+}
+
+-(void)parseMessage:(id) messageJson;
+{
+
+    self.userId = [self getStringFromJsonValue:messageJson[@"userId"]];
+    self.connected = [self getStringFromJsonValue:messageJson[@"connected"]];
+    self.lastSeenAtTime = [self getStringFromJsonValue:messageJson[@"lastSeenAtTime"]];
+    self.displayName = [self getStringFromJsonValue:messageJson[@"displayName"]];
+   // self.self.unreadCount = [self getStringFromJsonValue:messageJson[@"self.unreadCount"]];
+  
+}
+
+
 @end

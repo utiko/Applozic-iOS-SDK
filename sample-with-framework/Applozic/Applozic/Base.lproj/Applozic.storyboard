@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -35,7 +35,7 @@
                                         <rect key="frame" x="0.0" y="86" width="600" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nkO-yU-f6Y" id="jVl-2p-Q74">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="81"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="81.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="103" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9sE-W8-i33">
@@ -244,7 +244,7 @@
                                         <rect key="frame" x="0.0" y="86" width="600" height="59"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NOy-HJ-2YL" id="p0o-92-QNi">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="58"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="58.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8h-Lp-4Jd">
@@ -405,7 +405,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="arI-8a-uqq">
-                                <rect key="frame" x="529" y="550" width="51" height="48"/>
+                                <rect key="frame" x="529" y="549" width="51" height="49"/>
                                 <animations/>
                                 <state key="normal" title="Button" image="mobicom_ic_action_send_now.png"/>
                                 <connections>
@@ -422,6 +422,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RA0-Qd-4Mg">
                                 <rect key="frame" x="11" y="553" width="40" height="45"/>
+                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="WV7-5F-oxl"/>
                                 </constraints>
@@ -435,33 +436,33 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="VB1-qI-ehD" firstAttribute="top" secondItem="WNc-sD-ErX" secondAttribute="bottom" constant="8" id="05r-CL-Izw"/>
-                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="baseline" secondItem="arI-8a-uqq" secondAttribute="baseline" constant="13" id="3vj-2g-x6C"/>
-                            <constraint firstItem="WNc-sD-ErX" firstAttribute="leading" secondItem="RA0-Qd-4Mg" secondAttribute="trailing" constant="8" id="6rp-bL-fKf"/>
-                            <constraint firstAttribute="trailing" secondItem="XrG-C6-GhS" secondAttribute="trailing" id="8fX-5Q-Kdx"/>
-                            <constraint firstItem="fcy-p5-tcB" firstAttribute="trailing" secondItem="XrG-C6-GhS" secondAttribute="trailing" id="CQw-CB-O1b"/>
-                            <constraint firstItem="XrG-C6-GhS" firstAttribute="top" secondItem="IEC-BM-wED" secondAttribute="top" constant="44" id="DHs-aS-wdN"/>
-                            <constraint firstItem="WNc-sD-ErX" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leadingMargin" constant="39" id="ENI-GJ-Qwd"/>
-                            <constraint firstItem="VB1-qI-ehD" firstAttribute="leading" secondItem="WNc-sD-ErX" secondAttribute="leading" id="ERn-KP-DSH"/>
-                            <constraint firstItem="fcy-p5-tcB" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="top" constant="17" id="EqC-1E-6IV"/>
-                            <constraint firstItem="XrG-C6-GhS" firstAttribute="centerX" secondItem="cVw-Po-VWO" secondAttribute="centerX" id="M3O-h1-LX1"/>
-                            <constraint firstItem="onN-md-bNU" firstAttribute="top" secondItem="arI-8a-uqq" secondAttribute="bottom" constant="2" id="NKu-jF-hEE"/>
+                            <constraint firstItem="VB1-qI-ehD" firstAttribute="top" secondItem="WNc-sD-ErX" secondAttribute="bottom" constant="8" identifier="View.top" id="05r-CL-Izw"/>
+                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="baseline" secondItem="arI-8a-uqq" secondAttribute="baseline" constant="13" identifier="Button.baseline" id="3vj-2g-x6C"/>
+                            <constraint firstItem="WNc-sD-ErX" firstAttribute="leading" secondItem="RA0-Qd-4Mg" secondAttribute="trailing" constant="8" identifier="Send Message Text View.leading=Button" id="6rp-bL-fKf"/>
+                            <constraint firstAttribute="trailing" secondItem="XrG-C6-GhS" secondAttribute="trailing" identifier="trailing" id="8fX-5Q-Kdx"/>
+                            <constraint firstItem="fcy-p5-tcB" firstAttribute="trailing" secondItem="XrG-C6-GhS" secondAttribute="trailing" identifier="Load Earlier Action.trailing" id="CQw-CB-O1b"/>
+                            <constraint firstItem="XrG-C6-GhS" firstAttribute="top" secondItem="IEC-BM-wED" secondAttribute="top" constant="44" identifier="MTable View.top" id="DHs-aS-wdN"/>
+                            <constraint firstItem="WNc-sD-ErX" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leadingMargin" constant="39" identifier="Send Message Text View.leading=leadingMargin" id="ENI-GJ-Qwd"/>
+                            <constraint firstItem="VB1-qI-ehD" firstAttribute="leading" secondItem="WNc-sD-ErX" secondAttribute="leading" identifier="View.leading" id="ERn-KP-DSH"/>
+                            <constraint firstItem="fcy-p5-tcB" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="top" constant="17" identifier="Load Earlier Action.top" id="EqC-1E-6IV"/>
+                            <constraint firstItem="XrG-C6-GhS" firstAttribute="centerX" secondItem="cVw-Po-VWO" secondAttribute="centerX" identifier="MTable View.centreX" id="M3O-h1-LX1"/>
+                            <constraint firstItem="onN-md-bNU" firstAttribute="top" secondItem="arI-8a-uqq" secondAttribute="bottom" constant="2" identifier="Check Bottom Constraint" id="NKu-jF-hEE"/>
                             <constraint firstItem="onN-md-bNU" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="bottom" id="OEc-Nz-7gM"/>
-                            <constraint firstItem="arI-8a-uqq" firstAttribute="top" secondItem="WNc-sD-ErX" secondAttribute="top" constant="1" id="PRg-hf-TAn"/>
-                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="firstBaseline" secondItem="arI-8a-uqq" secondAttribute="firstBaseline" constant="-9" id="VP1-Zk-J3w"/>
-                            <constraint firstItem="cVw-Po-VWO" firstAttribute="centerY" secondItem="IEC-BM-wED" secondAttribute="centerY" id="WSG-Up-0QY"/>
-                            <constraint firstItem="XrG-C6-GhS" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leading" id="X4Z-tI-BRd"/>
-                            <constraint firstItem="arI-8a-uqq" firstAttribute="trailing" secondItem="IEC-BM-wED" secondAttribute="trailingMargin" id="Y1w-Bg-XU6"/>
-                            <constraint firstItem="VB1-qI-ehD" firstAttribute="trailing" secondItem="WNc-sD-ErX" secondAttribute="trailing" id="Ybh-K3-5UY"/>
-                            <constraint firstItem="arI-8a-uqq" firstAttribute="leading" secondItem="WNc-sD-ErX" secondAttribute="trailing" constant="10" id="abh-mt-J2f"/>
-                            <constraint firstItem="fcy-p5-tcB" firstAttribute="leading" secondItem="XrG-C6-GhS" secondAttribute="leading" id="cgs-kW-cTD"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="VB1-qI-ehD" secondAttribute="trailing" constant="61" id="dXE-7g-9Bf"/>
-                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="bottom" secondItem="VB1-qI-ehD" secondAttribute="bottom" id="mYM-7Y-d63"/>
+                            <constraint firstItem="arI-8a-uqq" firstAttribute="top" secondItem="WNc-sD-ErX" secondAttribute="top" identifier="sendButton.Top" id="PRg-hf-TAn"/>
+                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="firstBaseline" secondItem="arI-8a-uqq" secondAttribute="firstBaseline" constant="-9" identifier="Button.firstBaseline" id="VP1-Zk-J3w"/>
+                            <constraint firstItem="cVw-Po-VWO" firstAttribute="centerY" secondItem="IEC-BM-wED" secondAttribute="centerY" identifier="MActivity Indicator.centerY" id="WSG-Up-0QY"/>
+                            <constraint firstItem="XrG-C6-GhS" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leading" identifier="MTable View.Leading" id="X4Z-tI-BRd"/>
+                            <constraint firstItem="arI-8a-uqq" firstAttribute="trailing" secondItem="IEC-BM-wED" secondAttribute="trailingMargin" identifier="sendButton.trailing" id="Y1w-Bg-XU6"/>
+                            <constraint firstItem="VB1-qI-ehD" firstAttribute="trailing" secondItem="WNc-sD-ErX" secondAttribute="trailing" identifier="View.trailing" id="Ybh-K3-5UY"/>
+                            <constraint firstItem="arI-8a-uqq" firstAttribute="leading" secondItem="WNc-sD-ErX" secondAttribute="trailing" constant="10" identifier="sendButton.Leading" id="abh-mt-J2f"/>
+                            <constraint firstItem="fcy-p5-tcB" firstAttribute="leading" secondItem="XrG-C6-GhS" secondAttribute="leading" identifier="Load Earlier Action.leading" id="cgs-kW-cTD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="VB1-qI-ehD" secondAttribute="trailing" constant="61" identifier="trailingMargin" id="dXE-7g-9Bf"/>
+                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="bottom" secondItem="VB1-qI-ehD" secondAttribute="bottom" identifier="Button.bottom" id="mYM-7Y-d63"/>
                             <constraint firstItem="onN-md-bNU" firstAttribute="top" secondItem="VB1-qI-ehD" secondAttribute="bottom" constant="5" id="oJd-yd-pFo"/>
-                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leadingMargin" constant="-9" id="pzP-LY-Obh"/>
-                            <constraint firstItem="VB1-qI-ehD" firstAttribute="bottom" secondItem="arI-8a-uqq" secondAttribute="bottom" id="r5j-kd-Zw7"/>
-                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="top" secondItem="WNc-sD-ErX" secondAttribute="top" constant="4" id="uMZ-ac-aWU"/>
-                            <constraint firstItem="WNc-sD-ErX" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="bottom" constant="4" id="yfV-IF-f4X"/>
+                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leadingMargin" constant="-9" identifier="Button.leading" id="pzP-LY-Obh"/>
+                            <constraint firstItem="VB1-qI-ehD" firstAttribute="bottom" secondItem="arI-8a-uqq" secondAttribute="bottom" identifier="View.bottom" id="r5j-kd-Zw7"/>
+                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="top" secondItem="WNc-sD-ErX" secondAttribute="top" constant="4" identifier="Button.top" id="uMZ-ac-aWU"/>
+                            <constraint firstItem="WNc-sD-ErX" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="bottom" constant="4" identifier="Send Message Text View.top" id="yfV-IF-f4X"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">

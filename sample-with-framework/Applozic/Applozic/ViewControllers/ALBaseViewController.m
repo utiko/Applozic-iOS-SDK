@@ -70,8 +70,8 @@
 -(void)setUpTheming {
     UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
     if (!color) {
-        color = [UIColor blackColor];
-       // color = [UIColor whiteColor];
+       // color = [UIColor blackColor];
+        color = [UIColor whiteColor];
     }
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                     color,NSForegroundColorAttributeName,nil];
@@ -96,7 +96,7 @@
     self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.label.backgroundColor = [UIColor clearColor];
     [self.label setFont:[UIFont fontWithName:@"Helvetica" size:10]];
-    self.label.textAlignment = UITextAlignmentCenter;
+    self.label.textAlignment = NSTextAlignmentCenter;
 
     [self.navigationController.navigationBar addSubview:self.label];
  
@@ -105,7 +105,7 @@
     self.typingLabel.backgroundColor = [UIColor clearColor];
     self.typingLabel.textColor = [UIColor grayColor];
     [self.typingLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
-    self.typingLabel.textAlignment = UITextAlignmentLeft;
+    self.typingLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.typingLabel];
     
 }
@@ -139,16 +139,16 @@
 
 -(void)viewWillAppear:(BOOL)animated{
 
- //  [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
-  //  [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
+   [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+    [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
     
-   // [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
     [self.tabBarController.tabBar setHidden: YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
 
-    //self.navigationController.navigationBar.barTintColor = self.navColor;
+    self.navigationController.navigationBar.barTintColor = self.navColor;
     self.tabBarController.tabBar.hidden = YES;
 }
 

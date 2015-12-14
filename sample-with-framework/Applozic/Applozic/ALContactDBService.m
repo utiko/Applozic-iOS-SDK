@@ -268,10 +268,100 @@
     return result;
 }
 
+<<<<<<< HEAD
+-(void)addUserDetails:(NSMutableArray *)userDetails
+{
+   // NSMutableArray *userDetailArray = [[NSMutableArray alloc] init];
+    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+    for(ALUserDetail *theUserDetail in userDetails)
+    {
+        
+        DB_CONTACT* existingContact = [self getContactByKey:@"userId" value:[theUserDetail userId]];
+        
+        if(existingContact!=nil)
+        {
+            [self updateUserDetail:theUserDetail];
+            continue;
+        }
+        
+        DB_CONTACT *theUserDetailEntity = [self createUserDetailEntityForDBInsertionWithUserDetail:theUserDetail];
+        
+        
+        [theDBHandler.managedObjectContext save:nil];
+        theUserDetail.userDetailDBObjectId = theUserDetailEntity.objectID;
+       // [userDetailArray addObject:theUserDetail];
+        
+    }
+    
+}
+
+-(DB_CONTACT*) createUserDetailEntityForDBInsertionWithUserDetail:(ALUserDetail *) userDetail
+{
+     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+    
+    DB_CONTACT *theUserDetailEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_CONTACT" inManagedObjectContext:theDBHandler.managedObjectContext];
+    
+    theUserDetailEntity.userId = userDetail.userId;
+    
+    if(userDetail.displayName == nil)
+    {
+        theUserDetailEntity.displayName = userDetail.userId;
+    }
+    else
+    {
+        theUserDetailEntity.displayName = userDetail.displayName;
+    }
+    
+    theUserDetailEntity.lastSeenAt = [NSNumber numberWithInt:[userDetail.lastSeenAtTime intValue]];
+    theUserDetailEntity.connected = [userDetail.connected boolValue];
+    
+    return theUserDetailEntity;
+}
+
+-(BOOL)updateUserDetail:(ALUserDetail *)userDetail;
+{
+    BOOL success = NO;
+    
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CONTACT" inManagedObjectContext:dbHandler.managedObjectContext];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId = %@",userDetail.userId];
+    
+    [fetchRequest setEntity:entity];
+    
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *fetchError = nil;
+    
+    NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    
+    if(result.count>0)
+    {
+=======
 -(void) updateConnectedStatus: (NSString *) userId lastSeenAt:(NSNumber *) lastSeenAt  connected: (BOOL) connected {
     //Todo: update connected status in database.
 }
 
+>>>>>>> origin/master
 
+        NSManagedObject *ob = [result objectAtIndex:0];
+        [ob setValue:[NSNumber numberWithDouble:[userDetail.lastSeenAtTime doubleValue]] forKey:@"lastSeenAt"];
+         [ob setValue:[NSNumber numberWithBool:userDetail.connected] forKey:@"connected"];
+    }
+    NSError *error = nil;
+    
+    success = [dbHandler.managedObjectContext save:&error];
+    
+    if (!success) {
+        
+        NSLog(@"DB ERROR :%@",error);
+    }
+    
+    return success;
+
+}
 
 @end
