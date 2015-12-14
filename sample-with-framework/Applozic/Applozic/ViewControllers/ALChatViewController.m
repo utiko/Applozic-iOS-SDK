@@ -483,6 +483,7 @@ ALMessageDBService  * dbService;
     }
     else
     {
+       
         if (theArray.count < self.rp || self.mMessageListArray.count == self.mTotalCount) {
             self.mTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
         }
@@ -934,7 +935,7 @@ ALMessageDBService  * dbService;
                 NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
                 NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
                 [[self mMessageListArray] addObjectsFromArray:sortedArray];
-
+                
                 [ALUserService processContactFromMessages:messageList];
                 [self setTitle];
                 [self.mTableView reloadData];
@@ -1058,7 +1059,7 @@ ALMessageDBService  * dbService;
             NSLog(@"No Error");
             ALMessageDBService *msgDBService = [[ALMessageDBService alloc] init];
             
-            if(messages.count == 0)
+            if(messages.count <50)
             {
                 [self.loadEarlierAction setHidden:YES];
             }
@@ -1067,10 +1068,16 @@ ALMessageDBService  * dbService;
                 [self.loadEarlierAction setHidden:NO];
                 [msgDBService addMessageList:messages];
             }
+            [self.mMessageListArray addObjectsFromArray:messages];
             
-            
-            [self reloadView];
-            [self fetchAndRefresh];
+            for (ALMessage * msg in messages) {
+                [self.mMessageListArray insertObject:msg atIndex:0];
+            }
+            self.startIndex = self.startIndex + messages.count;
+            [self.mTableView reloadData];
+
+           // [self reloadView];
+            //[self fetchAndRefresh];
         }
         else
         {
@@ -1218,7 +1225,7 @@ ALMessageDBService  * dbService;
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
      NSLog(@"DidEndDecelerating");
-    if(scrollView.contentOffset.y < 0)
+    if(scrollView.contentOffset.y < 0 && self.mMessageListArray.count >= 50 )
     {
        //  NSLog(@"REACHED TOP");
         [self.loadEarlierAction setHidden:NO];
