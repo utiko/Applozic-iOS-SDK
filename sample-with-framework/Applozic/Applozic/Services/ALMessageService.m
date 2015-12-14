@@ -20,8 +20,55 @@
 #import "ALSendMessageResponse.h"
 #import "ALUserService.h"
 #import "ALUserDetail.h"
+#import "ALContactDBService.h"
 
 @implementation ALMessageService
+
++(void) processLatestMessagesGroupByContact {
+    /*ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
+    [ almessageDBService fetchAndRefreshFromServer];*/
+    [self getLatestMessageGroupByContactWithCompletion:^(ALMessageList *alMessageList, NSError *error) {
+        if (error) {
+            return;
+        }
+        ALMessageDBService *alMessageDBService = [[ALMessageDBService alloc] init];
+        [alMessageDBService addMessageList:alMessageList.messageList];
+        ALContactDBService *alContactDBService = [[ALContactDBService alloc] init];
+        [alContactDBService addUserDetails:alMessageList.userDetailsList];
+
+        // set yes to userdefaults
+        [ALUserDefaultsHandler setBoolForKey_isConversationDbSynced:YES];
+
+        
+    }];
+}
+
+
++(void) getLatestMessageGroupByContactWithCompletion:(void(^)(ALMessageList * alMessageList, NSError * error)) completion {
+    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
+    
+    NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@",@"0"];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"GET MESSAGES GROUP BY CONTACT" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if (theError) {
+            
+            completion(nil,theError);
+            
+            return ;
+        }
+        
+        ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
+        
+        completion(messageListResponse,nil);
+        NSLog(@"message list response THE JSON %@",theJson);
+        //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
+    }];
+    
+}
 
 +(void) getMessagesListGroupByContactswithCompletion:(void(^)(NSMutableArray * messages, NSError * error)) completion {
     
@@ -43,13 +90,13 @@
         ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
         completion(messageListResponse.messageList,nil);
-        //NSLog(@"message list response THE JSON %@",theJson);
+        NSLog(@"message list response THE JSON %@",theJson);
 //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
     }];
     
 }
 
-+(void)getMessageListForUser:(NSString *)userId startIndex:(NSString *)startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSString *)endTimeStamp withCompletion:(void (^)(NSMutableArray *, NSError *))completion
++(void)getMessageListForUser:(NSString *)userId startIndex:(NSString *)startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSString *)endTimeStamp withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion
 {
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
@@ -62,13 +109,13 @@
         
         if (theError) {
             
-            completion(nil,theError);
+            completion(nil, theError, nil);
             
             return ;
         }
-        ALMessageList *messageListResponse=  [[ALMessageList alloc] initWithJSONString:theJson];
+        ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson];
         
-        completion(messageListResponse.messageList,nil);
+        completion(messageListResponse.messageList, nil, messageListResponse.userDetailsList);
        // NSLog(@"message list response THE JSON %@",theJson);
     }];
     

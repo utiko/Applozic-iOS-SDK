@@ -8,6 +8,7 @@
 
 #import "ALMessageList.h"
 #import "ALMessage.h"
+#import "ALUserDetail.h"
 
 @implementation ALMessageList
 
@@ -22,6 +23,7 @@
 -(void)parseMessagseArray:(id) messagejson
 {
     NSMutableArray * theMessagesArray = [NSMutableArray new];
+    NSMutableArray * theUserDetailArray = [NSMutableArray new];
     
     NSDictionary * theMessageDict = [messagejson valueForKey:@"message"];
 
@@ -30,6 +32,16 @@
         [theMessagesArray addObject:message];
     }
     self.messageList = theMessagesArray;
+    
+    NSDictionary * theUserDetailsDict = [messagejson valueForKey:@"userDetails"];
+
+    for (NSDictionary * theDictionary in theUserDetailsDict) {
+        ALUserDetail *alUserDetail = [[ALUserDetail alloc] initWithDictonary:theDictionary];
+        [theUserDetailArray addObject:alUserDetail];
+    }
+    
+    self.userDetailsList = theUserDetailArray;
+    
   }
 
 

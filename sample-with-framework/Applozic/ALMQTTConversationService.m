@@ -33,6 +33,7 @@ static MQTTSession *session;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[ALMQTTConversationService alloc] init];
+        sharedInstance.alSyncCallService = [[ALSyncCallService alloc] init];
     });
     return sharedInstance;
 }
@@ -54,6 +55,11 @@ static MQTTSession *session;
     
     [session connectToHost:MQTT_URL port:[MQTT_PORT intValue] withConnectionHandler:^(MQTTSessionEvent event) {
         if (event == MQTTSessionEventConnected) {
+            [session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", [ALUserDefaultsHandler getUserKeyString], @"1"] dataUsingEncoding:NSUTF8StringEncoding]
+                                onTopic:@"status"
+                                 retain:NO
+                                    qos:MQTTQosLevelAtMostOnce];
+
             NSLog(@"MQTT: Subscribing to conversation topics.");
             [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
             [session subscribeToTopic:[NSString stringWithFormat:@"typing-%@-%@", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId]] atLevel:MQTTQosLevelAtMostOnce];
@@ -68,6 +74,8 @@ static MQTTSession *session;
      [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
      }*/
 }
+
+
 
 - (void)session:(MQTTSession*)session newMessage:(NSData*)data onTopic:(NSString*)topic {
     NSLog(@"MQTT got new message");
@@ -90,33 +98,26 @@ static MQTTSession *session;
         BOOL typingStatus = [typingParts[2] boolValue];
         [self.mqttConversationDelegate updateTypingStatus:applicationKey userId:userId status:typingStatus];
     } else {
-        /*if ([type isEqualToString:@"MESSAGE_DELIVERED_READ"]) {
-            NSLog(@"mark as read and delivered");
-        } else*/
         if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:@"APPLOZIC_04"]||[type isEqualToString:@"APPLOZIC_08"]) {
             NSArray *deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
-            ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
-            [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
-            NSLog(@"delivery report for %@", deliveryParts[0]);
+            [self.alSyncCallService updateMessageDeliveryReport:deliveryParts[0]];
             [self.mqttConversationDelegate delivered: deliveryParts[0] contactId:deliveryParts[1]];
         } else if ([type isEqualToString: @"MESSAGE_RECEIVED"]||[type isEqualToString:@"APPLOZIC_01"]) {
-           /* NSData *messageData = [instantMessageJson
-                                   dataUsingEncoding:NSUTF8StringEncoding];
-            
-            id result = [NSJSONSerialization JSONObjectWithData:messageData
-                                                        options:NSJSONReadingAllowFragments
-                                                          error:NULL];*/
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
+            [self.alSyncCallService syncCall: alMessage];
+            //Todo: split backend logic and ui logic between synccallservice and delegate
             [self.mqttConversationDelegate syncCall: alMessage];
         } else if ([type isEqualToString:@"APPLOZIC_10"]) {
-            //String contactId = mqttMessageResponse.getMessage().toString();
             NSString *contactId = [theMessageDict objectForKey:@"message"];
-            ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
-            [messageDBService updateDeliveryReportForContact:contactId];
+            [self.alSyncCallService updateDeliveryStatusForContact: contactId];
             [self.mqttConversationDelegate updateDeliveryStatusForContact: contactId];
+        } else if ([type isEqualToString: @"APPLOZIC_11"]) {
+            [self.alSyncCallService updateConnectedStatus: [theMessageDict objectForKey:@"message"] lastSeenAt: [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000] connected: YES];
+        } else if ([type isEqualToString:@"APPLOZIC_12"]) {
+            NSArray *parts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
+            [self.alSyncCallService updateConnectedStatus: parts[0] lastSeenAt: parts[1] connected: NO];
         }
     }
-  
 }
 
 - (void)subAckReceived:(MQTTSession *)session msgID:(UInt16)msgID grantedQoss:(NSArray *)qoss
@@ -149,6 +150,27 @@ static MQTTSession *session;
      NSLog(@"Sending typing status %d to: %@", typing, userId);
     NSData* data=[[NSString stringWithFormat:@"%@,%@,%i", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId], typing ? 1 : 0] dataUsingEncoding:NSUTF8StringEncoding];
     [session publishDataAtMostOnce:data onTopic:[NSString stringWithFormat:@"typing-%@-%@", applicationKey, userId]];
+}
+
+-(void) unsubscribeToConversation {
+    NSString *userKey = [ALUserDefaultsHandler getUserKeyString];
+    [self unsubscribeToConversation: userKey];
+}
+
+-(void) unsubscribeToConversation: (NSString *) userKey {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (session == nil) {
+            return;
+        }
+        [session publishAndWaitData:[[NSString stringWithFormat:@"%@,%@", userKey, @"0"] dataUsingEncoding:NSUTF8StringEncoding]
+                            onTopic:@"status"
+                             retain:NO
+                                qos:MQTTQosLevelAtMostOnce];
+        [session unsubscribeTopic:[ALUserDefaultsHandler getUserKeyString]];
+        [session unsubscribeTopic:[NSString stringWithFormat:@"typing-%@-%@", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId]]];
+        [session close];
+        NSLog(@"Disconnected from mqtt");
+    });
 }
 
 @end

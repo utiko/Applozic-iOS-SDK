@@ -7,6 +7,7 @@ dependencies: \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALMessage.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALJson.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALFileMetaInfo.h \
+  /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/ALSyncCallService.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Handlers/ALUserDefaultsHandler.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Resources/Files/ALConstant.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ALMessageDBService.h \

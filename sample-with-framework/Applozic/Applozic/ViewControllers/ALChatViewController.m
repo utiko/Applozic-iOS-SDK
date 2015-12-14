@@ -36,9 +36,8 @@
 #import "ALUserService.h"
 #import "ALMessageService.h"
 #import "ALUserDetail.h"
-#import "ALMQTTService.h"
 #import "ALMQTTConversationService.h"
-
+#import "ALContactDBService.h"
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate>
 
@@ -114,7 +113,7 @@ ALMessageDBService  * dbService;
     [self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
     [self processMarkRead];
 
-    //[self.label setTextColor:[UIColor whiteColor]];
+    [self.label setTextColor:[UIColor whiteColor]];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -142,8 +141,7 @@ ALMessageDBService  * dbService;
         [self processLoadEarlierMessages];
     }
     
-        [self serverCallForLastSeen];
-    
+    [self serverCallForLastSeen];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -1053,11 +1051,12 @@ ALMessageDBService  * dbService;
     else {
         time = NULL;
     }
-    [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time.stringValue withCompletion:^(NSMutableArray *messages, NSError *error){
+    [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time.stringValue withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
         if(!error )
         {
             NSLog(@"No Error");
             ALMessageDBService *msgDBService = [[ALMessageDBService alloc] init];
+            ALContactDBService *contactDBService = [[ALContactDBService alloc] init];
             
             if(messages.count <50)
             {
@@ -1070,6 +1069,7 @@ ALMessageDBService  * dbService;
             }
             [self.mMessageListArray addObjectsFromArray:messages];
             
+<<<<<<< HEAD
             for (ALMessage * msg in messages) {
                 [self.mMessageListArray insertObject:msg atIndex:0];
             }
@@ -1078,6 +1078,19 @@ ALMessageDBService  * dbService;
 
            // [self reloadView];
             //[self fetchAndRefresh];
+=======
+            /*if(userDetailArray.count == 0)
+            {
+                NSLog(@"ARRAY OF USER DETAIL IS EMPTY");
+            }
+            else
+            {
+                [contactDBService addUserDetail:userDetailArray];
+            }*/
+            
+            [self reloadView];
+            [self fetchAndRefresh];
+>>>>>>> origin/master
         }
         else
         {
@@ -1093,6 +1106,7 @@ ALMessageDBService  * dbService;
     [ALMessageService userDetailServerCall:self.contactIds withCompletion:^(ALUserDetail *alUserDetail){
         if(alUserDetail)
         {
+            [[[ALContactDBService alloc]init] updateUserDetail:alUserDetail];
             NSString *tempString = [NSString stringWithFormat:@"%@", alUserDetail.lastSeenAtTime];
             NSCharacterSet *charsToTrim = [NSCharacterSet characterSetWithCharactersInString:@"()  \n\""];
             tempString = [tempString stringByTrimmingCharactersInSet:charsToTrim];

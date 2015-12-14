@@ -315,7 +315,6 @@
 
 }
 
-
 -(void)fetchAndRefreshQuickConversation{
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     
@@ -344,8 +343,8 @@
             completion(NO,nil);
             return ;
         }
-        NSMutableArray * dataArray = [NSMutableArray arrayWithArray:messageArray];
-        completion(YES,dataArray);
+        //NSMutableArray * dataArray = [NSMutableArray arrayWithArray:messageArray];
+        completion(YES, messageArray);
     }];
 }
 
