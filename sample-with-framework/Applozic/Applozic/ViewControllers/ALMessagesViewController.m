@@ -416,6 +416,52 @@ ALMQTTConversationService *alMqttConversationService;
     [self.mTableView reloadData];
 }
 
+-(void)updateMessageList:(NSMutableArray *)messagesArray {
+    
+    for ( ALMessage *msg  in  messagesArray){
+   
+        ALContactCell *contactCell = [self getCell:msg.contactIds];
+        if(contactCell){    
+            NSLog(@"contact cell found ....");
+            contactCell.mMessageLabel.text = msg.message;
+            UILabel* unread=(UILabel*)[contactCell viewWithTag:104];
+            ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
+            unread.hidden=FALSE;
+            contactCell.mCountImageView.hidden=FALSE;
+            unread.text=[NSString stringWithFormat:@"%lu",(unsigned long)[[messageDBService getUnreadMessages:msg.contactIds] count]];
+            if ([msg.type integerValue] == [FORWARD_STATUS integerValue])
+                contactCell.mLastMessageStatusImageView.image = [UIImage imageNamed:@"mobicom_social_forward.png"];
+            else if ([msg.type integerValue] == [REPLIED_STATUS integerValue])
+                contactCell.mLastMessageStatusImageView.image = [UIImage imageNamed:@"mobicom_social_reply.png"];
+            
+            BOOL isToday = [ALUtilityClass isToday:[NSDate dateWithTimeIntervalSince1970:[msg.createdAtTime doubleValue]/1000]];
+            contactCell.mTimeLabel.text = [msg getCreatedAtTime:isToday];
+
+        }else{
+            NSLog(@"contact cell not found ....");
+        }
+    }
+
+    
+}
+
+-(ALContactCell * ) getCell:(NSString *)key{
+    
+    int index=(int) [self.mContactsMessageListArray indexOfObjectPassingTest:^BOOL(id element,NSUInteger idx,BOOL *stop)
+                     {
+                         ALMessage *message = (ALMessage*)element;
+                         if( [ message.contactIds isEqualToString:key ])
+                         {
+                             *stop = YES;
+                             return YES;
+                         }
+                         return NO;
+                     }];
+    NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
+    ALContactCell *contactCell  = (ALContactCell *)[self.mTableView cellForRowAtIndexPath:path];
+    return contactCell;
+    
+}
 
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - Table View DataSource Methods
@@ -655,16 +701,25 @@ ALMQTTConversationService *alMqttConversationService;
     
     [self.detailChatViewController setRefresh: TRUE];
     if ([self.detailChatViewController contactIds] != nil) {
+       // NSLog(@"executing if part...");
+
         //Todo: set value of updateUI and [self.detailChatViewController contactIds] with actual contactId of the message
         [self.detailChatViewController syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
     } else {
-        [dBService fetchAndRefreshFromServerForPush];
+       // NSLog(@"executing else part....");
+        [dBService fetchAndRefreshQuickConversation];
     }
 }
 
 -(void) delivered:(NSString *)messageKey contactId:(NSString *)contactId {
     if ([[self.detailChatViewController contactIds] isEqualToString: contactId]) {
         [self.detailChatViewController updateDeliveryReport: messageKey];
+    }
+}
+
+-(void) updateDeliveryStatusForContact: (NSString *) contactId {
+    if ([[self.detailChatViewController contactIds] isEqualToString: contactId]) {
+        [self.detailChatViewController updateDeliveryReportForConversation];
     }
 }
 

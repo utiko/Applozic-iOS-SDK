@@ -47,20 +47,6 @@ static MQTTSession *session;
     NSLog(@"connected...");
 }
 
-
-/*
- * MQTTSessionManagerDelegate
- */
-- (void)handleMessage:(NSData *)data onTopic:(NSString *)topic retained:(BOOL)retained {
-    /*
-     * MQTTClient: process received message
-     */
-    NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"#####MQTT: %@", dataString);
-    NSLog(@"#####MQTT: %@", topic);
-}
-
-
 -(void) connectToApplozic {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (![ALUserDefaultsHandler isLoggedIn]) {

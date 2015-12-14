@@ -22,5 +22,8 @@
 
 -(BOOL) validateJsonArrayClass:(NSArray *) jsonClass;
 
+-(short)getShortFromJsonValue:(id) jsonValue;
+
+-(NSNumber *) getNSNumberFromJsonValue:(id) jsonValue;
 
 @end

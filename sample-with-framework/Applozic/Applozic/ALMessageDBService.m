@@ -64,6 +64,21 @@
    NSManagedObject *obj =  [theDBHandler.managedObjectContext existingObjectWithID:objectID error:error];
    return obj;
 }
+
+-(void) updateDeliveryReportForContact: (NSString *) contactId {
+ 
+    NSBatchUpdateRequest *req = [[NSBatchUpdateRequest alloc] initWithEntityName:@"DB_Message"];
+        req.predicate = [NSPredicate predicateWithFormat:@"contactId==%@",contactId];
+        req.propertiesToUpdate = @{
+                                   @"delivered" : @(YES)
+                                   };
+        req.resultType = NSUpdatedObjectsCountResultType;
+        ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+        NSBatchUpdateResult *res = (NSBatchUpdateResult *)[dbHandler.managedObjectContext executeRequest:req error:nil];
+        NSLog(@"%@ objects updated", res.result);
+}
+
+
 //update Message APIS
 -(void)updateMessageDeliveryReport:(NSString*)keyString{
     
@@ -290,15 +305,29 @@
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     
     [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
-       
         if (error) {
             NSLog(@"%@",error);
             return ;
         }
-        //[self addMessageList:messageArray];
-        [self fetchConversationsGroupByContactId];
+      //  [self addMessageList:messageArray];
+       [self fetchConversationsGroupByContactId];
     }];
 
+}
+
+-(void)fetchAndRefreshQuickConversation{
+    NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
+    
+    [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
+        if (error) {
+            NSLog(@"%@",error);
+            return ;
+        }
+        [self addMessageList:messageArray];
+        [self.delegate updateMessageList:messageArray];
+        //[self fetchConversationsGroupByContactId];
+    }];
+    
 }
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark -  Helper methods
@@ -374,7 +403,7 @@
     DB_Message * theMessageEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
     
     theMessageEntity.contactId = theMessage.contactIds;
-    theMessageEntity.createdAt =  theMessage.createdAtTime;//[NSNumber numberWithInteger:theMessage.createdAtTime.integerValue];
+    theMessageEntity.createdAt =  theMessage.createdAtTime;
     theMessageEntity.deviceKey = theMessage.deviceKey;
     theMessageEntity.isRead = [NSNumber numberWithBool:([theMessageEntity.type isEqualToString:@"5"] ? TRUE : theMessage.read)];
     theMessageEntity.isSent = [NSNumber numberWithBool:theMessage.sent];

@@ -12,6 +12,7 @@
 #define NAVIGATION_BAR_COLOUR @"NAVIGATION_BAR_COLOUR"
 #define NAVIGATION_BAR_ITEM_COLOUR @"NAVIGATION_BAR_ITEM_COLOUR"
 #define REFRESH_BUTTON_VISIBILITY @"REFRESH_BUTTON_VISIBILITY"
+#define CONVERSATION_TITLE @"CONVERSATION_TITLE"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -43,5 +44,9 @@
 +(void)hideRefreshButton:(BOOL)state;
 
 +(BOOL)isRefreshButtonHidden;
+
++(void)setTitleForConversationScreen:(NSString *)titleText;
+
++(NSString *)getTitleForConversationScreen;
 
 @end

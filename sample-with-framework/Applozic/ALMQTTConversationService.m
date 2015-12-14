@@ -17,12 +17,23 @@
 
 static MQTTSession *session;
 
+/*
+ MESSAGE_RECEIVED("APPLOZIC_01"), MESSAGE_SENT("APPLOZIC_02"),
+ MESSAGE_SENT_UPDATE("APPLOZIC_03"), MESSAGE_DELIVERED("APPLOZIC_04"),
+ MESSAGE_DELETED("APPLOZIC_05"), CONVERSATION_DELETED("APPLOZIC_06"),
+ MESSAGE_READ("APPLOZIC_07"), MESSAGE_DELIVERED_AND_READ("APPLOZIC_08"),
+ CONVERSATION_READ("APPLOZIC_09"), CONVERSATION_DELIVERED_AND_READ("APPLOZIC_10"),
+ USER_CONNECTED("APPLOZIC_11"), USER_DISCONNECTED("APPLOZIC_12"),
+ GROUP_DELETED("APPLOZIC_13"), GROUP_LEFT("APPLOZIC_14");
+ */
+
 +(ALMQTTConversationService *)sharedInstance
 {
     static ALMQTTConversationService *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[ALMQTTConversationService alloc] init];
+        sharedInstance.alSyncCallService = [[ALSyncCallService alloc] init];
     });
     return sharedInstance;
 }
@@ -85,20 +96,37 @@ static MQTTSession *session;
         } else*/
         if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:@"APPLOZIC_04"]||[type isEqualToString:@"APPLOZIC_08"]) {
             NSArray *deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
-            ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
-            [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
-            NSLog(@"delivery report for %@", deliveryParts[0]);
+            [self.alSyncCallService updateMessageDeliveryReport:deliveryParts[0]];
             [self.mqttConversationDelegate delivered: deliveryParts[0] contactId:deliveryParts[1]];
         } else if ([type isEqualToString: @"MESSAGE_RECEIVED"]||[type isEqualToString:@"APPLOZIC_01"]) {
-           /* NSData *messageData = [instantMessageJson
-                                   dataUsingEncoding:NSUTF8StringEncoding];
-            
-            id result = [NSJSONSerialization JSONObjectWithData:messageData
-                                                        options:NSJSONReadingAllowFragments
-                                                          error:NULL];*/
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
+            [self.alSyncCallService syncCall: alMessage];
+            //Todo: split backend logic and ui logic between synccallservice and delegate
             [self.mqttConversationDelegate syncCall: alMessage];
+        } else if ([type isEqualToString:@"APPLOZIC_10"]) {
+            NSString *contactId = [theMessageDict objectForKey:@"message"];
+            [self.alSyncCallService updateDeliveryStatusForContact: contactId];
+            [self.mqttConversationDelegate updateDeliveryStatusForContact: contactId];
+        } else if ([type isEqualToString: @"APPLOZIC_11"]) {
+            [self.alSyncCallService updateConnectedStatus: [theMessageDict objectForKey:@"message"] lastSeenAt: [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000] connected: YES];
+        } else if ([type isEqualToString:@"APPLOZIC_12"]) {
+            NSArray *parts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
+            [self.alSyncCallService updateConnectedStatus: parts[0] lastSeenAt: parts[1] connected: NO];
         }
+        /*if (NOTIFICATION_TYPE.USER_CONNECTED.getValue().equals(mqttMessageResponse.getType())) {
+            syncCallService.updateConnectedStatus(mqttMessageResponse.getMessage().toString(), new Date(), true);
+        }
+        
+        if (NOTIFICATION_TYPE.USER_DISCONNECTED.getValue().equals(mqttMessageResponse.getType())) {
+            //disconnect comes with timestamp, ranjeet,1449866097000
+            String[] parts = mqttMessageResponse.getMessage().toString().split(",");
+            String userId = parts[0];
+            Date lastSeenAt = new Date();
+            if (parts.length >= 2) {
+                lastSeenAt = new Date(Long.valueOf(parts[1]));
+            }
+            syncCallService.updateConnectedStatus(userId, lastSeenAt, false);
+        }*/
     }
   
 }

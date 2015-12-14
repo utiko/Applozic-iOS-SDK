@@ -268,6 +268,10 @@
     return result;
 }
 
+-(void) updateConnectedStatus: (NSString *) userId lastSeenAt:(NSNumber *) lastSeenAt  connected: (BOOL) connected {
+    //Todo: update connected status in database.
+}
+
 
 
 @end

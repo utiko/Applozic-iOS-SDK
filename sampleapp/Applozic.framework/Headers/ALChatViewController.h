@@ -27,6 +27,8 @@
 
 -(void)updateDeliveryReport:(NSString*)keyString;
 
+-(void) updateDeliveryReportForConversation;
+
 -(void)individualNotificationhandler:(NSNotification *) notification;
 
 -(void)updateDeliveryStatus:(NSNotification *) notification;
