@@ -120,7 +120,7 @@ static MQTTSession *session;
             [self.alSyncCallService updateDeliveryStatusForContact: contactId];
             [self.mqttConversationDelegate updateDeliveryStatusForContact: contactId];
         } else if ([type isEqualToString: @"APPLOZIC_11"]) {
-            ALUserDetail *alUserDetail = [[ALUserDetail init] alloc];
+            ALUserDetail *alUserDetail = [[ALUserDetail alloc] init];
             alUserDetail.userId = [theMessageDict objectForKey:@"message"];
             alUserDetail.lastSeenAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
             alUserDetail.connected = YES;
@@ -129,9 +129,9 @@ static MQTTSession *session;
         } else if ([type isEqualToString:@"APPLOZIC_12"]) {
             NSArray *parts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
             
-            ALUserDetail *alUserDetail = [[ALUserDetail init] alloc];
+            ALUserDetail *alUserDetail = [[ALUserDetail alloc] init];
             alUserDetail.userId = parts[0];
-            alUserDetail.lastSeenAtTime = parts[1];
+            alUserDetail.lastSeenAtTime = [NSNumber numberWithDouble:[parts[1] doubleValue]];
             alUserDetail.connected = NO;
             
             [self.alSyncCallService updateConnectedStatus: alUserDetail];

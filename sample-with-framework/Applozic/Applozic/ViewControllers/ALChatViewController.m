@@ -1142,7 +1142,7 @@ ALMessageDBService  * dbService;
         if([serverdate compare:todaydate] == NSOrderedSame)
         {
             NSString *str = @"Last seen today ";
-            if(difference <= 60)
+            if(alUserDetail.connected)
             {
                 //                        [self.label setText:@"Last seen Just Now"];
                 [self.label setText:@"Online"];
