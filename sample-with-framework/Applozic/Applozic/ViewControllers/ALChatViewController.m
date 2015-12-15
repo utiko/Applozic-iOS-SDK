@@ -47,6 +47,8 @@
 
 @property (nonatomic,assign) NSUInteger mTotalCount;
 
+@property (nonatomic,assign) BOOL showloadEarlierAction;
+
 @property (nonatomic,retain) UIImagePickerController * mImagePicker;
 
 @property (nonatomic)  ALLocationManager * alLocationManager;
@@ -121,6 +123,7 @@ ALMessageDBService  * dbService;
     [self.tabBarController.tabBar setHidden: YES];
     [self.label setHidden:NO];
     [self.loadEarlierAction setHidden:YES];
+    self.showloadEarlierAction = TRUE;
     self.typingLabel.hidden = YES;
     
     if(self.refresh || (self.mMessageListArray && self.mMessageListArray.count == 0) ||
@@ -136,9 +139,10 @@ ALMessageDBService  * dbService;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:) name:@"deliveryReport" object:nil];
     
-    if(self.mMessageListArray.count == 1)
+    if(![ALUserDefaultsHandler isServerCallDoneForMSGList:self.contactIds])
     {
-        [self processLoadEarlierMessages];
+        NSLog(@" ###called from view will appear.....");
+        [self processLoadEarlierMessages:true];
     }
     
     [self serverCallForLastSeen];
@@ -1038,10 +1042,11 @@ ALMessageDBService  * dbService;
 }
 
 - (IBAction)loadEarlierButtonAction:(id)sender {
-    [self processLoadEarlierMessages];
+    NSLog(@"load erlier button Clicked... ");
+    [self processLoadEarlierMessages:false];
 }
 
--(void)processLoadEarlierMessages{
+-(void)processLoadEarlierMessages:(BOOL)isScrollToBottom{
     
     NSNumber *time;
     if(self.mMessageListArray.count > 0 && self.mMessageListArray != NULL) {
@@ -1051,31 +1056,24 @@ ALMessageDBService  * dbService;
     else {
         time = NULL;
     }
-    [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time.stringValue withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
+    [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
         if(!error )
         {
             NSLog(@"No Error");
-            ALMessageDBService *msgDBService = [[ALMessageDBService alloc] init];
-            ALContactDBService *contactDBService = [[ALContactDBService alloc] init];
-            
-            if(messages.count <50)
-            {
-                [self.loadEarlierAction setHidden:YES];
+            self.loadEarlierAction.hidden=YES;
+            if( messages.count< 50 ){
+                self.showloadEarlierAction = FALSE;
             }
-            else
-            {
-                [self.loadEarlierAction setHidden:NO];
-                [msgDBService addMessageList:messages];
-            }
-            [self.mMessageListArray addObjectsFromArray:messages];
-            
             for (ALMessage * msg in messages) {
                 [self.mMessageListArray insertObject:msg atIndex:0];
             }
             self.startIndex = self.startIndex + messages.count;
             [self.mTableView reloadData];
-
-
+            if(isScrollToBottom){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [super scrollTableViewToBottomWithAnimation:NO];
+                });
+            }
         }
         else
         {
@@ -1224,7 +1222,7 @@ ALMessageDBService  * dbService;
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
      NSLog(@"DidEndDecelerating");
-    if(scrollView.contentOffset.y < 0 && self.mMessageListArray.count >= 50 )
+    if(scrollView.contentOffset.y < 0 && self.showloadEarlierAction )
     {
        //  NSLog(@"REACHED TOP");
         [self.loadEarlierAction setHidden:NO];

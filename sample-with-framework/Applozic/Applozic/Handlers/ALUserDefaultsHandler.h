@@ -20,6 +20,7 @@
 #define BOTTOM_TAB_BAR_VISIBLITY @"BOTTOM_TAB_BAR_VISIBLITY"
 #define BACK_BTN_VISIBILITY_ON_CON_LIST @"BACK_BTN_VISIBILITY_ON_CON_LIST"
 #define CONVERSATION_CONTACT_IMAGE_VISIBILITY @"CONVERSATION_CONTACT_IMAGE_VISIBILITY"
+#define MSG_LIST_CALL_SUFIX @":MSG_CALL_MADE"
 
 
 #import <Foundation/Foundation.h>
@@ -75,6 +76,10 @@
 +(NSString*)getUserId;
 
 +(void) setLastSyncTime: (NSNumber *) lastSyncTime;
+
++(void)setServerCallDoneForMSGList:(BOOL) value forContactId:(NSString*)constactId;
+
++(BOOL)isServerCallDoneForMSGList:(NSString *) contactId;
 
 +(NSString *)getLastSyncTime;
 +(NSString *)getUserKeyString;

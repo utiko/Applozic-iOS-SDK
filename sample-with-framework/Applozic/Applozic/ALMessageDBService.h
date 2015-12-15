@@ -16,8 +16,8 @@
 @protocol ALMessagesDelegate <NSObject>
 
 -(void)getMessagesArray:(NSMutableArray*)messagesArray;
-
 -(void) updateMessageList:(NSMutableArray*)messagesArray;
+
 
 @end
 
@@ -27,6 +27,9 @@
 -(NSMutableArray *)addMessageList:(NSMutableArray*) messageList;
 -(DB_Message*)addMessage:(ALMessage*) message;
 -(void)getMessages;
+
+-(NSMutableArray *)getMessageListForContactWithCreatedAt:(NSString *)contactId withCreatedAt:(NSNumber*)createdAt;
+
 -(void)fetchAndRefreshFromServer;
 -(void)fetchAndRefreshFromServerForPush;
 -(void)fetchAndRefreshQuickConversation;
@@ -36,7 +39,6 @@
 - (NSManagedObject *)getMessageByKey:(NSString *) key value:(NSString*) value;
 
 -(NSUInteger)markConversationAsRead:(NSString *) contactId;
-
 
 
 //update Message APIS
