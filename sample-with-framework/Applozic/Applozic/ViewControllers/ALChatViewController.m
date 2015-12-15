@@ -1144,8 +1144,11 @@ ALMessageDBService  * dbService;
             NSString *str = @"Last seen today ";
             if(alUserDetail.connected)
             {
-                //                        [self.label setText:@"Last seen Just Now"];
                 [self.label setText:@"Online"];
+            }
+            else if(difference <= 0)
+            {
+                [self.label setText:@"Last seen Just Now"];
             }
             else{
                 NSString *theTime;

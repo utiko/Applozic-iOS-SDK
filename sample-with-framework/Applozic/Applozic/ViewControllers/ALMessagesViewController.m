@@ -148,7 +148,7 @@ ALMQTTConversationService *alMqttConversationService;
     self.googleReach.reachableBlock = ^(Reachability * reachability)
     {
         NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Reachable(%@)", reachability.currentReachabilityString];
-        NSLog(@"%@", temp);
+       // NSLog(@"%@", temp);
         
         // to update UI components from a block callback
         // you need to dipatch this to the main thread
@@ -159,7 +159,7 @@ ALMQTTConversationService *alMqttConversationService;
     self.googleReach.unreachableBlock = ^(Reachability * reachability)
     {
         NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Unreachable(%@)", reachability.currentReachabilityString];
-        NSLog(@"%@", temp);
+      //  NSLog(@"%@", temp);
         
         // to update UI components from a block callback
         // you need to dipatch this to the main thread
@@ -282,7 +282,15 @@ ALMQTTConversationService *alMqttConversationService;
     }
     else
     {
-        //Todo: update green dot in the first screen.
+        ALContactCell *contactCell = [self getCell:alUserDetail.userId];
+        if(alUserDetail.connected)
+        {
+            [contactCell.onlineImageMarker setHidden:NO];
+        }
+        else
+        {
+            [contactCell.onlineImageMarker setHidden:YES];
+        }
     }
 }
 
@@ -508,6 +516,7 @@ ALMQTTConversationService *alMqttConversationService;
     nameIcon.textColor=[UIColor whiteColor];
     UILabel* unread=(UILabel*)[contactCell viewWithTag:104];
     
+    [contactCell.onlineImageMarker setBackgroundColor:[UIColor clearColor]];
     
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
     ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];             
@@ -583,7 +592,7 @@ ALMQTTConversationService *alMqttConversationService;
 //         contactCell.mUserImageView.hidden=TRUE;
 
     }
-  
+    
     return contactCell;
 }
 
