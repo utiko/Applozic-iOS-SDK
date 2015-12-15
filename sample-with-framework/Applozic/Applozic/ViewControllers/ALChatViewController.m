@@ -979,6 +979,7 @@ ALMessageDBService  * dbService;
 
 -(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue
 {
+    [self setRefreshMainView:TRUE];
     if ([self.contactIds isEqualToString:contactId]) {
         NSLog(@"current contact thread is opened");
         [self fetchAndRefresh:YES];
@@ -1116,7 +1117,7 @@ ALMessageDBService  * dbService;
 
 -(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
 {
-    //Todo: update last seen at status
+    [self setRefreshMainView:TRUE];
     
     NSString *tempString = [NSString stringWithFormat:@"%@", alUserDetail.lastSeenAtTime];
     NSCharacterSet *charsToTrim = [NSCharacterSet characterSetWithCharactersInString:@"()  \n\""];

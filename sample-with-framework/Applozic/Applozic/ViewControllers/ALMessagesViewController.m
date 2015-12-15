@@ -276,6 +276,8 @@ ALMQTTConversationService *alMqttConversationService;
 
 -(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
 {
+    [self.detailChatViewController setRefreshMainView:TRUE];
+
     if ([self.detailChatViewController.contactIds isEqualToString:alUserDetail.userId])
     {
         [self.detailChatViewController updateLastSeenAtStatus:alUserDetail];
@@ -451,6 +453,19 @@ ALMQTTConversationService *alMqttConversationService;
         if(contactCell){    
             NSLog(@"contact cell found ....");
             contactCell.mMessageLabel.text = msg.message;
+            
+            ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
+            ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: msg.contactIds];
+            
+            if(alContact.connected)
+            {
+                [contactCell.onlineImageMarker setHidden:NO];
+            }
+            else
+            {
+                [contactCell.onlineImageMarker setHidden:YES];
+            }
+            
             UILabel* unread=(UILabel*)[contactCell viewWithTag:104];
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
             unread.hidden=FALSE;
@@ -537,7 +552,14 @@ ALMQTTConversationService *alMqttConversationService;
     NSString *firstLetter = [[[alContact displayName] substringToIndex:1] uppercaseString];
     nameIcon.text=firstLetter;
    
-    
+    if(alContact.connected)
+    {
+        [contactCell.onlineImageMarker setHidden:NO];
+    }
+    else
+    {
+        [contactCell.onlineImageMarker setHidden:YES];
+    }
     
     ///////////$$$$$$$$$$$$$$$$//////////////////////COUNT//////////////////////$$$$$$$$$$$$$$$$///////////
     
@@ -555,6 +577,8 @@ ALMQTTConversationService *alMqttConversationService;
         unread.hidden=TRUE;
         contactCell.mCountImageView.hidden=TRUE;
     }
+    
+    
     
     contactCell.mUserImageView.hidden=FALSE;
     contactCell.mUserImageView.layer.cornerRadius=contactCell.mUserImageView.frame.size.width/2;
