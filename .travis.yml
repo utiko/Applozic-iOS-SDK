@@ -13,5 +13,5 @@ script: xcodebuild -workspace ~/Applozic.xcworkspace -scheme Applozic -sdk iphon
 notifications:
   email:
     recipients:
-      - ranjeet@applozic.com
+      
 
