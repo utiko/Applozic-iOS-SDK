@@ -28,6 +28,10 @@
 
 @property(nonatomic,retain)NSString * applicationId;
 
+@property (nonatomic, retain) NSNumber *lastSeenAt;
+
+@property (nonatomic) BOOL connected;
+
 -(instancetype)initWithDict:(NSDictionary * ) dictionary;
 -(void)populateDataFromDictonary:(NSDictionary *)dict;
 @end
