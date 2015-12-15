@@ -24,15 +24,21 @@
 -(void)setUserDetails:(NSString *)JSONString
 {
     self.userId = [JSONString valueForKey:@"userId"];
-    self.connected = [self getBoolFromJsonValue:[JSONString valueForKey:@"connected"]];
-    self.lastSeenAtTime = [self getNSNumberFromJsonValue:[JSONString valueForKey:@"lastSeenAtTime"]];
+   // self.connected = [self getBoolFromJsonValue:[JSONString valueForKey:@"connected"]];
+    
+    self.lastSeenAtTime = [JSONString valueForKey:@"lastSeenAtTime"];
+    
+    self.connected = (BOOL)[JSONString valueForKey:@"connected"];
+    
+    //self.lastSeenAtTime = [self getNSNumberFromJsonValue:[JSONString valueForKey:@"lastSeenAtTime"]];
+    
     //self.unreadCount = [JSONString valueForKey:@"unreadCount"];
 }
 
 -(void)userDetail
 {
     NSLog(@"USER ID : %@",self.userId);
-    NSLog(@"CONNECTED : %@",self.connected);
+    NSLog(@"CONNECTED : %d",self.connected);
     NSLog(@"LAST SEEN : %@",self.lastSeenAtTime);
     //NSLog(@"UNREAD COUNT : %@",self.unreadCount);
 }
