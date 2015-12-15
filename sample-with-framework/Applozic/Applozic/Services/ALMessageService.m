@@ -389,7 +389,7 @@
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
     
     NSUInteger count = [dbService markConversationAsRead:contactId];
-    NSLog(@"Found %ld messages for marking as read.", count);
+    NSLog(@"Found %ld messages for marking as read.", (unsigned long)count);
     
     if(count == 0)
     {
