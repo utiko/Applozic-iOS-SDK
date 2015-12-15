@@ -352,8 +352,8 @@
     {
 
         NSManagedObject *ob = [result objectAtIndex:0];
-        [ob setValue:[NSNumber numberWithDouble:[userDetail.lastSeenAtTime doubleValue]] forKey:@"lastSeenAt"];
-         [ob setValue:[NSNumber numberWithBool:userDetail.connected] forKey:@"connected"];
+        [ob setValue: userDetail.lastSeenAtTime forKey:@"lastSeenAt"];
+        [ob setValue:[NSNumber numberWithBool:userDetail.connected] forKey:@"connected"];
     }
     NSError *error = nil;
     

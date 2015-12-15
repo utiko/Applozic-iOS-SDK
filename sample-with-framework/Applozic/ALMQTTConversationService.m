@@ -132,7 +132,7 @@ static MQTTSession *session;
             ALUserDetail *alUserDetail = [[ALUserDetail init] alloc];
             alUserDetail.userId = parts[0];
             alUserDetail.lastSeenAtTime = parts[1];
-            alUserDetail.connected = FALSE;
+            alUserDetail.connected = NO;
             
             [self.alSyncCallService updateConnectedStatus: alUserDetail];
             [self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
