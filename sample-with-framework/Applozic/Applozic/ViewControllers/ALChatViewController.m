@@ -1091,90 +1091,7 @@ ALMessageDBService  * dbService;
         if(alUserDetail)
         {
             [[[ALContactDBService alloc]init] updateUserDetail:alUserDetail];
-            NSString *tempString = [NSString stringWithFormat:@"%@", alUserDetail.lastSeenAtTime];
-            NSCharacterSet *charsToTrim = [NSCharacterSet characterSetWithCharactersInString:@"()  \n\""];
-            tempString = [tempString stringByTrimmingCharactersInSet:charsToTrim];
-    
-            double value = [tempString doubleValue];
-            
-            if(value > 0)
-            {
-                NSDate *date  = [[NSDate alloc] initWithTimeIntervalSince1970:value/1000];
-                
-                NSDate *current = [[NSDate alloc] init];
-                NSTimeInterval difference =[current timeIntervalSinceDate:date];
-                
-                NSDate *today = [NSDate date];
-                NSDate *yesterday = [today dateByAddingTimeInterval: -86400.0];
-                NSDateFormatter *format = [[NSDateFormatter alloc] init];
-                [format setDateFormat:@"dd/MM/yyyy"];
-                NSString *todaydate = [format stringFromDate:current];
-                NSString *yesterdaydate =[format stringFromDate:yesterday];
-                NSString *serverdate =[format stringFromDate:date];
-                
-                if([serverdate compare:todaydate] == NSOrderedSame)
-                {
-                    NSString *str = @"Last seen today ";
-                    if(difference <= 60)
-                    {
-//                        [self.label setText:@"Last seen Just Now"];
-                        [self.label setText:@"Online"];
-                    }
-                    else{
-                        NSString *theTime;
-                        int hours =  difference / 3600;
-                        int minutes = (difference - hours * 3600 ) / 60;
-
-                        if(hours > 0){
-                            theTime = [NSString stringWithFormat:@"%.2d:%.2d", hours, minutes];
-                            if([theTime hasPrefix:@"0"])
-                            {
-                                theTime = [theTime substringFromIndex:[@"0" length]];
-                            }
-                            str = [str stringByAppendingString:theTime];
-                            str = [str stringByAppendingString:@" hrs ago"];
-                        }
-                        else{
-                            theTime = [NSString stringWithFormat:@"%.2d", minutes];
-                            if([theTime hasPrefix:@"0"])
-                            {
-                                theTime = [theTime substringFromIndex:[@"0" length]];
-                            }
-                            str = [str stringByAppendingString:theTime];
-                            
-                            str = [str stringByAppendingString:@" mins ago"];
-                        }
-                     
-
-                        [self.label setText:str];
-                    }
-                   
-                }
-                else if ([serverdate compare:yesterdaydate] == NSOrderedSame)
-                {
-                    NSString *str = @"Last seen yesterday ";
-                    [format setDateFormat:@"hh:mm a"];
-                    str = [str stringByAppendingString:[format stringFromDate:date]];
-                    if([str hasPrefix:@"0"])
-                    {
-                        str = [str substringFromIndex:[@"0" length]];
-                    }
-                    [self.label setText:str];
-                }
-                else
-                {
-                    [format setDateFormat:@"EE,MMM dd,YYYY"];
-                    NSString *str = @"Last seen ";
-                    str = [str stringByAppendingString:[format stringFromDate:date]];
-                    [self.label setText:str];
-                }
-               
-            }
-            else
-            {
-                [self.label setText:@""];
-            }
-            
+            [self updateLastSeenAtStatus:alUserDetail];
         }
         else
         {
@@ -1200,6 +1117,91 @@ ALMessageDBService  * dbService;
 -(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
 {
     //Todo: update last seen at status
+    
+    NSString *tempString = [NSString stringWithFormat:@"%@", alUserDetail.lastSeenAtTime];
+    NSCharacterSet *charsToTrim = [NSCharacterSet characterSetWithCharactersInString:@"()  \n\""];
+    tempString = [tempString stringByTrimmingCharactersInSet:charsToTrim];
+    
+    double value = [tempString doubleValue];
+    
+    if(value > 0)
+    {
+        NSDate *date  = [[NSDate alloc] initWithTimeIntervalSince1970:value/1000];
+        
+        NSDate *current = [[NSDate alloc] init];
+        NSTimeInterval difference =[current timeIntervalSinceDate:date];
+        
+        NSDate *today = [NSDate date];
+        NSDate *yesterday = [today dateByAddingTimeInterval: -86400.0];
+        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        [format setDateFormat:@"dd/MM/yyyy"];
+        NSString *todaydate = [format stringFromDate:current];
+        NSString *yesterdaydate =[format stringFromDate:yesterday];
+        NSString *serverdate =[format stringFromDate:date];
+        
+        if([serverdate compare:todaydate] == NSOrderedSame)
+        {
+            NSString *str = @"Last seen today ";
+            if(difference <= 60)
+            {
+                //                        [self.label setText:@"Last seen Just Now"];
+                [self.label setText:@"Online"];
+            }
+            else{
+                NSString *theTime;
+                int hours =  difference / 3600;
+                int minutes = (difference - hours * 3600 ) / 60;
+                
+                if(hours > 0){
+                    theTime = [NSString stringWithFormat:@"%.2d:%.2d", hours, minutes];
+                    if([theTime hasPrefix:@"0"])
+                    {
+                        theTime = [theTime substringFromIndex:[@"0" length]];
+                    }
+                    str = [str stringByAppendingString:theTime];
+                    str = [str stringByAppendingString:@" hrs ago"];
+                }
+                else{
+                    theTime = [NSString stringWithFormat:@"%.2d", minutes];
+                    if([theTime hasPrefix:@"0"])
+                    {
+                        theTime = [theTime substringFromIndex:[@"0" length]];
+                    }
+                    str = [str stringByAppendingString:theTime];
+                    
+                    str = [str stringByAppendingString:@" mins ago"];
+                }
+                
+                
+                [self.label setText:str];
+            }
+            
+        }
+        else if ([serverdate compare:yesterdaydate] == NSOrderedSame)
+        {
+            NSString *str = @"Last seen yesterday ";
+            [format setDateFormat:@"hh:mm a"];
+            str = [str stringByAppendingString:[format stringFromDate:date]];
+            if([str hasPrefix:@"0"])
+            {
+                str = [str substringFromIndex:[@"0" length]];
+            }
+            [self.label setText:str];
+        }
+        else
+        {
+            [format setDateFormat:@"EE,MMM dd,YYYY"];
+            NSString *str = @"Last seen ";
+            str = [str stringByAppendingString:[format stringFromDate:date]];
+            [self.label setText:str];
+        }
+        
+    }
+    else
+    {
+        [self.label setText:@""];
+    }
+    
 }
 
 //======================================================
