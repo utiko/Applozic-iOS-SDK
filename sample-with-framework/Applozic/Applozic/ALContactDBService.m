@@ -312,8 +312,8 @@
         theUserDetailEntity.displayName = userDetail.displayName;
     }
     
-    theUserDetailEntity.lastSeenAt = [NSNumber numberWithInt:[userDetail.lastSeenAtTime intValue]];
-    theUserDetailEntity.connected = [userDetail.connected boolValue];
+    theUserDetailEntity.lastSeenAt = [NSNumber numberWithInt:[userDetail.lastSeenAtTime doubleValue]];
+    theUserDetailEntity.connected = userDetail.connected;
     
     return theUserDetailEntity;
 }
@@ -321,8 +321,8 @@
 -(void) updateConnectedStatus: (NSString *) userId lastSeenAt:(NSNumber *) lastSeenAt  connected: (BOOL) connected
 {
     ALUserDetail *ob = [[ALUserDetail alloc]init];
-    ob.lastSeenAtTime = [lastSeenAt stringValue];
-    ob.connected = [NSString stringWithFormat:@"%d",connected];
+    ob.lastSeenAtTime = lastSeenAt;
+    ob.connected =  connected;
     ob.userId = userId;
     
     [self updateUserDetail:ob];

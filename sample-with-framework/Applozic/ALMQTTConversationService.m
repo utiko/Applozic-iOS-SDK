@@ -12,6 +12,7 @@
 #import "ALConstant.h"
 #import "ALMessage.h"
 #import "ALMessageDBService.h"
+#import "ALUserDetail.h"
 
 @implementation ALMQTTConversationService
 
@@ -112,10 +113,22 @@ static MQTTSession *session;
             [self.alSyncCallService updateDeliveryStatusForContact: contactId];
             [self.mqttConversationDelegate updateDeliveryStatusForContact: contactId];
         } else if ([type isEqualToString: @"APPLOZIC_11"]) {
-            [self.alSyncCallService updateConnectedStatus: [theMessageDict objectForKey:@"message"] lastSeenAt: [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000] connected: YES];
+            ALUserDetail *alUserDetail = [[ALUserDetail init] alloc];
+            alUserDetail.userId = [theMessageDict objectForKey:@"message"];
+            alUserDetail.lastSeenAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
+            alUserDetail.connected = YES;
+            [self.alSyncCallService updateConnectedStatus: alUserDetail];
+            [self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
         } else if ([type isEqualToString:@"APPLOZIC_12"]) {
             NSArray *parts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
-            [self.alSyncCallService updateConnectedStatus: parts[0] lastSeenAt: parts[1] connected: NO];
+            
+            ALUserDetail *alUserDetail = [[ALUserDetail init] alloc];
+            alUserDetail.userId = parts[0];
+            alUserDetail.lastSeenAtTime = parts[1];
+            alUserDetail.connected = FALSE;
+            
+            [self.alSyncCallService updateConnectedStatus: alUserDetail];
+            [self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
         }
     }
 }

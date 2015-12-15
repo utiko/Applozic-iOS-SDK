@@ -268,10 +268,22 @@ ALMQTTConversationService *alMqttConversationService;
 {
    // NSLog(@"==== Received typing status %d for: %@ ====", status, userId);
     
-    if ([self.detailChatViewController.contactIds isEqualToString:userId])
+     if ([self.detailChatViewController.contactIds isEqualToString:userId])
      {
          [self.detailChatViewController showTypingLabel:status userId:userId];
      }
+}
+
+-(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
+{
+    if ([self.detailChatViewController.contactIds isEqualToString:alUserDetail.userId])
+    {
+        [self.detailChatViewController updateLastSeenAtStatus:alUserDetail];
+    }
+    else
+    {
+        //Todo: update green dot in the first screen.
+    }
 }
 
 -(void) mqttConnectionClosed {

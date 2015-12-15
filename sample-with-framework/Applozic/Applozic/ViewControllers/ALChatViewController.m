@@ -1056,7 +1056,6 @@ ALMessageDBService  * dbService;
         {
             NSLog(@"No Error");
             ALMessageDBService *msgDBService = [[ALMessageDBService alloc] init];
-            ALContactDBService *contactDBService = [[ALContactDBService alloc] init];
             
             if(messages.count <50)
             {
@@ -1196,6 +1195,11 @@ ALMessageDBService  * dbService;
     {
         [self.typingLabel setHidden:YES];
     }
+}
+
+-(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
+{
+    //Todo: update last seen at status
 }
 
 //======================================================
