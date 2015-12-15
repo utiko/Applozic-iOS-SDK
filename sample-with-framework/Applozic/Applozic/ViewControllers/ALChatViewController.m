@@ -178,6 +178,11 @@ ALMessageDBService  * dbService;
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     _alContact = [theDBHandler loadContactByKey:@"userId" value: self.contactIds];
     self.navigationItem.title = [_alContact displayName];
+    ALUserDetail *userDetail = [[ALUserDetail alloc] init];
+    userDetail.connected = self.alContact.connected;
+    userDetail.userId = self.alContact.userId;
+    userDetail.lastSeenAtTime = self.alContact.lastSeenAt;
+    [self updateLastSeenAtStatus:userDetail];
 }
 
 -(void)fetchMessageFromDB {
@@ -1143,6 +1148,7 @@ ALMessageDBService  * dbService;
         if([serverdate compare:todaydate] == NSOrderedSame)
         {
             NSString *str = @"Last seen today ";
+            
             if(alUserDetail.connected)
             {
                 [self.label setText:@"Online"];
@@ -1151,7 +1157,8 @@ ALMessageDBService  * dbService;
             {
                 [self.label setText:@"Last seen Just Now"];
             }
-            else{
+            else
+            {
                 NSString *theTime;
                 int hours =  difference / 3600;
                 int minutes = (difference - hours * 3600 ) / 60;

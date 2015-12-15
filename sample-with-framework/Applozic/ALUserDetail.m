@@ -24,11 +24,10 @@
 -(void)setUserDetails:(NSString *)JSONString
 {
     self.userId = [JSONString valueForKey:@"userId"];
-   // self.connected = [self getBoolFromJsonValue:[JSONString valueForKey:@"connected"]];
+    
+    self.connected = [[NSString stringWithFormat:@"%@",[JSONString valueForKey:@"connected"]] intValue];
     
     self.lastSeenAtTime = [JSONString valueForKey:@"lastSeenAtTime"];
-    
-    self.connected = (BOOL)[JSONString valueForKey:@"connected"];
     
     //self.lastSeenAtTime = [self getNSNumberFromJsonValue:[JSONString valueForKey:@"lastSeenAtTime"]];
     
