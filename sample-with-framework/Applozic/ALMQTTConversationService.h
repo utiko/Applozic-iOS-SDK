@@ -25,7 +25,7 @@
 
 +(ALMQTTConversationService *)sharedInstance;
 
-@property(nonatomic, weak) ALSyncCallService *alSyncCallService;
+@property(nonatomic, strong) ALSyncCallService *alSyncCallService;
 
 -(void) subscribeToConversation;
 

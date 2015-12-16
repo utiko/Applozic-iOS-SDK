@@ -29,6 +29,8 @@
     self.email = [dict objectForKey:@"email"];
     self.localImageResourceName = [dict objectForKey:@"localImageResourceName"];
     self.applicationId = [dict objectForKey:@"applicationId"];
+    self.lastSeenAt = [dict objectForKey:@"lastSeenAtTime"];
+    self.connected = [dict objectForKey:@"connected"];
 }
 
 @end
