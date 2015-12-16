@@ -205,7 +205,7 @@
 		982F13111C05D6050024678E /* MQTTSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F13011C05D6040024678E /* MQTTSessionManager.m */; };
 		982F13121C05D6050024678E /* MQTTSSLSecurityPolicy.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F13021C05D6040024678E /* MQTTSSLSecurityPolicy.h */; };
 		982F13131C05D6050024678E /* MQTTSSLSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F13031C05D6040024678E /* MQTTSSLSecurityPolicy.m */; };
-		984219251C1EDEC00016B733 /* ALSyncCallService.h in Headers */ = {isa = PBXBuildFile; fileRef = 984219231C1EDEC00016B733 /* ALSyncCallService.h */; };
+		984219251C1EDEC00016B733 /* ALSyncCallService.h in Headers */ = {isa = PBXBuildFile; fileRef = 984219231C1EDEC00016B733 /* ALSyncCallService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		984219261C1EDEC00016B733 /* ALSyncCallService.m in Sources */ = {isa = PBXBuildFile; fileRef = 984219241C1EDEC00016B733 /* ALSyncCallService.m */; };
 		98E1AB971C08718700BE6312 /* ALMQTTConversationService.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E1AB951C08718600BE6312 /* ALMQTTConversationService.h */; };
 		98E1AB981C08718700BE6312 /* ALMQTTConversationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E1AB961C08718700BE6312 /* ALMQTTConversationService.m */; };
@@ -880,7 +880,6 @@
 				6D6DF1621BC5364C00EBA00F /* ALContactCell.h in Headers */,
 				6D6DF16C1BC5364C00EBA00F /* ALMessageDBService.h in Headers */,
 				6D7AFD251BECF061009DDC1D /* ALSendMessageResponse.h in Headers */,
-				984219251C1EDEC00016B733 /* ALSyncCallService.h in Headers */,
 				6D6DF1681BC5364C00EBA00F /* ALLocationManager.h in Headers */,
 				29CBF2021C0303A700BE6A20 /* ALColorUtility.h in Headers */,
 				982F13121C05D6050024678E /* MQTTSSLSecurityPolicy.h in Headers */,
@@ -904,6 +903,7 @@
 				6DB665071C0EE5EC004D04A8 /* ALDataNetworkConnection.h in Headers */,
 				6D6DF1601BC5364C00EBA00F /* ALChatCell_Image.h in Headers */,
 				6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */,
+				984219251C1EDEC00016B733 /* ALSyncCallService.h in Headers */,
 				6D6DF13E1BC5364C00EBA00F /* ALConnection.h in Headers */,
 				982F130E1C05D6050024678E /* MQTTSession.h in Headers */,
 				6D6DF1561BC5364C00EBA00F /* ALBaseViewController.h in Headers */,
