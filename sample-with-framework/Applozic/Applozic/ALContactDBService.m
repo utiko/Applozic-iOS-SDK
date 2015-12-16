@@ -198,6 +198,8 @@
     contact.contactImageUrl = dbContact.contactImageUrl;
     contact.email = dbContact.email;
     contact.localImageResourceName = dbContact.localImageResourceName;
+    contact.connected = dbContact.connected;
+    contact.lastSeenAt = dbContact.lastSeenAt;
     return contact;
 }
 
@@ -312,8 +314,8 @@
         theUserDetailEntity.displayName = userDetail.displayName;
     }
     
-    theUserDetailEntity.lastSeenAt = [NSNumber numberWithInt:[userDetail.lastSeenAtTime intValue]];
-    theUserDetailEntity.connected = [userDetail.connected boolValue];
+    theUserDetailEntity.lastSeenAt = [NSNumber numberWithInt:[userDetail.lastSeenAtTime doubleValue]];
+    theUserDetailEntity.connected = userDetail.connected;
     
     return theUserDetailEntity;
 }
@@ -321,8 +323,8 @@
 -(void) updateConnectedStatus: (NSString *) userId lastSeenAt:(NSNumber *) lastSeenAt  connected: (BOOL) connected
 {
     ALUserDetail *ob = [[ALUserDetail alloc]init];
-    ob.lastSeenAtTime = [lastSeenAt stringValue];
-    ob.connected = [NSString stringWithFormat:@"%d",connected];
+    ob.lastSeenAtTime = lastSeenAt;
+    ob.connected =  connected;
     ob.userId = userId;
     
     [self updateUserDetail:ob];
@@ -352,8 +354,8 @@
     {
 
         NSManagedObject *ob = [result objectAtIndex:0];
-        [ob setValue:[NSNumber numberWithDouble:[userDetail.lastSeenAtTime doubleValue]] forKey:@"lastSeenAt"];
-         [ob setValue:[NSNumber numberWithBool:userDetail.connected] forKey:@"connected"];
+        [ob setValue: userDetail.lastSeenAtTime forKey:@"lastSeenAt"];
+        [ob setValue:[NSNumber numberWithBool:userDetail.connected] forKey:@"connected"];
     }
     NSError *error = nil;
     

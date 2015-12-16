@@ -190,20 +190,4 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:LAST_SYNC_TIME];
 }
 
-+(void)setServerCallDoneForMSGList:(BOOL) value forContactId:(NSString*)contactId{
-    
-    NSString *key = [ contactId stringByAppendingString:MSG_LIST_CALL_SUFIX];
-    [[NSUserDefaults standardUserDefaults] setBool:true forKey:key];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-
-}
-
-+(BOOL)isServerCallDoneForMSGList: (NSString *)contactId{
-    
-    NSString *key = [ contactId stringByAppendingString:MSG_LIST_CALL_SUFIX];
-    return [[NSUserDefaults standardUserDefaults] valueForKey:key];
-
-}
-
-
 @end

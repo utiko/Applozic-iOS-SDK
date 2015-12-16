@@ -16,7 +16,6 @@
 #import "ALMessageService.h"
 #import "ALContactService.h"
 
-
 @implementation ALMessageDBService
 
 
@@ -511,24 +510,5 @@
     [[ALDBHandler sharedInstance].managedObjectContext save:nil];
     
 }
-
--(NSMutableArray *)getMessageListForContactWithCreatedAt:(NSString *)contactId withCreatedAt:(NSNumber*)createdAt{
-    
-    ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
-    NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@",contactId];
-    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"createdAt < %lu",createdAt];
-    theRequest.predicate =[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1, predicate2]];
-    
-    [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
-    NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
-    NSMutableArray * msgArray =  [[NSMutableArray alloc]init];
-    for (DB_Message * theEntity in theArray) {
-        ALMessage * theMessage = [self createMessageEntity:theEntity];
-        [msgArray addObject:theMessage];
-    }
-    return msgArray;
-}
-
 
 @end

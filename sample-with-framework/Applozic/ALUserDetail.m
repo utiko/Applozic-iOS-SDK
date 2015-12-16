@@ -23,18 +23,21 @@
 
 -(void)setUserDetails:(NSString *)JSONString
 {
-
     self.userId = [JSONString valueForKey:@"userId"];
-    self.connected = [JSONString valueForKey:@"connected"];
-    self.lastSeenAtTime = (NSString *)[JSONString valueForKey:@"lastSeenAtTime"];
+    
+    self.connected = [[NSString stringWithFormat:@"%@",[JSONString valueForKey:@"connected"]] intValue];
+    
+    self.lastSeenAtTime = [JSONString valueForKey:@"lastSeenAtTime"];
+    
+    //self.lastSeenAtTime = [self getNSNumberFromJsonValue:[JSONString valueForKey:@"lastSeenAtTime"]];
+    
     //self.unreadCount = [JSONString valueForKey:@"unreadCount"];
-
 }
 
 -(void)userDetail
 {
     NSLog(@"USER ID : %@",self.userId);
-    NSLog(@"CONNECTED : %@",self.connected);
+    NSLog(@"CONNECTED : %d",self.connected);
     NSLog(@"LAST SEEN : %@",self.lastSeenAtTime);
     //NSLog(@"UNREAD COUNT : %@",self.unreadCount);
 }
@@ -44,15 +47,13 @@
     return self;
 }
 
--(void)parseMessage:(id) messageJson;
+-(void)parseMessage:(id) json;
 {
-
-    self.userId = [self getStringFromJsonValue:messageJson[@"userId"]];
-    self.connected = [self getStringFromJsonValue:messageJson[@"connected"]];
-    self.lastSeenAtTime = [self getStringFromJsonValue:messageJson[@"lastSeenAtTime"]];
-    self.displayName = [self getStringFromJsonValue:messageJson[@"displayName"]];
+    self.userId = [self getStringFromJsonValue:json[@"userId"]];
+    self.connected = [self getBoolFromJsonValue:json[@"connected"]];
+    self.lastSeenAtTime = [self getNSNumberFromJsonValue:json[@"lastSeenAtTime"]];
+    self.displayName = [self getStringFromJsonValue:json[@"displayName"]];
    // self.self.unreadCount = [self getStringFromJsonValue:messageJson[@"self.unreadCount"]];
-  
 }
 
 

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ALMessage.h"
+#import "ALUserDetail.h"
 
 @interface ALSyncCallService : NSObject
 
@@ -17,6 +18,6 @@
 
 -(void) syncCall: (ALMessage *) alMessage;
 
--(void) updateConnectedStatus: (NSString *) userId lastSeenAt:(NSNumber *) lastSeenAt  connected: (BOOL) connected;
+-(void) updateConnectedStatus: (ALUserDetail *) alUserDetail;
 
 @end

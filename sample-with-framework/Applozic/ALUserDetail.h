@@ -15,9 +15,9 @@
 
 @property NSString *userId;
 
-@property NSString *connected;
+@property BOOL connected;
 
-@property NSString *lastSeenAtTime;
+@property NSNumber *lastSeenAtTime;
 
 @property NSString *unreadCount;
 

@@ -96,37 +96,27 @@
     
 }
 
-+(void)getMessageListForUser:(NSString *)userId startIndex:(NSString *)startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSNumber *)endTimeStamp withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion
++(void)getMessageListForUser:(NSString *)userId startIndex:(NSString *)startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSString *)endTimeStamp withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion
 {
-   
-    ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
-    NSMutableArray * messageList = [almessageDBService getMessageListForContactWithCreatedAt:userId withCreatedAt:endTimeStamp];
-    //Found Record in DB itself ...if not make call to server
-    if(messageList.count > 0 && ![ALUserDefaultsHandler isServerCallDoneForMSGList:userId]){
-        NSLog(@"####message list is coming from DB %ld", messageList.count);
-        completion(messageList, nil, nil);
-        return;
-    }else {
-        NSLog(@"####message list is coming from DB %ld", messageList.count);
-    }
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"userId=%@&startIndex=%@&pageSize=%@&endTime=%@",userId,startIndex,pageSize,endTimeStamp.stringValue];
+    
+    NSString * theParamString = [NSString stringWithFormat:@"userId=%@&startIndex=%@&pageSize=%@&endTime=%@",userId,startIndex,pageSize,endTimeStamp];
+    
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"GET MESSAGES LIST FOR USERID" WithCompletionHandler:^(id theJson, NSError *theError) {
         
         if (theError) {
+            
             completion(nil, theError, nil);
+            
             return ;
         }
-        
-        [ALUserDefaultsHandler setServerCallDoneForMSGList:true forContactId:userId];
         ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson];
-        ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
-        [almessageDBService addMessageList:messageListResponse.messageList];
+        
         completion(messageListResponse.messageList, nil, messageListResponse.userDetailsList);
-       NSLog(@"message list response THE JSON %@",theJson);
+       // NSLog(@"message list response THE JSON %@",theJson);
     }];
     
 }
@@ -399,7 +389,7 @@
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
     
     NSUInteger count = [dbService markConversationAsRead:contactId];
-    NSLog(@"Found %ld messages for marking as read.", count);
+    NSLog(@"Found %ld messages for marking as read.", (unsigned long)count);
     
     if(count == 0)
     {
@@ -440,7 +430,7 @@
         }
         else
         {
-          // NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
+           NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
            ALUserDetail *userDetailObject = [[ALUserDetail alloc] initWithJSONString:theJson];
           // [userDetailObject userDetail];
          completionMark(userDetailObject);
