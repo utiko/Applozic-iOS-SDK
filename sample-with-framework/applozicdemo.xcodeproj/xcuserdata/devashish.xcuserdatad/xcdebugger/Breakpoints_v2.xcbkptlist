@@ -477,7 +477,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "539"
             endingLineNumber = "539"
-            landmarkName = "-downloadRetryButtonActionDelegate:andMessage:"
+            landmarkName = "-deleteMessageFromView:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -749,7 +749,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "796"
             endingLineNumber = "796"
-            landmarkName = "-showActionAlert"
+            landmarkName = "-showActionSheet"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -876,7 +876,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "799"
             endingLineNumber = "799"
-            landmarkName = "-showActionAlert"
+            landmarkName = "-showActionSheet"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1180,7 +1180,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "66"
             endingLineNumber = "66"
-            landmarkName = "-fetchAndRefresh:"
+            landmarkName = "-processMarkRead"
             landmarkType = "4">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1196,8 +1196,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "73"
             endingLineNumber = "73"
-            landmarkName = "@implementation ALChatViewController"
-            landmarkType = "3">
+            landmarkName = "@interface ALChatViewController()"
+            landmarkType = "2">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1228,7 +1228,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "383"
             endingLineNumber = "383"
-            landmarkName = "-tableView:shouldShowMenuForRowAtIndexPath:"
+            landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1244,7 +1244,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "390"
             endingLineNumber = "390"
-            landmarkName = "-tableView:performAction:forRowAtIndexPath:withSender:"
+            landmarkName = "-tableView:shouldShowMenuForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1260,7 +1260,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "395"
             endingLineNumber = "395"
-            landmarkName = "-tableView:performAction:forRowAtIndexPath:withSender:"
+            landmarkName = "-tableView:canPerformAction:forRowAtIndexPath:withSender:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1292,7 +1292,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "68"
             endingLineNumber = "68"
-            landmarkName = "-serverCallForLastSeen"
+            landmarkName = "-fetchAndRefresh:"
             landmarkType = "4">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1308,7 +1308,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "67"
             endingLineNumber = "67"
-            landmarkName = "-serverCallForLastSeen"
+            landmarkName = "-fetchAndRefresh:"
             landmarkType = "4">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1324,8 +1324,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
             endingLineNumber = "69"
-            landmarkName = "@interface ALChatViewController()"
-            landmarkType = "2">
+            landmarkName = "-serverCallForLastSeen"
+            landmarkType = "4">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1356,8 +1356,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "400"
             endingLineNumber = "400"
-            landmarkName = "@implementation ALChatViewController"
-            landmarkType = "3">
+            landmarkName = "-tableView:performAction:forRowAtIndexPath:withSender:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1452,7 +1452,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "396"
             endingLineNumber = "396"
-            landmarkName = "-tableView:performAction:forRowAtIndexPath:withSender:"
+            landmarkName = "-tableView:canPerformAction:forRowAtIndexPath:withSender:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1468,7 +1468,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "391"
             endingLineNumber = "391"
-            landmarkName = "-tableView:performAction:forRowAtIndexPath:withSender:"
+            landmarkName = "-tableView:shouldShowMenuForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

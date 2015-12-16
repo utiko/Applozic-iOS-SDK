@@ -30,8 +30,6 @@
 
 -(BOOL)addContact:(ALContact *)userContact;
 
-- (DB_CONTACT *)getContactByKey:(NSString *) key value:(NSString*) value;
-
 - (ALContact *)loadContactByKey:(NSString *) key value:(NSString*) value;
 
 - (void) insertInitialContacts;

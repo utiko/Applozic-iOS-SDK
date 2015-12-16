@@ -16,15 +16,12 @@ dependencies: \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALMessage.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALFileMetaInfo.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Handlers/ALApplozicSettings.h \
-  /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ALMQTTService.h \
+  /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/ALMQTTConversationService.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/MQTT/MQTTSession.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/MQTT/MQTTMessage.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/MQTT/MQTTPersistence.h \
-  /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/MQTT/MQTTSessionManager.h \
-  /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/MQTT/MQTTSSLSecurityPolicy.h \
-  /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/ALMQTTConversationService.h \
+  /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/ALUserDetail.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/ALSyncCallService.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Services/ALMessageService.h \
   /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALSyncMessageFeed.h \
-  /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALMessageList.h \
-  /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/ALUserDetail.h
+  /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALMessageList.h
