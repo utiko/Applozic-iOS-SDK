@@ -35,6 +35,8 @@
                              error:(NSError **)error;
 - (NSManagedObject *)getMessageByKey:(NSString *) key value:(NSString*) value;
 
+-(NSMutableArray *)getMessageListForContactWithCreatedAt:(NSString *)contactId withCreatedAt:(NSNumber*)createdAt;
+
 -(NSUInteger)markConversationAsRead:(NSString *) contactId;
 
 
