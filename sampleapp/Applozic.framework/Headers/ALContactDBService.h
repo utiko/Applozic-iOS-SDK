@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ALContact.h"
 #import "DB_CONTACT.h"
+#import "ALUserDetail.h"
 
 @interface ALContactDBService : NSObject
 
@@ -26,8 +27,16 @@
 
 -(BOOL)addContact:(ALContact *)userContact;
 
+-(void) updateConnectedStatus: (NSString *) userId lastSeenAt:(NSNumber *) lastSeenAt  connected: (BOOL) connected;
+
 - (DB_CONTACT *)getContactByKey:(NSString *) key value:(NSString*) value;
 
 - (ALContact *)loadContactByKey:(NSString *) key value:(NSString*) value;
+
+-(void)addUserDetails:(NSMutableArray *)userDetails;
+
+-(DB_CONTACT*) createUserDetailEntityForDBInsertionWithUserDetail:(ALUserDetail *) userDetail;
+
+-(BOOL)updateUserDetail:(ALUserDetail *)userDetail;
 
 @end

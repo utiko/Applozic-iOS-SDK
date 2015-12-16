@@ -17,5 +17,7 @@
 
 @property(nonatomic) NSMutableArray * connectedUserList;
 
+@property(nonatomic) NSMutableArray * userDetailsList;
+
 
 @end

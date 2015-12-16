@@ -6,6 +6,7 @@
 //  Copyright © 2015 applozic Inc. All rights reserved.
 //
 
+#import <CoreData/NSManagedObject.h>
 #import <Foundation/Foundation.h>
 #import "ALJson.h"
 
@@ -14,14 +15,20 @@
 
 @property NSString *userId;
 
-@property NSString *connected;
+@property BOOL connected;
 
-@property NSString *lastSeenAtTime;
+@property NSNumber *lastSeenAtTime;
 
 @property NSString *unreadCount;
+
+@property NSString *displayName;
+
+@property(nonatomic, copy) NSManagedObjectID *userDetailDBObjectId;
 
 -(void)setUserDetails:(NSString *)jsonString;
 
 -(void)userDetail;
+
+-(id)initWithDictonary:(NSDictionary*)messageDictonary;
 
 @end

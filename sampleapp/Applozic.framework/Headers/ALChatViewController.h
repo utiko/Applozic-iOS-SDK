@@ -13,6 +13,7 @@
 #import "ALContact.h"
 #import "ALChatCell.h"
 #import "ALAttachmentController.h"
+#import "ALUserDetail.h"
 
 @interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate,ALChatCellDelegate,ALImageWithTextControllerDelegate>
 
@@ -36,5 +37,7 @@
 -(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue;
 
 -(void)showTypingLabel:(BOOL)flag userId:(NSString *)userId;
+
+-(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail;
 
 @end

@@ -140,6 +140,9 @@
     [ALApplozicSettings setUserProfileHidden:YES];
     [ALApplozicSettings hideRefreshButton:NO];
     
+    [ALApplozicSettings setColourForNavigation:[UIColor colorWithRed:179.0/255 green:32.0/255 blue:35.0/255 alpha:1]];
+    [ALApplozicSettings setColourForNavigationItem:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
+    
     [ALApplozicSettings setTitleForConversationScreen:@"Conversation"];
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
