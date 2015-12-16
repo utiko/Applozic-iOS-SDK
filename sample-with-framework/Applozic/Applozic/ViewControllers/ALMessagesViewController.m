@@ -148,7 +148,7 @@ ALMQTTConversationService *alMqttConversationService;
     self.googleReach.reachableBlock = ^(Reachability * reachability)
     {
         NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Reachable(%@)", reachability.currentReachabilityString];
-        NSLog(@"%@", temp);
+       // NSLog(@"%@", temp);
         
         // to update UI components from a block callback
         // you need to dipatch this to the main thread
@@ -159,7 +159,7 @@ ALMQTTConversationService *alMqttConversationService;
     self.googleReach.unreachableBlock = ^(Reachability * reachability)
     {
         NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Unreachable(%@)", reachability.currentReachabilityString];
-        NSLog(@"%@", temp);
+      //  NSLog(@"%@", temp);
         
         // to update UI components from a block callback
         // you need to dipatch this to the main thread
@@ -268,10 +268,32 @@ ALMQTTConversationService *alMqttConversationService;
 {
    // NSLog(@"==== Received typing status %d for: %@ ====", status, userId);
     
-    if ([self.detailChatViewController.contactIds isEqualToString:userId])
+     if ([self.detailChatViewController.contactIds isEqualToString:userId])
      {
          [self.detailChatViewController showTypingLabel:status userId:userId];
      }
+}
+
+-(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
+{
+    [self.detailChatViewController setRefreshMainView:TRUE];
+
+    if ([self.detailChatViewController.contactIds isEqualToString:alUserDetail.userId])
+    {
+        [self.detailChatViewController updateLastSeenAtStatus:alUserDetail];
+    }
+    else
+    {
+        ALContactCell *contactCell = [self getCell:alUserDetail.userId];
+        if(alUserDetail.connected)
+        {
+            [contactCell.onlineImageMarker setHidden:NO];
+        }
+        else
+        {
+            [contactCell.onlineImageMarker setHidden:YES];
+        }
+    }
 }
 
 -(void) mqttConnectionClosed {
@@ -431,6 +453,19 @@ ALMQTTConversationService *alMqttConversationService;
         if(contactCell){    
             NSLog(@"contact cell found ....");
             contactCell.mMessageLabel.text = msg.message;
+            
+            ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
+            ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: msg.contactIds];
+            
+            if(alContact.connected)
+            {
+                [contactCell.onlineImageMarker setHidden:NO];
+            }
+            else
+            {
+                [contactCell.onlineImageMarker setHidden:YES];
+            }
+            
             UILabel* unread=(UILabel*)[contactCell viewWithTag:104];
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
             unread.hidden=FALSE;
@@ -496,6 +531,7 @@ ALMQTTConversationService *alMqttConversationService;
     nameIcon.textColor=[UIColor whiteColor];
     UILabel* unread=(UILabel*)[contactCell viewWithTag:104];
     
+    [contactCell.onlineImageMarker setBackgroundColor:[UIColor clearColor]];
     
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
     ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];             
@@ -516,7 +552,14 @@ ALMQTTConversationService *alMqttConversationService;
     NSString *firstLetter = [[[alContact displayName] substringToIndex:1] uppercaseString];
     nameIcon.text=firstLetter;
    
-    
+    if(alContact.connected)
+    {
+        [contactCell.onlineImageMarker setHidden:NO];
+    }
+    else
+    {
+        [contactCell.onlineImageMarker setHidden:YES];
+    }
     
     ///////////$$$$$$$$$$$$$$$$//////////////////////COUNT//////////////////////$$$$$$$$$$$$$$$$///////////
     
@@ -534,6 +577,8 @@ ALMQTTConversationService *alMqttConversationService;
         unread.hidden=TRUE;
         contactCell.mCountImageView.hidden=TRUE;
     }
+    
+    
     
     contactCell.mUserImageView.hidden=FALSE;
     contactCell.mUserImageView.layer.cornerRadius=contactCell.mUserImageView.frame.size.width/2;
@@ -571,7 +616,7 @@ ALMQTTConversationService *alMqttConversationService;
 //         contactCell.mUserImageView.hidden=TRUE;
 
     }
-  
+    
     return contactCell;
 }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -35,7 +35,7 @@
                                         <rect key="frame" x="0.0" y="86" width="600" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nkO-yU-f6Y" id="jVl-2p-Q74">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="81.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="81"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="103" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9sE-W8-i33">
@@ -124,6 +124,9 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="online_show" translatesAutoresizingMaskIntoConstraints="NO" id="n4n-9f-27k">
+                                                    <rect key="frame" x="56" y="50" width="18" height="18"/>
+                                                </imageView>
                                             </subviews>
                                             <animations/>
                                             <constraints>
@@ -134,12 +137,16 @@
                                                 <constraint firstItem="G4M-aZ-RgP" firstAttribute="leading" secondItem="9sE-W8-i33" secondAttribute="trailing" constant="18" id="Bso-bC-aXE"/>
                                                 <constraint firstItem="nFm-Yv-yQF" firstAttribute="baseline" secondItem="FQ8-OW-duW" secondAttribute="baseline" constant="7" id="DTe-hw-FRU"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="9sE-W8-i33" secondAttribute="bottom" constant="5" id="Dk6-JJ-ZN6"/>
+                                                <constraint firstItem="n4n-9f-27k" firstAttribute="leading" secondItem="jVl-2p-Q74" secondAttribute="leadingMargin" constant="48" id="Hdl-6X-ks3"/>
                                                 <constraint firstAttribute="centerY" secondItem="G4M-aZ-RgP" secondAttribute="centerY" multiplier="1.6" id="JSd-QD-dhf"/>
                                                 <constraint firstItem="9sE-W8-i33" firstAttribute="top" secondItem="jVl-2p-Q74" secondAttribute="topMargin" constant="5" id="Jf5-Sl-doh"/>
                                                 <constraint firstItem="mUK-kK-XjJ" firstAttribute="top" secondItem="r8N-HC-XMt" secondAttribute="bottom" constant="4" id="Kh0-4S-PwJ"/>
+                                                <constraint firstItem="n4n-9f-27k" firstAttribute="bottom" secondItem="9sE-W8-i33" secondAttribute="bottom" id="MJU-e6-EeL"/>
+                                                <constraint firstItem="n4n-9f-27k" firstAttribute="trailing" secondItem="9sE-W8-i33" secondAttribute="trailing" id="NSs-XZ-F1d"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="mUK-kK-XjJ" secondAttribute="trailing" constant="140" id="OhO-4O-97y"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="SAh-hY-LL9" secondAttribute="trailing" constant="16" id="QhY-bn-hw8"/>
                                                 <constraint firstItem="FQ8-OW-duW" firstAttribute="centerY" secondItem="jVl-2p-Q74" secondAttribute="centerY" id="STX-Kz-IyB"/>
+                                                <constraint firstItem="n4n-9f-27k" firstAttribute="top" secondItem="jVl-2p-Q74" secondAttribute="topMargin" constant="42" id="T7G-PL-v9Z"/>
                                                 <constraint firstItem="SAh-hY-LL9" firstAttribute="centerY" secondItem="nFm-Yv-yQF" secondAttribute="centerY" constant="-3" id="TwU-vg-J2t"/>
                                                 <constraint firstAttribute="centerY" secondItem="9sE-W8-i33" secondAttribute="centerY" id="Ut4-Tz-Dst"/>
                                                 <constraint firstItem="r8N-HC-XMt" firstAttribute="leading" secondItem="G4M-aZ-RgP" secondAttribute="trailing" constant="6" id="XaD-kp-j8P"/>
@@ -174,6 +181,7 @@
                                             <outlet property="mTimeLabel" destination="r8N-HC-XMt" id="g1W-I7-CN0"/>
                                             <outlet property="mUserImageView" destination="9sE-W8-i33" id="nJd-di-Nbe"/>
                                             <outlet property="mUserNameLabel" destination="G4M-aZ-RgP" id="sPF-zg-Tho"/>
+                                            <outlet property="onlineImageMarker" destination="n4n-9f-27k" id="e9w-gU-3E9"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -244,7 +252,7 @@
                                         <rect key="frame" x="0.0" y="86" width="600" height="59"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NOy-HJ-2YL" id="p0o-92-QNi">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="58.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="58"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8h-Lp-4Jd">
@@ -746,5 +754,6 @@
         <image name="ic_action_attachment2.png" width="36" height="36"/>
         <image name="ic_action_camera" width="64" height="64"/>
         <image name="mobicom_ic_action_send_now.png" width="48" height="48"/>
+        <image name="online_show" width="200" height="200"/>
     </resources>
 </document>

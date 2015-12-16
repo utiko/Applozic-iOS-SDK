@@ -30,9 +30,9 @@
     
 }
 
--(void) updateConnectedStatus: (NSString *) userId lastSeenAt:(NSNumber *) lastSeenAt  connected: (BOOL) connected {
+-(void) updateConnectedStatus: (ALUserDetail *) alUserDetail {
     ALContactDBService* contactDBService = [[ALContactDBService alloc] init];
-    [contactDBService updateConnectedStatus: userId lastSeenAt: lastSeenAt  connected: connected];
+    [contactDBService updateUserDetail: alUserDetail];
 }
 
 @end

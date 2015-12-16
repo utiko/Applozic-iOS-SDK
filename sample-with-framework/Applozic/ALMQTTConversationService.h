@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MQTTSession.h"
 #import "ALMessage.h"
+#import "ALUserDetail.h"
 #import "ALSyncCallService.h"
 
 @protocol ALMQTTConversationDelegate <NSObject>
@@ -16,6 +17,7 @@
 -(void) delivered:(NSString *) messageKey contactId: (NSString *) contactId;
 -(void) updateDeliveryStatusForContact: (NSString *) contactId;
 -(void) updateTypingStatus: (NSString *) applicationKey userId: (NSString *) userId status: (BOOL) status;
+-(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail;
 -(void) mqttConnectionClosed;
 @end
 
