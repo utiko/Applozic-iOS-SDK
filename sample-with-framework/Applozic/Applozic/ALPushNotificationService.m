@@ -24,7 +24,7 @@
 
 -(BOOL) isApplozicNotification:(NSDictionary *)dictionary
 {
-    NSString *type = (NSString *)[dictionary valueForKey:@"AL_TYPE"];
+    NSString *type = (NSString *)[dictionary valueForKey:@"AL_KEY"];
     NSLog(@"notification type %@", type);
     return type != nil && [ALPushNotificationService.ApplozicNotificationTypes containsObject:type];
 }
@@ -43,7 +43,7 @@
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
         [dict setObject:[NSNumber numberWithBool:updateUI] forKey:@"updateUI"];
 
-        NSString *type = (NSString *)[dictionary valueForKey:@"AL_TYPE"];
+        NSString *type = (NSString *)[dictionary valueForKey:@"AL_KEY"];
         NSString *value = (NSString *)[dictionary valueForKey:@"AL_VALUE"];
         
         if ([type isEqualToString:MT_SYNC])
@@ -71,7 +71,39 @@
         {
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
             [messageDBService deleteMessageByKey: value];
+        }else if ([type isEqualToString:@"APPLOZIC_10"]) {
+            NSLog(@"value :: %@", value);
+            NSLog(@"type :: %@" ,type);
+//            [self.alSyncCallService updateDeliveryStatusForContact: contactId];
+//            [self.mqttConversationDelegate updateDeliveryStatusForContact: contactId];
+        } else if ([type isEqualToString: @"APPLOZIC_11"]) {
+//            ALUserDetail *alUserDetail = [[ALUserDetail alloc] init];
+//            alUserDetail.userId = [theMessageDict objectForKey:@"message"];
+//            alUserDetail.lastSeenAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
+//            alUserDetail.connected = YES;
+//            [self.alSyncCallService updateConnectedStatus: alUserDetail];
+//            [self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
+            NSLog(@"value :: %@", value);
+            NSLog(@"type :: %@" ,type);
+
+        } else if ([type isEqualToString:@"APPLOZIC_12"]) {
+//            NSArray *parts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
+//            
+//            ALUserDetail *alUserDetail = [[ALUserDetail alloc] init];
+//            alUserDetail.userId = parts[0];
+//            alUserDetail.lastSeenAtTime = [NSNumber numberWithDouble:[parts[1] doubleValue]];
+//            alUserDetail.connected = NO;
+//            
+//            [self.alSyncCallService updateConnectedStatus: alUserDetail];
+//            [self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
+            NSLog(@"value :: %@", value);
+            NSLog(@"type :: %@" ,type);
+
         }
+
+        
+        
+        
         
         /*UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
          ChatViewController *chatViewController =

@@ -14,7 +14,7 @@
 
 
 -(void) updateMessageDeliveryReport:(NSString *)messageKey {
-    ALMessageDBService *alMessageDBService = [[ALMessageDBService init] alloc];
+    ALMessageDBService *alMessageDBService = [[ALMessageDBService alloc] init];
     [alMessageDBService updateMessageDeliveryReport:messageKey];
     NSLog(@"delivery report for %@", messageKey);
     //Todo: update ui
