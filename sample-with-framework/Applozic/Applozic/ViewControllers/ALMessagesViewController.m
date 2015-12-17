@@ -479,9 +479,9 @@ ALMQTTConversationService *alMqttConversationService;
             contactCell.mCountImageView.hidden=FALSE;
             unread.text=[NSString stringWithFormat:@"%lu",(unsigned long)[[messageDBService getUnreadMessages:msg.contactIds] count]];
             if ([msg.type integerValue] == [FORWARD_STATUS integerValue])
-                contactCell.mLastMessageStatusImageView.image = [UIImage imageNamed:@"mobicom_social_forward.png"];
+                contactCell.mLastMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"mobicom_social_forward.png"];
             else if ([msg.type integerValue] == [REPLIED_STATUS integerValue])
-                contactCell.mLastMessageStatusImageView.image = [UIImage imageNamed:@"mobicom_social_reply.png"];
+                contactCell.mLastMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"mobicom_social_reply.png"];
             
             BOOL isToday = [ALUtilityClass isToday:[NSDate dateWithTimeIntervalSince1970:[msg.createdAtTime doubleValue]/1000]];
             contactCell.mTimeLabel.text = [msg getCreatedAtTime:isToday];
@@ -546,9 +546,9 @@ ALMQTTConversationService *alMqttConversationService;
     contactCell.mMessageLabel.text = message.message;
     contactCell.mMessageLabel.hidden = FALSE;
     if ([message.type integerValue] == [FORWARD_STATUS integerValue])
-        contactCell.mLastMessageStatusImageView.image = [UIImage imageNamed:@"mobicom_social_forward.png"];
+        contactCell.mLastMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"mobicom_social_forward.png"];
     else if ([message.type integerValue] == [REPLIED_STATUS integerValue])
-        contactCell.mLastMessageStatusImageView.image = [UIImage imageNamed:@"mobicom_social_reply.png"];
+        contactCell.mLastMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"mobicom_social_reply.png"];
     
     BOOL isToday = [ALUtilityClass isToday:[NSDate dateWithTimeIntervalSince1970:[message.createdAtTime doubleValue]/1000]];
     contactCell.mTimeLabel.text = [message getCreatedAtTime:isToday];
@@ -603,7 +603,7 @@ ALMQTTConversationService *alMqttConversationService;
     
     if (alContact.localImageResourceName)
     {
-        UIImage *someImage = [UIImage imageNamed:alContact.localImageResourceName];
+        UIImage *someImage = [ALUtilityClass getImageFromFramworkBundle:alContact.localImageResourceName];
 
         [contactCell.mUserImageView  setImage:someImage];
         nameIcon.hidden = TRUE;
@@ -641,7 +641,7 @@ ALMQTTConversationService *alMqttConversationService;
         {
 //            contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_VIDEO", nil);
             contactCell.imageNameLabel.text = NSLocalizedString(@"Video", nil);
-            contactCell.imageMarker.image = [UIImage imageNamed:@"applozic_ic_action_video.png"];
+            contactCell.imageMarker.image = [ALUtilityClass getImageFromFramworkBundle:@"applozic_ic_action_video.png"];
         }
         else
         {
@@ -653,7 +653,7 @@ ALMQTTConversationService *alMqttConversationService;
     {
 //        contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_ATTACHMENT", nil);
         contactCell.imageNameLabel.text = NSLocalizedString(@"Attachment", nil);
-        contactCell.imageMarker.image = [UIImage imageNamed:@"ic_action_attachment.png"];
+        contactCell.imageMarker.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_attachment.png"];
     }
     else
     {

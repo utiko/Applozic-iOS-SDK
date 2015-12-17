@@ -38,6 +38,7 @@
 #import "ALUserDetail.h"
 #import "ALMQTTConversationService.h"
 #import "ALContactDBService.h"
+#import "ALDateCell.h"
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate>
 
@@ -69,6 +70,7 @@
 
 -(void)serverCallForLastSeen;
 
+-(void)addDateInArray:(NSMutableArray *)tempArray;
 
 @end
 
@@ -326,7 +328,7 @@ ALMessageDBService  * dbService;
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     ALMessage * theMessage = self.mMessageListArray[indexPath.row];
-
+    
     if([theMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"]){
         
         ALChatCell_Image *theCell = (ALChatCell_Image *)[tableView dequeueReusableCellWithIdentifier:@"ChatCell_Image"];
@@ -339,7 +341,7 @@ ALMessageDBService  * dbService;
 
     }
     if (theMessage.fileMeta.thumbnailUrl == nil ) { // textCell
-        
+    
         ALChatCell *theCell = (ALChatCell *)[tableView dequeueReusableCellWithIdentifier:@"ChatCell"];
         theCell.tag = indexPath.row;
         theCell.delegate = self;
@@ -376,6 +378,10 @@ ALMessageDBService  * dbService;
         return theTextSize.height + self.view.frame.size.width - 30;
     }
     
+    if([theMessage.type isEqualToString:@"100" ])
+    {
+        return 30;
+    }
     else if (theMessage.fileMeta.thumbnailUrl == nil) {
         CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:@"Helvetica-Bold" fontSize:15];
         int extraSpace = 40 ;
@@ -467,11 +473,16 @@ ALMessageDBService  * dbService;
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
 
+    
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    
     for (DB_Message * theEntity in theArray) {
         ALMessage * theMessage = [messageDBService createMessageEntity:theEntity];
-        [self.mMessageListArray insertObject:theMessage atIndex:0];
+        [tempArray insertObject:theMessage atIndex:0];
         //[self.mMessageListArrayKeyStrings insertObject:theMessage.key atIndex:0];
     }
+    
+    [self addDateInArray:tempArray];
 
     [self.mTableView reloadData];
 
@@ -510,6 +521,30 @@ ALMessageDBService  * dbService;
     }
 }
 
+-(void)addDateInArray:(NSMutableArray *)tempArray
+{
+        ALDateCell * dateCell = [[ALDateCell alloc] init];
+        for(int i = (int)(tempArray.count-1); i > 0; i--)
+        {
+            ALMessage * msg1 = tempArray[i - 1];
+            ALMessage * msg2 = tempArray[i];
+    
+            [self.mMessageListArray insertObject:tempArray[i] atIndex:0];
+    
+    
+            if([dateCell checkDateOlder:msg1.createdAtTime andNewer:msg2.createdAtTime])
+            {
+                ALMessage *dateLabel = [[ALMessage alloc] init];
+                dateLabel.message = dateCell.dateCellText;
+                dateLabel.createdAtTime = [tempArray[i] createdAtTime];
+                dateLabel.type = @"100";
+                dateLabel.fileMeta.thumbnailUrl = nil;
+    
+                [self.mMessageListArray insertObject:dateLabel atIndex:0];
+            }
+        }
+
+}
 
 #pragma mark IBActions
 
@@ -941,8 +976,8 @@ ALMessageDBService  * dbService;
                 NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
                 NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
                 [[self mMessageListArray] addObjectsFromArray:sortedArray];
-                
-                [ALUserService processContactFromMessages:messageList];
+
+                //[ALUserService processContactFromMessages:messageList];
                 [self setTitle];
                 [self.mTableView reloadData];
                 if(flag)
