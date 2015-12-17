@@ -25,4 +25,6 @@
 
 -(void)removeObjectFromMessageArray:(NSMutableArray *)paramMessageArray;
 
+-(void)removeALMessageFromMessageArray:(ALMessage *)almessage;
+
 @end

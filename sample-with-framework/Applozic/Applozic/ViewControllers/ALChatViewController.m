@@ -543,8 +543,8 @@ ALMessageDBService  * dbService;
         }
     }];
     
-    [[self.alMessageWrapper getUpdatedMessageArray] removeObject:message];
-
+    //[[self.alMessageWrapper getUpdatedMessageArray] removeObject:message];
+    [self.alMessageWrapper removeALMessageFromMessageArray:message];
     
     [UIView animateWithDuration:1.5 animations:^{
     [self.mTableView reloadData];

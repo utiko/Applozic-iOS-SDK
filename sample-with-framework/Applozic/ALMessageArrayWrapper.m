@@ -35,6 +35,11 @@
    [self.messageArray addObject:alMessage];
 }
 
+-(void)removeALMessageFromMessageArray:(ALMessage *)almessage
+{
+    [self.messageArray removeObject:almessage];
+}
+
 -(void)addObjectToMessageArray:(NSMutableArray *)paramMessageArray
 {
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
@@ -64,7 +69,7 @@
 
 -(void)removeObjectFromMessageArray:(NSMutableArray *)paramMessageArray
 {
-    
+    [self.messageArray removeObject:paramMessageArray];
 }
 
 -(BOOL)checkDateOlder:(NSNumber *)older andNewer:(NSNumber *)newer
