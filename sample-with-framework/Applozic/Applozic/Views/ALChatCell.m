@@ -111,7 +111,9 @@
        // [self.contentView addSubview:self.mMessageStatusImageView];
         
         self.contentView.userInteractionEnabled=YES;
+
     }
+    
     
     return self;
     
@@ -131,9 +133,24 @@
     
     CGSize theDateSize = [self getSizeForText:theDate maxWidth:150 font:self.mDateLabel.font.fontName fontSize:self.mDateLabel.font.pointSize];
     
+    [self.mBubleImageView setHidden:NO];
+    [self.partBubble setHidden:NO];
+    [self.mDateLabel setHidden:NO];
+    
     //MT_INBOX(Short.valueOf("4")),
-   // MT_OUTBOX(Short.valueOf("5")),
-    if ([alMessage.type isEqualToString:@MT_INBOX_CONSTANT]/*[alMessage.type isEqualToString:@"4"]*/) { //Recieved Message
+    // MT_OUTBOX(Short.valueOf("5")),
+    if([alMessage.type isEqualToString:@"100"])
+    {
+        [self.mDateLabel setHidden:YES];
+        [self.mMessageLabel setTextAlignment:NSTextAlignmentCenter];
+        [self.mMessageLabel setText:alMessage.message];
+        [self.mMessageLabel setFrame:CGRectMake(0, 0, viewSize.width, theTextSize.height+10)];
+        [self.mMessageLabel setBackgroundColor:[UIColor clearColor]];
+        [self.mMessageLabel setTextColor:[UIColor blackColor]];
+        [self.mBubleImageView setHidden:YES];
+         [self.partBubble setHidden:YES];
+    }
+    else if ([alMessage.type isEqualToString:@MT_INBOX_CONSTANT]/*[alMessage.type isEqualToString:@"4"]*/) { //Recieved Message
         
         if([ALApplozicSettings isUserProfileHidden])
         {

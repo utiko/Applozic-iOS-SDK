@@ -103,11 +103,11 @@
     NSMutableArray * messageList = [almessageDBService getMessageListForContactWithCreatedAt:userId withCreatedAt:endTimeStamp];
     //Found Record in DB itself ...if not make call to server
     if(messageList.count > 0 && ![ALUserDefaultsHandler isServerCallDoneForMSGList:userId]){
-        NSLog(@"####message list is coming from DB %ld", messageList.count);
+        NSLog(@"####message list is coming from DB %ld", (unsigned long)messageList.count);
         completion(messageList, nil, nil);
         return;
     }else {
-        NSLog(@"####message list is coming from DB %ld", messageList.count);
+        NSLog(@"####message list is coming from DB %ld", (unsigned long)messageList.count);
     }
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
