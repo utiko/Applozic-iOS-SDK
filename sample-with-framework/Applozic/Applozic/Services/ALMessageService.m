@@ -64,7 +64,7 @@
         ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
         completion(messageListResponse,nil);
-        NSLog(@"message list response THE JSON %@",theJson);
+       // NSLog(@"message list response THE JSON %@",theJson);
         //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
     }];
     
@@ -90,7 +90,7 @@
         ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
         completion(messageListResponse.messageList,nil);
-        NSLog(@"message list response THE JSON %@",theJson);
+       // NSLog(@"message list response THE JSON %@",theJson);
 //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
     }];
     
@@ -126,7 +126,7 @@
         ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
         [almessageDBService addMessageList:messageListResponse.messageList];
         completion(messageListResponse.messageList, nil, messageListResponse.userDetailsList);
-        NSLog(@"message list response THE JSON %@",theJson);
+       // NSLog(@"message list response THE JSON %@",theJson);
     }];
     
 }
@@ -441,7 +441,7 @@
         }
         else
         {
-           NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
+           //NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
            ALUserDetail *userDetailObject = [[ALUserDetail alloc] initWithJSONString:theJson];
           // [userDetailObject userDetail];
          completionMark(userDetailObject);

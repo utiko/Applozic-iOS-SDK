@@ -14,42 +14,55 @@
 
 @implementation ALMessageArrayWrapper
 
+-(id)init
+{
+    self = [super init];
+    
+    if(self)
+    {
+        self.messageArray = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
 
 -(NSMutableArray *)getUpdatedMessageArray
 {
     return self.messageArray;
 }
 
--(void)addObjectToMessageArray:(NSMutableArray *)messageArray
+-(void)addALMessageToMessageArray:(ALMessage *)alMessage
 {
-    self.tempArray = [[NSMutableArray alloc] init];
-    self.messageArray = [[NSMutableArray alloc] init];
+   [self.messageArray addObject:alMessage];
+}
+
+-(void)addObjectToMessageArray:(NSMutableArray *)paramMessageArray
+{
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
     
-    self.tempArray = [NSMutableArray arrayWithArray:messageArray];
+    tempArray = [NSMutableArray arrayWithArray:paramMessageArray];
     
-    for(int i = (int)(self.tempArray.count-1); i > 0; i--)
+    for(int i = (int)(tempArray.count-1); i > 0; i--)
     {
-        ALMessage * msg1 = self.tempArray[i - 1];
-        ALMessage * msg2 = self.tempArray[i];
+        ALMessage * msg1 = tempArray[i - 1];
+        ALMessage * msg2 = tempArray[i];
         
-        [self.messageArray insertObject:self.tempArray[i] atIndex:0];
-        
-        
+        [self.messageArray insertObject:tempArray[i] atIndex:0];
+
         if([self checkDateOlder:msg1.createdAtTime andNewer:msg2.createdAtTime])
         {
             ALMessage *dateLabel = [[ALMessage alloc] init];
             dateLabel.message = self.dateCellText;
-            dateLabel.createdAtTime = [self.tempArray[i] createdAtTime];
+            dateLabel.createdAtTime = [tempArray[i] createdAtTime];
             dateLabel.type = @"100";
             dateLabel.fileMeta.thumbnailUrl = nil;
             
             [self.messageArray insertObject:dateLabel atIndex:0];
         }
     }
-    
+    [tempArray removeAllObjects];
 }
 
--(void)removeObjectFromMessageArray:(NSMutableArray *)messageArray
+-(void)removeObjectFromMessageArray:(NSMutableArray *)paramMessageArray
 {
     
 }

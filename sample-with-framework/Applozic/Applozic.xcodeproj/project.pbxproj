@@ -20,7 +20,7 @@
 		6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D46B6C31BD025060014A5D3 /* ALMapViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D46B6C61BD025060014A5D3 /* ALMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D46B6C41BD025060014A5D3 /* ALMapViewController.m */; };
 		6D5439DC1C19B8D600C686BC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D5439DB1C19B8D600C686BC /* SystemConfiguration.framework */; };
-		6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6A07471C2299C60002388F /* ALMessageArrayWrapper.h */; };
+		6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6A07471C2299C60002388F /* ALMessageArrayWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6A074A1C2299C60002388F /* ALMessageArrayWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6A07481C2299C60002388F /* ALMessageArrayWrapper.m */; };
 		6D6DF0811BC535C800EBA00F /* Applozic.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF0801BC535C800EBA00F /* Applozic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6DF13B1BC5364C00EBA00F /* ALMessageDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF0891BC5364C00EBA00F /* ALMessageDBService.m */; };
@@ -877,7 +877,6 @@
 				98E1AB971C08718700BE6312 /* ALMQTTConversationService.h in Headers */,
 				6D6DF1881BC5364C00EBA00F /* ALConstant.h in Headers */,
 				6D6DF1581BC5364C00EBA00F /* ALChatViewController.h in Headers */,
-				6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */,
 				6D6DF1D31BC5364C00EBA00F /* KAProgressLabel.h in Headers */,
 				6D6DF16A1BC5364C00EBA00F /* ALMessageClientService.h in Headers */,
 				6D6DF1421BC5364C00EBA00F /* ALDBHandler.h in Headers */,
@@ -910,6 +909,7 @@
 				6D6DF1801BC5364C00EBA00F /* DB_CONTACT.h in Headers */,
 				6DB665071C0EE5EC004D04A8 /* ALDataNetworkConnection.h in Headers */,
 				6D6DF1601BC5364C00EBA00F /* ALChatCell_Image.h in Headers */,
+				6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */,
 				6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */,
 				6D6DF13E1BC5364C00EBA00F /* ALConnection.h in Headers */,
 				982F130E1C05D6050024678E /* MQTTSession.h in Headers */,

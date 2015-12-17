@@ -13,16 +13,16 @@
 
 @property (nonatomic, strong) NSMutableArray *messageArray;
 
-@property (nonatomic, strong) NSMutableArray *tempArray;
-
-@property (strong, nonatomic) NSString *dateCellText;
+@property (nonatomic, strong) NSString *dateCellText;
 
 -(BOOL)checkDateOlder:(NSNumber *)older andNewer:(NSNumber *)newer;
 
 -(NSMutableArray *)getUpdatedMessageArray;
 
--(void)addObjectToMessageArray:(NSMutableArray *)messageArray;
+-(void)addObjectToMessageArray:(NSMutableArray *)paramMessageArray;
 
--(void)removeObjectFromMessageArray:(NSMutableArray *)messageArray;
+-(void)addALMessageToMessageArray:(ALMessage *)alMessage;
+
+-(void)removeObjectFromMessageArray:(NSMutableArray *)paramMessageArray;
 
 @end
