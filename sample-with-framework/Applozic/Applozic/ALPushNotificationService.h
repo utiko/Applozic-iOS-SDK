@@ -22,11 +22,18 @@
 #define MT_MESSAGE @"MT_MESSAGE"
 
 #import <Foundation/Foundation.h>
+#import "ALMessage.h"
+#import "ALUserDetail.h"
+#import "ALSyncCallService.h"
+
+
 
 @interface ALPushNotificationService : NSObject
 
 -(BOOL) isApplozicNotification: (NSDictionary *) dictionary;
 
 -(BOOL) processPushNotification: (NSDictionary *) dictionary updateUI: (BOOL) updateUI;
+
+@property(nonatomic,strong) ALSyncCallService * alSyncCallService;
 
 @end

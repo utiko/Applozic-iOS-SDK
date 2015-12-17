@@ -8,6 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "KAProgressLabel.h"
+#import "ALUtilityClass.h"
 
 #define KADegreesToRadians(degrees) ((degrees)/180.0*M_PI)
 #define KARadiansToDegrees(radians) ((radians)*180.0/M_PI)
@@ -58,7 +59,7 @@
     
     self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.cancelButton.frame = CGRectMake(0, 0, 50, 50);
-    [self.cancelButton setBackgroundImage:[UIImage imageNamed:@"crossButton.png"] forState:UIControlStateNormal];
+    [self.cancelButton setBackgroundImage:[ALUtilityClass getImageFromFramworkBundle:@"crossButton.png"] forState:UIControlStateNormal];
     self.cancelButton.backgroundColor = [UIColor clearColor];
     [self.cancelButton addTarget:self action:@selector(cancelTask:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.cancelButton];

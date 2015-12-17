@@ -14,6 +14,7 @@
 #import "ALApplozicSettings.h"
 #import "ALMessageService.h"
 #import "ALMessageDBService.h"
+#import "ALUtilityClass.h"
 
 // Constants
 #define MT_INBOX_CONSTANT "4"
@@ -177,11 +178,11 @@ UIViewController * modalCon;
             self.mBubleImageView.backgroundColor = [UIColor whiteColor];
         }
         
-        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+        self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         
         self.partImageBubble.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x, 0, 18, 18);
         
-        self.partImageBubble.image = [UIImage imageNamed:@"receive_Part.png"];
+        self.partImageBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"receive_Part.png"];
         
 //        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width - 120, viewSize.width - 120);
         
@@ -225,7 +226,7 @@ UIViewController * modalCon;
             
             self.mDowloadRetryButton.alpha = 1;
             [self.mDowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
-            [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_download.png"]
+            [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_download.png"]
                                       forState:UIControlStateNormal];
 
         }else{
@@ -249,7 +250,7 @@ UIViewController * modalCon;
         if (alContact.localImageResourceName)
         {
             
-            self.mUserProfileImageView.image = [UIImage imageNamed:alContact.localImageResourceName];
+            self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:alContact.localImageResourceName];
             
         }
         else if(alContact.contactImageUrl)
@@ -259,7 +260,7 @@ UIViewController * modalCon;
         }
         else
         {
-            self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+            self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         }
         
         
@@ -277,7 +278,7 @@ UIViewController * modalCon;
         
         self.mUserProfileImageView.frame = CGRectMake(viewSize.width - 50, 5, 0, 45);
         
-        self.partImageBubble.image = [UIImage imageNamed:@"sentPart.png"];
+        self.partImageBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"sentPart.png"];
         
         self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60) - 18, 0, viewSize.width - 120, viewSize.width - 120);
         
@@ -335,12 +336,12 @@ UIViewController * modalCon;
         }else if( !alMessage.imageFilePath && alMessage.fileMeta.blobKey){
             self.mDowloadRetryButton.alpha = 1;
             [self.mDowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
-            [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_download.png"]
+            [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_download.png"]
                                       forState:UIControlStateNormal];
         }else if (alMessage.imageFilePath && !alMessage.fileMeta.blobKey){
             self.mDowloadRetryButton.alpha = 1;
             [self.mDowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
-            [self.mDowloadRetryButton setImage:[UIImage imageNamed:@"ic_upload.png"] forState:UIControlStateNormal];
+            [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_upload.png"] forState:UIControlStateNormal];
         }
         
     }
@@ -349,12 +350,12 @@ UIViewController * modalCon;
     if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]) { //@"5"
         
         if(alMessage.delivered==YES){
-            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
+            self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_message_delivered.png"];
         }
         else if(alMessage.sent==YES){
-            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_sent.png"];
+            self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_message_sent.png"];
         }else{
-            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_about.png"];
+            self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_about.png"];
             
         }
         

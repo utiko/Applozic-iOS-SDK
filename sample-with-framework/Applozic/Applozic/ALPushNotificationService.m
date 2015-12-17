@@ -8,6 +8,7 @@
 
 #import "ALPushNotificationService.h"
 #import "ALMessageDBService.h"
+#import "ALUserDetail.h"
 
 
 @implementation ALPushNotificationService
@@ -37,15 +38,14 @@
     if ([self isApplozicNotification:dictionary]) {
         //Todo: process it
         NSString *alertValue = [[dictionary valueForKey:@"aps"] valueForKey:@"alert"];
-
-        NSLog(@"Alert: %@", alertValue);
         
+        NSLog(@"Alert: %@", alertValue);
+        self.alSyncCallService =  [[ALSyncCallService alloc]init];
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
         [dict setObject:[NSNumber numberWithBool:updateUI] forKey:@"updateUI"];
 
         NSString *type = (NSString *)[dictionary valueForKey:@"AL_KEY"];
         NSString *value = (NSString *)[dictionary valueForKey:@"AL_VALUE"];
-        
         if ([type isEqualToString:MT_SYNC])
         {
             NSLog(@"pushing to notification center");
@@ -57,7 +57,6 @@
         } else if ([type isEqualToString: MT_DELIVERED])
         {
             //TODO: move to db layer
-            
             NSArray *deliveryParts = [value componentsSeparatedByString:@","];
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
             [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
@@ -72,32 +71,28 @@
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
             [messageDBService deleteMessageByKey: value];
         }else if ([type isEqualToString:@"APPLOZIC_10"]) {
-            NSLog(@"value :: %@", value);
-            NSLog(@"type :: %@" ,type);
-//            [self.alSyncCallService updateDeliveryStatusForContact: contactId];
-//            [self.mqttConversationDelegate updateDeliveryStatusForContact: contactId];
+            [self.alSyncCallService updateDeliveryStatusForContact: value];
+           //[self.mqttConversationDelegate updateDeliveryStatusForContact: contactId];
         } else if ([type isEqualToString: @"APPLOZIC_11"]) {
-//            ALUserDetail *alUserDetail = [[ALUserDetail alloc] init];
-//            alUserDetail.userId = [theMessageDict objectForKey:@"message"];
-//            alUserDetail.lastSeenAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
-//            alUserDetail.connected = YES;
-//            [self.alSyncCallService updateConnectedStatus: alUserDetail];
-//            [self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
-            NSLog(@"value :: %@", value);
-            NSLog(@"type :: %@" ,type);
-
+            NSDictionary *dict  = (NSDictionary *)[dictionary valueForKey:@"AL_VALUE"];
+            ALUserDetail *alUserDetail = [[ALUserDetail alloc] init];
+            alUserDetail.userId = [dict objectForKey:@"message"];
+            alUserDetail.lastSeenAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
+            alUserDetail.connected = YES;
+            [self.alSyncCallService updateConnectedStatus: alUserDetail];
+            //[self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
         } else if ([type isEqualToString:@"APPLOZIC_12"]) {
-//            NSArray *parts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
-//            
-//            ALUserDetail *alUserDetail = [[ALUserDetail alloc] init];
-//            alUserDetail.userId = parts[0];
-//            alUserDetail.lastSeenAtTime = [NSNumber numberWithDouble:[parts[1] doubleValue]];
-//            alUserDetail.connected = NO;
-//            
-//            [self.alSyncCallService updateConnectedStatus: alUserDetail];
-//            [self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
-            NSLog(@"value :: %@", value);
-            NSLog(@"type :: %@" ,type);
+            NSDictionary *dict  = (NSDictionary *)[dictionary valueForKey:@"AL_VALUE"];
+
+            NSArray *parts = [[dict objectForKey:@"message"] componentsSeparatedByString:@","];
+            
+            ALUserDetail *alUserDetail = [[ALUserDetail alloc] init];
+            alUserDetail.userId = parts[0];
+            alUserDetail.lastSeenAtTime = [NSNumber numberWithDouble:[parts[1] doubleValue]];
+            alUserDetail.connected = NO;
+            
+            [self.alSyncCallService updateConnectedStatus: alUserDetail];
+            //[self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
 
         }
 
