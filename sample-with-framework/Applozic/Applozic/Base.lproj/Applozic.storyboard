@@ -412,14 +412,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="arI-8a-uqq">
-                                <rect key="frame" x="529" y="549" width="51" height="49"/>
-                                <animations/>
-                                <state key="normal" title="Button" image="mobicom_ic_action_send_now.png"/>
-                                <connections>
-                                    <action selector="sendAction:" destination="gFB-TQ-g19" eventType="touchDown" id="HaH-Jv-0rC"/>
-                                </connections>
-                            </button>
                             <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fcy-p5-tcB">
                                 <rect key="frame" x="0.0" y="61" width="600" height="30"/>
                                 <animations/>
@@ -432,11 +424,19 @@
                                 <rect key="frame" x="11" y="553" width="40" height="45"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="WV7-5F-oxl"/>
+                                    <constraint firstAttribute="height" constant="45" id="xM1-AW-A1I"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="ic_action_attachment2.png"/>
+                                <state key="normal" title="Button" image="ic_action_attachment2"/>
                                 <connections>
                                     <action selector="attachmentActionMethod:" destination="gFB-TQ-g19" eventType="touchDown" id="wVz-ke-3bU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="arI-8a-uqq">
+                                <rect key="frame" x="543" y="549" width="51" height="49"/>
+                                <animations/>
+                                <state key="normal" title="Button" image="submit"/>
+                                <connections>
+                                    <action selector="sendAction:" destination="gFB-TQ-g19" eventType="touchDown" id="HaH-Jv-0rC"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -445,31 +445,28 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="VB1-qI-ehD" firstAttribute="top" secondItem="WNc-sD-ErX" secondAttribute="bottom" constant="8" identifier="View.top" id="05r-CL-Izw"/>
-                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="baseline" secondItem="arI-8a-uqq" secondAttribute="baseline" constant="13" identifier="Button.baseline" id="3vj-2g-x6C"/>
-                            <constraint firstItem="WNc-sD-ErX" firstAttribute="leading" secondItem="RA0-Qd-4Mg" secondAttribute="trailing" constant="8" identifier="Send Message Text View.leading=Button" id="6rp-bL-fKf"/>
                             <constraint firstAttribute="trailing" secondItem="XrG-C6-GhS" secondAttribute="trailing" identifier="trailing" id="8fX-5Q-Kdx"/>
                             <constraint firstItem="fcy-p5-tcB" firstAttribute="trailing" secondItem="XrG-C6-GhS" secondAttribute="trailing" identifier="Load Earlier Action.trailing" id="CQw-CB-O1b"/>
                             <constraint firstItem="XrG-C6-GhS" firstAttribute="top" secondItem="IEC-BM-wED" secondAttribute="top" constant="44" identifier="MTable View.top" id="DHs-aS-wdN"/>
                             <constraint firstItem="WNc-sD-ErX" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leadingMargin" constant="39" identifier="Send Message Text View.leading=leadingMargin" id="ENI-GJ-Qwd"/>
                             <constraint firstItem="VB1-qI-ehD" firstAttribute="leading" secondItem="WNc-sD-ErX" secondAttribute="leading" identifier="View.leading" id="ERn-KP-DSH"/>
                             <constraint firstItem="fcy-p5-tcB" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="top" constant="17" identifier="Load Earlier Action.top" id="EqC-1E-6IV"/>
+                            <constraint firstItem="WNc-sD-ErX" firstAttribute="leading" secondItem="RA0-Qd-4Mg" secondAttribute="trailing" constant="8" symbolic="YES" id="JdP-I1-JGg"/>
                             <constraint firstItem="XrG-C6-GhS" firstAttribute="centerX" secondItem="cVw-Po-VWO" secondAttribute="centerX" identifier="MTable View.centreX" id="M3O-h1-LX1"/>
                             <constraint firstItem="onN-md-bNU" firstAttribute="top" secondItem="arI-8a-uqq" secondAttribute="bottom" constant="2" identifier="Check Bottom Constraint" id="NKu-jF-hEE"/>
                             <constraint firstItem="onN-md-bNU" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="bottom" id="OEc-Nz-7gM"/>
                             <constraint firstItem="arI-8a-uqq" firstAttribute="top" secondItem="WNc-sD-ErX" secondAttribute="top" identifier="sendButton.Top" id="PRg-hf-TAn"/>
-                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="firstBaseline" secondItem="arI-8a-uqq" secondAttribute="firstBaseline" constant="-9" identifier="Button.firstBaseline" id="VP1-Zk-J3w"/>
+                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leadingMargin" constant="-9" id="SpS-U4-Biq"/>
                             <constraint firstItem="cVw-Po-VWO" firstAttribute="centerY" secondItem="IEC-BM-wED" secondAttribute="centerY" identifier="MActivity Indicator.centerY" id="WSG-Up-0QY"/>
                             <constraint firstItem="XrG-C6-GhS" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leading" identifier="MTable View.Leading" id="X4Z-tI-BRd"/>
-                            <constraint firstItem="arI-8a-uqq" firstAttribute="trailing" secondItem="IEC-BM-wED" secondAttribute="trailingMargin" identifier="sendButton.trailing" id="Y1w-Bg-XU6"/>
                             <constraint firstItem="VB1-qI-ehD" firstAttribute="trailing" secondItem="WNc-sD-ErX" secondAttribute="trailing" identifier="View.trailing" id="Ybh-K3-5UY"/>
-                            <constraint firstItem="arI-8a-uqq" firstAttribute="leading" secondItem="WNc-sD-ErX" secondAttribute="trailing" constant="10" identifier="sendButton.Leading" id="abh-mt-J2f"/>
+                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="bottom" constant="8" symbolic="YES" id="ZtI-TX-kMM"/>
+                            <constraint firstItem="arI-8a-uqq" firstAttribute="leading" secondItem="WNc-sD-ErX" secondAttribute="trailing" constant="24" identifier="sendButton.Leading" id="abh-mt-J2f"/>
                             <constraint firstItem="fcy-p5-tcB" firstAttribute="leading" secondItem="XrG-C6-GhS" secondAttribute="leading" identifier="Load Earlier Action.leading" id="cgs-kW-cTD"/>
                             <constraint firstAttribute="trailingMargin" secondItem="VB1-qI-ehD" secondAttribute="trailing" constant="61" identifier="trailingMargin" id="dXE-7g-9Bf"/>
-                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="bottom" secondItem="VB1-qI-ehD" secondAttribute="bottom" identifier="Button.bottom" id="mYM-7Y-d63"/>
                             <constraint firstItem="onN-md-bNU" firstAttribute="top" secondItem="VB1-qI-ehD" secondAttribute="bottom" constant="5" id="oJd-yd-pFo"/>
-                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leadingMargin" constant="-9" identifier="Button.leading" id="pzP-LY-Obh"/>
                             <constraint firstItem="VB1-qI-ehD" firstAttribute="bottom" secondItem="arI-8a-uqq" secondAttribute="bottom" identifier="View.bottom" id="r5j-kd-Zw7"/>
-                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="top" secondItem="WNc-sD-ErX" secondAttribute="top" constant="4" identifier="Button.top" id="uMZ-ac-aWU"/>
+                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="bottom" secondItem="VB1-qI-ehD" secondAttribute="bottom" id="sFZ-s5-BVv"/>
                             <constraint firstItem="WNc-sD-ErX" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="bottom" constant="4" identifier="Send Message Text View.top" id="yfV-IF-f4X"/>
                         </constraints>
                         <variation key="default">
@@ -751,9 +748,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ic_action_attachment2.png" width="36" height="36"/>
+        <image name="ic_action_attachment2" width="36" height="36"/>
         <image name="ic_action_camera" width="64" height="64"/>
-        <image name="mobicom_ic_action_send_now.png" width="48" height="48"/>
         <image name="online_show" width="200" height="200"/>
+        <image name="submit" width="20" height="20"/>
     </resources>
 </document>
