@@ -62,7 +62,7 @@
 
 
 // Private Variables
-@property (nonatomic, strong) NSNumber *mqttRetryCount;
+@property (nonatomic) NSInteger mqttRetryCount;
 @property (nonatomic, strong) NSMutableArray * mContactsMessageListArray;
 @property (nonatomic, strong) UIColor *navColor;
 @property (nonatomic,strong) NSArray *unreadCount;
@@ -300,15 +300,16 @@ ALMQTTConversationService *alMqttConversationService;
 }
 
 -(void) mqttConnectionClosed {
-    if (_mqttRetryCount != nil && _mqttRetryCount.intValue > MQTT_MAX_RETRY) {
+    if (_mqttRetryCount > MQTT_MAX_RETRY) {
         return;
     }
 
     if([ALDataNetworkConnection checkDataNetworkAvailable])
-        NSLog(@"MQTT connection closed, subscribing again: %@", _mqttRetryCount);
-        dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"MQTT connection closed, subscribing again: %lu", _mqttRetryCount);
+            dispatch_async(dispatch_get_main_queue(), ^{
             [alMqttConversationService subscribeToConversation];
         });
+    _mqttRetryCount++;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
