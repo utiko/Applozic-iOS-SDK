@@ -145,13 +145,15 @@
     if([alMessage.type isEqualToString:@"100"])
     {
         [self.mDateLabel setHidden:YES];
+        [self.mBubleImageView setHidden:YES];
+        [self.partBubble setHidden:YES];
+        [self.mMessageLabel setFrame:CGRectMake(0, 0, viewSize.width, theTextSize.height+10)];
         [self.mMessageLabel setTextAlignment:NSTextAlignmentCenter];
         [self.mMessageLabel setText:alMessage.message];
-        [self.mMessageLabel setFrame:CGRectMake(0, 0, viewSize.width, theTextSize.height+10)];
+        
         [self.mMessageLabel setBackgroundColor:[UIColor clearColor]];
         [self.mMessageLabel setTextColor:[UIColor blackColor]];
-        [self.mBubleImageView setHidden:YES];
-         [self.partBubble setHidden:YES];
+        
     }
     else if ([alMessage.type isEqualToString:@MT_INBOX_CONSTANT]/*[alMessage.type isEqualToString:@"4"]*/) { //Recieved Message
         

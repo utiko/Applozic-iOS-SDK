@@ -38,7 +38,7 @@
 #import "ALUserDetail.h"
 #import "ALMQTTConversationService.h"
 #import "ALContactDBService.h"
-#import "ALDateCell.h"
+#import "ALMessageArrayWrapper.h"
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate>
 
@@ -69,8 +69,6 @@
 -(void)fetchAndRefresh:(BOOL)flag;
 
 -(void)serverCallForLastSeen;
-
--(void)addDateInArray:(NSMutableArray *)tempArray;
 
 @end
 
@@ -482,8 +480,11 @@ ALMessageDBService  * dbService;
         //[self.mMessageListArrayKeyStrings insertObject:theMessage.key atIndex:0];
     }
     
-    [self addDateInArray:tempArray];
+    ALMessageArrayWrapper *messageWrapper = [[ALMessageArrayWrapper alloc] init];
+    [messageWrapper addObjectToMessageArray:tempArray];
 
+    self.mMessageListArray = [NSMutableArray arrayWithArray:[messageWrapper getUpdatedMessageArray]];
+    
     [self.mTableView reloadData];
 
 
@@ -519,31 +520,6 @@ ALMessageDBService  * dbService;
         });
 
     }
-}
-
--(void)addDateInArray:(NSMutableArray *)tempArray
-{
-        ALDateCell * dateCell = [[ALDateCell alloc] init];
-        for(int i = (int)(tempArray.count-1); i > 0; i--)
-        {
-            ALMessage * msg1 = tempArray[i - 1];
-            ALMessage * msg2 = tempArray[i];
-    
-            [self.mMessageListArray insertObject:tempArray[i] atIndex:0];
-    
-    
-            if([dateCell checkDateOlder:msg1.createdAtTime andNewer:msg2.createdAtTime])
-            {
-                ALMessage *dateLabel = [[ALMessage alloc] init];
-                dateLabel.message = dateCell.dateCellText;
-                dateLabel.createdAtTime = [tempArray[i] createdAtTime];
-                dateLabel.type = @"100";
-                dateLabel.fileMeta.thumbnailUrl = nil;
-    
-                [self.mMessageListArray insertObject:dateLabel atIndex:0];
-            }
-        }
-
 }
 
 #pragma mark IBActions

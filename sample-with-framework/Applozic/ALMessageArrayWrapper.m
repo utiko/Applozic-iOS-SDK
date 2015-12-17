@@ -1,18 +1,58 @@
 //
-//  ALDateCell.m
+//  ALMessageArrayWrapper.m
 //  Applozic
 //
-//  Created by devashish on 16/12/2015.
+//  Created by devashish on 17/12/2015.
 //  Copyright © 2015 applozic Inc. All rights reserved.
 //
 
-#import "ALDateCell.h"
+#import "ALMessageArrayWrapper.h"
 
-@interface ALDateCell ()
+@interface ALMessageArrayWrapper ()
 
 @end
 
-@implementation ALDateCell
+@implementation ALMessageArrayWrapper
+
+
+-(NSMutableArray *)getUpdatedMessageArray
+{
+    return self.messageArray;
+}
+
+-(void)addObjectToMessageArray:(NSMutableArray *)messageArray
+{
+    self.tempArray = [[NSMutableArray alloc] init];
+    self.messageArray = [[NSMutableArray alloc] init];
+    
+    self.tempArray = [NSMutableArray arrayWithArray:messageArray];
+    
+    for(int i = (int)(self.tempArray.count-1); i > 0; i--)
+    {
+        ALMessage * msg1 = self.tempArray[i - 1];
+        ALMessage * msg2 = self.tempArray[i];
+        
+        [self.messageArray insertObject:self.tempArray[i] atIndex:0];
+        
+        
+        if([self checkDateOlder:msg1.createdAtTime andNewer:msg2.createdAtTime])
+        {
+            ALMessage *dateLabel = [[ALMessage alloc] init];
+            dateLabel.message = self.dateCellText;
+            dateLabel.createdAtTime = [self.tempArray[i] createdAtTime];
+            dateLabel.type = @"100";
+            dateLabel.fileMeta.thumbnailUrl = nil;
+            
+            [self.messageArray insertObject:dateLabel atIndex:0];
+        }
+    }
+    
+}
+
+-(void)removeObjectFromMessageArray:(NSMutableArray *)messageArray
+{
+    
+}
 
 -(BOOL)checkDateOlder:(NSNumber *)older andNewer:(NSNumber *)newer
 {
@@ -41,11 +81,11 @@
         
         if([newerDateString isEqualToString:todaydate])
         {
-            self.dateCellText = @"TODAY";
+            self.dateCellText = @"Today";
         }
         else if([newerDateString isEqualToString:yesterdaydate])
         {
-            self.dateCellText = @"YESTERDAY";
+            self.dateCellText = @"Yesterday";
         }
         else
         {
@@ -58,7 +98,7 @@
     {
         if([olderDateString isEqualToString:yesterdaydate] && [newerDateString isEqualToString:todaydate])
         {
-            self.dateCellText = @"TODAY";
+            self.dateCellText = @"Today";
             return YES;
         }
         else if(![newerDateString isEqualToString:todaydate] && ![olderDateString isEqualToString:yesterdaydate] && ![newerDateString isEqualToString:olderDateString])
@@ -74,6 +114,5 @@
     }
     
 }
-
 
 @end
