@@ -62,7 +62,7 @@
     // textfield right view
 
     self.sendButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    [self.rightViewButton setImage:[UIImage imageNamed:@"mobicom_ic_action_send_now.png"] forState:UIControlStateNormal];
+    [self.rightViewButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"mobicom_ic_action_send_now.png"] forState:UIControlStateNormal];
     [self.rightViewButton addTarget:self action:@selector(postMessage) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.sendButton];
 }
@@ -88,7 +88,7 @@
     }
   
     if(![ALApplozicSettings isRefreshButtonHidden]){
-    // UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
+    // UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
    // self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:refreshButton ,nil];
     }

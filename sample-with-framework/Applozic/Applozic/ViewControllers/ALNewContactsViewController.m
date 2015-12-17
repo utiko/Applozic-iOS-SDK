@@ -118,7 +118,7 @@
         if (contact.contactImageUrl) 
             newContactCell.contactPersonImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:contact.contactImageUrl]]];
         else
-            newContactCell.contactPersonImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+            newContactCell.contactPersonImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
     
         
     }

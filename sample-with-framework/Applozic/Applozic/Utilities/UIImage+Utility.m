@@ -7,6 +7,7 @@
 //
 
 #import "UIImage+Utility.h"
+#import "ALChatViewController.h"
 
 @implementation UIImage (Utility)
 

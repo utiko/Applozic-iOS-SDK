@@ -14,6 +14,7 @@
 #import "ALApplozicSettings.h"
 #import "ALMessageService.h"
 #import "ALMessageDBService.h"
+#import "UIImage+Utility.h"
 
 // Constants
 #define MT_INBOX_CONSTANT "4"
@@ -120,6 +121,8 @@
 
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize {
     
+
+    
      self.mUserProfileImageView.alpha=1;
     BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[alMessage.createdAtTime doubleValue]/1000]];
     
@@ -154,17 +157,14 @@
             self.mBubleImageView.backgroundColor = [UIColor whiteColor];
             self.mMessageLabel.backgroundColor = [UIColor whiteColor];
         }
-        self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+        //self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
+        self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         
-//        int imgVwWidth = theTextSize.width>150?theTextSize.width+20+14:150;
-//        
-//        int imgVwHeight = theTextSize.height+21>45?theTextSize.height+21+10:45;
-//        
-//        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, imgVwWidth , imgVwHeight);
         
         self.partBubble.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x, 0, 18, 18);
         
-        self.partBubble.image = [UIImage imageNamed:@"receive_Part.png"];
+        self.partBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"receive_Part.png"];
+
         
         self.mBubleImageView.frame = CGRectMake(self.partBubble.frame.origin.x + self.partBubble.frame.size.width, 0, theTextSize.width + 18 , theTextSize.height + 20);
         
@@ -204,7 +204,7 @@
        
         if (alContact.localImageResourceName)
         {
-            self.mUserProfileImageView.image = [UIImage imageNamed:alContact.localImageResourceName];
+            self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:alContact.localImageResourceName];
             
         }
         else  if(alContact.contactImageUrl)
@@ -214,7 +214,7 @@
         }
         else
         {
-            self.mUserProfileImageView.image = [UIImage imageNamed:@"ic_contact_picture_holo_light.png"];
+            self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         }
 
         
@@ -244,7 +244,7 @@
         
          self.mMessageLabel.text = alMessage.message;
         
-        self.partBubble.image = [UIImage imageNamed:@"sentPart.png"];
+        self.partBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"sentPart.png"];
         
         self.mBubleImageView.frame = CGRectMake((viewSize.width - theTextSize.width - 24) - 22 , 0 ,theTextSize.width + 18  ,theTextSize.height + 20);
         
@@ -284,13 +284,13 @@
     if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]/*[alMessage.type isEqualToString:@"5"]*/) {
         self.mMessageStatusImageView.alpha =1;
         if(alMessage.delivered == YES) {
-            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_delivered.png"];
+            self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_message_delivered.png"];
             self.status = @"Delivered ";
         }
         else if(alMessage.sent == YES){
-            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_message_sent.png"];
+            self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_message_sent.png"];
         }else{
-            self.mMessageStatusImageView.image = [UIImage imageNamed:@"ic_action_about.png"];
+            self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_about.png"];
         }
     }
     

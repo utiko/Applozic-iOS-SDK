@@ -8,3 +8,7 @@ ChatApp.xcodeproj/project.xcworkspace/xcuserdata/devashish.xcuserdatad/UserInter
 *.xcuserstate
 
 *.xcbkptlist
+
+sample-with-framework/applozicdemo.xcodeproj/xcuserdata/devashish.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+
+*.xcbkptlist

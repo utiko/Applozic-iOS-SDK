@@ -9,6 +9,7 @@
 #import "ALConstant.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 
+
 @implementation ALUtilityClass
 
 
@@ -234,6 +235,14 @@
 
     NSString *resultString = [@"IMG-" stringByAppendingString: @([[NSDate date] timeIntervalSince1970]).stringValue];
     return resultString;
+}
+
+
++(UIImage *)getImageFromFramworkBundle:(NSString *) UIImageName{
+    
+    NSBundle * bundle = [NSBundle bundleForClass:ALUtilityClass.class];
+    UIImage *image = [UIImage imageNamed:UIImageName inBundle:bundle compatibleWithTraitCollection:nil];
+    return image;
 }
 
 @end
