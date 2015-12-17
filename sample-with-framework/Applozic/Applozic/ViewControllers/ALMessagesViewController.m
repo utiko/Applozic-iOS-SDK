@@ -29,6 +29,7 @@
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
+#define MQTT_MAX_RETRY 3
 
 
 
@@ -60,7 +61,8 @@
 @property(strong) Reachability * internetConnectionReach;
 
 
-// Private Varibles
+// Private Variables
+@property (nonatomic) NSInteger mqttRetryCount;
 @property (nonatomic, strong) NSMutableArray * mContactsMessageListArray;
 @property (nonatomic, strong) UIColor *navColor;
 @property (nonatomic,strong) NSArray *unreadCount;
@@ -94,7 +96,8 @@ ALMQTTConversationService *alMqttConversationService;
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-
+    _mqttRetryCount = 0;
+    
     [self setUpView];
     [self setUpTableView];
     self.mTableView.allowsMultipleSelectionDuringEditing = NO;
@@ -297,12 +300,16 @@ ALMQTTConversationService *alMqttConversationService;
 }
 
 -(void) mqttConnectionClosed {
-    NSLog(@"MQTT connection closed, subscribing again.");
-   
+    if (_mqttRetryCount > MQTT_MAX_RETRY) {
+        return;
+    }
+
     if([ALDataNetworkConnection checkDataNetworkAvailable])
-        dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"MQTT connection closed, subscribing again: %lu", _mqttRetryCount);
+            dispatch_async(dispatch_get_main_queue(), ^{
             [alMqttConversationService subscribeToConversation];
         });
+    _mqttRetryCount++;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
