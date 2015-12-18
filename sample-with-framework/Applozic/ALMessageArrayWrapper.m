@@ -86,7 +86,7 @@
     [tempArray addObjectsFromArray:paramMessageArray];
     
     int countX  =((int)self.messageArray.count==0)?1:((int)self.messageArray.count);
-    NSLog(@"total idex count %d and total temparraycount : %lu", countX , tempArray.count);
+//    NSLog(@"total idex count %d and total temparraycount : %lu", countX , tempArray.count);
     for(int i = (int)(tempArray.count-1); i > countX; i--)
     {
         ALMessage * msg1 = tempArray[i - 1];
@@ -204,6 +204,18 @@
             return NO;
         }
     }
+    
+}
+
+-(NSString *)msgAtTop:(ALMessage *)almessage
+{
+    double old = [almessage.createdAtTime doubleValue];
+    NSDate *olderDate = [[NSDate alloc] initWithTimeIntervalSince1970:(old/1000)];
+    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"EEEE MMM dd,yyyy"];
+    NSString *string = [format stringFromDate:olderDate];
+    return string;
     
 }
 

@@ -1118,6 +1118,13 @@ ALMessageDBService  * dbService;
                     [[self.alMessageWrapper getUpdatedMessageArray] insertObject:msg atIndex:0];
             }
             
+            if(!self.showloadEarlierAction)
+            {
+                ALMessage *last = [[self.alMessageWrapper getUpdatedMessageArray] lastObject];
+                NSString *string = [self.alMessageWrapper msgAtTop:last];
+                ALMessage *lastMsg = [self.alMessageWrapper getDatePrototype:string andAlMessageObject:last];
+                [[self.alMessageWrapper getUpdatedMessageArray] insertObject:lastMsg atIndex:0];
+            }
             self.startIndex = self.startIndex + messages.count;
             [self.mTableView reloadData];
             if(isScrollToBottom){

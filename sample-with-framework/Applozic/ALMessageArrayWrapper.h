@@ -26,8 +26,11 @@
 -(void)removeObjectFromMessageArray:(NSMutableArray *)paramMessageArray;
 
 -(void)removeALMessageFromMessageArray:(ALMessage *)almessage;
+
 -(void)addLatestObjectToArray:(NSMutableArray *)paramMessageArray;
 
 -(ALMessage *)getDatePrototype:(NSString *)messageText andAlMessageObject:(ALMessage *)almessage;
+
+-(NSString *)msgAtTop:(ALMessage *)almessage;
 
 @end
