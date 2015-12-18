@@ -972,8 +972,7 @@ ALMessageDBService  * dbService;
                 NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
                 NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
                 
-                [self.alMessageWrapper addObjectToMessageArray:(NSMutableArray *)sortedArray];
-
+                [self.alMessageWrapper addLatestObjectToArray:(NSMutableArray *)sortedArray];
                 //[ALUserService processContactFromMessages:messageList];
                 [self setTitle];
                 [self.mTableView reloadData];

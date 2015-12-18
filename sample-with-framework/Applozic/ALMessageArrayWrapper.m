@@ -67,25 +67,50 @@
 {
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
     
-    tempArray = [NSMutableArray arrayWithArray:paramMessageArray];
+    tempArray = [NSMutableArray arrayWithArray:self.messageArray];
+    [tempArray addObjectsFromArray:paramMessageArray];
     
-    for(int i = (int)(tempArray.count-1); i > 0; i--)
+    int countX  =((int)self.messageArray.count==0)?1:((int)self.messageArray.count);
+    NSLog(@"total idex count %d and total temparraycount : %lu", countX , tempArray.count);
+    for(int i = (int)(tempArray.count-1); i > countX; i--)
     {
         ALMessage * msg1 = tempArray[i - 1];
         ALMessage * msg2 = tempArray[i];
-        
+    
         [self.messageArray insertObject:tempArray[i] atIndex:0];
-
+        
         if([self checkDateOlder:msg1.createdAtTime andNewer:msg2.createdAtTime])
         {
             ALMessage *dateLabel = [self getDatePrototype:self.dateCellText andAlMessageObject:tempArray[i]];
-            //            ALMessage *msg3 = [self.messageArray objectAtIndex:0];
-            //            if(![msg3.type isEqualToString:@"100"])
-            //            {
-            //                [self.messageArray insertObject:dateLabel atIndex:0];
-            //            }
             [self.messageArray insertObject:dateLabel atIndex:0];
         }
+    }
+    [tempArray removeAllObjects];
+}
+
+
+-(void)addLatestObjectToArray:(NSMutableArray *)paramMessageArray
+{
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    
+    tempArray = [NSMutableArray arrayWithArray:self.messageArray];
+    [tempArray addObjectsFromArray:paramMessageArray];
+    
+    int countX  =((int)self.messageArray.count==0)?1:((int)self.messageArray.count);
+    NSLog(@"total idex count %d and total temparraycount : %lu", countX , tempArray.count);
+    for(int i = countX-1 ; i  < (tempArray.count-1) ; i++)
+    {
+        ALMessage * msg1 = tempArray[i];
+        ALMessage * msg2 = tempArray[i+1];
+        
+        
+        if([self checkDateOlder:msg1.createdAtTime andNewer:msg2.createdAtTime])
+        {
+            ALMessage *dateLabel = [self getDatePrototype:self.dateCellText andAlMessageObject:tempArray[i]];
+            [self.messageArray addObject:dateLabel];
+        }
+        [self.messageArray addObject:tempArray[i+1] ];
+
     }
     [tempArray removeAllObjects];
 }

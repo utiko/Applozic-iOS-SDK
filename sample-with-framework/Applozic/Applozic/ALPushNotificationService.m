@@ -66,8 +66,8 @@
             [dict setObject:alertValue forKey:@"alertValue"];
 
             [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:notificationMsg
-                                                               userInfo:theMessageDict];
-            [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:notificationMsg userInfo:theMessageDict];
+                                                               userInfo:dict];
+            [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:notificationMsg userInfo:dict];
         }else if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:MT_DELIVERED]||[type isEqualToString:@"APPLOZIC_08"])  {
             
             NSArray *deliveryParts = [notificationMsg componentsSeparatedByString:@","];

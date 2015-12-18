@@ -99,6 +99,12 @@ static MQTTSession *session;
     NSString *type = [theMessageDict objectForKey:@"type"];
   //  NSString *instantMessageJson = [theMessageDict objectForKey:@"message"];
     
+    NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
+    if( [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
+        NSLog(@"Id is already processed...%@",notificationId);
+        return;
+    }
+    
     if ([topic hasPrefix:@"typing"]) {
         NSArray *typingParts = [fullMessage componentsSeparatedByString:@","];
         NSString *applicationKey = typingParts[0]; //Note: will get used once we support messaging from one app to another
