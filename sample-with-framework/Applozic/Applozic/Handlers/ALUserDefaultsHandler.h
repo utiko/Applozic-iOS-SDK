@@ -21,6 +21,7 @@
 #define BACK_BTN_VISIBILITY_ON_CON_LIST @"BACK_BTN_VISIBILITY_ON_CON_LIST"
 #define CONVERSATION_CONTACT_IMAGE_VISIBILITY @"CONVERSATION_CONTACT_IMAGE_VISIBILITY"
 #define MSG_LIST_CALL_SUFIX @":MSG_CALL_MADE"
+#define PROCESSED_NOTIFICATION_IDS  @"PROCESSED_NOTIFICATION_IDS"
 
 
 
@@ -81,6 +82,13 @@
 +(void)setServerCallDoneForMSGList:(BOOL) value forContactId:(NSString*)constactId;
 
 +(BOOL)isServerCallDoneForMSGList:(NSString *) contactId;
+
++(void) setProcessedNotificationIds:(NSMutableArray*) arrayWithIds;
+
++(NSMutableArray*) getProcessedNotificationIds;
+
++(BOOL)isNotificationProcessd:(NSString*)withNotificationId;
+
 
 +(NSString *)getLastSyncTime;
 +(NSString *)getUserKeyString;

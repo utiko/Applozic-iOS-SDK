@@ -207,4 +207,32 @@
 }
 
 
++(void) setProcessedNotificationIds:(NSMutableArray*) arrayWithIds{
+
+    [[NSUserDefaults standardUserDefaults] setObject:arrayWithIds forKey:PROCESSED_NOTIFICATION_IDS];
+
+}
+
+
++(NSMutableArray*) getProcessedNotificationIds{
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:@"PROCESSED_NOTIFICATION_IDS"] mutableCopy];
+
+}
+
++(BOOL)isNotificationProcessd:(NSString*)withNotificationId{
+   
+    NSMutableArray * mutableArray = [ self getProcessedNotificationIds];
+    
+    BOOL isTheObjectThere = [mutableArray containsObject:withNotificationId];
+    
+    if ( isTheObjectThere ){
+        [mutableArray removeObject:withNotificationId];
+    }else {
+        [mutableArray addObject:withNotificationId];
+    }
+    [self setProcessedNotificationIds:mutableArray];
+    return isTheObjectThere;
+    
+}
+
 @end
