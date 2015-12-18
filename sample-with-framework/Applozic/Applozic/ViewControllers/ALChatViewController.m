@@ -1078,9 +1078,19 @@ ALMessageDBService  * dbService;
                 self.showloadEarlierAction = FALSE;
             }
             for (ALMessage * msg in messages) {
-                [[self.alMessageWrapper getUpdatedMessageArray] insertObject:msg atIndex:0];
+                
+                if([self.alMessageWrapper getUpdatedMessageArray].count > 0)
+                {
+                    ALMessage *msg1 = [[self.alMessageWrapper getUpdatedMessageArray] objectAtIndex:0];
+                    if([self.alMessageWrapper checkDateOlder:msg.createdAtTime andNewer:msg1.createdAtTime])
+                    {
+                        ALMessage *dateCell = [self.alMessageWrapper getDatePrototype:self.alMessageWrapper.dateCellText andAlMessageObject:msg];
+                        [[self.alMessageWrapper getUpdatedMessageArray] insertObject:dateCell atIndex:0];
+                    }
+                }
+                    [[self.alMessageWrapper getUpdatedMessageArray] insertObject:msg atIndex:0];
             }
-//            [self.alMessageWrapper addObjectToMessageArray:[self.alMessageWrapper getUpdatedMessageArray]];
+            
             self.startIndex = self.startIndex + messages.count;
             [self.mTableView reloadData];
             if(isScrollToBottom){
