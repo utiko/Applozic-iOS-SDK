@@ -364,6 +364,19 @@ ALMessageDBService  * dbService;
     #pragma mark - TableView Delegate
 //------------------------------------------------------------------------------------------------------------------
 
+-(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ALMessage *msgCell = self.alMessageWrapper.messageArray[indexPath.row];
+    if([msgCell.type isEqualToString:@"100"])
+    {
+        return  nil;
+    }
+    else
+    {
+        return indexPath;
+    }
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ALMessage * theMessage = [self.alMessageWrapper getUpdatedMessageArray][indexPath.row];
@@ -391,8 +404,17 @@ ALMessageDBService  * dbService;
     }
 }
 
-- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ALMessage *msgCell = self.alMessageWrapper.messageArray[indexPath.row];
+    if([msgCell.type isEqualToString:@"100"])
+    {
+        return  NO;
+    }
+    else
+    {
+        return YES;
+    }
 }
 
 -(BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
@@ -949,9 +971,8 @@ ALMessageDBService  * dbService;
                 NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
                 NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
                 NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
-                NSLog(@" getting new  sorted array count :::%lu .existing list count %lu", sortedArray.count, self.alMessageWrapper.messageArray.count);
+                
                 [self.alMessageWrapper addLatestObjectToArray:(NSMutableArray *)sortedArray];
-                NSLog(@" getting new  list count %lu",self.alMessageWrapper.messageArray.count);
                 //[ALUserService processContactFromMessages:messageList];
                 [self setTitle];
                 [self.mTableView reloadData];
@@ -1086,7 +1107,12 @@ ALMessageDBService  * dbService;
                     if([self.alMessageWrapper checkDateOlder:msg.createdAtTime andNewer:msg1.createdAtTime])
                     {
                         ALMessage *dateCell = [self.alMessageWrapper getDatePrototype:self.alMessageWrapper.dateCellText andAlMessageObject:msg];
-                        [[self.alMessageWrapper getUpdatedMessageArray] insertObject:dateCell atIndex:0];
+                        ALMessage *msg3 = [[self.alMessageWrapper getUpdatedMessageArray] objectAtIndex:0];
+                        if(![msg3.type isEqualToString:@"100"])
+                        {
+                            [[self.alMessageWrapper getUpdatedMessageArray] insertObject:dateCell atIndex:0];
+                        }
+                        
                     }
                 }
                     [[self.alMessageWrapper getUpdatedMessageArray] insertObject:msg atIndex:0];
@@ -1172,7 +1198,7 @@ ALMessageDBService  * dbService;
             {
                 [self.label setText:@"Online"];
             }
-            else if(difference <= 0)
+            else if(difference <= 1)
             {
                 [self.label setText:@"Last seen Just Now"];
             }
