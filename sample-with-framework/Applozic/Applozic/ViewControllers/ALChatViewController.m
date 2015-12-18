@@ -949,8 +949,9 @@ ALMessageDBService  * dbService;
                 NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
                 NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
                 NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
-                [self.alMessageWrapper addObjectToMessageArray:(NSMutableArray *)sortedArray];
-
+                NSLog(@" getting new  sorted array count :::%lu .existing list count %lu", sortedArray.count, self.alMessageWrapper.messageArray.count);
+                [self.alMessageWrapper addLatestObjectToArray:(NSMutableArray *)sortedArray];
+                NSLog(@" getting new  list count %lu",self.alMessageWrapper.messageArray.count);
                 //[ALUserService processContactFromMessages:messageList];
                 [self setTitle];
                 [self.mTableView reloadData];
