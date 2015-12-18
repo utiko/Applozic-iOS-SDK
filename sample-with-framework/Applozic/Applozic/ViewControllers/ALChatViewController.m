@@ -366,6 +366,7 @@ ALMessageDBService  * dbService;
 
 -(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self.sendMessageTextView resignFirstResponder];
     ALMessage *msgCell = self.alMessageWrapper.messageArray[indexPath.row];
     if([msgCell.type isEqualToString:@"100"])
     {

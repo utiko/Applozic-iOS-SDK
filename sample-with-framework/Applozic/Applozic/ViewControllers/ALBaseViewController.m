@@ -239,7 +239,7 @@
 
 - (IBAction)sendAction:(id)sender {
    
-    [self.sendMessageTextView resignFirstResponder];
+   // [self.sendMessageTextView resignFirstResponder];
     self.sendMessageTextView.text = [self.sendMessageTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if(self.sendMessageTextView.text.length > 0){
         [self postMessage];
