@@ -40,6 +40,7 @@
     else
     {
         ALMessage *msg = [self.messageArray lastObject];
+        
         if([self checkDateOlder:msg.createdAtTime andNewer:alMessage.createdAtTime])
         {
             ALMessage *dateLabel = [self getDatePrototype:self.dateCellText andAlMessageObject:alMessage];
@@ -53,6 +54,13 @@
 -(void)removeALMessageFromMessageArray:(ALMessage *)almessage
 {
     [self.messageArray removeObject:almessage];
+    
+    ALMessage *msg = [self.messageArray lastObject];
+    
+    if([msg.type isEqualToString:@"100"])
+    {
+        [self.messageArray removeObject:msg];
+    }
 }
 
 -(void)addObjectToMessageArray:(NSMutableArray *)paramMessageArray
