@@ -1080,7 +1080,7 @@ ALMessageDBService  * dbService;
             for (ALMessage * msg in messages) {
                 [[self.alMessageWrapper getUpdatedMessageArray] insertObject:msg atIndex:0];
             }
-            [self.alMessageWrapper addObjectToMessageArray:[self.alMessageWrapper getUpdatedMessageArray]];
+//            [self.alMessageWrapper addObjectToMessageArray:[self.alMessageWrapper getUpdatedMessageArray]];
             self.startIndex = self.startIndex + messages.count;
             [self.mTableView reloadData];
             if(isScrollToBottom){
