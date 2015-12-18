@@ -104,7 +104,7 @@
     self.typingLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.typingLabel.backgroundColor = [UIColor clearColor];
     self.typingLabel.textColor = [UIColor grayColor];
-    [self.typingLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+    [self.typingLabel setFont:[UIFont fontWithName:@"Helvetica" size:12.5]];
     self.typingLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.typingLabel];
     
@@ -173,7 +173,7 @@
     NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     self.checkBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y;
-    self.typingLabel.frame = CGRectMake(10,keyboardEndFrame.origin.y - 90, self.view.frame.size.width, 30);
+    self.typingLabel.frame = CGRectMake(10,keyboardEndFrame.origin.y - 80, self.view.frame.size.width, 30);
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         [self scrollTableViewToBottomWithAnimation:YES];
