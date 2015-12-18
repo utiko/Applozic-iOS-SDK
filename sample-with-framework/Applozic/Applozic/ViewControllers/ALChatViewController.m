@@ -949,6 +949,7 @@ ALMessageDBService  * dbService;
                 NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
                 NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
                 NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
+                
                 [self.alMessageWrapper addObjectToMessageArray:(NSMutableArray *)sortedArray];
 
                 //[ALUserService processContactFromMessages:messageList];
@@ -1085,7 +1086,12 @@ ALMessageDBService  * dbService;
                     if([self.alMessageWrapper checkDateOlder:msg.createdAtTime andNewer:msg1.createdAtTime])
                     {
                         ALMessage *dateCell = [self.alMessageWrapper getDatePrototype:self.alMessageWrapper.dateCellText andAlMessageObject:msg];
-                        [[self.alMessageWrapper getUpdatedMessageArray] insertObject:dateCell atIndex:0];
+                        ALMessage *msg3 = [[self.alMessageWrapper getUpdatedMessageArray] objectAtIndex:0];
+                        if(![msg3.type isEqualToString:@"100"])
+                        {
+                            [[self.alMessageWrapper getUpdatedMessageArray] insertObject:dateCell atIndex:0];
+                        }
+                        
                     }
                 }
                     [[self.alMessageWrapper getUpdatedMessageArray] insertObject:msg atIndex:0];
@@ -1171,7 +1177,7 @@ ALMessageDBService  * dbService;
             {
                 [self.label setText:@"Online"];
             }
-            else if(difference <= 0)
+            else if(difference <= 1)
             {
                 [self.label setText:@"Last seen Just Now"];
             }
