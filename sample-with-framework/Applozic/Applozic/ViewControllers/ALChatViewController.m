@@ -364,6 +364,19 @@ ALMessageDBService  * dbService;
     #pragma mark - TableView Delegate
 //------------------------------------------------------------------------------------------------------------------
 
+-(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ALMessage *msgCell = self.alMessageWrapper.messageArray[indexPath.row];
+    if([msgCell.type isEqualToString:@"100"])
+    {
+        return  nil;
+    }
+    else
+    {
+        return indexPath;
+    }
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ALMessage * theMessage = [self.alMessageWrapper getUpdatedMessageArray][indexPath.row];
@@ -391,8 +404,17 @@ ALMessageDBService  * dbService;
     }
 }
 
-- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ALMessage *msgCell = self.alMessageWrapper.messageArray[indexPath.row];
+    if([msgCell.type isEqualToString:@"100"])
+    {
+        return  NO;
+    }
+    else
+    {
+        return YES;
+    }
 }
 
 -(BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
