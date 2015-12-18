@@ -208,7 +208,7 @@
         }
 //        self.mDateLabel.frame = CGRectMake(self.mMessageLabel.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mMessageLabel.frame.size.height + 3, theDateSize.width , 21);
         
-        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mBubleImageView.frame.size.height - 5, theDateSize.width + 20 , 21);
+        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mBubleImageView.frame.size.height - 10, theDateSize.width + 20 , 21);
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         
