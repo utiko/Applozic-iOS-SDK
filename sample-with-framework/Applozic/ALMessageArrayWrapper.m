@@ -32,6 +32,21 @@
 
 -(void)addALMessageToMessageArray:(ALMessage *)alMessage
 {
+    if([self getUpdatedMessageArray].count == 0)
+    {
+        ALMessage *dateLabel = [self getDatePrototype:@"Today" andAlMessageObject:alMessage];
+        [self.messageArray addObject:dateLabel];
+    }
+    else
+    {
+        ALMessage *msg = [self.messageArray lastObject];
+        if([self checkDateOlder:msg.createdAtTime andNewer:alMessage.createdAtTime])
+        {
+            ALMessage *dateLabel = [self getDatePrototype:self.dateCellText andAlMessageObject:alMessage];
+            [self.messageArray addObject:dateLabel];
+        }
+    }
+    
    [self.messageArray addObject:alMessage];
 }
 
@@ -55,16 +70,22 @@
 
         if([self checkDateOlder:msg1.createdAtTime andNewer:msg2.createdAtTime])
         {
-            ALMessage *dateLabel = [[ALMessage alloc] init];
-            dateLabel.message = self.dateCellText;
-            dateLabel.createdAtTime = [tempArray[i] createdAtTime];
-            dateLabel.type = @"100";
-            dateLabel.fileMeta.thumbnailUrl = nil;
-            
+            ALMessage *dateLabel = [self getDatePrototype:self.dateCellText andAlMessageObject:tempArray[i]];
             [self.messageArray insertObject:dateLabel atIndex:0];
         }
     }
     [tempArray removeAllObjects];
+}
+
+-(ALMessage *)getDatePrototype:(NSString *)messageText andAlMessageObject:(ALMessage *)almessage
+{
+    ALMessage *dateLabel = [[ALMessage alloc] init];
+    dateLabel.createdAtTime = almessage.createdAtTime;
+    dateLabel.message = messageText;
+    dateLabel.type = @"100";
+    dateLabel.fileMeta.thumbnailUrl = nil;
+    
+    return  dateLabel;
 }
 
 -(void)removeObjectFromMessageArray:(NSMutableArray *)paramMessageArray

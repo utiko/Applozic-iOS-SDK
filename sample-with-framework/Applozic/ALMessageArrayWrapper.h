@@ -27,4 +27,6 @@
 
 -(void)removeALMessageFromMessageArray:(ALMessage *)almessage;
 
+-(ALMessage *)getDatePrototype:(NSString *)messageText andAlMessageObject:(ALMessage *)almessage;
+
 @end
