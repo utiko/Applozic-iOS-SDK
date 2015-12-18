@@ -7,7 +7,7 @@
 //
 
 #define INVALID_APPLICATIONID = @"INVALID_APPLICATIONID"
-#define VERSION_CODE @"101"
+#define VERSION_CODE @"105"
 
 #import "ALRegisterUserClientService.h"
 #import "ALRequestHandler.h"

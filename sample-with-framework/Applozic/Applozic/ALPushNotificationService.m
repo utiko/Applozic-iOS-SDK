@@ -9,6 +9,7 @@
 #import "ALPushNotificationService.h"
 #import "ALMessageDBService.h"
 #import "ALUserDetail.h"
+#import "ALUserDefaultsHandler.h"
 
 
 @implementation ALPushNotificationService
@@ -18,7 +19,7 @@
     static NSArray *notificationTypes;
     if (!notificationTypes)
     {
-        notificationTypes = [[NSArray alloc] initWithObjects:MT_SYNC, MT_MARK_ALL_MESSAGE_AS_READ, MT_DELIVERED,MT_SYNC_PENDING, MT_DELETE_MESSAGE, MT_DELETE_MULTIPLE_MESSAGE, MT_DELETE_MESSAGE_CONTACT, MTEXTER_USER, MT_CONTACT_VERIFIED, MT_CONTACT_VERIFIED, MT_DEVICE_CONTACT_SYNC, MT_EMAIL_VERIFIED,MT_DEVICE_CONTACT_MESSAGE, MT_CANCEL_CALL, MT_MESSAGE, nil];
+        notificationTypes = [[NSArray alloc] initWithObjects:MT_SYNC, MT_CONVERSATION_READ, MT_DELIVERED,MT_SYNC_PENDING, MT_DELETE_MESSAGE, MT_DELETE_MULTIPLE_MESSAGE, MT_CONVERSATION_DELETED, MTEXTER_USER, MT_CONTACT_VERIFIED, MT_CONTACT_VERIFIED, MT_DEVICE_CONTACT_SYNC, MT_EMAIL_VERIFIED,MT_DEVICE_CONTACT_MESSAGE, MT_CANCEL_CALL, MT_MESSAGE,MT_MESSAGE_DELIVERED_AND_READ,nil];
     }
     return notificationTypes;
 }
@@ -34,7 +35,7 @@
 {
     NSLog(@"update ui: %@", updateUI ? @"Yes": @"No");
     //[dictionary setObject:@"Yes" forKey:@"updateUI"]; // adds @"Bar"
-  
+    
     if ([self isApplozicNotification:dictionary]) {
         //Todo: process it
         NSString *alertValue = [[dictionary valueForKey:@"aps"] valueForKey:@"alert"];
@@ -43,48 +44,57 @@
         self.alSyncCallService =  [[ALSyncCallService alloc]init];
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
         [dict setObject:[NSNumber numberWithBool:updateUI] forKey:@"updateUI"];
-
+        
         NSString *type = (NSString *)[dictionary valueForKey:@"AL_KEY"];
-        NSString *value = (NSString *)[dictionary valueForKey:@"AL_VALUE"];
+        NSString *alValueJson = (NSString *)[dictionary valueForKey:@"AL_VALUE"];
+        NSData* data = [alValueJson dataUsingEncoding:NSUTF8StringEncoding];
+        
+        NSError *error = nil;
+        NSDictionary *theMessageDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        
+        NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
+        if( [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
+            NSLog(@"Id is already processed...%@",notificationId);
+            return true;
+        }
+        //TODO : check if notification is alreday received and processed...
+        NSString *  notificationMsg = [theMessageDict valueForKey:@"message"];
+        
         if ([type isEqualToString:MT_SYNC])
         {
             NSLog(@"pushing to notification center");
             [dict setObject:alertValue forKey:@"alertValue"];
 
-            [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:value userInfo:dict];
-            [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:value userInfo:dict];
-
-        } else if ([type isEqualToString: MT_DELIVERED])
-        {
-            //TODO: move to db layer
-            NSArray *deliveryParts = [value componentsSeparatedByString:@","];
+            [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:notificationMsg
+                                                               userInfo:theMessageDict];
+            [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:notificationMsg userInfo:theMessageDict];
+        }else if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:MT_DELIVERED]||[type isEqualToString:@"APPLOZIC_08"])  {
+            
+            NSArray *deliveryParts = [notificationMsg componentsSeparatedByString:@","];
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
             [messageDBService updateMessageDeliveryReport:deliveryParts[0]];
             NSLog(@"delivery report for %@", deliveryParts[0]);
             [[ NSNotificationCenter defaultCenter] postNotificationName:@"deliveryReport" object:deliveryParts[0] userInfo:dictionary];
-        } else if ([type isEqualToString: MT_DELETE_MESSAGE_CONTACT])
+        }else if ([type isEqualToString: MT_CONVERSATION_DELETED]){
+            ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
+            [messageDBService deleteAllMessagesByContact:notificationMsg];
+        }else if ([type isEqualToString: @"APPLOZIC_05"])
         {
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
-            [messageDBService deleteAllMessagesByContact: value];
-        } else if ([type isEqualToString: MT_DELETE_MESSAGE])
-        {
-            ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
-            [messageDBService deleteMessageByKey: value];
+            [messageDBService deleteMessageByKey: notificationMsg];
         }else if ([type isEqualToString:@"APPLOZIC_10"]) {
-            [self.alSyncCallService updateDeliveryStatusForContact: value];
-           //[self.mqttConversationDelegate updateDeliveryStatusForContact: contactId];
+            [self.alSyncCallService updateDeliveryStatusForContact: notificationMsg];
+            //[self.mqttConversationDelegate updateDeliveryStatusForContact: contactId];
         } else if ([type isEqualToString: @"APPLOZIC_11"]) {
-            NSDictionary *dict  = (NSDictionary *)[dictionary valueForKey:@"AL_VALUE"];
             ALUserDetail *alUserDetail = [[ALUserDetail alloc] init];
-            alUserDetail.userId = [dict objectForKey:@"message"];
+            alUserDetail.userId = notificationMsg;
             alUserDetail.lastSeenAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
             alUserDetail.connected = YES;
             [self.alSyncCallService updateConnectedStatus: alUserDetail];
             //[self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
         } else if ([type isEqualToString:@"APPLOZIC_12"]) {
-            NSDictionary *dict  = (NSDictionary *)[dictionary valueForKey:@"AL_VALUE"];
-
-            NSArray *parts = [[dict objectForKey:@"message"] componentsSeparatedByString:@","];
+            
+            NSArray *parts = [notificationMsg componentsSeparatedByString:@","];
             
             ALUserDetail *alUserDetail = [[ALUserDetail alloc] init];
             alUserDetail.userId = parts[0];
@@ -93,34 +103,8 @@
             
             [self.alSyncCallService updateConnectedStatus: alUserDetail];
             //[self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
-
+            
         }
-
-        
-        
-        
-        
-        /*UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
-         ChatViewController *chatViewController =
-         (ChatViewController*)[navigationController.viewControllers  objectAtIndex:0];
-         
-         DataModel *dataModel = chatViewController.dataModel;
-         
-         Message *message = [[Message alloc] init];
-         message.date = [NSDate date];
-         
-         NSString *alertValue = [[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
-         
-         NSMutableArray *parts = [NSMutableArray arrayWithArray:[alertValue componentsSeparatedByString:@": "]];
-         message.senderName = [parts objectAtIndex:0];
-         [parts removeObjectAtIndex:0];
-         message.text = [parts componentsJoinedByString:@": "];
-         
-         int index = [dataModel addMessage:message];
-         
-         if (updateUI)
-         [chatViewController didSaveMessage:message atIndex:index];*/
-
         return TRUE;
     }
     
