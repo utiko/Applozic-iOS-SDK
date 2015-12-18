@@ -53,14 +53,29 @@
 
 -(void)removeALMessageFromMessageArray:(ALMessage *)almessage
 {
-    [self.messageArray removeObject:almessage];
     
-    ALMessage *msg = [self.messageArray lastObject];
-    
-    if([msg.type isEqualToString:@"100"])
+    ALMessage *msgLast = [self.messageArray lastObject];
+    if([msgLast isEqual:almessage])
     {
-        [self.messageArray removeObject:msg];
+        [self.messageArray removeObject:almessage];
+        ALMessage *msg = [self.messageArray lastObject];
+        if([msg.type isEqualToString:@"100"])
+        {
+            [self.messageArray removeObject:msg];
+        }
     }
+    else
+    {
+        int x = (int)[self.messageArray indexOfObject:almessage];
+        ALMessage *prev = [self.messageArray objectAtIndex:x - 1];
+        ALMessage *next = [self.messageArray objectAtIndex:x + 1];
+        if([prev.type isEqualToString:@"100"] && [next.type isEqualToString:@"100"])
+        {
+            [self.messageArray removeObject:prev];
+        }
+        [self.messageArray removeObject:almessage];
+    }
+    
 }
 
 -(void)addObjectToMessageArray:(NSMutableArray *)paramMessageArray
