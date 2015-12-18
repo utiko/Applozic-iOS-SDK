@@ -139,7 +139,7 @@
     [self.mBubleImageView setHidden:NO];
     [self.partBubble setHidden:NO];
     [self.mDateLabel setHidden:NO];
-    
+    [self.mMessageLabel setTextAlignment:NSTextAlignmentLeft];
     //MT_INBOX(Short.valueOf("4")),
     // MT_OUTBOX(Short.valueOf("5")),
     if([alMessage.type isEqualToString:@"100"])

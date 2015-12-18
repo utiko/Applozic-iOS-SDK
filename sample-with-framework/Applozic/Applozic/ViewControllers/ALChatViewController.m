@@ -38,7 +38,6 @@
 #import "ALUserDetail.h"
 #import "ALMQTTConversationService.h"
 #import "ALContactDBService.h"
-#import "ALMessageArrayWrapper.h"
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate>
 
@@ -126,8 +125,8 @@ ALMessageDBService  * dbService;
     self.showloadEarlierAction = TRUE;
     self.typingLabel.hidden = YES;
     
-    if(self.refresh || (self.mMessageListArray && self.mMessageListArray.count == 0) ||
-            !(self.mMessageListArray && [[self.mMessageListArray[0] contactIds] isEqualToString:self.contactIds])
+    if(self.refresh || ([self.alMessageWrapper getUpdatedMessageArray] && [self.alMessageWrapper getUpdatedMessageArray].count == 0) ||
+            !([self.alMessageWrapper getUpdatedMessageArray] && [[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds] isEqualToString:self.contactIds])
        ) {
         [self reloadView];
         [super scrollTableViewToBottomWithAnimation:NO];
@@ -164,7 +163,7 @@ ALMessageDBService  * dbService;
 -(void)initialSetUp {
     self.rp = 200;
     self.startIndex = 0;
-    self.mMessageListArray = [NSMutableArray new];
+    self.alMessageWrapper = [[ALMessageArrayWrapper alloc] init];
     self.mImagePicker = [[UIImagePickerController alloc] init];
     self.mImagePicker.delegate = self;
 
@@ -227,7 +226,7 @@ ALMessageDBService  * dbService;
     
     ALMessage * theMessage = [self getMessageToPost];
     theMessage.message=googleMapUrl;
-    [self.mMessageListArray addObject:theMessage];
+    [self.alMessageWrapper addALMessageToMessageArray:theMessage];
     [self.mTableView reloadData];
     dispatch_async(dispatch_get_main_queue(), ^{
         [super scrollTableViewToBottomWithAnimation:YES];
@@ -301,7 +300,8 @@ ALMessageDBService  * dbService;
         return;
     }
     ALMessage * theMessage = [self getMessageToPost];
-    [self.mMessageListArray addObject:theMessage];
+    [self.alMessageWrapper addALMessageToMessageArray:theMessage];
+    
     [self.mTableView reloadData];
     dispatch_async(dispatch_get_main_queue(), ^{
         [super scrollTableViewToBottomWithAnimation:YES];
@@ -320,12 +320,12 @@ ALMessageDBService  * dbService;
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return self.mMessageListArray.count > 0 ? self.mMessageListArray.count : 0;
+    return [self.alMessageWrapper getUpdatedMessageArray].count > 0 ? [self.alMessageWrapper getUpdatedMessageArray].count : 0;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    ALMessage * theMessage = self.mMessageListArray[indexPath.row];
+    ALMessage * theMessage = [self.alMessageWrapper getUpdatedMessageArray][indexPath.row];
     
     if([theMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"]){
         
@@ -366,7 +366,7 @@ ALMessageDBService  * dbService;
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ALMessage * theMessage = self.mMessageListArray[indexPath.row];
+    ALMessage * theMessage = [self.alMessageWrapper getUpdatedMessageArray][indexPath.row];
     
     if((theMessage.message.length > 0) && (theMessage.fileMeta.thumbnailUrl!=nil))
     {
@@ -460,7 +460,7 @@ ALMessageDBService  * dbService;
 -(void) loadChatView
 {
     [self setTitle];
-    BOOL isLoadEarlierTapped = self.mMessageListArray.count == 0 ? NO : YES ;
+    BOOL isLoadEarlierTapped = [self.alMessageWrapper getUpdatedMessageArray].count == 0 ? NO : YES ;
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     [theRequest setFetchLimit:self.rp];
@@ -480,16 +480,13 @@ ALMessageDBService  * dbService;
         //[self.mMessageListArrayKeyStrings insertObject:theMessage.key atIndex:0];
     }
     
-    ALMessageArrayWrapper *messageWrapper = [[ALMessageArrayWrapper alloc] init];
-    [messageWrapper addObjectToMessageArray:tempArray];
-
-    self.mMessageListArray = [NSMutableArray arrayWithArray:[messageWrapper getUpdatedMessageArray]];
+    [self.alMessageWrapper addObjectToMessageArray:tempArray];
     
     [self.mTableView reloadData];
 
 
     if (isLoadEarlierTapped) {
-        if ((theArray != nil && theArray.count < self.rp )|| self.mMessageListArray.count == self.mTotalCount) {
+        if ((theArray != nil && theArray.count < self.rp )|| [self.alMessageWrapper getUpdatedMessageArray].count == self.mTotalCount) {
             self.mTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
         }
         self.startIndex = self.startIndex + theArray.count;
@@ -502,7 +499,7 @@ ALMessageDBService  * dbService;
     else
     {
        
-        if (theArray.count < self.rp || self.mMessageListArray.count == self.mTotalCount) {
+        if (theArray.count < self.rp || [self.alMessageWrapper getUpdatedMessageArray].count == self.mTotalCount) {
             self.mTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
         }
         else
@@ -546,7 +543,9 @@ ALMessageDBService  * dbService;
         }
     }];
     
-    [self.mMessageListArray removeObject:message];
+    //[[self.alMessageWrapper getUpdatedMessageArray] removeObject:message];
+    [self.alMessageWrapper removeALMessageFromMessageArray:message];
+    
     [UIView animateWithDuration:1.5 animations:^{
     [self.mTableView reloadData];
     }];
@@ -701,9 +700,8 @@ ALMessageDBService  * dbService;
     UIImage * image = [info valueForKey:UIImagePickerControllerOriginalImage];
     image = [image getCompressedImageLessThanSize:5];
     
-   // UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:nil];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-    //
+    
     ALAttachmentController *obtext;
     if(image)
     {
@@ -732,7 +730,7 @@ ALMessageDBService  * dbService;
     
     // save msg to db
     
-    [self.mMessageListArray addObject:theMessage];
+    [self.alMessageWrapper addALMessageToMessageArray:theMessage];
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     DB_Message * theMessageEntity = [messageDBService createMessageEntityForDBInsertionWithMessage:theMessage];
@@ -754,7 +752,7 @@ ALMessageDBService  * dbService;
         self.mTotalCount = self.mTotalCount+1;
         self.startIndex = self.startIndex + 1;
         
-        ALChatCell_Image *imageCell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[self.mMessageListArray indexOfObject:theMessage] inSection:0]];
+        ALChatCell_Image *imageCell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[[self.alMessageWrapper getUpdatedMessageArray] indexOfObject:theMessage] inSection:0]];
         if (imageCell == nil) {
             //            [self performSelector:@selector(uploadImage:)
             //                       withObject:objects
@@ -807,7 +805,7 @@ ALMessageDBService  * dbService;
 -(void) showActionSheet
 {
     UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"current location",@"take photo",@"photo library", nil];
-//    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"take photo",@"photo library", nil];
+
     [actionSheet showInView:self.view];
 }
 
@@ -885,7 +883,7 @@ ALMessageDBService  * dbService;
 
 -(ALChatCell_Image *) getCell:(NSString *)key{
     
-    int index=(int) [self.mMessageListArray indexOfObjectPassingTest:^BOOL(id element,NSUInteger idx,BOOL *stop)
+    int index=(int) [[self.alMessageWrapper getUpdatedMessageArray] indexOfObjectPassingTest:^BOOL(id element,NSUInteger idx,BOOL *stop)
                      {
                          ALMessage *message = (ALMessage*)element;
                          
@@ -926,7 +924,7 @@ ALMessageDBService  * dbService;
 
 - (ALMessage* )getMessageFromViewList:(NSString *)key withValue:(NSString*)value{
     
-    NSArray * filteredArray = [self.mMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%K == %@",key,value]];
+    NSArray * filteredArray = [[self.alMessageWrapper getUpdatedMessageArray] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%K == %@",key,value]];
     if (filteredArray.count > 0) {
         return filteredArray[0];
     }
@@ -951,7 +949,7 @@ ALMessageDBService  * dbService;
                 NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
                 NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
                 NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
-                [[self mMessageListArray] addObjectsFromArray:sortedArray];
+                [self.alMessageWrapper addObjectToMessageArray:(NSMutableArray *)sortedArray];
 
                 //[ALUserService processContactFromMessages:messageList];
                 [self setTitle];
@@ -1039,7 +1037,7 @@ ALMessageDBService  * dbService;
 }
 
 -(void) reloadView{
-    [self.mMessageListArray removeAllObjects];
+    [[self.alMessageWrapper getUpdatedMessageArray] removeAllObjects];
     [self.mTableView reloadData];
     self.startIndex =0;
     [self fetchMessageFromDB];
@@ -1064,8 +1062,8 @@ ALMessageDBService  * dbService;
 -(void)processLoadEarlierMessages:(BOOL)isScrollToBottom{
     
     NSNumber *time;
-    if(self.mMessageListArray.count > 0 && self.mMessageListArray != NULL) {
-        ALMessage * theMessage = self.mMessageListArray[0];
+    if([self.alMessageWrapper getUpdatedMessageArray].count > 0 && [self.alMessageWrapper getUpdatedMessageArray] != NULL) {
+        ALMessage * theMessage = [self.alMessageWrapper getUpdatedMessageArray][0];
         time = theMessage.createdAtTime;
     }
     else {
@@ -1080,7 +1078,7 @@ ALMessageDBService  * dbService;
                 self.showloadEarlierAction = FALSE;
             }
             for (ALMessage * msg in messages) {
-                [self.mMessageListArray insertObject:msg atIndex:0];
+                [[self.alMessageWrapper getUpdatedMessageArray] insertObject:msg atIndex:0];
             }
             self.startIndex = self.startIndex + messages.count;
             [self.mTableView reloadData];

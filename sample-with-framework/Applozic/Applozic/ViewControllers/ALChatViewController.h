@@ -14,11 +14,12 @@
 #import "ALChatCell.h"
 #import "ALAttachmentController.h"
 #import "ALUserDetail.h"
+#import "ALMessageArrayWrapper.h"
 
 @interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate,ALChatCellDelegate,ALImageWithTextControllerDelegate>
 
 @property (strong, nonatomic) ALContact *alContact;
-@property (strong, nonatomic) NSMutableArray *mMessageListArray;
+@property (strong, nonatomic) ALMessageArrayWrapper *alMessageWrapper;
 @property (strong, nonatomic) NSMutableArray *mMessageListArrayKeyStrings;
 @property (strong, nonatomic) NSString * contactIds;
 @property (nonatomic) BOOL refreshMainView;
