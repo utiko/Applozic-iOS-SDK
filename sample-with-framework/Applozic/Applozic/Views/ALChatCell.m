@@ -321,12 +321,16 @@
     self.mDateLabel.text = theDate;
     }
     
-    if([alMessage.message hasPrefix:@"http://"]==YES || [alMessage.message hasPrefix:@"https://"]==YES || [alMessage.message hasPrefix:@"www."]==YES ){
-        self.mMessageLabel.userInteractionEnabled=YES;
+    if ([alMessage.message rangeOfString:@"http://"].location != NSNotFound || [alMessage.message rangeOfString:@"www."].location != NSNotFound || [alMessage.message rangeOfString:@"https://"].location != NSNotFound)
+    {
+        self.mMessageLabel.userInteractionEnabled = YES;
     }
-    else {
-        self.mMessageLabel.userInteractionEnabled=NO;
+    else
+    {
+        self.mMessageLabel.userInteractionEnabled = NO;
     }
+    
+    
     return self;
     
 }
