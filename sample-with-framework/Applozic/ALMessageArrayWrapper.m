@@ -80,15 +80,21 @@
 
 -(void)addObjectToMessageArray:(NSMutableArray *)paramMessageArray
 {
+    
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
     
     tempArray = [NSMutableArray arrayWithArray:self.messageArray];
     [tempArray addObjectsFromArray:paramMessageArray];
     
-    int countX  =((int)self.messageArray.count==0)?1:((int)self.messageArray.count);
-//    NSLog(@"total idex count %d and total temparraycount : %lu", countX , tempArray.count);
-    for(int i = (int)(tempArray.count-1); i > countX; i--)
+    int countX  =((int)self.messageArray.count);
+    NSLog(@"total idex count %d and total temparraycount : %lu", countX , tempArray.count);
+    for(int i = (int)(tempArray.count-1); i >= countX; i--)
     {
+        //Adding last message as comparision last message is missing 
+        if(i==0){
+            [self.messageArray insertObject:tempArray[i] atIndex:0];
+            return;
+        }
         ALMessage * msg1 = tempArray[i - 1];
         ALMessage * msg2 = tempArray[i];
     
@@ -99,6 +105,7 @@
             ALMessage *dateLabel = [self getDatePrototype:self.dateCellText andAlMessageObject:tempArray[i]];
             [self.messageArray insertObject:dateLabel atIndex:0];
         }
+       
     }
     [tempArray removeAllObjects];
 }
@@ -106,13 +113,14 @@
 
 -(void)addLatestObjectToArray:(NSMutableArray *)paramMessageArray
 {
+   
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
     
     tempArray = [NSMutableArray arrayWithArray:self.messageArray];
     [tempArray addObjectsFromArray:paramMessageArray];
     
     int countX  =((int)self.messageArray.count==0)?1:((int)self.messageArray.count);
-    NSLog(@"total idex count %d and total temparraycount : %lu", countX , tempArray.count);
+    //NSLog(@"total idex count %d and total temparraycount : %lu", countX , tempArray.count);
     for(int i = countX-1 ; i  < (tempArray.count-1) ; i++)
     {
         ALMessage * msg1 = tempArray[i];

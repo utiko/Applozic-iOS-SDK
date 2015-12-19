@@ -193,7 +193,7 @@ ALMessageDBService  * dbService;
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     theRequest.predicate = [NSPredicate predicateWithFormat:@"contactId = %@",self.contactIds];
     self.mTotalCount = [theDbHandler.managedObjectContext countForFetchRequest:theRequest error:nil];
-   // NSLog(@"%lu",(unsigned long)self.mTotalCount);
+   
 }
 
 //This is just a test method 
@@ -972,7 +972,10 @@ ALMessageDBService  * dbService;
                 NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
                 NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
                 NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
-                
+                if(sortedArray.count==0){
+                    NSLog(@"No message for contact .....%@",self.contactIds);
+                    return;
+                }
                 [self.alMessageWrapper addLatestObjectToArray:(NSMutableArray *)sortedArray];
                 //[ALUserService processContactFromMessages:messageList];
                 [self setTitle];
@@ -1061,10 +1064,10 @@ ALMessageDBService  * dbService;
 
 -(void) reloadView{
     [[self.alMessageWrapper getUpdatedMessageArray] removeAllObjects];
-    [self.mTableView reloadData];
     self.startIndex =0;
     [self fetchMessageFromDB];
     [self loadChatView];
+
 }
 
 -(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer{
@@ -1098,10 +1101,15 @@ ALMessageDBService  * dbService;
             NSLog(@"No Error");
             self.loadEarlierAction.hidden=YES;
             if( messages.count< 50 ){
-                self.showloadEarlierAction = FALSE;
+                self.showloadEarlierAction = NO;
+            }else{
+                 self.showloadEarlierAction = YES;
+            }
+            if (messages.count==0){
+                return;
             }
             for (ALMessage * msg in messages) {
-                
+
                 if([self.alMessageWrapper getUpdatedMessageArray].count > 0)
                 {
                     ALMessage *msg1 = [[self.alMessageWrapper getUpdatedMessageArray] objectAtIndex:0];
@@ -1121,6 +1129,8 @@ ALMessageDBService  * dbService;
             
             if(!self.showloadEarlierAction)
             {
+                NSLog(@"calling .... processLoadEarlierMessages ::showloadEarlierAction block");
+
                 ALMessage *last = [[self.alMessageWrapper getUpdatedMessageArray] objectAtIndex:0];
                 NSString *string = [self.alMessageWrapper msgAtTop:last];
                 ALMessage *lastMsg = [self.alMessageWrapper getDatePrototype:string andAlMessageObject:last];
