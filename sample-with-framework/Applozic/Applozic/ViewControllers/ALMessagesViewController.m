@@ -453,9 +453,9 @@ ALMQTTConversationService *alMqttConversationService;
 }
 
 -(void)updateMessageList:(NSMutableArray *)messagesArray {
-    
+ 
+    BOOL isreloadRequire = false;
     for ( ALMessage *msg  in  messagesArray){
-   
         ALContactCell *contactCell = [self getCell:msg.contactIds];
         if(contactCell){    
             NSLog(@"contact cell found ....");
@@ -487,10 +487,16 @@ ALMQTTConversationService *alMqttConversationService;
             contactCell.mTimeLabel.text = [msg getCreatedAtTime:isToday];
 
         }else{
+            isreloadRequire = true;
+            [self.mContactsMessageListArray insertObject:msg atIndex:0];
+            
             NSLog(@"contact cell not found ....");
         }
     }
-
+    if(isreloadRequire){
+        [self.mTableView reloadData];
+    }
+    
     
 }
 
