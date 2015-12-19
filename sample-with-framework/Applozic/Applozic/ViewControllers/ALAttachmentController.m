@@ -17,14 +17,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.pickedImageView setImage:self.imagedocument];
-    self.imageText.delegate = self;
+    self.textMessageWithImage.delegate = self;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    self.imageText.layer.masksToBounds=YES;
-    self.imageText.layer.borderColor=[[UIColor brownColor] CGColor];
-    self.imageText.layer.borderWidth=1.0f;
+    self.textMessageWithImage.layer.masksToBounds = YES;
+    self.textMessageWithImage.layer.borderColor = [[UIColor brownColor] CGColor];
+    self.textMessageWithImage.layer.borderWidth = 1.0f;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,7 +39,7 @@
 
 - (IBAction)sendButtonAction:(id)sender {
  
-    [self.imagecontrollerDelegate check:self.imagedocument andText:self.imageText.text];
+    [self.imagecontrollerDelegate check:self.imagedocument andText:self.textMessageWithImage.text];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -47,23 +47,27 @@
     self.imagedocument = image;
 }
 
+//==========================================
 #pragma mark - Text Field Delegate
+//==========================================s
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField {
     
-    [self.imageText resignFirstResponder];
+    [self.textMessageWithImage resignFirstResponder];
     return  YES;
 }
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     
     UITouch* touch=[[event allTouches] anyObject];
-    if([self.imageText isFirstResponder]&&[touch view]!=self.imageText){
-        [self.imageText resignFirstResponder];
+    if([self.textMessageWithImage isFirstResponder]&&[touch view]!=self.textMessageWithImage){
+        [self.textMessageWithImage resignFirstResponder];
         
     }
 }
+
 -(void) viewDidDisappear:(BOOL)animated{
 
 }
+
 @end

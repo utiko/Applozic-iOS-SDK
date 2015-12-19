@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol ALImageWithTextControllerDelegate <NSObject>
+@protocol ALImageWithTextControllerDelegate <NSObject,UITextFieldDelegate>
 @required
 -(void) check:(UIImage *)imageFile andText:(NSString *)textwithimage;
 
@@ -16,7 +16,7 @@
 
 @interface ALAttachmentController : UIViewController <UITextFieldDelegate>
 
-@property (weak, nonatomic) IBOutlet UITextView *imageText;
+@property (weak, nonatomic) IBOutlet UITextField *textMessageWithImage;
 
 @property (weak, nonatomic) IBOutlet UIImageView *pickedImageView;
 
