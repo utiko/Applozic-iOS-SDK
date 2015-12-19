@@ -53,8 +53,9 @@
         NSDictionary *theMessageDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         
         NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
-        if( [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
-            NSLog(@"Id is already processed...%@",notificationId);
+        
+        if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
+            NSLog(@"notificationId is already processed...%@",notificationId);
             return true;
         }
         //TODO : check if notification is alreday received and processed...

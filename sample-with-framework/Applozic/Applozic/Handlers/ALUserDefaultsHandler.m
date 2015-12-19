@@ -222,6 +222,9 @@
 +(BOOL)isNotificationProcessd:(NSString*)withNotificationId{
    
     NSMutableArray * mutableArray = [ self getProcessedNotificationIds];
+    if(mutableArray ==nil){
+        mutableArray = [[NSMutableArray alloc]init];
+    }
     
     BOOL isTheObjectThere = [mutableArray containsObject:withNotificationId];
     

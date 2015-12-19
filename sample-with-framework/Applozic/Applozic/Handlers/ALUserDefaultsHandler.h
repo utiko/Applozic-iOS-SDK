@@ -90,7 +90,7 @@
 +(BOOL)isNotificationProcessd:(NSString*)withNotificationId;
 
 
-+(NSString *)getLastSyncTime;
++(NSNumber *)getLastSyncTime;
 +(NSString *)getUserKeyString;
 +(NSString *)getDisplayName;
 @end
