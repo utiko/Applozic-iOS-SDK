@@ -131,15 +131,15 @@ UIViewController * modalCon;
         [self.contentView addSubview:mDowloadRetryButton];
         
         imageWithText = [[UITextView alloc] init];
-        imageWithText.clipsToBounds = YES;
-        imageWithText.contentMode = UIViewContentModeScaleAspectFill;
-        [imageWithText setFont:[UIFont systemFontOfSize:15]];
+        imageWithText.textContainerInset = UIEdgeInsetsZero;
+        imageWithText.textContainer.lineFragmentPadding = 0;
+        [imageWithText setFont:[UIFont fontWithName:@"Helvetica" size:15]];
         imageWithText.editable = NO;
         imageWithText.scrollEnabled = NO;
         imageWithText.dataDetectorTypes = UIDataDetectorTypeAll;
         
         
-     //   [self.contentView addSubview:imageWithText];
+        [self.contentView addSubview:imageWithText];
         
     }
     
@@ -203,12 +203,14 @@ UIViewController * modalCon;
         
         if(alMessage.message.length > 0)
         {
+          imageWithText.textColor = [UIColor grayColor];
+            self.mBubleImageView.frame = CGRectMake(self.partImageBubble.frame.origin.x + self.partImageBubble.frame.size.width , 0, viewSize.width - 120, (viewSize.width - 120) + theTextSize.height + 5);
             
-            imageWithText.frame = CGRectMake(mBubleImageView.frame.origin.x, mBubleImageView.frame.origin.y + mBubleImageView.frame.size.height, mBubleImageView.frame.size.width, theTextSize.height + 30);
+            imageWithText.frame = CGRectMake(self.mImageView.frame.origin.x, mBubleImageView.frame.origin.y + self.mImageView.frame.size.height + 10, self.mImageView.frame.size.width, theTextSize.height);
             
             imageWithText.alpha = 1;
             
-            mDateLabel.frame = CGRectMake(self.imageWithText.frame.origin.x + 5 , self.imageWithText.frame.origin.y + self.imageWithText.frame.size.height - 20, theDateSize.width , 20);
+            mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x  , self.imageWithText.frame.origin.y + self.imageWithText.frame.size.height + 5, theDateSize.width , 20);
             
             [self.contentView bringSubviewToFront:mDateLabel];
             [self.contentView bringSubviewToFront:mMessageStatusImageView];
@@ -292,6 +294,26 @@ UIViewController * modalCon;
           self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
         
 //        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5 , theDateSize.width, 20);
+        if(alMessage.message.length > 0)
+        {
+            imageWithText.alpha = 1;
+            imageWithText.backgroundColor = [UIColor clearColor];
+            imageWithText.textColor = [UIColor whiteColor];
+            self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60) - 18, 0, viewSize.width - 120, (viewSize.width - 120) + theTextSize.height + 5);
+            
+            imageWithText.frame = CGRectMake(mBubleImageView.frame.origin.x + 5, mBubleImageView.frame.origin.y + self.mImageView.frame.size.height + 10, self.mImageView.frame.size.width, theTextSize.height);
+            self.partImageBubble.frame = CGRectMake(viewSize.width - 28, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 18, 18, 18);
+            //mDateLabel.frame = CGRectMake(self.imageWithText.frame.origin.x + 5 , self.imageWithText.frame.origin.y + self.imageWithText.frame.size.height + 5, theDateSize.width , 20);
+            
+            [self.contentView bringSubviewToFront:mDateLabel];
+            [self.contentView bringSubviewToFront:mMessageStatusImageView];
+            
+        }
+        else
+        {
+            imageWithText.alpha = 0;
+            
+        }
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
@@ -304,26 +326,6 @@ UIViewController * modalCon;
         else {
             self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) -theDateSize.width  , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width + 20, 21);
         }
-        
-        if(alMessage.message.length > 0)
-        {
-            imageWithText.alpha = 1;
-            imageWithText.frame = CGRectMake(mBubleImageView.frame.origin.x, mBubleImageView.frame.origin.y + mBubleImageView.frame.size.height, mBubleImageView.frame.size.width, theTextSize.height + 30);
-            
-            mDateLabel.frame = CGRectMake(self.imageWithText.frame.origin.x + 5 , self.imageWithText.frame.origin.y + self.imageWithText.frame.size.height - 20, theDateSize.width , 20);
-            
-            [self.contentView bringSubviewToFront:mDateLabel];
-            [self.contentView bringSubviewToFront:mMessageStatusImageView];
-            
-        }
-        else
-        {
-            imageWithText.alpha = 0;
-            
-        }
-        
-        
-        
         
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width+10, self.mDateLabel.frame.origin.y, 20, 20);
         [self setupProgress];
@@ -362,7 +364,7 @@ UIViewController * modalCon;
     }
     imageWithText.text = alMessage.message;
    // self.mDateLabel.text = theDate;
-    if(![self.status isEqualToString:@""]){
+    if(![self.status isEqualToString:@""] && [alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]){
         self.mDateLabel.text = [self.string stringByAppendingString:theDate];
     }
     else{

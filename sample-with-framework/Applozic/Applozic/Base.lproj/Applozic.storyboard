@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -503,7 +503,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NYg-qP-EJK">
-                                <rect key="frame" x="20" y="51" width="560" height="448"/>
+                                <rect key="frame" x="20" y="93" width="560" height="406"/>
                                 <animations/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="seD-Kt-6V0">
@@ -535,6 +535,11 @@
                                     <action selector="cancelButtonAction:" destination="9Kc-h0-N6T" eventType="touchUpInside" id="Yug-Su-vmi"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Write Text Here..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mS7-4j-2vp">
+                                <rect key="frame" x="20" y="47" width="560" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                            </textField>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -544,15 +549,19 @@
                             <constraint firstItem="seD-Kt-6V0" firstAttribute="leading" secondItem="NYg-qP-EJK" secondAttribute="leading" id="3wj-Oq-4mM"/>
                             <constraint firstItem="wTT-RG-3dD" firstAttribute="top" secondItem="seD-Kt-6V0" secondAttribute="bottom" constant="44" id="AOq-zx-QLq"/>
                             <constraint firstItem="Vwv-Cy-FMy" firstAttribute="baseline" secondItem="seD-Kt-6V0" secondAttribute="firstBaseline" id="Lh1-4A-nAd"/>
-                            <constraint firstItem="NYg-qP-EJK" firstAttribute="top" secondItem="te2-S7-jhz" secondAttribute="bottom" constant="31" id="b5W-Je-5IM"/>
+                            <constraint firstItem="NYg-qP-EJK" firstAttribute="top" secondItem="te2-S7-jhz" secondAttribute="bottom" constant="73" id="b5W-Je-5IM"/>
                             <constraint firstItem="seD-Kt-6V0" firstAttribute="top" secondItem="Vwv-Cy-FMy" secondAttribute="top" id="fsV-uU-Hmn"/>
                             <constraint firstItem="NYg-qP-EJK" firstAttribute="trailing" secondItem="Vwv-Cy-FMy" secondAttribute="trailing" id="jS6-td-NzL"/>
+                            <constraint firstItem="NYg-qP-EJK" firstAttribute="top" secondItem="mS7-4j-2vp" secondAttribute="bottom" constant="16" id="mwU-Ja-xWp"/>
+                            <constraint firstItem="mS7-4j-2vp" firstAttribute="trailing" secondItem="NYg-qP-EJK" secondAttribute="trailing" id="ne3-aB-pjK"/>
+                            <constraint firstItem="mS7-4j-2vp" firstAttribute="leading" secondItem="NYg-qP-EJK" secondAttribute="leading" id="pBD-7q-5KU"/>
                             <constraint firstItem="seD-Kt-6V0" firstAttribute="leading" secondItem="DZT-X2-YPk" secondAttribute="leadingMargin" id="pYF-Zx-xaC"/>
                             <constraint firstItem="Vwv-Cy-FMy" firstAttribute="trailing" secondItem="DZT-X2-YPk" secondAttribute="trailingMargin" id="pn8-YG-Uaj"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="pickedImageView" destination="NYg-qP-EJK" id="bUQ-71-ECD"/>
+                        <outlet property="textMessageWithImage" destination="mS7-4j-2vp" id="R4J-h4-1GG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hM0-Wd-eVG" userLabel="First Responder" sceneMemberID="firstResponder"/>
