@@ -1121,7 +1121,7 @@ ALMessageDBService  * dbService;
             
             if(!self.showloadEarlierAction)
             {
-                ALMessage *last = [[self.alMessageWrapper getUpdatedMessageArray] lastObject];
+                ALMessage *last = [[self.alMessageWrapper getUpdatedMessageArray] objectAtIndex:0];
                 NSString *string = [self.alMessageWrapper msgAtTop:last];
                 ALMessage *lastMsg = [self.alMessageWrapper getDatePrototype:string andAlMessageObject:last];
                 [[self.alMessageWrapper getUpdatedMessageArray] insertObject:lastMsg atIndex:0];
