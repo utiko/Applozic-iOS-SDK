@@ -166,11 +166,12 @@
     NSDate *yesterday = [today dateByAddingTimeInterval: -86400.0];
     NSString *yesterdaydate = [format stringFromDate:yesterday];
     
-    NSTimeInterval difference = [newerDate timeIntervalSinceDate:olderDate];
-    
-    if(difference >= 86400)
+    if([newerDateString isEqualToString:olderDateString])
     {
-        
+        return NO;
+    }
+    else
+    {
         if([newerDateString isEqualToString:todaydate])
         {
             self.dateCellText = @"Today";
@@ -186,36 +187,44 @@
         }
         return YES;
     }
-    else
-    {
-        if([olderDateString isEqualToString:yesterdaydate] && [newerDateString isEqualToString:todaydate])
-        {
-            self.dateCellText = @"Today";
-            return YES;
-        }
-        else if(![newerDateString isEqualToString:todaydate] && ![olderDateString isEqualToString:yesterdaydate] && ![newerDateString isEqualToString:olderDateString])
-        {
-            [format setDateFormat:@"EEEE MMM dd,yyyy"];
-            self.dateCellText = [format stringFromDate:newerDate];
-            return YES;
-        }
-        else
-        {
-            return NO;
-        }
-    }
     
+  
 }
 
 -(NSString *)msgAtTop:(ALMessage *)almessage
 {
     double old = [almessage.createdAtTime doubleValue];
     NSDate *olderDate = [[NSDate alloc] initWithTimeIntervalSince1970:(old/1000)];
-    
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"EEEE MMM dd,yyyy"];
+    
+    [format setDateFormat:@"dd/MM/yyyy"];
+    
     NSString *string = [format stringFromDate:olderDate];
-    return string;
+    
+    NSDate *current = [[NSDate alloc] init];
+    [format setDateFormat:@"dd/MM/yyyy"];
+    NSString *todaydate = [format stringFromDate:current];
+    
+    NSDate *today = [NSDate date];
+    NSDate *yesterday = [today dateByAddingTimeInterval: -86400.0];
+    NSString *yesterdaydate = [format stringFromDate:yesterday];
+    NSString *actualDate = @"";
+    
+    if([string isEqualToString:todaydate])
+    {
+        actualDate = @"Today";
+    }
+    else if ([string isEqualToString:yesterdaydate])
+    {
+        actualDate = @"Yesterday";
+    }
+    else
+    {
+        [format setDateFormat:@"EEEE MMM dd,yyyy"];
+        actualDate = [format stringFromDate:olderDate];
+    }
+    
+    return actualDate;
     
 }
 
