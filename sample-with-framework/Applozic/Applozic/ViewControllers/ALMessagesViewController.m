@@ -361,7 +361,16 @@ ALMQTTConversationService *alMqttConversationService;
     [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
     
     [self.mTableView reloadData];
-    [self.emptyConversationText setHidden:YES];
+
+    if([self.mActivityIndicator isAnimating])
+    {
+        [self.emptyConversationText setHidden:YES];
+    }
+    else
+    {
+        [self emptyConversationAlertLabel];
+    }
+    
     [self.dataAvailablityLabel setHidden:YES];
     [self callLastSeenStatusUpdate];
 }
