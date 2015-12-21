@@ -15,6 +15,7 @@
 #import <Applozic/ALMessagesViewController.h>
 #import <Applozic/ALApplozicSettings.h>
 #import <Applozic/ALDataNetworkConnection.h>
+#import <Applozic/MBChatManager.h>
 
 @interface ApplozicLoginViewController ()
 
@@ -137,21 +138,9 @@
 - (IBAction)login:(id)sender {
     
     // Initial login view .....
-    [ALUserDefaultsHandler setLogoutButtonHidden:NO];
-    [ALUserDefaultsHandler setBottomTabBarHidden:NO];
-    [ALApplozicSettings setUserProfileHidden:YES];
-    [ALApplozicSettings hideRefreshButton:NO];
-    [ALApplozicSettings setTitleForConversationScreen:@"My Chats"];
-    // Custom Color RGB Format
-  
-    // [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:0.447f green:0.737f blue:0.831f alpha:1]];
-    //  [ALApplozicSettings setColourForSendMessages:[UIColor colorWithRed:0.347f green:0.337f blue:0.531f alpha:1]];
-    
-    [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
-    [ALApplozicSettings setColourForSendMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
-    
-    [ALApplozicSettings setColourForNavigation:[UIColor colorWithRed:179.0/255 green:32.0/255 blue:35.0/255 alpha:1]];
-    [ALApplozicSettings setColourForNavigationItem:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
+
+    MBChatManager *mbChatManager = [[MBChatManager alloc] init];
+    [mbChatManager mbChatViewSettings];
     
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
@@ -202,14 +191,10 @@
 //                                                             bundle:nil];
 //        UIViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
 //        [self presentViewController:controller animated:YES completion:nil];
+     
+        [mbChatManager launchChatList:[self.userIdField text] andWithBackButtonTitle:@"< My Chats" andViewControllerObject:self];
         
-        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                                             bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-        UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
-        [ self presentViewController:theTabBar animated:YES completion:nil];
-        
-        
-    }];
+        }];
     
 }
 

@@ -13,6 +13,7 @@
 #define NAVIGATION_BAR_ITEM_COLOUR @"NAVIGATION_BAR_ITEM_COLOUR"
 #define REFRESH_BUTTON_VISIBILITY @"REFRESH_BUTTON_VISIBILITY"
 #define CONVERSATION_TITLE @"CONVERSATION_TITLE"
+#define BACK_BUTTON_TITLE @"BACK_BUTTON_TITLE"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -48,5 +49,9 @@
 +(void)setTitleForConversationScreen:(NSString *)titleText;
 
 +(NSString *)getTitleForConversationScreen;
+
++(void)setTitleForBackButton:(NSString *)backButtonTitle;
+
++(NSString *)getBackButtonTitle;
 
 @end
