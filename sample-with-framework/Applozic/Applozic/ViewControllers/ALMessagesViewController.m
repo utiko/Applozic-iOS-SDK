@@ -103,11 +103,12 @@ ALMQTTConversationService *alMqttConversationService;
     [self setUpTableView];
     self.mTableView.allowsMultipleSelectionDuringEditing = NO;
     [self.mActivityIndicator startAnimating];
+    
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
     [dBService getMessages];
     
-    self.unreadCount=[[NSArray alloc] init];
+    self.unreadCount = [[NSArray alloc] init];
     alMqttConversationService = [ALMQTTConversationService sharedInstance];
     alMqttConversationService.mqttConversationDelegate = self;
 
@@ -379,7 +380,6 @@ ALMQTTConversationService *alMqttConversationService;
         [self.dataAvailablityLabel setHidden:YES];
     }
     
-    [self performSelector:@selector(emptyConversationAlertLabel) withObject:nil afterDelay:2.0];
 }
 
 -(void)emptyConversationAlertLabel
@@ -457,6 +457,16 @@ ALMQTTConversationService *alMqttConversationService;
 
 -(void)getMessagesArray:(NSMutableArray *)messagesArray {
     [self.mActivityIndicator stopAnimating];
+    
+    if(messagesArray.count == 0)
+    {
+        [[self emptyConversationText] setHidden:NO];
+    }
+    else
+    {
+        [[self emptyConversationText] setHidden:YES];
+    }
+    
     self.mContactsMessageListArray = messagesArray;
     [self.mTableView reloadData];
 }

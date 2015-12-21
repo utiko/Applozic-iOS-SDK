@@ -520,7 +520,8 @@ UIViewController * modalCon;
     
     
     //UI
-    NSLog(@"message to deleteUI %@",self.mMessage.message);[self.delegate deleteMessageFromView:self.mMessage];
+    NSLog(@"message to deleteUI %@",self.mMessage.message);
+    [self.delegate deleteMessageFromView:self.mMessage];
     
     //serverCall
     [ALMessageService deleteMessage:[NSString stringWithFormat:@"%ld",self.mMessage.messageId] andContactId:self.mMessage.contactIds withCompletion:^(NSString* string,NSError* error){
