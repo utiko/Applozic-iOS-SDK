@@ -44,7 +44,8 @@
     unsigned int count = 0;
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     objc_property_t *properties = class_copyPropertyList([self class], &count);
-    
+    @try {
+   
     for (int i = 0; i < count; i++) {
         
         NSString *key = [NSString stringWithUTF8String:property_getName(properties[i])];
@@ -70,6 +71,9 @@
         }
     }
     free(properties);
+    }@catch (NSException *exception) {
+        NSLog(@"Exception in ALJson %@",exception);
+    }
     return dictionary;
 }
 

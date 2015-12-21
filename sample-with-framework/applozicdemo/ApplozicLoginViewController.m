@@ -206,7 +206,7 @@
         UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                                              bundle:[NSBundle bundleForClass:ALChatViewController.class]];
         UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
-        [self presentViewController:theTabBar animated:YES completion:nil];
+        [ self presentViewController:theTabBar animated:YES completion:nil];
         
         
     }];
