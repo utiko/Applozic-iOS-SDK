@@ -143,7 +143,7 @@ ALMessageDBService  * dbService;
         [self processLoadEarlierMessages:true];
     }
     
-    [self serverCallForLastSeen];
+   // [self serverCallForLastSeen];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {

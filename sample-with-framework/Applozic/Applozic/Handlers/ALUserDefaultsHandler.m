@@ -238,4 +238,18 @@
     
 }
 
++(void) setLastSeenSyncTime :(NSNumber*) lastSeenTime{
+    
+    NSLog(@"saving last seen time in the preference ...%@" ,lastSeenTime);
+    [[NSUserDefaults standardUserDefaults] setDouble:[lastSeenTime doubleValue] forKey:LAST_SEEN_SYNC_TIME];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSNumber *) getLastSeenSyncTime{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:LAST_SEEN_SYNC_TIME];
+
+}
+
+
+
 @end

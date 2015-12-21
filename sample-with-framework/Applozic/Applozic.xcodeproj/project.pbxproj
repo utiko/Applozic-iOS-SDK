@@ -189,8 +189,12 @@
 		6D95476C1BE38DFF00776652 /* ALContactService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547661BE38DFF00776652 /* ALContactService.m */; };
 		6D95476D1BE38DFF00776652 /* ALUITextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547671BE38DFF00776652 /* ALUITextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D95476E1BE38DFF00776652 /* ALUITextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547681BE38DFF00776652 /* ALUITextView.m */; };
+		6DAEC20A1C25A596000A7243 /* ALLastSeenSyncFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DAEC2081C25A596000A7243 /* ALLastSeenSyncFeed.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6DAEC20B1C25A596000A7243 /* ALLastSeenSyncFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DAEC2091C25A596000A7243 /* ALLastSeenSyncFeed.m */; };
 		6DB665071C0EE5EC004D04A8 /* ALDataNetworkConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DB665081C0EE5EC004D04A8 /* ALDataNetworkConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB665061C0EE5EC004D04A8 /* ALDataNetworkConnection.m */; };
+		6DDE81861C27D8EC009B8CF9 /* ALUserClientService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */; };
+		6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */; };
 		982F13041C05D6050024678E /* MQTTClient-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */; };
 		982F13051C05D6050024678E /* MQTTClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F51C05D6040024678E /* MQTTClient.h */; };
 		982F13061C05D6050024678E /* MQTTDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F61C05D6040024678E /* MQTTDecoder.h */; };
@@ -397,8 +401,12 @@
 		6D9547661BE38DFF00776652 /* ALContactService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALContactService.m; path = Applozic/ALContactService.m; sourceTree = "<group>"; };
 		6D9547671BE38DFF00776652 /* ALUITextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALUITextView.h; path = Applozic/ALUITextView.h; sourceTree = "<group>"; };
 		6D9547681BE38DFF00776652 /* ALUITextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALUITextView.m; path = Applozic/ALUITextView.m; sourceTree = "<group>"; };
+		6DAEC2081C25A596000A7243 /* ALLastSeenSyncFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALLastSeenSyncFeed.h; sourceTree = "<group>"; };
+		6DAEC2091C25A596000A7243 /* ALLastSeenSyncFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALLastSeenSyncFeed.m; sourceTree = "<group>"; };
 		6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDataNetworkConnection.h; sourceTree = "<group>"; };
 		6DB665061C0EE5EC004D04A8 /* ALDataNetworkConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDataNetworkConnection.m; sourceTree = "<group>"; };
+		6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserClientService.h; sourceTree = "<group>"; };
+		6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserClientService.m; sourceTree = "<group>"; };
 		982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MQTTClient-Prefix.pch"; path = "Applozic/MQTT/MQTTClient-Prefix.pch"; sourceTree = "<group>"; };
 		982F12F51C05D6040024678E /* MQTTClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTClient.h; path = Applozic/MQTT/MQTTClient.h; sourceTree = "<group>"; };
 		982F12F61C05D6040024678E /* MQTTDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTDecoder.h; path = Applozic/MQTT/MQTTDecoder.h; sourceTree = "<group>"; };
@@ -661,6 +669,7 @@
 		6D6DF1DD1BC5376800EBA00F /* ApplozicLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				6DDE81831C27D8A1009B8CF9 /* user */,
 				9842191E1C1ED9E50016B733 /* sync */,
 				982F13151C06369E0024678E /* mqtt */,
 				6D6DF1E71BC53C4200EBA00F /* networkcommunication */,
@@ -702,8 +711,6 @@
 				6D6DF09E1BC5364C00EBA00F /* ALMessageService.h */,
 				6D7AFD231BECF061009DDC1D /* ALSendMessageResponse.h */,
 				6D7AFD241BECF061009DDC1D /* ALSendMessageResponse.m */,
-				29DEA3131BEDEC1F004B8085 /* ALUserService.h */,
-				29DEA3141BEDEC1F004B8085 /* ALUserService.m */,
 			);
 			name = message;
 			sourceTree = "<group>";
@@ -721,13 +728,9 @@
 			isa = PBXGroup;
 			children = (
 				6D6DF0D11BC5364C00EBA00F /* ALRegistrationResponse.h */,
-				6D6DF0D61BC5364C00EBA00F /* ALUser.m */,
-				6D6DF0D51BC5364C00EBA00F /* ALUser.h */,
 				6D6DF0D21BC5364C00EBA00F /* ALRegistrationResponse.m */,
 				6D6DF0A11BC5364C00EBA00F /* ALRegisterUserClientService.m */,
 				6D6DF0A01BC5364C00EBA00F /* ALRegisterUserClientService.h */,
-				6D7B95B31C06E09300374346 /* ALUserDetail.h */,
-				6D7B95B41C06E09300374346 /* ALUserDetail.m */,
 			);
 			name = account;
 			sourceTree = "<group>";
@@ -815,6 +818,23 @@
 			name = networkcommunication;
 			sourceTree = "<group>";
 		};
+		6DDE81831C27D8A1009B8CF9 /* user */ = {
+			isa = PBXGroup;
+			children = (
+				6D6DF0D61BC5364C00EBA00F /* ALUser.m */,
+				6D6DF0D51BC5364C00EBA00F /* ALUser.h */,
+				6DAEC2091C25A596000A7243 /* ALLastSeenSyncFeed.m */,
+				6DAEC2081C25A596000A7243 /* ALLastSeenSyncFeed.h */,
+				6D7B95B31C06E09300374346 /* ALUserDetail.h */,
+				6D7B95B41C06E09300374346 /* ALUserDetail.m */,
+				6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */,
+				6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */,
+				29DEA3131BEDEC1F004B8085 /* ALUserService.h */,
+				29DEA3141BEDEC1F004B8085 /* ALUserService.m */,
+			);
+			name = user;
+			sourceTree = "<group>";
+		};
 		982F12F31C05D5620024678E /* MQTT */ = {
 			isa = PBXGroup;
 			children = (
@@ -863,6 +883,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DAEC20A1C25A596000A7243 /* ALLastSeenSyncFeed.h in Headers */,
 				984219251C1EDEC00016B733 /* ALSyncCallService.h in Headers */,
 				6D6DF1501BC5364C00EBA00F /* ALRegisterUserClientService.h in Headers */,
 				6D6DF1701BC5364C00EBA00F /* ALContact.h in Headers */,
@@ -908,6 +929,7 @@
 				6D6DF1661BC5364C00EBA00F /* ALNotificationView.h in Headers */,
 				6D6DF1801BC5364C00EBA00F /* DB_CONTACT.h in Headers */,
 				6DB665071C0EE5EC004D04A8 /* ALDataNetworkConnection.h in Headers */,
+				6DDE81861C27D8EC009B8CF9 /* ALUserClientService.h in Headers */,
 				6D6DF1601BC5364C00EBA00F /* ALChatCell_Image.h in Headers */,
 				6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */,
 				6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */,
@@ -1090,6 +1112,7 @@
 				6D6DF1711BC5364C00EBA00F /* ALContact.m in Sources */,
 				6D28D3C41C1AA9AA003817C3 /* Reachability.m in Sources */,
 				6D6DF1631BC5364C00EBA00F /* ALContactCell.m in Sources */,
+				6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */,
 				6D6DF15D1BC5364C00EBA00F /* ALNewContactsViewController.m in Sources */,
 				6D6DF1831BC5364C00EBA00F /* DB_FileMetaInfo.m in Sources */,
 				6D6DF1B51BC5364C00EBA00F /* NSData+ImageContentType.m in Sources */,
@@ -1113,6 +1136,7 @@
 				6D6DF16B1BC5364C00EBA00F /* ALMessageClientService.m in Sources */,
 				98E1AB981C08718700BE6312 /* ALMQTTConversationService.m in Sources */,
 				982F13111C05D6050024678E /* MQTTSessionManager.m in Sources */,
+				6DAEC20B1C25A596000A7243 /* ALLastSeenSyncFeed.m in Sources */,
 				6D6DF1CC1BC5364C00EBA00F /* UIImage+WebP.m in Sources */,
 				6D6DF1C11BC5364C00EBA00F /* SDWebImageManager.m in Sources */,
 				6D7AFD261BECF061009DDC1D /* ALSendMessageResponse.m in Sources */,

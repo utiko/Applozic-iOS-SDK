@@ -12,7 +12,13 @@
 #import "ALMessageList.h"
 #import "ALMessage.h"
 #import "DB_FileMetaInfo.h"
+#import "ALLastSeenSyncFeed.h"
+#import "ALUserClientService.h"
 
 @interface ALUserService : NSObject
+
 + (void)processContactFromMessages:(NSArray *) messagesArr;
+
++(void)getLastSeenUpdateForUsers:(NSNumber *)lastSeenAt withCompletion:(void(^)(NSMutableArray *))completionMark;
+
 @end

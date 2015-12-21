@@ -342,7 +342,9 @@
      contact.displayName = dbContact.displayName;
      contact.contactImageUrl = dbContact.contactImageUrl;
      contact.email = dbContact.email;
-    contact.localImageResourceName = dbContact.localImageResourceName;  // I added row
+     contact.localImageResourceName = dbContact.localImageResourceName;
+     contact.connected = dbContact.connected;
+     contact.lastSeenAt = dbContact.lastSeenAt;
      return contact;
 }
 

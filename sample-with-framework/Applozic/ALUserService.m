@@ -17,6 +17,12 @@
 #import "ALMessageService.h"
 #import "ALContactDBService.h"
 #import "ALMessagesViewController.h"
+#import "ALLastSeenSyncFeed.h"
+#import "ALUserDefaultsHandler.h"
+#import "ALUserClientService.h"
+#import "ALUserDetail.h"
+#import "ALMessageDBService.h"
+
 
 @implementation ALUserService
 
@@ -75,11 +81,21 @@
         }
 
     }];
-    
-   
 }
 
++(void)getLastSeenUpdateForUsers:(NSNumber *)lastSeenAt withCompletion:(void(^)(NSMutableArray *))completionMark
+{
+    
+    [ALUserClientService userLastSeenDetail:lastSeenAt withCompletion:^(ALLastSeenSyncFeed * messageFeed) {
+         NSMutableArray* lastSeenUpdateArray=   messageFeed.lastSeenArray;
+        ALContactDBService *contactDBService =  [[ALContactDBService alloc]init];
+        for ( ALUserDetail * userDetail in lastSeenUpdateArray){
+            [ contactDBService updateUserDetail:userDetail];
+        }
+        completionMark(lastSeenUpdateArray);
+    }];
+    
 
-
+}
 
 @end

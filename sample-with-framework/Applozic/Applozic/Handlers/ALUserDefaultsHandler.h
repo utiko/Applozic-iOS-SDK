@@ -22,6 +22,7 @@
 #define CONVERSATION_CONTACT_IMAGE_VISIBILITY @"CONVERSATION_CONTACT_IMAGE_VISIBILITY"
 #define MSG_LIST_CALL_SUFIX @":MSG_CALL_MADE"
 #define PROCESSED_NOTIFICATION_IDS  @"PROCESSED_NOTIFICATION_IDS"
+#define LAST_SEEN_SYNC_TIME @"LAST_SEEN_SYNC_TIME"
 
 
 
@@ -88,6 +89,10 @@
 +(NSMutableArray*) getProcessedNotificationIds;
 
 +(BOOL)isNotificationProcessd:(NSString*)withNotificationId;
+
++(NSNumber *) getLastSeenSyncTime;
+
++(void ) setLastSeenSyncTime :(NSNumber*) lastSeenTime;
 
 
 +(NSNumber *)getLastSyncTime;

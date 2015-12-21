@@ -25,6 +25,7 @@
 #import "ALApplozicSettings.h"
 #import "ALDataNetworkConnection.h"
 #import "Reachability.h"
+#import "ALUserService.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -340,6 +341,12 @@ ALMQTTConversationService *alMqttConversationService;
     
     //register for notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(callLastSeenStatusUpdate)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:[UIApplication sharedApplication]];
+    
     if ([_detailChatViewController refreshMainView])
     {
         ALMessageDBService *dBService = [ALMessageDBService new];
@@ -355,6 +362,7 @@ ALMQTTConversationService *alMqttConversationService;
     [self.mTableView reloadData];
     [self.emptyConversationText setHidden:YES];
     [self.dataAvailablityLabel setHidden:YES];
+    [self callLastSeenStatusUpdate];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -391,7 +399,8 @@ ALMQTTConversationService *alMqttConversationService;
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     //unregister for notification
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushNotification" object:nil];
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     [super viewWillDisappear:animated];
     
    // self.navigationController.navigationBar.barTintColor = self.navColor;
@@ -806,6 +815,18 @@ ALMQTTConversationService *alMqttConversationService;
         [self.detailChatViewController setRefresh: TRUE];
     }
     
+}
+-(void) callLastSeenStatusUpdate {
+
+    [ALUserService getLastSeenUpdateForUsers:[ALUserDefaultsHandler getLastSeenSyncTime]  withCompletion:^(NSMutableArray * userDetailArray)
+   {
+       for(ALUserDetail * userDetail in userDetailArray){
+           [ self updateLastSeenAtStatus:userDetail ];
+       }
+      
+   }];
+    
+
 }
 
 - (void)dealloc {
