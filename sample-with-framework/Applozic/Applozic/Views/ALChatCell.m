@@ -174,7 +174,6 @@
         else
         {
             self.mBubleImageView.backgroundColor = [UIColor whiteColor];
-            self.mMessageLabel.backgroundColor = [UIColor whiteColor];
         }
         //self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
@@ -195,7 +194,6 @@
                                                   NSUnderlineStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleThick]
                                                   };
         
-       // if([alMessage.message rangeOfString:@"<html>"].location != NSNotFound && [alMessage.message rangeOfString:@"</html>"].location != NSNotFound)
         if(alMessage.contentType == 3)
         {
 
@@ -216,7 +214,7 @@
         
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
         
-        self.mMessageStatusImageView.alpha =0;
+        self.mMessageStatusImageView.alpha = 0;
         
         ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
         ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
@@ -244,12 +242,10 @@
         if([ALApplozicSettings getSendMsgColour])
         {
             self.mBubleImageView.backgroundColor = [ALApplozicSettings getSendMsgColour];
-            self.mMessageLabel.backgroundColor = [ALApplozicSettings getSendMsgColour];
         }
         else
         {
             self.mBubleImageView.backgroundColor = [UIColor whiteColor];
-            self.mMessageLabel.backgroundColor = [UIColor whiteColor];
         }
         self.mUserProfileImageView.alpha=0;
 //        self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 45, 45);
@@ -277,7 +273,7 @@
                                                   NSUnderlineStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleThick]
                                                   };
         
-        self.mBubleImageView.backgroundColor = [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1];
+//        self.mBubleImageView.backgroundColor = [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1];
         
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 10, 10, theTextSize.width, theTextSize.height);
         

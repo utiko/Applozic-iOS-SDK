@@ -112,4 +112,15 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:REFRESH_BUTTON_VISIBILITY];
 }
 
++(void)setTitleForBackButton:(NSString *)backButtonTitle
+{
+    [[NSUserDefaults standardUserDefaults] setValue:backButtonTitle forKey:BACK_BUTTON_TITLE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getBackButtonTitle
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:BACK_BUTTON_TITLE];
+}
+
 @end
