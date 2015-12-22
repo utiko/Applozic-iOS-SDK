@@ -1108,6 +1108,19 @@ ALMessageDBService  * dbService;
             if (messages.count==0){
                 return;
             }
+            NSMutableArray * array = [self.alMessageWrapper getUpdatedMessageArray];
+            
+            if( [array firstObject ] ){
+                
+                ALMessage *messgae = [array firstObject ];
+                
+                if([ messgae.type isEqualToString:@"100"]){
+                    
+                    [array  removeObjectAtIndex:0];
+                    
+                }
+                
+            }
             for (ALMessage * msg in messages) {
 
                 if([self.alMessageWrapper getUpdatedMessageArray].count > 0)
@@ -1126,14 +1139,12 @@ ALMessageDBService  * dbService;
                 }
                     [[self.alMessageWrapper getUpdatedMessageArray] insertObject:msg atIndex:0];
             }
-            
-            if(!self.showloadEarlierAction)
-            {
-                NSLog(@"calling .... processLoadEarlierMessages ::showloadEarlierAction block");
-
-                ALMessage *last = [[self.alMessageWrapper getUpdatedMessageArray] objectAtIndex:0];
-                NSString *string = [self.alMessageWrapper msgAtTop:last];
-                ALMessage *lastMsg = [self.alMessageWrapper getDatePrototype:string andAlMessageObject:last];
+         
+            ALMessage * message = [array firstObject];
+            if(message){
+                NSString * dateTxt = [self.alMessageWrapper msgAtTop:message];
+                
+                ALMessage *lastMsg = [self.alMessageWrapper getDatePrototype:dateTxt andAlMessageObject:message];
                 [[self.alMessageWrapper getUpdatedMessageArray] insertObject:lastMsg atIndex:0];
             }
             self.startIndex = self.startIndex + messages.count;
