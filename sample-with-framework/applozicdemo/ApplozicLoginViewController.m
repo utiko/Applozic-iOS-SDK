@@ -15,6 +15,7 @@
 #import <Applozic/ALMessagesViewController.h>
 #import <Applozic/ALApplozicSettings.h>
 #import <Applozic/ALDataNetworkConnection.h>
+#import <Applozic/ALMessageDBService.h>
 
 @interface ApplozicLoginViewController ()
 
@@ -136,8 +137,8 @@
 
 - (IBAction)login:(id)sender {
     
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    [registerUserClientService logout];
+    ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
+    [messageDBService deleteAllObjectsInCoreData];
 
     // Initial login view .....
     [ALUserDefaultsHandler setLogoutButtonHidden:NO];
@@ -174,6 +175,7 @@
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
     
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     
     [self.mActivityIndicator startAnimating];
     [registerUserClientService initWithCompletion:user withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
