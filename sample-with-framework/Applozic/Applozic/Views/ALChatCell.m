@@ -5,6 +5,9 @@
 //  Copyright (c) 2015 AppLozic. All rights reserved.
 //
 
+#define MESSAGE_TEXT_SIZE 14
+#define DATE_LABEL_SIZE 12
+
 #import "ALChatCell.h"
 #import "ALUtilityClass.h"
 #import "ALConstant.h"
@@ -72,7 +75,7 @@
         
 //        self.mMessageLabel.font = [UIFont fontWithName:fontName size:15];
         
-         self.mMessageLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:15];
+         self.mMessageLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_TEXT_SIZE];
         
         self.mMessageLabel.textColor = [UIColor grayColor];
         
@@ -90,7 +93,7 @@
 
         self.mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 100, 25)];
         
-        self.mDateLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:10];
+        self.mDateLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:DATE_LABEL_SIZE];
         
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         

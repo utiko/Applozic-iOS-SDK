@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 AppLogic. All rights reserved.
 //
 
+#define NAVIGATION_TEXT_SIZE 20
+#define LAST_SEEN_LABEL_SIZE 10
+#define TYPING_LABEL_SIZE 12.5
+
 #import "ALBaseViewController.h"
 #import "ALUtilityClass.h"
 #import "ALUserDefaultsHandler.h"
@@ -95,7 +99,7 @@
     self.label = [[UILabel alloc] initWithFrame: CGRectMake(80,26,223,21)];
     self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.label.backgroundColor = [UIColor clearColor];
-    [self.label setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:10]];
+    [self.label setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:LAST_SEEN_LABEL_SIZE]];
     self.label.textAlignment = NSTextAlignmentCenter;
 
     [self.navigationController.navigationBar addSubview:self.label];
@@ -104,7 +108,7 @@
     self.typingLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.typingLabel.backgroundColor = [UIColor clearColor];
     self.typingLabel.textColor = [UIColor grayColor];
-    [self.typingLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:12.5]];
+    [self.typingLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TYPING_LABEL_SIZE]];
     self.typingLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.typingLabel];
     
@@ -139,6 +143,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
 
+     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
    [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
     [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
     

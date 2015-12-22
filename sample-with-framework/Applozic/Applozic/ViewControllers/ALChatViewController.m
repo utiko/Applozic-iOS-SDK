@@ -396,7 +396,7 @@ ALMessageDBService  * dbService;
     }
     else if (theMessage.fileMeta.thumbnailUrl == nil) {
         CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:@"Helvetica-Bold" fontSize:15];
-        int extraSpace = 40 ;
+        int extraSpace = 50 ;
         return theTextSize.height+21+extraSpace;
     }
     else

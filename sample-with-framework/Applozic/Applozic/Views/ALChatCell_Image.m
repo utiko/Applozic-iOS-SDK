@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 AppLogic. All rights reserved.
 //
 
+#define DATE_LABEL_SIZE 12
+#define MESSAGE_TEXT_SIZE 14
+
 #import "ALChatCell_Image.h"
 #import "UIImageView+WebCache.h"
 #import "ALDBHandler.h"
@@ -85,7 +88,7 @@ UIViewController * modalCon;
         
         mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(mBubleImageView.frame.origin.x + 5, mImageView.frame.origin.y + mImageView.frame.size.height + 5, 100, 20)];
         
-        mDateLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:10];
+        mDateLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:DATE_LABEL_SIZE];
         
         mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         
@@ -133,7 +136,7 @@ UIViewController * modalCon;
         imageWithText = [[UITextView alloc] init];
         imageWithText.textContainerInset = UIEdgeInsetsZero;
         imageWithText.textContainer.lineFragmentPadding = 0;
-        [imageWithText setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:15]];
+        [imageWithText setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_TEXT_SIZE]];
         imageWithText.editable = NO;
         imageWithText.scrollEnabled = NO;
         imageWithText.dataDetectorTypes = UIDataDetectorTypeAll;
