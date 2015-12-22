@@ -56,7 +56,7 @@
     [mLoadEarlierMessagesButton setBackgroundColor:[UIColor whiteColor] ];
     mLoadEarlierMessagesButton.layer.cornerRadius = 3;
     [mLoadEarlierMessagesButton addTarget:self action:@selector(loadChatView) forControlEvents:UIControlEventTouchUpInside];
-    [mLoadEarlierMessagesButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica" size:14]];
+    [mLoadEarlierMessagesButton.titleLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:14]];
     [self.mTableHeaderView addSubview:mLoadEarlierMessagesButton];
 
     // textfield right view
@@ -95,7 +95,7 @@
     self.label = [[UILabel alloc] initWithFrame: CGRectMake(80,26,223,21)];
     self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.label.backgroundColor = [UIColor clearColor];
-    [self.label setFont:[UIFont fontWithName:@"Helvetica" size:10]];
+    [self.label setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:10]];
     self.label.textAlignment = NSTextAlignmentCenter;
 
     [self.navigationController.navigationBar addSubview:self.label];
@@ -104,7 +104,7 @@
     self.typingLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.typingLabel.backgroundColor = [UIColor clearColor];
     self.typingLabel.textColor = [UIColor grayColor];
-    [self.typingLabel setFont:[UIFont fontWithName:@"Helvetica" size:12.5]];
+    [self.typingLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:12.5]];
     self.typingLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.typingLabel];
     

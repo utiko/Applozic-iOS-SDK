@@ -85,7 +85,7 @@ UIViewController * modalCon;
         
         mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(mBubleImageView.frame.origin.x + 5, mImageView.frame.origin.y + mImageView.frame.size.height + 5, 100, 20)];
         
-        mDateLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
+        mDateLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:10];
         
         mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         
@@ -126,14 +126,14 @@ UIViewController * modalCon;
         
         mDowloadRetryButton.layer.cornerRadius = 4;
         
-        [mDowloadRetryButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]];
+        [mDowloadRetryButton.titleLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:14]];
         
         [self.contentView addSubview:mDowloadRetryButton];
         
         imageWithText = [[UITextView alloc] init];
         imageWithText.textContainerInset = UIEdgeInsetsZero;
         imageWithText.textContainer.lineFragmentPadding = 0;
-        [imageWithText setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+        [imageWithText setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:15]];
         imageWithText.editable = NO;
         imageWithText.scrollEnabled = NO;
         imageWithText.dataDetectorTypes = UIDataDetectorTypeAll;
