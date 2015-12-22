@@ -138,7 +138,10 @@
 - (IBAction)login:(id)sender {
     
     // Initial login view .....
-
+    
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+    [registerUserClientService logout];
+    
     MBChatManager *mbChatManager = [[MBChatManager alloc] init];
     [mbChatManager mbChatViewSettings];
     
@@ -159,9 +162,8 @@
     [user setUserId:[self.userIdField text]];
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
-    
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    
+
+
     [self.mActivityIndicator startAnimating];
     [registerUserClientService initWithCompletion:user withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         [self.mActivityIndicator stopAnimating];
@@ -177,7 +179,7 @@
         if (rResponse && [rResponse.message containsString: @"REGISTERED"])
         {
             ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
-            [messageClientService addWelcomeMessage];
+            //[messageClientService addWelcomeMessage];
         }
         
         NSLog(@"Registration response from server:%@", rResponse);
@@ -191,7 +193,7 @@
 //                                                             bundle:nil];
 //        UIViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
 //        [self presentViewController:controller animated:YES completion:nil];
-     
+
         [mbChatManager launchChatList:[self.userIdField text] andWithBackButtonTitle:@"< My Chats" andViewControllerObject:self];
         
         }];
