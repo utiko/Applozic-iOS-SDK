@@ -320,9 +320,19 @@ ALMQTTConversationService *alMqttConversationService;
     _mqttRetryCount++;
 }
 
+-(void)dropShadowInNavigationBar
+{
+//  self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
+    self.navigationController.navigationBar.layer.shadowOpacity = 0.5;
+    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0, 0);
+    self.navigationController.navigationBar.layer.shadowRadius = 10;
+    self.navigationController.navigationBar.layer.masksToBounds = NO;
+}
+
 -(void)viewWillAppear:(BOOL)animated {
    
     [super viewWillAppear:animated];
+    [self dropShadowInNavigationBar];
     
     if([ALUserDefaultsHandler isLogoutButtonHidden])
     {
