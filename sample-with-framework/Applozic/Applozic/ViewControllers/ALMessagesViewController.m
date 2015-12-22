@@ -117,7 +117,7 @@ ALMQTTConversationService *alMqttConversationService;
     });
     
     self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 15 + self.view.frame.size.width/8, self.view.frame.origin.y + self.view.frame.size.height/2, 250, 30)];
-    [self.emptyConversationText setText:@"You have no conversation yet"];
+    [self.emptyConversationText setText:@"You have no conversations yet"];
     [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:self.emptyConversationText];
     

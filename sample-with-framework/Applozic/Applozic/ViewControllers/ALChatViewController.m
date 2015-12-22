@@ -790,6 +790,8 @@ ALMessageDBService  * dbService;
         ALChatCell_Image*  imageCell=  [self getCell:theMessage.key];
         if(imageCell){
             NSLog(@" not able to find the image cell for upload....");
+            return;
+            
         }
         
         imageCell.progresLabel.alpha = 1;
