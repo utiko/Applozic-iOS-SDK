@@ -5,6 +5,12 @@
 //  Copyright (c) 2015 AppLozic. All rights reserved.
 //
 
+#define NAVIGATION_TEXT_SIZE 20
+#define USER_NAME_LABEL_SIZE 18
+#define MESSAGE_LABEL_SIZE 12
+#define TIME_LABEL_SIZE 10
+#define IMAGE_NAME_LABEL_SIZE 14
+
 #import "ALMessagesViewController.h"
 #import "ALConstant.h"
 #import "ALMessageService.h"
@@ -356,6 +362,7 @@ ALMQTTConversationService *alMqttConversationService;
         [_detailChatViewController setRefreshMainView:FALSE];
     }
     
+     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
     [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
@@ -563,9 +570,13 @@ ALMQTTConversationService *alMqttConversationService;
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *cellIdentifier = @"ContactCell";
-
-    
     ALContactCell *contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    [contactCell.mUserNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:USER_NAME_LABEL_SIZE]];//size check
+    [contactCell.mMessageLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_LABEL_SIZE]];
+    [contactCell.mTimeLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TIME_LABEL_SIZE]];
+    [contactCell.imageNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:IMAGE_NAME_LABEL_SIZE]];
+    
     ALMessage *message = (ALMessage *)self.mContactsMessageListArray[indexPath.row];
     
     UILabel* nameIcon=(UILabel*)[contactCell viewWithTag:102];

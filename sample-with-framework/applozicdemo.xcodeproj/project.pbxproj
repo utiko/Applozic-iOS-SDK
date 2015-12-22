@@ -12,6 +12,7 @@
 		6D4F28CF1BC6429F007E7B35 /* ApplozicLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4F28CE1BC6429F007E7B35 /* ApplozicLoginViewController.m */; };
 		6D54E5F41BE4B28E001BD278 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D54E5F31BE4B28E001BD278 /* Default-568h@2x.png */; };
 		6D54E6011BE4B73D001BD278 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D54E6001BE4B73D001BD278 /* Info.plist */; };
+		6D6D0BAB1C297A20002E8B3D /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6D6D0BA51C297A20002E8B3D /* Roboto-Regular.ttf */; };
 		6D6DF1F61BC551FA00EBA00F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF1F51BC551FA00EBA00F /* main.m */; };
 		6D6DF1F91BC551FA00EBA00F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF1F81BC551FA00EBA00F /* AppDelegate.m */; };
 		6D6DF1FC1BC551FA00EBA00F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF1FB1BC551FA00EBA00F /* ViewController.m */; };
@@ -61,6 +62,7 @@
 		6D4F28CE1BC6429F007E7B35 /* ApplozicLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplozicLoginViewController.m; sourceTree = "<group>"; };
 		6D54E5F31BE4B28E001BD278 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6D54E6001BE4B73D001BD278 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Applozic/Info.plist; sourceTree = "<group>"; };
+		6D6D0BA51C297A20002E8B3D /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		6D6DF1F11BC551FA00EBA00F /* applozicdemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = applozicdemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D6DF1F51BC551FA00EBA00F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6D6DF1F71BC551FA00EBA00F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 		6D6DF1E81BC551FA00EBA00F = {
 			isa = PBXGroup;
 			children = (
+				6D6D0BA51C297A20002E8B3D /* Roboto-Regular.ttf */,
 				6D54E6001BE4B73D001BD278 /* Info.plist */,
 				6D54E5F31BE4B28E001BD278 /* Default-568h@2x.png */,
 				6DAA09D11BE39F6A00CBF133 /* Applozic.xcodeproj */,
@@ -244,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D6DF2071BC551FA00EBA00F /* LaunchScreen.storyboard in Resources */,
+				6D6D0BAB1C297A20002E8B3D /* Roboto-Regular.ttf in Resources */,
 				6D54E5F41BE4B28E001BD278 /* Default-568h@2x.png in Resources */,
 				6D6DF2041BC551FA00EBA00F /* Assets.xcassets in Resources */,
 				6D54E6011BE4B73D001BD278 /* Info.plist in Resources */,
