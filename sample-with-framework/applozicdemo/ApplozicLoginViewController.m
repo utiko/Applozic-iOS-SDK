@@ -16,6 +16,7 @@
 #import <Applozic/ALApplozicSettings.h>
 #import <Applozic/ALDataNetworkConnection.h>
 #import <Applozic/MBChatManager.h>
+#import <Applozic/ALMessageDBService.h>
 
 @interface ApplozicLoginViewController ()
 
@@ -138,9 +139,10 @@
 - (IBAction)login:(id)sender {
     
     // Initial login view .....
+
+    ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
+    [messageDBService deleteAllObjectsInCoreData];
     
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    [registerUserClientService logout];
     
     MBChatManager *mbChatManager = [[MBChatManager alloc] init];
     [mbChatManager mbChatViewSettings];
@@ -163,7 +165,8 @@
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
 
-
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+    
     [self.mActivityIndicator startAnimating];
     [registerUserClientService initWithCompletion:user withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         [self.mActivityIndicator stopAnimating];
