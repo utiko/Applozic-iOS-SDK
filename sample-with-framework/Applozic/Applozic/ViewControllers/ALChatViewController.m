@@ -759,9 +759,8 @@ ALMessageDBService  * dbService;
     DB_Message * theMessageEntity = [messageDBService createMessageEntityForDBInsertionWithMessage:theMessage];
     [theDBHandler.managedObjectContext save:nil];
     theMessage.msgDBObjectId = [theMessageEntity objectID];
-    
-    [self uploadImage:theMessage];
     [self.mTableView reloadData];
+    [self uploadImage:theMessage];
     [self scrollTableViewToBottomWithAnimation:NO];
     
 }
@@ -774,7 +773,7 @@ ALMessageDBService  * dbService;
         [self.sendMessageTextView setText:nil];
         self.mTotalCount = self.mTotalCount+1;
         self.startIndex = self.startIndex + 1;
-        
+//        
 //        ALChatCell_Image *imageCell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[[self.alMessageWrapper getUpdatedMessageArray] indexOfObject:theMessage] inSection:0]];
 //        if (imageCell == nil) {
 //            //            [self performSelector:@selector(uploadImage:)
@@ -788,7 +787,7 @@ ALMessageDBService  * dbService;
 //            return;
 //        }
         ALChatCell_Image*  imageCell=  [self getCell:theMessage.key];
-        if(imageCell){
+        if(!imageCell){
             NSLog(@" not able to find the image cell for upload....");
             return;
             
