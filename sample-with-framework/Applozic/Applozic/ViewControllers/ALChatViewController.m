@@ -774,20 +774,24 @@ ALMessageDBService  * dbService;
         [self.sendMessageTextView setText:nil];
         self.mTotalCount = self.mTotalCount+1;
         self.startIndex = self.startIndex + 1;
-        
-        ALChatCell_Image *imageCell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[[self.alMessageWrapper getUpdatedMessageArray] indexOfObject:theMessage] inSection:0]];
-        if (imageCell == nil) {
-            //            [self performSelector:@selector(uploadImage:)
-            //                       withObject:objects
-            //                       afterDelay:1];
-            [UIView animateWithDuration:.50 animations:^{
-                [self scrollTableViewToBottomWithAnimation:YES];
-            } completion:^(BOOL finished) {
-                [self uploadImage:theMessage];
-            }];
+//        
+//        ALChatCell_Image *imageCell = (ALChatCell_Image *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[[self.alMessageWrapper getUpdatedMessageArray] indexOfObject:theMessage] inSection:0]];
+//        if (imageCell == nil) {
+//            //            [self performSelector:@selector(uploadImage:)
+//            //                       withObject:objects
+//            //                       afterDelay:1];
+//            [UIView animateWithDuration:.50 animations:^{
+//                [self scrollTableViewToBottomWithAnimation:YES];
+//            } completion:^(BOOL finished) {
+//                [self uploadImage:theMessage];
+//            }];
+//            return;
+//        }
+        ALChatCell_Image*  imageCell=  [self getCell:theMessage.key];
+        if(imageCell){
+            NSLog(@" not able to find the image cell for upload....");
             return;
         }
-        
         imageCell.progresLabel.alpha = 1;
         imageCell.mMessage.fileMeta.progressValue = 0;
         imageCell.mDowloadRetryButton.alpha = 0;

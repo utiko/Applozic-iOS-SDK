@@ -136,6 +136,9 @@
 
 - (IBAction)login:(id)sender {
     
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+    [registerUserClientService logout];
+
     // Initial login view .....
     [ALUserDefaultsHandler setLogoutButtonHidden:NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
@@ -171,7 +174,6 @@
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
     
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     
     [self.mActivityIndicator startAnimating];
     [registerUserClientService initWithCompletion:user withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
