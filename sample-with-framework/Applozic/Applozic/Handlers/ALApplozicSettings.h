@@ -14,11 +14,16 @@
 #define REFRESH_BUTTON_VISIBILITY @"REFRESH_BUTTON_VISIBILITY"
 #define CONVERSATION_TITLE @"CONVERSATION_TITLE"
 #define BACK_BUTTON_TITLE @"BACK_BUTTON_TITLE"
+#define FONT_FACE @"FONT_FACE"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
 @interface ALApplozicSettings : NSObject
+
++(void)setFontFace:(NSString *)fontFace;
+
++(NSString *)getFontFace;
 
 +(void)setUserProfileHidden: (BOOL)flag;
 

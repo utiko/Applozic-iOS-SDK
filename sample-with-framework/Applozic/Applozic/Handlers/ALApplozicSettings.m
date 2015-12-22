@@ -14,6 +14,17 @@
 
 @implementation ALApplozicSettings
 
++(void)setFontFace:(NSString *)fontFace
+{
+    [[NSUserDefaults standardUserDefaults] setValue:fontFace forKey:FONT_FACE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getFontFace
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:FONT_FACE];
+}
+
 +(void)setTitleForConversationScreen:(NSString *)titleText
 {
     [[NSUserDefaults standardUserDefaults] setValue:titleText forKey:CONVERSATION_TITLE];

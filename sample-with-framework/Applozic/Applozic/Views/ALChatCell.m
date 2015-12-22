@@ -72,7 +72,7 @@
         
 //        self.mMessageLabel.font = [UIFont fontWithName:fontName size:15];
         
-         self.mMessageLabel.font = [UIFont fontWithName:@"Helvetica" size:15];
+         self.mMessageLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:15];
         
         self.mMessageLabel.textColor = [UIColor grayColor];
         
@@ -90,7 +90,7 @@
 
         self.mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 100, 25)];
         
-        self.mDateLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
+        self.mDateLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:10];
         
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         
