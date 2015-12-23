@@ -39,7 +39,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [ self registerForNotification];
+    //[ self registerForNotification];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
                                    action:@selector(dismissKeyboard)];
@@ -49,16 +49,16 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    if (![ALUserDefaultsHandler getApnDeviceToken]){
-        [ self registerForNotification];
-    }
+//    if (![ALUserDefaultsHandler getApnDeviceToken]){
+//        [ self registerForNotification];
+//    }
     
     [super viewWillAppear:animated];
     
     [self registerForKeyboardNotifications];
     
     [ALDataNetworkConnection checkDataNetworkAvailable];
-    
+    [self.mActivityIndicator stopAnimating];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -139,14 +139,13 @@
 - (IBAction)login:(id)sender {
     
     // Initial login view .....
-
+    [self setTitle:@"Login Screen"];
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     [messageDBService deleteAllObjectsInCoreData];
-    
+    [ALUserDefaultsHandler clearAll];
     
     MBChatManager *mbChatManager = [[MBChatManager alloc] init];
-    [mbChatManager mbChatViewSettings];
-    
+ 
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
     
@@ -164,42 +163,10 @@
     [user setUserId:[self.userIdField text]];
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
-
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    
     [self.mActivityIndicator startAnimating];
-    [registerUserClientService initWithCompletion:user withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
-        [self.mActivityIndicator stopAnimating];
-        
-        if (error) {
-            NSLog(@"%@",error);
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response"
-                                                                message:rResponse.message delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles: nil, nil];
-            [alertView show];
-            return ;
-        }
-        
-        if (rResponse && [rResponse.message containsString: @"REGISTERED"])
-        {
-            ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
-            //[messageClientService addWelcomeMessage];
-        }
-        
-        NSLog(@"Registration response from server:%@", rResponse);
-        
-        //-----------------------------------------------------------------------
-         // Launching Chat Screens ...
-        //-----------------------------------------------------------------------
-        
-        
-//        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
-//                                                             bundle:nil];
-//        UIViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
-//        [self presentViewController:controller animated:YES completion:nil];
 
-        [mbChatManager launchChatList:[self.userIdField text] andWithBackButtonTitle:@"< My Chats" andViewControllerObject:self];
-        
-        }];
+    [mbChatManager launchChatForUser:user.userId fromViewController:self];
+
     
 }
 

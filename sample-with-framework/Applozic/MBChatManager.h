@@ -15,4 +15,7 @@
 -(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController;
 -(void)launchChatList:(NSString *)userId andWithBackButtonTitle:(NSString *)title andViewControllerObject:(UIViewController *)viewController;
 
+-(void)launchChatForUser:(NSString* )userId fromViewController:(UIViewController*)viewController;
+-(void)launchChatForUser:(NSString*)userId andWithEmailId:(NSString*)emailId fromViewController:(UIViewController*)viewController;
+
 @end
