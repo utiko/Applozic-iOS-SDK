@@ -139,7 +139,7 @@
 - (IBAction)login:(id)sender {
     
     // Initial login view .....
-    [self setTitle:@"Login Screen"];
+    [self setTitle:@"< Login Screen"];
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     [messageDBService deleteAllObjectsInCoreData];
     [ALUserDefaultsHandler clearAll];
@@ -166,8 +166,6 @@
     [self.mActivityIndicator startAnimating];
 
     [mbChatManager launchChatForUser:user.userId fromViewController:self];
-
-    
 }
 
 //-------------------------------------------------------------------------------------------------------------------
