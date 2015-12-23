@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -382,8 +382,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="XrG-C6-GhS">
-                                <rect key="frame" x="0.0" y="44" width="600" height="501"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="XrG-C6-GhS">
+                                <rect key="frame" x="0.0" y="44" width="600" height="510"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
@@ -392,18 +392,13 @@
                                     <outlet property="delegate" destination="gFB-TQ-g19" id="qgd-nZ-wsq"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VB1-qI-ehD">
-                                <rect key="frame" x="59" y="597" width="460" height="1"/>
-                                <animations/>
-                                <color key="backgroundColor" name="scrollBarColor" catalog="System" colorSpace="catalog"/>
-                            </view>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="cVw-Po-VWO">
                                 <rect key="frame" x="290" y="290" width="20" height="20"/>
                                 <animations/>
                                 <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WNc-sD-ErX">
-                                <rect key="frame" x="59" y="549" width="460" height="40"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WNc-sD-ErX">
+                                <rect key="frame" x="59" y="555" width="490" height="30"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -426,14 +421,17 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="xM1-AW-A1I"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="ic_action_attachment2"/>
+                                <state key="normal" title="Button" image="attachments"/>
                                 <connections>
                                     <action selector="attachmentActionMethod:" destination="gFB-TQ-g19" eventType="touchDown" id="wVz-ke-3bU"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="arI-8a-uqq">
-                                <rect key="frame" x="543" y="549" width="51" height="49"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="arI-8a-uqq">
+                                <rect key="frame" x="550" y="549" width="51" height="49"/>
                                 <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="51" id="Qsf-Q9-cV2"/>
+                                </constraints>
                                 <state key="normal" title="Button" image="submit"/>
                                 <connections>
                                     <action selector="sendAction:" destination="gFB-TQ-g19" eventType="touchDown" id="HaH-Jv-0rC"/>
@@ -444,12 +442,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="VB1-qI-ehD" firstAttribute="top" secondItem="WNc-sD-ErX" secondAttribute="bottom" constant="8" identifier="View.top" id="05r-CL-Izw"/>
                             <constraint firstAttribute="trailing" secondItem="XrG-C6-GhS" secondAttribute="trailing" identifier="trailing" id="8fX-5Q-Kdx"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="arI-8a-uqq" secondAttribute="trailing" constant="-21" id="9VB-wM-2ip"/>
                             <constraint firstItem="fcy-p5-tcB" firstAttribute="trailing" secondItem="XrG-C6-GhS" secondAttribute="trailing" identifier="Load Earlier Action.trailing" id="CQw-CB-O1b"/>
                             <constraint firstItem="XrG-C6-GhS" firstAttribute="top" secondItem="IEC-BM-wED" secondAttribute="top" constant="44" identifier="MTable View.top" id="DHs-aS-wdN"/>
                             <constraint firstItem="WNc-sD-ErX" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leadingMargin" constant="39" identifier="Send Message Text View.leading=leadingMargin" id="ENI-GJ-Qwd"/>
-                            <constraint firstItem="VB1-qI-ehD" firstAttribute="leading" secondItem="WNc-sD-ErX" secondAttribute="leading" identifier="View.leading" id="ERn-KP-DSH"/>
                             <constraint firstItem="fcy-p5-tcB" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="top" constant="17" identifier="Load Earlier Action.top" id="EqC-1E-6IV"/>
                             <constraint firstItem="WNc-sD-ErX" firstAttribute="leading" secondItem="RA0-Qd-4Mg" secondAttribute="trailing" constant="8" symbolic="YES" id="JdP-I1-JGg"/>
                             <constraint firstItem="XrG-C6-GhS" firstAttribute="centerX" secondItem="cVw-Po-VWO" secondAttribute="centerX" identifier="MTable View.centreX" id="M3O-h1-LX1"/>
@@ -459,20 +456,15 @@
                             <constraint firstItem="RA0-Qd-4Mg" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leadingMargin" constant="-9" id="SpS-U4-Biq"/>
                             <constraint firstItem="cVw-Po-VWO" firstAttribute="centerY" secondItem="IEC-BM-wED" secondAttribute="centerY" identifier="MActivity Indicator.centerY" id="WSG-Up-0QY"/>
                             <constraint firstItem="XrG-C6-GhS" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leading" identifier="MTable View.Leading" id="X4Z-tI-BRd"/>
-                            <constraint firstItem="VB1-qI-ehD" firstAttribute="trailing" secondItem="WNc-sD-ErX" secondAttribute="trailing" identifier="View.trailing" id="Ybh-K3-5UY"/>
                             <constraint firstItem="RA0-Qd-4Mg" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="bottom" constant="8" symbolic="YES" id="ZtI-TX-kMM"/>
                             <constraint firstItem="arI-8a-uqq" firstAttribute="leading" secondItem="WNc-sD-ErX" secondAttribute="trailing" constant="24" identifier="sendButton.Leading" id="abh-mt-J2f"/>
+                            <constraint firstItem="arI-8a-uqq" firstAttribute="bottom" secondItem="RA0-Qd-4Mg" secondAttribute="bottom" id="brB-bx-amb"/>
                             <constraint firstItem="fcy-p5-tcB" firstAttribute="leading" secondItem="XrG-C6-GhS" secondAttribute="leading" identifier="Load Earlier Action.leading" id="cgs-kW-cTD"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="VB1-qI-ehD" secondAttribute="trailing" constant="61" identifier="trailingMargin" id="dXE-7g-9Bf"/>
-                            <constraint firstItem="onN-md-bNU" firstAttribute="top" secondItem="VB1-qI-ehD" secondAttribute="bottom" constant="5" id="oJd-yd-pFo"/>
-                            <constraint firstItem="VB1-qI-ehD" firstAttribute="bottom" secondItem="arI-8a-uqq" secondAttribute="bottom" identifier="View.bottom" id="r5j-kd-Zw7"/>
-                            <constraint firstItem="RA0-Qd-4Mg" firstAttribute="bottom" secondItem="VB1-qI-ehD" secondAttribute="bottom" id="sFZ-s5-BVv"/>
                             <constraint firstItem="WNc-sD-ErX" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="bottom" constant="4" identifier="Send Message Text View.top" id="yfV-IF-f4X"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="OEc-Nz-7gM"/>
-                                <exclude reference="oJd-yd-pFo"/>
                             </mask>
                         </variation>
                     </view>
@@ -757,7 +749,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ic_action_attachment2" width="36" height="36"/>
+        <image name="attachments" width="22" height="12"/>
         <image name="ic_action_camera" width="64" height="64"/>
         <image name="online_show" width="200" height="200"/>
         <image name="submit" width="20" height="20"/>
