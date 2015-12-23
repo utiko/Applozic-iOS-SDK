@@ -189,8 +189,8 @@
 		6D95476C1BE38DFF00776652 /* ALContactService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547661BE38DFF00776652 /* ALContactService.m */; };
 		6D95476D1BE38DFF00776652 /* ALUITextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547671BE38DFF00776652 /* ALUITextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D95476E1BE38DFF00776652 /* ALUITextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547681BE38DFF00776652 /* ALUITextView.m */; };
-		6D9C693C1C28383B00C78219 /* MBChatManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9C693A1C28383B00C78219 /* MBChatManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6D9C693D1C28383B00C78219 /* MBChatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9C693B1C28383B00C78219 /* MBChatManager.m */; };
+		6D9C693C1C28383B00C78219 /* ALChatLauncher.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9C693A1C28383B00C78219 /* ALChatLauncher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6D9C693D1C28383B00C78219 /* ALChatLauncher.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9C693B1C28383B00C78219 /* ALChatLauncher.m */; };
 		6DAEC20A1C25A596000A7243 /* ALLastSeenSyncFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DAEC2081C25A596000A7243 /* ALLastSeenSyncFeed.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DAEC20B1C25A596000A7243 /* ALLastSeenSyncFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DAEC2091C25A596000A7243 /* ALLastSeenSyncFeed.m */; };
 		6DB665071C0EE5EC004D04A8 /* ALDataNetworkConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -403,8 +403,8 @@
 		6D9547661BE38DFF00776652 /* ALContactService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALContactService.m; path = Applozic/ALContactService.m; sourceTree = "<group>"; };
 		6D9547671BE38DFF00776652 /* ALUITextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALUITextView.h; path = Applozic/ALUITextView.h; sourceTree = "<group>"; };
 		6D9547681BE38DFF00776652 /* ALUITextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALUITextView.m; path = Applozic/ALUITextView.m; sourceTree = "<group>"; };
-		6D9C693A1C28383B00C78219 /* MBChatManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBChatManager.h; sourceTree = "<group>"; };
-		6D9C693B1C28383B00C78219 /* MBChatManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBChatManager.m; sourceTree = "<group>"; };
+		6D9C693A1C28383B00C78219 /* ALChatLauncher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChatLauncher.h; sourceTree = "<group>"; };
+		6D9C693B1C28383B00C78219 /* ALChatLauncher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChatLauncher.m; sourceTree = "<group>"; };
 		6DAEC2081C25A596000A7243 /* ALLastSeenSyncFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALLastSeenSyncFeed.h; sourceTree = "<group>"; };
 		6DAEC2091C25A596000A7243 /* ALLastSeenSyncFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALLastSeenSyncFeed.m; sourceTree = "<group>"; };
 		6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDataNetworkConnection.h; sourceTree = "<group>"; };
@@ -826,8 +826,8 @@
 		6D9C69391C28380100C78219 /* MBChatSettings */ = {
 			isa = PBXGroup;
 			children = (
-				6D9C693A1C28383B00C78219 /* MBChatManager.h */,
-				6D9C693B1C28383B00C78219 /* MBChatManager.m */,
+				6D9C693A1C28383B00C78219 /* ALChatLauncher.h */,
+				6D9C693B1C28383B00C78219 /* ALChatLauncher.m */,
 			);
 			name = MBChatSettings;
 			sourceTree = "<group>";
@@ -945,7 +945,7 @@
 				6DB665071C0EE5EC004D04A8 /* ALDataNetworkConnection.h in Headers */,
 				6DDE81861C27D8EC009B8CF9 /* ALUserClientService.h in Headers */,
 				6D6DF1601BC5364C00EBA00F /* ALChatCell_Image.h in Headers */,
-				6D9C693C1C28383B00C78219 /* MBChatManager.h in Headers */,
+				6D9C693C1C28383B00C78219 /* ALChatLauncher.h in Headers */,
 				6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */,
 				6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */,
 				6D6DF13E1BC5364C00EBA00F /* ALConnection.h in Headers */,
@@ -1118,7 +1118,7 @@
 				6D6DF1671BC5364C00EBA00F /* ALNotificationView.m in Sources */,
 				6D6DF1851BC5364C00EBA00F /* DB_Message.m in Sources */,
 				6D6DF17D1BC5364C00EBA00F /* ALSyncMessageFeed.m in Sources */,
-				6D9C693D1C28383B00C78219 /* MBChatManager.m in Sources */,
+				6D9C693D1C28383B00C78219 /* ALChatLauncher.m in Sources */,
 				6D6DF1651BC5364C00EBA00F /* ALNewContactCell.m in Sources */,
 				6D6DF14D1BC5364C00EBA00F /* ALUserDefaultsHandler.m in Sources */,
 				6D6DF1C81BC5364C00EBA00F /* UIImage+GIF.m in Sources */,

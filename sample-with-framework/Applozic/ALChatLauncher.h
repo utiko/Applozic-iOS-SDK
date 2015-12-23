@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
-@interface MBChatManager : NSObject
+@interface ALChatLauncher : NSObject
 
 @property(nonatomic,assign) NSString* applicationId;
 

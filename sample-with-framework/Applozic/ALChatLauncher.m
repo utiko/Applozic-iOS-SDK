@@ -6,7 +6,7 @@
 //  Copyright © 2015 applozic Inc. All rights reserved.
 //
 
-#import "MBChatManager.h"
+#import "ALChatLauncher.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALApplozicSettings.h"
 #import "ALChatViewController.h"
@@ -14,11 +14,11 @@
 #import "ALRegisterUserClientService.h"
 #import "ALMessageClientService.h"
 
-@interface MBChatManager ()
+@interface ALChatLauncher ()
 
 @end
 
-@implementation MBChatManager
+@implementation ALChatLauncher
 
 - (instancetype)initWithApplicationId:(NSString *) applicationId;
 {
