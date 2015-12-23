@@ -185,7 +185,7 @@ UIViewController * modalCon;
         
         self.partImageBubble.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x, 0, 18, 18);
         
-        self.partImageBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"receive_Part.png"];
+        self.partImageBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"RCV.png"];
         
 //        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width - 120, viewSize.width - 120);
         
