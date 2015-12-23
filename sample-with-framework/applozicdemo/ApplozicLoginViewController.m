@@ -197,7 +197,7 @@
 //        UIViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
 //        [self presentViewController:controller animated:YES completion:nil];
 
-        [mbChatManager launchChatList:[self.userIdField text] andWithBackButtonTitle:@"< My Chats" andViewControllerObject:self];
+        [mbChatManager launchChatList:[self.userIdField text] andWithBackButtonTitle:@"< Profile" andViewControllerObject:self];
         
         }];
     
