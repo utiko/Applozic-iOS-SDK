@@ -144,7 +144,7 @@
     [messageDBService deleteAllObjectsInCoreData];
     [ALUserDefaultsHandler clearAll];
     
-    MBChatManager *mbChatManager = [[MBChatManager alloc] init];
+    MBChatManager *mbChatManager = [[MBChatManager alloc] initWithApplicationId:@"applozic-sample-app"];
  
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
@@ -164,7 +164,7 @@
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
     [self.mActivityIndicator startAnimating];
-
+    //mbChatManger...
     [mbChatManager launchChatForUser:user.userId fromViewController:self];
 }
 
@@ -184,20 +184,6 @@
         [textField resignFirstResponder];
     }
     return true;
-}
-
--(void)registerForNotification{
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-    {
-        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-    }
-    else
-    {
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-         (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
-    }
 }
 
 - (IBAction)getstarted:(id)sender {
