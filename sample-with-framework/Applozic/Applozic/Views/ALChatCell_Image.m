@@ -509,14 +509,14 @@ UIViewController * modalCon;
 -(void)setupProgress{
     progresLabel = [[KAProgressLabel alloc] initWithFrame:CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0-25, mImageView.frame.origin.y + mImageView.frame.size.height/2.0-25, 50, 50)];
     progresLabel.delegate = self;
-    [progresLabel setTrackWidth: 5.0];
-    [progresLabel setProgressWidth: 5];
+    [progresLabel setTrackWidth: 4.0];
+    [progresLabel setProgressWidth: 4];
     [progresLabel setStartDegree:0];
     [progresLabel setEndDegree:0];
     [progresLabel setRoundedCornersWidth:1];
     progresLabel.fillColor = [[UIColor lightGrayColor] colorWithAlphaComponent:.3];
-    progresLabel.trackColor = [UIColor redColor];
-    progresLabel.progressColor = [UIColor greenColor];
+    progresLabel.trackColor = [UIColor colorWithRed:104.0/255 green:95.0/255 blue:250.0/255 alpha:1];
+    progresLabel.progressColor = [UIColor whiteColor];
     [self.contentView addSubview:progresLabel];
     
 }
