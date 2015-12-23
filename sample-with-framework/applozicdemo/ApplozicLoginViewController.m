@@ -144,7 +144,7 @@
     [messageDBService deleteAllObjectsInCoreData];
     [ALUserDefaultsHandler clearAll];
     
-    MBChatManager *mbChatManager = [[MBChatManager alloc] initWithApplicationId:@"applozic-sample-app"];
+    ALChatLauncher *mbChatManager = [[ALChatLauncher alloc] initWithApplicationId:@"applozic-sample-app"];
  
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
