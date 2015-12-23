@@ -333,6 +333,7 @@ ALMQTTConversationService *alMqttConversationService;
    
     [super viewWillAppear:animated];
     [self dropShadowInNavigationBar];
+    [[self.navigationItem leftBarButtonItem] setTitle:[ALApplozicSettings getBackButtonTitle]];
     
     if([ALUserDefaultsHandler isLogoutButtonHidden])
     {
