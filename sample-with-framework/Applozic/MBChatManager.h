@@ -11,6 +11,10 @@
 
 @interface MBChatManager : NSObject
 
+@property(nonatomic,assign) NSString* applicationId;
+
+
+-(instancetype)initWithApplicationId:(NSString *) applicationId;
 -(void)mbChatViewSettings;
 -(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController;
 -(void)launchChatList:(NSString *)userId andWithBackButtonTitle:(NSString *)title andViewControllerObject:(UIViewController *)viewController;

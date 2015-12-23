@@ -20,6 +20,15 @@
 
 @implementation MBChatManager
 
+- (instancetype)initWithApplicationId:(NSString *) applicationId;
+{
+    self = [super init];
+    if (self) {
+        self.applicationId = applicationId;
+    }
+    return self;
+}
+
 -(void)mbChatViewSettings
 {
     [ALUserDefaultsHandler setLogoutButtonHidden:YES];
@@ -58,7 +67,7 @@
 
 -(void) launchChatForUser:(NSString* )userId fromViewController:(UIViewController*)viewController{
     ALUser *user = [[ALUser alloc] init];
-    [user setApplicationId:@"applozic-sample-app"];
+    [user setApplicationId:self.applicationId];
     [user setUserId:userId];
     [self  startChatsForUser:user andWithParentController:(UIViewController *)viewController];
     
@@ -67,7 +76,7 @@
 
 -(void) launchChatForUser:(NSString*)userId andWithEmailId:(NSString*)emailId fromViewController:(UIViewController*)viewController{
     ALUser *user = [[ALUser alloc] init];
-    [user setApplicationId:@"applozic-sample-app"];
+    [user setApplicationId:self.applicationId];
     [user setUserId:userId];
     [user setEmailId:emailId];
     [self  startChatsForUser:user andWithParentController:(UIViewController *)viewController];
