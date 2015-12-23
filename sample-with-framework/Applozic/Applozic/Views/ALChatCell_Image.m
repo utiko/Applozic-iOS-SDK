@@ -191,6 +191,10 @@ UIViewController * modalCon;
         
         self.mBubleImageView.frame = CGRectMake(self.partImageBubble.frame.origin.x + self.partImageBubble.frame.size.width , 0, viewSize.width - 120, viewSize.width - 120);
     
+        self.mBubleImageView.layer.shadowOpacity = 0.3;
+        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+        self.mBubleImageView.layer.shadowRadius = 1;
+        self.mBubleImageView.layer.masksToBounds = NO;
         
 //        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 15 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40 );
         
@@ -267,7 +271,7 @@ UIViewController * modalCon;
         {
             self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         }
-        
+        self.partImageBubble.layer.shadowOpacity = 0;
         
     }else{ //Sent Message
         
@@ -289,8 +293,19 @@ UIViewController * modalCon;
         
         self.mBubleImageView.backgroundColor = [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1];
         
+        
+        self.mBubleImageView.layer.shadowOpacity = 0.3;
+        self.mBubleImageView.layer.shadowOffset = CGSizeMake(2, 2);
+        self.mBubleImageView.layer.shadowRadius = 1;
+        self.mBubleImageView.layer.masksToBounds = NO;
+        
         self.partImageBubble.frame = CGRectMake(viewSize.width - 28, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 18, 18, 18);
         self.mUserProfileImageView.alpha=0;
+        
+        self.partImageBubble.layer.shadowOpacity = 0.3;
+        self.partImageBubble.layer.shadowOffset = CGSizeMake(2, 2);
+        self.partImageBubble.layer.shadowRadius = 1;
+        self.partImageBubble.layer.masksToBounds = NO;
         
 //        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y+15 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40);
         
@@ -535,7 +550,6 @@ UIViewController * modalCon;
             NSLog(@"some error");
         }
     }];
-    
 
 }
 

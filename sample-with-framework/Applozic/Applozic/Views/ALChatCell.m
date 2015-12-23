@@ -184,10 +184,15 @@
         
         self.partBubble.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x, 0, 18, 18);
         
-        self.partBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"receive_Part.png"];
+        self.partBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"RCV.png"];
 
         
         self.mBubleImageView.frame = CGRectMake(self.partBubble.frame.origin.x + self.partBubble.frame.size.width, 0, theTextSize.width + 18 , theTextSize.height + 20);
+        
+        self.mBubleImageView.layer.shadowOpacity = 0.3;
+        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+        self.mBubleImageView.layer.shadowRadius = 1;
+        self.mBubleImageView.layer.masksToBounds = NO;
         
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 10 , 10, theTextSize.width, theTextSize.height);
         self.mMessageLabel.textColor = [UIColor grayColor];
@@ -236,9 +241,7 @@
         {
             self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         }
-
-        
-        
+         self.partBubble.layer.shadowOpacity = 0;
     }
     else    //Sent Message
     {
@@ -266,7 +269,19 @@
         
         self.mBubleImageView.frame = CGRectMake((viewSize.width - theTextSize.width - 24) - 22 , 0 ,theTextSize.width + 18  ,theTextSize.height + 20);
         
+        self.mBubleImageView.layer.shadowOpacity = 0.3;
+        self.mBubleImageView.layer.shadowOffset = CGSizeMake(2, 2);
+        self.mBubleImageView.layer.shadowRadius = 1;
+        self.mBubleImageView.layer.masksToBounds = NO;
+        
         self.partBubble.frame=CGRectMake(viewSize.width-28, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 18, 18, 18);
+        
+        
+        self.partBubble.layer.shadowOpacity = 0.3;
+        self.partBubble.layer.shadowOffset = CGSizeMake(2, 2);
+        self.partBubble.layer.shadowRadius = 1;
+        self.partBubble.layer.masksToBounds = NO;
+        
         
         self.mMessageLabel.backgroundColor = [UIColor clearColor];
         self.mMessageLabel.textColor = [UIColor whiteColor];
@@ -414,12 +429,6 @@
             NSLog(@"some error");
         }
     }];
-    
-    
-    
-    
-    
-    
     
 }
 
