@@ -58,8 +58,9 @@
 {
     
     self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.cancelButton.frame = CGRectMake(0, 0, 50, 50);
-    [self.cancelButton setBackgroundImage:[ALUtilityClass getImageFromFramworkBundle:@"crossButton.png"] forState:UIControlStateNormal];
+//    self.cancelButton.frame = CGRectMake(0, 0, 50, 50);
+    self.cancelButton.frame = CGRectMake(6, 6, 40, 40);
+    [self.cancelButton setBackgroundImage:[ALUtilityClass getImageFromFramworkBundle:@"DLTT.png"] forState:UIControlStateNormal];
     self.cancelButton.backgroundColor = [UIColor clearColor];
     [self.cancelButton addTarget:self action:@selector(cancelTask:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.cancelButton];
