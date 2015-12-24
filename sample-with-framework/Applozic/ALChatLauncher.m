@@ -64,29 +64,29 @@
 
 {
     
-    [ALUserDefaultsHandler setLogoutButtonHidden:YES];
+    [ALUserDefaultsHandler setLogoutButtonHidden:NO];
     
-    [ALUserDefaultsHandler setBottomTabBarHidden:YES];
+    [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     
     [ALApplozicSettings setUserProfileHidden:YES];
     
-    [ALApplozicSettings hideRefreshButton:YES];
+    [ALApplozicSettings hideRefreshButton:NO];
     
-    [ALApplozicSettings setTitleForConversationScreen:@"My Chats"];
+    [ALApplozicSettings setTitleForConversationScreen:@"Conversation"];
     
 //    [ALApplozicSettings setFontFace:@"Roboto"];
     
          [ALApplozicSettings setFontFace:@"Helvetica"];
     
-    [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
+//    [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
+//    [ALApplozicSettings setColourForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
+//    [ALApplozicSettings setColourForNavigation:[UIColor colorWithRed:179.0/255 green:32.0/255 blue:35.0/255 alpha:1]];
+//    [ALApplozicSettings setColourForNavigationItem:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
     
-    [ALApplozicSettings setColourForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
-    
-    
-    
-    [ALApplozicSettings setColourForNavigation:[UIColor colorWithRed:179.0/255 green:32.0/255 blue:35.0/255 alpha:1]];
-    
-    [ALApplozicSettings setColourForNavigationItem:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
+        [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
+        [ALApplozicSettings setColourForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
+        [ALApplozicSettings setColourForNavigation:[UIColor whiteColor]];
+        [ALApplozicSettings setColourForNavigationItem:[UIColor blueColor]];
     
 }
 

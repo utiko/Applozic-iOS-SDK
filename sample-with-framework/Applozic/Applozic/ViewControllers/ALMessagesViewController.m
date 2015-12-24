@@ -373,10 +373,11 @@ ALMQTTConversationService *alMqttConversationService;
         [_detailChatViewController setRefreshMainView:FALSE];
     }
     
-     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
-    [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
+//     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+         [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+//    [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+//    [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
     
     [self.mTableView reloadData];
 
@@ -453,8 +454,8 @@ ALMQTTConversationService *alMqttConversationService;
 -(void)setUpView {
     UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
     if (!color) {
-     //   color = [UIColor blackColor];
-        color = [UIColor whiteColor];
+        color = [UIColor blackColor];
+//        color = [UIColor whiteColor];
     }
     NSLog(@"%@",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]);
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:

@@ -114,7 +114,7 @@ ALMessageDBService  * dbService;
     [self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
     [self processMarkRead];
     
-    [self.label setTextColor:[UIColor whiteColor]];
+//    [self.label setTextColor:[UIColor whiteColor]];
 }
 
 -(void)viewWillAppear:(BOOL)animated {

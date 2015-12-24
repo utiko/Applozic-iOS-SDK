@@ -74,8 +74,8 @@
 -(void)setUpTheming {
     UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
     if (!color) {
-       // color = [UIColor blackColor];
-        color = [UIColor whiteColor];
+        color = [UIColor blackColor];
+//        color = [UIColor whiteColor];
     }
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                     color,NSForegroundColorAttributeName,nil];
@@ -143,11 +143,12 @@
 
 -(void)viewWillAppear:(BOOL)animated{
 
-     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
-   [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
-    [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
+         [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+//     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+//   [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+//    [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
     [self.tabBarController.tabBar setHidden: YES];
 }
 
