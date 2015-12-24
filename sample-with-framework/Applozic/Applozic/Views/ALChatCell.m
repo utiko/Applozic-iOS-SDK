@@ -5,6 +5,9 @@
 //  Copyright (c) 2015 AppLozic. All rights reserved.
 //
 
+#define MESSAGE_TEXT_SIZE 14
+#define DATE_LABEL_SIZE 12
+
 #import "ALChatCell.h"
 #import "ALUtilityClass.h"
 #import "ALConstant.h"
@@ -72,7 +75,7 @@
         
 //        self.mMessageLabel.font = [UIFont fontWithName:fontName size:15];
         
-         self.mMessageLabel.font = [UIFont fontWithName:@"Helvetica" size:15];
+         self.mMessageLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_TEXT_SIZE];
         
         self.mMessageLabel.textColor = [UIColor grayColor];
         
@@ -90,7 +93,7 @@
 
         self.mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 100, 25)];
         
-        self.mDateLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
+        self.mDateLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:DATE_LABEL_SIZE];
         
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         
@@ -174,7 +177,6 @@
         else
         {
             self.mBubleImageView.backgroundColor = [UIColor whiteColor];
-            self.mMessageLabel.backgroundColor = [UIColor whiteColor];
         }
         //self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
@@ -182,10 +184,15 @@
         
         self.partBubble.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x, 0, 18, 18);
         
-        self.partBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"receive_Part.png"];
+        self.partBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"RCV.png"];
 
         
         self.mBubleImageView.frame = CGRectMake(self.partBubble.frame.origin.x + self.partBubble.frame.size.width, 0, theTextSize.width + 18 , theTextSize.height + 20);
+        
+        self.mBubleImageView.layer.shadowOpacity = 0.3;
+        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+        self.mBubleImageView.layer.shadowRadius = 1;
+        self.mBubleImageView.layer.masksToBounds = NO;
         
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 10 , 10, theTextSize.width, theTextSize.height);
         self.mMessageLabel.textColor = [UIColor grayColor];
@@ -195,7 +202,6 @@
                                                   NSUnderlineStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleThick]
                                                   };
         
-       // if([alMessage.message rangeOfString:@"<html>"].location != NSNotFound && [alMessage.message rangeOfString:@"</html>"].location != NSNotFound)
         if(alMessage.contentType == 3)
         {
 
@@ -216,7 +222,7 @@
         
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
         
-        self.mMessageStatusImageView.alpha =0;
+        self.mMessageStatusImageView.alpha = 0;
         
         ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
         ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
@@ -235,21 +241,17 @@
         {
             self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         }
-
-        
-        
+         self.partBubble.layer.shadowOpacity = 0;
     }
     else    //Sent Message
     {
         if([ALApplozicSettings getSendMsgColour])
         {
             self.mBubleImageView.backgroundColor = [ALApplozicSettings getSendMsgColour];
-            self.mMessageLabel.backgroundColor = [ALApplozicSettings getSendMsgColour];
         }
         else
         {
             self.mBubleImageView.backgroundColor = [UIColor whiteColor];
-            self.mMessageLabel.backgroundColor = [UIColor whiteColor];
         }
         self.mUserProfileImageView.alpha=0;
 //        self.mUserProfileImageView.frame = CGRectMake(viewSize.width-53, 0, 45, 45);
@@ -267,7 +269,19 @@
         
         self.mBubleImageView.frame = CGRectMake((viewSize.width - theTextSize.width - 24) - 22 , 0 ,theTextSize.width + 18  ,theTextSize.height + 20);
         
+        self.mBubleImageView.layer.shadowOpacity = 0.3;
+        self.mBubleImageView.layer.shadowOffset = CGSizeMake(2, 2);
+        self.mBubleImageView.layer.shadowRadius = 1;
+        self.mBubleImageView.layer.masksToBounds = NO;
+        
         self.partBubble.frame=CGRectMake(viewSize.width-28, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 18, 18, 18);
+        
+        
+        self.partBubble.layer.shadowOpacity = 0.3;
+        self.partBubble.layer.shadowOffset = CGSizeMake(2, 2);
+        self.partBubble.layer.shadowRadius = 1;
+        self.partBubble.layer.masksToBounds = NO;
+        
         
         self.mMessageLabel.backgroundColor = [UIColor clearColor];
         self.mMessageLabel.textColor = [UIColor whiteColor];
@@ -277,7 +291,7 @@
                                                   NSUnderlineStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleThick]
                                                   };
         
-        self.mBubleImageView.backgroundColor = [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1];
+//        self.mBubleImageView.backgroundColor = [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1];
         
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 10, 10, theTextSize.width, theTextSize.height);
         
@@ -415,12 +429,6 @@
             NSLog(@"some error");
         }
     }];
-    
-    
-    
-    
-    
-    
     
 }
 

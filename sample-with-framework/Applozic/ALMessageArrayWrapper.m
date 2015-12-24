@@ -82,7 +82,7 @@
 {
     
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-    //remove date object first..
+    //remove first object if it a date ..
     if( [self.messageArray firstObject  ] ){
         ALMessage *messgae = [self.messageArray firstObject ];
         if([ messgae.type isEqualToString:@"100"]){
@@ -111,7 +111,6 @@
                 ALMessage *dateLabel = [self getDatePrototype:self.dateCellText andAlMessageObject:tempArray[i]];
                 [self.messageArray insertObject:dateLabel atIndex:0];
             }
-            
         }
     }
     //final addintion of date at top ....

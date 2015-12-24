@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 AppLogic. All rights reserved.
 //
 
+#define NAVIGATION_TEXT_SIZE 20
+#define LAST_SEEN_LABEL_SIZE 10
+#define TYPING_LABEL_SIZE 12.5
+
 #import "ALBaseViewController.h"
 #import "ALUtilityClass.h"
 #import "ALUserDefaultsHandler.h"
@@ -56,7 +60,7 @@
     [mLoadEarlierMessagesButton setBackgroundColor:[UIColor whiteColor] ];
     mLoadEarlierMessagesButton.layer.cornerRadius = 3;
     [mLoadEarlierMessagesButton addTarget:self action:@selector(loadChatView) forControlEvents:UIControlEventTouchUpInside];
-    [mLoadEarlierMessagesButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica" size:14]];
+    [mLoadEarlierMessagesButton.titleLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:14]];
     [self.mTableHeaderView addSubview:mLoadEarlierMessagesButton];
 
     // textfield right view
@@ -95,7 +99,7 @@
     self.label = [[UILabel alloc] initWithFrame: CGRectMake(80,26,223,21)];
     self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.label.backgroundColor = [UIColor clearColor];
-    [self.label setFont:[UIFont fontWithName:@"Helvetica" size:10]];
+    [self.label setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:LAST_SEEN_LABEL_SIZE]];
     self.label.textAlignment = NSTextAlignmentCenter;
 
     [self.navigationController.navigationBar addSubview:self.label];
@@ -104,7 +108,7 @@
     self.typingLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.typingLabel.backgroundColor = [UIColor clearColor];
     self.typingLabel.textColor = [UIColor grayColor];
-    [self.typingLabel setFont:[UIFont fontWithName:@"Helvetica" size:12.5]];
+    [self.typingLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TYPING_LABEL_SIZE]];
     self.typingLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.typingLabel];
     
@@ -139,6 +143,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
 
+     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
    [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
     [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
     
@@ -173,7 +178,7 @@
     NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     self.checkBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y;
-    self.typingLabel.frame = CGRectMake(10,keyboardEndFrame.origin.y - 80, self.view.frame.size.width, 30);
+    self.typingLabel.frame = CGRectMake(10,keyboardEndFrame.origin.y - 90, self.view.frame.size.width, 30);
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         [self scrollTableViewToBottomWithAnimation:YES];
@@ -190,7 +195,8 @@
     NSDictionary * theDictionary = notification.userInfo;
     NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     self.checkBottomConstraint.constant = 0;
-    self.typingLabel.frame = CGRectMake(10,self.tabBarController.tabBar.frame.origin.y - 40, self.view.frame.size.width, 30);
+     CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    self.typingLabel.frame = CGRectMake(10,keyboardEndFrame.origin.y - 90, self.view.frame.size.width, 30);
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
 

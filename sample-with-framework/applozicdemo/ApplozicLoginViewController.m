@@ -15,6 +15,7 @@
 #import <Applozic/ALMessagesViewController.h>
 #import <Applozic/ALApplozicSettings.h>
 #import <Applozic/ALDataNetworkConnection.h>
+#import <Applozic/ALChatLauncher.h>
 #import <Applozic/ALMessageDBService.h>
 
 @interface ApplozicLoginViewController ()
@@ -38,7 +39,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [ self registerForNotification];
+    //[ self registerForNotification];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
                                    action:@selector(dismissKeyboard)];
@@ -48,16 +49,16 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    if (![ALUserDefaultsHandler getApnDeviceToken]){
-        [ self registerForNotification];
-    }
+//    if (![ALUserDefaultsHandler getApnDeviceToken]){
+//        [ self registerForNotification];
+//    }
     
     [super viewWillAppear:animated];
     
     [self registerForKeyboardNotifications];
     
     [ALDataNetworkConnection checkDataNetworkAvailable];
-    
+    [self.mActivityIndicator stopAnimating];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -141,22 +142,10 @@
     [messageDBService deleteAllObjectsInCoreData];
 
     // Initial login view .....
-    [ALUserDefaultsHandler setLogoutButtonHidden:NO];
-    [ALUserDefaultsHandler setBottomTabBarHidden:NO];
-    [ALApplozicSettings setUserProfileHidden:YES];
-    [ALApplozicSettings hideRefreshButton:NO];
-    [ALApplozicSettings setTitleForConversationScreen:@"My Chats"];
-    // Custom Color RGB Format
-  
-    // [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:0.447f green:0.737f blue:0.831f alpha:1]];
-    //  [ALApplozicSettings setColourForSendMessages:[UIColor colorWithRed:0.347f green:0.337f blue:0.531f alpha:1]];
+    [self setTitle:@"< Login Screen"];
     
-    [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
-    [ALApplozicSettings setColourForSendMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
-    
-    [ALApplozicSettings setColourForNavigation:[UIColor colorWithRed:179.0/255 green:32.0/255 blue:35.0/255 alpha:1]];
-    [ALApplozicSettings setColourForNavigationItem:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
-    
+    ALChatLauncher *alChatManager = [[ALChatLauncher alloc] initWithApplicationId:@"applozic-sample-app"];
+ 
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
     
@@ -174,47 +163,9 @@
     [user setUserId:[self.userIdField text]];
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
-    
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    
     [self.mActivityIndicator startAnimating];
-    [registerUserClientService initWithCompletion:user withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
-        [self.mActivityIndicator stopAnimating];
-        
-        if (error) {
-            NSLog(@"%@",error);
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response"
-                                                                message:rResponse.message delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles: nil, nil];
-            [alertView show];
-            return ;
-        }
-        
-        if (rResponse && [rResponse.message containsString: @"REGISTERED"])
-        {
-            ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
-            [messageClientService addWelcomeMessage];
-        }
-        
-        NSLog(@"Registration response from server:%@", rResponse);
-        
-        //-----------------------------------------------------------------------
-         // Launching Chat Screens ...
-        //-----------------------------------------------------------------------
-        
-        
-//        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
-//                                                             bundle:nil];
-//        UIViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
-//        [self presentViewController:controller animated:YES completion:nil];
-        
-        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                                             bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-        UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
-        [self presentViewController:theTabBar animated:YES completion:nil];
-        
-        
-    }];
-    
+    //mbChatManger...
+    [ alChatManager launchChatForUser:user.userId fromViewController:self];
 }
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -233,20 +184,6 @@
         [textField resignFirstResponder];
     }
     return true;
-}
-
--(void)registerForNotification{
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-    {
-        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-    }
-    else
-    {
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-         (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
-    }
 }
 
 - (IBAction)getstarted:(id)sender {

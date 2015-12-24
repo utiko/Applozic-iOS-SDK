@@ -14,6 +14,17 @@
 
 @implementation ALApplozicSettings
 
++(void)setFontFace:(NSString *)fontFace
+{
+    [[NSUserDefaults standardUserDefaults] setValue:fontFace forKey:FONT_FACE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getFontFace
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:FONT_FACE];
+}
+
 +(void)setTitleForConversationScreen:(NSString *)titleText
 {
     [[NSUserDefaults standardUserDefaults] setValue:titleText forKey:CONVERSATION_TITLE];
@@ -110,6 +121,17 @@
 +(BOOL)isRefreshButtonHidden
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:REFRESH_BUTTON_VISIBILITY];
+}
+
++(void)setTitleForBackButton:(NSString *)backButtonTitle
+{
+    [[NSUserDefaults standardUserDefaults] setValue:backButtonTitle forKey:BACK_BUTTON_TITLE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getBackButtonTitle
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:BACK_BUTTON_TITLE];
 }
 
 @end

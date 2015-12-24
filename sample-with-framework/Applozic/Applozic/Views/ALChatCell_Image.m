@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 AppLogic. All rights reserved.
 //
 
+#define DATE_LABEL_SIZE 12
+#define MESSAGE_TEXT_SIZE 14
+
 #import "ALChatCell_Image.h"
 #import "UIImageView+WebCache.h"
 #import "ALDBHandler.h"
@@ -85,7 +88,7 @@ UIViewController * modalCon;
         
         mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(mBubleImageView.frame.origin.x + 5, mImageView.frame.origin.y + mImageView.frame.size.height + 5, 100, 20)];
         
-        mDateLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
+        mDateLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:DATE_LABEL_SIZE];
         
         mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         
@@ -126,14 +129,14 @@ UIViewController * modalCon;
         
         mDowloadRetryButton.layer.cornerRadius = 4;
         
-        [mDowloadRetryButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]];
+        [mDowloadRetryButton.titleLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:14]];
         
         [self.contentView addSubview:mDowloadRetryButton];
         
         imageWithText = [[UITextView alloc] init];
         imageWithText.textContainerInset = UIEdgeInsetsZero;
         imageWithText.textContainer.lineFragmentPadding = 0;
-        [imageWithText setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+        [imageWithText setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_TEXT_SIZE]];
         imageWithText.editable = NO;
         imageWithText.scrollEnabled = NO;
         imageWithText.dataDetectorTypes = UIDataDetectorTypeAll;
@@ -182,12 +185,16 @@ UIViewController * modalCon;
         
         self.partImageBubble.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x, 0, 18, 18);
         
-        self.partImageBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"receive_Part.png"];
+        self.partImageBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"RCV.png"];
         
 //        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width - 120, viewSize.width - 120);
         
         self.mBubleImageView.frame = CGRectMake(self.partImageBubble.frame.origin.x + self.partImageBubble.frame.size.width , 0, viewSize.width - 120, viewSize.width - 120);
     
+        self.mBubleImageView.layer.shadowOpacity = 0.3;
+        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+        self.mBubleImageView.layer.shadowRadius = 1;
+        self.mBubleImageView.layer.masksToBounds = NO;
         
 //        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 15 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40 );
         
@@ -264,7 +271,7 @@ UIViewController * modalCon;
         {
             self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         }
-        
+        self.partImageBubble.layer.shadowOpacity = 0;
         
     }else{ //Sent Message
         
@@ -286,8 +293,19 @@ UIViewController * modalCon;
         
         self.mBubleImageView.backgroundColor = [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1];
         
+        
+        self.mBubleImageView.layer.shadowOpacity = 0.3;
+        self.mBubleImageView.layer.shadowOffset = CGSizeMake(2, 2);
+        self.mBubleImageView.layer.shadowRadius = 1;
+        self.mBubleImageView.layer.masksToBounds = NO;
+        
         self.partImageBubble.frame = CGRectMake(viewSize.width - 28, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 18, 18, 18);
         self.mUserProfileImageView.alpha=0;
+        
+        self.partImageBubble.layer.shadowOpacity = 0.3;
+        self.partImageBubble.layer.shadowOffset = CGSizeMake(2, 2);
+        self.partImageBubble.layer.shadowRadius = 1;
+        self.partImageBubble.layer.masksToBounds = NO;
         
 //        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y+15 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40);
         
@@ -491,14 +509,14 @@ UIViewController * modalCon;
 -(void)setupProgress{
     progresLabel = [[KAProgressLabel alloc] initWithFrame:CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0-25, mImageView.frame.origin.y + mImageView.frame.size.height/2.0-25, 50, 50)];
     progresLabel.delegate = self;
-    [progresLabel setTrackWidth: 5.0];
-    [progresLabel setProgressWidth: 5];
+    [progresLabel setTrackWidth: 4.0];
+    [progresLabel setProgressWidth: 4];
     [progresLabel setStartDegree:0];
     [progresLabel setEndDegree:0];
     [progresLabel setRoundedCornersWidth:1];
     progresLabel.fillColor = [[UIColor lightGrayColor] colorWithAlphaComponent:.3];
-    progresLabel.trackColor = [UIColor redColor];
-    progresLabel.progressColor = [UIColor greenColor];
+    progresLabel.trackColor = [UIColor colorWithRed:104.0/255 green:95.0/255 blue:250.0/255 alpha:1];
+    progresLabel.progressColor = [UIColor whiteColor];
     [self.contentView addSubview:progresLabel];
     
 }
@@ -532,7 +550,6 @@ UIViewController * modalCon;
             NSLog(@"some error");
         }
     }];
-    
 
 }
 

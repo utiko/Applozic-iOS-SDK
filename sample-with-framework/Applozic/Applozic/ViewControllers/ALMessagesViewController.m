@@ -5,6 +5,12 @@
 //  Copyright (c) 2015 AppLozic. All rights reserved.
 //
 
+#define NAVIGATION_TEXT_SIZE 20
+#define USER_NAME_LABEL_SIZE 18
+#define MESSAGE_LABEL_SIZE 12
+#define TIME_LABEL_SIZE 10
+#define IMAGE_NAME_LABEL_SIZE 14
+
 #import "ALMessagesViewController.h"
 #import "ALConstant.h"
 #import "ALMessageService.h"
@@ -117,11 +123,11 @@ ALMQTTConversationService *alMqttConversationService;
     });
     
     self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 15 + self.view.frame.size.width/8, self.view.frame.origin.y + self.view.frame.size.height/2, 250, 30)];
-    [self.emptyConversationText setText:@"You have no conversation yet"];
+    [self.emptyConversationText setText:@"You have no conversations yet"];
     [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:self.emptyConversationText];
     
-    self.dataAvailablityLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tabBarController.tabBar.frame.origin.x, self.tabBarController.tabBar.frame.origin.y - 30, self.view.frame.size.width, 30)];
+    self.dataAvailablityLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tabBarController.tabBar.frame.origin.x, self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 30)];
     [self.dataAvailablityLabel setText:@"NO INTERNET CONNECTION"];
     [self.dataAvailablityLabel setBackgroundColor:[UIColor colorWithRed:179.0/255 green:32.0/255 blue:35.0/255 alpha:1]];
     [self.dataAvailablityLabel setTextAlignment:NSTextAlignmentCenter];
@@ -314,9 +320,20 @@ ALMQTTConversationService *alMqttConversationService;
     _mqttRetryCount++;
 }
 
+-(void)dropShadowInNavigationBar
+{
+//  self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
+    self.navigationController.navigationBar.layer.shadowOpacity = 0.5;
+    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0, 0);
+    self.navigationController.navigationBar.layer.shadowRadius = 10;
+    self.navigationController.navigationBar.layer.masksToBounds = NO;
+}
+
 -(void)viewWillAppear:(BOOL)animated {
    
     [super viewWillAppear:animated];
+    [self dropShadowInNavigationBar];
+    [[self.navigationItem leftBarButtonItem] setTitle:[ALApplozicSettings getBackButtonTitle]];
     
     if([ALUserDefaultsHandler isLogoutButtonHidden])
     {
@@ -356,6 +373,7 @@ ALMQTTConversationService *alMqttConversationService;
         [_detailChatViewController setRefreshMainView:FALSE];
     }
     
+     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
     [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
@@ -563,9 +581,13 @@ ALMQTTConversationService *alMqttConversationService;
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *cellIdentifier = @"ContactCell";
-
-    
     ALContactCell *contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    [contactCell.mUserNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:USER_NAME_LABEL_SIZE]];//size check
+    [contactCell.mMessageLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_LABEL_SIZE]];
+    [contactCell.mTimeLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TIME_LABEL_SIZE]];
+    [contactCell.imageNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:IMAGE_NAME_LABEL_SIZE]];
+    
     ALMessage *message = (ALMessage *)self.mContactsMessageListArray[indexPath.row];
     
     UILabel* nameIcon=(UILabel*)[contactCell viewWithTag:102];

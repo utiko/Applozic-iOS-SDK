@@ -233,6 +233,10 @@
     }else {
         [mutableArray addObject:withNotificationId];
     }
+    //WE will just store 20 notificationIds for processing...
+    if(mutableArray.count > 20){
+        [ mutableArray removeObjectAtIndex:0];
+    }
     [self setProcessedNotificationIds:mutableArray];
     return isTheObjectThere;
     

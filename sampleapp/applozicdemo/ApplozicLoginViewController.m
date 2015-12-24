@@ -14,7 +14,7 @@
 #import <Applozic/ALRegisterUserClientService.h>
 #import <Applozic/ALMessagesViewController.h>
 #import <Applozic/ALApplozicSettings.h>
-
+#import <Applozic/ALChatLauncher.h>
 
 @interface ApplozicLoginViewController ()
 
@@ -50,7 +50,7 @@
     if (![ALUserDefaultsHandler getApnDeviceToken]){
         [ self registerForNotification];
     }
-    
+    [self setTitle:@"Login Screen"];
     [super viewWillAppear:animated];
     
     [self registerForKeyboardNotifications];
@@ -134,16 +134,16 @@
 
 - (IBAction)login:(id)sender {
     
-    [ALUserDefaultsHandler setBackButtonHidden:YES];
-    [ALUserDefaultsHandler setLogoutButtonHidden:NO];
-    [ALUserDefaultsHandler setBottomTabBarHidden:NO];
-    [ALApplozicSettings setUserProfileHidden:YES];
-    [ALApplozicSettings hideRefreshButton:NO];
-    
-    [ALApplozicSettings setColourForNavigation:[UIColor colorWithRed:179.0/255 green:32.0/255 blue:35.0/255 alpha:1]];
-    [ALApplozicSettings setColourForNavigationItem:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
-    
-    [ALApplozicSettings setTitleForConversationScreen:@"Conversation"];
+//    [ALUserDefaultsHandler setBackButtonHidden:YES];
+//    [ALUserDefaultsHandler setLogoutButtonHidden:NO];
+//    [ALUserDefaultsHandler setBottomTabBarHidden:NO];
+//    [ALApplozicSettings setUserProfileHidden:YES];
+//    [ALApplozicSettings hideRefreshButton:NO];
+//    
+//    [ALApplozicSettings setColourForNavigation:[UIColor colorWithRed:179.0/255 green:32.0/255 blue:35.0/255 alpha:1]];
+//    [ALApplozicSettings setColourForNavigationItem:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
+//    
+//    [ALApplozicSettings setTitleForConversationScreen:@"Conversation"];
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
     
@@ -184,12 +184,15 @@
         
         NSLog(@"Registration response from server:%@", rResponse);
         
+//        
+//        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+//                                                             bundle:[NSBundle bundleForClass:ALMessagesViewController.class]];
+//        UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
+//        [self presentViewController:theTabBar animated:YES completion:nil];
         
-        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                                             bundle:[NSBundle bundleForClass:ALMessagesViewController.class]];
-        UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
-        [self presentViewController:theTabBar animated:YES completion:nil];
-        
+        ALChatLauncher *mbChatManager = [[ALChatLauncher alloc] initWithApplicationId:@"applozic-sample-app"];
+        [mbChatManager launchChatForUser:user.userId fromViewController:self];
+//        
     }];
     
 }
