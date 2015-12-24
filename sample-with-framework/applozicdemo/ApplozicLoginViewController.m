@@ -15,7 +15,7 @@
 #import <Applozic/ALMessagesViewController.h>
 #import <Applozic/ALApplozicSettings.h>
 #import <Applozic/ALDataNetworkConnection.h>
-#import <Applozic/MBChatManager.h>
+#import <Applozic/ALChatLauncher.h>
 #import <Applozic/ALMessageDBService.h>
 
 @interface ApplozicLoginViewController ()
