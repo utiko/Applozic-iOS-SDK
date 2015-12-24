@@ -28,5 +28,6 @@
 
 +(void)displayNotification:(NSString *)toastMessage delegate:(id)delegate;
 +(NSString *)getFileNameWithCurrentTimeStamp;
++(UIImage *)getImageFromFramworkBundle:(NSString *) UIImageName;
 
 @end

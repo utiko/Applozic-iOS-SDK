@@ -74,9 +74,9 @@
     
     [ALApplozicSettings setTitleForConversationScreen:@"My Chats"];
     
-    [ALApplozicSettings setFontFace:@"Roboto"];
+//    [ALApplozicSettings setFontFace:@"Roboto"];
     
-    //     [ALApplozicSettings setFontFace:@"Helvetica"];
+         [ALApplozicSettings setFontFace:@"Helvetica"];
     
     [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
     

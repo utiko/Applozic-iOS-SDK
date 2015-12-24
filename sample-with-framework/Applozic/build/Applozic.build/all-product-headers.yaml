@@ -33,6 +33,11 @@
         },
         {
           'type': 'file',
+          'name': "ALChatLauncher.h",
+          'external-contents': "/Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/ALChatLauncher.h"
+        },
+        {
+          'type': 'file',
           'name': "ALChatViewController.h",
           'external-contents': "/Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ViewControllers/ALChatViewController.h"
         },
@@ -98,6 +103,11 @@
         },
         {
           'type': 'file',
+          'name': "ALLastSeenSyncFeed.h",
+          'external-contents': "/Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/ALLastSeenSyncFeed.h"
+        },
+        {
+          'type': 'file',
           'name': "ALLocationManager.h",
           'external-contents': "/Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ALLocationManager.h"
         },
@@ -110,6 +120,11 @@
           'type': 'file',
           'name': "ALMessage.h",
           'external-contents': "/Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALMessage.h"
+        },
+        {
+          'type': 'file',
+          'name': "ALMessageArrayWrapper.h",
+          'external-contents': "/Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/ALMessageArrayWrapper.h"
         },
         {
           'type': 'file',
@@ -175,6 +190,11 @@
           'type': 'file',
           'name': "ALResponseHandler.h",
           'external-contents': "/Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Handlers/ALResponseHandler.h"
+        },
+        {
+          'type': 'file',
+          'name': "ALSyncCallService.h",
+          'external-contents': "/Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/ALSyncCallService.h"
         },
         {
           'type': 'file',
