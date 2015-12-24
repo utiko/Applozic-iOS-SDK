@@ -760,8 +760,8 @@ ALMessageDBService  * dbService;
     [theDBHandler.managedObjectContext save:nil];
     theMessage.msgDBObjectId = [theMessageEntity objectID];
     [self.mTableView reloadData];
-    [self uploadImage:theMessage];
     [self scrollTableViewToBottomWithAnimation:NO];
+    [self uploadImage:theMessage];
     
 }
 
