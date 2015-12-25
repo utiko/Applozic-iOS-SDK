@@ -44,8 +44,6 @@
 
 @property (nonatomic, strong) UITextView *imageWithText;
 
-@property (nonatomic, retain) UIImageView *partImageBubble;
-
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize;
 
 @property (strong, nonatomic) NSString *status;

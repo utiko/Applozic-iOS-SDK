@@ -68,7 +68,7 @@
     
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     
-    [ALApplozicSettings setUserProfileHidden:YES];
+    [ALApplozicSettings setUserProfileHidden:NO];
     
     [ALApplozicSettings hideRefreshButton:NO];
     

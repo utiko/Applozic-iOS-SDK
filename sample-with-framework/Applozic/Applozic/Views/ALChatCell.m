@@ -60,10 +60,6 @@
         self.mBubleImageView.backgroundColor = [UIColor whiteColor];
         
         [self.contentView addSubview:self.mBubleImageView];
-        
-        self.partBubble=[[UIImageView alloc] init];
-        [self.contentView addSubview:self.partBubble];
-        self.partBubble.contentMode = UIViewContentModeScaleToFill;
 
         self.mMessageLabel =[[ALUITextView alloc] init];
         self.mMessageLabel.delegate = self.mMessageLabel;
@@ -72,8 +68,6 @@
         if (!fontName) {
             fontName = DEFAULT_FONT_NAME;
         }
-        
-//        self.mMessageLabel.font = [UIFont fontWithName:fontName size:15];
         
          self.mMessageLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_TEXT_SIZE];
         
@@ -85,6 +79,7 @@
         self.mMessageLabel.textContainerInset = UIEdgeInsetsZero;
         self.mMessageLabel.textContainer.lineFragmentPadding = 0;
         self.mMessageLabel.dataDetectorTypes = UIDataDetectorTypeLink;
+        self.mBubleImageView.layer.cornerRadius = 5;
         
         self.mMessageLabel.userInteractionEnabled=NO;
         
@@ -126,9 +121,8 @@
 
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize {
     
-
+    self.mUserProfileImageView.alpha=1;
     
-     self.mUserProfileImageView.alpha=1;
     BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[alMessage.createdAtTime doubleValue]/1000]];
     
     NSString * theDate = [NSString stringWithFormat:@"%@",[alMessage getCreatedAtTimeChat:today]];
@@ -140,23 +134,22 @@
     CGSize theDateSize = [self getSizeForText:theDate maxWidth:150 font:self.mDateLabel.font.fontName fontSize:self.mDateLabel.font.pointSize];
     
     [self.mBubleImageView setHidden:NO];
-    [self.partBubble setHidden:NO];
     [self.mDateLabel setHidden:NO];
     [self.mMessageLabel setTextAlignment:NSTextAlignmentLeft];
+    
     //MT_INBOX(Short.valueOf("4")),
     // MT_OUTBOX(Short.valueOf("5")),
     if([alMessage.type isEqualToString:@"100"])
     {
         [self.mDateLabel setHidden:YES];
         [self.mBubleImageView setHidden:YES];
-        [self.partBubble setHidden:YES];
         [self.mMessageLabel setFrame:CGRectMake(0, 0, viewSize.width, theTextSize.height+10)];
         [self.mMessageLabel setTextAlignment:NSTextAlignmentCenter];
         [self.mMessageLabel setText:alMessage.message];
         
         [self.mMessageLabel setBackgroundColor:[UIColor clearColor]];
         [self.mMessageLabel setTextColor:[UIColor blackColor]];
-        
+        self.mUserProfileImageView.frame = CGRectMake(8, 0, 0, 45);
     }
     else if ([alMessage.type isEqualToString:@MT_INBOX_CONSTANT]/*[alMessage.type isEqualToString:@"4"]*/) { //Recieved Message
         
@@ -178,17 +171,9 @@
         {
             self.mBubleImageView.backgroundColor = [UIColor whiteColor];
         }
-        //self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
+       
         self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
-        
-        
-        self.partBubble.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x, 0, 18, 18);
-        
-        self.partBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"RCV.png"];
-
-        
-        self.mBubleImageView.frame = CGRectMake(self.partBubble.frame.origin.x + self.partBubble.frame.size.width, 0, theTextSize.width + 18 , theTextSize.height + 20);
-        
+        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, theTextSize.width + 18 , theTextSize.height + 20);
         self.mBubleImageView.layer.shadowOpacity = 0.3;
         self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
         self.mBubleImageView.layer.shadowRadius = 1;
@@ -209,12 +194,14 @@
             
             self.mMessageLabel.attributedText = attributedString;
         }
-        else{
-         self.mMessageLabel.text = alMessage.message;
+        else
+        {
+            self.mMessageLabel.text = alMessage.message;
         }
-//        self.mDateLabel.frame = CGRectMake(self.mMessageLabel.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mMessageLabel.frame.size.height + 3, theDateSize.width , 21);
+
+        //        self.mDateLabel.frame = CGRectMake(self.mMessageLabel.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mMessageLabel.frame.size.height + 3, theDateSize.width , 21);
         
-        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x , self.mMessageLabel.frame.origin.y+ self.mBubleImageView.frame.size.height - 10, theDateSize.width + 20 , 21);
+        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x, self.mMessageLabel.frame.origin.y + self.mBubleImageView.frame.size.height - 10, theDateSize.width + 20 , 21);
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         
@@ -241,7 +228,7 @@
         {
             self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         }
-         self.partBubble.layer.shadowOpacity = 0;
+
     }
     else    //Sent Message
     {
@@ -265,22 +252,13 @@
         
          self.mMessageLabel.text = alMessage.message;
         
-        self.partBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"sentPart.png"];
-        
-        self.mBubleImageView.frame = CGRectMake((viewSize.width - theTextSize.width - 24) - 22 , 0 ,theTextSize.width + 18  ,theTextSize.height + 20);
+        self.mBubleImageView.frame = CGRectMake((viewSize.width - theTextSize.width - 27) , 0 ,theTextSize.width + 18  ,theTextSize.height + 20);
         
         self.mBubleImageView.layer.shadowOpacity = 0.3;
-        self.mBubleImageView.layer.shadowOffset = CGSizeMake(2, 2);
+        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
         self.mBubleImageView.layer.shadowRadius = 1;
         self.mBubleImageView.layer.masksToBounds = NO;
-        
-        self.partBubble.frame=CGRectMake(viewSize.width-28, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 18, 18, 18);
-        
-        
-        self.partBubble.layer.shadowOpacity = 0.3;
-        self.partBubble.layer.shadowOffset = CGSizeMake(2, 2);
-        self.partBubble.layer.shadowRadius = 1;
-        self.partBubble.layer.masksToBounds = NO;
+
         
         
         self.mMessageLabel.backgroundColor = [UIColor clearColor];
@@ -298,7 +276,7 @@
 //        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 8, self.mMessageLabel.frame.origin.y + self.mMessageLabel.frame.size.height +3 , theDateSize.width, 21);
         
         if(alMessage.delivered == YES){
-        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - (self.string.length + theDateSize.width + 35) , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, self.string.length + theDateSize.width + 50, 21);
+        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - (self.string.length + theDateSize.width + 45) , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, self.string.length + theDateSize.width + 50, 21);
         }
         else{
             self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) -theDateSize.width  , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width + 20, 21);

@@ -53,17 +53,13 @@ UIViewController * modalCon;
         
         mBubleImageView = [[UIImageView alloc] init];
         
-        mBubleImageView.frame = CGRectMake(mUserProfileImageView.frame.origin.x+mUserProfileImageView.frame.size.width+5 , 5, self.frame.size.width-110, self.frame.size.width-110);
-        
+//        mBubleImageView.frame = CGRectMake(mUserProfileImageView.frame.origin.x+mUserProfileImageView.frame.size.width+5 , 5, self.frame.size.width-110, self.frame.size.width-110);
+//        
         mBubleImageView.contentMode = UIViewContentModeScaleToFill;
-        
+        mBubleImageView.layer.cornerRadius = 5;
         mBubleImageView.backgroundColor = [UIColor whiteColor];
         
         [self.contentView addSubview:mBubleImageView];
-        
-        self.partImageBubble = [[UIImageView alloc] init];
-        [self.contentView addSubview:self.partImageBubble];
-        self.partImageBubble.contentMode = UIViewContentModeScaleToFill;
         
         mImageView = [[UIImageView alloc] init];
         
@@ -73,9 +69,8 @@ UIViewController * modalCon;
         mImageView.clipsToBounds = YES;
         mImageView.backgroundColor = [UIColor grayColor];
         mImageView.clipsToBounds = YES;
-//        mImageView.layer.cornerRadius=mImageView.frame.size.width/2; NSLog(@"mImageView.frame.size.width/2 %f",mImageView.frame.size.width/2);
         mImageView.userInteractionEnabled = YES;
-        
+        mImageView.layer.cornerRadius = 5;
         
         
         UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageFullScreen:)];
@@ -111,10 +106,6 @@ UIViewController * modalCon;
         
        // [self.contentView addSubview:mMessageStatusImageView];
         
-        
-        
-        
-        
         mDowloadRetryButton = [UIButton buttonWithType:UIButtonTypeCustom];
         
         mDowloadRetryButton.frame = CGRectMake(mImageView.frame.origin.x + mImageView.frame.size.width/2.0 - 50 , mImageView.frame.origin.y + mImageView.frame.size.height/2.0 - 20 , 100, 40);
@@ -140,8 +131,6 @@ UIViewController * modalCon;
         imageWithText.editable = NO;
         imageWithText.scrollEnabled = NO;
         imageWithText.dataDetectorTypes = UIDataDetectorTypeAll;
-        
-        
         [self.contentView addSubview:imageWithText];
         
     }
@@ -183,13 +172,9 @@ UIViewController * modalCon;
         
         self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         
-        self.partImageBubble.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x, 0, 18, 18);
+        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width - 120, viewSize.width - 120);
         
-        self.partImageBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"RCV.png"];
-        
-//        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width - 120, viewSize.width - 120);
-        
-        self.mBubleImageView.frame = CGRectMake(self.partImageBubble.frame.origin.x + self.partImageBubble.frame.size.width , 0, viewSize.width - 120, viewSize.width - 120);
+//        self.mBubleImageView.frame = CGRectMake(self.partImageBubble.frame.origin.x + self.partImageBubble.frame.size.width , 0, viewSize.width - 120, viewSize.width - 120);
     
         self.mBubleImageView.layer.shadowOpacity = 0.3;
         self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
@@ -211,7 +196,7 @@ UIViewController * modalCon;
         if(alMessage.message.length > 0)
         {
           imageWithText.textColor = [UIColor grayColor];
-            self.mBubleImageView.frame = CGRectMake(self.partImageBubble.frame.origin.x + self.partImageBubble.frame.size.width , 0, viewSize.width - 120, (viewSize.width - 120) + theTextSize.height + 5);
+            self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, viewSize.width - 120, (viewSize.width - 120) + theTextSize.height + 5);
             
             imageWithText.frame = CGRectMake(self.mImageView.frame.origin.x, mBubleImageView.frame.origin.y + self.mImageView.frame.size.height + 10, self.mImageView.frame.size.width, theTextSize.height);
             
@@ -271,7 +256,6 @@ UIViewController * modalCon;
         {
             self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         }
-        self.partImageBubble.layer.shadowOpacity = 0;
         
     }else{ //Sent Message
         
@@ -287,25 +271,18 @@ UIViewController * modalCon;
         
         self.mUserProfileImageView.frame = CGRectMake(viewSize.width - 50, 5, 0, 45);
         
-        self.partImageBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"sentPart.png"];
         
-        self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60) - 18, 0, viewSize.width - 120, viewSize.width - 120);
+//        self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60) - 18, 0, viewSize.width - 120, viewSize.width - 120);
+        
+        self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60), 0, viewSize.width - 120, viewSize.width - 120);
         
         self.mBubleImageView.backgroundColor = [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1];
         
         
         self.mBubleImageView.layer.shadowOpacity = 0.3;
-        self.mBubleImageView.layer.shadowOffset = CGSizeMake(2, 2);
+        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
         self.mBubleImageView.layer.shadowRadius = 1;
         self.mBubleImageView.layer.masksToBounds = NO;
-        
-        self.partImageBubble.frame = CGRectMake(viewSize.width - 28, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 18, 18, 18);
-        self.mUserProfileImageView.alpha=0;
-        
-        self.partImageBubble.layer.shadowOpacity = 0.3;
-        self.partImageBubble.layer.shadowOffset = CGSizeMake(2, 2);
-        self.partImageBubble.layer.shadowRadius = 1;
-        self.partImageBubble.layer.masksToBounds = NO;
         
 //        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y+15 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40);
         
@@ -317,11 +294,11 @@ UIViewController * modalCon;
             imageWithText.alpha = 1;
             imageWithText.backgroundColor = [UIColor clearColor];
             imageWithText.textColor = [UIColor whiteColor];
-            self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60) - 18, 0, viewSize.width - 120, (viewSize.width - 120) + theTextSize.height + 5);
+            self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60), 0, viewSize.width - 120, (viewSize.width - 120) + theTextSize.height + 5);
             
             imageWithText.frame = CGRectMake(mBubleImageView.frame.origin.x + 5, mBubleImageView.frame.origin.y + self.mImageView.frame.size.height + 10, self.mImageView.frame.size.width, theTextSize.height);
-            self.partImageBubble.frame = CGRectMake(viewSize.width - 28, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 18, 18, 18);
-            //mDateLabel.frame = CGRectMake(self.imageWithText.frame.origin.x + 5 , self.imageWithText.frame.origin.y + self.imageWithText.frame.size.height + 5, theDateSize.width , 20);
+            
+            mDateLabel.frame = CGRectMake(self.imageWithText.frame.origin.x + 5 , self.imageWithText.frame.origin.y + self.imageWithText.frame.size.height + 5, theDateSize.width , 20);
             
             [self.contentView bringSubviewToFront:mDateLabel];
             [self.contentView bringSubviewToFront:mMessageStatusImageView];
@@ -338,7 +315,7 @@ UIViewController * modalCon;
         
         self.status = @"";
         if([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT] && alMessage.delivered == YES){
-            self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - (self.string.length + theDateSize.width + 35) , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, self.string.length + theDateSize.width + 50, 21);
+            self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - (self.string.length + theDateSize.width + 45) , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, self.string.length + theDateSize.width + 50, 21);
             self.status = self.string;
         }
         else {
