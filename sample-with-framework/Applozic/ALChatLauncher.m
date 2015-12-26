@@ -92,10 +92,10 @@
 
 
 
--(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController;
+-(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
 
 {
-    
+    [self mbChatViewSettings];
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
@@ -103,6 +103,7 @@
     ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     
     chatView.contactIds = userId;
+    chatView.text = text;
     
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
     
@@ -141,10 +142,6 @@
     [user setUserId:userId];
     
     [self  startChatsForUser:user andWithParentController:(UIViewController *)viewController];
-    
-    
-    
-    
     
 }
 

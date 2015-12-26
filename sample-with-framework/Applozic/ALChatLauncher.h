@@ -34,7 +34,7 @@
 
 -(void)mbChatViewSettings;
 
--(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController;
+-(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
 
 -(void)launchChatList:(NSString *)title andViewControllerObject:(UIViewController *)viewController;
 

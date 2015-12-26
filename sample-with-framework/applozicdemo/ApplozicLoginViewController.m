@@ -166,6 +166,9 @@
     [self.mActivityIndicator startAnimating];
     //mbChatManger...
     [mbChatManager launchChatForUser:user.userId fromViewController:self];
+    //individual chat
+//    [mbChatManager launchIndividualChat:user.userId andViewControllerObject:self andWithText:@"Hello, I am interested in your  Camorta Island property."];
+    
 }
 
 //-------------------------------------------------------------------------------------------------------------------
