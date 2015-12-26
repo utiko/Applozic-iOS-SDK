@@ -137,11 +137,9 @@ ALMQTTConversationService *alMqttConversationService;
     [self viewDidLoadPart];
 }
 
--(void) ViewDidUnload
+-(void) viewDidDisappear:(BOOL)animated
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [alMqttConversationService unsubscribeToConversation];
-    });
+
 }
 
 -(void)viewDidLoadPart
@@ -430,7 +428,7 @@ ALMQTTConversationService *alMqttConversationService;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     [super viewWillDisappear:animated];
-    
+   
    // self.navigationController.navigationBar.barTintColor = self.navColor;
 }
 
@@ -873,6 +871,11 @@ ALMQTTConversationService *alMqttConversationService;
 
 - (void)dealloc {
     
+    NSLog(@"dealloc called. Unsubscribing with mqtt.");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alMqttConversationService unsubscribeToConversation];
+    });
+
 }
 - (IBAction)backButtonAction:(id)sender {
     

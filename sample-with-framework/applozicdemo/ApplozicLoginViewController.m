@@ -138,9 +138,8 @@
 
 - (IBAction)login:(id)sender {
     
-    ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
-    [messageDBService deleteAllObjectsInCoreData];
-
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+    [registerUserClientService logout];
     // Initial login view .....
     [self setTitle:@"< Login Screen"];
     
