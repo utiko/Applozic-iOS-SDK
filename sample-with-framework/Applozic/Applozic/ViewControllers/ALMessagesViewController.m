@@ -139,9 +139,9 @@ ALMQTTConversationService *alMqttConversationService;
 
 -(void) ViewDidUnload
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [alMqttConversationService unsubscribeToConversation];
-    });
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [alMqttConversationService unsubscribeToConversation];
+//    });
 }
 
 -(void)viewDidLoadPart
@@ -872,6 +872,10 @@ ALMQTTConversationService *alMqttConversationService;
 
 - (void)dealloc {
     
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [alMqttConversationService unsubscribeToConversation];
+        });
+  
 }
 - (IBAction)backButtonAction:(id)sender {
     
