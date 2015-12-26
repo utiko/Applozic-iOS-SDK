@@ -69,6 +69,7 @@
 
 -(void)serverCallForLastSeen;
 
+
 @end
 
 @implementation ALChatViewController{
@@ -143,7 +144,10 @@ ALMessageDBService  * dbService;
         NSLog(@"called first time .....");
         [self processLoadEarlierMessages:true];
     }
-    
+    if(self.text)
+    {
+        self.sendMessageTextView.text = self.text;
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
