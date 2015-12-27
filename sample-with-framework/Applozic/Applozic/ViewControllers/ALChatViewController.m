@@ -1334,21 +1334,39 @@ ALMessageDBService  * dbService;
     [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:NO];
 }
 
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+//-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+//{
+//    NSLog(@"DidEndDecelerating");
+//    if(scrollView.contentOffset.y < 0 && self.showloadEarlierAction )
+//    {
+//        //  NSLog(@"REACHED TOP");
+//        [self.loadEarlierAction setHidden:NO];
+//    }
+//    else
+//    {
+//        //   NSLog(@"REACHED BOTTOM");
+//        [self.loadEarlierAction setHidden:YES];
+//    }
+//}
+
+-(void)scrollViewDidScroll: (UIScrollView*)scrollView
 {
-    NSLog(@"DidEndDecelerating");
-    if(scrollView.contentOffset.y < 0 && self.showloadEarlierAction )
+    float scrollViewHeight = scrollView.frame.size.height;
+    float scrollContentSizeHeight = scrollView.contentSize.height;
+    float scrollOffset = scrollView.contentOffset.y;
+    
+    if (scrollOffset == 0 && self.showloadEarlierAction)
     {
-        //  NSLog(@"REACHED TOP");
         [self.loadEarlierAction setHidden:NO];
+        // then we are at the top
     }
+    //    else if (scrollOffset + scrollViewHeight == scrollContentSizeHeight)
     else
     {
-        //   NSLog(@"REACHED BOTTOM");
+        // then we are at the end
         [self.loadEarlierAction setHidden:YES];
     }
 }
-
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - MQTT Service delegate methods
 //------------------------------------------------------------------------------------------------------------------
