@@ -9,6 +9,8 @@
 #define NAVIGATION_TEXT_SIZE 20
 #define LAST_SEEN_LABEL_SIZE 10
 #define TYPING_LABEL_SIZE 12.5
+#define MQTT_MAX_RETRY 3
+
 
 #import "ALBaseViewController.h"
 #import "ALUtilityClass.h"
