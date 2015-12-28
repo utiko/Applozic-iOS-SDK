@@ -15,9 +15,9 @@
 		6D6DF2021BC551FA00EBA00F /* applozicdemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF2001BC551FA00EBA00F /* applozicdemo.xcdatamodeld */; };
 		6D6DF2041BC551FA00EBA00F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF2031BC551FA00EBA00F /* Assets.xcassets */; };
 		6D6DF2071BC551FA00EBA00F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF2051BC551FA00EBA00F /* LaunchScreen.storyboard */; };
-		6D74C1EF1C2C3BA7002745BF /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D74C1EE1C2C3BA7002745BF /* Applozic.framework */; };
-		6D74C1F01C2C3BA7002745BF /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6D74C1EE1C2C3BA7002745BF /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6DB445151C2C04D200C64524 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6DB445141C2C04D200C64524 /* Info.plist */; };
+		6DCC2FFE1C31199300F17D0E /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DCC2FFD1C31199300F17D0E /* Applozic.framework */; };
+		6DCC2FFF1C31199300F17D0E /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6DCC2FFD1C31199300F17D0E /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,7 +27,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6D74C1F01C2C3BA7002745BF /* Applozic.framework in Embed Frameworks */,
+				6DCC2FFF1C31199300F17D0E /* Applozic.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -48,8 +48,8 @@
 		6D6DF2031BC551FA00EBA00F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6D6DF2061BC551FA00EBA00F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6D6DF2081BC551FA00EBA00F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6D74C1EE1C2C3BA7002745BF /* Applozic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Applozic.framework; sourceTree = "<group>"; };
 		6DB445141C2C04D200C64524 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6DCC2FFD1C31199300F17D0E /* Applozic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Applozic.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D74C1EF1C2C3BA7002745BF /* Applozic.framework in Frameworks */,
+				6DCC2FFE1C31199300F17D0E /* Applozic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,7 +76,7 @@
 		6D6DF1E81BC551FA00EBA00F = {
 			isa = PBXGroup;
 			children = (
-				6D74C1EE1C2C3BA7002745BF /* Applozic.framework */,
+				6DCC2FFD1C31199300F17D0E /* Applozic.framework */,
 				6D6DF1F31BC551FA00EBA00F /* applozicdemo */,
 				6D6DF1F21BC551FA00EBA00F /* Products */,
 			);

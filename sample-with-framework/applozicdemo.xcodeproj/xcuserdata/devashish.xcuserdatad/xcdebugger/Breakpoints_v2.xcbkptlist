@@ -397,7 +397,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"
             endingLineNumber = "42"
-            landmarkName = "+getMessagesListGroupByContactswithCompletion:"
+            landmarkName = "+processLatestMessagesGroupByContact"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -413,7 +413,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
             endingLineNumber = "43"
-            landmarkName = "+getMessagesListGroupByContactswithCompletion:"
+            landmarkName = "+processLatestMessagesGroupByContact"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -429,7 +429,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "301"
             endingLineNumber = "301"
-            landmarkName = "+proessUploadImageForMessage:databaseObj:uploadURL:withdelegate:"
+            landmarkName = "+deleteMessageThread:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -445,7 +445,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "303"
             endingLineNumber = "303"
-            landmarkName = "+proessUploadImageForMessage:databaseObj:uploadURL:withdelegate:"
+            landmarkName = "+deleteMessageThread:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -461,7 +461,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "304"
             endingLineNumber = "304"
-            landmarkName = "+proessUploadImageForMessage:databaseObj:uploadURL:withdelegate:"
+            landmarkName = "+deleteMessageThread:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -493,8 +493,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "558"
             endingLineNumber = "558"
-            landmarkName = "@implementation ALChatViewController"
-            landmarkType = "3">
+            landmarkName = "-loadChatView"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -669,7 +669,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "109"
             endingLineNumber = "109"
-            landmarkName = "+sendMessages:withCompletion:"
+            landmarkName = "+getMessageListForUser:startIndex:pageSize:endTimeInTimeStamp:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -685,7 +685,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "107"
             endingLineNumber = "107"
-            landmarkName = "+sendMessages:withCompletion:"
+            landmarkName = "+getMessageListForUser:startIndex:pageSize:endTimeInTimeStamp:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -701,7 +701,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "111"
             endingLineNumber = "111"
-            landmarkName = "+sendMessages:withCompletion:"
+            landmarkName = "+getMessageListForUser:startIndex:pageSize:endTimeInTimeStamp:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -717,7 +717,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "92"
             endingLineNumber = "92"
-            landmarkName = "+sendMessages:withCompletion:"
+            landmarkName = "+getMessagesListGroupByContactswithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -733,7 +733,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "93"
             endingLineNumber = "93"
-            landmarkName = "+sendMessages:withCompletion:"
+            landmarkName = "+getMessagesListGroupByContactswithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -749,7 +749,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "796"
             endingLineNumber = "796"
-            landmarkName = "-uploadImage:"
+            landmarkName = "-check:andText:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -765,7 +765,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "802"
             endingLineNumber = "802"
-            landmarkName = "-uploadImage:"
+            landmarkName = "-check:andText:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -781,7 +781,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "803"
             endingLineNumber = "803"
-            landmarkName = "-uploadImage:"
+            landmarkName = "-check:andText:"
             landmarkType = "5">
             <Locations>
                <Location
@@ -844,7 +844,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "94"
             endingLineNumber = "94"
-            landmarkName = "+sendMessages:withCompletion:"
+            landmarkName = "+getMessagesListGroupByContactswithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -860,7 +860,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "78"
             endingLineNumber = "78"
-            landmarkName = "+sendMessages:withCompletion:"
+            landmarkName = "+getMessagesListGroupByContactswithCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -876,7 +876,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "799"
             endingLineNumber = "799"
-            landmarkName = "-uploadImage:"
+            landmarkName = "-check:andText:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -892,7 +892,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "112"
             endingLineNumber = "112"
-            landmarkName = "+sendMessages:withCompletion:"
+            landmarkName = "+getMessageListForUser:startIndex:pageSize:endTimeInTimeStamp:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -908,7 +908,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "113"
             endingLineNumber = "113"
-            landmarkName = "+sendMessages:withCompletion:"
+            landmarkName = "+getMessageListForUser:startIndex:pageSize:endTimeInTimeStamp:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -924,7 +924,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "117"
             endingLineNumber = "117"
-            landmarkName = "+sendMessages:withCompletion:"
+            landmarkName = "+getMessageListForUser:startIndex:pageSize:endTimeInTimeStamp:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -940,7 +940,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "118"
             endingLineNumber = "118"
-            landmarkName = "+sendMessages:withCompletion:"
+            landmarkName = "+getMessageListForUser:startIndex:pageSize:endTimeInTimeStamp:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -956,7 +956,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "119"
             endingLineNumber = "119"
-            landmarkName = "+sendMessages:withCompletion:"
+            landmarkName = "+getMessageListForUser:startIndex:pageSize:endTimeInTimeStamp:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1004,7 +1004,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "125"
             endingLineNumber = "125"
-            landmarkName = "+sendMessages:withCompletion:"
+            landmarkName = "+getMessageListForUser:startIndex:pageSize:endTimeInTimeStamp:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1036,7 +1036,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "549"
             endingLineNumber = "549"
-            landmarkName = "-attachmentAction"
+            landmarkName = "-loadChatView"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1052,7 +1052,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "550"
             endingLineNumber = "550"
-            landmarkName = "-attachmentAction"
+            landmarkName = "-loadChatView"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1068,7 +1068,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "548"
             endingLineNumber = "548"
-            landmarkName = "-attachmentAction"
+            landmarkName = "-loadChatView"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1084,8 +1084,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "233"
             endingLineNumber = "233"
-            landmarkName = "@implementation ALMessageService"
-            landmarkType = "3">
+            landmarkName = "+getLatestMessageForUser:withCompletion:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1100,7 +1100,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "235"
             endingLineNumber = "235"
-            landmarkName = "+deleteMessageThread:withCompletion:"
+            landmarkName = "+getLatestMessageForUser:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1116,7 +1116,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "227"
             endingLineNumber = "227"
-            landmarkName = "+deleteMessage:andContactId:withCompletion:"
+            landmarkName = "+getLatestMessageForUser:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1132,7 +1132,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "224"
             endingLineNumber = "224"
-            landmarkName = "+deleteMessage:andContactId:withCompletion:"
+            landmarkName = "+getLatestMessageForUser:withCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1148,7 +1148,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "552"
             endingLineNumber = "552"
-            landmarkName = "-attachmentAction"
+            landmarkName = "-loadChatView"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1164,7 +1164,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "553"
             endingLineNumber = "553"
-            landmarkName = "-attachmentAction"
+            landmarkName = "-loadChatView"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1180,8 +1180,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "66"
             endingLineNumber = "66"
-            landmarkName = "-processMarkRead"
-            landmarkType = "4">
+            landmarkName = "mqttObject"
+            landmarkType = "19">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1196,8 +1196,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "73"
             endingLineNumber = "73"
-            landmarkName = "@implementation ALChatViewController"
-            landmarkType = "3">
+            landmarkName = "-processMarkRead"
+            landmarkType = "4">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1212,8 +1212,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "78"
             endingLineNumber = "78"
-            landmarkName = "@implementation ALChatViewController"
-            landmarkType = "3">
+            landmarkName = "@interface ALChatViewController()"
+            landmarkType = "2">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1228,7 +1228,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "383"
             endingLineNumber = "383"
-            landmarkName = "-tableView:heightForRowAtIndexPath:"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1244,7 +1244,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "390"
             endingLineNumber = "390"
-            landmarkName = "-tableView:heightForRowAtIndexPath:"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1260,7 +1260,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "395"
             endingLineNumber = "395"
-            landmarkName = "-tableView:heightForRowAtIndexPath:"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1276,7 +1276,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "425"
             endingLineNumber = "425"
-            landmarkName = "-tableView:performAction:forRowAtIndexPath:withSender:"
+            landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1292,8 +1292,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "68"
             endingLineNumber = "68"
-            landmarkName = "-fetchAndRefresh:"
-            landmarkType = "4">
+            landmarkName = "mqttRetryCount"
+            landmarkType = "19">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1308,8 +1308,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "67"
             endingLineNumber = "67"
-            landmarkName = "-fetchAndRefresh:"
-            landmarkType = "4">
+            landmarkName = "mqttObject"
+            landmarkType = "19">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1324,8 +1324,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
             endingLineNumber = "69"
-            landmarkName = "-serverCallForLastSeen"
-            landmarkType = "4">
+            landmarkName = "@interface ALChatViewController()"
+            landmarkType = "2">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1340,8 +1340,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "74"
             endingLineNumber = "74"
-            landmarkName = "@implementation ALChatViewController"
-            landmarkType = "3">
+            landmarkName = "-fetchAndRefresh:"
+            landmarkType = "4">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1356,8 +1356,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "400"
             endingLineNumber = "400"
-            landmarkName = "-tableView:heightForRowAtIndexPath:"
-            landmarkType = "5">
+            landmarkName = "@implementation ALChatViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1452,7 +1452,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "396"
             endingLineNumber = "396"
-            landmarkName = "-tableView:heightForRowAtIndexPath:"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1468,7 +1468,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "391"
             endingLineNumber = "391"
-            landmarkName = "-tableView:heightForRowAtIndexPath:"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1484,7 +1484,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "397"
             endingLineNumber = "397"
-            landmarkName = "-tableView:heightForRowAtIndexPath:"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
             <Locations>
                <Location
@@ -1708,7 +1708,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "340"
             endingLineNumber = "340"
-            landmarkName = "+markConversationAsRead:withCompletion:"
+            landmarkName = "+proessUploadImageForMessage:databaseObj:uploadURL:withdelegate:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1724,7 +1724,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "103"
             endingLineNumber = "103"
-            landmarkName = "-processMarkRead"
+            landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1788,7 +1788,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "347"
             endingLineNumber = "347"
-            landmarkName = "+markConversationAsRead:withCompletion:"
+            landmarkName = "+proessUploadImageForMessage:databaseObj:uploadURL:withdelegate:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1820,7 +1820,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "343"
             endingLineNumber = "343"
-            landmarkName = "+markConversationAsRead:withCompletion:"
+            landmarkName = "+proessUploadImageForMessage:databaseObj:uploadURL:withdelegate:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1836,7 +1836,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "350"
             endingLineNumber = "350"
-            landmarkName = "+markConversationAsRead:withCompletion:"
+            landmarkName = "+proessUploadImageForMessage:databaseObj:uploadURL:withdelegate:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1852,7 +1852,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "351"
             endingLineNumber = "351"
-            landmarkName = "+markConversationAsRead:withCompletion:"
+            landmarkName = "+proessUploadImageForMessage:databaseObj:uploadURL:withdelegate:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1868,7 +1868,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "345"
             endingLineNumber = "345"
-            landmarkName = "+markConversationAsRead:withCompletion:"
+            landmarkName = "+proessUploadImageForMessage:databaseObj:uploadURL:withdelegate:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1884,7 +1884,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "353"
             endingLineNumber = "353"
-            landmarkName = "+markConversationAsRead:withCompletion:"
+            landmarkName = "+proessUploadImageForMessage:databaseObj:uploadURL:withdelegate:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1900,7 +1900,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "362"
             endingLineNumber = "362"
-            landmarkName = "+markConversationAsRead:withCompletion:"
+            landmarkName = "+proessUploadImageForMessage:databaseObj:uploadURL:withdelegate:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1980,7 +1980,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "487"
             endingLineNumber = "487"
-            landmarkName = "-loadChatView"
+            landmarkName = "-getMessageToPost"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1996,8 +1996,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "474"
             endingLineNumber = "474"
-            landmarkName = "-getFileMetaInfo"
-            landmarkType = "5">
+            landmarkName = "@implementation ALChatViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -24,6 +24,7 @@
 @property (strong, nonatomic) NSString * contactIds;
 @property (nonatomic) BOOL refreshMainView;
 @property (nonatomic) BOOL refresh;
+@property (strong, nonatomic) NSString * text;
 
 -(void)fetchAndRefresh;
 
