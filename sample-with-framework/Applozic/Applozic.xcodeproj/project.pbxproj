@@ -203,6 +203,8 @@
 		6DCC30121C315B1200F17D0E /* ALGroupClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30101C315B1200F17D0E /* ALGroupClientService.m */; };
 		6DCC30151C3160C200F17D0E /* ALChannelFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC30131C3160C200F17D0E /* ALChannelFeed.h */; };
 		6DCC30161C3160C200F17D0E /* ALChannelFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30141C3160C200F17D0E /* ALChannelFeed.m */; };
+		6DCC30191C31645700F17D0E /* ALChannelInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC30171C31645700F17D0E /* ALChannelInfo.h */; };
+		6DCC301A1C31645700F17D0E /* ALChannelInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30181C31645700F17D0E /* ALChannelInfo.m */; };
 		6DDE81861C27D8EC009B8CF9 /* ALUserClientService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */; };
 		6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */; };
 		982F13041C05D6050024678E /* MQTTClient-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */; };
@@ -425,6 +427,8 @@
 		6DCC30101C315B1200F17D0E /* ALGroupClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALGroupClientService.m; sourceTree = "<group>"; };
 		6DCC30131C3160C200F17D0E /* ALChannelFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannelFeed.h; sourceTree = "<group>"; };
 		6DCC30141C3160C200F17D0E /* ALChannelFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChannelFeed.m; sourceTree = "<group>"; };
+		6DCC30171C31645700F17D0E /* ALChannelInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannelInfo.h; sourceTree = "<group>"; };
+		6DCC30181C31645700F17D0E /* ALChannelInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChannelInfo.m; sourceTree = "<group>"; };
 		6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserClientService.h; sourceTree = "<group>"; };
 		6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserClientService.m; sourceTree = "<group>"; };
 		982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MQTTClient-Prefix.pch"; path = "Applozic/MQTT/MQTTClient-Prefix.pch"; sourceTree = "<group>"; };
@@ -860,6 +864,8 @@
 				6DCC30101C315B1200F17D0E /* ALGroupClientService.m */,
 				6DCC30131C3160C200F17D0E /* ALChannelFeed.h */,
 				6DCC30141C3160C200F17D0E /* ALChannelFeed.m */,
+				6DCC30171C31645700F17D0E /* ALChannelInfo.h */,
+				6DCC30181C31645700F17D0E /* ALChannelInfo.m */,
 			);
 			name = ALChannel;
 			sourceTree = "<group>";
@@ -967,6 +973,7 @@
 				6D6DF1521BC5364C00EBA00F /* ALUtilityClass.h in Headers */,
 				982F13061C05D6050024678E /* MQTTDecoder.h in Headers */,
 				6D6DF15C1BC5364C00EBA00F /* ALNewContactsViewController.h in Headers */,
+				6DCC30191C31645700F17D0E /* ALChannelInfo.h in Headers */,
 				6D6DF0811BC535C800EBA00F /* Applozic.h in Headers */,
 				6DCC300D1C315AEF00F17D0E /* ALGroupDBService.h in Headers */,
 				982F13051C05D6050024678E /* MQTTClient.h in Headers */,
@@ -1218,6 +1225,7 @@
 				6D6DF1731BC5364C00EBA00F /* ALFileMetaInfo.m in Sources */,
 				6D6DF1C61BC5364C00EBA00F /* UIButton+WebCache.m in Sources */,
 				982F13091C05D6050024678E /* MQTTEncoder.m in Sources */,
+				6DCC301A1C31645700F17D0E /* ALChannelInfo.m in Sources */,
 				6D6DF1791BC5364C00EBA00F /* ALMessageList.m in Sources */,
 				6D6DF1D01BC5364C00EBA00F /* UIImageView+WebCache.m in Sources */,
 				6D6DF13F1BC5364C00EBA00F /* ALConnection.m in Sources */,
