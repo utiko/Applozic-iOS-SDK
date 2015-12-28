@@ -145,7 +145,21 @@ ALMessageDBService  * dbService;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:) name:@"deliveryReport" object:nil];
+    self.mqttObject = [ALMQTTConversationService sharedInstance];
+
     
+    if(self.individualLaunch){
+        NSLog(@"individual launch ...unsubscribeToConversation to mqtt..");
+        self.mqttObject.mqttConversationDelegate = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(self.mqttObject)
+                [self.mqttObject subscribeToConversation];
+            else
+                NSLog(@"mqttObject is not found...");
+        });
+        [self serverCallForLastSeen];
+    }
+
     if(![ALUserDefaultsHandler isServerCallDoneForMSGList:self.contactIds])
     {
         NSLog(@"called first time .....");
@@ -156,14 +170,6 @@ ALMessageDBService  * dbService;
         self.sendMessageTextView.text = self.text;
     }
     
-    self.mqttObject = [ALMQTTConversationService sharedInstance];
-    self.mqttObject.mqttConversationDelegate = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.mqttObject)
-            [self.mqttObject subscribeToConversation];
-        else
-            NSLog(@"mqttObject is not found...");
-    });
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -174,13 +180,16 @@ ALMessageDBService  * dbService;
     [self.sendMessageTextView resignFirstResponder];
     [self.label setHidden:YES];
     [self.typingLabel setHidden:YES];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.mqttObject)
-            [self.mqttObject unsubscribeToConversation];
-        else
-            NSLog(@"mqttObject is not found...");
-    });
+    if( self.individualLaunch){
+        NSLog(@"individual launch ...unsubscribeToConversation to mqtt..");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(self.mqttObject)
+                [self.mqttObject unsubscribeToConversation];
+            else
+                NSLog(@"mqttObject is not found...");
+        });
+    }
+   
     
 }
 

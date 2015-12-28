@@ -104,6 +104,7 @@
     
     chatView.contactIds = userId;
     chatView.text = text;
+    chatView.individualLaunch = YES;
     
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
     
@@ -179,7 +180,9 @@
         
         NSLog(@"user is already registered... ");
         
-        [self launchChatList:viewController.title  andViewControllerObject:viewController];
+     //  [self launchChatList:viewController.title  andViewControllerObject:viewController];
+     [self launchIndividualChat:@"adarshk" andViewControllerObject:viewController andWithText:nil];
+
         
         return;
         
@@ -215,9 +218,9 @@
             
         }
         
-        [self launchChatList:viewController.title  andViewControllerObject:viewController];
+       // [self launchChatList:viewController.title  andViewControllerObject:viewController];
         
-        
+        [self launchIndividualChat:@"adarshk" andViewControllerObject:viewController andWithText:nil];
         
         NSLog(@"Registration response from server:%@", rResponse);
         
