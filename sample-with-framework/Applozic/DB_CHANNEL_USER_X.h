@@ -10,12 +10,12 @@
 
 @interface DB_CHANNEL_USER_X : NSManagedObject
 
-@property (nonatomic, strong) NSString *id;
-@property (nonatomic, strong) NSString *channelKey;
-@property (nonatomic, strong) NSString *latestMessageId;
-@property (nonatomic, strong) NSString *status;
-@property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSString *unreadCount;
-@property (nonatomic, strong) NSString *userId;
+@property (nonatomic, retain) NSString *id;
+@property (nonatomic, retain) NSString *channelKey;
+@property (nonatomic, retain) NSString *latestMessageId;
+@property (nonatomic, retain) NSString *status;
+@property (nonatomic, retain) NSString *type;
+@property (nonatomic, retain) NSString *unreadCount;
+@property (nonatomic, retain) NSString *userId;
 
 @end

@@ -10,15 +10,15 @@
 
 @interface DB_CHANNEL : NSManagedObject
 
-@property (nonatomic, strong) NSString *applicationId;
-@property (nonatomic, strong) NSString *channelDisplayName;
-@property (nonatomic, strong) NSString *channelKey;
-@property (nonatomic, strong) NSString *createdAt;
-@property (nonatomic, strong) NSString *id;
-@property (nonatomic, strong) NSString *messageCount;
-@property (nonatomic, strong) NSString *messageSize;
-@property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSString *updatedAt;
-@property (nonatomic, strong) NSString *userCount;
+@property (nonatomic, retain) NSString *applicationId;
+@property (nonatomic, retain) NSString *channelDisplayName;
+@property (nonatomic, retain) NSString *channelKey;
+@property (nonatomic, retain) NSString *createdAt;
+@property (nonatomic, retain) NSString *id;
+@property (nonatomic, retain) NSString *messageCount;
+@property (nonatomic, retain) NSString *messageSize;
+@property (nonatomic, retain) NSString *type;
+@property (nonatomic, retain) NSString *updatedAt;
+@property (nonatomic, retain) NSString *userCount;
 
 @end
