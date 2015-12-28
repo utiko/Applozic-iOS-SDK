@@ -17,6 +17,7 @@
 #import <Applozic/ALDataNetworkConnection.h>
 #import <Applozic/ALChatLauncher.h>
 #import <Applozic/ALMessageDBService.h>
+#import "DemoChatManager.h"
 
 @interface ApplozicLoginViewController ()
 
@@ -143,7 +144,6 @@
     // Initial login view .....
     [self setTitle:@"< Login Screen"];
     
-    ALChatLauncher *alChatManager = [[ALChatLauncher alloc] initWithApplicationId:@"applozic-sample-app"];
  
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
@@ -158,13 +158,16 @@
     
     //
     ALUser *user = [[ALUser alloc] init];
-    [user setApplicationId:@"applozic-sample-app"];
     [user setUserId:[self.userIdField text]];
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
     [self.mActivityIndicator startAnimating];
-    //mbChatManger...
-    [ alChatManager launchChatForUser:user.userId fromViewController:self];
+    //ALChatManager...
+    
+    DemoChatManager * demoChatManager = [[DemoChatManager alloc]init];
+    
+    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
+  
 }
 
 //-------------------------------------------------------------------------------------------------------------------

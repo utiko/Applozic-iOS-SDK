@@ -90,7 +90,7 @@
         ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
         completion(messageListResponse.messageList,nil);
-       // NSLog(@"message list response THE JSON %@",theJson);
+        NSLog(@"message list response THE JSON %@",theJson);
 //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
     }];
     
@@ -131,7 +131,7 @@
         ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
         [almessageDBService addMessageList:messageListResponse.messageList];
         completion(messageListResponse.messageList, nil, messageListResponse.userDetailsList);
-       // NSLog(@"message list response THE JSON %@",theJson);
+       NSLog(@"message list response THE JSON %@",theJson);
     }];
     
 }
@@ -243,7 +243,7 @@
                 
                 return ;
             }
-            
+            NSLog(@"theJson :: : %@", theJson);
             NSMutableArray *messageArray = [[NSMutableArray alloc] init];
             ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
             NSLog(@"count is: %lu", (unsigned long)syncResponse.messagesList.count);
