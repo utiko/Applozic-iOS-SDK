@@ -92,10 +92,10 @@
 
 
 
--(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController;
+-(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
 
 {
-    
+    [self mbChatViewSettings];
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
@@ -103,6 +103,8 @@
     ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     
     chatView.contactIds = userId;
+    chatView.text = text;
+    chatView.individualLaunch = YES;
     
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
     
@@ -142,10 +144,6 @@
     
     [self  startChatsForUser:user andWithParentController:(UIViewController *)viewController];
     
-    
-    
-    
-    
 }
 
 
@@ -182,7 +180,9 @@
         
         NSLog(@"user is already registered... ");
         
-        [self launchChatList:viewController.title  andViewControllerObject:viewController];
+     [self launchChatList:viewController.title  andViewControllerObject:viewController];
+     //[self launchIndividualChat:@"adarshk" andViewControllerObject:viewController andWithText:nil];
+
         
         return;
         
@@ -219,8 +219,7 @@
         }
         
         [self launchChatList:viewController.title  andViewControllerObject:viewController];
-        
-        
+        //[self launchIndividualChat:@"adarshk" andViewControllerObject:viewController andWithText:nil];
         
         NSLog(@"Registration response from server:%@", rResponse);
         

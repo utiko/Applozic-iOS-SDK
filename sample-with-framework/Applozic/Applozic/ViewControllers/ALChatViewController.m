@@ -38,8 +38,13 @@
 #import "ALUserDetail.h"
 #import "ALMQTTConversationService.h"
 #import "ALContactDBService.h"
+#import "ALDataNetworkConnection.h"
 
-@interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate>
+
+#define MQTT_MAX_RETRY 3
+
+
+@interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate,ALMQTTConversationDelegate>
 
 @property (nonatomic, assign) NSInteger startIndex;
 
@@ -59,7 +64,9 @@
 
 @property (nonatomic,weak) NSIndexPath *indexPathofSelection;
 
-@property (nonatomic) ALMQTTConversationService *mqttObject;
+@property (nonatomic,strong ) ALMQTTConversationService *mqttObject;
+@property (nonatomic) NSInteger *  mqttRetryCount;
+
 
 -(void)processLoadEarlierMessages:(BOOL)flag;
 
@@ -68,6 +75,7 @@
 -(void)fetchAndRefresh:(BOOL)flag;
 
 -(void)serverCallForLastSeen;
+
 
 @end
 
@@ -90,7 +98,7 @@ ALMessageDBService  * dbService;
     [self fetchMessageFromDB];
     [self loadChatView];
     
-    self.mqttObject = [[ALMQTTConversationService alloc] init];
+  
     
 }
 
@@ -137,11 +145,29 @@ ALMessageDBService  * dbService;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:) name:@"deliveryReport" object:nil];
+    self.mqttObject = [ALMQTTConversationService sharedInstance];
+
     
+    if(self.individualLaunch){
+        NSLog(@"individual launch ...unsubscribeToConversation to mqtt..");
+        self.mqttObject.mqttConversationDelegate = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(self.mqttObject)
+                [self.mqttObject subscribeToConversation];
+            else
+                NSLog(@"mqttObject is not found...");
+        });
+        [self serverCallForLastSeen];
+    }
+
     if(![ALUserDefaultsHandler isServerCallDoneForMSGList:self.contactIds])
     {
         NSLog(@"called first time .....");
         [self processLoadEarlierMessages:true];
+    }
+    if(self.text)
+    {
+        self.sendMessageTextView.text = self.text;
     }
     
 }
@@ -154,6 +180,17 @@ ALMessageDBService  * dbService;
     [self.sendMessageTextView resignFirstResponder];
     [self.label setHidden:YES];
     [self.typingLabel setHidden:YES];
+    if( self.individualLaunch){
+        NSLog(@"individual launch ...unsubscribeToConversation to mqtt..");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(self.mqttObject)
+                [self.mqttObject unsubscribeToConversation];
+            else
+                NSLog(@"mqttObject is not found...");
+        });
+    }
+   
+    
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -762,7 +799,6 @@ ALMessageDBService  * dbService;
     [self.mTableView reloadData];
     [self scrollTableViewToBottomWithAnimation:NO];
     [self uploadImage:theMessage];
-
     
 }
 
@@ -1306,19 +1342,72 @@ ALMessageDBService  * dbService;
     [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:NO];
 }
 
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+
+-(void)scrollViewDidScroll: (UIScrollView*)scrollView
 {
-    NSLog(@"DidEndDecelerating");
-    if(scrollView.contentOffset.y < 0 && self.showloadEarlierAction )
+    float scrollViewHeight = scrollView.frame.size.height;
+    float scrollContentSizeHeight = scrollView.contentSize.height;
+    float scrollOffset = scrollView.contentOffset.y;
+    
+    if (scrollOffset == 0 && self.showloadEarlierAction)
     {
-        //  NSLog(@"REACHED TOP");
         [self.loadEarlierAction setHidden:NO];
+        // then we are at the top
     }
+    //    else if (scrollOffset + scrollViewHeight == scrollContentSizeHeight)
     else
     {
-        //   NSLog(@"REACHED BOTTOM");
+        // then we are at the end
         [self.loadEarlierAction setHidden:YES];
     }
 }
+//------------------------------------------------------------------------------------------------------------------
+#pragma mark - MQTT Service delegate methods
+//------------------------------------------------------------------------------------------------------------------
+
+-(void) syncCall:(ALMessage *) alMessage {
+    [self syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
+}
+
+
+-(void) delivered:(NSString *)messageKey contactId:(NSString *)contactId {
+    if ([[self contactIds] isEqualToString: contactId]) {
+        [self updateDeliveryReport: messageKey];
+    }
+}
+
+-(void) updateDeliveryStatusForContact: (NSString *) contactId {
+    if ([[self contactIds] isEqualToString: contactId]) {
+        [self updateDeliveryReportForConversation];
+    }
+}
+
+
+
+-(void) updateTypingStatus:(NSString *)applicationKey userId:(NSString *)userId status:(BOOL)status
+{
+    // NSLog(@"==== Received typing status %d for: %@ ====", status, userId);
+    
+    if ([self.contactIds isEqualToString:userId])
+    {
+        [self showTypingLabel:status userId:userId];
+    }
+}
+
+-(void) mqttConnectionClosed {
+    if (_mqttRetryCount > MQTT_MAX_RETRY) {
+        return;
+    }
+    
+    if([ALDataNetworkConnection checkDataNetworkAvailable])
+        NSLog(@"MQTT connection closed, subscribing again: %lu", (long)_mqttRetryCount);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.mqttObject subscribeToConversation];
+        
+    });
+    _mqttRetryCount++;
+}
+
 
 @end

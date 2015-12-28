@@ -139,6 +139,9 @@ ALMQTTConversationService *alMqttConversationService;
 
 -(void) viewDidDisappear:(BOOL)animated
 {
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [alMqttConversationService unsubscribeToConversation];
+//    });
 
 }
 
@@ -273,50 +276,6 @@ ALMQTTConversationService *alMqttConversationService;
     
 }
 
--(void) updateTypingStatus:(NSString *)applicationKey userId:(NSString *)userId status:(BOOL)status
-{
-   // NSLog(@"==== Received typing status %d for: %@ ====", status, userId);
-    
-     if ([self.detailChatViewController.contactIds isEqualToString:userId])
-     {
-         [self.detailChatViewController showTypingLabel:status userId:userId];
-     }
-}
-
--(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
-{
-    [self.detailChatViewController setRefreshMainView:TRUE];
-
-    if ([self.detailChatViewController.contactIds isEqualToString:alUserDetail.userId])
-    {
-        [self.detailChatViewController updateLastSeenAtStatus:alUserDetail];
-    }
-    else
-    {
-        ALContactCell *contactCell = [self getCell:alUserDetail.userId];
-        if(alUserDetail.connected)
-        {
-            [contactCell.onlineImageMarker setHidden:NO];
-        }
-        else
-        {
-            [contactCell.onlineImageMarker setHidden:YES];
-        }
-    }
-}
-
--(void) mqttConnectionClosed {
-    if (_mqttRetryCount > MQTT_MAX_RETRY) {
-        return;
-    }
-
-    if([ALDataNetworkConnection checkDataNetworkAvailable])
-        NSLog(@"MQTT connection closed, subscribing again: %lu", _mqttRetryCount);
-            dispatch_async(dispatch_get_main_queue(), ^{
-            [alMqttConversationService subscribeToConversation];
-        });
-    _mqttRetryCount++;
-}
 
 -(void)dropShadowInNavigationBar
 {
@@ -390,6 +349,7 @@ ALMQTTConversationService *alMqttConversationService;
     
     [self.dataAvailablityLabel setHidden:YES];
     [self callLastSeenStatusUpdate];
+   
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -809,6 +769,10 @@ ALMQTTConversationService *alMqttConversationService;
     [self.view layoutIfNeeded];
 }
 
+
+//------------------------------------------------------------------------------------------------------------------
+#pragma mark - MQTT Service delegate methods
+//------------------------------------------------------------------------------------------------------------------
 -(void) syncCall:(ALMessage *) alMessage {
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
@@ -838,6 +802,69 @@ ALMQTTConversationService *alMqttConversationService;
 }
 
 
+
+-(void) updateTypingStatus:(NSString *)applicationKey userId:(NSString *)userId status:(BOOL)status
+{
+    // NSLog(@"==== Received typing status %d for: %@ ====", status, userId);
+    
+    if ([self.detailChatViewController.contactIds isEqualToString:userId])
+    {
+        [self.detailChatViewController showTypingLabel:status userId:userId];
+    }
+}
+
+-(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
+{
+    [self.detailChatViewController setRefreshMainView:TRUE];
+    
+    if ([self.detailChatViewController.contactIds isEqualToString:alUserDetail.userId])
+    {
+        [self.detailChatViewController updateLastSeenAtStatus:alUserDetail];
+    }
+    else
+    {
+        ALContactCell *contactCell = [self getCell:alUserDetail.userId];
+        if(alUserDetail.connected)
+        {
+            [contactCell.onlineImageMarker setHidden:NO];
+        }
+        else
+        {
+            [contactCell.onlineImageMarker setHidden:YES];
+        }
+    }
+}
+
+-(void) mqttConnectionClosed {
+    if (_mqttRetryCount > MQTT_MAX_RETRY) {
+        return;
+    }
+    
+    if([ALDataNetworkConnection checkDataNetworkAvailable])
+        NSLog(@"MQTT connection closed, subscribing again: %lu", (long)_mqttRetryCount);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alMqttConversationService subscribeToConversation];
+    });
+    _mqttRetryCount++;
+}
+
+//------------------------------------------------------------------------------------------------------------------
+#pragma mark -END
+//------------------------------------------------------------------------------------------------------------------
+
+-(void) callLastSeenStatusUpdate {
+    
+    [ALUserService getLastSeenUpdateForUsers:[ALUserDefaultsHandler getLastSeenSyncTime]  withCompletion:^(NSMutableArray * userDetailArray)
+     {
+         for(ALUserDetail * userDetail in userDetailArray){
+             [ self updateLastSeenAtStatus:userDetail ];
+         }
+         
+     }];
+    
+    
+}
+
 -(void)pushNotificationhandler:(NSNotification *) notification{
     NSString * contactId = notification.object;
     NSDictionary *dict = notification.userInfo;
@@ -856,18 +883,6 @@ ALMQTTConversationService *alMqttConversationService;
     }
     
 }
--(void) callLastSeenStatusUpdate {
-
-    [ALUserService getLastSeenUpdateForUsers:[ALUserDefaultsHandler getLastSeenSyncTime]  withCompletion:^(NSMutableArray * userDetailArray)
-   {
-       for(ALUserDetail * userDetail in userDetailArray){
-           [ self updateLastSeenAtStatus:userDetail ];
-       }
-      
-   }];
-    
-
-}
 
 - (void)dealloc {
     
@@ -875,7 +890,6 @@ ALMQTTConversationService *alMqttConversationService;
     dispatch_async(dispatch_get_main_queue(), ^{
         [alMqttConversationService unsubscribeToConversation];
     });
-
 }
 - (IBAction)backButtonAction:(id)sender {
     
