@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Views/ALNotificationView.m \
-  /Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Views/ALNotificationView.h
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Views/ALNotificationView.m \
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Views/ALNotificationView.h
