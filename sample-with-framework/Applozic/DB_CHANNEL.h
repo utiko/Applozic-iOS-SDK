@@ -19,6 +19,6 @@
 @property (nonatomic) short type;
 @property (nonatomic) int userCount;
 @property (nonatomic) long updatedAt;
-@property (nonatomic) long *createdAt;
+@property (nonatomic) long createdAt;
 
 @end
