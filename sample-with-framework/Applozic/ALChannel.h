@@ -1,5 +1,5 @@
 //
-//  ALChannelService.h
+//  ALChannel.h
 //  Applozic
 //
 //  Created by devashish on 28/12/2015.
@@ -17,7 +17,7 @@ typedef enum
     SELF
 } GroupType;
 
-@interface ALChannelService : NSObject
+@interface ALChannel : NSObject
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *adminKey;
@@ -32,7 +32,5 @@ typedef enum
 @property int userCount;
 @property int mesgCount;
 @property short type;
-
--(NSMutableArray *)getContactArray;
 
 @end

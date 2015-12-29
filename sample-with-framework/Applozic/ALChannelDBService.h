@@ -1,5 +1,5 @@
 //
-//  ALGroupDBService.h
+//  ALChannelDBService.h
 //  Applozic
 //
 //  Created by devashish on 28/12/2015.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ALGroupDBService : NSObject
+@interface ALChannelDBService : NSObject
 
 @property (nonatomic, strong) NSString *id;
 @property (nonatomic, strong) NSString *createdAt;

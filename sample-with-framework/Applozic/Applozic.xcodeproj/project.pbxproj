@@ -195,12 +195,12 @@
 		6DAEC20B1C25A596000A7243 /* ALLastSeenSyncFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DAEC2091C25A596000A7243 /* ALLastSeenSyncFeed.m */; };
 		6DB665071C0EE5EC004D04A8 /* ALDataNetworkConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DB665081C0EE5EC004D04A8 /* ALDataNetworkConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB665061C0EE5EC004D04A8 /* ALDataNetworkConnection.m */; };
-		6DCC30091C315AD600F17D0E /* ALChannelService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC30071C315AD600F17D0E /* ALChannelService.h */; };
-		6DCC300A1C315AD600F17D0E /* ALChannelService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30081C315AD600F17D0E /* ALChannelService.m */; };
-		6DCC300D1C315AEF00F17D0E /* ALGroupDBService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC300B1C315AEF00F17D0E /* ALGroupDBService.h */; };
-		6DCC300E1C315AEF00F17D0E /* ALGroupDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC300C1C315AEF00F17D0E /* ALGroupDBService.m */; };
-		6DCC30111C315B1200F17D0E /* ALGroupClientService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC300F1C315B1200F17D0E /* ALGroupClientService.h */; };
-		6DCC30121C315B1200F17D0E /* ALGroupClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30101C315B1200F17D0E /* ALGroupClientService.m */; };
+		6DCC30091C315AD600F17D0E /* ALChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC30071C315AD600F17D0E /* ALChannel.h */; };
+		6DCC300A1C315AD600F17D0E /* ALChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30081C315AD600F17D0E /* ALChannel.m */; };
+		6DCC300D1C315AEF00F17D0E /* ALChannelDBService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC300B1C315AEF00F17D0E /* ALChannelDBService.h */; };
+		6DCC300E1C315AEF00F17D0E /* ALChannelDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC300C1C315AEF00F17D0E /* ALChannelDBService.m */; };
+		6DCC30111C315B1200F17D0E /* ALChannelClientService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC300F1C315B1200F17D0E /* ALChannelClientService.h */; };
+		6DCC30121C315B1200F17D0E /* ALChannelClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30101C315B1200F17D0E /* ALChannelClientService.m */; };
 		6DCC30151C3160C200F17D0E /* ALChannelFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC30131C3160C200F17D0E /* ALChannelFeed.h */; };
 		6DCC30161C3160C200F17D0E /* ALChannelFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30141C3160C200F17D0E /* ALChannelFeed.m */; };
 		6DCC30191C31645700F17D0E /* ALChannelInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC30171C31645700F17D0E /* ALChannelInfo.h */; };
@@ -425,12 +425,12 @@
 		6DAEC2091C25A596000A7243 /* ALLastSeenSyncFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALLastSeenSyncFeed.m; sourceTree = "<group>"; };
 		6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDataNetworkConnection.h; sourceTree = "<group>"; };
 		6DB665061C0EE5EC004D04A8 /* ALDataNetworkConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDataNetworkConnection.m; sourceTree = "<group>"; };
-		6DCC30071C315AD600F17D0E /* ALChannelService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannelService.h; sourceTree = "<group>"; };
-		6DCC30081C315AD600F17D0E /* ALChannelService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChannelService.m; sourceTree = "<group>"; };
-		6DCC300B1C315AEF00F17D0E /* ALGroupDBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALGroupDBService.h; sourceTree = "<group>"; };
-		6DCC300C1C315AEF00F17D0E /* ALGroupDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALGroupDBService.m; sourceTree = "<group>"; };
-		6DCC300F1C315B1200F17D0E /* ALGroupClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALGroupClientService.h; sourceTree = "<group>"; };
-		6DCC30101C315B1200F17D0E /* ALGroupClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALGroupClientService.m; sourceTree = "<group>"; };
+		6DCC30071C315AD600F17D0E /* ALChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannel.h; sourceTree = "<group>"; };
+		6DCC30081C315AD600F17D0E /* ALChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChannel.m; sourceTree = "<group>"; };
+		6DCC300B1C315AEF00F17D0E /* ALChannelDBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannelDBService.h; sourceTree = "<group>"; };
+		6DCC300C1C315AEF00F17D0E /* ALChannelDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChannelDBService.m; sourceTree = "<group>"; };
+		6DCC300F1C315B1200F17D0E /* ALChannelClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannelClientService.h; sourceTree = "<group>"; };
+		6DCC30101C315B1200F17D0E /* ALChannelClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChannelClientService.m; sourceTree = "<group>"; };
 		6DCC30131C3160C200F17D0E /* ALChannelFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannelFeed.h; sourceTree = "<group>"; };
 		6DCC30141C3160C200F17D0E /* ALChannelFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChannelFeed.m; sourceTree = "<group>"; };
 		6DCC30171C31645700F17D0E /* ALChannelInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannelInfo.h; sourceTree = "<group>"; };
@@ -872,12 +872,12 @@
 		6DCC30061C315A3D00F17D0E /* ALChannel */ = {
 			isa = PBXGroup;
 			children = (
-				6DCC30071C315AD600F17D0E /* ALChannelService.h */,
-				6DCC30081C315AD600F17D0E /* ALChannelService.m */,
-				6DCC300B1C315AEF00F17D0E /* ALGroupDBService.h */,
-				6DCC300C1C315AEF00F17D0E /* ALGroupDBService.m */,
-				6DCC300F1C315B1200F17D0E /* ALGroupClientService.h */,
-				6DCC30101C315B1200F17D0E /* ALGroupClientService.m */,
+				6DCC30071C315AD600F17D0E /* ALChannel.h */,
+				6DCC30081C315AD600F17D0E /* ALChannel.m */,
+				6DCC300B1C315AEF00F17D0E /* ALChannelDBService.h */,
+				6DCC300C1C315AEF00F17D0E /* ALChannelDBService.m */,
+				6DCC300F1C315B1200F17D0E /* ALChannelClientService.h */,
+				6DCC30101C315B1200F17D0E /* ALChannelClientService.m */,
 				6DCC30131C3160C200F17D0E /* ALChannelFeed.h */,
 				6DCC30141C3160C200F17D0E /* ALChannelFeed.m */,
 				6DCC30171C31645700F17D0E /* ALChannelInfo.h */,
@@ -953,7 +953,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DCC30091C315AD600F17D0E /* ALChannelService.h in Headers */,
+				6DCC30091C315AD600F17D0E /* ALChannel.h in Headers */,
 				6DAEC20A1C25A596000A7243 /* ALLastSeenSyncFeed.h in Headers */,
 				984219251C1EDEC00016B733 /* ALSyncCallService.h in Headers */,
 				6D6DF1501BC5364C00EBA00F /* ALRegisterUserClientService.h in Headers */,
@@ -994,7 +994,7 @@
 				6D6DF15C1BC5364C00EBA00F /* ALNewContactsViewController.h in Headers */,
 				6DCC30191C31645700F17D0E /* ALChannelInfo.h in Headers */,
 				6D6DF0811BC535C800EBA00F /* Applozic.h in Headers */,
-				6DCC300D1C315AEF00F17D0E /* ALGroupDBService.h in Headers */,
+				6DCC300D1C315AEF00F17D0E /* ALChannelDBService.h in Headers */,
 				982F13051C05D6050024678E /* MQTTClient.h in Headers */,
 				982F130C1C05D6050024678E /* MQTTPersistence.h in Headers */,
 				6D6DF14A1BC5364C00EBA00F /* ALResponseHandler.h in Headers */,
@@ -1025,7 +1025,7 @@
 				6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */,
 				6D6DF1541BC5364C00EBA00F /* UIImage+Utility.h in Headers */,
 				6D7AFD181BE9FDF5009DDC1D /* ALLoginViewController.h in Headers */,
-				6DCC30111C315B1200F17D0E /* ALGroupClientService.h in Headers */,
+				6DCC30111C315B1200F17D0E /* ALChannelClientService.h in Headers */,
 				6D6DF1CF1BC5364C00EBA00F /* UIImageView+WebCache.h in Headers */,
 				6D6DF1B21BC5364C00EBA00F /* MKAnnotationView+WebCache.h in Headers */,
 				6D6DF1BC1BC5364C00EBA00F /* SDWebImageDownloader.h in Headers */,
@@ -1203,11 +1203,11 @@
 				6D6DF1611BC5364C00EBA00F /* ALChatCell_Image.m in Sources */,
 				982F130D1C05D6050024678E /* MQTTPersistence.m in Sources */,
 				6DCC30161C3160C200F17D0E /* ALChannelFeed.m in Sources */,
-				6DCC300A1C315AD600F17D0E /* ALChannelService.m in Sources */,
+				6DCC300A1C315AD600F17D0E /* ALChannel.m in Sources */,
 				6D6DF1D41BC5364C00EBA00F /* KAProgressLabel.m in Sources */,
 				6D6DF1511BC5364C00EBA00F /* ALRegisterUserClientService.m in Sources */,
 				6D6DF1751BC5364C00EBA00F /* ALJson.m in Sources */,
-				6DCC300E1C315AEF00F17D0E /* ALGroupDBService.m in Sources */,
+				6DCC300E1C315AEF00F17D0E /* ALChannelDBService.m in Sources */,
 				6D6DF1691BC5364C00EBA00F /* ALLocationManager.m in Sources */,
 				982F13071C05D6050024678E /* MQTTDecoder.m in Sources */,
 				6D95476A1BE38DFF00776652 /* ALContactDBService.m in Sources */,
@@ -1223,7 +1223,7 @@
 				6D6DF1CC1BC5364C00EBA00F /* UIImage+WebP.m in Sources */,
 				6D6DF1C11BC5364C00EBA00F /* SDWebImageManager.m in Sources */,
 				6D7AFD261BECF061009DDC1D /* ALSendMessageResponse.m in Sources */,
-				6DCC30121C315B1200F17D0E /* ALGroupClientService.m in Sources */,
+				6DCC30121C315B1200F17D0E /* ALChannelClientService.m in Sources */,
 				6D6DF1D91BC5364C00EBA00F /* AppLozic.xcdatamodeld in Sources */,
 				6DCC301E1C31758400F17D0E /* DB_CHANNEL.m in Sources */,
 				6D6DF1B71BC5364C00EBA00F /* SDImageCache.m in Sources */,
