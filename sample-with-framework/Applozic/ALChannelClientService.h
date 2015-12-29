@@ -1,5 +1,5 @@
 //
-//  ALGroupClientService.h
+//  ALChannelClientService.h
 //  Applozic
 //
 //  Created by devashish on 28/12/2015.
@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ALGroupClientService : NSObject
+@interface ALChannelClientService : NSObject
 
 @end

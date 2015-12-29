@@ -1,18 +1,18 @@
 //
-//  ALGroupDBService.m
+//  ALChannel.m
 //  Applozic
 //
 //  Created by devashish on 28/12/2015.
 //  Copyright © 2015 applozic Inc. All rights reserved.
 //
 
-#import "ALGroupDBService.h"
+#import "ALChannel.h"
 
-@interface ALGroupDBService ()
+@interface ALChannel ()
 
 @end
 
-@implementation ALGroupDBService
+@implementation ALChannel
 
 
 @end

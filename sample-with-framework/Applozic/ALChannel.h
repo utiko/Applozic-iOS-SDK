@@ -1,5 +1,5 @@
 //
-//  ALChannelService.h
+//  ALChannel.h
 //  Applozic
 //
 //  Created by devashish on 28/12/2015.
@@ -7,6 +7,7 @@
 //  this clss will decide wether go client or groupdb service
 
 #import <Foundation/Foundation.h>
+#import <CoreData/NSManagedObject.h>
 
 typedef enum
 {
@@ -17,22 +18,21 @@ typedef enum
     SELF
 } GroupType;
 
-@interface ALChannelService : NSObject
+@interface ALChannel : NSObject
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *adminKey;
-@property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) NSString *applicationKey;
 @property (nonatomic, strong) NSMutableArray *contacts;
-@property (nonatomic, strong) NSDate *updatedAt;
+@property (nonatomic, strong) NSNumber *key;
+@property (nonatomic, copy) NSManagedObjectID * channelDBObjectId;
 
-@property long groupId;
-@property long mesgSize;
-@property NSInteger key;
-@property int userCount;
-@property int mesgCount;
-@property short type;
-
--(NSMutableArray *)getContactArray;
+@property (nonatomic) long updatedAt;
+@property (nonatomic) long *createdAt;
+@property (nonatomic) long groupId;
+@property (nonatomic) long mesgSize;
+@property (nonatomic) int userCount;
+@property (nonatomic) int mesgCount;
+@property (nonatomic) short type;
 
 @end
