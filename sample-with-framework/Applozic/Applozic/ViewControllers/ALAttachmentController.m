@@ -7,6 +7,7 @@
 //
 
 #import "ALAttachmentController.h"
+#import "ALApplozicSettings.h"
 
 @interface ALAttachmentController ()
 
@@ -22,6 +23,8 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
+    [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+    [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
     self.textMessageWithImage.layer.masksToBounds = YES;
     self.textMessageWithImage.layer.borderColor = [[UIColor brownColor] CGColor];
     self.textMessageWithImage.layer.borderWidth = 1.0f;

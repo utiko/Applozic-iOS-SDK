@@ -113,7 +113,14 @@
     [self.typingLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TYPING_LABEL_SIZE]];
     self.typingLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.typingLabel];
-    
+
+    self.loadEarlierAction = [[UIButton alloc] initWithFrame:CGRectMake(0, self.mTableView.frame.origin.y, self.view.frame.size.width, 40)];
+//    self.loadEarlierAction = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.loadEarlierAction addTarget:self action:@selector(loadEarlierButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.loadEarlierAction setTitle:@"Load Earlier Messages" forState:UIControlStateNormal];
+    [self.loadEarlierAction setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
+    [self.view addSubview:self.loadEarlierAction];
 }
 
 
@@ -179,7 +186,9 @@
     NSDictionary * theDictionary = notification.userInfo;
     NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    self.checkBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y;
+    self.checkBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y + 64;
+    NSLog(@"KEY BOAD WILL SHOW %f",self.checkBottomConstraint.constant);
+    NSLog(@"KEY BOAD ORIGIN %f",keyboardEndFrame.origin.y);
     self.typingLabel.frame = CGRectMake(10,keyboardEndFrame.origin.y - 90, self.view.frame.size.width, 30);
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
@@ -207,9 +216,11 @@
 
 -(void) scrollTableViewToBottomWithAnimation:(BOOL) animated
 {
+    NSLog(@"scrollTableViewToBottomWithAnimation CALLED");
     if (self.mTableView.contentSize.height > self.mTableView.frame.size.height)
     {
         CGPoint offset = CGPointMake(0, self.mTableView.contentSize.height - self.mTableView.frame.size.height);
+         NSLog(@"inside if  offset value %f ",offset);
         [self.mTableView setContentOffset:offset animated:animated];
     }
 }
