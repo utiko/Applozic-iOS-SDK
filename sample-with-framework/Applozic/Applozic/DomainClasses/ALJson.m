@@ -142,4 +142,24 @@
     return 0;
 }
 
+-(long)getLongFromJsonValue:(id) jsonValue
+{
+    
+    if(jsonValue != [NSNull null] && jsonValue != nil)
+    {
+        return [jsonValue longValue];
+    }
+    return 0;
+}
+
+-(int)getIntFromJsonValue:(id) jsonValue
+{
+    
+    if(jsonValue != [NSNull null] && jsonValue != nil)
+    {
+        return [jsonValue intValue];
+    }
+    return 0;
+}
+
 @end

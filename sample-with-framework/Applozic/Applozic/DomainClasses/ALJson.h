@@ -26,4 +26,8 @@
 
 -(NSNumber *) getNSNumberFromJsonValue:(id) jsonValue;
 
+-(int)getIntFromJsonValue:(id) jsonValue;
+
+-(long)getLongFromJsonValue:(id) jsonValue;
+
 @end

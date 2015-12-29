@@ -14,5 +14,15 @@
 
 @implementation ALChannel
 
+-(id)initWithDictonary:(NSDictionary *)messageDictonary
+{
+    [self parseMessage:messageDictonary];
+    return self;
+}
+
+-(void)parseMessage:(id) messageJson
+{
+    
+}
 
 @end

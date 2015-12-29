@@ -17,7 +17,7 @@
 -(void)insertChannel:(ALChannel *)channel
 {
 //    ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
-//    DB_CHANNEL *dbChannel = [self createChannelEntity:channel];
+//    DB_CHANNEL *dbChannel = [self createChannel:channel];
 //    [theDBHandler.managedObjectContext save:nil];
 //    channel.channelDBObjectId = dbChannel.objectID;
 //    [theDBHandler.managedObjectContext save:nil];
@@ -46,7 +46,7 @@
 -(void)insertChannelUserX:(ALChanelUserX *)channelUserX
 {
 //    ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
-//    DB_CHANNEL_USER_X *dbChannelUserX = [self createChannelUserXEntity:channelUserMapper];
+//    DB_CHANNEL_USER_X *dbChannelUserX = [self createChannelUserX:channelUserX];
 //    [theDBHandler.managedObjectContext save:nil];
 //    channelUserMapper.channelUserXDBObjectId = dbChannelUserX.objectID;
 //    [theDBHandler.managedObjectContext save:nil];

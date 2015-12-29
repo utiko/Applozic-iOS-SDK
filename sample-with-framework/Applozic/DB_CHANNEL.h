@@ -13,7 +13,6 @@
 @property (nonatomic, retain) NSString *applicationId;
 @property (nonatomic, retain) NSString *channelDisplayName;
 @property (nonatomic, retain) NSNumber *channelKey;
-@property (nonatomic, retain) NSNumber *id;
 
 @property (nonatomic) int messageCount;
 @property (nonatomic) long messageSize;

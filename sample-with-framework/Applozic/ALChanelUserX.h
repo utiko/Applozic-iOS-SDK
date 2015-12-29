@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/NSManagedObject.h>
+#import "ALJson.h"
 
-@interface ALChanelUserX : NSObject
+@interface ALChanelUserX : ALJson
 
 @property (nonatomic, strong) NSString *userKey;
 @property (nonatomic, strong) NSString *latestMessageId;
@@ -19,5 +20,7 @@
 @property (nonatomic) short status;
 @property (nonatomic) Byte role;
 @property (nonatomic) int unreadCount;
+
+-(id)initWithDictonary:(NSDictionary *)messageDictonary;
 
 @end
