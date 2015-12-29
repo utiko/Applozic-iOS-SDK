@@ -14,7 +14,6 @@
 @dynamic channelDisplayName;
 @dynamic channelKey;
 @dynamic createdAt;
-@dynamic id;
 @dynamic messageCount;
 @dynamic messageSize;
 @dynamic type;

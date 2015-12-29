@@ -10,7 +10,6 @@
 
 @implementation DB_CHANNEL_USER_X
 
-@dynamic id;
 @dynamic channelKey;
 @dynamic latestMessageId;
 @dynamic status;

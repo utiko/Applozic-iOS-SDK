@@ -16,7 +16,7 @@
     return self;
 }
 
--(void)parseMessage:(id) messageJson;
+-(void)parseMessage:(id) messageJson
 {
     
     // key String

@@ -5,7 +5,6 @@
         <attribute name="channelDisplayName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="channelkey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="messageCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="messageSize" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -14,7 +13,6 @@
     </entity>
     <entity name="DB_CHANNEL_USER_X" syncable="YES">
         <attribute name="channelKey" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="latestMessageId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -65,10 +63,10 @@
         <relationship name="fileMetaInfo" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DB_FileMetaInfo" syncable="YES"/>
     </entity>
     <elements>
+        <element name="DB_CHANNEL" positionX="27" positionY="171" width="128" height="180"/>
+        <element name="DB_CHANNEL_USER_X" positionX="45" positionY="180" width="128" height="135"/>
         <element name="DB_CONTACT" positionX="0" positionY="0" width="128" height="180"/>
         <element name="DB_FileMetaInfo" positionX="0" positionY="0" width="128" height="165"/>
         <element name="DB_Message" positionX="0" positionY="0" width="128" height="345"/>
-        <element name="DB_CHANNEL" positionX="27" positionY="171" width="128" height="195"/>
-        <element name="DB_CHANNEL_USER_X" positionX="45" positionY="180" width="128" height="150"/>
     </elements>
 </model>
