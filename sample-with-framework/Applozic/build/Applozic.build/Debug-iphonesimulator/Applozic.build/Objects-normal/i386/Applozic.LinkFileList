@@ -22,9 +22,12 @@
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALChatCell.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALChatCell_Image.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/MQTTPersistence.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALChannelFeed.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALChannelService.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/KAProgressLabel.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALRegisterUserClientService.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALJson.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALGroupDBService.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALLocationManager.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/MQTTDecoder.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALContactDBService.o
@@ -40,6 +43,8 @@
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/UIImage+WebP.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/SDWebImageManager.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALSendMessageResponse.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALGroupClientService.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/DB_CHANNEL.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/SDImageCache.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALMessage.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/SDWebImagePrefetcher.o
@@ -59,8 +64,10 @@
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALUser.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/MQTTMessage.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALFileMetaInfo.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALChanelUserMapper.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/UIButton+WebCache.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/MQTTEncoder.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALChannelInfo.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALMessageList.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/UIImageView+WebCache.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALConnection.o
@@ -75,6 +82,7 @@
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALContactService.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/MQTTSSLSecurityPolicy.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALChatViewController.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/DB_CHANNEL_USER_X.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALRequestHandler.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/ALRegistrationResponse.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/i386/Applozic_vers.o

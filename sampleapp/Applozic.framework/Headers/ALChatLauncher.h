@@ -26,24 +26,11 @@
 
 @property(nonatomic,assign) NSString* applicationId;
 
-
-
-
-
 -(instancetype)initWithApplicationId:(NSString *) applicationId;
-
--(void)mbChatViewSettings;
+-(void)ALDefaultChatViewSettings;
 
 -(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
-
 -(void)launchChatList:(NSString *)title andViewControllerObject:(UIViewController *)viewController;
-
-
-
--(void)launchChatForUser:(NSString* )userId fromViewController:(UIViewController*)viewController;
-
--(void)launchChatForUser:(NSString*)userId andWithEmailId:(NSString*)emailId fromViewController:(UIViewController*)viewController;
-
 
 
 -(void)registerForNotification;

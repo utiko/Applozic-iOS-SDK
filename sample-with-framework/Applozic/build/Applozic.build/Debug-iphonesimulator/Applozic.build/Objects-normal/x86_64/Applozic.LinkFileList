@@ -22,9 +22,12 @@
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALChatCell.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALChatCell_Image.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/MQTTPersistence.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALChannelFeed.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALChannelService.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/KAProgressLabel.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALRegisterUserClientService.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALJson.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALGroupDBService.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALLocationManager.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/MQTTDecoder.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALContactDBService.o
@@ -40,6 +43,8 @@
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/UIImage+WebP.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/SDWebImageManager.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALSendMessageResponse.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALGroupClientService.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/DB_CHANNEL.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/SDImageCache.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALMessage.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/SDWebImagePrefetcher.o
@@ -59,8 +64,10 @@
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALUser.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/MQTTMessage.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALFileMetaInfo.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALChanelUserMapper.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/UIButton+WebCache.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/MQTTEncoder.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALChannelInfo.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALMessageList.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/UIImageView+WebCache.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALConnection.o
@@ -75,6 +82,7 @@
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALContactService.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/MQTTSSLSecurityPolicy.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALChatViewController.o
+/Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/DB_CHANNEL_USER_X.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALRequestHandler.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/ALRegistrationResponse.o
 /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/build/Applozic.build/Debug-iphonesimulator/Applozic.build/Objects-normal/x86_64/Applozic_vers.o

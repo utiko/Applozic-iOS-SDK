@@ -91,7 +91,7 @@
 //      If user information is not passed, it will try to get user information from getLoggedinUserInformation.
 //
 //
-//----------------------  ------------------------------------------------------/
+//-----------------------  ------------------------------------------------------/
 
 
 -(void)registerUserAndLaunchChat:(ALUser *)alUser andFromController:(UIViewController*)viewController forUser:(NSString*)userId {
@@ -160,13 +160,13 @@
 
 
 
-// ---------------------- ---------------------------------------------------------------------------------------------------//
+// ----------------------  ---------------------------------------------------------------------------------------------------//
 
 //     This method can be used to get app logged-in user's information.
 //     if user information is stored in DB or preference, Code to get user's information should go here.
 //     This might be used to get existing user information in case of app update.
-    
-//---------------------- ----------------------------------------------------------------------------------------------------//
+
+//----------------------  ----------------------------------------------------------------------------------------------------//
     
     
     
