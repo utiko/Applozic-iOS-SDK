@@ -15,6 +15,7 @@
 #import <Applozic/ALMessagesViewController.h>
 #import <Applozic/ALApplozicSettings.h>
 #import <Applozic/ALChatLauncher.h>
+#import "DemoChatManager.h"
 
 @interface ApplozicLoginViewController ()
 
@@ -162,39 +163,9 @@
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
     
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    
-    [self.mActivityIndicator startAnimating];
-    [registerUserClientService initWithCompletion:user withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
-        [self.mActivityIndicator stopAnimating];
-        
-        if (error) {
-            NSLog(@"%@",error);
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response"
-                                                                message:rResponse.message delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles: nil, nil];
-            [alertView show];
-            return ;
-        }
-        
-        if (rResponse && [rResponse.message containsString: @"REGISTERED"])
-        {
-            ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
-            [messageClientService addWelcomeMessage];
-        }
-        
-        NSLog(@"Registration response from server:%@", rResponse);
-        
-//        
-//        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-//                                                             bundle:[NSBundle bundleForClass:ALMessagesViewController.class]];
-//        UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
-//        [self presentViewController:theTabBar animated:YES completion:nil];
-        
-        ALChatLauncher *mbChatManager = [[ALChatLauncher alloc] initWithApplicationId:@"applozic-sample-app"];
-        [mbChatManager launchChatForUser:user.userId fromViewController:self];
-//        
-    }];
-    
+    DemoChatManager * chatManager = [[DemoChatManager alloc]init];
+    [ chatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
+     
 }
 
 //-------------------------------------------------------------------------------------------------------------------
