@@ -7,22 +7,17 @@
 //  class for databse actios for group
 
 #import <Foundation/Foundation.h>
+#import "ALChannel.h"
+#import "DB_CHANNEL.h"
+#import "DB_CHANNEL_USER_X.h"
+#import "ALDBHandler.h"
+#import "ALChanelUserX.h"
 
 @interface ALChannelDBService : NSObject
 
-@property (nonatomic, strong) NSString *id;
-@property (nonatomic, strong) NSString *createdAt;
-@property (nonatomic, strong) NSString *displayName;
-@property (nonatomic, strong) NSString *channelKey;
-@property (nonatomic, strong) NSString *applicationId;
-@property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSString *updatedAt;
-@property (nonatomic, strong) NSString *userCount;
-@property (nonatomic, strong) NSString *messageSize;
-@property (nonatomic, strong) NSString *messageCount;
-@property (nonatomic, strong) NSString *userId;
-@property (nonatomic, strong) NSString *status;
-@property (nonatomic, strong) NSString *unreadCount;
-@property (nonatomic, strong) NSString *key;
+-(void)insertChannel:(ALChannel *)channel;
+-(DB_CHANNEL *) createChannelEntity:(ALChannel *)channel;
+-(void)insertChannelUserX:(ALChanelUserX *)channelUserX;
+-(DB_CHANNEL_USER_X *)createChannelUserXEntity:(ALChanelUserX *)channelUserX;
 
 @end

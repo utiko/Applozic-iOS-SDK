@@ -10,7 +10,7 @@
 
 @interface ALChannelFeed : NSObject
 
-@property NSInteger id;
+@property (nonatomic, strong) NSNumber *id;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *adminName;
 @property (nonatomic, strong) NSMutableArray *members;

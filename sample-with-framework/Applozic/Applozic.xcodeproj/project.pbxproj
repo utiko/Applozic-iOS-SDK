@@ -209,8 +209,8 @@
 		6DCC301E1C31758400F17D0E /* DB_CHANNEL.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC301C1C31758400F17D0E /* DB_CHANNEL.m */; };
 		6DCC30211C31774C00F17D0E /* DB_CHANNEL_USER_X.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC301F1C31774C00F17D0E /* DB_CHANNEL_USER_X.h */; };
 		6DCC30221C31774C00F17D0E /* DB_CHANNEL_USER_X.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30201C31774C00F17D0E /* DB_CHANNEL_USER_X.m */; };
-		6DCC30251C31826A00F17D0E /* ALChanelUserMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC30231C31826A00F17D0E /* ALChanelUserMapper.h */; };
-		6DCC30261C31826A00F17D0E /* ALChanelUserMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30241C31826A00F17D0E /* ALChanelUserMapper.m */; };
+		6DCC30251C31826A00F17D0E /* ALChanelUserX.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC30231C31826A00F17D0E /* ALChanelUserX.h */; };
+		6DCC30261C31826A00F17D0E /* ALChanelUserX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30241C31826A00F17D0E /* ALChanelUserX.m */; };
 		6DDE81861C27D8EC009B8CF9 /* ALUserClientService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */; };
 		6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */; };
 		982F13041C05D6050024678E /* MQTTClient-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */; };
@@ -439,8 +439,8 @@
 		6DCC301C1C31758400F17D0E /* DB_CHANNEL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DB_CHANNEL.m; sourceTree = "<group>"; };
 		6DCC301F1C31774C00F17D0E /* DB_CHANNEL_USER_X.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DB_CHANNEL_USER_X.h; sourceTree = "<group>"; };
 		6DCC30201C31774C00F17D0E /* DB_CHANNEL_USER_X.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DB_CHANNEL_USER_X.m; sourceTree = "<group>"; };
-		6DCC30231C31826A00F17D0E /* ALChanelUserMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChanelUserMapper.h; sourceTree = "<group>"; };
-		6DCC30241C31826A00F17D0E /* ALChanelUserMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChanelUserMapper.m; sourceTree = "<group>"; };
+		6DCC30231C31826A00F17D0E /* ALChanelUserX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChanelUserX.h; sourceTree = "<group>"; };
+		6DCC30241C31826A00F17D0E /* ALChanelUserX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChanelUserX.m; sourceTree = "<group>"; };
 		6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserClientService.h; sourceTree = "<group>"; };
 		6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserClientService.m; sourceTree = "<group>"; };
 		982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MQTTClient-Prefix.pch"; path = "Applozic/MQTT/MQTTClient-Prefix.pch"; sourceTree = "<group>"; };
@@ -882,8 +882,8 @@
 				6DCC30141C3160C200F17D0E /* ALChannelFeed.m */,
 				6DCC30171C31645700F17D0E /* ALChannelInfo.h */,
 				6DCC30181C31645700F17D0E /* ALChannelInfo.m */,
-				6DCC30231C31826A00F17D0E /* ALChanelUserMapper.h */,
-				6DCC30241C31826A00F17D0E /* ALChanelUserMapper.m */,
+				6DCC30231C31826A00F17D0E /* ALChanelUserX.h */,
+				6DCC30241C31826A00F17D0E /* ALChanelUserX.m */,
 			);
 			name = ALChannel;
 			sourceTree = "<group>";
@@ -971,7 +971,7 @@
 				6D6DF1581BC5364C00EBA00F /* ALChatViewController.h in Headers */,
 				6D6DF1D31BC5364C00EBA00F /* KAProgressLabel.h in Headers */,
 				6D6DF16A1BC5364C00EBA00F /* ALMessageClientService.h in Headers */,
-				6DCC30251C31826A00F17D0E /* ALChanelUserMapper.h in Headers */,
+				6DCC30251C31826A00F17D0E /* ALChanelUserX.h in Headers */,
 				6D6DF1421BC5364C00EBA00F /* ALDBHandler.h in Headers */,
 				982F13101C05D6050024678E /* MQTTSessionManager.h in Headers */,
 				6D6DF15E1BC5364C00EBA00F /* ALChatCell.h in Headers */,
@@ -1245,7 +1245,7 @@
 				6D6DF17F1BC5364C00EBA00F /* ALUser.m in Sources */,
 				982F130B1C05D6050024678E /* MQTTMessage.m in Sources */,
 				6D6DF1731BC5364C00EBA00F /* ALFileMetaInfo.m in Sources */,
-				6DCC30261C31826A00F17D0E /* ALChanelUserMapper.m in Sources */,
+				6DCC30261C31826A00F17D0E /* ALChanelUserX.m in Sources */,
 				6D6DF1C61BC5364C00EBA00F /* UIButton+WebCache.m in Sources */,
 				982F13091C05D6050024678E /* MQTTEncoder.m in Sources */,
 				6DCC301A1C31645700F17D0E /* ALChannelInfo.m in Sources */,
