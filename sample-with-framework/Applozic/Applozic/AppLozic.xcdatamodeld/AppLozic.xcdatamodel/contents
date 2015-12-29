@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="14F1509" minimumToolsVersion="Xcode 4.3">
-    <entity name="DB_CHANNEL" syncable="YES">
+    <entity name="DB_CHANNEL" representedClassName="DB_CHANNEL" syncable="YES">
         <attribute name="applicationId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="channelDisplayName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="channelkey" optional="YES" attributeType="String" syncable="YES"/>
@@ -11,7 +11,7 @@
         <attribute name="updatedAt" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="userCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
-    <entity name="DB_CHANNEL_USER_X" syncable="YES">
+    <entity name="DB_CHANNEL_USER_X" representedClassName="DB_CHANNEL_USER_X" syncable="YES">
         <attribute name="channelKey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="latestMessageId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
