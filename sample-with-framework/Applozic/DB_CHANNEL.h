@@ -15,5 +15,5 @@
 @property (nonatomic, retain) NSNumber *channelKey;
 @property (nonatomic) short type;
 @property (nonatomic) int userCount;
-
+@property (nonatomic) int unreadCount;
 @end

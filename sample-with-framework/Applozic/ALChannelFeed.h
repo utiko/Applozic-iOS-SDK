@@ -7,12 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ALJson.h"
+#import "ALChannel.h"
 
-@interface ALChannelFeed : NSObject
+@interface ALChannelFeed : ALJson
 
-@property (nonatomic, strong) NSNumber *id;
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *adminName;
-@property (nonatomic, strong) NSMutableArray *members;
+@property (nonatomic) NSMutableArray <ALChannel *>* channelFeedsList;
 
 @end

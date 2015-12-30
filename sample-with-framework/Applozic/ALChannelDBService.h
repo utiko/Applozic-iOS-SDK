@@ -15,7 +15,7 @@
 
 @interface ALChannelDBService : NSObject
 
--(void)insertChannel:(ALChannel *)channel;
+-(void)insertChannel:(NSMutableArray *)channelList;
 -(DB_CHANNEL *) createChannelEntity:(ALChannel *)channel;
 -(void)insertChannelUserX:(ALChanelUserX *)channelUserX;
 -(DB_CHANNEL_USER_X *)createChannelUserXEntity:(ALChanelUserX *)channelUserX;

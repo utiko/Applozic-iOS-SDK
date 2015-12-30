@@ -9,6 +9,7 @@
 #import "ALMessageList.h"
 #import "ALMessage.h"
 #import "ALUserDetail.h"
+#import "ALChannel.h"
 
 @implementation ALMessageList
 
@@ -42,7 +43,8 @@
     
     self.userDetailsList = theUserDetailArray;
     
-  }
+}
+
 
 
 @end

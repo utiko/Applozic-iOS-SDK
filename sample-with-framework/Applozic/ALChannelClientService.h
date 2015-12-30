@@ -7,7 +7,17 @@
 //  class for server calls
 
 #import <Foundation/Foundation.h>
+#import "ALConstant.h"
+#import "ALRequestHandler.h"
+#import "ALResponseHandler.h"
 
 @interface ALChannelClientService : NSObject
+
++(void)serverCallForChannelCreation:(NSString *)channelId;
++(void)serverCallForChannelList:(NSString *)channelId;
++(void)serverCallForDeleteChannel:(NSString *)channelId;
++(void)serverCallForRemoveMemberFromChannel:(NSString *)channelId;
++(void)serverCallForLeaveMemberFromChannel:(NSString *)channelId;
+
 
 @end

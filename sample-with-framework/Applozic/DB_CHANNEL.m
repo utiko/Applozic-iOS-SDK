@@ -15,5 +15,6 @@
 @dynamic channelKey;
 @dynamic type;
 @dynamic userCount;
+@dynamic unreadCount;
 
 @end

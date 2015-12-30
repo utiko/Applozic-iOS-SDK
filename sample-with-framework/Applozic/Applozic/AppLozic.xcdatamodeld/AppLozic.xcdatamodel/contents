@@ -5,6 +5,7 @@
         <attribute name="channelDisplayName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="channelkey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="unreadCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="userCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="DB_CHANNEL_USER_X" representedClassName="DB_CHANNEL_USER_X" syncable="YES">
@@ -56,7 +57,7 @@
         <relationship name="fileMetaInfo" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DB_FileMetaInfo" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DB_CHANNEL" positionX="27" positionY="171" width="128" height="120"/>
+        <element name="DB_CHANNEL" positionX="27" positionY="171" width="128" height="135"/>
         <element name="DB_CHANNEL_USER_X" positionX="45" positionY="180" width="128" height="90"/>
         <element name="DB_CONTACT" positionX="0" positionY="0" width="128" height="180"/>
         <element name="DB_FileMetaInfo" positionX="0" positionY="0" width="128" height="165"/>

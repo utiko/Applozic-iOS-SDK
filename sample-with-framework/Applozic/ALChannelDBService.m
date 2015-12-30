@@ -14,11 +14,19 @@
 
 @implementation ALChannelDBService
 
--(void)insertChannel:(ALChannel *)channel
+-(void)insertChannel:(NSMutableArray *)channelList
 {
+    NSMutableArray *channelArray = [[NSMutableArray alloc] init];
     ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
-    DB_CHANNEL *dbChannel = [self createChannelEntity:channel];
-    channel.channelDBObjectId = dbChannel.objectID;
+    for(ALChannel *channel in channelList){
+        
+        DB_CHANNEL *dbChannel = [self createChannelEntity:channel];
+        // IT MIGHT BE USED In FUTURE
+        //[theDBHandler.managedObjectContext save:nil];
+        //channel.channelDBObjectId = dbChannel.objectID;
+        [channelArray addObject:channel];
+    }
+    
     
     NSError *error = nil;
     [theDBHandler.managedObjectContext save:&error];
@@ -40,6 +48,7 @@
         theChannelEntity.userCount = channel.userCount;
         theChannelEntity.type = channel.type;
         theChannelEntity.adminId = channel.adminKey;
+        theChannelEntity.unreadCount = channel.unreadCount;
     }
     
     return theChannelEntity;
