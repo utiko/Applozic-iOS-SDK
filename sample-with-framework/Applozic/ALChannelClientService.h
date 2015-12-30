@@ -10,6 +10,9 @@
 #import "ALConstant.h"
 #import "ALRequestHandler.h"
 #import "ALResponseHandler.h"
+#import "ALChannel.h"
+#import "ALChannelUserX.h"
+#import "ALChannelDBService.h"
 
 @interface ALChannelClientService : NSObject
 
@@ -19,5 +22,6 @@
 +(void)serverCallForRemoveMemberFromChannel:(NSString *)channelId;
 +(void)serverCallForLeaveMemberFromChannel:(NSString *)channelId;
 
++(void)getChannelArray:(NSMutableArray *) channelArray;
 
 @end

@@ -23,6 +23,7 @@
 #import "ALContactDBService.h"
 #import "ALChannelFeed.h"
 #import "ALChannelDBService.h"
+#import "ALChannelClientService.h"
 
 @implementation ALMessageService
 
@@ -141,6 +142,10 @@
         [alChannelDBService insertChannel:alChannelFeed.channelFeedsList];
         
         //=========
+         //=========
+        [ALChannelClientService getChannelArray:alChannelFeed.channelFeedsList];
+        
+         //=========
         
     }];
     

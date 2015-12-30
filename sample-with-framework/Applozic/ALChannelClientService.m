@@ -14,6 +14,24 @@
 
 @implementation ALChannelClientService
 
++(void)getChannelArray:(NSMutableArray *)channelArray
+{
+    NSMutableArray * memberArray = [NSMutableArray new];
+    
+    for(ALChannel *channel in channelArray)
+    {
+        ALChannelUserX *newChannelUserX = [[ALChannelUserX alloc] init];
+        newChannelUserX.key = channel.key;
+        for(NSString *memberName in channel.membersName)
+        {
+            newChannelUserX.userKey = memberName;
+            [memberArray addObject:newChannelUserX];
+        }
+    }
+    ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+    [channelDBService insertChannelUserX:memberArray];
+}
+
 +(void)serverCallForChannelCreation:(NSString *)channelId
 {
     // POST METHOD
