@@ -33,11 +33,8 @@
         theChannelEntity.channelDisplayName = channel.name;
         theChannelEntity.channelKey = channel.key;
         theChannelEntity.userCount = channel.userCount;
-        theChannelEntity.createdAt = channel.createdAt;
         theChannelEntity.type = channel.type;
-        theChannelEntity.messageSize = channel.mesgSize;
-        theChannelEntity.messageCount = channel.mesgCount;
-        theChannelEntity.updatedAt = channel.updatedAt;
+        theChannelEntity.adminId = channel.adminKey;
     }
     
     return theChannelEntity;
@@ -63,8 +60,6 @@
         theChannelUserXEntity.channelKey = channelUserX.key;
         theChannelUserXEntity.userId = channelUserX.userKey;
         theChannelUserXEntity.status = channelUserX.status;
-        theChannelUserXEntity.latestMessageId = channelUserX.latestMessageId;
-        theChannelUserXEntity.unreadCount = channelUserX.unreadCount;
     }
     
     return theChannelUserXEntity;

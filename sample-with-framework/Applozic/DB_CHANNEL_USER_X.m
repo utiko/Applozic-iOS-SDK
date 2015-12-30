@@ -11,10 +11,7 @@
 @implementation DB_CHANNEL_USER_X
 
 @dynamic channelKey;
-@dynamic latestMessageId;
 @dynamic status;
-@dynamic type;
-@dynamic unreadCount;
 @dynamic userId;
 
 @end

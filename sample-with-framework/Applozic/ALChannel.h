@@ -21,20 +21,13 @@ typedef enum
 
 @interface ALChannel : ALJson
 
+
+@property (nonatomic, strong) NSNumber *key;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *adminKey;
-@property (nonatomic, strong) NSString *applicationKey;
-@property (nonatomic, strong) NSMutableArray *contacts;
-@property (nonatomic, strong) NSNumber *key;
-@property (nonatomic, copy) NSManagedObjectID *channelDBObjectId;
-
-@property (nonatomic) long updatedAt;
-@property (nonatomic) long createdAt;
-@property (nonatomic) long groupId;
-@property (nonatomic) long mesgSize;
-@property (nonatomic) int userCount;
-@property (nonatomic) int mesgCount;
 @property (nonatomic) short type;
+@property (nonatomic) int userCount;
+@property (nonatomic, copy) NSManagedObjectID *channelDBObjectId;
 
 -(id)initWithDictonary:(NSDictionary *)messageDictonary;
 

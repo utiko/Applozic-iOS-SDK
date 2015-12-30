@@ -13,13 +13,9 @@
 @interface ALChanelUserX : ALJson
 
 @property (nonatomic, strong) NSString *userKey;
-@property (nonatomic, strong) NSString *latestMessageId;
 @property (nonatomic, strong) NSNumber *key;
-@property (nonatomic, copy) NSManagedObjectID *channelUserXDBObjectId;
-
 @property (nonatomic) short status;
-@property (nonatomic) Byte role;
-@property (nonatomic) int unreadCount;
+@property (nonatomic, copy) NSManagedObjectID *channelUserXDBObjectId;
 
 -(id)initWithDictonary:(NSDictionary *)messageDictonary;
 
