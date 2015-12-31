@@ -137,6 +137,12 @@
 				TargetAttributes = {
 					6DB75B501C35221700077658 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = C25JNDCBM4;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -292,7 +298,7 @@
 				);
 				INFOPLIST_FILE = "sampleapp-swift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "applozic.sampleapp-swift";
+				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.customer.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "sampleapp-swift/sampleapp-swift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -310,7 +316,7 @@
 				);
 				INFOPLIST_FILE = "sampleapp-swift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "applozic.sampleapp-swift";
+				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.customer.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "sampleapp-swift/sampleapp-swift-Bridging-Header.h";
 			};
