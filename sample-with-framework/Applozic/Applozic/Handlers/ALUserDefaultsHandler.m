@@ -257,7 +257,7 @@
 +(void)setShowLoadEarlierOption:(BOOL) value forContactId:(NSString*)contactId{
     
     NSString *key = [ contactId stringByAppendingString:SHOW_LOAD_ERLIER_MESSAGE];
-    [[NSUserDefaults standardUserDefaults] setBool:true forKey:key];
+    [[NSUserDefaults standardUserDefaults] setBool:value forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
 }

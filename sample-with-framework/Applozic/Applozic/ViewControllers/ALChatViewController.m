@@ -244,7 +244,7 @@ ALMessageDBService  * dbService;
     loadingIndicator.hidesWhenStopped = YES;
     [self.view addSubview:loadingIndicator];
     [loadingIndicator startAnimating];
-    [ self fetchAndRefresh ];
+    [ self fetchAndRefresh:YES ];
     [loadingIndicator stopAnimating];
 }
 
@@ -1062,7 +1062,7 @@ ALMessageDBService  * dbService;
         NSLog(@"it was in background, updateUI is false");
         self.contactIds = contactId;
         [self reloadView];
-        [self fetchAndRefresh];
+        [self fetchAndRefresh:YES];
     } else {
         NSLog(@"show notification as someone else thread is already opened");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
@@ -1107,7 +1107,7 @@ ALMessageDBService  * dbService;
     NSLog(@" got the UI label::%@" , notificationView.contactId);
     self.contactIds = notificationView.contactId;
     [self reloadView];
-    [self fetchAndRefresh];
+    [self fetchAndRefresh:YES];
     
 }
 
@@ -1131,9 +1131,12 @@ ALMessageDBService  * dbService;
             NSLog(@"No Error");
             self.loadEarlierAction.hidden=YES;
             if( messages.count< 50 ){
-                self.showloadEarlierAction = NO;
+             //   self.showloadEarlierAction = NO;
+                
+                [ALUserDefaultsHandler setShowLoadEarlierOption:NO forContactId:self.contactIds];
             }else{
-                self.showloadEarlierAction = YES;
+                [ALUserDefaultsHandler setShowLoadEarlierOption:YES forContactId:self.contactIds];
+               // self.showloadEarlierAction = YES;
             }
             if (messages.count==0){
                 return;
@@ -1345,12 +1348,12 @@ ALMessageDBService  * dbService;
 
 -(void)scrollViewDidScroll: (UIScrollView*)scrollView
 {
-    float scrollViewHeight = scrollView.frame.size.height;
-    float scrollContentSizeHeight = scrollView.contentSize.height;
+
     float scrollOffset = scrollView.contentOffset.y;
     
-    if (scrollOffset == 0 && self.showloadEarlierAction)
+    if (scrollOffset == 0  && [ALUserDefaultsHandler isShowLoadEarlierOption:self.contactIds])
     {
+       // NSLog(@"####inside if true ::%i", [ALUserDefaultsHandler isShowLoadEarlierOption:self.contactIds] );
         [self.loadEarlierAction setHidden:NO];
         // then we are at the top
     }
