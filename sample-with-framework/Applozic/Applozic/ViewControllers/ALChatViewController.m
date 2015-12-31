@@ -149,7 +149,7 @@ ALMessageDBService  * dbService;
 
     
     if(self.individualLaunch){
-        NSLog(@"individual launch ...unsubscribeToConversation to mqtt..");
+        NSLog(@"individual launch ...subscribeToConversation to mqtt..");
         self.mqttObject.mqttConversationDelegate = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             if(self.mqttObject)
