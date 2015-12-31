@@ -1,5 +1,5 @@
 //
-//  ALChanelUserX.h
+//  ALChannelUserX.h
 //  Applozic
 //
 //  Created by devashish on 28/12/2015.
@@ -10,16 +10,12 @@
 #import <CoreData/NSManagedObject.h>
 #import "ALJson.h"
 
-@interface ALChanelUserX : ALJson
+@interface ALChannelUserX : ALJson
 
 @property (nonatomic, strong) NSString *userKey;
-@property (nonatomic, strong) NSString *latestMessageId;
 @property (nonatomic, strong) NSNumber *key;
-@property (nonatomic, copy) NSManagedObjectID *channelUserXDBObjectId;
-
 @property (nonatomic) short status;
-@property (nonatomic) Byte role;
-@property (nonatomic) int unreadCount;
+@property (nonatomic, copy) NSManagedObjectID *channelUserXDBObjectId;
 
 -(id)initWithDictonary:(NSDictionary *)messageDictonary;
 

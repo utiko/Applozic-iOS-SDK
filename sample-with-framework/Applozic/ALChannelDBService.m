@@ -14,13 +14,26 @@
 
 @implementation ALChannelDBService
 
--(void)insertChannel:(ALChannel *)channel
+-(void)insertChannel:(NSMutableArray *)channelList
 {
-//    ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
-//    DB_CHANNEL *dbChannel = [self createChannel:channel];
-//    [theDBHandler.managedObjectContext save:nil];
-//    channel.channelDBObjectId = dbChannel.objectID;
-//    [theDBHandler.managedObjectContext save:nil];
+    NSMutableArray *channelArray = [[NSMutableArray alloc] init];
+    ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
+    for(ALChannel *channel in channelList){
+        
+        DB_CHANNEL *dbChannel = [self createChannelEntity:channel];
+        // IT MIGHT BE USED In FUTURE
+        //[theDBHandler.managedObjectContext save:nil];
+        //channel.channelDBObjectId = dbChannel.objectID;
+        [channelArray addObject:channel];
+    }
+    
+    
+    NSError *error = nil;
+    [theDBHandler.managedObjectContext save:&error];
+    if(error)
+    {
+        NSLog(@"ERROR IN insertChannel METHOD %@",error);
+    }
 }
 
 -(DB_CHANNEL *)createChannelEntity:(ALChannel *)channel
@@ -33,27 +46,37 @@
         theChannelEntity.channelDisplayName = channel.name;
         theChannelEntity.channelKey = channel.key;
         theChannelEntity.userCount = channel.userCount;
-        theChannelEntity.createdAt = channel.createdAt;
         theChannelEntity.type = channel.type;
-        theChannelEntity.messageSize = channel.mesgSize;
-        theChannelEntity.messageCount = channel.mesgCount;
-        theChannelEntity.updatedAt = channel.updatedAt;
+        theChannelEntity.adminId = channel.adminKey;
+        theChannelEntity.unreadCount = channel.unreadCount;
     }
     
     return theChannelEntity;
 }
 
--(void)insertChannelUserX:(ALChanelUserX *)channelUserX
+-(void)insertChannelUserX:(NSMutableArray *)channelUserXList
 {
-//    ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
-//    DB_CHANNEL_USER_X *dbChannelUserX = [self createChannelUserX:channelUserX];
-//    [theDBHandler.managedObjectContext save:nil];
-//    channelUserMapper.channelUserXDBObjectId = dbChannelUserX.objectID;
-//    [theDBHandler.managedObjectContext save:nil];
+    NSMutableArray *channelUserXArray = [[NSMutableArray alloc] init];
+    ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
+    for(ALChannelUserX *channelUserX in channelUserXList)
+    {
+        DB_CHANNEL_USER_X *dbChannelUserX = [self createChannelUserXEntity:channelUserX];
+        // IT MIGHT BE USED In FUTURE
+        //[theDBHandler.managedObjectContext save:nil];
+        //channelUserX.channelDBObjectId = dbChannelUserX.objectID;
+        [channelUserXArray addObject:dbChannelUserX];
+    }
+    
+    NSError *error = nil;
+    [theDBHandler.managedObjectContext save:&error];
+    if(error)
+    {
+        NSLog(@"ERROR IN insertChannelUserX METHOD %@",error);
+    }
     
 }
 
--(DB_CHANNEL_USER_X *)createChannelUserXEntity:(ALChanelUserX *)channelUserX
+-(DB_CHANNEL_USER_X *)createChannelUserXEntity:(ALChannelUserX *)channelUserX
 {
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     DB_CHANNEL_USER_X * theChannelUserXEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_CHANNEL_USER_X" inManagedObjectContext:theDBHandler.managedObjectContext];
@@ -62,9 +85,7 @@
     {
         theChannelUserXEntity.channelKey = channelUserX.key;
         theChannelUserXEntity.userId = channelUserX.userKey;
-        theChannelUserXEntity.status = channelUserX.status;
-        theChannelUserXEntity.latestMessageId = channelUserX.latestMessageId;
-        theChannelUserXEntity.unreadCount = channelUserX.unreadCount;
+//        theChannelUserXEntity.status = channelUserX.status;
     }
     
     return theChannelUserXEntity;

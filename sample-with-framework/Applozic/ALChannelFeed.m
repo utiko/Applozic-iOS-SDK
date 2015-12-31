@@ -10,4 +10,22 @@
 
 @implementation ALChannelFeed
 
+-(id)initWithJSONString:(NSString *)JSONString
+{
+    [self parseMessage:JSONString];
+    return self;
+}
+
+-(void)parseMessage:(id) json;
+{
+    NSMutableArray * theChannelFeedArray = [NSMutableArray new];
+    
+    NSDictionary * theChannelFeedDict = [json valueForKey:@"groupFeeds"];
+    for (NSDictionary * theDictionary in theChannelFeedDict) {
+        ALChannel *alChannel = [[ALChannel alloc] initWithDictonary:theDictionary];
+        [theChannelFeedArray addObject:alChannel];
+    }
+    self.channelFeedsList = theChannelFeedArray;
+}
+
 @end

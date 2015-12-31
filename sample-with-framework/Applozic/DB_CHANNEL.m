@@ -10,14 +10,11 @@
 
 @implementation DB_CHANNEL
 
-@dynamic applicationId;
+@dynamic adminId;
 @dynamic channelDisplayName;
 @dynamic channelKey;
-@dynamic createdAt;
-@dynamic messageCount;
-@dynamic messageSize;
 @dynamic type;
-@dynamic updatedAt;
 @dynamic userCount;
+@dynamic unreadCount;
 
 @end

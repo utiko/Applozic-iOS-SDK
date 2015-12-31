@@ -11,13 +11,13 @@
 #import "DB_CHANNEL.h"
 #import "DB_CHANNEL_USER_X.h"
 #import "ALDBHandler.h"
-#import "ALChanelUserX.h"
+#import "ALChannelUserX.h"
 
 @interface ALChannelDBService : NSObject
 
--(void)insertChannel:(ALChannel *)channel;
+-(void)insertChannel:(NSMutableArray *)channelList;
 -(DB_CHANNEL *) createChannelEntity:(ALChannel *)channel;
--(void)insertChannelUserX:(ALChanelUserX *)channelUserX;
--(DB_CHANNEL_USER_X *)createChannelUserXEntity:(ALChanelUserX *)channelUserX;
+-(void)insertChannelUserX:(NSMutableArray *)channelUserX;
+-(DB_CHANNEL_USER_X *)createChannelUserXEntity:(ALChannelUserX *)channelUserXList;
 
 @end

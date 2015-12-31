@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="14F1509" minimumToolsVersion="Xcode 4.3">
-    <entity name="DB_CHANNEL" syncable="YES">
-        <attribute name="applicationId" optional="YES" attributeType="String" syncable="YES"/>
+    <entity name="DB_CHANNEL" representedClassName="DB_CHANNEL" syncable="YES">
+        <attribute name="adminId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="channelDisplayName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="channelkey" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="createdAt" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="messageCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="messageSize" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="updatedAt" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="userCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-    </entity>
-    <entity name="DB_CHANNEL_USER_X" syncable="YES">
-        <attribute name="channelKey" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="latestMessageId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="unreadCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="userCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="DB_CHANNEL_USER_X" representedClassName="DB_CHANNEL_USER_X" syncable="YES">
+        <attribute name="channelKey" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="DB_CONTACT" representedClassName="DB_CONTACT" syncable="YES">
@@ -63,8 +57,8 @@
         <relationship name="fileMetaInfo" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DB_FileMetaInfo" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DB_CHANNEL" positionX="27" positionY="171" width="128" height="180"/>
-        <element name="DB_CHANNEL_USER_X" positionX="45" positionY="180" width="128" height="135"/>
+        <element name="DB_CHANNEL" positionX="27" positionY="171" width="128" height="135"/>
+        <element name="DB_CHANNEL_USER_X" positionX="45" positionY="180" width="128" height="90"/>
         <element name="DB_CONTACT" positionX="0" positionY="0" width="128" height="180"/>
         <element name="DB_FileMetaInfo" positionX="0" positionY="0" width="128" height="165"/>
         <element name="DB_Message" positionX="0" positionY="0" width="128" height="345"/>

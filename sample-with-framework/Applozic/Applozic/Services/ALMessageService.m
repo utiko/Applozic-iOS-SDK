@@ -21,6 +21,9 @@
 #import "ALUserService.h"
 #import "ALUserDetail.h"
 #import "ALContactDBService.h"
+#import "ALChannelFeed.h"
+#import "ALChannelDBService.h"
+#import "ALChannelClientService.h"
 
 @implementation ALMessageService
 
@@ -132,6 +135,18 @@
         [almessageDBService addMessageList:messageListResponse.messageList];
         completion(messageListResponse.messageList, nil, messageListResponse.userDetailsList);
        NSLog(@"message list response THE JSON %@",theJson);
+        
+        //====== NEED CHECK  DB QUERY AND CALLING METHODS
+        ALChannelFeed *alChannelFeed = [[ALChannelFeed alloc] initWithJSONString:theJson];
+        ALChannelDBService *alChannelDBService = [[ALChannelDBService alloc] init];
+        [alChannelDBService insertChannel:alChannelFeed.channelFeedsList];
+        
+        //=========
+         //=========
+        [ALChannelClientService getChannelArray:alChannelFeed.channelFeedsList];
+        
+         //=========
+        
     }];
     
 }

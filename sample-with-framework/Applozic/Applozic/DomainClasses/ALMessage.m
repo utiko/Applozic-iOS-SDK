@@ -94,6 +94,10 @@
     //develired
     self.delivered = [self getBoolFromJsonValue:messageJson[@"delivered"]];
     
+    //groupId
+    
+    self.groupId = [self getNSNumberFromJsonValue:messageJson[@"groupId"]];
+    
     //contentType
     
     self.contentType = [self getShortFromJsonValue:messageJson[@"contentType"]];

@@ -67,6 +67,8 @@
 
 @property(nonatomic) short contentType;
 
+@property (nonatomic, copy) NSNumber *groupId;
+
 -(NSString *)getCreatedAtTime:(BOOL)today;
 
 -(id)initWithDictonary:(NSDictionary*)messageDictonary;
