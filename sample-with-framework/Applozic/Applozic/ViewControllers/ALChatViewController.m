@@ -1306,7 +1306,7 @@ ALMessageDBService  * dbService;
         }
         else
         {
-            [format setDateFormat:@"EE, MMM dd, YYYY"];
+            [format setDateFormat:@"EE, MMM dd, yyy"];
             NSString *str = @"Last seen ";
             str = [str stringByAppendingString:[format stringFromDate:date]];
             [self.label setText:str];
