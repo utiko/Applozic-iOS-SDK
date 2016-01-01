@@ -32,5 +32,6 @@
 @dynamic sentToServer;
 @dynamic fileMetaInfo;
 @dynamic contentType;
+@dynamic groupId;
 
 @end

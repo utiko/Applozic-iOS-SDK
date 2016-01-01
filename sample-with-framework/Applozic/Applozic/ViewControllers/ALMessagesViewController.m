@@ -32,6 +32,8 @@
 #import "ALDataNetworkConnection.h"
 #import "Reachability.h"
 #import "ALUserService.h"
+#import "ALChannelDBService.h"
+#import "ALChannel.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -541,7 +543,7 @@ ALMQTTConversationService *alMqttConversationService;
     
     static NSString *cellIdentifier = @"ContactCell";
     ALContactCell *contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
+   
     [contactCell.mUserNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:USER_NAME_LABEL_SIZE]];//size check
     [contactCell.mMessageLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_LABEL_SIZE]];
     [contactCell.mTimeLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TIME_LABEL_SIZE]];
@@ -556,7 +558,7 @@ ALMQTTConversationService *alMqttConversationService;
     [contactCell.onlineImageMarker setBackgroundColor:[UIColor clearColor]];
     
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
-    ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];             
+    ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];
     contactCell.mUserNameLabel.text = [alContact displayName];
     contactCell.mMessageLabel.text = message.message;
     contactCell.mMessageLabel.hidden = FALSE;
@@ -638,7 +640,7 @@ ALMQTTConversationService *alMqttConversationService;
 //         contactCell.mUserImageView.hidden=TRUE;
 
     }
-    
+
     return contactCell;
 }
 

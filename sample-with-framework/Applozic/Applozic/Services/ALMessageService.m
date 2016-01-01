@@ -29,7 +29,7 @@
 
 +(void) processLatestMessagesGroupByContact {
     /*ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
-    [ almessageDBService fetchAndRefreshFromServer];*/
+     [ almessageDBService fetchAndRefreshFromServer];*/
     [self getLatestMessageGroupByContactWithCompletion:^(ALMessageList *alMessageList, NSError *error) {
         if (error) {
             return;
@@ -38,10 +38,10 @@
         [alMessageDBService addMessageList:alMessageList.messageList];
         ALContactDBService *alContactDBService = [[ALContactDBService alloc] init];
         [alContactDBService addUserDetails:alMessageList.userDetailsList];
-
+        
         // set yes to userdefaults
         [ALUserDefaultsHandler setBoolForKey_isConversationDbSynced:YES];
-
+        
         
     }];
 }
@@ -67,7 +67,7 @@
         ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
         completion(messageListResponse,nil);
-       // NSLog(@"message list response THE JSON %@",theJson);
+        // NSLog(@"message list response THE JSON %@",theJson);
         //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
     }];
     
@@ -89,12 +89,22 @@
             
             return ;
         }
-       
+        
         ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
         completion(messageListResponse.messageList,nil);
-        NSLog(@"message list response THE JSON %@",theJson);
-//        [ALUserService processContactFromMessages:[messageListResponse messageList]];
+        NSLog(@"getMessagesListGroupByContactswithCompletion message list response THE JSON %@",theJson);
+        //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
+        
+        //====== NEED CHECK  DB QUERY AND CALLING METHODS
+        
+        ALChannelFeed *alChannelFeed = [[ALChannelFeed alloc] initWithJSONString:theJson];
+        ALChannelDBService *alChannelDBService = [[ALChannelDBService alloc] init];
+        [alChannelDBService insertChannel:alChannelFeed.channelFeedsList];
+        
+        [ALChannelClientService getChannelArray:alChannelFeed.channelFeedsList];
+        
+        //=========
     }];
     
 }
@@ -134,18 +144,10 @@
         ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
         [almessageDBService addMessageList:messageListResponse.messageList];
         completion(messageListResponse.messageList, nil, messageListResponse.userDetailsList);
-       NSLog(@"message list response THE JSON %@",theJson);
         
-        //====== NEED CHECK  DB QUERY AND CALLING METHODS
-        ALChannelFeed *alChannelFeed = [[ALChannelFeed alloc] initWithJSONString:theJson];
-        ALChannelDBService *alChannelDBService = [[ALChannelDBService alloc] init];
-        [alChannelDBService insertChannel:alChannelFeed.channelFeedsList];
+        NSLog(@"getMessageListForUser message list response THE JSON %@",theJson);
         
-        //=========
-         //=========
-        [ALChannelClientService getChannelArray:alChannelFeed.channelFeedsList];
-        
-         //=========
+       
         
     }];
     
@@ -160,20 +162,20 @@
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
     NSError *theError=nil;
     [[ NSNotificationCenter defaultCenter] postNotificationName:@"updateConversationTableNotification" object:alMessage userInfo:nil];
-
+    
     if (alMessage.msgDBObjectId==nil){
         NSLog(@"message not in DB new insertion.");
-
+        
         dbMessage =[dbService addMessage:alMessage];
     }else{
         NSLog(@"message found in DB just getting it not inserting new one...");
         dbMessage =(DB_Message*)[dbService getMeesageById:alMessage.msgDBObjectId error:&theError];
     }
-       //convert to dic
+    //convert to dic
     NSDictionary * userInfo = [alMessage dictionary ];
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/send",KBASE_URL];
     NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
-   
+    
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"SEND MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
@@ -188,13 +190,13 @@
         NSString *statusStr = (NSString *)theJson;
         //TODO: move to db layer
         ALSendMessageResponse  *response = [[ALSendMessageResponse alloc] initWithJSONString:statusStr ];
-
+        
         ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
         dbMessage.isSent = [NSNumber numberWithBool:YES];
         dbMessage.key = response.messageKey;
         dbMessage.inProgress = [NSNumber numberWithBool:NO];
         dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
-
+        
         dbMessage.createdAt =response.createdAt;
         alMessage.key = dbMessage.key;
         dbMessage.sentToServer=[NSNumber numberWithBool:YES];
@@ -205,7 +207,7 @@
         alMessage.inProgress=dbMessage.inProgress.boolValue;
         alMessage.isUploadFailed=dbMessage.isUploadFailed.boolValue;
         alMessage.sent = dbMessage.isSent.boolValue;
-
+        
         [theDBHandler.managedObjectContext save:nil];
         completion(statusStr,nil);
         
@@ -216,7 +218,7 @@
 +(void) sendPhotoForUserInfo:(NSDictionary *)userInfo withCompletion:(void(^)(NSString * message, NSError *error)) completion {
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/aws/file/url",KBASE_FILE_URL];
-
+    
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:nil];
     
     [ALResponseHandler processRequest:theRequest andTag:@"CREATE FILE URL" WithCompletionHandler:^(id theJson, NSError *theError) {
@@ -229,7 +231,7 @@
         }
         
         NSString *imagePostingURL = (NSString *)theJson;
-    
+        
         completion(imagePostingURL,nil);
         
     }];
@@ -245,7 +247,7 @@
         }
         NSLog(@"last syncTime in call %@", lastSyncTime);
         NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/sync",KBASE_URL];
-    
+        
         NSString * theParamString = [NSString stringWithFormat:@"lastSyncTime=%@",lastSyncTime];
         
         NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
@@ -265,7 +267,7 @@
             if(syncResponse.messagesList.count >0 ){
                 ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
                 messageArray = [dbService addMessageList:syncResponse.messagesList];
-               // [ALUserService processContactFromMessages:syncResponse.messageList];
+                // [ALUserService processContactFromMessages:syncResponse.messageList];
             }
             
             if (syncResponse.deliveredMessageKeys.count > 0) {
@@ -276,10 +278,10 @@
             [messageClientService updateDeliveryReports:syncResponse.messagesList];
             completion(messageArray, nil);
         }];
-
+        
     }
     
-  }
+}
 
 +(void) updateDeliveredReport: (NSArray *) deliveredMessageKeys {
     for (id key in deliveredMessageKeys) {
@@ -335,7 +337,7 @@
 
 +(void) proessUploadImageForMessage:(ALMessage *)message databaseObj:(DB_FileMetaInfo *)fileMetaInfo uploadURL:(NSString *)uploadURL withdelegate:(id)delegate{
     
-   
+    
     NSString * docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString * timestamp = message.imageFilePath;
     NSString * filePath = [docDirPath stringByAppendingPathComponent:timestamp];
@@ -385,9 +387,9 @@
         connection.keystring =message.key;
         connection.connectionType = @"Image Posting";
         [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] addObject:connection];
-    
+        
     }
-  
+    
 }
 +(void) processImageDownloadforMessage:(ALMessage *) message withdelegate:(id)delegate{
     NSString * urlString = [NSString stringWithFormat:@"%@/rest/ws/aws/file/%@",KBASE_FILE_URL,message.fileMeta.blobKey];
@@ -461,14 +463,14 @@
         }
         else
         {
-           //NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
-           ALUserDetail *userDetailObject = [[ALUserDetail alloc] initWithJSONString:theJson];
-          // [userDetailObject userDetail];
-         completionMark(userDetailObject);
+            //NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
+            ALUserDetail *userDetailObject = [[ALUserDetail alloc] initWithJSONString:theJson];
+            // [userDetailObject userDetail];
+            completionMark(userDetailObject);
             
         }
         
-
+        
     }];
     
     
