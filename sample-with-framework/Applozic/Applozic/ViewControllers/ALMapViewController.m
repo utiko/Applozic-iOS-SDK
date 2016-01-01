@@ -8,6 +8,7 @@
 
 #import "ALMapViewController.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALApplozicSettings.h"
 
 @interface ALMapViewController ()
 
@@ -45,7 +46,9 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-[self.tabBarController.tabBar setHidden: YES];
+    [self.tabBarController.tabBar setHidden: YES];
+    [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+    [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
 }
 
 

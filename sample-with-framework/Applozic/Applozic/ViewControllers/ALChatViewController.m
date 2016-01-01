@@ -58,10 +58,6 @@
 
 @property (nonatomic,assign) BOOL showloadEarlierAction;
 
-- (IBAction)loadEarlierButtonAction:(id)sender;
-
-@property (weak, nonatomic) IBOutlet UIButton *loadEarlierAction;
-
 @property (nonatomic,weak) NSIndexPath *indexPathofSelection;
 
 @property (nonatomic,strong ) ALMQTTConversationService *mqttObject;
@@ -97,9 +93,7 @@ ALMessageDBService  * dbService;
     [self initialSetUp];
     [self fetchMessageFromDB];
     [self loadChatView];
-    
-  
-    
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 -(void)processMarkRead{
@@ -118,10 +112,7 @@ ALMessageDBService  * dbService;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.view endEditing:YES];
-    [self.loadEarlierAction setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
     [self processMarkRead];
-    
     [self.label setTextColor:[UIColor whiteColor]];
 }
 
@@ -169,6 +160,12 @@ ALMessageDBService  * dbService;
     {
         self.sendMessageTextView.text = self.text;
     }
+    
+    NSLog(@" ========  Table Origin y %f  ========",self.mTableView.frame.origin.y);
+    NSLog(@" ======== Load More button origin y %f  ========",self.loadEarlierAction.frame.origin.y);
+    NSLog(@" ======== Load More button height %f  ======",self.loadEarlierAction.frame.size.height);
+    NSLog(@" ======== navigation bar height %f  ========",self.navigationController.navigationBar.frame.size.height);
+    NSLog(@" ======== navigation bar origin y %f  ======",self.navigationController.navigationBar.frame.origin.y);
     
 }
 
@@ -1111,7 +1108,7 @@ ALMessageDBService  * dbService;
     
 }
 
-- (IBAction)loadEarlierButtonAction:(id)sender {
+-(void)loadEarlierButtonAction {
     [self processLoadEarlierMessages:false];
 }
 
