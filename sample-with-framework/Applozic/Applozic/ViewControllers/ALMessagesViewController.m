@@ -396,14 +396,11 @@ ALMQTTConversationService *alMqttConversationService;
 
 - (IBAction)logout:(id)sender {
     
-        ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-        [registerUserClientService logout];
-        
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        ALLoginViewController *add = [storyboard instantiateViewControllerWithIdentifier:@"ALLoginViewController"];
     
-       [self presentViewController:add animated:YES completion:nil];
-    
+    UIViewController *  uiController = [self.navigationController popViewControllerAnimated:YES];
+    if(!uiController){
+        [self  dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

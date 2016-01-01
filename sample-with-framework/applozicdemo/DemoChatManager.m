@@ -24,9 +24,6 @@
 -(void)registerUser:(ALUser *)alUser{
     
         self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
-        if(![ALUserDefaultsHandler getApnDeviceToken]){
-            [self.chatLauncher registerForNotification];
-        }
     
         [self.chatLauncher ALDefaultChatViewSettings];
         ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
@@ -44,11 +41,16 @@
                 
             }
             if (rResponse && [rResponse.message containsString: @"REGISTERED"])
-            {
-                ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
+            {                ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
                 [messageClientService addWelcomeMessage];
 
             }
+            
+            if(![ALUserDefaultsHandler getApnDeviceToken]){
+                [self.chatLauncher registerForNotification];
+            }
+            
+
             NSLog(@"Registration response from server:%@", rResponse);
         }];
 }
@@ -97,11 +99,7 @@
 -(void)registerUserAndLaunchChat:(ALUser *)alUser andFromController:(UIViewController*)viewController forUser:(NSString*)userId {
    
     self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
-    
-    //Check for push notification registartion ....
-    if(![ALUserDefaultsHandler getApnDeviceToken]){
-        [self.chatLauncher registerForNotification];
-    }
+   
     
     //User is already registered ..directly launch the chat...
     if([ALUserDefaultsHandler getDeviceKeyString]){
@@ -112,6 +110,7 @@
             NSString * title = viewController.title? viewController.title: @"< Back";
             [self.chatLauncher launchChatList:title andViewControllerObject:viewController ];
         }
+        return;
     }
     
     //Registartion Reuired....
@@ -144,7 +143,11 @@
             [messageClientService addWelcomeMessage];
         }
         
+        if(![ALUserDefaultsHandler getApnDeviceToken]){
+            [self.chatLauncher registerForNotification];
+        }
         
+
         if(userId){
             [self.chatLauncher launchIndividualChat:userId andViewControllerObject:viewController andWithText:nil];
         }else{

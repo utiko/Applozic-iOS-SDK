@@ -165,7 +165,6 @@
     //ALChatManager...
     
     DemoChatManager * demoChatManager = [[DemoChatManager alloc]init];
-    
     [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
   
 }
