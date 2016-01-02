@@ -78,7 +78,7 @@
 @property (nonatomic,strong) NSArray* colors;
 @property (strong, nonatomic) UILabel *emptyConversationText;
 @property (strong, nonatomic) UILabel *dataAvailablityLabel;
-@property (strong, nonatomic) NSString *channelString;
+@property (strong, nonatomic) NSNumber *channelKey;
 @end
 
 // $$$$$$$$$$$$$$$$$A Class Extension for solving Constraints Issues.$$$$$$$$$$$$$$$$$$$$
@@ -689,19 +689,14 @@ ALMQTTConversationService *alMqttConversationService;
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     ALMessage * message =  self.mContactsMessageListArray[indexPath.row];
+    
     if([[message groupId] intValue])
     {
-        ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-        ALChannel *alChannel = [channelDBService loadChannelByKey:message.groupId];
-        
-        if(alChannel)
-        {
-            self.channelString = [alChannel name];
-        }
+        self.channelKey = [message groupId];
     }
     else
     {
-        self.channelString = nil;
+        self.channelKey = nil;
     }
     [self createDetailChatViewController: message.contactIds];
 }
@@ -713,9 +708,13 @@ ALMQTTConversationService *alMqttConversationService;
         _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     }
     _detailChatViewController.contactIds = contactIds;
-    if(self.channelString)
+    if([self.channelKey intValue])
     {
-        self.detailChatViewController.channeLName = self.channelString;
+        self.detailChatViewController.channelKey = self.channelKey;
+    }
+    else
+    {
+        self.detailChatViewController.channelKey = nil;
     }
     [self.navigationController pushViewController:_detailChatViewController animated:YES];
 }
