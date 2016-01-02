@@ -545,7 +545,7 @@ ALMQTTConversationService *alMqttConversationService;
     
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
     
-    ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];//if grp id then call alchannel rather tha alcontact or almessage
+    ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];
     if([message.groupId intValue])
     {
         ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
@@ -619,8 +619,13 @@ ALMQTTConversationService *alMqttConversationService;
 
 ///////////$$$$$$$$$$$$$$$$//////////////////////$$$$$$$$$$$$$$$$//////////////////////$$$$$$$$$$$$$$$$///////////
    
-    
-    if (alContact.localImageResourceName)
+    //applozic_group_icon
+    if([message.groupId intValue])
+    {
+        [contactCell.mUserImageView setImage:[UIImage imageNamed:@"applozic_group_icon.png"]];
+        nameIcon.hidden = YES;
+    }
+    else if (alContact.localImageResourceName)
     {
         UIImage *someImage = [ALUtilityClass getImageFromFramworkBundle:alContact.localImageResourceName];
 
