@@ -175,6 +175,7 @@ ALMessageDBService  * dbService;
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.tabBarController.tabBar setHidden: YES];
+    self.channeLName = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
     [self.sendMessageTextView resignFirstResponder];
@@ -216,7 +217,15 @@ ALMessageDBService  * dbService;
 -(void) setTitle {
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     _alContact = [theDBHandler loadContactByKey:@"userId" value: self.contactIds];
-    self.navigationItem.title = [_alContact displayName];
+    if(self.channeLName)
+    {
+        self.navigationItem.title = self.channeLName;
+    }
+    else
+    {
+        self.navigationItem.title = [self.alContact displayName];
+    }
+    
     ALUserDetail *userDetail = [[ALUserDetail alloc] init];
     userDetail.connected = self.alContact.connected;
     userDetail.userId = self.alContact.userId;

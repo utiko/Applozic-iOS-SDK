@@ -78,6 +78,7 @@
 @property (nonatomic,strong) NSArray* colors;
 @property (strong, nonatomic) UILabel *emptyConversationText;
 @property (strong, nonatomic) UILabel *dataAvailablityLabel;
+@property (strong, nonatomic) NSString *channelString;
 @end
 
 // $$$$$$$$$$$$$$$$$A Class Extension for solving Constraints Issues.$$$$$$$$$$$$$$$$$$$$
@@ -150,10 +151,7 @@ ALMQTTConversationService *alMqttConversationService;
 -(void)viewDidLoadPart
 {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reachabilityChanged:)
-                                                 name:kReachabilityChangedNotification
-                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     
     // create a Reachability object for www.google.com
     
@@ -216,16 +214,12 @@ ALMQTTConversationService *alMqttConversationService;
     {
         NSString * temp = [NSString stringWithFormat:@" InternetConnection Says Reachable(%@)", reachability.currentReachabilityString];
        // NSLog(@"%@", temp);
-        
-        
     };
     
     self.internetConnectionReach.unreachableBlock = ^(Reachability * reachability)
     {
         NSString * temp = [NSString stringWithFormat:@"InternetConnection Block Says Unreachable(%@)", reachability.currentReachabilityString];
-        
       //  NSLog(@"%@", temp);
-        
     };
     
     [self.internetConnectionReach startNotifier];
@@ -263,12 +257,8 @@ ALMQTTConversationService *alMqttConversationService;
         if([reach isReachable])
         {
            // NSLog(@"========== IF internetConnectionReach ============");
-            
-           
             [ALMessageService processLatestMessagesGroupByContact];
             //changes required
-            
-
         }
         else
         {
@@ -277,7 +267,6 @@ ALMQTTConversationService *alMqttConversationService;
     }
     
 }
-
 
 -(void)dropShadowInNavigationBar
 {
@@ -700,9 +689,21 @@ ALMQTTConversationService *alMqttConversationService;
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     ALMessage * message =  self.mContactsMessageListArray[indexPath.row];
-    
+    if([[message groupId] intValue])
+    {
+        ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+        ALChannel *alChannel = [channelDBService loadChannelByKey:message.groupId];
+        
+        if(alChannel)
+        {
+            self.channelString = [alChannel name];
+        }
+    }
+    else
+    {
+        self.channelString = nil;
+    }
     [self createDetailChatViewController: message.contactIds];
-    
 }
 
 -(void)createDetailChatViewController: (NSString *) contactIds
@@ -712,6 +713,10 @@ ALMQTTConversationService *alMqttConversationService;
         _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     }
     _detailChatViewController.contactIds = contactIds;
+    if(self.channelString)
+    {
+        self.detailChatViewController.channeLName = self.channelString;
+    }
     [self.navigationController pushViewController:_detailChatViewController animated:YES];
 }
 
