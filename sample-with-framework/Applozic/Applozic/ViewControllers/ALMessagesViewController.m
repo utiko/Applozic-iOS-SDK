@@ -555,10 +555,26 @@ ALMQTTConversationService *alMqttConversationService;
     [contactCell.onlineImageMarker setBackgroundColor:[UIColor clearColor]];
     
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
-    ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];
-    contactCell.mUserNameLabel.text = [alContact displayName];
+    
+    ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];//if grp id then call alchannel rather tha alcontact or almessage
+    if([message.groupId intValue])
+    {
+        ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+        ALChannel *alChannel = [channelDBService loadChannelByKey:message.groupId];
+        
+        if(alChannel)
+        {
+            contactCell.mUserNameLabel.text = [alChannel name];
+        }
+    }
+    else
+    {
+        contactCell.mUserNameLabel.text = [alContact displayName];
+    }
+    
     contactCell.mMessageLabel.text = message.message;
     contactCell.mMessageLabel.hidden = FALSE;
+    
     if ([message.type integerValue] == [FORWARD_STATUS integerValue])
         contactCell.mLastMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"mobicom_social_forward.png"];
     else if ([message.type integerValue] == [REPLIED_STATUS integerValue])

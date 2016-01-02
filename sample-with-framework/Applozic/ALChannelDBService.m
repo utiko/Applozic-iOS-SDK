@@ -122,28 +122,44 @@
     return memberList;
 }
 
--(NSString *)getChannelName:(NSNumber *)key
+-(ALChannel *)loadChannelByKey:(NSNumber *)key
 {
-    NSString *name = @"";
-//    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL" inManagedObjectContext:theDBHandler.managedObjectContext];
-//    [fetchRequest setEntity:entity];
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channelKey = %@", key];
-//    [fetchRequest setPredicate:predicate];
-//    NSError *error = nil;
-//    NSArray *fetchedObjects = [theDBHandler.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-//    if (error)
-//    {
-//        NSLog(@"ERROR IN FETCH CHANNEL NAME");
-//    }
-//    else
-//    {
-//        ALChannel *channel = [fetchedObjects objectAtIndex:0];
-//        name = channel.name;
-//    }
+    DB_CHANNEL *dbChannel = [self getChannelByKey:key];
+    ALChannel *alChannel = [[ALChannel alloc] init];
+    
+    if (!alChannel)
+    {
+        return nil;
+    }
+    
+    alChannel.name = dbChannel.channelDisplayName;
+    alChannel.unreadCount = dbChannel.unreadCount;
 
-    return name;
+    return alChannel;
+}
+
+-(DB_CHANNEL *)getChannelByKey:(NSNumber *)key
+{
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL" inManagedObjectContext:dbHandler.managedObjectContext];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channelKey = %@",key];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *fetchError = nil;
+    NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    
+    if (result.count)
+    {
+        DB_CHANNEL *dbChannel = [result objectAtIndex:0];
+        return dbChannel;
+    }
+    else
+    {
+        return nil;
+    }
 }
 
 @end

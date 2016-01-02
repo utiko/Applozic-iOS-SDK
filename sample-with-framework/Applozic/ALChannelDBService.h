@@ -20,6 +20,7 @@
 -(void)insertChannelUserX:(NSMutableArray *)channelUserX;
 -(DB_CHANNEL_USER_X *)createChannelUserXEntity:(ALChannelUserX *)channelUserXList;
 -(NSMutableArray *)getChannelMembersList:(NSNumber *)channelKey;
--(NSString *)getChannelName:(NSNumber *)key;
+-(ALChannel *)loadChannelByKey:(NSNumber *)key;
+-(DB_CHANNEL *)getChannelByKey:(NSNumber *)key;
 
 @end
