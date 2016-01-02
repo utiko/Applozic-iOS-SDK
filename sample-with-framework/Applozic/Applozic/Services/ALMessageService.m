@@ -146,9 +146,7 @@
         completion(messageListResponse.messageList, nil, messageListResponse.userDetailsList);
         
         NSLog(@"getMessageListForUser message list response THE JSON %@",theJson);
-        
-       
-        
+ 
     }];
     
 }

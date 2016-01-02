@@ -22,5 +22,6 @@
 -(NSMutableArray *)getChannelMembersList:(NSNumber *)channelKey;
 -(ALChannel *)loadChannelByKey:(NSNumber *)key;
 -(DB_CHANNEL *)getChannelByKey:(NSNumber *)key;
+-(NSString *)stringFromChannelUserList:(NSNumber *)key;
 
 @end

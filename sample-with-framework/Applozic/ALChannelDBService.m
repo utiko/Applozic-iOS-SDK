@@ -22,7 +22,7 @@
     for(ALChannel *channel in channelList)
     {
         DB_CHANNEL *dbChannel = [self createChannelEntity:channel];
-        // IT MIGHT BE USED In FUTURE
+        // IT MIGHT BE USED IN FUTURE
         [theDBHandler.managedObjectContext save:nil];
         //channel.channelDBObjectId = dbChannel.objectID;
         [channelArray addObject:channel];
@@ -65,7 +65,7 @@
     for(ALChannelUserX *channelUserX in channelUserXList)
     {
         DB_CHANNEL_USER_X *dbChannelUserX = [self createChannelUserXEntity:channelUserX];
-        // IT MIGHT BE USED In FUTURE
+        // IT MIGHT BE USED IN FUTURE
         [theDBHandler.managedObjectContext save:nil];
         //channelUserX.channelDBObjectId = dbChannelUserX.objectID;
         [channelUserXArray addObject:dbChannelUserX];
@@ -160,6 +160,58 @@
     {
         return nil;
     }
+}
+
+-(NSMutableArray *)getListOfAllUsersInChannel:(NSNumber *)key
+{
+    NSMutableArray *memberList = [[NSMutableArray alloc] init];
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL_USER_X" inManagedObjectContext:dbHandler.managedObjectContext];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channelKey = %@",key];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *fetchError = nil;
+    NSArray *resultArray = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    NSLog(@"ERROR (IF ANY) : %@", fetchError);
+    
+    if (resultArray.count)
+    {
+        for(DB_CHANNEL_USER_X *dbChannelUserX in resultArray)
+        {
+            [memberList addObject:dbChannelUserX.userId];
+        }
+        
+        return memberList;
+    }
+    else
+    {
+        return nil;
+    }
+    
+}
+
+-(NSString *)stringFromChannelUserList:(NSNumber *)key
+{
+    NSString *listString = @"";
+    NSString *str = @"";
+    NSMutableArray *listArray = [NSMutableArray array];
+    listArray = [NSMutableArray arrayWithArray:[self getListOfAllUsersInChannel:key]];
+    listString = [listString stringByAppendingString:listArray[0]];
+    listString = [listString stringByAppendingString:@", "];
+    listString = [listString stringByAppendingString:listArray[1]];
+    
+    if(listArray.count > 2)
+    {
+        int counter = (int)listArray.count;
+        counter = counter - 2;
+        str = [NSString stringWithFormat:@" and %d",counter];
+        str = [str stringByAppendingString:@" Other"];
+        listString = [listString stringByAppendingString:str];
+    }
+    return listString;
 }
 
 @end

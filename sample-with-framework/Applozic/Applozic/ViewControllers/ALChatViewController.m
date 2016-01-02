@@ -1329,6 +1329,11 @@ ALMessageDBService  * dbService;
         }
         
     }
+    else if([self.channelKey intValue])
+    {
+        ALChannelDBService *ob = [[ALChannelDBService alloc] init];
+        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
+    }
     else
     {
         [self.label setText:@""];
