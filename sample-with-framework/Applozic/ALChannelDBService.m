@@ -68,7 +68,7 @@
         // IT MIGHT BE USED IN FUTURE
         [theDBHandler.managedObjectContext save:nil];
         //channelUserX.channelDBObjectId = dbChannelUserX.objectID;
-        [channelUserXArray addObject:dbChannelUserX];
+        [channelUserXArray addObject:channelUserX];
     }
     
     NSError *error = nil;
