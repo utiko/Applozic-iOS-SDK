@@ -13,9 +13,11 @@
 #import "ALChannel.h"
 #import "ALChannelUserX.h"
 #import "ALChannelDBService.h"
+#import "ALChannelFeed.h"
 
 @interface ALChannelClientService : NSObject
 
 +(void)getChannelArray:(NSMutableArray *) channelArray withCompletion:(void(^)(BOOL flag, NSMutableArray *array)) completion;
++(void)getChannelInfo:(NSNumber *)channelKey withCompletion:(void(^)(NSMutableArray * arrayList, BOOL status)) completion;
 
 @end

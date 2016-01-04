@@ -29,4 +29,24 @@
      }];
 }
 
+-(void)getChannelInformation:(NSNumber *)channelKey
+{
+    ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+
+    if([channelDBService checkChannelEntity:channelKey])
+    {
+        return;
+    }
+    [ALChannelClientService getChannelInfo:channelKey withCompletion:^(NSMutableArray *array, BOOL status) {
+        
+        if(status)
+        {
+            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+            [channelDBService insertChannelUserX:array];
+        }
+        
+    }];
+    
+}
+
 @end

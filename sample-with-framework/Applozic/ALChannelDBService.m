@@ -214,4 +214,18 @@
     return listString;
 }
 
+-(BOOL)checkChannelEntity:(NSNumber *)channelKey
+{
+    DB_CHANNEL *dbChannel = [self getChannelByKey:channelKey];
+    
+    if(dbChannel)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
 @end

@@ -14,5 +14,6 @@
 @interface ALChannelService : NSObject
 
 -(void)callForChannelServiceForDBInsertion:(id)theJson;
+-(void)getChannelInformation:(NSNumber *)channelKey;
 
 @end
