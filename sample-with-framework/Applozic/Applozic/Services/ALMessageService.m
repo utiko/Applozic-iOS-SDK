@@ -164,7 +164,7 @@
     if (alMessage.msgDBObjectId==nil){
         NSLog(@"message not in DB new insertion.");
         
-        dbMessage =[dbService addMessage:alMessage];
+        dbMessage = [dbService addMessage:alMessage];
     }else{
         NSLog(@"message found in DB just getting it not inserting new one...");
         dbMessage =(DB_Message*)[dbService getMeesageById:alMessage.msgDBObjectId error:&theError];

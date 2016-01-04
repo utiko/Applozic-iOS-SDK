@@ -435,23 +435,15 @@
 -(DB_FileMetaInfo *) createFileMetaInfoEntityForDBInsertionWithMessage:(ALFileMetaInfo *) fileInfo
 {
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-    
     DB_FileMetaInfo * fileMetaInfo = [NSEntityDescription insertNewObjectForEntityForName:@"DB_FileMetaInfo" inManagedObjectContext:theDBHandler.managedObjectContext];
-    
+
     fileMetaInfo.blobKeyString = fileInfo.blobKey;
-    
     fileMetaInfo.contentType = fileInfo.contentType;
-    
     fileMetaInfo.createdAtTime = fileInfo.createdAtTime;
-    
     fileMetaInfo.key = fileInfo.key;
-    
     fileMetaInfo.name = fileInfo.name;
-    
     fileMetaInfo.size = fileInfo.size;
-    
     fileMetaInfo.suUserKeyString = fileInfo.userKey;
-    
     fileMetaInfo.thumbnailUrl = fileInfo.thumbnailUrl;
     
     return fileMetaInfo;
@@ -501,8 +493,8 @@
     return theMessage;
 }
 
--(void) updateFileMetaInfo:(ALMessage *) almessage{
-    
+-(void) updateFileMetaInfo:(ALMessage *) almessage
+{
     NSError *error=nil;
     DB_Message * db_Message = (DB_Message*)[self getMeesageById:almessage.msgDBObjectId error:&error];
     almessage.fileMetaKey = almessage.fileMeta.key;
@@ -518,8 +510,8 @@
     
 }
 
--(NSMutableArray *)getMessageListForContactWithCreatedAt:(NSString *)contactId withCreatedAt:(NSNumber*)createdAt{
-    
+-(NSMutableArray *)getMessageListForContactWithCreatedAt:(NSString *)contactId withCreatedAt:(NSNumber*)createdAt
+{
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@",contactId];

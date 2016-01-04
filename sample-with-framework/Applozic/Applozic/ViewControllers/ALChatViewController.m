@@ -359,9 +359,9 @@ ALMessageDBService  * dbService;
     });
     // save message to db
     [self.sendMessageTextView setText:nil];
-    self.mTotalCount = self.mTotalCount+1;
+    self.mTotalCount = self.mTotalCount + 1;
     self.startIndex = self.startIndex + 1;
-    [ self sendMessage:theMessage];
+    [self sendMessage:theMessage];
 }
 
 
@@ -507,6 +507,10 @@ ALMessageDBService  * dbService;
     theMessage.delivered=NO;
     theMessage.fileMetaKey = nil;//4
     theMessage.contentType = 0; //TO-DO chnge after...
+    if([self.channelKey intValue])
+    {
+        theMessage.groupId = self.channelKey;
+    }
     
     return theMessage;
 }
