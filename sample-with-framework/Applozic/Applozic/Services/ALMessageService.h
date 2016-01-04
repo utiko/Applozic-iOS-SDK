@@ -12,6 +12,7 @@
 #import "ALMessage.h"
 #import "DB_FileMetaInfo.h"
 #import "ALUserDetail.h"
+#import "ALChannelService.h"
 
 @interface ALMessageService : NSObject
 

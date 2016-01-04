@@ -14,7 +14,7 @@
 
 @implementation ALChannelClientService
 
-+(void)getChannelArray:(NSMutableArray *)channelArray
++(void)getChannelArray:(NSMutableArray *)channelArray withCompletion:(void(^)(BOOL flag, NSMutableArray *array)) completion;
 {
     NSMutableArray * memberArray = [NSMutableArray new];
     
@@ -28,8 +28,8 @@
             [memberArray addObject:newChannelUserX];
         }
     }
-    ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-    [channelDBService insertChannelUserX:memberArray];
+    completion(YES, memberArray);
+
 }
 
 @end

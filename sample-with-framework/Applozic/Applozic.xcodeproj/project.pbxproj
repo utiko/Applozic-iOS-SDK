@@ -876,6 +876,8 @@
 		6DCC30061C315A3D00F17D0E /* ALChannel */ = {
 			isa = PBXGroup;
 			children = (
+				6D4763F31C3A79A7005BD5EC /* ALChannelService.h */,
+				6D4763F41C3A79A7005BD5EC /* ALChannelService.m */,
 				6DCC30071C315AD600F17D0E /* ALChannel.h */,
 				6DCC30081C315AD600F17D0E /* ALChannel.m */,
 				6DCC300B1C315AEF00F17D0E /* ALChannelDBService.h */,
@@ -888,8 +890,6 @@
 				6DCC30181C31645700F17D0E /* ALChannelInfo.m */,
 				6DCC30231C31826A00F17D0E /* ALChannelUserX.h */,
 				6DCC30241C31826A00F17D0E /* ALChannelUserX.m */,
-				6D4763F31C3A79A7005BD5EC /* ALChannelService.h */,
-				6D4763F41C3A79A7005BD5EC /* ALChannelService.m */,
 			);
 			name = ALChannel;
 			sourceTree = "<group>";

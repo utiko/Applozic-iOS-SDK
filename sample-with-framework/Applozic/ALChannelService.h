@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ALChannelFeed.h"
+#import "ALChannelDBService.h"
+#import "ALChannelClientService.h"
 
 @interface ALChannelService : NSObject
+
+-(void)callForChannelServiceForDBInsertion:(id)theJson;
 
 @end

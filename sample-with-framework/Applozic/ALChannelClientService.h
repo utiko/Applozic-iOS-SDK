@@ -16,6 +16,6 @@
 
 @interface ALChannelClientService : NSObject
 
-+(void)getChannelArray:(NSMutableArray *) channelArray;
++(void)getChannelArray:(NSMutableArray *) channelArray withCompletion:(void(^)(BOOL flag, NSMutableArray *array)) completion;
 
 @end
