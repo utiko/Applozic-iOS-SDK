@@ -19,6 +19,8 @@
 		6D36F2091BFF3EE3003D46D3 /* ALApplozicSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D36F2071BFF3EE3003D46D3 /* ALApplozicSettings.m */; };
 		6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D46B6C31BD025060014A5D3 /* ALMapViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D46B6C61BD025060014A5D3 /* ALMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D46B6C41BD025060014A5D3 /* ALMapViewController.m */; };
+		6D4763F51C3A79A7005BD5EC /* ALChannelService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D4763F31C3A79A7005BD5EC /* ALChannelService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6D4763F61C3A79A7005BD5EC /* ALChannelService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4763F41C3A79A7005BD5EC /* ALChannelService.m */; };
 		6D5439DC1C19B8D600C686BC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D5439DB1C19B8D600C686BC /* SystemConfiguration.framework */; };
 		6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6A07471C2299C60002388F /* ALMessageArrayWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6A074A1C2299C60002388F /* ALMessageArrayWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6A07481C2299C60002388F /* ALMessageArrayWrapper.m */; };
@@ -248,6 +250,8 @@
 		6D36F2071BFF3EE3003D46D3 /* ALApplozicSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALApplozicSettings.m; path = Applozic/Handlers/ALApplozicSettings.m; sourceTree = "<group>"; };
 		6D46B6C31BD025060014A5D3 /* ALMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMapViewController.h; sourceTree = "<group>"; };
 		6D46B6C41BD025060014A5D3 /* ALMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMapViewController.m; sourceTree = "<group>"; };
+		6D4763F31C3A79A7005BD5EC /* ALChannelService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannelService.h; sourceTree = "<group>"; };
+		6D4763F41C3A79A7005BD5EC /* ALChannelService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChannelService.m; sourceTree = "<group>"; };
 		6D5439DB1C19B8D600C686BC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6D6A07471C2299C60002388F /* ALMessageArrayWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMessageArrayWrapper.h; sourceTree = "<group>"; };
 		6D6A07481C2299C60002388F /* ALMessageArrayWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMessageArrayWrapper.m; sourceTree = "<group>"; };
@@ -884,6 +888,8 @@
 				6DCC30181C31645700F17D0E /* ALChannelInfo.m */,
 				6DCC30231C31826A00F17D0E /* ALChannelUserX.h */,
 				6DCC30241C31826A00F17D0E /* ALChannelUserX.m */,
+				6D4763F31C3A79A7005BD5EC /* ALChannelService.h */,
+				6D4763F41C3A79A7005BD5EC /* ALChannelService.m */,
 			);
 			name = ALChannel;
 			sourceTree = "<group>";
@@ -1011,6 +1017,7 @@
 				6D6DF1601BC5364C00EBA00F /* ALChatCell_Image.h in Headers */,
 				6D9C693C1C28383B00C78219 /* ALChatLauncher.h in Headers */,
 				6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */,
+				6D4763F51C3A79A7005BD5EC /* ALChannelService.h in Headers */,
 				6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */,
 				6D6DF13E1BC5364C00EBA00F /* ALConnection.h in Headers */,
 				982F130E1C05D6050024678E /* MQTTSession.h in Headers */,
@@ -1194,6 +1201,7 @@
 				6D6DF1631BC5364C00EBA00F /* ALContactCell.m in Sources */,
 				6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */,
 				6D6DF15D1BC5364C00EBA00F /* ALNewContactsViewController.m in Sources */,
+				6D4763F61C3A79A7005BD5EC /* ALChannelService.m in Sources */,
 				6D6DF1831BC5364C00EBA00F /* DB_FileMetaInfo.m in Sources */,
 				6D6DF1B51BC5364C00EBA00F /* NSData+ImageContentType.m in Sources */,
 				6D6DF15B1BC5364C00EBA00F /* ALMessagesViewController.m in Sources */,
