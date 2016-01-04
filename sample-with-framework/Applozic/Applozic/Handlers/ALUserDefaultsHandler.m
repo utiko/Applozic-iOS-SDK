@@ -266,7 +266,7 @@
     
     NSString *key = [ contactId stringByAppendingString:SHOW_LOAD_ERLIER_MESSAGE];
     if ( [[NSUserDefaults standardUserDefaults] valueForKey:key] ) {
-        return [[NSUserDefaults standardUserDefaults] valueForKey:key];
+        return [[NSUserDefaults standardUserDefaults] boolForKey:key];
     }else {
         return true;
     }

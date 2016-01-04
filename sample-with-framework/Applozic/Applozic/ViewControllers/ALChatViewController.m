@@ -1131,17 +1131,13 @@ ALMessageDBService  * dbService;
             NSLog(@"No Error");
             self.loadEarlierAction.hidden=YES;
             if( messages.count< 50 ){
-             //   self.showloadEarlierAction = NO;
                 
                 [ALUserDefaultsHandler setShowLoadEarlierOption:NO forContactId:self.contactIds];
-            }else{
-                [ALUserDefaultsHandler setShowLoadEarlierOption:YES forContactId:self.contactIds];
-               // self.showloadEarlierAction = YES;
             }
             if (messages.count==0){
+                [ALUserDefaultsHandler setShowLoadEarlierOption:NO forContactId:self.contactIds];
                 return;
             }
-            //   [messages sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAtTime" ascending:NO]]];
             NSMutableArray * array = [self.alMessageWrapper getUpdatedMessageArray];
             
             if( [array firstObject ] ){
