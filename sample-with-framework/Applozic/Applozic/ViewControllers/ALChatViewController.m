@@ -153,7 +153,7 @@ ALMessageDBService  * dbService;
 
     if(![ALUserDefaultsHandler isServerCallDoneForMSGList:self.contactIds])
     {
-        NSLog(@"called first time .....");
+        //NSLog(@"called first time .....");
         [self processLoadEarlierMessages:true];
     }
     if(self.text)
@@ -1128,9 +1128,7 @@ ALMessageDBService  * dbService;
             NSLog(@"No Error");
             self.loadEarlierAction.hidden=YES;
             if( messages.count< 50 ){
-                self.showloadEarlierAction = NO;
-            }else{
-                self.showloadEarlierAction = YES;
+                [ALUserDefaultsHandler setShowLoadMore:false forContactId:self.contactIds ];
             }
             if (messages.count==0){
                 return;
@@ -1357,17 +1355,14 @@ ALMessageDBService  * dbService;
 
 -(void)scrollViewDidScroll: (UIScrollView*)scrollView
 {
-    float scrollViewHeight = scrollView.frame.size.height;
-    float scrollContentSizeHeight = scrollView.contentSize.height;
-    float scrollOffset = scrollView.contentOffset.y;
     
-    if (scrollOffset == 0 && self.showloadEarlierAction)
+    float scrollOffset = scrollView.contentOffset.y;
+    if (scrollOffset == 0  && [ALUserDefaultsHandler isShowLoadMore:self.contactIds] )
     {
         [self.loadEarlierAction setHidden:NO];
+        
         // then we are at the top
-    }
-    //    else if (scrollOffset + scrollViewHeight == scrollContentSizeHeight)
-    else
+    }else
     {
         // then we are at the end
         [self.loadEarlierAction setHidden:YES];

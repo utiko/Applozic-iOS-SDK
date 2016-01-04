@@ -254,6 +254,24 @@
 
 }
 
++(void)setShowLoadMore:(BOOL) value forContactId:(NSString*)contactId{
+   
+    NSString *key = [ contactId stringByAppendingString:SHOW_LOAD_MORE_BUTTON];
+    [[NSUserDefaults standardUserDefaults] setBool:value forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
 
+}
+
++(BOOL)isShowLoadMore:(NSString *) contactId{
+   
+    NSString *key = [ contactId stringByAppendingString:SHOW_LOAD_MORE_BUTTON];
+    if ( ![[NSUserDefaults standardUserDefaults] valueForKey:key] ){
+        return YES;
+    }else{
+        return [[NSUserDefaults standardUserDefaults] boolForKey:key];
+    }
+
+}
 
 @end
