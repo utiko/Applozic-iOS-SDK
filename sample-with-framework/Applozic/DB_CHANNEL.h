@@ -14,6 +14,6 @@
 @property (nonatomic, retain) NSString *channelDisplayName;
 @property (nonatomic, retain) NSNumber *channelKey;
 @property (nonatomic) short type;
-@property (nonatomic) int userCount;
-@property (nonatomic) int unreadCount;
+@property (nonatomic, strong) NSNumber *userCount;
+@property (nonatomic, strong) NSNumber *unreadCount;
 @end

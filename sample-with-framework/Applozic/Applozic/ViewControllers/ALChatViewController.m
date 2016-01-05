@@ -40,42 +40,26 @@
 #import "ALContactDBService.h"
 #import "ALDataNetworkConnection.h"
 
-
 #define MQTT_MAX_RETRY 3
-
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate,ALMQTTConversationDelegate>
 
 @property (nonatomic, assign) NSInteger startIndex;
-
 @property (nonatomic,assign) int rp;
-
 @property (nonatomic,assign) NSUInteger mTotalCount;
-
 @property (nonatomic,retain) UIImagePickerController * mImagePicker;
-
 @property (nonatomic)  ALLocationManager * alLocationManager;
-
 @property (nonatomic,assign) BOOL showloadEarlierAction;
-
-- (IBAction)loadEarlierButtonAction:(id)sender;
-
 @property (weak, nonatomic) IBOutlet UIButton *loadEarlierAction;
-
 @property (nonatomic,weak) NSIndexPath *indexPathofSelection;
-
 @property (nonatomic,strong ) ALMQTTConversationService *mqttObject;
 @property (nonatomic) NSInteger *  mqttRetryCount;
 
-
+- (IBAction)loadEarlierButtonAction:(id)sender;
 -(void)processLoadEarlierMessages:(BOOL)flag;
-
 -(void)processMarkRead;
-
 -(void)fetchAndRefresh:(BOOL)flag;
-
 -(void)serverCallForLastSeen;
-
 
 @end
 
@@ -97,9 +81,6 @@ ALMessageDBService  * dbService;
     [self initialSetUp];
     [self fetchMessageFromDB];
     [self loadChatView];
-    
-  
-    
 }
 
 -(void)processMarkRead{
@@ -111,8 +92,6 @@ ALMessageDBService  * dbService;
             NSLog(@"Error while marking messages as read.");
         }
     }];
-    
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -189,8 +168,6 @@ ALMessageDBService  * dbService;
                 NSLog(@"mqttObject is not found...");
         });
     }
-   
-    
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -216,7 +193,21 @@ ALMessageDBService  * dbService;
 -(void) setTitle {
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     _alContact = [theDBHandler loadContactByKey:@"userId" value: self.contactIds];
-    self.navigationItem.title = [_alContact displayName];
+
+    if([self.channelKey intValue])
+    {
+        ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+        ALChannel *alChannel = [channelDBService loadChannelByKey:self.channelKey];
+        if(alChannel)
+        {
+            self.navigationItem.title = [alChannel name];
+        }
+    }
+    else
+    {
+        self.navigationItem.title = [self.alContact displayName];
+    }
+    
     ALUserDetail *userDetail = [[ALUserDetail alloc] init];
     userDetail.connected = self.alContact.connected;
     userDetail.userId = self.alContact.userId;
@@ -255,7 +246,6 @@ ALMessageDBService  * dbService;
 - (BOOL)canBecomeFirstResponder {
     return YES;
 }
-
 
 #pragma  mark - ALMapViewController Delegate Methods -
 -(void) getUserCurrentLocation:googleMapUrl
@@ -345,11 +335,10 @@ ALMessageDBService  * dbService;
     });
     // save message to db
     [self.sendMessageTextView setText:nil];
-    self.mTotalCount = self.mTotalCount+1;
+    self.mTotalCount = self.mTotalCount + 1;
     self.startIndex = self.startIndex + 1;
-    [ self sendMessage:theMessage];
+    [self sendMessage:theMessage];
 }
-
 
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - TableView Datasource
@@ -490,9 +479,13 @@ ALMessageDBService  * dbService;
     theMessage.read = NO;
     theMessage.storeOnDevice = NO;
     theMessage.key = [[NSUUID UUID] UUIDString];
-    theMessage.delivered=NO;
+    theMessage.delivered = NO;
     theMessage.fileMetaKey = nil;//4
     theMessage.contentType = 0; //TO-DO chnge after...
+    if([self.channelKey intValue])
+    {
+        theMessage.groupId = self.channelKey;
+    }
     
     return theMessage;
 }
@@ -513,7 +506,6 @@ ALMessageDBService  * dbService;
     
     return info;
 }
-
 
 #pragma mark helper methods
 
@@ -628,7 +620,7 @@ ALMessageDBService  * dbService;
         message.inProgress=YES;
         
         NSError *error =nil;
-        DB_Message *dbMessage =(DB_Message*)[dbService getMeesageById:message.msgDBObjectId error:&error];
+        DB_Message *dbMessage = (DB_Message*)[dbService getMeesageById:message.msgDBObjectId error:&error];
         dbMessage.inProgress = [NSNumber numberWithBool:YES];
         dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
         
@@ -664,6 +656,7 @@ ALMessageDBService  * dbService;
     
     
 }
+
 #pragma mark connection delegates
 
 //Progress
@@ -683,12 +676,11 @@ ALMessageDBService  * dbService;
 
 -(void)connection:(ALConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
     
-    ALChatCell_Image*  cell=  [self getCell:connection.keystring];
+    ALChatCell_Image*  cell = [self getCell:connection.keystring];
     // NSLog(@"found cell .. %@", cell);
     cell.mMessage.fileMeta.progressValue = [self bytesConvertsToDegree:totalBytesExpectedToWrite comingBytes:totalBytesWritten];
     
     // NSLog(@" didSendBodyData...." );
-    
 }
 
 //Finishing
@@ -801,7 +793,6 @@ ALMessageDBService  * dbService;
     [self uploadImage:theMessage];
     
 }
-
 
 -(void)uploadImage:(ALMessage *)theMessage {
     
@@ -1066,7 +1057,7 @@ ALMessageDBService  * dbService;
     } else {
         NSLog(@"show notification as someone else thread is already opened");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
-        [ alnotification displayNotification:self];
+        [alnotification displayNotification:self];
         [self fetchAndRefresh];
     }
     
@@ -1282,11 +1273,8 @@ ALMessageDBService  * dbService;
                         theTime = [theTime substringFromIndex:[@"0" length]];
                     }
                     str = [str stringByAppendingString:theTime];
-                    
                     str = [str stringByAppendingString:@" mins ago"];
                 }
-                
-                
                 [self.label setText:str];
             }
             
@@ -1310,6 +1298,11 @@ ALMessageDBService  * dbService;
             [self.label setText:str];
         }
         
+    }
+    else if([self.channelKey intValue])
+    {
+        ALChannelDBService *ob = [[ALChannelDBService alloc] init];
+        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
     }
     else
     {
@@ -1340,7 +1333,6 @@ ALMessageDBService  * dbService;
     }
     [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:NO];
 }
-
 
 -(void)scrollViewDidScroll: (UIScrollView*)scrollView
 {
@@ -1380,8 +1372,6 @@ ALMessageDBService  * dbService;
         [self updateDeliveryReportForConversation];
     }
 }
-
-
 
 -(void) updateTypingStatus:(NSString *)applicationKey userId:(NSString *)userId status:(BOOL)status
 {

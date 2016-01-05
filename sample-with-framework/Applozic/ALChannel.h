@@ -25,8 +25,8 @@ typedef enum
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *adminKey;
 @property (nonatomic) short type;
-@property (nonatomic) int userCount;
-@property (nonatomic) int unreadCount;
+@property (nonatomic, strong) NSNumber *userCount;
+@property (nonatomic, strong) NSNumber *unreadCount;
 @property (nonatomic, copy) NSManagedObjectID *channelDBObjectId;
 @property (nonatomic, strong) NSMutableArray *membersName;
 

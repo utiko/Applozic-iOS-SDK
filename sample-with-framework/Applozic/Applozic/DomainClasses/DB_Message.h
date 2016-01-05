@@ -33,5 +33,6 @@
 @property (nonatomic, retain) NSNumber * delivered;
 @property (nonatomic, retain) NSNumber * sentToServer;
 @property (nonatomic, retain) DB_FileMetaInfo *fileMetaInfo;
+@property (nonatomic, retain) NSNumber * groupId;
 
 @end

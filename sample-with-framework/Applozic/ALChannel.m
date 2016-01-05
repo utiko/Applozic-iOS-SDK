@@ -25,7 +25,8 @@
     self.key = [self getNSNumberFromJsonValue:messageJson[@"id"]];
     self.name = [self getStringFromJsonValue:messageJson[@"name"]];
     self.adminKey = [self getStringFromJsonValue:messageJson[@"adminName"]];
-    self.unreadCount = [self getIntFromJsonValue:messageJson[@"unreadCount"]];
+    self.unreadCount = [self getNSNumberFromJsonValue:messageJson[@"unreadCount"]];
+//    self.userCount = [self getNSNumberFromJsonValue:messageJson[@""]];
     self.membersName = [[NSMutableArray alloc] initWithArray:[messageJson objectForKey:@"membersName"]];
 }
 

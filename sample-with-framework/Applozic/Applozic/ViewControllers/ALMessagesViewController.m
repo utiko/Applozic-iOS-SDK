@@ -32,6 +32,8 @@
 #import "ALDataNetworkConnection.h"
 #import "Reachability.h"
 #import "ALUserService.h"
+#import "ALChannelDBService.h"
+#import "ALChannel.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -76,6 +78,7 @@
 @property (nonatomic,strong) NSArray* colors;
 @property (strong, nonatomic) UILabel *emptyConversationText;
 @property (strong, nonatomic) UILabel *dataAvailablityLabel;
+@property (strong, nonatomic) NSNumber *channelKey;
 @end
 
 // $$$$$$$$$$$$$$$$$A Class Extension for solving Constraints Issues.$$$$$$$$$$$$$$$$$$$$
@@ -148,10 +151,7 @@ ALMQTTConversationService *alMqttConversationService;
 -(void)viewDidLoadPart
 {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reachabilityChanged:)
-                                                 name:kReachabilityChangedNotification
-                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     
     // create a Reachability object for www.google.com
     
@@ -214,16 +214,12 @@ ALMQTTConversationService *alMqttConversationService;
     {
         NSString * temp = [NSString stringWithFormat:@" InternetConnection Says Reachable(%@)", reachability.currentReachabilityString];
        // NSLog(@"%@", temp);
-        
-        
     };
     
     self.internetConnectionReach.unreachableBlock = ^(Reachability * reachability)
     {
         NSString * temp = [NSString stringWithFormat:@"InternetConnection Block Says Unreachable(%@)", reachability.currentReachabilityString];
-        
       //  NSLog(@"%@", temp);
-        
     };
     
     [self.internetConnectionReach startNotifier];
@@ -261,12 +257,8 @@ ALMQTTConversationService *alMqttConversationService;
         if([reach isReachable])
         {
            // NSLog(@"========== IF internetConnectionReach ============");
-            
-           
             [ALMessageService processLatestMessagesGroupByContact];
             //changes required
-            
-
         }
         else
         {
@@ -275,7 +267,6 @@ ALMQTTConversationService *alMqttConversationService;
     }
     
 }
-
 
 -(void)dropShadowInNavigationBar
 {
@@ -538,7 +529,7 @@ ALMQTTConversationService *alMqttConversationService;
     
     static NSString *cellIdentifier = @"ContactCell";
     ALContactCell *contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
+   
     [contactCell.mUserNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:USER_NAME_LABEL_SIZE]];//size check
     [contactCell.mMessageLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_LABEL_SIZE]];
     [contactCell.mTimeLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TIME_LABEL_SIZE]];
@@ -553,10 +544,26 @@ ALMQTTConversationService *alMqttConversationService;
     [contactCell.onlineImageMarker setBackgroundColor:[UIColor clearColor]];
     
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
-    ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];             
-    contactCell.mUserNameLabel.text = [alContact displayName];
+    
+    ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];
+    if([message.groupId intValue])
+    {
+        ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+        ALChannel *alChannel = [channelDBService loadChannelByKey:message.groupId];
+        
+        if(alChannel)
+        {
+            contactCell.mUserNameLabel.text = [alChannel name];
+        }
+    }
+    else
+    {
+        contactCell.mUserNameLabel.text = [alContact displayName];
+    }
+    
     contactCell.mMessageLabel.text = message.message;
     contactCell.mMessageLabel.hidden = FALSE;
+    
     if ([message.type integerValue] == [FORWARD_STATUS integerValue])
         contactCell.mLastMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"mobicom_social_forward.png"];
     else if ([message.type integerValue] == [REPLIED_STATUS integerValue])
@@ -589,19 +596,20 @@ ALMQTTConversationService *alMqttConversationService;
     
     if(self.unreadCount.count!=0){
         unread.hidden=FALSE;
-        contactCell.mCountImageView.hidden=FALSE;
+        contactCell.mCountImageView.hidden = NO;
         unread.text=[NSString stringWithFormat:@"%lu",(unsigned long)self.unreadCount.count];
     }
     else{
         unread.hidden=TRUE;
-        contactCell.mCountImageView.hidden=TRUE;
+        contactCell.mCountImageView.hidden = YES;
     }
     
     
     
-    contactCell.mUserImageView.hidden=FALSE;
-    contactCell.mUserImageView.layer.cornerRadius=contactCell.mUserImageView.frame.size.width/2;
-    contactCell.mCountImageView.layer.cornerRadius=contactCell.mCountImageView.frame.size.width/2;
+    contactCell.mUserImageView.hidden = NO;
+    contactCell.mUserImageView.layer.cornerRadius = contactCell.mUserImageView.frame.size.width/2;
+    contactCell.mUserImageView.layer.masksToBounds = YES;
+    contactCell.mCountImageView.layer.cornerRadius = contactCell.mCountImageView.frame.size.width/2;
 
 ///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
     
@@ -612,30 +620,35 @@ ALMQTTConversationService *alMqttConversationService;
 
 ///////////$$$$$$$$$$$$$$$$//////////////////////$$$$$$$$$$$$$$$$//////////////////////$$$$$$$$$$$$$$$$///////////
    
-    
-    if (alContact.localImageResourceName)
+    //applozic_group_icon
+    if([message.groupId intValue])
+    {
+        [contactCell.mUserImageView setImage:[UIImage imageNamed:@"applozic_group_icon.png"]];
+        nameIcon.hidden = YES;
+    }
+    else if (alContact.localImageResourceName)
     {
         UIImage *someImage = [ALUtilityClass getImageFromFramworkBundle:alContact.localImageResourceName];
 
         [contactCell.mUserImageView  setImage:someImage];
-        nameIcon.hidden = TRUE;
+        nameIcon.hidden = YES;
     }
     else if(alContact.contactImageUrl)
     {
         NSURL * theUrl1 = [NSURL URLWithString:alContact.contactImageUrl];
         [contactCell.mUserImageView sd_setImageWithURL:theUrl1];
-        nameIcon.hidden = TRUE;
+        nameIcon.hidden = YES;
     }
     
     else
     {
-         nameIcon.hidden = FALSE;
+         nameIcon.hidden = NO;
          NSString *firstLetter = [[alContact displayName] substringToIndex:1];
          nameIcon.text=[firstLetter uppercaseString];
 //         contactCell.mUserImageView.hidden=TRUE;
 
     }
-    
+
     return contactCell;
 }
 
@@ -683,8 +696,15 @@ ALMQTTConversationService *alMqttConversationService;
     
     ALMessage * message =  self.mContactsMessageListArray[indexPath.row];
     
+    if([[message groupId] intValue])
+    {
+        self.channelKey = [message groupId];
+    }
+    else
+    {
+        self.channelKey = nil;
+    }
     [self createDetailChatViewController: message.contactIds];
-    
 }
 
 -(void)createDetailChatViewController: (NSString *) contactIds
@@ -694,6 +714,14 @@ ALMQTTConversationService *alMqttConversationService;
         _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     }
     _detailChatViewController.contactIds = contactIds;
+    if([self.channelKey intValue])
+    {
+        self.detailChatViewController.channelKey = self.channelKey;
+    }
+    else
+    {
+        self.detailChatViewController.channelKey = nil;
+    }
     [self.navigationController pushViewController:_detailChatViewController animated:YES];
 }
 
