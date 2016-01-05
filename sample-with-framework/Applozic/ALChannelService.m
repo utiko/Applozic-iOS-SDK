@@ -29,24 +29,31 @@
      }];
 }
 
--(void)getChannelInformation:(NSNumber *)channelKey
+-(void)getChannelInformation:(NSNumber *)channelKey withCompletion:(void (^)(ALChannel *alChannel3)) completion
 {
     ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-
-    if([channelDBService checkChannelEntity:channelKey])
-    {
-        return;
-    }
-    [ALChannelClientService getChannelInfo:channelKey withCompletion:^(NSMutableArray *array, BOOL status) {
-        
-        if(status)
-        {
-            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-            [channelDBService insertChannelUserX:array];
-        }
-        
-    }];
+    ALChannel *alChannel1 = [channelDBService checkChannelEntity:channelKey];
     
+    if(alChannel1)
+    {
+        completion (alChannel1);
+    }
+    else
+    {
+        [ALChannelClientService getChannelInfo:channelKey withCompletion:^(NSMutableArray *array, BOOL status, ALChannel *alChannel2) {
+            
+            if(status)
+            {
+                ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+                [channelDBService insertChannelUserX:array];
+            }
+            
+            completion (alChannel2);
+            
+        }];
+        
+    }
+
 }
 
 @end

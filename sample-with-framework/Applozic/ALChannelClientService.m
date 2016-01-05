@@ -32,7 +32,7 @@
 
 }
 
-+(void)getChannelInfo:(NSNumber *)channelKey withCompletion:(void(^)(NSMutableArray * arrayList, BOOL status)) completion
++(void)getChannelInfo:(NSNumber *)channelKey withCompletion:(void(^)(NSMutableArray * arrayList, BOOL status, ALChannel *channel)) completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/group/info", KBASE_URL];
     NSString * theParamString = [NSString stringWithFormat:@"key=%@", channelKey];
@@ -47,15 +47,19 @@
         else
         {
             ALChannelFeed *channelFeed = [[ALChannelFeed alloc] initWithJSONString:theJson];
+            
             ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
             [channelDBService insertChannel:channelFeed.channelFeedsList];
+            
+            ALChannel *alChannel = [channelFeed.channelFeedsList objectAtIndex:0];
+            
             [self getChannelArray:channelFeed.channelFeedsList withCompletion:^(BOOL flag, NSMutableArray *array)
-            {
-                if(flag)
-                {
-                    completion(array, flag);
-                }
-            }];
+             {
+                 if(flag)
+                 {
+                     completion(array, flag, alChannel);
+                 }
+             }];
         }
         
     }];

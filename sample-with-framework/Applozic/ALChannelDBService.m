@@ -214,17 +214,19 @@
     return listString;
 }
 
--(BOOL)checkChannelEntity:(NSNumber *)channelKey
+-(ALChannel *)checkChannelEntity:(NSNumber *)channelKey
 {
     DB_CHANNEL *dbChannel = [self getChannelByKey:channelKey];
+    ALChannel *channel  = [[ALChannel alloc] init];
     
     if(dbChannel)
     {
-        return YES;
+        channel.name = dbChannel.channelDisplayName;
+        return channel;
     }
     else
     {
-        return NO;
+        return nil;
     }
 }
 

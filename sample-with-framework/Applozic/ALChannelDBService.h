@@ -31,6 +31,6 @@
 
 -(NSString *)stringFromChannelUserList:(NSNumber *)key;
 
--(BOOL)checkChannelEntity:(NSNumber *)channelKey;
+-(ALChannel *)checkChannelEntity:(NSNumber *)channelKey;
 
 @end
