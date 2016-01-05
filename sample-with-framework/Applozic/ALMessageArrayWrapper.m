@@ -157,6 +157,7 @@
     dateLabel.createdAtTime = almessage.createdAtTime;
     dateLabel.message = messageText;
     dateLabel.type = @"100";
+    dateLabel.contactIds = almessage.contactIds;
     dateLabel.fileMeta.thumbnailUrl = nil;
     
     return  dateLabel;
