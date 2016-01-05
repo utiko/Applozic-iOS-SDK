@@ -169,8 +169,8 @@
 
 -(NSString *)getCreatedAtTimeChat:(BOOL)today {
     
-    NSString *formattedStr = today?@"hh:mm a":@"dd MMM hh:mm a";
-    
+   // NSString *formattedStr = today?@"hh:mm a":@"dd MMM hh:mm a";
+    NSString *formattedStr = @"hh:mm a";
     NSString *formattedDateStr = [ALUtilityClass formatTimestamp:[self.createdAtTime doubleValue]/1000 toFormat:formattedStr];
 
     return formattedDateStr;
