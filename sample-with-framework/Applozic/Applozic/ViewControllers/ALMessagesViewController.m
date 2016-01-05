@@ -596,19 +596,20 @@ ALMQTTConversationService *alMqttConversationService;
     
     if(self.unreadCount.count!=0){
         unread.hidden=FALSE;
-        contactCell.mCountImageView.hidden=FALSE;
+        contactCell.mCountImageView.hidden = NO;
         unread.text=[NSString stringWithFormat:@"%lu",(unsigned long)self.unreadCount.count];
     }
     else{
         unread.hidden=TRUE;
-        contactCell.mCountImageView.hidden=TRUE;
+        contactCell.mCountImageView.hidden = YES;
     }
     
     
     
-    contactCell.mUserImageView.hidden=FALSE;
-    contactCell.mUserImageView.layer.cornerRadius=contactCell.mUserImageView.frame.size.width/2;
-    contactCell.mCountImageView.layer.cornerRadius=contactCell.mCountImageView.frame.size.width/2;
+    contactCell.mUserImageView.hidden = NO;
+    contactCell.mUserImageView.layer.cornerRadius = contactCell.mUserImageView.frame.size.width/2;
+    contactCell.mUserImageView.layer.masksToBounds = YES;
+    contactCell.mCountImageView.layer.cornerRadius = contactCell.mCountImageView.frame.size.width/2;
 
 ///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
     
@@ -630,18 +631,18 @@ ALMQTTConversationService *alMqttConversationService;
         UIImage *someImage = [ALUtilityClass getImageFromFramworkBundle:alContact.localImageResourceName];
 
         [contactCell.mUserImageView  setImage:someImage];
-        nameIcon.hidden = TRUE;
+        nameIcon.hidden = YES;
     }
     else if(alContact.contactImageUrl)
     {
         NSURL * theUrl1 = [NSURL URLWithString:alContact.contactImageUrl];
         [contactCell.mUserImageView sd_setImageWithURL:theUrl1];
-        nameIcon.hidden = TRUE;
+        nameIcon.hidden = YES;
     }
     
     else
     {
-         nameIcon.hidden = FALSE;
+         nameIcon.hidden = NO;
          NSString *firstLetter = [[alContact displayName] substringToIndex:1];
          nameIcon.text=[firstLetter uppercaseString];
 //         contactCell.mUserImageView.hidden=TRUE;
