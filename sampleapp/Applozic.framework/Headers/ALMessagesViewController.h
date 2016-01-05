@@ -9,6 +9,7 @@
 #import "ALChatViewController.h"
 #import "ALContactCell.h"
 
+
 @interface ALMessagesViewController : UIViewController
 
 @property(nonatomic,strong) ALChatViewController * detailChatViewController;

@@ -13,11 +13,11 @@
 @interface ALMessageList : ALJson
 
 
-@property(nonatomic) NSMutableArray * messageList;
+@property (nonatomic) NSMutableArray * messageList;
 
-@property(nonatomic) NSMutableArray * connectedUserList;
+@property (nonatomic) NSMutableArray * connectedUserList;
 
-@property(nonatomic) NSMutableArray * userDetailsList;
+@property (nonatomic) NSMutableArray * userDetailsList;
 
 
 @end
