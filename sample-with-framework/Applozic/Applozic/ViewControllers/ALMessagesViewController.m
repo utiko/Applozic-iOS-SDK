@@ -517,7 +517,7 @@ ALMQTTConversationService *alMqttConversationService;
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return (self.mTableView==nil)?0:1;
+    return (self.mTableView == nil)?0:1;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -562,7 +562,7 @@ ALMQTTConversationService *alMqttConversationService;
     }
     
     contactCell.mMessageLabel.text = message.message;
-    contactCell.mMessageLabel.hidden = FALSE;
+    contactCell.mMessageLabel.hidden = NO;
     
     if ([message.type integerValue] == [FORWARD_STATUS integerValue])
         contactCell.mLastMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"mobicom_social_forward.png"];
@@ -645,7 +645,7 @@ ALMQTTConversationService *alMqttConversationService;
          nameIcon.hidden = NO;
          NSString *firstLetter = [[alContact displayName] substringToIndex:1];
          nameIcon.text=[firstLetter uppercaseString];
-//         contactCell.mUserImageView.hidden=TRUE;
+//         contactCell.mUserImageView.hidden=YES;
 
     }
 
@@ -750,7 +750,7 @@ ALMQTTConversationService *alMqttConversationService;
             
             NSArray * theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",alMessageobj.contactIds]];
             
-            NSLog(@"getting filteredArray ::%lu", (unsigned long)theFilteredArray.count );
+            NSLog(@"getting filteredArray ::%lu", (unsigned long)theFilteredArray.count);
             [self.mContactsMessageListArray removeObjectsInArray:theFilteredArray ];
             [self emptyConversationAlertLabel];
             [self.mTableView reloadData];
@@ -802,7 +802,7 @@ ALMQTTConversationService *alMqttConversationService;
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
     
-    [self.detailChatViewController setRefresh: TRUE];
+    [self.detailChatViewController setRefresh: YES];
     if ([self.detailChatViewController contactIds] != nil) {
        // NSLog(@"executing if part...");
 
@@ -840,7 +840,7 @@ ALMQTTConversationService *alMqttConversationService;
 
 -(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
 {
-    [self.detailChatViewController setRefreshMainView:TRUE];
+    [self.detailChatViewController setRefreshMainView:YES];
     
     if ([self.detailChatViewController.contactIds isEqualToString:alUserDetail.userId])
     {
@@ -904,7 +904,7 @@ ALMQTTConversationService *alMqttConversationService;
         NSLog(@"#################It should never come here");
         [self createDetailChatViewController: contactId];
         [self.detailChatViewController fetchAndRefresh];
-        [self.detailChatViewController setRefresh: TRUE];
+        [self.detailChatViewController setRefresh: YES];
     }
     
 }
