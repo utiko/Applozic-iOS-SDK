@@ -603,6 +603,8 @@ ALMQTTConversationService *alMqttConversationService;
     contactCell.mUserImageView.hidden=FALSE;
     contactCell.mUserImageView.layer.cornerRadius=contactCell.mUserImageView.frame.size.width/2;
     contactCell.mCountImageView.layer.cornerRadius=contactCell.mCountImageView.frame.size.width/2;
+    contactCell.mUserImageView.layer.masksToBounds = YES;
+
 
 ///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
     
