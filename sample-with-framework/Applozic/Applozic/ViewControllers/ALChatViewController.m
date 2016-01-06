@@ -1064,7 +1064,7 @@ ALMessageDBService  * dbService;
         NSLog(@"show notification as someone else thread is already opened");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
         [ alnotification displayNotification:self];
-        [self fetchAndRefresh];
+        [self fetchAndRefresh:YES];
     }
     
 }
@@ -1338,26 +1338,11 @@ ALMessageDBService  * dbService;
     [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:NO];
 }
 
-//-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-//{
-//    NSLog(@"DidEndDecelerating");
-//    if(scrollView.contentOffset.y < 0 && self.showloadEarlierAction )
-//    {
-//        //  NSLog(@"REACHED TOP");
-//        [self.loadEarlierAction setHidden:NO];
-//    }
-//    else
-//    {
-//        //   NSLog(@"REACHED BOTTOM");
-//        [self.loadEarlierAction setHidden:YES];
-//    }
-//}
-
 -(void)scrollViewDidScroll: (UIScrollView*)scrollView
 {
     
     float scrollOffset = scrollView.contentOffset.y;
-    if (scrollOffset == 0  && [ALUserDefaultsHandler isShowLoadMore:self.contactIds] )
+    if (scrollOffset == 0  && [ALUserDefaultsHandler isShowLoadMore:self.contactIds] && [ALUserDefaultsHandler isServerCallDoneForMSGList:self.contactIds])
     {
         [self.loadEarlierAction setHidden:NO];
         
