@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ALApplozicSettings.h"
 
 @protocol ALImageWithTextControllerDelegate <NSObject,UITextFieldDelegate>
 @required

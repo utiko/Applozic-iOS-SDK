@@ -8,6 +8,7 @@
 
 #import "ALMapViewController.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALApplozicSettings.h"
 
 @interface ALMapViewController ()
 
@@ -37,15 +38,21 @@
     
     [self.mapKitView setShowsUserLocation:YES];
     [self.mapKitView setDelegate:self];
-  
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-[self.tabBarController.tabBar setHidden: YES];
+    [self.tabBarController.tabBar setHidden: YES];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-[self.tabBarController.tabBar setHidden: YES];
+    if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
+    {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+        [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
+    }
+    [self.tabBarController.tabBar setHidden: YES];
 }
 
 
@@ -66,13 +73,13 @@
     //static map location
     
     
- /*  NSString * locationURL=[NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/staticmap?center=%.8f,%.8f&zoom=17&size=290x179&maptype=roadmap&format=png&visual_refresh=true&markers=%.8f,%.8f",region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
-    */
+    /*  NSString * locationURL=[NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/staticmap?center=%.8f,%.8f&zoom=17&size=290x179&maptype=roadmap&format=png&visual_refresh=true&markers=%.8f,%.8f",region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
+     */
     
-            //simpe location link
-     
+    //simpe location link
+    
     NSString * locationURL=[NSString stringWithFormat:@"http://maps.google.com/?ll=%.8f,%.8f,15z", region.center.latitude, region.center.longitude];
-   
+    
     
     [self.controllerDelegate getUserCurrentLocation:locationURL];
     
