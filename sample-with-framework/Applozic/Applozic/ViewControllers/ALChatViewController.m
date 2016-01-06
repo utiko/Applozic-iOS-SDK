@@ -116,10 +116,10 @@ ALMessageDBService  * dbService;
        !([self.alMessageWrapper getUpdatedMessageArray] && [[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds] isEqualToString:self.contactIds])
        ) {
         [self reloadView];
-        [super scrollTableViewToBottomWithAnimation:NO];
-        if (self.refresh) {
-            self.refresh = false;
-        }
+//        [super scrollTableViewToBottomWithAnimation:NO];
+//        if (self.refresh) {
+//            self.refresh = false;
+//        }
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
@@ -1062,7 +1062,7 @@ ALMessageDBService  * dbService;
         NSLog(@"show notification as someone else thread is already opened");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
         [alnotification displayNotification:self];
-        [self fetchAndRefresh];
+        [self fetchAndRefresh:YES];
     }
     
 }
@@ -1343,16 +1343,14 @@ ALMessageDBService  * dbService;
 
     float scrollOffset = scrollView.contentOffset.y;
     
-    if (scrollOffset == 0  && [ALUserDefaultsHandler isShowLoadEarlierOption:self.contactIds])
+    if (scrollOffset == 0  && [ALUserDefaultsHandler isShowLoadEarlierOption:self.contactIds] && [ALUserDefaultsHandler isServerCallDoneForMSGList:self.contactIds])
     {
-       // NSLog(@"####inside if true ::%i", [ALUserDefaultsHandler isShowLoadEarlierOption:self.contactIds] );
+       
         [self.loadEarlierAction setHidden:NO];
-        // then we are at the top
+
     }
-    //    else if (scrollOffset + scrollViewHeight == scrollContentSizeHeight)
     else
     {
-        // then we are at the end
         [self.loadEarlierAction setHidden:YES];
     }
 }
