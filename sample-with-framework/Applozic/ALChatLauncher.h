@@ -32,7 +32,7 @@
 -(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
 -(void)launchChatList:(NSString *)title andViewControllerObject:(UIViewController *)viewController;
 
-
+-(void) launchContactList: (UIViewController *)uiViewController ;
 -(void)registerForNotification;
 
 

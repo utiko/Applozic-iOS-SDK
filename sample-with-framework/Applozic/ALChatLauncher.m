@@ -113,6 +113,16 @@
     }
 }
 
+-(void)launchContactList:(UIViewController *)uiViewController {
+    
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                
+                                                         bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    UIViewController *contcatListView = [storyboard instantiateViewControllerWithIdentifier:@"ALNewContactsViewController"];
+    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:contcatListView];
+    [uiViewController presentViewController:conversationViewNavController animated:YES completion:nil];
+
+}
 
 @end
 
