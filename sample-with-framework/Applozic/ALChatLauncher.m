@@ -58,8 +58,8 @@
     [ALApplozicSettings setColourForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
 //    [ALApplozicSettings setColourForNavigation:[UIColor whiteColor]];
 //    [ALApplozicSettings setColourForNavigationItem:[UIColor blueColor]];
-//    [ALApplozicSettings setColourForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
-//    [ALApplozicSettings setColourForNavigationItem: [UIColor whiteColor]];
+    [ALApplozicSettings setColourForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
+    [ALApplozicSettings setColourForNavigationItem: [UIColor whiteColor]];
     
 }
 
