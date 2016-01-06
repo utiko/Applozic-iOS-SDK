@@ -20,7 +20,14 @@
     self.textMessageWithImage.delegate = self;
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated {
+    
+    if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
+    {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+        [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
+    }
     
     self.textMessageWithImage.layer.masksToBounds = YES;
     self.textMessageWithImage.layer.borderColor = [[UIColor brownColor] CGColor];
