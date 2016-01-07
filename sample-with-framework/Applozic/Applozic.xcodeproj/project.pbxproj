@@ -11,9 +11,11 @@
 		29CBF2031C0303A700BE6A20 /* ALColorUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CBF2011C0303A700BE6A20 /* ALColorUtility.m */; };
 		29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DEA3131BEDEC1F004B8085 /* ALUserService.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DEA3141BEDEC1F004B8085 /* ALUserService.m */; };
+		6D10A12F1C3EA0120023D68B /* ALAppLocalNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D10A12D1C3EA0120023D68B /* ALAppLocalNotifications.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6D10A1301C3EA0120023D68B /* ALAppLocalNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D10A12E1C3EA0120023D68B /* ALAppLocalNotifications.m */; };
 		6D15F2461BEB6AE00069BE1A /* ALAttachmentController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D15F2441BEB6AE00069BE1A /* ALAttachmentController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D15F2471BEB6AE00069BE1A /* ALAttachmentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D15F2451BEB6AE00069BE1A /* ALAttachmentController.m */; };
-		6D28D3C31C1AA9AA003817C3 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D28D3C11C1AA9AA003817C3 /* Reachability.h */; };
+		6D28D3C31C1AA9AA003817C3 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D28D3C11C1AA9AA003817C3 /* Reachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D28D3C41C1AA9AA003817C3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D28D3C21C1AA9AA003817C3 /* Reachability.m */; };
 		6D36F2081BFF3EE3003D46D3 /* ALApplozicSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D36F2061BFF3EE3003D46D3 /* ALApplozicSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D36F2091BFF3EE3003D46D3 /* ALApplozicSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D36F2071BFF3EE3003D46D3 /* ALApplozicSettings.m */; };
@@ -224,6 +226,8 @@
 		29CBF2011C0303A700BE6A20 /* ALColorUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALColorUtility.m; sourceTree = "<group>"; };
 		29DEA3131BEDEC1F004B8085 /* ALUserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserService.h; sourceTree = "<group>"; };
 		29DEA3141BEDEC1F004B8085 /* ALUserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserService.m; sourceTree = "<group>"; };
+		6D10A12D1C3EA0120023D68B /* ALAppLocalNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAppLocalNotifications.h; sourceTree = "<group>"; };
+		6D10A12E1C3EA0120023D68B /* ALAppLocalNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALAppLocalNotifications.m; sourceTree = "<group>"; };
 		6D15F2441BEB6AE00069BE1A /* ALAttachmentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAttachmentController.h; sourceTree = "<group>"; };
 		6D15F2451BEB6AE00069BE1A /* ALAttachmentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALAttachmentController.m; sourceTree = "<group>"; };
 		6D28D3C11C1AA9AA003817C3 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -819,6 +823,8 @@
 				6D6DF08D1BC5364C00EBA00F /* ALConnection.h */,
 				6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */,
 				6DB665061C0EE5EC004D04A8 /* ALDataNetworkConnection.m */,
+				6D10A12D1C3EA0120023D68B /* ALAppLocalNotifications.h */,
+				6D10A12E1C3EA0120023D68B /* ALAppLocalNotifications.m */,
 			);
 			name = networkcommunication;
 			sourceTree = "<group>";
@@ -935,12 +941,14 @@
 				982F13061C05D6050024678E /* MQTTDecoder.h in Headers */,
 				6D6DF15C1BC5364C00EBA00F /* ALNewContactsViewController.h in Headers */,
 				6D6DF0811BC535C800EBA00F /* Applozic.h in Headers */,
+				6D28D3C31C1AA9AA003817C3 /* Reachability.h in Headers */,
 				982F13051C05D6050024678E /* MQTTClient.h in Headers */,
 				982F130C1C05D6050024678E /* MQTTPersistence.h in Headers */,
 				6D6DF14A1BC5364C00EBA00F /* ALResponseHandler.h in Headers */,
 				6D6DF1441BC5364C00EBA00F /* ALImagePickerHandler.h in Headers */,
 				6D6DF1721BC5364C00EBA00F /* ALFileMetaInfo.h in Headers */,
 				6D6DF1661BC5364C00EBA00F /* ALNotificationView.h in Headers */,
+				6D10A12F1C3EA0120023D68B /* ALAppLocalNotifications.h in Headers */,
 				6D6DF1801BC5364C00EBA00F /* DB_CONTACT.h in Headers */,
 				6DB665071C0EE5EC004D04A8 /* ALDataNetworkConnection.h in Headers */,
 				6DDE81861C27D8EC009B8CF9 /* ALUserClientService.h in Headers */,
@@ -970,7 +978,6 @@
 				6D6DF1C91BC5364C00EBA00F /* UIImage+MultiFormat.h in Headers */,
 				6D6DF1C51BC5364C00EBA00F /* UIButton+WebCache.h in Headers */,
 				6D6DF1C71BC5364C00EBA00F /* UIImage+GIF.h in Headers */,
-				6D28D3C31C1AA9AA003817C3 /* Reachability.h in Headers */,
 				6D6DF1B41BC5364C00EBA00F /* NSData+ImageContentType.h in Headers */,
 				6D6DF1CB1BC5364C00EBA00F /* UIImage+WebP.h in Headers */,
 				6D6DF1C31BC5364C00EBA00F /* SDWebImagePrefetcher.h in Headers */,
@@ -1139,6 +1146,7 @@
 				6D6DF1611BC5364C00EBA00F /* ALChatCell_Image.m in Sources */,
 				982F130D1C05D6050024678E /* MQTTPersistence.m in Sources */,
 				6D6DF1D41BC5364C00EBA00F /* KAProgressLabel.m in Sources */,
+				6D10A1301C3EA0120023D68B /* ALAppLocalNotifications.m in Sources */,
 				6D6DF1511BC5364C00EBA00F /* ALRegisterUserClientService.m in Sources */,
 				6D6DF1751BC5364C00EBA00F /* ALJson.m in Sources */,
 				6D6DF1691BC5364C00EBA00F /* ALLocationManager.m in Sources */,

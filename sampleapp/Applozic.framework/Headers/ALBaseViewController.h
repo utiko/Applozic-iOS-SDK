@@ -26,7 +26,12 @@
 - (IBAction)sendAction:(id)sender;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *checkBottomConstraint;
 
+-(void)loadEarlierButtonAction;
+
+@property (nonatomic, strong) UIButton *loadEarlierAction;
+
 - (IBAction)attachmentActionMethod:(id)sender;
+
 @property (strong, nonatomic) UILabel *label;
 @property (strong, nonatomic) UILabel *typingLabel;
 @property (nonatomic) BOOL * individualLaunch;

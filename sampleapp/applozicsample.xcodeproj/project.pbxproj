@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D10A1331C3EA4120023D68B /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D10A1321C3EA4120023D68B /* Applozic.framework */; };
+		6D10A1341C3EA4120023D68B /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6D10A1321C3EA4120023D68B /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6D4F28CB1BC58F6C007E7B35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D4F28B01BC554D8007E7B35 /* Main.storyboard */; };
 		6D4F28CF1BC6429F007E7B35 /* ApplozicLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4F28CE1BC6429F007E7B35 /* ApplozicLoginViewController.m */; };
 		6D6DF1F61BC551FA00EBA00F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF1F51BC551FA00EBA00F /* main.m */; };
@@ -16,8 +18,6 @@
 		6D6DF2041BC551FA00EBA00F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF2031BC551FA00EBA00F /* Assets.xcassets */; };
 		6D6DF2071BC551FA00EBA00F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF2051BC551FA00EBA00F /* LaunchScreen.storyboard */; };
 		6DB445151C2C04D200C64524 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6DB445141C2C04D200C64524 /* Info.plist */; };
-		6DCC2FFE1C31199300F17D0E /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DCC2FFD1C31199300F17D0E /* Applozic.framework */; };
-		6DCC2FFF1C31199300F17D0E /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6DCC2FFD1C31199300F17D0E /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,7 +27,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6DCC2FFF1C31199300F17D0E /* Applozic.framework in Embed Frameworks */,
+				6D10A1341C3EA4120023D68B /* Applozic.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -35,6 +35,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6D10A1321C3EA4120023D68B /* Applozic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Applozic.framework; sourceTree = "<group>"; };
 		6D4F28B01BC554D8007E7B35 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		6D4F28CD1BC6429F007E7B35 /* ApplozicLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplozicLoginViewController.h; sourceTree = "<group>"; };
 		6D4F28CE1BC6429F007E7B35 /* ApplozicLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplozicLoginViewController.m; sourceTree = "<group>"; };
@@ -49,7 +50,6 @@
 		6D6DF2061BC551FA00EBA00F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6D6DF2081BC551FA00EBA00F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6DB445141C2C04D200C64524 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6DCC2FFD1C31199300F17D0E /* Applozic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Applozic.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DCC2FFE1C31199300F17D0E /* Applozic.framework in Frameworks */,
+				6D10A1331C3EA4120023D68B /* Applozic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,7 +76,7 @@
 		6D6DF1E81BC551FA00EBA00F = {
 			isa = PBXGroup;
 			children = (
-				6DCC2FFD1C31199300F17D0E /* Applozic.framework */,
+				6D10A1321C3EA4120023D68B /* Applozic.framework */,
 				6D6DF1F31BC551FA00EBA00F /* applozicdemo */,
 				6D6DF1F21BC551FA00EBA00F /* Products */,
 			);

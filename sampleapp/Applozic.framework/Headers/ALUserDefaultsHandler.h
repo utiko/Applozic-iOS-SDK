@@ -23,6 +23,7 @@
 #define MSG_LIST_CALL_SUFIX @":MSG_CALL_MADE"
 #define PROCESSED_NOTIFICATION_IDS  @"PROCESSED_NOTIFICATION_IDS"
 #define LAST_SEEN_SYNC_TIME @"LAST_SEEN_SYNC_TIME"
+#define SHOW_LOAD_MORE_BUTTON @":SHOW_LOAD_MORE_BUTTON"
 
 
 
@@ -93,6 +94,10 @@
 +(NSNumber *) getLastSeenSyncTime;
 
 +(void ) setLastSeenSyncTime :(NSNumber*) lastSeenTime;
+
++(void)setShowLoadMore:(BOOL) value forContactId:(NSString*)constactId;
+
++(BOOL)isShowLoadMore:(NSString *) contactId;
 
 
 +(NSNumber *)getLastSyncTime;

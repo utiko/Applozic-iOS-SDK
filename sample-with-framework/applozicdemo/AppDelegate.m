@@ -12,6 +12,7 @@
 #import <Applozic/ALUtilityClass.h>
 #import "ApplozicLoginViewController.h"
 #import "Applozic/ALDBHandler.h"
+
 @interface AppDelegate ()
 
 @end
@@ -48,6 +49,9 @@
             }
         }
     }
+    
+    ALAppLocalNotifications *localNotification = [ALAppLocalNotifications appLocalNotificationHandler];
+    [localNotification dataConnectionNotificationHandler];
     
     return YES;
 }

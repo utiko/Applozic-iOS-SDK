@@ -8,6 +8,11 @@
       'contents': [
         {
           'type': 'file',
+          'name': "ALAppLocalNotifications.h",
+          'external-contents': "/Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/ALAppLocalNotifications.h"
+        },
+        {
+          'type': 'file',
           'name': "ALApplozicSettings.h",
           'external-contents': "/Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Handlers/ALApplozicSettings.h"
         },
@@ -255,6 +260,11 @@
           'type': 'file',
           'name': "KAProgressLabel.h",
           'external-contents': "/Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Resources/ProgressView/KAProgressLabel.h"
+        },
+        {
+          'type': 'file',
+          'name': "Reachability.h",
+          'external-contents': "/Users/devashish/Documents/Projects/Github/Applozic-iOS-SDK/sample-with-framework/Applozic/Reachability.h"
         },
         {
           'type': 'file',
