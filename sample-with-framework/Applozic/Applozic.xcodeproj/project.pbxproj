@@ -187,6 +187,8 @@
 		6D88E1DA1BC8046500364C5B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D88E1D91BC8046500364C5B /* CoreLocation.framework */; };
 		6D8904251C3E744000B59381 /* ALConversationProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D8904231C3E744000B59381 /* ALConversationProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D8904261C3E744000B59381 /* ALConversationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8904241C3E744000B59381 /* ALConversationProxy.m */; };
+		6D8904291C3E7A9500B59381 /* ALAppLocalNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D8904271C3E7A9400B59381 /* ALAppLocalNotifications.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6D89042A1C3E7A9500B59381 /* ALAppLocalNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8904281C3E7A9500B59381 /* ALAppLocalNotifications.m */; };
 		6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547631BE38DFF00776652 /* ALContactDBService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D95476A1BE38DFF00776652 /* ALContactDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547641BE38DFF00776652 /* ALContactDBService.m */; };
 		6D95476B1BE38DFF00776652 /* ALContactService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547651BE38DFF00776652 /* ALContactService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -421,6 +423,8 @@
 		6D88E1D91BC8046500364C5B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6D8904231C3E744000B59381 /* ALConversationProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALConversationProxy.h; sourceTree = "<group>"; };
 		6D8904241C3E744000B59381 /* ALConversationProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALConversationProxy.m; sourceTree = "<group>"; };
+		6D8904271C3E7A9400B59381 /* ALAppLocalNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAppLocalNotifications.h; sourceTree = "<group>"; };
+		6D8904281C3E7A9500B59381 /* ALAppLocalNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALAppLocalNotifications.m; sourceTree = "<group>"; };
 		6D9547631BE38DFF00776652 /* ALContactDBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALContactDBService.h; path = Applozic/ALContactDBService.h; sourceTree = "<group>"; };
 		6D9547641BE38DFF00776652 /* ALContactDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALContactDBService.m; path = Applozic/ALContactDBService.m; sourceTree = "<group>"; };
 		6D9547651BE38DFF00776652 /* ALContactService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALContactService.h; path = Applozic/ALContactService.h; sourceTree = "<group>"; };
@@ -864,6 +868,8 @@
 				6D6DF08D1BC5364C00EBA00F /* ALConnection.h */,
 				6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */,
 				6DB665061C0EE5EC004D04A8 /* ALDataNetworkConnection.m */,
+				6D8904271C3E7A9400B59381 /* ALAppLocalNotifications.h */,
+				6D8904281C3E7A9500B59381 /* ALAppLocalNotifications.m */,
 			);
 			name = networkcommunication;
 			sourceTree = "<group>";
@@ -1021,6 +1027,7 @@
 				6DCC30251C31826A00F17D0E /* ALChannelUserX.h in Headers */,
 				6DCC30211C31774C00F17D0E /* DB_CHANNEL_USER_X.h in Headers */,
 				6D6DF1601BC5364C00EBA00F /* ALChatCell_Image.h in Headers */,
+				6D8904291C3E7A9500B59381 /* ALAppLocalNotifications.h in Headers */,
 				6D8904251C3E744000B59381 /* ALConversationProxy.h in Headers */,
 				6D9C693C1C28383B00C78219 /* ALChatLauncher.h in Headers */,
 				6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */,
@@ -1200,6 +1207,7 @@
 				6D6DF1651BC5364C00EBA00F /* ALNewContactCell.m in Sources */,
 				6D6DF14D1BC5364C00EBA00F /* ALUserDefaultsHandler.m in Sources */,
 				6D6DF1C81BC5364C00EBA00F /* UIImage+GIF.m in Sources */,
+				6D89042A1C3E7A9500B59381 /* ALAppLocalNotifications.m in Sources */,
 				6D8904261C3E744000B59381 /* ALConversationProxy.m in Sources */,
 				6D36F2091BFF3EE3003D46D3 /* ALApplozicSettings.m in Sources */,
 				6D6DF1811BC5364C00EBA00F /* DB_CONTACT.m in Sources */,
