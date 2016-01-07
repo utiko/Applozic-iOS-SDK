@@ -12,9 +12,11 @@
 
 @interface ALAppLocalNotifications : NSObject
 
++(ALAppLocalNotifications *)appLocalNotificationHandler;
+
 -(void)dataConnectionNotificationHandler;
 
--(void)netReachabilityChanged:(NSNotification*)note;
+-(void)reachabilityChanged:(NSNotification*)note;
 
 @property(strong) Reachability * googleReach;
 @property(strong) Reachability * localWiFiReach;

@@ -10,10 +10,24 @@
 
 @implementation ALAppLocalNotifications
 
++(ALAppLocalNotifications *)appLocalNotificationHandler
+{
+    static ALAppLocalNotifications * localNotificationHandler = nil;
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+        
+        localNotificationHandler = [[self alloc] init];
+        
+    });
+    
+    return localNotificationHandler;
+}
+
 -(void)dataConnectionNotificationHandler
 {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(netReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     
     // create a Reachability object for www.google.com
     
@@ -87,7 +101,7 @@
     [self.internetConnectionReach startNotifier];
     
 }
--(void)netReachabilityChanged:(NSNotification*)note
+-(void)reachabilityChanged:(NSNotification*)note
 {
     Reachability * reach = [note object];
     
@@ -95,35 +109,35 @@
     {
         if([reach isReachable])
         {
-            //NSLog(@"========== IF googleReach ============");
+            NSLog(@"========== IF googleReach ============");
         }
         else
         {
-            // NSLog(@"========== ELSE googleReach ============");
+             NSLog(@"========== ELSE googleReach ============");
         }
     }
     else if (reach == self.localWiFiReach)
     {
         if([reach isReachable])
         {
-            // NSLog(@"========== IF localWiFiReach ============");
+             NSLog(@"========== IF localWiFiReach ============");
         }
         else
         {
-            // NSLog(@"========== ELSE localWiFiReach ============");
+             NSLog(@"========== ELSE localWiFiReach ============");
         }
     }
     else if (reach == self.internetConnectionReach)
     {
         if([reach isReachable])
         {
-            // NSLog(@"========== IF internetConnectionReach ============");
+             NSLog(@"========== IF internetConnectionReach ============");
             [ALMessageService processLatestMessagesGroupByContact];
             //changes required
         }
         else
         {
-            //NSLog(@"========== ELSE internetConnectionReach ============");
+            NSLog(@"========== ELSE internetConnectionReach ============");
         }
     }
     
@@ -131,7 +145,7 @@
 
 -(void)dealloc
 {
-    
+    NSLog(@"DEALLOC METHOD CALLED");
 }
 
 @end

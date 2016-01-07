@@ -49,6 +49,9 @@
         }
     }
     
+    ALAppLocalNotifications *localNotification = [ALAppLocalNotifications appLocalNotificationHandler];
+    [localNotification dataConnectionNotificationHandler];
+    
     return YES;
 }
 
