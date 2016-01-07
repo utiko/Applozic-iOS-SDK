@@ -34,6 +34,7 @@
 #import "ALUserService.h"
 #import "ALChannelDBService.h"
 #import "ALChannel.h"
+#import "ALChannelService.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -553,13 +554,21 @@ ALMQTTConversationService *alMqttConversationService;
     ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];
     if([message.groupId intValue])
     {
-        ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-        ALChannel *alChannel = [channelDBService loadChannelByKey:message.groupId];
+            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+            ALChannel *alChannel = [channelDBService loadChannelByKey:message.groupId];
+                if(alChannel)
+                {
+                    contactCell.mUserNameLabel.text = [alChannel name];
+                }
+//
+//        ALChannelService *channelService = [[ALChannelService alloc] init];
+//        [channelService getChannelInformation:message.groupId withCompletion:^(ALChannel *alChannel) {
+//        
+//        contactCell.mUserNameLabel.text = [alChannel name];
         
-        if(alChannel)
-        {
-            contactCell.mUserNameLabel.text = [alChannel name];
-        }
+//        }];
+        
+
     }
     else
     {

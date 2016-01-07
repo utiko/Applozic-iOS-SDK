@@ -11,7 +11,6 @@
 @implementation ALChannelService
 
 -(void)callForChannelServiceForDBInsertion:(NSString *)theJson
-
 {
     ALChannelFeed *alChannelFeed = [[ALChannelFeed alloc] initWithJSONString:theJson];
     

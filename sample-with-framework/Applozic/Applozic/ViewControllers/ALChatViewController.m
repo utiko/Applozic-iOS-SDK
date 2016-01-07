@@ -482,14 +482,14 @@ ALMessageDBService  * dbService;
     theMessage.delivered = NO;
     theMessage.fileMetaKey = nil;//4
     theMessage.contentType = 0; //TO-DO chnge after...
-//    if([self.channelKey intValue])
-//    {
-//        theMessage.groupId = self.channelKey;
-//    }
-//    else
-//    {
-//        theMessage.groupId = nil;
-//    }
+    if([self.channelKey intValue])
+    {
+        theMessage.groupId = self.channelKey;
+    }
+    else
+    {
+        theMessage.groupId = nil;
+    }
     
     return theMessage;
 }
