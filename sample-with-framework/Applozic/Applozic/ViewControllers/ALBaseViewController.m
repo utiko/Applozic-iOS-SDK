@@ -130,15 +130,9 @@
 -(void)back:(id)sender {
     
     UIViewController *  uiController = [self.navigationController popViewControllerAnimated:YES];
-    
     if(!uiController ){
         if(self.individualLaunch){
             [self  dismissViewControllerAnimated:YES completion:nil];
-        }else{
-//            UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-//                                        
-//                                                                 bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-//            UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
         }
     }
 }

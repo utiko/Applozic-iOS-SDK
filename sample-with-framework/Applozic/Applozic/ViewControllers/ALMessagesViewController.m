@@ -390,15 +390,7 @@ ALMQTTConversationService *alMqttConversationService;
 }
 
 - (IBAction)logout:(id)sender {
-    
-    
-//    UIViewController *  uiController = [self.navigationController popViewControllerAnimated:YES];
-//    if(!uiController){
-//        [self  dismissViewControllerAnimated:YES completion:nil];
-//    }
-    
-//    ALChatLauncher * alChatLauncher = [[ALChatLauncher alloc]init];
-//    [  alChatLauncher launchContactList:self];
+
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
