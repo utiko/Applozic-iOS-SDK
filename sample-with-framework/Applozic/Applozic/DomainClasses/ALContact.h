@@ -34,4 +34,6 @@
 
 -(instancetype)initWithDict:(NSDictionary * ) dictionary;
 -(void)populateDataFromDictonary:(NSDictionary *)dict;
+
+-(NSString *)getDisplayName;
 @end

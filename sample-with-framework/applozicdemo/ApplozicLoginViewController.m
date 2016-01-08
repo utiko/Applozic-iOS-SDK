@@ -143,7 +143,7 @@
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService logout];
     // Initial login view .....
-    [self setTitle:@"< Login Screen"];
+    [self setTitle:@"Log Out"];
     
  
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];

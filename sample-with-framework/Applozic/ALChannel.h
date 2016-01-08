@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/NSManagedObject.h>
 #import "ALJson.h"
+#import "ALConversationProxy.h"
 
 typedef enum
 {
@@ -29,6 +30,7 @@ typedef enum
 @property (nonatomic, strong) NSNumber *unreadCount;
 @property (nonatomic, copy) NSManagedObjectID *channelDBObjectId;
 @property (nonatomic, strong) NSMutableArray *membersName;
+@property (nonatomic, strong) ALConversationProxy *conversationProxy;
 
 -(id)initWithDictonary:(NSDictionary *)messageDictonary;
 -(void)parseMessage:(id) messageJson;

@@ -202,7 +202,7 @@
 +(BOOL)isServerCallDoneForMSGList: (NSString *)contactId{
     
     NSString *key = [ contactId stringByAppendingString:MSG_LIST_CALL_SUFIX];
-    return [[NSUserDefaults standardUserDefaults] valueForKey:key];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:key];
     
 }
 

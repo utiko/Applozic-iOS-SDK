@@ -17,6 +17,8 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALConstant.h"
 #import "ALApplozicSettings.h"
+#import "ALChatLauncher.h"
+#import "ALMessagesViewController.h"
 
 @interface ALBaseViewController ()<UITextViewDelegate>
 
@@ -29,7 +31,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [self setUpTableView];
     [self setUpTheming];
     [self registerForKeyboardNotifications];
@@ -40,13 +42,13 @@
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
         self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
-      
+        
     } else {
         // iOS 7.0 or later
         self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
         
     }
-
+    
     if ([ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_BACKGROUND_COLOR])
         self.mTableView.backgroundColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_BACKGROUND_COLOR];
     else
@@ -55,7 +57,7 @@
 
 
 -(void)setUpTableView {
-
+    
     UIButton * mLoadEarlierMessagesButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     mLoadEarlierMessagesButton.frame = CGRectMake(self.view.frame.size.width/2-90, 15, 180, 30);
     [mLoadEarlierMessagesButton setTitle:@"Load Earlier" forState:UIControlStateNormal];
@@ -64,9 +66,9 @@
     [mLoadEarlierMessagesButton addTarget:self action:@selector(loadChatView) forControlEvents:UIControlEventTouchUpInside];
     [mLoadEarlierMessagesButton.titleLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:14]];
     [self.mTableHeaderView addSubview:mLoadEarlierMessagesButton];
-
+    
     // textfield right view
-
+    
     self.sendButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     [self.rightViewButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"mobicom_ic_action_send_now.png"] forState:UIControlStateNormal];
     [self.rightViewButton addTarget:self action:@selector(postMessage) forControlEvents:UIControlEventTouchUpInside];
@@ -77,7 +79,7 @@
     UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
     if (!color) {
         color = [UIColor blackColor];
-//        color = [UIColor whiteColor];
+        //        color = [UIColor whiteColor];
     }
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                     color,NSForegroundColorAttributeName,nil];
@@ -92,20 +94,20 @@
         // iOS 7.0 or later
         self.navColor = [self.navigationController.navigationBar barTintColor];
     }
-  
+    
     if(![ALApplozicSettings isRefreshButtonHidden]){
-    // UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
-   // self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:refreshButton ,nil];
+        // UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
+        // self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:refreshButton ,nil];
     }
     self.label = [[UILabel alloc] initWithFrame: CGRectMake(80,26,223,21)];
     self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.label.backgroundColor = [UIColor clearColor];
     [self.label setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:LAST_SEEN_LABEL_SIZE]];
     self.label.textAlignment = NSTextAlignmentCenter;
-
+    
     [self.navigationController.navigationBar addSubview:self.label];
- 
+    
     self.typingLabel = [[UILabel alloc] initWithFrame: CGRectMake(10,self.tabBarController.tabBar.frame.origin.y - 40, self.view.frame.size.width, 30)];
     self.typingLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.typingLabel.backgroundColor = [UIColor clearColor];
@@ -118,44 +120,49 @@
 
 
 -(void)loadChatView {
-
+    
 }
 
 -(void)postMessage {
-
+    
 }
 
 -(void)back:(id)sender {
-   
+    
     UIViewController *  uiController = [self.navigationController popViewControllerAnimated:YES];
-    
-    if(!uiController){
-        [self  dismissViewControllerAnimated:YES completion:nil];
+    if(!uiController ){
+        if(self.individualLaunch){
+            [self  dismissViewControllerAnimated:YES completion:nil];
+        }
     }
-    
 }
 
 -(void)refreshTable:(id)sender {
-
+    
 }
 
 -(void)attachmentAction{
-
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-
-         [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
-//     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
-//   [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
-//    [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
     
-//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
+    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+    
+    if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
+    {
+        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+        [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
+        [self.label setTextColor:[ALApplozicSettings getColourForNavigationItem]];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
+    }
+    
     [self.tabBarController.tabBar setHidden: YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
-
+    
     self.navigationController.navigationBar.barTintColor = self.navColor;
     self.tabBarController.tabBar.hidden = YES;
 }
@@ -198,11 +205,11 @@
     NSDictionary * theDictionary = notification.userInfo;
     NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     self.checkBottomConstraint.constant = 0;
-     CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     self.typingLabel.frame = CGRectMake(10,keyboardEndFrame.origin.y - 90, self.view.frame.size.width, 30);
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
-
+        
     }];
 }
 
@@ -221,11 +228,11 @@
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     
-//    UITouch* touch=[[event allTouches] anyObject];
-//    if([self.sendMessageTextView isFirstResponder]&&[touch view]!=self.sendMessageTextView){
-//        [self.sendMessageTextView resignFirstResponder];
-//        
-//    }
+    //    UITouch* touch=[[event allTouches] anyObject];
+    //    if([self.sendMessageTextView isFirstResponder]&&[touch view]!=self.sendMessageTextView){
+    //        [self.sendMessageTextView resignFirstResponder];
+    //
+    //    }
     [self.view endEditing:YES];
     [super touchesBegan:touches withEvent:event];
     [self.sendMessageTextView resignFirstResponder];
@@ -247,8 +254,8 @@
 
 
 - (IBAction)sendAction:(id)sender {
-   
-   // [self.sendMessageTextView resignFirstResponder];
+    
+    // [self.sendMessageTextView resignFirstResponder];
     self.sendMessageTextView.text = [self.sendMessageTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if(self.sendMessageTextView.text.length > 0){
         [self postMessage];

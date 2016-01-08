@@ -15,6 +15,7 @@
 #import "ALUtilityClass.h"
 #import "ALConstant.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALMessagesViewController.h"
 
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
@@ -28,6 +29,8 @@
 @property (strong, nonatomic) NSMutableArray *filteredContactList;
 
 @property (strong, nonatomic) NSString *stopSearchText;
+
+@property  NSUInteger lastSearchLength;
 
 @end
 
@@ -46,19 +49,29 @@
                                     color,NSForegroundColorAttributeName,nil];
     
     self.navigationController.navigationBar.titleTextAttributes = textAttributes;
-    
+    self.navigationItem.title = @"Contacts";    
     self.contactList = [NSMutableArray new];
-    
     [self handleFrameForOrientation];
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"< Back" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
+    [self.navigationItem setLeftBarButtonItem:barButtonItem];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+          [self fetchConversationsGroupByContactId];
+    });
     
-    [self fetchConversationsGroupByContactId];
+  
     
     self.filteredContactList = [NSMutableArray arrayWithArray:self.contactList];
+//    float y = self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height+ [UIApplication sharedApplication].statusBarFrame.size.height;
+//
     
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    float y = self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height;
+    
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,y, self.view.frame.size.width, 44)];
     self.searchBar.delegate = self;
     self.searchBar.placeholder = @"Email, userid, number";
-    self.navigationItem.titleView = self.searchBar;
+    [self.view addSubview:self.searchBar];
+   // self.navigationItem.titleView = self.searchBar;
     
     // Do any additional setup after loading the view.
     
@@ -80,12 +93,19 @@
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden: NO];
     
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
-        // iOS 6.1 or earlier
-        self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
-    } else {
-        // iOS 7.0 or later
-        self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
+//    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
+//        // iOS 6.1 or earlier
+//        self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
+//    } else {
+//        // iOS 7.0 or later
+//        self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
+//    }
+    
+    if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
+    {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+        [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
     }
 }
 
@@ -99,7 +119,8 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.filteredContactList.count!=0?self.filteredContactList.count:0;
+    
+    return self.filteredContactList.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -109,17 +130,18 @@
     ALNewContactCell *newContactCell = (ALNewContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     UILabel* nameIcon=(UILabel*)[newContactCell viewWithTag:101];
     ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
-
+    //Write the logic to get display nme
     if (contact) {
-        newContactCell.contactPersonName.text = contact.fullName;
-        NSString *firstLetter = [contact.fullName substringToIndex:1];
+        newContactCell.contactPersonName.text = [contact getDisplayName];
+        NSString *firstLetter = [newContactCell.contactPersonName.text substringToIndex:1];
         nameIcon.text=firstLetter;
         
-        if (contact.contactImageUrl) 
+        if (contact.contactImageUrl) {
             newContactCell.contactPersonImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:contact.contactImageUrl]]];
-        else
+        }else{
             newContactCell.contactPersonImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
-    
+
+        }
         
     }
     
@@ -129,13 +151,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    ALChatViewController * theVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
-    
     ALContact *selectedContact =  self.filteredContactList[indexPath.row];
-    if (selectedContact) {
-        theVC.contactIds = selectedContact.userId;
-    }
-    [self.navigationController pushViewController:theVC animated:YES];
+    [self launchChatForContact:selectedContact.userId];
+
     
 }
 
@@ -165,7 +183,7 @@
         contact.localImageResourceName = dbContact.localImageResourceName;
         [self.contactList addObject:contact];
     }
-    
+    self.filteredContactList = [NSMutableArray arrayWithArray:self.contactList];
     [self.contactsTableView reloadData];
     
 }
@@ -185,14 +203,10 @@
     UIInterfaceOrientation toOrientation   = (UIInterfaceOrientation)[[UIDevice currentDevice] orientation];
     
     if ([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone && (toOrientation == UIInterfaceOrientationLandscapeLeft || toOrientation == UIInterfaceOrientationLandscapeRight)) {
-        
         self.mTableViewTopConstraint.constant = DEFAULT_TOP_LANDSCAPE_CONSTANT;
-        
     }else{
-        
         self.mTableViewTopConstraint.constant = DEFAULT_TOP_PORTRAIT_CONSTANT;
     }
-    
     [self.view layoutIfNeeded];
 }
 
@@ -207,7 +221,7 @@
     // Do the search...
     ALChatViewController * theVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     theVC.contactIds = searchBar.text;
-    [self.navigationController pushViewController:theVC animated:YES];
+    
 }
 
 #pragma mark - Search Bar Delegate Methods -
@@ -217,30 +231,91 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    self.stopSearchText = searchText; 
-    [self.filteredContactList removeAllObjects];
+    self.stopSearchText = searchText;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self getSerachResult:searchText];
+    });
+    
+   }
+
+-(void)getSerachResult:(NSString*)searchText {
+    
     if (searchText.length!=0) {
         
         NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"email CONTAINS[cd] %@ OR userId CONTAINS[cd] %@ OR contactNumber CONTAINS[cd] %@ OR fullName CONTAINS[cd] %@", searchText, searchText, searchText,searchText];
-        NSArray *searchResults = [self.contactList filteredArrayUsingPredicate:searchPredicate];
-        
-        [self.filteredContactList addObjectsFromArray:searchResults];
-       
+        if(self.lastSearchLength >searchText.length ){
+            NSArray *searchResults = [self.contactList filteredArrayUsingPredicate:searchPredicate];
+            [self.filteredContactList removeAllObjects];
+            [self.filteredContactList addObjectsFromArray:searchResults];
+
+        }else{
+            NSArray *searchResults = [self.filteredContactList filteredArrayUsingPredicate:searchPredicate];
+            [self.filteredContactList removeAllObjects];
+            [self.filteredContactList addObjectsFromArray:searchResults];
+        }
     }else {
         [self.filteredContactList addObjectsFromArray:self.contactList];
     }
-   
+    
+    self.lastSearchLength = searchText.length;
     [self.contactsTableView reloadData];
 }
 
-/*332
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)back:(id)sender {
+    NSLog(@"backbuttonClicked.....");
+    // UIViewController uiController = [self.navigationController pop];
+    
+    UIViewController *    viewControllersFromStack = [self.navigationController popViewControllerAnimated:YES];
+    if(!viewControllersFromStack){
+        self.tabBarController.selectedIndex = 0;
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    
 }
-*/
+
+-(void)launchChatForContact:( NSString *)contactId{
+    
+    
+    BOOL isFoundInBackStack =false;
+    
+    NSMutableArray *viewControllersFromStack = [self.navigationController.viewControllers mutableCopy];
+    
+    for (UIViewController *currentVC in viewControllersFromStack)
+    {
+        if ([currentVC isKindOfClass:[ALMessagesViewController class]])
+        {
+            NSLog(@"found in backStack .....launching from current vc");
+            
+            [(ALMessagesViewController*) currentVC createDetailChatViewController:contactId];
+            isFoundInBackStack = true;
+        }
+    }
+    if(!isFoundInBackStack){
+        NSLog(@"Not found in backStack .....");
+        self.tabBarController.selectedIndex=0;
+        UINavigationController * uicontroller =  self.tabBarController.selectedViewController;
+        NSMutableArray *viewControllersFromStack = [uicontroller.childViewControllers mutableCopy];
+        
+        for (UIViewController *currentVC in viewControllersFromStack)
+        {
+            if ([currentVC isKindOfClass:[ALMessagesViewController class]])
+            {
+                NSLog(@"f####ound in backStack .....launching from current vc");
+                [(ALMessagesViewController*) currentVC createDetailChatViewController:contactId];
+                isFoundInBackStack = true;
+            }
+        }
+    }else{
+        //remove ALNewContactsViewController from back stack...
+        
+        viewControllersFromStack = [self.navigationController.viewControllers mutableCopy];
+        if(viewControllersFromStack.count >=2 && [ [viewControllersFromStack objectAtIndex:viewControllersFromStack.count -2] isKindOfClass:[ALNewContactsViewController class]]){
+            [ viewControllersFromStack removeObjectAtIndex:viewControllersFromStack.count -2];
+            self.navigationController.viewControllers = viewControllersFromStack;
+            
+        }
+    }
+}
 
 @end

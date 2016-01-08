@@ -201,7 +201,7 @@
                                 <action selector="backButtonAction:" destination="BYZ-38-t0r" id="vWD-0a-q4j"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Logout" id="3pR-ud-INa">
+                        <barButtonItem key="rightBarButtonItem" title="Contcat" id="3pR-ud-INa">
                             <connections>
                                 <action selector="logout:" destination="BYZ-38-t0r" id="7Ka-oa-KIh"/>
                             </connections>
@@ -222,7 +222,7 @@
         <!--Contacts-->
         <scene sceneID="shv-uX-NUa">
             <objects>
-                <viewController id="oZy-jo-Qf5" customClass="ALNewContactsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ALNewContactsViewController" id="oZy-jo-Qf5" customClass="ALNewContactsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kFS-Fg-cyZ"/>
                         <viewControllerLayoutGuide type="bottom" id="nYW-vk-iGf"/>
@@ -235,7 +235,7 @@
                                 <rect key="frame" x="4" y="0.0" width="600" height="600"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewContactCell" rowHeight="59" id="NOy-HJ-2YL" customClass="ALNewContactCell">
-                                        <rect key="frame" x="0.0" y="86" width="600" height="59"/>
+                                        <rect key="frame" x="0.0" y="86" width="592" height="59"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NOy-HJ-2YL" id="p0o-92-QNi">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="58.5"/>

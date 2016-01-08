@@ -104,11 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALNewContactsViewController.m"
-            timestampString = "468169294.823299"
+            timestampString = "473788920.290114"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1565,8 +1565,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "760"
             endingLineNumber = "760"
-            landmarkName = "@implementation ALMessagesViewController"
-            landmarkType = "3">
+            landmarkName = "-tableView:commitEditingStyle:forRowAtIndexPath:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2731,7 +2731,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "421"
             endingLineNumber = "421"
-            landmarkName = "-setUpTableView"
+            landmarkName = "-setUpView"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2747,7 +2747,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "422"
             endingLineNumber = "422"
-            landmarkName = "-setUpTableView"
+            landmarkName = "-setUpView"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3035,8 +3035,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1403"
             endingLineNumber = "1403"
-            landmarkName = "-mqttConnectionClosed"
-            landmarkType = "5">
+            landmarkName = "@implementation ALChatViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3050,9 +3050,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1405"
-            endingLineNumber = "1405"
-            landmarkName = "@implementation ALChatViewController"
-            landmarkType = "3">
+            endingLineNumber = "1405">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

@@ -386,8 +386,7 @@
     }
     
     NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime"
-                                                 ascending:NO];
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:NO];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     NSMutableArray *sortedArray = [[messagesArray sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
     
@@ -421,10 +420,10 @@
     theMessageEntity.inProgress = [ NSNumber numberWithBool:theMessage.inProgress];
     theMessageEntity.isUploadFailed=[ NSNumber numberWithBool:theMessage.isUploadFailed];
     theMessageEntity.contentType = theMessage.contentType;
-//    if(theMessage.groupId)
-//    {
-//        theMessageEntity.groupId = theMessage.groupId;
-//    }
+    if(theMessage.groupId)
+    {
+        theMessageEntity.groupId = theMessage.groupId;
+    }
     if(theMessage.fileMeta != nil) {
         DB_FileMetaInfo *  fileInfo =  [self createFileMetaInfoEntityForDBInsertionWithMessage:theMessage.fileMeta];
         theMessageEntity.fileMetaInfo = fileInfo;
@@ -473,10 +472,10 @@
     theMessage.sentToServer = theEntity.sentToServer.boolValue;
     theMessage.isUploadFailed = theEntity.isUploadFailed.boolValue;
     theMessage.contentType = theEntity.contentType;
-//    if(theEntity.groupId)
-//    {
-//        theMessage.groupId = theEntity.groupId;
-//    }
+    if(theEntity.groupId)
+    {
+        theMessage.groupId = theEntity.groupId;
+    }
     
     // file meta info
     
