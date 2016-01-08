@@ -15,6 +15,7 @@
 #import "DB_FileMetaInfo.h"
 #import "ALMessageService.h"
 #import "ALContactService.h"
+#import "ALMessageClientService.h"
 
 @implementation ALMessageDBService
 
@@ -336,7 +337,8 @@
 -(void)syncConverstionDBWithCompletion:(void(^)(BOOL success , NSMutableArray * theArray)) completion
 {
     //[self.mActivityIndicator startAnimating];
-    [ALMessageService getMessagesListGroupByContactswithCompletion:^(NSMutableArray *messageArray, NSError *error) {
+    ALMessageClientService * messageClientService  = [[ALMessageClientService alloc]init];
+    [messageClientService getMessagesListGroupByContactswithCompletion:^(NSMutableArray *messageArray, NSError *error) {
       //  [self.mActivityIndicator stopAnimating];
         if (error) {
             NSLog(@"%@",error);

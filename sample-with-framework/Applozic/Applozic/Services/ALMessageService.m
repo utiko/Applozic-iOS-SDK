@@ -41,41 +41,6 @@
 }
 
 
-
-
-+(void) getMessagesListGroupByContactswithCompletion:(void(^)(NSMutableArray * messages, NSError * error)) completion {
-    
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
-    
-    NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@",@"0"];
-    
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
-    
-    [ALResponseHandler processRequest:theRequest andTag:@"GET MESSAGES GROUP BY CONTACT" WithCompletionHandler:^(id theJson, NSError *theError) {
-        
-        if (theError) {
-            
-            completion(nil,theError);
-            
-            return ;
-        }
-        
-        ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
-        
-        completion(messageListResponse.messageList,nil);
-        NSLog(@"getMessagesListGroupByContactswithCompletion message list response THE JSON %@",theJson);
-        //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
-        
-        //====== NEED CHECK  DB QUERY AND CALLING METHODS
-        
-        ALChannelService *channelService = [[ALChannelService alloc] init];
-        [channelService callForChannelServiceForDBInsertion:theJson];
-        
-        //=========
-    }];
-    
-}
-
 +(void)getMessageListForUser:(NSString *)userId startIndex:(NSString *)startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSNumber *)endTimeStamp withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion
 {
     
@@ -83,37 +48,17 @@
     NSMutableArray * messageList = [almessageDBService getMessageListForContactWithCreatedAt:userId withCreatedAt:endTimeStamp];
     //Found Record in DB itself ...if not make call to server
     if(messageList.count > 0 && ![ALUserDefaultsHandler isServerCallDoneForMSGList:userId]){
-        NSLog(@"####message list is coming from DB %ld", (unsigned long)messageList.count);
+        NSLog(@"message list is coming from DB %ld", (unsigned long)messageList.count);
         completion(messageList, nil, nil);
         return;
     }else {
-        NSLog(@"####message list is coming from DB %ld", (unsigned long)messageList.count);
+        NSLog(@"message list is coming from DB %ld", (unsigned long)messageList.count);
     }
+    ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc ]init ];
     
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
-    NSString * theParamString;
-    if(endTimeStamp==nil){
-        theParamString = [NSString stringWithFormat:@"userId=%@&startIndex=%@&pageSize=%@",userId,startIndex,pageSize];
-    }else{
-        theParamString = [NSString stringWithFormat:@"userId=%@&startIndex=%@&pageSize=%@&endTime=%@",userId,startIndex,pageSize,endTimeStamp.stringValue];
-    }
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
-    
-    [ALResponseHandler processRequest:theRequest andTag:@"GET MESSAGES LIST FOR USERID" WithCompletionHandler:^(id theJson, NSError *theError) {
-        
-        if (theError) {
-            completion(nil, theError, nil);
-            return ;
-        }
-        
-        [ALUserDefaultsHandler setServerCallDoneForMSGList:true forContactId:userId];
-        ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson];
-        ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
-        [almessageDBService addMessageList:messageListResponse.messageList];
-        completion(messageListResponse.messageList, nil, messageListResponse.userDetailsList);
-        
-        NSLog(@"getMessageListForUser message list response THE JSON %@",theJson);
- 
+    [alMessageClientService getMessageListForUser:userId startIndex:startIndex pageSize:pageSize endTimeInTimeStamp:endTimeStamp withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
+
+        completion(messages, error,userDetailArray);
     }];
     
 }
@@ -434,8 +379,7 @@
             completionMark(userDetailObject);
             
         }
-        
-        
+
     }];
     
     

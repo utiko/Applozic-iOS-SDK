@@ -14,6 +14,7 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageDBService.h"
 #import "ALDBHandler.h"
+#import "ALChannelService.h"
 
 @implementation ALMessageClientService
 
@@ -107,5 +108,68 @@
     
 }
 
+-(void) getMessagesListGroupByContactswithCompletion:(void(^)(NSMutableArray * messages, NSError * error)) completion {
+    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
+    
+    NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@",@"0"];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"GET MESSAGES GROUP BY CONTACT" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if (theError) {
+            
+            completion(nil,theError);
+            
+            return ;
+        }
+        
+        ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
+        
+        completion(messageListResponse.messageList,nil);
+        NSLog(@"getMessagesListGroupByContactswithCompletion message list response THE JSON %@",theJson);
+        //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
+        
+        //====== NEED CHECK  DB QUERY AND CALLING METHODS
+        
+        ALChannelService *channelService = [[ALChannelService alloc] init];
+        [channelService callForChannelServiceForDBInsertion:theJson];
+        
+        //=========
+    }];
+    
+}
+
+-(void) getMessageListForUser: (NSString *)userId startIndex:(NSString *)startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSNumber *)endTimeStamp withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion
+{
+    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
+    NSString * theParamString;
+    if(endTimeStamp==nil){
+        theParamString = [NSString stringWithFormat:@"userId=%@&startIndex=%@&pageSize=%@",userId,startIndex,pageSize];
+    }else{
+        theParamString = [NSString stringWithFormat:@"userId=%@&startIndex=%@&pageSize=%@&endTime=%@",userId,startIndex,pageSize,endTimeStamp.stringValue];
+    }
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"GET MESSAGES LIST FOR USERID" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if (theError) {
+            completion(nil, theError, nil);
+            return ;
+        }
+        
+        [ALUserDefaultsHandler setServerCallDoneForMSGList:true forContactId:userId];
+        ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson];
+        ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
+        [almessageDBService addMessageList:messageListResponse.messageList];
+        completion(messageListResponse.messageList, nil, messageListResponse.userDetailsList);
+        
+        NSLog(@"getMessageListForUser message list response THE JSON %@",theJson);
+        
+    }];
+    
+}
 
 @end
