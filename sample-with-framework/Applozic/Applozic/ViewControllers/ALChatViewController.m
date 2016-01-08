@@ -201,7 +201,8 @@ ALMessageDBService  * dbService;
         ALChannel *alChannel = [channelDBService loadChannelByKey:self.channelKey];
         if(alChannel)
         {
-            self.navigationItem.title = [alChannel name];
+            NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
+            self.navigationItem.title = listNames[0];
         }
     }
     else

@@ -431,7 +431,8 @@ ALMQTTConversationService *alMqttConversationService;
             ALChannel *alChannel = [channelDBService loadChannelByKey:message.groupId];
                 if(alChannel)
                 {
-                    contactCell.mUserNameLabel.text = [alChannel name];
+                    NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
+                    contactCell.mUserNameLabel.text = listNames[0];
                 }
 //
 //        ALChannelService *channelService = [[ALChannelService alloc] init];
