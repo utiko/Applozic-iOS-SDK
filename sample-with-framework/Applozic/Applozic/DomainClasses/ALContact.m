@@ -33,4 +33,18 @@
     self.connected = [dict objectForKey:@"connected"];
 }
 
+
+
+-(NSString *)getDisplayName{
+    
+    if(self.displayName){
+        return _displayName;
+    }else if (self.fullName){
+        return _fullName;
+    }else{
+        return self.userId;
+    }
+    
+}
+
 @end

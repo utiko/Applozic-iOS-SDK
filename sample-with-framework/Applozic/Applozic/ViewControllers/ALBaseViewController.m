@@ -17,6 +17,8 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALConstant.h"
 #import "ALApplozicSettings.h"
+#import "ALChatLauncher.h"
+#import "ALMessagesViewController.h"
 
 @interface ALBaseViewController ()<UITextViewDelegate>
 
@@ -129,10 +131,16 @@
     
     UIViewController *  uiController = [self.navigationController popViewControllerAnimated:YES];
     
-    if(!uiController){
-        [self  dismissViewControllerAnimated:YES completion:nil];
+    if(!uiController ){
+        if(self.individualLaunch){
+            [self  dismissViewControllerAnimated:YES completion:nil];
+        }else{
+//            UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+//                                        
+//                                                                 bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+//            UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
+        }
     }
-    
 }
 
 -(void)refreshTable:(id)sender {
