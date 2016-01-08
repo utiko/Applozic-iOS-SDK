@@ -18,7 +18,6 @@
 
 +(void) processLatestMessagesGroupByContact;
 
-+(void) getLatestMessageGroupByContactWithCompletion:(void(^)(ALMessageList * alMessageList, NSError * error)) completion;
 
 +(void) getMessagesListGroupByContactswithCompletion:(void(^)(NSMutableArray * moments, NSError * error)) completion;
 

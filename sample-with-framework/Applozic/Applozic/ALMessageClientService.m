@@ -79,4 +79,33 @@
 }
 
 
+-(void) getLatestMessageGroupByContactWithCompletion:(void(^)(ALMessageList * alMessageList, NSError * error)) completion{
+    
+    NSLog(@"calling new contact groupcode ....");
+    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
+    
+    NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@",@"0"];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"GET MESSAGES GROUP BY CONTACT" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if (theError) {
+            
+            completion(nil,theError);
+            
+            return ;
+        }
+        
+        ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
+        
+        completion(messageListResponse,nil);
+        // NSLog(@"message list response THE JSON %@",theJson);
+        //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
+    }];
+    
+}
+
+
 @end

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ALMessage.h"
+#import "ALMessageList.h"
 
 @interface ALMessageClientService : NSObject
 
@@ -16,5 +17,7 @@
 -(void) updateDeliveryReport: (NSString *) key userId: (NSString *) userId;
 
 -(void) addWelcomeMessage;
+
+-(void) getLatestMessageGroupByContactWithCompletion:(void(^)(ALMessageList * alMessageList, NSError * error)) completion;
 
 @end
