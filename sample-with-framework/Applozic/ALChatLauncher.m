@@ -56,8 +56,6 @@
     [ALApplozicSettings setFontFace:@"Helvetica"];
     [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
     [ALApplozicSettings setColourForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
-//    [ALApplozicSettings setColourForNavigation:[UIColor whiteColor]];
-//    [ALApplozicSettings setColourForNavigationItem:[UIColor blueColor]];
     [ALApplozicSettings setColourForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     [ALApplozicSettings setColourForNavigationItem: [UIColor whiteColor]];
     
@@ -80,9 +78,7 @@
     
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
-    
-    
-    
+
 }
 
 -(void)launchChatList:(NSString *)title andViewControllerObject:(UIViewController *)viewController
@@ -93,7 +89,6 @@
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-   
     UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
     [viewController presentViewController:theTabBar animated:YES completion:nil];
     
