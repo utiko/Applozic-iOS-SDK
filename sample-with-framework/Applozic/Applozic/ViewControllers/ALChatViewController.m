@@ -1229,7 +1229,12 @@ ALMessageDBService  * dbService;
     
     double value = [tempString doubleValue];
     
-    if(value > 0)
+    if([self.channelKey intValue])
+    {
+        ALChannelDBService *ob = [[ALChannelDBService alloc] init];
+        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
+    }
+    else if(value > 0)
     {
         NSDate *date  = [[NSDate alloc] initWithTimeIntervalSince1970:value/1000];
         
@@ -1303,11 +1308,6 @@ ALMessageDBService  * dbService;
             [self.label setText:str];
         }
         
-    }
-    else if([self.channelKey intValue])
-    {
-        ALChannelDBService *ob = [[ALChannelDBService alloc] init];
-        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
     }
     else
     {
