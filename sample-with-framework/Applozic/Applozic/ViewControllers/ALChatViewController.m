@@ -112,9 +112,10 @@ ALMessageDBService  * dbService;
     self.showloadEarlierAction = TRUE;
     self.typingLabel.hidden = YES;
     
-    if(self.refresh || ([self.alMessageWrapper getUpdatedMessageArray] && [self.alMessageWrapper getUpdatedMessageArray].count == 0) ||
-       !([self.alMessageWrapper getUpdatedMessageArray] && [[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds] isEqualToString:self.contactIds])
-       ) {
+    if(self.refresh || ([self.alMessageWrapper getUpdatedMessageArray] && [self.alMessageWrapper getUpdatedMessageArray].count == 0) || (((!([self.alMessageWrapper getUpdatedMessageArray] && [[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds] isEqualToString:self.contactIds])))||([[self.alMessageWrapper getUpdatedMessageArray][0] groupId] != self.channelKey)))
+    {
+//        if(@"view reload called")
+ 
         [self reloadView];
 //        [super scrollTableViewToBottomWithAnimation:NO];
 //        if (self.refresh) {
