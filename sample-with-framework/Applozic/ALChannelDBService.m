@@ -88,8 +88,11 @@
     NSMutableArray *channelUserXArray = [[NSMutableArray alloc] init];
     ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
     
-    ALChannelUserX *channelUserTemp = [channelUserXList objectAtIndex:0];
-    [self deleteMembers:channelUserTemp.key];
+    if(channelUserXList.count)
+    {
+        ALChannelUserX *channelUserTemp = [channelUserXList objectAtIndex:0];
+        [self deleteMembers:channelUserTemp.key];
+    }
     
     for(ALChannelUserX *channelUserX in channelUserXList)
     {
