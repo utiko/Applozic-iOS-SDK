@@ -14,25 +14,7 @@
 
 @implementation ALChannelClientService
 
-+(void)getChannelArray:(NSMutableArray *)channelArray withCompletion:(void(^)(BOOL flag, NSMutableArray *array)) completion;
-{
-    NSMutableArray * memberArray = [NSMutableArray new];
-    
-    for(ALChannel *channel in channelArray)
-    {
-        for(NSString *memberName in channel.membersName)
-        {
-            ALChannelUserX *newChannelUserX = [[ALChannelUserX alloc] init];
-            newChannelUserX.key = channel.key;
-            newChannelUserX.userKey = memberName;
-            [memberArray addObject:newChannelUserX];
-        }
-    }
-    completion(YES, memberArray);
-
-}
-
-+(void)getChannelInfo:(NSNumber *)channelKey withCompletion:(void(^)(NSMutableArray * arrayList, BOOL status, ALChannel *channel)) completion
++(void)getChannelInfo:(NSNumber *)channelKey withCompletion:(void(^)(NSMutableArray * arrayList, ALChannel *channel)) completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/group/info", KBASE_URL];
     NSString * theParamString = [NSString stringWithFormat:@"key=%@", channelKey];
@@ -53,13 +35,21 @@
             
             ALChannel *alChannel = [channelFeed.channelFeedsList objectAtIndex:0];
             
-            [self getChannelArray:channelFeed.channelFeedsList withCompletion:^(BOOL flag, NSMutableArray *array)
-             {
-                 if(flag)
-                 {
-                     completion(array, flag, alChannel);
-                 }
-             }];
+            NSMutableArray * memberArray = [NSMutableArray new];
+            
+            for(ALChannel *channel in channelFeed.channelFeedsList)
+            {
+                for(NSString *memberName in channel.membersName)
+                {
+                    ALChannelUserX *newChannelUserX = [[ALChannelUserX alloc] init];
+                    newChannelUserX.key = channel.key;
+                    newChannelUserX.userKey = memberName;
+                    [memberArray addObject:newChannelUserX];
+                }
+            }
+            completion(memberArray, alChannel);
+            
+            
         }
         
     }];

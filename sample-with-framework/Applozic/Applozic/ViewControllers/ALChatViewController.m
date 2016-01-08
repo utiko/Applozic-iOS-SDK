@@ -1102,7 +1102,8 @@ ALMessageDBService  * dbService;
     NSLog(@" got the UI label::%@" , notificationView.contactId);
     self.contactIds = notificationView.contactId;
     [self reloadView];
-    [self fetchAndRefresh:YES];
+   // [self fetchAndRefresh:YES];
+    [self processMarkRead];
     
 }
 
