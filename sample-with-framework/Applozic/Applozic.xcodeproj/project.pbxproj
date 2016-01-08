@@ -13,7 +13,7 @@
 		29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DEA3141BEDEC1F004B8085 /* ALUserService.m */; };
 		6D15F2461BEB6AE00069BE1A /* ALAttachmentController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D15F2441BEB6AE00069BE1A /* ALAttachmentController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D15F2471BEB6AE00069BE1A /* ALAttachmentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D15F2451BEB6AE00069BE1A /* ALAttachmentController.m */; };
-		6D28D3C31C1AA9AA003817C3 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D28D3C11C1AA9AA003817C3 /* Reachability.h */; };
+		6D28D3C31C1AA9AA003817C3 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D28D3C11C1AA9AA003817C3 /* Reachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D28D3C41C1AA9AA003817C3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D28D3C21C1AA9AA003817C3 /* Reachability.m */; };
 		6D36F2081BFF3EE3003D46D3 /* ALApplozicSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D36F2061BFF3EE3003D46D3 /* ALApplozicSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D36F2091BFF3EE3003D46D3 /* ALApplozicSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D36F2071BFF3EE3003D46D3 /* ALApplozicSettings.m */; };
@@ -185,6 +185,10 @@
 		6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D7B95B31C06E09300374346 /* ALUserDetail.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D7B95B61C06E09300374346 /* ALUserDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D7B95B41C06E09300374346 /* ALUserDetail.m */; };
 		6D88E1DA1BC8046500364C5B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D88E1D91BC8046500364C5B /* CoreLocation.framework */; };
+		6D8904251C3E744000B59381 /* ALConversationProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D8904231C3E744000B59381 /* ALConversationProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6D8904261C3E744000B59381 /* ALConversationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8904241C3E744000B59381 /* ALConversationProxy.m */; };
+		6D8904291C3E7A9500B59381 /* ALAppLocalNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D8904271C3E7A9400B59381 /* ALAppLocalNotifications.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6D89042A1C3E7A9500B59381 /* ALAppLocalNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8904281C3E7A9500B59381 /* ALAppLocalNotifications.m */; };
 		6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547631BE38DFF00776652 /* ALContactDBService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D95476A1BE38DFF00776652 /* ALContactDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547641BE38DFF00776652 /* ALContactDBService.m */; };
 		6D95476B1BE38DFF00776652 /* ALContactService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547651BE38DFF00776652 /* ALContactService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -417,6 +421,10 @@
 		6D7B95B31C06E09300374346 /* ALUserDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserDetail.h; sourceTree = "<group>"; };
 		6D7B95B41C06E09300374346 /* ALUserDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserDetail.m; sourceTree = "<group>"; };
 		6D88E1D91BC8046500364C5B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		6D8904231C3E744000B59381 /* ALConversationProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALConversationProxy.h; sourceTree = "<group>"; };
+		6D8904241C3E744000B59381 /* ALConversationProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALConversationProxy.m; sourceTree = "<group>"; };
+		6D8904271C3E7A9400B59381 /* ALAppLocalNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAppLocalNotifications.h; sourceTree = "<group>"; };
+		6D8904281C3E7A9500B59381 /* ALAppLocalNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALAppLocalNotifications.m; sourceTree = "<group>"; };
 		6D9547631BE38DFF00776652 /* ALContactDBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALContactDBService.h; path = Applozic/ALContactDBService.h; sourceTree = "<group>"; };
 		6D9547641BE38DFF00776652 /* ALContactDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALContactDBService.m; path = Applozic/ALContactDBService.m; sourceTree = "<group>"; };
 		6D9547651BE38DFF00776652 /* ALContactService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALContactService.h; path = Applozic/ALContactService.h; sourceTree = "<group>"; };
@@ -860,6 +868,8 @@
 				6D6DF08D1BC5364C00EBA00F /* ALConnection.h */,
 				6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */,
 				6DB665061C0EE5EC004D04A8 /* ALDataNetworkConnection.m */,
+				6D8904271C3E7A9400B59381 /* ALAppLocalNotifications.h */,
+				6D8904281C3E7A9500B59381 /* ALAppLocalNotifications.m */,
 			);
 			name = networkcommunication;
 			sourceTree = "<group>";
@@ -890,6 +900,8 @@
 				6DCC30181C31645700F17D0E /* ALChannelInfo.m */,
 				6DCC30231C31826A00F17D0E /* ALChannelUserX.h */,
 				6DCC30241C31826A00F17D0E /* ALChannelUserX.m */,
+				6D8904231C3E744000B59381 /* ALConversationProxy.h */,
+				6D8904241C3E744000B59381 /* ALConversationProxy.m */,
 			);
 			name = ALChannel;
 			sourceTree = "<group>";
@@ -1014,7 +1026,10 @@
 				6DCC300D1C315AEF00F17D0E /* ALChannelDBService.h in Headers */,
 				6DCC30251C31826A00F17D0E /* ALChannelUserX.h in Headers */,
 				6DCC30211C31774C00F17D0E /* DB_CHANNEL_USER_X.h in Headers */,
+				6D28D3C31C1AA9AA003817C3 /* Reachability.h in Headers */,
 				6D6DF1601BC5364C00EBA00F /* ALChatCell_Image.h in Headers */,
+				6D8904291C3E7A9500B59381 /* ALAppLocalNotifications.h in Headers */,
+				6D8904251C3E744000B59381 /* ALConversationProxy.h in Headers */,
 				6D9C693C1C28383B00C78219 /* ALChatLauncher.h in Headers */,
 				6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */,
 				6D4763F51C3A79A7005BD5EC /* ALChannelService.h in Headers */,
@@ -1041,7 +1056,6 @@
 				6D6DF1C91BC5364C00EBA00F /* UIImage+MultiFormat.h in Headers */,
 				6D6DF1C51BC5364C00EBA00F /* UIButton+WebCache.h in Headers */,
 				6D6DF1C71BC5364C00EBA00F /* UIImage+GIF.h in Headers */,
-				6D28D3C31C1AA9AA003817C3 /* Reachability.h in Headers */,
 				6D6DF1B41BC5364C00EBA00F /* NSData+ImageContentType.h in Headers */,
 				6D6DF1CB1BC5364C00EBA00F /* UIImage+WebP.h in Headers */,
 				6D6DF1C31BC5364C00EBA00F /* SDWebImagePrefetcher.h in Headers */,
@@ -1193,6 +1207,8 @@
 				6D6DF1651BC5364C00EBA00F /* ALNewContactCell.m in Sources */,
 				6D6DF14D1BC5364C00EBA00F /* ALUserDefaultsHandler.m in Sources */,
 				6D6DF1C81BC5364C00EBA00F /* UIImage+GIF.m in Sources */,
+				6D89042A1C3E7A9500B59381 /* ALAppLocalNotifications.m in Sources */,
+				6D8904261C3E744000B59381 /* ALConversationProxy.m in Sources */,
 				6D36F2091BFF3EE3003D46D3 /* ALApplozicSettings.m in Sources */,
 				6D6DF1811BC5364C00EBA00F /* DB_CONTACT.m in Sources */,
 				6D6DF1BF1BC5364C00EBA00F /* SDWebImageDownloaderOperation.m in Sources */,
