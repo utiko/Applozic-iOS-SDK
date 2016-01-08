@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29AD70A51C3E8955003C7DB8 /* ALPushAssist.h in Headers */ = {isa = PBXBuildFile; fileRef = 29AD70A31C3E8955003C7DB8 /* ALPushAssist.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		29AD70A61C3E8955003C7DB8 /* ALPushAssist.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AD70A41C3E8955003C7DB8 /* ALPushAssist.m */; };
 		29CBF2021C0303A700BE6A20 /* ALColorUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 29CBF2001C0303A700BE6A20 /* ALColorUtility.h */; };
 		29CBF2031C0303A700BE6A20 /* ALColorUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CBF2011C0303A700BE6A20 /* ALColorUtility.m */; };
 		29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DEA3131BEDEC1F004B8085 /* ALUserService.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -238,6 +240,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		29AD70A31C3E8955003C7DB8 /* ALPushAssist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALPushAssist.h; sourceTree = "<group>"; };
+		29AD70A41C3E8955003C7DB8 /* ALPushAssist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALPushAssist.m; sourceTree = "<group>"; };
 		29CBF2001C0303A700BE6A20 /* ALColorUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALColorUtility.h; sourceTree = "<group>"; };
 		29CBF2011C0303A700BE6A20 /* ALColorUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALColorUtility.m; sourceTree = "<group>"; };
 		29DEA3131BEDEC1F004B8085 /* ALUserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserService.h; sourceTree = "<group>"; };
@@ -762,6 +766,8 @@
 			children = (
 				6D6DF0C01BC5364C00EBA00F /* ALPushNotificationService.h */,
 				6D6DF08A1BC5364C00EBA00F /* ALPushNotificationService.m */,
+				29AD70A31C3E8955003C7DB8 /* ALPushAssist.h */,
+				29AD70A41C3E8955003C7DB8 /* ALPushAssist.m */,
 			);
 			name = push;
 			sourceTree = "<group>";
@@ -1014,6 +1020,7 @@
 				6DCC300D1C315AEF00F17D0E /* ALChannelDBService.h in Headers */,
 				6DCC30251C31826A00F17D0E /* ALChannelUserX.h in Headers */,
 				6DCC30211C31774C00F17D0E /* DB_CHANNEL_USER_X.h in Headers */,
+				29AD70A51C3E8955003C7DB8 /* ALPushAssist.h in Headers */,
 				6D6DF1601BC5364C00EBA00F /* ALChatCell_Image.h in Headers */,
 				6D9C693C1C28383B00C78219 /* ALChatLauncher.h in Headers */,
 				6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */,
@@ -1258,6 +1265,7 @@
 				982F13091C05D6050024678E /* MQTTEncoder.m in Sources */,
 				6DCC301A1C31645700F17D0E /* ALChannelInfo.m in Sources */,
 				6D6DF1791BC5364C00EBA00F /* ALMessageList.m in Sources */,
+				29AD70A61C3E8955003C7DB8 /* ALPushAssist.m in Sources */,
 				6D6DF1D01BC5364C00EBA00F /* UIImageView+WebCache.m in Sources */,
 				6D6DF13F1BC5364C00EBA00F /* ALConnection.m in Sources */,
 				6D95476E1BE38DFF00776652 /* ALUITextView.m in Sources */,
@@ -1395,8 +1403,8 @@
 		6D6DF0861BC535C800EBA00F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1412,7 +1420,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d6d31428-5c2c-4a6f-b031-22780d1340be";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -1420,8 +1428,8 @@
 		6D6DF0871BC535C800EBA00F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1437,7 +1445,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d6d31428-5c2c-4a6f-b031-22780d1340be";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;

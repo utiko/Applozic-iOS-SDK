@@ -47,4 +47,5 @@
 
 -(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail;
 
+
 @end

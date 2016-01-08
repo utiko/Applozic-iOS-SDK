@@ -10,6 +10,11 @@
 #import "ALMessageDBService.h"
 #import "ALUserDetail.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALChatViewController.h"
+//#import "LaunchChatFromSimpleViewController.h"
+#import "ALMessagesViewController.h"
+#import "ALPushAssist.h"
+
 
 
 @implementation ALPushNotificationService
@@ -106,10 +111,69 @@
             //[self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
             
         }
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(contextChanged:)
+                                                     name:@"pushNotification"
+                                                   object:nil];
+        
+        ALPushAssist* assistant=[[ALPushAssist alloc] init];
+//        [assistant notificaitionShow];
+        [assistant assist];
+      
+       
+
+        
+//        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+//                                                             bundle:[NSBundle
+//                                                                     bundleForClass:ALChatViewController.class]];
+//        
+//        UIViewController *our1 = [storyboard instantiateViewControllerWithIdentifier:@"ALViewController"];
+//        UIViewController *our2=[storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+//
+////      UIViewController *our3=[storyboard instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
+//        
+//        
+//        NSLog(@"Top View>>>> %@",self.topViewController.title);
+//
+//        if ([self.topViewController isKindOfClass:[our1 class]]||[self.topViewController isKindOfClass:[our2 class]]) {
+//           //flag= True  ....continue as normal
+//            NSLog(@"TRUEEE");
+//        }
+//        else {
+//            //flag= False... Go to the DemoLauncher... FROM the Current View.
+//            NSLog(@"FALSEEE");
+//            
+//            self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:@"applozic-sample-app"];
+//            
+//            
+//            //User is already registered ..directly launch the chat...
+//            if([ALUserDefaultsHandler getDeviceKeyString]){
+//                
+////                ALMessagesViewController* obj=[[ALMessagesViewController alloc] init];
+////                [obj.mTableView reloadData];
+//                
+//                [self.chatLauncher launchChatList:@"< Title" andViewControllerObject:self.topViewController];
+//                
+//            }
+//        }
+//        
+        
+        
         return TRUE;
     }
     
     return FALSE;
 }
+
+-(void)contextChanged:(NSNotification*)notif{
+    NSLog(@"Context Changed");
+    ALChatViewController* obj=[[ALChatViewController alloc] init];
+    [obj individualNotificationhandler:notif];
+    
+    //    [ApplozicLoginViewController fun];
+    
+}
+
 
 @end

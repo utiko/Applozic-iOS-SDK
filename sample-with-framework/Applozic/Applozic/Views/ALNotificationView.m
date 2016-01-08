@@ -9,12 +9,15 @@
 #import "ALNotificationView.h"
 
 @implementation ALNotificationView
+    
+
 
 
 -(instancetype)initWithContactId:(NSString*) contactId withAlertMessage: (NSString *) alertMessage{
     self = [super init];
     self.text = alertMessage;
-    self.backgroundColor = [UIColor grayColor];
+    self.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"InApp_Notification.png"]];
+//    self.backgroundColor=[UIColor grayColor];
     self.textColor = [UIColor whiteColor];
     self.textAlignment = NSTextAlignmentCenter;
     self.layer.cornerRadius = 0;

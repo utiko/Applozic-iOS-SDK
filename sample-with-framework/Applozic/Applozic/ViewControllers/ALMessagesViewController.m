@@ -58,7 +58,7 @@
 // Constants
 
 // IBOutlet
-@property (weak, nonatomic) IBOutlet UITableView *mTableView;
+//@property (weak, nonatomic) IBOutlet UITableView *mTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *mTableViewTopConstraint;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mActivityIndicator;
 
@@ -120,10 +120,10 @@ ALMQTTConversationService *alMqttConversationService;
     self.unreadCount = [[NSArray alloc] init];
     alMqttConversationService = [ALMQTTConversationService sharedInstance];
     alMqttConversationService.mqttConversationDelegate = self;
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [alMqttConversationService subscribeToConversation];
-    });
+//
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [alMqttConversationService subscribeToConversation];
+//    });
     
     self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 15 + self.view.frame.size.width/8, self.view.frame.origin.y + self.view.frame.size.height/2, 250, 30)];
     [self.emptyConversationText setText:@"You have no conversations yet"];
@@ -611,14 +611,14 @@ ALMQTTConversationService *alMqttConversationService;
     contactCell.mUserImageView.layer.masksToBounds = YES;
     contactCell.mCountImageView.layer.cornerRadius = contactCell.mCountImageView.frame.size.width/2;
 
-///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
+    ///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
     
     NSUInteger randomIndex = random()% [self.colors count];
     contactCell.mUserImageView.image= [ALColorUtility imageWithSize:CGRectMake(0,0,55,55)
                                                       WithHexString:self.colors[randomIndex] ];
     
 
-///////////$$$$$$$$$$$$$$$$//////////////////////$$$$$$$$$$$$$$$$//////////////////////$$$$$$$$$$$$$$$$///////////
+    ///////////$$$$$$$$$$$$$$$$//////////////////////$$$$$$$$$$$$$$$$//////////////////////$$$$$$$$$$$$$$$$///////////
    
     //applozic_group_icon
     if([message.groupId intValue])
@@ -708,7 +708,7 @@ ALMQTTConversationService *alMqttConversationService;
 }
 
 -(void)createDetailChatViewController: (NSString *) contactIds
-{
+{   NSLog(@"Creating Detail VC");
     if (!(self.detailChatViewController))
     {
         _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
@@ -909,7 +909,7 @@ ALMQTTConversationService *alMqttConversationService;
     
 }
 
-- (void)dealloc {
+- (void)dealloc{
     
     NSLog(@"dealloc called. Unsubscribing with mqtt.");
     dispatch_async(dispatch_get_main_queue(), ^{

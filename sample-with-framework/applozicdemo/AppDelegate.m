@@ -12,6 +12,11 @@
 #import <Applozic/ALUtilityClass.h>
 #import "ApplozicLoginViewController.h"
 #import "Applozic/ALDBHandler.h"
+#import "Applozic/ALMessagesViewController.h"
+//#import "Applozic/ALPushAssist.h"
+
+
+
 @interface AppDelegate ()
 
 @end
@@ -48,10 +53,20 @@
             }
         }
     }
-    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(contextChanged:)
+//                                                 name:@"pushNotification"
+//                                               object:nil];
     return YES;
 }
-
+//-(void)contextChanged:(NSNotification*)notif{
+//    NSLog(@"Context Changed");
+//    ALChatViewController* obj=[[ALChatViewController alloc] init];
+//    [obj individualNotificationhandler:notif];
+//    
+//    [ApplozicLoginViewController fun];
+//
+//}
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary
 {
     NSLog(@"Received notification: %@", dictionary);
@@ -60,6 +75,11 @@
     if (!applozicProcessed) {
         //Note: notification for app
     }
+    
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+//    UITabBarController *obj=[storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
+//    obj.navigationController.navigationBarHidden=YES;
+//    [obj.navigationController pushViewController:obj animated:YES];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
