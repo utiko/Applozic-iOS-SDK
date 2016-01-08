@@ -17,6 +17,8 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALConstant.h"
 #import "ALApplozicSettings.h"
+#import "ALChatLauncher.h"
+#import "ALMessagesViewController.h"
 
 @interface ALBaseViewController ()<UITextViewDelegate>
 
@@ -128,11 +130,11 @@
 -(void)back:(id)sender {
     
     UIViewController *  uiController = [self.navigationController popViewControllerAnimated:YES];
-    
-    if(!uiController){
-        [self  dismissViewControllerAnimated:YES completion:nil];
+    if(!uiController ){
+        if(self.individualLaunch){
+            [self  dismissViewControllerAnimated:YES completion:nil];
+        }
     }
-    
 }
 
 -(void)refreshTable:(id)sender {

@@ -33,7 +33,9 @@
 #import "ALUserService.h"
 #import "ALChannelDBService.h"
 #import "ALChannel.h"
+#import "ALChatLauncher.h"
 #import "ALChannelService.h"
+
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -260,12 +262,13 @@ ALMQTTConversationService *alMqttConversationService;
 }
 
 - (IBAction)logout:(id)sender {
+
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                
+                                                         bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    UIViewController *contcatListView = [storyboard instantiateViewControllerWithIdentifier:@"ALNewContactsViewController"];
+    [self.navigationController pushViewController:contcatListView animated:YES];
     
-    
-    UIViewController *  uiController = [self.navigationController popViewControllerAnimated:YES];
-    if(!uiController){
-        [self  dismissViewControllerAnimated:YES completion:nil];
-    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -807,5 +810,6 @@ ALMQTTConversationService *alMqttConversationService;
     if(!uiController){
         [self  dismissViewControllerAnimated:YES completion:nil];
     }
+    
 }
 @end
