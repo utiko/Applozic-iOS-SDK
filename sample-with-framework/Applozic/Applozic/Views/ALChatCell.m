@@ -389,17 +389,12 @@
     
     NSLog(@"Delete in ALChatCell pressed");
     
-    //db
-    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-    [dbService deleteMessageByKey:self.mMessage.key];
-
-    
     //UI
     NSLog(@"message to deleteUI %@",self.mMessage.message);
     [self.delegate deleteMessageFromView:self.mMessage];
     
     //serverCall
-    [ALMessageService deleteMessage:[NSString stringWithFormat:@"%ld",self.mMessage.messageId] andContactId:self.mMessage.contactIds withCompletion:^(NSString* string,NSError* error){
+    [ALMessageService deleteMessage:self.mMessage.key andContactId:self.mMessage.contactIds withCompletion:^(NSString* string,NSError* error){
         if(!error ){
             NSLog(@"No Error");
         }

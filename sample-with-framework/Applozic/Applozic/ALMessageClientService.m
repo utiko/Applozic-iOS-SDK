@@ -15,6 +15,7 @@
 #import "ALMessageDBService.h"
 #import "ALDBHandler.h"
 #import "ALChannelService.h"
+#import "ALSyncMessageFeed.h"
 
 @implementation ALMessageClientService
 
@@ -171,5 +172,126 @@
     }];
     
 }
+
+
+-(void) sendPhotoForUserInfo:(NSDictionary *)userInfo withCompletion:(void(^)(NSString * message, NSError *error)) completion {
+    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/aws/file/url",KBASE_FILE_URL];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:nil];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"CREATE FILE URL" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if (theError) {
+            
+            completion(nil,theError);
+            
+            return ;
+        }
+        
+        NSString *imagePostingURL = (NSString *)theJson;
+        
+        completion(imagePostingURL,nil);
+        
+    }];
+}
+
+-(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( ALSyncMessageFeed *, NSError *))completion{
+    @synchronized(self) {
+        NSString *lastSyncTime =[ALUserDefaultsHandler
+                                 getLastSyncTime ];
+        if ( lastSyncTime == NULL ){
+            lastSyncTime = @"0";
+        }
+        NSLog(@"last syncTime in call %@", lastSyncTime);
+        NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/sync",KBASE_URL];
+        
+        NSString * theParamString = [NSString stringWithFormat:@"lastSyncTime=%@",lastSyncTime];
+        
+        NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+        
+        [ALResponseHandler processRequest:theRequest andTag:@"SYNC LATEST MESSAGE URL" WithCompletionHandler:^(id theJson, NSError *theError) {
+            
+            if (theError) {
+                
+                completion(nil,theError);
+                return ;
+            }
+             ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
+            completion(syncResponse,nil);
+            NSLog(@"theJson :: : %@", theJson);
+        }];
+        
+    }
+    
+}
+
+-(void)markConversationAsRead: (NSString *) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
+    
+
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/read/conversation",KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"MARK_CONVERSATION_AS_READ" WithCompletionHandler:^(id theJson, NSError *theError) {
+        if (theError) {
+            completion(nil,theError);
+            NSLog(@"theError");
+            return ;
+        }else{
+            //read sucessfull
+            NSLog(@"sucessfully marked read !");
+        }
+        NSLog(@"Response: %@", (NSString *)theJson);
+        completion((NSString *)theJson,nil);
+    }];
+}
+
+-(void )deleteMessage:( NSString * ) keyString andContactId:( NSString * )contactId withCompletion:(void (^)(NSString *, NSError *))completion{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delete",KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"key=%@&userId=%@",keyString,contactId];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if (theError) {
+            
+            completion(nil,theError);
+            
+            return ;
+        }
+        else{
+            //delete sucessfull/reponse
+            NSLog(@"Response of delete: %@", (NSString *)theJson);
+            completion((NSString *)theJson,nil);
+        }
+    }];
+}
+
+
+-(void)deleteMessageThread:( NSString * ) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delete/conversation",KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
+        if (theError) {
+            completion(nil,theError);
+            NSLog(@"theError");
+            return ;
+        }else{
+            //delete sucessfull
+            NSLog(@"sucessfully deleted !");
+            ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+            [dbService deleteAllMessagesByContact:contactId];
+        }
+        NSLog(@"Response of delete: %@", (NSString *)theJson);
+        completion((NSString *)theJson,nil);
+    }];
+}
+
+
 
 @end

@@ -39,6 +39,7 @@
 #import "ALMQTTConversationService.h"
 #import "ALContactDBService.h"
 #import "ALDataNetworkConnection.h"
+#import "ALMessageClientService.h"
 
 #define MQTT_MAX_RETRY 3
 
@@ -593,13 +594,7 @@ ALMessageDBService  * dbService;
 
 -(void) deleteMessageFromView:(ALMessage *) message {
     
-    [ALMessageService deleteMessage:message.key andContactId:self.contactIds withCompletion:^(NSString* string,NSError* error){
-        if(!error ){
-            NSLog(@"No Error: deleteMessageFromView");
-        }
-    }];
-    
-    //[[self.alMessageWrapper getUpdatedMessageArray] removeObject:message];
+    NSLog(@"  deleteMessageFromView in controller...:: ");
     [self.alMessageWrapper removeALMessageFromMessageArray:message];
     
     [UIView animateWithDuration:1.5 animations:^{
@@ -825,7 +820,8 @@ ALMessageDBService  * dbService;
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
         
         // post image
-        [ALMessageService sendPhotoForUserInfo:userInfo withCompletion:^(NSString *message, NSError *error) {
+        ALMessageClientService * clientService  = [[ALMessageClientService alloc]init];
+        [clientService sendPhotoForUserInfo:userInfo withCompletion:^(NSString *message, NSError *error) {
             if (error) {
                 NSLog(@"%@",error);
                 imageCell.progresLabel.alpha = 0;
