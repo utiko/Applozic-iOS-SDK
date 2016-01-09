@@ -103,6 +103,7 @@
     
     if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
     {
+        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:18]}];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
