@@ -1188,7 +1188,7 @@ ALMessageDBService  * dbService;
 
 -(void)serverCallForLastSeen
 {
-    [ALMessageService userDetailServerCall:self.contactIds withCompletion:^(ALUserDetail *alUserDetail){
+    [ALUserService userDetailServerCall:self.contactIds withCompletion:^(ALUserDetail *alUserDetail){
         if(alUserDetail)
         {
             [[[ALContactDBService alloc]init] updateUserDetail:alUserDetail];
