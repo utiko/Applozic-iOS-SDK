@@ -133,6 +133,7 @@
         {
              NSLog(@"========== IF internetConnectionReach ============");
             [ALMessageService processLatestMessagesGroupByContact];
+            [ALMessageService processPendingMessages];
             //changes required
         }
         else

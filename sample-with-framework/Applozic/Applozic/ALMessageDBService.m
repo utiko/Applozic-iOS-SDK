@@ -537,4 +537,23 @@
     return msgArray;
 }
 
+-(NSMutableArray *)getPendingMessages{
+    
+    ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
+    theRequest.predicate =[NSPredicate predicateWithFormat:@"sentToServer = %@",NO];
+    
+    [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
+    NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
+    NSMutableArray * msgArray =  [[NSMutableArray alloc]init];
+    for (DB_Message * theEntity in theArray) {
+        ALMessage * theMessage = [self createMessageEntity:theEntity];
+        [msgArray addObject:theMessage];
+    }
+    return msgArray;
+
+    
+}
+
+
 @end

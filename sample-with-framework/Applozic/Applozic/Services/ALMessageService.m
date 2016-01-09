@@ -290,5 +290,19 @@
     
 }
 
++(void)processPendingMessages{
+
+    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+    NSMutableArray * pendingMessageArray = [dbService getPendingMessages];
+    
+    for(ALMessage *msg  in pendingMessageArray ){
+        
+        NSLog(@"msg :: %@", msg.message);
+        
+    }
+    
+
+}
+
 
 @end

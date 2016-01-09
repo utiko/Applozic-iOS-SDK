@@ -38,5 +38,7 @@
 
 +(void)markConversationAsRead: (NSString *) contactId withCompletion:(void (^)(NSString *, NSError *))completion;
 
++(void)processPendingMessages;
+
 
 @end

@@ -907,8 +907,11 @@ ALMessageDBService  * dbService;
     NSError *error=nil;
     dbService = [[ALMessageDBService alloc] init];
     DB_Message *dbMessage =(DB_Message*)[dbService getMeesageById:message.msgDBObjectId error:&error];
+    
     dbMessage.inProgress = [NSNumber numberWithBool:NO];
     dbMessage.isUploadFailed = [NSNumber numberWithBool:YES];
+    dbMessage.sentToServer= [NSNumber numberWithBool:NO];;
+
     [[ALDBHandler sharedInstance].managedObjectContext save:nil];
     
 }
