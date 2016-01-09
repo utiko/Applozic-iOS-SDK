@@ -45,4 +45,30 @@
     }];
     
 }
+
+-(void)userDetailServerCall:(NSString *)contactId withCompletion:(void(^)(ALUserDetail *))completionMark
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/detail",KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"userIds=%@",contactId];
+    
+    NSLog(@"calling last seen at api for userIds: %@", contactId);
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"USER_LAST_SEEN" WithCompletionHandler:^(id theJson, NSError *theError) {
+        if (theError)
+        {
+            NSLog(@"ERROR IN LAST SEEN %@", theError);
+        }
+        else
+        {
+            //NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
+            ALUserDetail *userDetailObject = [[ALUserDetail alloc] initWithJSONString:theJson];
+            // [userDetailObject userDetail];
+            completionMark(userDetailObject);
+            
+        }
+        
+    }];
+    
+}
 @end
