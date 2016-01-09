@@ -64,7 +64,6 @@
     
 }
 
-//(ALMessage *)userInfo withCompletion:(void(^)(NSString * message, NSError * error)) completion
 
 +(void) sendMessages:(ALMessage *)alMessage withCompletion:(void(^)(NSString * message, NSError * error)) completion {
     
@@ -83,45 +82,37 @@
         dbMessage =(DB_Message*)[dbService getMeesageById:alMessage.msgDBObjectId error:&theError];
     }
     //convert to dic
-    NSDictionary * userInfo = [alMessage dictionary ];
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/send",KBASE_URL];
-    NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
-    
-    NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
-    
-    [ALResponseHandler processRequest:theRequest andTag:@"SEND MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
-        
-        if (theError) {
+    NSDictionary * messageDict = [alMessage dictionary ];
+    ALMessageClientService * alMessageClientService = [[ALMessageClientService alloc]init];
+    [ alMessageClientService sendMessage:messageDict WithCompletionHandler:^(id theJson, NSError *theError) {
+        NSString *statusStr=nil;
+        if(!theError){
+            statusStr = (NSString*)theJson;
+            //TODO: move to db layer
+            ALSendMessageResponse  *response = [[ALSendMessageResponse alloc] initWithJSONString:statusStr ];
             
-            completion(nil,theError);
+            ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+            dbMessage.isSent = [NSNumber numberWithBool:YES];
+            dbMessage.key = response.messageKey;
+            dbMessage.inProgress = [NSNumber numberWithBool:NO];
+            dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
             
-            return ;
+            dbMessage.createdAt =response.createdAt;
+            alMessage.key = dbMessage.key;
+            dbMessage.sentToServer=[NSNumber numberWithBool:YES];
+            dbMessage.isRead=[NSNumber numberWithBool:YES];
+            
+            alMessage.key = dbMessage.key;
+            alMessage.sentToServer= dbMessage.sentToServer.boolValue;
+            alMessage.inProgress=dbMessage.inProgress.boolValue;
+            alMessage.isUploadFailed=dbMessage.isUploadFailed.boolValue;
+            alMessage.sent = dbMessage.isSent.boolValue;
+            
+            [theDBHandler.managedObjectContext save:nil];
+        }else{
+            NSLog(@" got error while sending messages");
         }
-        
-        NSString *statusStr = (NSString *)theJson;
-        //TODO: move to db layer
-        ALSendMessageResponse  *response = [[ALSendMessageResponse alloc] initWithJSONString:statusStr ];
-        
-        ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-        dbMessage.isSent = [NSNumber numberWithBool:YES];
-        dbMessage.key = response.messageKey;
-        dbMessage.inProgress = [NSNumber numberWithBool:NO];
-        dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
-        
-        dbMessage.createdAt =response.createdAt;
-        alMessage.key = dbMessage.key;
-        dbMessage.sentToServer=[NSNumber numberWithBool:YES];
-        dbMessage.isRead=[NSNumber numberWithBool:YES];
-        
-        alMessage.key = dbMessage.key;
-        alMessage.sentToServer= dbMessage.sentToServer.boolValue;
-        alMessage.inProgress=dbMessage.inProgress.boolValue;
-        alMessage.isUploadFailed=dbMessage.isUploadFailed.boolValue;
-        alMessage.sent = dbMessage.isSent.boolValue;
-        
-        [theDBHandler.managedObjectContext save:nil];
-        completion(statusStr,nil);
-        
+        completion(statusStr,theError);
     }];
     
 }
@@ -132,7 +123,7 @@
     ALMessageClientService * alMessageClientService = [[ALMessageClientService alloc]init];
     [ alMessageClientService getLatestMessageForUser:deviceKeyString withCompletion:^(ALSyncMessageFeed * syncResponse , NSError *error) {
         NSMutableArray *messageArray = nil;
-
+        
         if(!error){
             if (syncResponse.deliveredMessageKeys.count > 0) {
                 [ALMessageService updateDeliveredReport: syncResponse.deliveredMessageKeys];
@@ -143,18 +134,18 @@
                 messageArray = [dbService addMessageList:syncResponse.messagesList];
             }
             completion(messageArray,error);
-
+            
             [ALUserDefaultsHandler setLastSyncTime:syncResponse.lastSyncTime];
             ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
             [messageClientService updateDeliveryReports:syncResponse.messagesList];
         }else{
-        completion(messageArray,error);
+            completion(messageArray,error);
         }
         
     }];
     
     
-    }
+}
 
 
 +(void) updateDeliveredReport: (NSArray *) deliveredMessageKeys {
@@ -181,19 +172,19 @@
 
 
 +(void)deleteMessageThread:( NSString * ) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
-   
+    
     
     ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc]init];
     [alMessageClientService deleteMessageThread:contactId
-                           withCompletion:^(NSString * response, NSError *error) {
-                               if (!error){
-                                   //delete sucessfull
-                                   NSLog(@"sucessfully deleted !");
-                                   ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-                                   [dbService deleteAllMessagesByContact:contactId];
-                               }
-                               completion(response,error);
-                           }];
+                                 withCompletion:^(NSString * response, NSError *error) {
+                                     if (!error){
+                                         //delete sucessfull
+                                         NSLog(@"sucessfully deleted !");
+                                         ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+                                         [dbService deleteAllMessagesByContact:contactId];
+                                     }
+                                     completion(response,error);
+                                 }];
 }
 
 
