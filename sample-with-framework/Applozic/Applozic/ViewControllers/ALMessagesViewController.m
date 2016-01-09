@@ -465,7 +465,11 @@ ALMQTTConversationService *alMqttConversationService;
     NSString *firstLetter = [[[alContact displayName] substringToIndex:1] uppercaseString];
     nameIcon.text=firstLetter;
     
-    if(alContact.connected)
+    if([message.groupId intValue])
+    {
+        [contactCell.onlineImageMarker setHidden:YES];
+    }
+    else if(alContact.connected)
     {
         [contactCell.onlineImageMarker setHidden:NO];
     }
