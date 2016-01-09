@@ -192,7 +192,9 @@
 
 
 +(void)setServerCallDoneForMSGList:(BOOL) value forContactId:(NSString*)contactId{
-    
+    if(!contactId){
+        return;
+    }
     NSString *key = [ contactId stringByAppendingString:MSG_LIST_CALL_SUFIX];
     [[NSUserDefaults standardUserDefaults] setBool:true forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -200,7 +202,9 @@
 }
 
 +(BOOL)isServerCallDoneForMSGList: (NSString *)contactId{
-    
+    if(!contactId){
+        return true;
+    }
     NSString *key = [ contactId stringByAppendingString:MSG_LIST_CALL_SUFIX];
     return [[NSUserDefaults standardUserDefaults] boolForKey:key];
     
@@ -255,7 +259,9 @@
 }
 
 +(void)setShowLoadEarlierOption:(BOOL) value forContactId:(NSString*)contactId{
-    
+    if(!contactId){
+        return;
+    }
     NSString *key = [ contactId stringByAppendingString:SHOW_LOAD_ERLIER_MESSAGE];
     [[NSUserDefaults standardUserDefaults] setBool:value forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -263,7 +269,9 @@
 }
 
 +(BOOL)isShowLoadEarlierOption: (NSString *)contactId{
-    
+    if(!contactId){
+        return false;
+    }
     NSString *key = [ contactId stringByAppendingString:SHOW_LOAD_ERLIER_MESSAGE];
     if ( [[NSUserDefaults standardUserDefaults] valueForKey:key] ) {
         return [[NSUserDefaults standardUserDefaults] boolForKey:key];
