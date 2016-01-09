@@ -36,4 +36,6 @@
 
 @property (strong, nonatomic) NSString *string;
 
+@property (retain, nonatomic) UILabel *mChannelMemberName;
+
 @end

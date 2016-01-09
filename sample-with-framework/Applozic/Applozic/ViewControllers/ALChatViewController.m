@@ -112,9 +112,10 @@ ALMessageDBService  * dbService;
     self.showloadEarlierAction = TRUE;
     self.typingLabel.hidden = YES;
     
-    if(self.refresh || ([self.alMessageWrapper getUpdatedMessageArray] && [self.alMessageWrapper getUpdatedMessageArray].count == 0) ||
-       !([self.alMessageWrapper getUpdatedMessageArray] && [[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds] isEqualToString:self.contactIds])
-       ) {
+    if(self.refresh || ([self.alMessageWrapper getUpdatedMessageArray] && [self.alMessageWrapper getUpdatedMessageArray].count == 0) || (((!([self.alMessageWrapper getUpdatedMessageArray] && [[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds] isEqualToString:self.contactIds])))||([[self.alMessageWrapper getUpdatedMessageArray][0] groupId] != self.channelKey)))
+    {
+//        if(@"view reload called")
+ 
         [self reloadView];
 //        [super scrollTableViewToBottomWithAnimation:NO];
 //        if (self.refresh) {
@@ -200,7 +201,8 @@ ALMessageDBService  * dbService;
         ALChannel *alChannel = [channelDBService loadChannelByKey:self.channelKey];
         if(alChannel)
         {
-            self.navigationItem.title = [alChannel name];
+            NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
+            self.navigationItem.title = listNames[0];
         }
     }
     else
@@ -1229,7 +1231,12 @@ ALMessageDBService  * dbService;
     
     double value = [tempString doubleValue];
     
-    if(value > 0)
+    if([self.channelKey intValue])
+    {
+        ALChannelDBService *ob = [[ALChannelDBService alloc] init];
+        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
+    }
+    else if(value > 0)
     {
         NSDate *date  = [[NSDate alloc] initWithTimeIntervalSince1970:value/1000];
         
@@ -1303,11 +1310,6 @@ ALMessageDBService  * dbService;
             [self.label setText:str];
         }
         
-    }
-    else if([self.channelKey intValue])
-    {
-        ALChannelDBService *ob = [[ALChannelDBService alloc] init];
-        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
     }
     else
     {

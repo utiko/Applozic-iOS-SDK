@@ -84,7 +84,12 @@
         self.mMessageLabel.userInteractionEnabled=NO;
         
         [self.contentView addSubview:self.mMessageLabel];
-        
+
+        self.mChannelMemberName = [[UILabel alloc] init];
+        self.mChannelMemberName.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:DATE_LABEL_SIZE];
+        self.mChannelMemberName.textColor = [UIColor blackColor];
+        self.mChannelMemberName.backgroundColor = [UIColor clearColor];
+     //   [self.contentView addSubview:self.mChannelMemberName];
 
         self.mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 100, 25)];
         
@@ -136,7 +141,7 @@
     [self.mBubleImageView setHidden:NO];
     [self.mDateLabel setHidden:NO];
     [self.mMessageLabel setTextAlignment:NSTextAlignmentLeft];
-    
+    [self.mChannelMemberName setHidden:YES];
     //MT_INBOX(Short.valueOf("4")),
     // MT_OUTBOX(Short.valueOf("5")),
     if([alMessage.type isEqualToString:@"100"])
@@ -153,6 +158,8 @@
     }
     else if ([alMessage.type isEqualToString:@MT_INBOX_CONSTANT]/*[alMessage.type isEqualToString:@"4"]*/) { //Recieved Message
         
+        [self.mChannelMemberName setHidden:NO];
+        [self.contentView bringSubviewToFront:self.mChannelMemberName];
         if([ALApplozicSettings isUserProfileHidden])
         {
             self.mUserProfileImageView.frame = CGRectMake(8, 0, 0, 45);
@@ -172,6 +179,8 @@
             self.mBubleImageView.backgroundColor = [UIColor whiteColor];
         }
        
+        
+        
         self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, theTextSize.width + 18 , theTextSize.height + 20);
         self.mBubleImageView.layer.shadowOpacity = 0.3;
@@ -186,7 +195,8 @@
                                                   NSForegroundColorAttributeName : [UIColor grayColor],
                                                   NSUnderlineStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleThick]
                                                   };
-        
+        self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x, self.mBubleImageView.frame.origin.y + 5, self.mBubleImageView.frame.size.width, 20);
+        [self.mChannelMemberName setText:alMessage.to];
         if(alMessage.contentType == 3)
         {
 
