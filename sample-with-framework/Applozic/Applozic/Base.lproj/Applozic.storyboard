@@ -200,7 +200,7 @@
                                 <action selector="backButtonAction:" destination="BYZ-38-t0r" id="vWD-0a-q4j"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Contcat" id="3pR-ud-INa">
+                        <barButtonItem key="rightBarButtonItem" title="Contacts" id="3pR-ud-INa">
                             <connections>
                                 <action selector="logout:" destination="BYZ-38-t0r" id="7Ka-oa-KIh"/>
                             </connections>
@@ -295,7 +295,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nhF-Eu-64D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1883" y="933"/>
+            <point key="canvasLocation" x="1883" y="946"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="soh-3d-q0E">

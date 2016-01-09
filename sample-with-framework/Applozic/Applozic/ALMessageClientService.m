@@ -16,6 +16,7 @@
 #import "ALDBHandler.h"
 #import "ALChannelService.h"
 #import "ALSyncMessageFeed.h"
+#import "ALUtilityClass.h"
 
 @implementation ALMessageClientService
 
@@ -293,5 +294,21 @@
 }
 
 
+-(void)sendMessage: (NSDictionary *) userInfo WithCompletionHandler:(void(^)(id theJson, NSError *theError))completion {
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/send",KBASE_URL];
+    NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"SEND MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if (theError) {
+            completion(nil,theError);
+            return ;
+        }
+        completion(theJson,nil);
+    }];
+
+}
 
 @end
