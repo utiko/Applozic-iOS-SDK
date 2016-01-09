@@ -38,4 +38,6 @@
 
 @property (retain, nonatomic) UILabel *mChannelMemberName;
 
+@property (nonatomic,strong) NSArray* colors;
+
 @end

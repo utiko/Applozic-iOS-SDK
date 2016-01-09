@@ -18,6 +18,7 @@
 #import "ALMessageService.h"
 #import "ALMessageDBService.h"
 #import "ALUtilityClass.h"
+#import "ALColorUtility.h"
 
 // Constants
 #define MT_INBOX_CONSTANT "4"
@@ -39,6 +40,7 @@ UIViewController * modalCon;
         
         self.backgroundColor = [UIColor colorWithRed:224.0/255 green:224.0/255 blue:224.0/255 alpha:1];
         
+        self.colors = [[NSArray alloc] initWithObjects:@"#617D8A",@"#628B70",@"#8C8863",@"8B627D",@"8B6F62", nil];
         
         mUserProfileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 45, 45)];
         
@@ -133,6 +135,11 @@ UIViewController * modalCon;
         imageWithText.dataDetectorTypes = UIDataDetectorTypeAll;
         [self.contentView addSubview:imageWithText];
         
+        self.mChannelMemberName = [[UILabel alloc] init];
+        self.mChannelMemberName.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
+        self.mChannelMemberName.backgroundColor = [UIColor clearColor];
+        [self.contentView addSubview:self.mChannelMemberName];
+        
     }
     
     return self;
@@ -151,7 +158,11 @@ UIViewController * modalCon;
     
     CGSize theTextSize = [self getSizeForText:alMessage.message maxWidth:viewSize.width-115 font:self.imageWithText.font.fontName fontSize:self.imageWithText.font.pointSize];
     
+    [self.mChannelMemberName setHidden:YES];
+    
     if ([alMessage.type isEqualToString:@MT_INBOX_CONSTANT]) { //@"4" //Recieved Message
+        
+         [self.contentView bringSubviewToFront:self.mChannelMemberName];
         
         if([ALApplozicSettings isUserProfileHidden])
         {
@@ -176,6 +187,9 @@ UIViewController * modalCon;
         
 //        self.mBubleImageView.frame = CGRectMake(self.partImageBubble.frame.origin.x + self.partImageBubble.frame.size.width , 0, viewSize.width - 120, viewSize.width - 120);
     
+        
+        
+        
         self.mBubleImageView.layer.shadowOpacity = 0.3;
         self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
         self.mBubleImageView.layer.shadowRadius = 1;
@@ -184,6 +198,20 @@ UIViewController * modalCon;
 //        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 15 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40 );
         
         self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10 );
+        
+        if([[alMessage groupId] intValue])
+        {
+             [self.mChannelMemberName setText:alMessage.to];
+            [self.mChannelMemberName setHidden:NO];
+            NSUInteger randomIndex = random()% [self.colors count];
+            [self.mChannelMemberName setTextColor: [ALColorUtility colorWithHexString: self.colors[randomIndex]]];
+            self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width - 120, viewSize.width - 100);
+            
+            self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mBubleImageView.frame.origin.y + 2, self.mBubleImageView.frame.size.width + 30, 20);
+            
+             self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mChannelMemberName.frame.origin.y + self.mChannelMemberName.frame.size.height + 3, self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 30 );
+            
+        }
         
         [self setupProgress];
         
