@@ -10,5 +10,8 @@
 #import <UIKit/UIKit.h>
 
 @interface ALColorUtility : NSObject
+
 + (UIImage *)imageWithSize:(CGRect)rect WithHexString:(NSString*)stringToConvert;
++ (UIColor *)colorWithHexString:(NSString *)stringToConvert;
+
 @end
