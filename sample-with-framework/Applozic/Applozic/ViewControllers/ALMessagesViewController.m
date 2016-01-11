@@ -446,6 +446,7 @@ ALMQTTConversationService *alMqttConversationService;
     else
     {
         contactCell.mUserNameLabel.text = [alContact displayName];
+
     }
     
     contactCell.mMessageLabel.text = message.message;
@@ -463,8 +464,8 @@ ALMQTTConversationService *alMqttConversationService;
     
     // here for msg dashboard profile pic
     NSString *firstLetter = [[[alContact displayName] substringToIndex:1] uppercaseString];
-    nameIcon.text=firstLetter;
-    
+    nameIcon.text = firstLetter;
+  
     if([message.groupId intValue])
     {
         [contactCell.onlineImageMarker setHidden:YES];
