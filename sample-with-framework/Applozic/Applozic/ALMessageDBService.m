@@ -353,7 +353,7 @@
 -(void)syncConactsDB
 {
     ALContactService *contactservice = [[ALContactService alloc] init];
-    [contactservice insertInitialContacts];
+   // [contactservice insertInitialContacts];
 }
 
 -(void)fetchConversationsGroupByContactId
@@ -488,17 +488,18 @@
     }
     
     // file meta info
-    
-    ALFileMetaInfo * theFileMeta = [ALFileMetaInfo new];
-    theFileMeta.blobKey = theEntity.fileMetaInfo.blobKeyString;
-    theFileMeta.contentType = theEntity.fileMetaInfo.contentType;
-    theFileMeta.createdAtTime = theEntity.fileMetaInfo.createdAtTime;
-    theFileMeta.key = theEntity.fileMetaInfo.key;
-    theFileMeta.name = theEntity.fileMetaInfo.name;
-    theFileMeta.size = theEntity.fileMetaInfo.size;
-    theFileMeta.userKey = theEntity.fileMetaInfo.suUserKeyString;
-    theFileMeta.thumbnailUrl = theEntity.fileMetaInfo.thumbnailUrl;
-    theMessage.fileMeta = theFileMeta;
+    if(theEntity.fileMetaInfo){
+        ALFileMetaInfo * theFileMeta = [ALFileMetaInfo new];
+        theFileMeta.blobKey = theEntity.fileMetaInfo.blobKeyString;
+        theFileMeta.contentType = theEntity.fileMetaInfo.contentType;
+        theFileMeta.createdAtTime = theEntity.fileMetaInfo.createdAtTime;
+        theFileMeta.key = theEntity.fileMetaInfo.key;
+        theFileMeta.name = theEntity.fileMetaInfo.name;
+        theFileMeta.size = theEntity.fileMetaInfo.size;
+        theFileMeta.userKey = theEntity.fileMetaInfo.suUserKeyString;
+        theFileMeta.thumbnailUrl = theEntity.fileMetaInfo.thumbnailUrl;
+        theMessage.fileMeta = theFileMeta;
+    }
     return theMessage;
 }
 
@@ -541,7 +542,7 @@
     
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-    theRequest.predicate =[NSPredicate predicateWithFormat:@"sentToServer = %@",NO];
+    theRequest.predicate =[NSPredicate predicateWithFormat:@"sentToServer = %@",@"0"];
     
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
@@ -550,6 +551,9 @@
         ALMessage * theMessage = [self createMessageEntity:theEntity];
         [msgArray addObject:theMessage];
     }
+    
+    NSLog(@" get pending messages ...getPendingMessages ..%lu",msgArray.count);
+    
     return msgArray;
 
     
