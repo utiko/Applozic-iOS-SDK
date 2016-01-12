@@ -192,7 +192,9 @@
 
 
 +(void)setServerCallDoneForMSGList:(BOOL) value forContactId:(NSString*)contactId{
-    
+    if(!contactId){
+        return;
+    }
     NSString *key = [ contactId stringByAppendingString:MSG_LIST_CALL_SUFIX];
     [[NSUserDefaults standardUserDefaults] setBool:true forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -201,6 +203,9 @@
 
 +(BOOL)isServerCallDoneForMSGList: (NSString *)contactId{
     
+    if(!contactId){
+        return NO;
+    }
     NSString *key = [ contactId stringByAppendingString:MSG_LIST_CALL_SUFIX];
     return [[NSUserDefaults standardUserDefaults] boolForKey:key];
     
@@ -256,6 +261,9 @@
 
 +(void)setShowLoadMore:(BOOL) value forContactId:(NSString*)contactId{
    
+    if(!contactId){
+        return;
+    }
     NSString *key = [ contactId stringByAppendingString:SHOW_LOAD_MORE_BUTTON];
     [[NSUserDefaults standardUserDefaults] setBool:value forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -265,6 +273,9 @@
 
 +(BOOL)isShowLoadMore:(NSString *) contactId{
    
+    if(!contactId){
+        return NO;
+    }
     NSString *key = [ contactId stringByAppendingString:SHOW_LOAD_MORE_BUTTON];
     if ( ![[NSUserDefaults standardUserDefaults] valueForKey:key] ){
         return YES;
