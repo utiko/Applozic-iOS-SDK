@@ -39,7 +39,7 @@
 #import "ALMQTTConversationService.h"
 #import "ALContactDBService.h"
 #import "ALDataNetworkConnection.h"
-
+#import "ALApplozicSettings.h"
 
 #define MQTT_MAX_RETRY 3
 
@@ -47,31 +47,20 @@
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate,ALMQTTConversationDelegate>
 
 @property (nonatomic, assign) NSInteger startIndex;
-
 @property (nonatomic,assign) int rp;
-
 @property (nonatomic,assign) NSUInteger mTotalCount;
-
 @property (nonatomic,retain) UIImagePickerController * mImagePicker;
-
 @property (nonatomic)  ALLocationManager * alLocationManager;
-
 @property (nonatomic,assign) BOOL showloadEarlierAction;
-
 @property (nonatomic,weak) NSIndexPath *indexPathofSelection;
-
 @property (nonatomic,strong ) ALMQTTConversationService *mqttObject;
 @property (nonatomic) NSInteger *  mqttRetryCount;
 
 
 -(void)processLoadEarlierMessages:(BOOL)flag;
-
 -(void)processMarkRead;
-
 -(void)fetchAndRefresh:(BOOL)flag;
-
 -(void)serverCallForLastSeen;
-
 
 @end
 
@@ -94,6 +83,7 @@ ALMessageDBService  * dbService;
     [self fetchMessageFromDB];
     [self loadChatView];
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
 }
 
 -(void)processMarkRead{
@@ -132,7 +122,9 @@ ALMessageDBService  * dbService;
         if (self.refresh) {
             self.refresh = false;
         }
+
     }
+
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:) name:@"deliveryReport" object:nil];
@@ -160,17 +152,23 @@ ALMessageDBService  * dbService;
     {
         self.sendMessageTextView.text = self.text;
     }
+    else
+    {
+     self.sendMessageTextView.text = @"";
+    }
     
-    NSLog(@" ========  Table Origin y %f  ========",self.mTableView.frame.origin.y);
-    NSLog(@" ======== Load More button origin y %f  ========",self.loadEarlierAction.frame.origin.y);
-    NSLog(@" ======== Load More button height %f  ======",self.loadEarlierAction.frame.size.height);
-    NSLog(@" ======== navigation bar height %f  ========",self.navigationController.navigationBar.frame.size.height);
-    NSLog(@" ======== navigation bar origin y %f  ======",self.navigationController.navigationBar.frame.origin.y);
+//    NSLog(@" ========  Table Origin y %f  ========",self.mTableView.frame.origin.y);
+//    NSLog(@" ======== Load More button origin y %f  ========",self.loadEarlierAction.frame.origin.y);
+//    NSLog(@" ======== Load More button height %f  ======",self.loadEarlierAction.frame.size.height);
+//    NSLog(@" ======== navigation bar height %f  ========",self.navigationController.navigationBar.frame.size.height);
+//    NSLog(@" ======== navigation bar origin y %f  ======",self.navigationController.navigationBar.frame.origin.y);
     
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
+    
     [super viewWillDisappear:animated];
+     self.text = nil;
     [self.tabBarController.tabBar setHidden: YES];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
@@ -208,6 +206,12 @@ ALMessageDBService  * dbService;
     
     [self setTitle];
     
+}
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+      [navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:18]}];
+    [navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+    [navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
 }
 
 -(void) setTitle {
