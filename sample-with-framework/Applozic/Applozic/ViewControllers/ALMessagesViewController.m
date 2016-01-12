@@ -262,7 +262,7 @@ ALMQTTConversationService *alMqttConversationService;
 }
 
 - (IBAction)logout:(id)sender {
-
+    
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
@@ -427,26 +427,26 @@ ALMQTTConversationService *alMqttConversationService;
     ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];
     if([message.groupId intValue])
     {
-//            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-//            ALChannel *alChannel = [channelDBService loadChannelByKey:message.groupId];
-//                if(alChannel)
-//                {
-//                    NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
-//                    contactCell.mUserNameLabel.text = listNames[0];
-//                }
-
-            ALChannelService *channelService = [[ALChannelService alloc] init];
-            [channelService getChannelInformation:message.groupId withCompletion:^(ALChannel *alChannel) {
+        //            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+        //            ALChannel *alChannel = [channelDBService loadChannelByKey:message.groupId];
+        //                if(alChannel)
+        //                {
+        //                    NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
+        //                    contactCell.mUserNameLabel.text = listNames[0];
+        //                }
+        
+        ALChannelService *channelService = [[ALChannelService alloc] init];
+        [channelService getChannelInformation:message.groupId withCompletion:^(ALChannel *alChannel) {
             NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
             contactCell.mUserNameLabel.text = listNames[0];
         }];
         
-
+        
     }
     else
     {
         contactCell.mUserNameLabel.text = [alContact displayName];
-
+        
     }
     
     contactCell.mMessageLabel.text = message.message;
@@ -463,9 +463,24 @@ ALMQTTConversationService *alMqttConversationService;
     [self displayAttachmentMediaType:message andContactCell: contactCell];
     
     // here for msg dashboard profile pic
+    
     NSString *firstLetter = [[[alContact displayName] substringToIndex:1] uppercaseString];
-    nameIcon.text = firstLetter;
-  
+    
+    NSRange whiteSpaceRange = [[alContact displayName] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSLog(@"name : %@", [alContact displayName]);
+    if (whiteSpaceRange.location != NSNotFound)
+    {
+        NSArray *listNames = [[alContact displayName] componentsSeparatedByString:@" "];
+        NSString *firstLetter = [[listNames[0] substringToIndex:1] uppercaseString];
+        NSString *lastLetter = [[listNames[1] substringToIndex:1] uppercaseString];
+        nameIcon.text = [firstLetter stringByAppendingString:lastLetter];
+    }
+    else
+    {
+        nameIcon.text = firstLetter;
+    }
+    
+    
     if([message.groupId intValue])
     {
         [contactCell.onlineImageMarker setHidden:YES];
@@ -536,7 +551,7 @@ ALMQTTConversationService *alMqttConversationService;
     {
         nameIcon.hidden = NO;
         NSString *firstLetter = [[alContact displayName] substringToIndex:1];
-        nameIcon.text=[firstLetter uppercaseString];
+//        nameIcon.text=[firstLetter uppercaseString];
         //         contactCell.mUserImageView.hidden=YES;
         
     }
