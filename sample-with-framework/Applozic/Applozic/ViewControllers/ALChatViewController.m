@@ -39,7 +39,7 @@
 #import "ALMQTTConversationService.h"
 #import "ALContactDBService.h"
 #import "ALDataNetworkConnection.h"
-
+#import "ALApplozicSettings.h"
 
 #define MQTT_MAX_RETRY 3
 
@@ -206,6 +206,12 @@ ALMessageDBService  * dbService;
     
     [self setTitle];
     
+}
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+      [navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:18]}];
+    [navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+    [navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
 }
 
 -(void) setTitle {
