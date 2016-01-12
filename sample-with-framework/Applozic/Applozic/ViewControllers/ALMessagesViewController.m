@@ -467,7 +467,6 @@ ALMQTTConversationService *alMqttConversationService;
     NSString *firstLetter = [[[alContact displayName] substringToIndex:1] uppercaseString];
     
     NSRange whiteSpaceRange = [[alContact displayName] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSLog(@"name : %@", [alContact displayName]);
     if (whiteSpaceRange.location != NSNotFound)
     {
         NSArray *listNames = [[alContact displayName] componentsSeparatedByString:@" "];
