@@ -1264,7 +1264,7 @@ ALMessageDBService  * dbService;
                 int minutes = (difference - hours * 3600 ) / 60;
                 
                 if(hours > 0){
-                    theTime = [NSString stringWithFormat:@"%.2d:%.2d", hours, minutes];
+                    theTime = [NSString stringWithFormat:@"%.2d", hours];
                     if([theTime hasPrefix:@"0"])
                     {
                         theTime = [theTime substringFromIndex:[@"0" length]];
