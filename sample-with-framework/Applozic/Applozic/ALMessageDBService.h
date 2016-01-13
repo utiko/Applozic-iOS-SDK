@@ -34,8 +34,9 @@
 -(NSManagedObject *)getMeesageById:(NSManagedObjectID *)objectID
                              error:(NSError **)error;
 - (NSManagedObject *)getMessageByKey:(NSString *) key value:(NSString*) value;
-
 -(NSMutableArray *)getMessageListForContactWithCreatedAt:(NSString *)contactId withCreatedAt:(NSNumber*)createdAt;
+-(NSMutableArray *)getPendingMessages;
+
 
 -(NSUInteger)markConversationAsRead:(NSString *) contactId;
 

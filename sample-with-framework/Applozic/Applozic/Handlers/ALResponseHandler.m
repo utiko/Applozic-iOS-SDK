@@ -37,7 +37,6 @@
             
             return;
         }
-        
         if (data == nil) {
             
             reponseCompletion(nil,[self errorWithDescription:message_SomethingWentWrong]);
@@ -94,13 +93,13 @@
 
 +(NSError *) errorWithDescription:(NSString *) reason
 {
-    return [NSError errorWithDomain:@"AppLozßßßic" code:1 userInfo:[NSDictionary dictionaryWithObject:reason forKey:NSLocalizedDescriptionKey]];
+    return [NSError errorWithDomain:@"Applozic" code:1 userInfo:[NSDictionary dictionaryWithObject:reason forKey:NSLocalizedDescriptionKey]];
 }
 
 
 +(NSError * )checkForServerError:(NSString *)response {
  
-    if ([response hasPrefix:@"<html>"]){
+    if ([response hasPrefix:@"<html>"]|| [response isEqualToString:[@"error" uppercaseString]]){
         NSError *error = [NSError errorWithDomain:@"Internal Error" code:500 userInfo:nil];
         return error;
     }
