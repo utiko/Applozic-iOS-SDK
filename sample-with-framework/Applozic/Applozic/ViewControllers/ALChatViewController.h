@@ -32,6 +32,7 @@
 @property (strong, nonatomic) NSString * text;
 
 -(void)fetchAndRefresh;
+-(void)fetchAndRefresh:(BOOL)flag;
 
 -(void)updateDeliveryReport:(NSString*)keyString;
 
@@ -49,5 +50,7 @@
 -(void) reloadViewfor3rdParty;
 -(void) reloadView;
 -(void)processMarkRead;
+
+-(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer;
 
 @end

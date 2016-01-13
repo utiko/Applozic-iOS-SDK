@@ -16,4 +16,5 @@
 -(instancetype)initWithContactId:(NSString*) contactId withAlertMessage: (NSString *) alertMessage;
 
 -(void)displayNotification:(id)delegate;
+-(void)displayNotificationNew:(id)delegate;
 @end

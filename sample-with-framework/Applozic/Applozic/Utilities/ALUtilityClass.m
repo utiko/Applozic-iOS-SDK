@@ -233,16 +233,25 @@
 //    
 //    [TSMessage showNotificationInViewController:top.topViewController title:@"Applozic" subtitle:toastMessage type:TSMessageNotificationTypeMessage duration:0.5 canBeDismissedByUser:YES];
     UIImage* img=[[UIImage alloc] init];
-    img=[UIImage imageNamed:@"online_show.png"];
-    
-    [TSMessage showNotificationInViewController:top.topViewController title:@"Applozic" subtitle:toastMessage image:img type:TSMessageNotificationTypeMessage duration:2.5 callback:^(void){
+    img=[ALUtilityClass getImageFromFramworkBundle:@"NotificationIcon.png"];
+   
+    [[TSMessageView appearance] setTitleFont:[UIFont boldSystemFontOfSize:17]];
+    [[TSMessageView appearance] setContentFont:[UIFont systemFontOfSize:13]];
+   // [[TSMessageView appearance] setBackgroundColor:[UIColor blackColor]];
+    [TSMessage showNotificationInViewController:top.topViewController
+                                            title:@"Applozic"
+                                       subtitle:toastMessage
+                                          image:img
+                                           type:TSMessageNotificationTypeMessage
+                                       duration:2.5
+                                       callback:^(void){
        
-        ALAppLocalNotifications* launch=[[ALAppLocalNotifications alloc] init];
+        //ALAppLocalNotifications* launch=[[ALAppLocalNotifications alloc] init];
         //for Individual Chat Conversation Opening...
-        [launch thirdPartyNotificationTap:nil];
-    
+        [delegate thirdPartyNotificationTap:nil];
         
-    }buttonTitle:@"Button" buttonCallback:nil atPosition:TSMessageNotificationPositionTop canBeDismissedByUser:YES];
+    }buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionTop canBeDismissedByUser:YES];
+    
 }
 
 
@@ -271,14 +280,19 @@
         toastView.userInteractionEnabled = YES;
         toastView.font=[UIFont boldSystemFontOfSize:16];
         
-        UIImageView* dp=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"online_show.png"]];
-        [dp setFrame:CGRectMake(10, 10, 20, 20)];
-//        [dp setFrame:CGRectMake(0.0, 0.0, dp.frame.size.width, dp.frame.size.height)];
-        dp.layer.cornerRadius=dp.layer.frame.size.width/2;
-        dp.clipsToBounds=YES;
-        [toastView addSubview:dp];
-        [toastView bringSubviewToFront:dp];
+        UIImage* img=[[UIImage alloc] init];
+        img=[ALUtilityClass getImageFromFramworkBundle:@"NotificationIcon.png"];
+        
+        UIImageView* dp=[[UIImageView alloc] initWithImage:img];
+        [dp setFrame:CGRectMake(toastView.frame.origin.x+10, toastView.frame.origin.y+10, img.size.width, img.size.height)];
+////        [dp setFrame:CGRectMake(0.0, 0.0, dp.frame.size.width, dp.frame.size.height)];
+//        dp.layer.cornerRadius=dp.layer.frame.size.width/2;
+//        dp.clipsToBounds=YES;
+//        [toastView addSubview:dp];
+//        [toastView bringSubviewToFront:dp];
 
+        
+        [toastView addSubview:dp];
         UITapGestureRecognizer *tapGesture =
         [[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(thirdPartyNotificationTap:)];
         [toastView addGestureRecognizer:tapGesture];

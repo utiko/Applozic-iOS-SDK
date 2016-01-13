@@ -10,6 +10,7 @@
 #import "HexColors.h"
 #import "TSBlurView.h"
 #import "TSMessage.h"
+#import "ALUtilityClass.h"
 
 #define TSMessageViewMinimumPadding 15.0
 
@@ -256,9 +257,14 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
             self.alpha = 0.0;
 
             // add background image here
+            
+            //            UIImage*backgroundImage=[[UIImage alloc] initWithCGImage:[ALUtilityClass getImageFromFramworkBundle:@"Notify.png"].CGImage];
+            //            backgroundImage=[ALUtilityClass getImageFromFramworkBundle:@"Notify.png"];
+            
+            
             UIImage *backgroundImage = [self bundledImageNamed:[current valueForKey:@"backgroundImageName"]];
             backgroundImage = [backgroundImage stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0];
-
+            
             _backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
             self.backgroundImageView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
             [self addSubview:self.backgroundImageView];

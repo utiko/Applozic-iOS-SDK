@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		297DE09E1C46253300C9D87E /* TSMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE09A1C46253300C9D87E /* TSMessage.h */; };
+		297DE09E1C46253300C9D87E /* TSMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE09A1C46253300C9D87E /* TSMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		297DE09F1C46253300C9D87E /* TSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 297DE09B1C46253300C9D87E /* TSMessage.m */; };
-		297DE0A01C46253300C9D87E /* TSMessageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE09C1C46253300C9D87E /* TSMessageView.h */; };
+		297DE0A01C46253300C9D87E /* TSMessageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE09C1C46253300C9D87E /* TSMessageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		297DE0A11C46253300C9D87E /* TSMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 297DE09D1C46253300C9D87E /* TSMessageView.m */; };
 		297DE0A31C46254C00C9D87E /* TSMessagesDefaultDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = 297DE0A21C46254C00C9D87E /* TSMessagesDefaultDesign.json */; };
-		297DE0A61C4627ED00C9D87E /* TSBlurView.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE0A41C4627ED00C9D87E /* TSBlurView.h */; };
+		297DE0A61C4627ED00C9D87E /* TSBlurView.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE0A41C4627ED00C9D87E /* TSBlurView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		297DE0A71C4627ED00C9D87E /* TSBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 297DE0A51C4627ED00C9D87E /* TSBlurView.m */; };
-		297DE0AA1C46280500C9D87E /* HexColors.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE0A81C46280500C9D87E /* HexColors.h */; };
+		297DE0AA1C46280500C9D87E /* HexColors.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE0A81C46280500C9D87E /* HexColors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		297DE0AB1C46280500C9D87E /* HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 297DE0A91C46280500C9D87E /* HexColors.m */; };
 		29AD70A51C3E8955003C7DB8 /* ALPushAssist.h in Headers */ = {isa = PBXBuildFile; fileRef = 29AD70A31C3E8955003C7DB8 /* ALPushAssist.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		29AD70A61C3E8955003C7DB8 /* ALPushAssist.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AD70A41C3E8955003C7DB8 /* ALPushAssist.m */; };
@@ -1004,11 +1004,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				297DE0AA1C46280500C9D87E /* HexColors.h in Headers */,
+				297DE0A61C4627ED00C9D87E /* TSBlurView.h in Headers */,
+				297DE09E1C46253300C9D87E /* TSMessage.h in Headers */,
+				297DE0A01C46253300C9D87E /* TSMessageView.h in Headers */,
 				6DAEC20A1C25A596000A7243 /* ALLastSeenSyncFeed.h in Headers */,
 				984219251C1EDEC00016B733 /* ALSyncCallService.h in Headers */,
 				6D6DF1501BC5364C00EBA00F /* ALRegisterUserClientService.h in Headers */,
 				6D6DF1701BC5364C00EBA00F /* ALContact.h in Headers */,
-				297DE0AA1C46280500C9D87E /* HexColors.h in Headers */,
 				982F130A1C05D6050024678E /* MQTTMessage.h in Headers */,
 				6D6DF17A1BC5364C00EBA00F /* ALRegistrationResponse.h in Headers */,
 				6D6DF16D1BC5364C00EBA00F /* ALPushNotificationService.h in Headers */,
@@ -1068,7 +1071,6 @@
 				6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */,
 				6D4763F51C3A79A7005BD5EC /* ALChannelService.h in Headers */,
 				6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */,
-				297DE0A61C4627ED00C9D87E /* TSBlurView.h in Headers */,
 				6D6DF13E1BC5364C00EBA00F /* ALConnection.h in Headers */,
 				982F130E1C05D6050024678E /* MQTTSession.h in Headers */,
 				98E1AB971C08718700BE6312 /* ALMQTTConversationService.h in Headers */,
@@ -1080,7 +1082,6 @@
 				6D36F2081BFF3EE3003D46D3 /* ALApplozicSettings.h in Headers */,
 				6D15F2461BEB6AE00069BE1A /* ALAttachmentController.h in Headers */,
 				982F13081C05D6050024678E /* MQTTEncoder.h in Headers */,
-				297DE09E1C46253300C9D87E /* TSMessage.h in Headers */,
 				6D95476D1BE38DFF00776652 /* ALUITextView.h in Headers */,
 				29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */,
 				6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */,
@@ -1100,7 +1101,6 @@
 				6D6DF1C21BC5364C00EBA00F /* SDWebImageOperation.h in Headers */,
 				6D6DF1B81BC5364C00EBA00F /* SDWebImageCompat.h in Headers */,
 				6D6DF1D11BC5364C00EBA00F /* UIView+WebCacheOperation.h in Headers */,
-				297DE0A01C46253300C9D87E /* TSMessageView.h in Headers */,
 				6D6DF1BA1BC5364C00EBA00F /* SDWebImageDecoder.h in Headers */,
 				6D6DF1BE1BC5364C00EBA00F /* SDWebImageDownloaderOperation.h in Headers */,
 				6D6DF1CD1BC5364C00EBA00F /* UIImageView+HighlightedWebCache.h in Headers */,

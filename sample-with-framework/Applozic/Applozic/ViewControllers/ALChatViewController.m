@@ -41,6 +41,7 @@
 #import "ALDataNetworkConnection.h"
 #import "ALAppLocalNotifications.h"
 #import "ALChatLauncher.h"
+#import "ALMessageClientService.h"
 
 #define MQTT_MAX_RETRY 3
 
@@ -1073,7 +1074,8 @@ ALMessageDBService  * dbService;
     } else {
         NSLog(@"show notification as someone else thread is already opened");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
-        [alnotification displayNotification:self];
+//        [alnotification displayNotification:self];
+        [alnotification displayNotificationNew:self];
         [self fetchAndRefresh:YES];
     }
     
@@ -1127,8 +1129,9 @@ ALMessageDBService  * dbService;
     }];
     // [self fetchAndRefresh:YES];
     [self processMarkRead];
+    [UIView animateWithDuration:0.5 animations:^{
     [notificationView removeFromSuperview];
-    
+    }];
 }
 
 

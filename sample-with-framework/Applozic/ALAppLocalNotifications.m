@@ -158,7 +158,7 @@
             NSLog(@"========== ELSE internetConnectionReach ============");
         }
     }
-    
+        
 }
 
 
@@ -171,7 +171,7 @@
     NSLog(@" 3rd Party notificationHandler called .....");
     
     self.contactId = notification.object;
-    
+    NSLog(@"Notification Object %@",self.contactId);
     self.dict = notification.userInfo;
     updateUI = [self.dict valueForKey:@"updateUI"];
     alertValue = [self.dict valueForKey:@"alertValue"];
@@ -198,31 +198,21 @@
             
                 if(alertValue){
                     NSLog(@"App launched from 3rdParty");
-//                    [ALUtilityClass thirdDisplayNotificationTS:alertValue delegate:self];
-                    [ALUtilityClass thirdDisplayNotification:alertValue delegate:self];
+                    [ALUtilityClass thirdDisplayNotificationTS:alertValue delegate:self];
+//                    [ALUtilityClass thirdDisplayNotification:alertValue delegate:self];
 //                    [ALUtilityClass newDisplayNotificaiton:alertValue delegate:self];
+                    
                     
                 }
                 else{
                     NSLog(@"Nil Alert Value");
                 }
             }
-            
-        
-        
-    
         
     }];
     
 
 //    [ALUtilityClass displayNotification:alertValue delegate:self];
-
-//    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-//        //Background Thread
-//        dispatch_async(dispatch_get_main_queue(), ^(void){
-//            //Run UI Updates
-//        });
-//    });
 }
 
 -(void)thirdPartyNotificationTap:(UIGestureRecognizer*)gestureRecognizer{
@@ -230,6 +220,7 @@
     ALPushAssist* object=[[ALPushAssist alloc] init];
     
     //for Individual Chat Conversation Opening...
+    NSLog(@"Chat Launch Contact ID: %@",self.contactId);
     self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_KEY];
     [self.chatLauncher launchIndividualChat:self.contactId andViewControllerObject:object.topViewController andWithText:nil];
 }
