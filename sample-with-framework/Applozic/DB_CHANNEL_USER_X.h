@@ -13,5 +13,6 @@
 @property (nonatomic, retain) NSNumber *channelKey;
 @property (nonatomic, retain) NSString *userId;
 @property (nonatomic) short status;
+@property (nonatomic, retain) NSNumber * unreadCount;
 
 @end
