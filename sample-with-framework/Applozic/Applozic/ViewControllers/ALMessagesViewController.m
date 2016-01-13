@@ -473,19 +473,19 @@
     // here for msg dashboard profile pic
     
     NSString *firstLetter = [[[alContact displayName] substringToIndex:1] uppercaseString];
-    
-    NSRange whiteSpaceRange = [[alContact displayName] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
-    if (whiteSpaceRange.location != NSNotFound)
-    {
-        NSArray *listNames = [[alContact displayName] componentsSeparatedByString:@" "];
-        NSString *firstLetter = [[listNames[0] substringToIndex:1] uppercaseString];
-        NSString *lastLetter = [[listNames[1] substringToIndex:1] uppercaseString];
-        nameIcon.text = [firstLetter stringByAppendingString:lastLetter];
-    }
-    else
-    {
-        nameIcon.text = firstLetter;
-    }
+    nameIcon.text = firstLetter;
+//    NSRange whiteSpaceRange = [[alContact displayName] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
+//    if (whiteSpaceRange.location != NSNotFound)
+//    {
+//        NSArray *listNames = [[alContact displayName] componentsSeparatedByString:@" "];
+//        NSString *firstLetter = [[listNames[0] substringToIndex:1] uppercaseString];
+//        NSString *lastLetter = [[listNames[1] substringToIndex:1] uppercaseString];
+//        nameIcon.text = [firstLetter stringByAppendingString:lastLetter];
+//    }
+//    else
+//    {
+//        nameIcon.text = firstLetter;
+//    }
     
     
     if([message.groupId intValue])

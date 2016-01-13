@@ -228,6 +228,8 @@
 		6DCC30221C31774C00F17D0E /* DB_CHANNEL_USER_X.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30201C31774C00F17D0E /* DB_CHANNEL_USER_X.m */; };
 		6DCC30251C31826A00F17D0E /* ALChannelUserX.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC30231C31826A00F17D0E /* ALChannelUserX.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DCC30261C31826A00F17D0E /* ALChannelUserX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30241C31826A00F17D0E /* ALChannelUserX.m */; };
+		6DD2E20A1C46A97100134EFB /* DB_ConversationProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DD2E2081C46A97100134EFB /* DB_ConversationProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6DD2E20B1C46A97100134EFB /* DB_ConversationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD2E2091C46A97100134EFB /* DB_ConversationProxy.m */; };
 		6DDE81861C27D8EC009B8CF9 /* ALUserClientService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */; };
 		6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */; };
 		982F13041C05D6050024678E /* MQTTClient-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */; };
@@ -475,6 +477,8 @@
 		6DCC30201C31774C00F17D0E /* DB_CHANNEL_USER_X.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DB_CHANNEL_USER_X.m; sourceTree = "<group>"; };
 		6DCC30231C31826A00F17D0E /* ALChannelUserX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannelUserX.h; sourceTree = "<group>"; };
 		6DCC30241C31826A00F17D0E /* ALChannelUserX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChannelUserX.m; sourceTree = "<group>"; };
+		6DD2E2081C46A97100134EFB /* DB_ConversationProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DB_ConversationProxy.h; sourceTree = "<group>"; };
+		6DD2E2091C46A97100134EFB /* DB_ConversationProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DB_ConversationProxy.m; sourceTree = "<group>"; };
 		6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserClientService.h; sourceTree = "<group>"; };
 		6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserClientService.m; sourceTree = "<group>"; };
 		982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MQTTClient-Prefix.pch"; path = "Applozic/MQTT/MQTTClient-Prefix.pch"; sourceTree = "<group>"; };
@@ -834,6 +838,8 @@
 				6DCC301C1C31758400F17D0E /* DB_CHANNEL.m */,
 				6DCC301F1C31774C00F17D0E /* DB_CHANNEL_USER_X.h */,
 				6DCC30201C31774C00F17D0E /* DB_CHANNEL_USER_X.m */,
+				6DD2E2081C46A97100134EFB /* DB_ConversationProxy.h */,
+				6DD2E2091C46A97100134EFB /* DB_ConversationProxy.m */,
 			);
 			name = database;
 			sourceTree = "<group>";
@@ -1069,6 +1075,7 @@
 				6D8904251C3E744000B59381 /* ALConversationProxy.h in Headers */,
 				6D9C693C1C28383B00C78219 /* ALChatLauncher.h in Headers */,
 				6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */,
+				6DD2E20A1C46A97100134EFB /* DB_ConversationProxy.h in Headers */,
 				6D4763F51C3A79A7005BD5EC /* ALChannelService.h in Headers */,
 				6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */,
 				6D6DF13E1BC5364C00EBA00F /* ALConnection.h in Headers */,
@@ -1295,6 +1302,7 @@
 				6D6DF1B71BC5364C00EBA00F /* SDImageCache.m in Sources */,
 				6D6DF1771BC5364C00EBA00F /* ALMessage.m in Sources */,
 				6D6DF1C41BC5364C00EBA00F /* SDWebImagePrefetcher.m in Sources */,
+				6DD2E20B1C46A97100134EFB /* DB_ConversationProxy.m in Sources */,
 				6D6DF14B1BC5364C00EBA00F /* ALResponseHandler.m in Sources */,
 				6D6DF1B31BC5364C00EBA00F /* MKAnnotationView+WebCache.m in Sources */,
 				982F130F1C05D6050024678E /* MQTTSession.m in Sources */,
