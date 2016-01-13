@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
-#import "Applozic/ALMessagesViewController.h"
+#import "Applozic/ALAppLocalNotifications.h"
 
 
 

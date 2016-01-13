@@ -42,10 +42,12 @@
 -(void)updateDeliveryStatus:(NSNotification *) notification;
 
 -(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue;
-
+-(void) syncCall:(ALMessage *) alMessage;
 -(void)showTypingLabel:(BOOL)flag userId:(NSString *)userId;
 
 -(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail;
-
+-(void) reloadViewfor3rdParty;
+-(void) reloadView;
+-(void)processMarkRead;
 
 @end

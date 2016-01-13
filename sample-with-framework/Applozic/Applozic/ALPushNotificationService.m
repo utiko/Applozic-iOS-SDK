@@ -60,20 +60,36 @@
         NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
         
         if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
-            NSLog(@"notificationId is already processed...%@",notificationId);
+            NSLog(@"notificationId is already processed...ALPUSH%@",notificationId);
             return true;
         }
         //TODO : check if notification is alreday received and processed...
         NSString *  notificationMsg = [theMessageDict valueForKey:@"message"];
-        
+        NSLog(@"Object Push %@",notificationMsg);
+        NSLog(@"User Info Push %@",dict);
         if ([type isEqualToString:MT_SYNC])
         {
-            NSLog(@"pushing to notification center");
+//            NSLog(@"pushing to notification center");
             [dict setObject:alertValue forKey:@"alertValue"];
+    
+            ALPushAssist* assistant=[[ALPushAssist alloc] init];
+            
+            if(!assistant.isChatViewOnTop){
+                NSLog(@"OUR View NOT Opened");
+                NSLog(@"notification called....");
+                [assistant assist:notificationMsg and:dict ofUser:notificationMsg];
 
-            [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:notificationMsg
-                                                               userInfo:dict];
-            [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:notificationMsg userInfo:dict];
+            }else {
+                NSLog(@"OUR View Opened");
+                [dict setObject:alertValue forKey:@"alertValue"];
+                
+                [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:notificationMsg
+                                                                   userInfo:dict];
+                [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:notificationMsg userInfo:dict];
+            }
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thirdPartyNotificationHandler:) name:@"showNotificationAndLaunchChat" object:nil];
+            
+            
         }else if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:MT_DELIVERED]||[type isEqualToString:@"APPLOZIC_08"])  {
             
             NSArray *deliveryParts = [notificationMsg componentsSeparatedByString:@","];
@@ -111,54 +127,7 @@
             //[self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
             
         }
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(contextChanged:)
-                                                     name:@"pushNotification"
-                                                   object:nil];
-        
-        ALPushAssist* assistant=[[ALPushAssist alloc] init];
-//        [assistant notificaitionShow];
-        [assistant assist];
-      
-       
 
-        
-//        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-//                                                             bundle:[NSBundle
-//                                                                     bundleForClass:ALChatViewController.class]];
-//        
-//        UIViewController *our1 = [storyboard instantiateViewControllerWithIdentifier:@"ALViewController"];
-//        UIViewController *our2=[storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
-//
-////      UIViewController *our3=[storyboard instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
-//        
-//        
-//        NSLog(@"Top View>>>> %@",self.topViewController.title);
-//
-//        if ([self.topViewController isKindOfClass:[our1 class]]||[self.topViewController isKindOfClass:[our2 class]]) {
-//           //flag= True  ....continue as normal
-//            NSLog(@"TRUEEE");
-//        }
-//        else {
-//            //flag= False... Go to the DemoLauncher... FROM the Current View.
-//            NSLog(@"FALSEEE");
-//            
-//            self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:@"applozic-sample-app"];
-//            
-//            
-//            //User is already registered ..directly launch the chat...
-//            if([ALUserDefaultsHandler getDeviceKeyString]){
-//                
-////                ALMessagesViewController* obj=[[ALMessagesViewController alloc] init];
-////                [obj.mTableView reloadData];
-//                
-//                [self.chatLauncher launchChatList:@"< Title" andViewControllerObject:self.topViewController];
-//                
-//            }
-//        }
-//        
-        
         
         return TRUE;
     }
@@ -166,14 +135,6 @@
     return FALSE;
 }
 
--(void)contextChanged:(NSNotification*)notif{
-    NSLog(@"Context Changed");
-    ALChatViewController* obj=[[ALChatViewController alloc] init];
-    [obj individualNotificationhandler:notif];
-    
-    //    [ApplozicLoginViewController fun];
-    
-}
 
 
 @end

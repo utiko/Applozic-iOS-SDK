@@ -7,8 +7,24 @@
 //
 
 #import "ALAppLocalNotifications.h"
+#import "ALChatViewController.h"
+#import "ALNotificationView.h"
+#import "ALUtilityClass.h"
+#import "ALPushAssist.h"
+#import "ALChatViewController.h"
+#import "ALMessageDBService.h"
+#import "ALMessageService.h"
+#import "ALUserDefaultsHandler.h"
+#import "ALMessageService.h"
 
-@implementation ALAppLocalNotifications
+
+
+
+@implementation ALAppLocalNotifications{
+    NSNumber *updateUI ;
+    NSString *alertValue;
+}
+
 
 +(ALAppLocalNotifications *)appLocalNotificationHandler
 {
@@ -19,6 +35,9 @@
         
         localNotificationHandler = [[self alloc] init];
         
+
+
+        
     });
     
     return localNotificationHandler;
@@ -26,9 +45,8 @@
 
 -(void)dataConnectionNotificationHandler
 {
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thirdPartyNotificationHandler:) name:@"showNotificationAndLaunchChat" object:nil];
     // create a Reachability object for www.google.com
     
     self.googleReach = [Reachability reachabilityWithHostname:@"www.google.com"];
@@ -142,6 +160,81 @@
     }
     
 }
+
+
+//receiver
+
+
+// To DISPLAY THE NOTIFICATION ONLY ...from 3rd Party View.
+-(void)thirdPartyNotificationHandler:(NSNotification*)notification{
+    
+    NSLog(@" 3rd Party notificationHandler called .....");
+    
+    self.contactId = notification.object;
+    
+    self.dict = notification.userInfo;
+    updateUI = [self.dict valueForKey:@"updateUI"];
+    alertValue = [self.dict valueForKey:@"alertValue"];
+    NSLog(@"alertValue ALAppLN:>>>%@",alertValue);
+    //ALMessageDBService* obj=[[ALMessageDBService alloc] init];
+   // [obj fetchAndRefreshQuickConversation];
+    
+    NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
+    [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
+        
+        if (error) {
+            NSLog(@"%@",error);
+            return ;
+        }
+        
+    
+            if(updateUI==[NSNumber numberWithBool:NO]){
+                NSLog(@"App launched from Background");
+                [self thirdPartyNotificationTap:nil]; // Directly launching Chat 
+                return;
+            }
+        
+            if(updateUI==[NSNumber numberWithBool:YES]){
+            
+                if(alertValue){
+                    NSLog(@"App launched from 3rdParty");
+//                    [ALUtilityClass thirdDisplayNotificationTS:alertValue delegate:self];
+                    [ALUtilityClass thirdDisplayNotification:alertValue delegate:self];
+//                    [ALUtilityClass newDisplayNotificaiton:alertValue delegate:self];
+                    
+                }
+                else{
+                    NSLog(@"Nil Alert Value");
+                }
+            }
+            
+        
+        
+    
+        
+    }];
+    
+
+//    [ALUtilityClass displayNotification:alertValue delegate:self];
+
+//    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+//        //Background Thread
+//        dispatch_async(dispatch_get_main_queue(), ^(void){
+//            //Run UI Updates
+//        });
+//    });
+}
+
+-(void)thirdPartyNotificationTap:(UIGestureRecognizer*)gestureRecognizer{
+    
+    ALPushAssist* object=[[ALPushAssist alloc] init];
+    
+    //for Individual Chat Conversation Opening...
+    self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_KEY];
+    [self.chatLauncher launchIndividualChat:self.contactId andViewControllerObject:object.topViewController andWithText:nil];
+}
+
+
 
 -(void)dealloc
 {

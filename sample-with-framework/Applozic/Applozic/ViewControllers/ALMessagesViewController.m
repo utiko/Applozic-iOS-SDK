@@ -73,9 +73,10 @@
 @property (strong, nonatomic) UILabel *emptyConversationText;
 @property (strong, nonatomic) UILabel *dataAvailablityLabel;
 @property (strong, nonatomic) NSNumber *channelKey;
+@property(strong, nonatomic) ALMQTTConversationService *alMqttConversationService;
 @end
 
-// $$$$$$$$$$$$$$$$$A Class Extension for solving Constraints Issues.$$$$$$$$$$$$$$$$$$$$
+// $$$$$$$$$$$$$$$$$$ Class Extension for solving Constraints Issues.$$$$$$$$$$$$$$$$$$$$
 @interface NSLayoutConstraint (Description)
 
 @end
@@ -91,7 +92,8 @@
 
 @implementation ALMessagesViewController
 
-ALMQTTConversationService *alMqttConversationService;
+
+
 
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - View lifecycle
@@ -112,12 +114,12 @@ ALMQTTConversationService *alMqttConversationService;
     [dBService getMessages];
     
     self.unreadCount = [[NSArray alloc] init];
-    alMqttConversationService = [ALMQTTConversationService sharedInstance];
-    alMqttConversationService.mqttConversationDelegate = self;
-//
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [alMqttConversationService subscribeToConversation];
-//    });
+    _alMqttConversationService = [ALMQTTConversationService sharedInstance];
+    _alMqttConversationService.mqttConversationDelegate = self;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_alMqttConversationService subscribeToConversation];
+    });
     
     self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 15 + self.view.frame.size.width/8, self.view.frame.origin.y + self.view.frame.size.height/2, 250, 30)];
     [self.emptyConversationText setText:@"You have no conversations yet"];
@@ -135,10 +137,10 @@ ALMQTTConversationService *alMqttConversationService;
 
 -(void) viewDidDisappear:(BOOL)animated
 {
-    //    dispatch_async(dispatch_get_main_queue(), ^{
-    //        [alMqttConversationService unsubscribeToConversation];
-    //    });
-    
+    NSLog(@"Unsubscribing mqtt from ALMessageVC");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_alMqttConversationService unsubscribeToConversation];
+        });
 }
 
 -(void)dropShadowInNavigationBar
@@ -185,6 +187,8 @@ ALMQTTConversationService *alMqttConversationService;
                                              selector:@selector(callLastSeenStatusUpdate)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:[UIApplication sharedApplication]];
+    
+   // [[NSNotificationCenter defaultCenter]  removeObserver:self name:@"showNotificationAndLaunchChat" object:nil];
     
     if ([_detailChatViewController refreshMainView])
     {
@@ -259,6 +263,10 @@ ALMQTTConversationService *alMqttConversationService;
     [super viewWillDisappear:animated];
     
     // self.navigationController.navigationBar.barTintColor = self.navColor;
+    
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [_alMqttConversationService unsubscribeToConversation];
+//    });
 }
 
 - (IBAction)logout:(id)sender {
@@ -500,13 +508,15 @@ ALMQTTConversationService *alMqttConversationService;
 
     ///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
     
+    ///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
+    
     NSUInteger randomIndex = random()% [self.colors count];
     contactCell.mUserImageView.image= [ALColorUtility imageWithSize:CGRectMake(0,0,55,55)
                                                       WithHexString:self.colors[randomIndex] ];
     
-
+    
     ///////////$$$$$$$$$$$$$$$$//////////////////////$$$$$$$$$$$$$$$$//////////////////////$$$$$$$$$$$$$$$$///////////
-   
+    
     //applozic_group_icon
     if([message.groupId intValue])
     {
@@ -697,7 +707,7 @@ ALMQTTConversationService *alMqttConversationService;
         [self.detailChatViewController syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
     } else {
         // NSLog(@"executing else part....");
-        [dBService fetchAndRefreshQuickConversation];
+        [dBService fetchAndRefreshQuickConversation];  // can be used also instead of syncCall/syncCall:blah blah
     }
 }
 
@@ -748,14 +758,16 @@ ALMQTTConversationService *alMqttConversationService;
 }
 
 -(void) mqttConnectionClosed {
-    if (_mqttRetryCount > MQTT_MAX_RETRY) {
+    
+    if (_mqttRetryCount > MQTT_MAX_RETRY || !self.getVisibleState) {
         return;
     }
     
     if([ALDataNetworkConnection checkDataNetworkAvailable])
         NSLog(@"MQTT connection closed, subscribing again: %lu", (long)_mqttRetryCount);
     dispatch_async(dispatch_get_main_queue(), ^{
-        [alMqttConversationService subscribeToConversation];
+        NSLog(@"ALMessageVC subscribing channel again....");
+        [_alMqttConversationService subscribeToConversation];
     });
     _mqttRetryCount++;
 }
@@ -798,10 +810,7 @@ ALMQTTConversationService *alMqttConversationService;
 
 - (void)dealloc{
     
-    NSLog(@"dealloc called. Unsubscribing with mqtt.");
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [alMqttConversationService unsubscribeToConversation];
-    });
+//    NSLog(@"dealloc called. Unsubscribing with mqtt.");
 }
 - (IBAction)backButtonAction:(id)sender {
     
@@ -811,5 +820,17 @@ ALMQTTConversationService *alMqttConversationService;
         [self  dismissViewControllerAnimated:YES completion:nil];
     }
     
+}
+-(BOOL)getVisibleState{
+    
+    if( (self.isViewLoaded && self.view.window) ||(_detailChatViewController && _detailChatViewController.isViewLoaded && _detailChatViewController.view.window )) {
+        // viewController is visible
+        NSLog(@"view is visible");
+        return YES;
+    }else {
+        NSLog(@"view is not visible");
+        
+        return NO;
+    }
 }
 @end

@@ -13,6 +13,7 @@
 #import "ALMessage.h"
 #import "ALMessageDBService.h"
 #import "ALUserDetail.h"
+#import "ALPushAssist.h"
 
 @implementation ALMQTTConversationService
 
@@ -102,7 +103,7 @@ static MQTTSession *session;
     NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
 
     if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
-        NSLog(@"notificationId is already processed...%@",notificationId);
+        NSLog(@"notificationId is already processed...MQTT%@",notificationId);
         return;
     }
     
@@ -118,10 +119,23 @@ static MQTTSession *session;
             [self.alSyncCallService updateMessageDeliveryReport:deliveryParts[0]];
             [self.mqttConversationDelegate delivered: deliveryParts[0] contactId:deliveryParts[1]];
         } else if ([type isEqualToString: @"MESSAGE_RECEIVED"]||[type isEqualToString:@"APPLOZIC_01"]) {
+            
+            ALPushAssist* assistant=[[ALPushAssist alloc] init];
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
-            [self.alSyncCallService syncCall: alMessage];
-            //Todo: split backend logic and ui logic between synccallservice and delegate
-            [self.mqttConversationDelegate syncCall: alMessage];
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
+            [dict setObject:alMessage.message forKey:@"alertValue"];
+            [dict setObject:[NSNumber numberWithBool:NO] forKey:@"updateUI"];
+
+            if(!assistant.isChatViewOnTop){
+                NSLog(@" our notification called for mqtt....");
+                [assistant assist:alMessage.contactIds and:dict ofUser:alMessage.contactIds];
+            }
+            else{
+                [self.alSyncCallService syncCall: alMessage];
+                //Todo: split backend logic and ui logic between synccallservice and delegate
+                [self.mqttConversationDelegate syncCall: alMessage];
+            }
+            
         } else if ([type isEqualToString:@"APPLOZIC_10"]) {
             NSString *contactId = [theMessageDict objectForKey:@"message"];
             [self.alSyncCallService updateDeliveryStatusForContact: contactId];

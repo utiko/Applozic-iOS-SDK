@@ -8,6 +8,13 @@
 #import "ALUtilityClass.h"
 #import "ALConstant.h"
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "ALChatViewController.h"
+#import "ALAppLocalNotifications.h"
+#import <QuartzCore/QuartzCore.h>
+#import "TSMessage.h"
+#import "TSMessageView.h"
+#import "ALPushAssist.h"
+#import "ALAppLocalNotifications.h"
 
 
 @implementation ALUtilityClass
@@ -203,31 +210,162 @@
     }];
 }
 
-+(void)displayNotification:(NSString *)toastMessage delegate:(id)delegate
+
+//        NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+//        attachment.image = [UIImage imageNamed:@"online_show.png"];
+//        attachment.bounds=CGRectMake(0.0, 0.0, attachment.image.size.width, attachment.image.size.height);
+//        NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
+//        NSLog(@":::Toast Message::: %@",toastMessage);
+//        NSMutableAttributedString *myString= [[NSMutableAttributedString alloc] initWithString:toastMessage];
+//        [myString appendAttributedString:attachmentString];
+//        toastView.attributedText=myString;
+//        toastView.attributedText =[[NSAttributedString alloc] initWithString:toastMessage];
+//        [NSString stringWithFormat:@"%@",toastMessage];
+
+
+
++(void)thirdDisplayNotificationTS:(NSString *)toastMessage delegate:(id)delegate{
+    
+    ALPushAssist* top=[[ALPushAssist alloc] init];
+//
+//    [TSMessage setDefaultViewController:top.topViewController];
+//    [TSMessage showNotificationWithTitle:@"Applozic" subtitle:toastMessage type:TSMessageNotificationTypeMessage];
+//    
+//    [TSMessage showNotificationInViewController:top.topViewController title:@"Applozic" subtitle:toastMessage type:TSMessageNotificationTypeMessage duration:0.5 canBeDismissedByUser:YES];
+    UIImage* img=[[UIImage alloc] init];
+    img=[UIImage imageNamed:@"online_show.png"];
+    
+    [TSMessage showNotificationInViewController:top.topViewController title:@"Applozic" subtitle:toastMessage image:img type:TSMessageNotificationTypeMessage duration:2.5 callback:^(void){
+       
+        ALAppLocalNotifications* launch=[[ALAppLocalNotifications alloc] init];
+        //for Individual Chat Conversation Opening...
+        [launch thirdPartyNotificationTap:nil];
+    
+        
+    }buttonTitle:@"Button" buttonCallback:nil atPosition:TSMessageNotificationPositionTop canBeDismissedByUser:YES];
+}
+
+
+
+
++(void)thirdDisplayNotification:(NSString *)toastMessage delegate:(id)delegate
 {
+    
+    // For 3rd Party Notification Show.....
     [[NSOperationQueue mainQueue] addOperationWithBlock:^ {
+        
         UIWindow * keyWindow = [[UIApplication sharedApplication] keyWindow];
+        keyWindow.opaque=NO;
+        
         UILabel *toastView = [[UILabel alloc] init];
+
+        
         toastView.text = toastMessage;
         toastView.backgroundColor = [UIColor grayColor];
+//        toastView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"BlueNotify.png"]];
+        toastView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.9];
         toastView.textColor = [UIColor whiteColor];
         toastView.textAlignment = NSTextAlignmentCenter;
-        toastView.frame = CGRectMake(0.0, 0.0, keyWindow.frame.size.width, 75.00);
+        toastView.frame = CGRectMake(0.0, -75.00, keyWindow.frame.size.width, 75.00);
         toastView.layer.cornerRadius = 0;
         toastView.userInteractionEnabled = YES;
+        toastView.font=[UIFont boldSystemFontOfSize:16];
+        
+        UIImageView* dp=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"online_show.png"]];
+        [dp setFrame:CGRectMake(10, 10, 20, 20)];
+//        [dp setFrame:CGRectMake(0.0, 0.0, dp.frame.size.width, dp.frame.size.height)];
+        dp.layer.cornerRadius=dp.layer.frame.size.width/2;
+        dp.clipsToBounds=YES;
+        [toastView addSubview:dp];
+        [toastView bringSubviewToFront:dp];
+
         UITapGestureRecognizer *tapGesture =
-        [[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(handleNotification:)];
+        [[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(thirdPartyNotificationTap:)];
         [toastView addGestureRecognizer:tapGesture];
 
         [keyWindow addSubview:toastView];
         [keyWindow bringSubviewToFront:toastView];
-        //Timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(TimerCount) userInfo:nil repeats: NO];
+    
+//      [keyWindow bringSubviewToFront:dp];
 
+        //Timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(TimerCount) userInfo:nil repeats: NO];
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            // set new position of label which it will animate to
+            toastView.frame = CGRectMake(0.0, 0.0, keyWindow.frame.size.width, 75.00);
+        }];
         
         //Action Event
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.25  * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-            [toastView removeFromSuperview];});
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0  * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+          
+            [UIView animateWithDuration:0.5 animations:^{
+                toastView.frame = CGRectMake(0.0, -75.00, keyWindow.frame.size.width, 75.00);
+            }];
+//            [toastView removeFromSuperview];
+        });
+
     }];
+}
+
+
++(void)localNotification:(NSString *)toastMessage{
+    UILocalNotification *notification = [[UILocalNotification alloc] init];
+    notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:7];
+    notification.alertBody = toastMessage;
+    notification.timeZone = [NSTimeZone defaultTimeZone];
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    notification.applicationIconBadgeNumber =0;
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+}
+
++(void)newDisplayNotificaiton:(NSString *)toastMessage delegate:(id)delegate
+{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^ {
+        
+        UIWindow * keyWindow = [[UIApplication sharedApplication] keyWindow];
+        
+        UIView* toastView=[[UIView alloc] init];
+        toastView.frame=CGRectMake(0.0, 0.0, keyWindow.frame.size.width, 102.00);
+        toastView.userInteractionEnabled = YES;
+        toastView.layer.cornerRadius=0;
+        [toastView setBackgroundColor:[UIColor grayColor]];
+        
+        UILabel* message=[[UILabel alloc] init];
+        message.text=toastMessage;
+        message.backgroundColor=[UIColor clearColor];
+        message.font=[UIFont boldSystemFontOfSize:16];
+        message.userInteractionEnabled=YES;
+        message.textColor=[UIColor whiteColor];
+        [message drawTextInRect:CGRectMake(93, 8, 113, 36)];
+        
+        
+        
+        UIImageView* dpIcon=[[UIImageView alloc] init];
+        dpIcon.image=[UIImage imageNamed:@"online_show.png"];
+        [dpIcon setFrame:CGRectMake(28, 14, 42, 42)];
+        dpIcon.layer.cornerRadius=dpIcon.frame.size.height/2;
+        dpIcon.clipsToBounds=YES;
+        
+        
+        UITapGestureRecognizer *tapGesture =
+        [[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(thirdPartyNotificationTap:)];
+        [message addGestureRecognizer:tapGesture];
+        [toastView addGestureRecognizer:tapGesture];
+        
+        [toastView addSubview:dpIcon];
+        [toastView addSubview:message];
+        [toastView bringSubviewToFront:dpIcon];
+        [toastView bringSubviewToFront:message];
+    
+
+        [keyWindow addSubview:toastView];
+        [keyWindow bringSubviewToFront:toastView];
+        
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0  * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [toastView removeFromSuperview];});
+    }];
+
 }
 
 +(NSString *)getFileNameWithCurrentTimeStamp{

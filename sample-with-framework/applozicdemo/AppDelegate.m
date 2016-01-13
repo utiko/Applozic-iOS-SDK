@@ -53,10 +53,10 @@
             }
         }
     }
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(contextChanged:)
-//                                                 name:@"pushNotification"
-//                                               object:nil];
+    
+    ALAppLocalNotifications *localNotification = [ALAppLocalNotifications appLocalNotificationHandler];
+    [localNotification dataConnectionNotificationHandler];
+    
     return YES;
 }
 //-(void)contextChanged:(NSNotification*)notif{

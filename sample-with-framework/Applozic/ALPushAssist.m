@@ -1,4 +1,4 @@
- //
+//
 //  ALPushAssist.m
 //  Applozic
 //
@@ -14,52 +14,30 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALChatViewController.h"
 #import "ALMessagesViewController.h"
+#import "ALAppLocalNotifications.h"
 
 
 @implementation ALPushAssist
 
+-(void)assist:(NSString*)notiMsg and :(NSMutableDictionary*)dict ofUser:(NSString*)userId{
 
--(void)notificaitionShow{
-//    [[[UIApplication sharedApplication] keyWindow] addSubview:someView];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(contextP)
-                                                 name:@"pushNotification"
-                                               object:nil];
+    if (!self.isChatViewOnTop) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"showNotificationAndLaunchChat"
+                                                             object:notiMsg
+                                                           userInfo:dict];
+    }
+
 }
 
-
--(void)contextP:(NSNotification*)notif{
-    ALChatViewController* obj=[[ALChatViewController alloc] init];
-    [obj individualNotificationhandler:notif];
-}
 -(void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:@"pushNotification"];
+    [[NSNotificationCenter defaultCenter] removeObserver:@"showNotificationAndLaunchChat"];
 }
 
 
--(void)assist{
-
-   
-    NSLog(@"Top View>>>> %@",self.topViewController.title);
-
-    if ([self.topViewController isKindOfClass:[ALMessagesViewController class]]||[self.topViewController isKindOfClass:[ALChatViewController class]]) {
-        //flag= True  ....continue as normal
-        NSLog(@"TRUEEE");
-    }
-    else {
-        //flag= False... Go to the DemoLauncher... FROM the Current View.
-        NSLog(@"FALSEEE");
-        self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:@"applozic-sample-app"];
-
-            //User is already registered ..directly launch the chat...
-        if([ALUserDefaultsHandler getDeviceKeyString]){
-        //                NSString * title = our3.title? our3.title: @"< Back";
-        [self.chatLauncher launchIndividualChat:@"nayauser" andViewControllerObject:self.topViewController andWithText:nil ];
-        }
-    
-    }
-
+-(BOOL) isChatViewOnTop{
+    return ( [self.topViewController isKindOfClass:[ALMessagesViewController class]]||[self.topViewController isKindOfClass:[ALChatViewController class]]);
 }
+
 - (UIViewController*)topViewController {
     return [self topViewControllerWithRootViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
 }
