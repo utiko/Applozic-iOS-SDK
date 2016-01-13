@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface LaunchChatFromSimpleViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UIButton *launchChatList;
 
+-(void)whenPush;
 @end

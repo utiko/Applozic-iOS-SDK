@@ -60,7 +60,7 @@
 // Constants
 
 // IBOutlet
-@property (weak, nonatomic) IBOutlet UITableView *mTableView;
+//@property (weak, nonatomic) IBOutlet UITableView *mTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *mTableViewTopConstraint;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mActivityIndicator;
 
@@ -73,9 +73,10 @@
 @property (strong, nonatomic) UILabel *emptyConversationText;
 @property (strong, nonatomic) UILabel *dataAvailablityLabel;
 @property (strong, nonatomic) NSNumber *channelKey;
+@property(strong, nonatomic) ALMQTTConversationService *alMqttConversationService;
 @end
 
-// $$$$$$$$$$$$$$$$$A Class Extension for solving Constraints Issues.$$$$$$$$$$$$$$$$$$$$
+// $$$$$$$$$$$$$$$$$$ Class Extension for solving Constraints Issues.$$$$$$$$$$$$$$$$$$$$
 @interface NSLayoutConstraint (Description)
 
 @end
@@ -91,7 +92,8 @@
 
 @implementation ALMessagesViewController
 
-ALMQTTConversationService *alMqttConversationService;
+
+
 
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - View lifecycle
@@ -112,11 +114,11 @@ ALMQTTConversationService *alMqttConversationService;
     [dBService getMessages];
     
     self.unreadCount = [[NSArray alloc] init];
-    alMqttConversationService = [ALMQTTConversationService sharedInstance];
-    alMqttConversationService.mqttConversationDelegate = self;
-    
+    _alMqttConversationService = [ALMQTTConversationService sharedInstance];
+    _alMqttConversationService.mqttConversationDelegate = self;
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        [alMqttConversationService subscribeToConversation];
+        [_alMqttConversationService subscribeToConversation];
     });
     
     self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 15 + self.view.frame.size.width/8, self.view.frame.origin.y + self.view.frame.size.height/2, 250, 30)];
@@ -135,10 +137,10 @@ ALMQTTConversationService *alMqttConversationService;
 
 -(void) viewDidDisappear:(BOOL)animated
 {
-    //    dispatch_async(dispatch_get_main_queue(), ^{
-    //        [alMqttConversationService unsubscribeToConversation];
-    //    });
-    
+    NSLog(@"Unsubscribing mqtt from ALMessageVC");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_alMqttConversationService unsubscribeToConversation];
+        });
 }
 
 -(void)dropShadowInNavigationBar
@@ -185,6 +187,8 @@ ALMQTTConversationService *alMqttConversationService;
                                              selector:@selector(callLastSeenStatusUpdate)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:[UIApplication sharedApplication]];
+    
+   // [[NSNotificationCenter defaultCenter]  removeObserver:self name:@"showNotificationAndLaunchChat" object:nil];
     
     if ([_detailChatViewController refreshMainView])
     {
@@ -259,10 +263,14 @@ ALMQTTConversationService *alMqttConversationService;
     [super viewWillDisappear:animated];
     
     // self.navigationController.navigationBar.barTintColor = self.navColor;
+    
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [_alMqttConversationService unsubscribeToConversation];
+//    });
 }
 
 - (IBAction)logout:(id)sender {
-
+    
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
@@ -427,25 +435,26 @@ ALMQTTConversationService *alMqttConversationService;
     ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];
     if([message.groupId intValue])
     {
-//            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-//            ALChannel *alChannel = [channelDBService loadChannelByKey:message.groupId];
-//                if(alChannel)
-//                {
-//                    NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
-//                    contactCell.mUserNameLabel.text = listNames[0];
-//                }
-
-            ALChannelService *channelService = [[ALChannelService alloc] init];
-            [channelService getChannelInformation:message.groupId withCompletion:^(ALChannel *alChannel) {
+        //            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+        //            ALChannel *alChannel = [channelDBService loadChannelByKey:message.groupId];
+        //                if(alChannel)
+        //                {
+        //                    NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
+        //                    contactCell.mUserNameLabel.text = listNames[0];
+        //                }
+        
+        ALChannelService *channelService = [[ALChannelService alloc] init];
+        [channelService getChannelInformation:message.groupId withCompletion:^(ALChannel *alChannel) {
             NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
             contactCell.mUserNameLabel.text = listNames[0];
         }];
         
-
+        
     }
     else
     {
         contactCell.mUserNameLabel.text = [alContact displayName];
+        
     }
     
     contactCell.mMessageLabel.text = message.message;
@@ -462,8 +471,22 @@ ALMQTTConversationService *alMqttConversationService;
     [self displayAttachmentMediaType:message andContactCell: contactCell];
     
     // here for msg dashboard profile pic
+    
     NSString *firstLetter = [[[alContact displayName] substringToIndex:1] uppercaseString];
-    nameIcon.text=firstLetter;
+    
+    NSRange whiteSpaceRange = [[alContact displayName] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
+    if (whiteSpaceRange.location != NSNotFound)
+    {
+        NSArray *listNames = [[alContact displayName] componentsSeparatedByString:@" "];
+        NSString *firstLetter = [[listNames[0] substringToIndex:1] uppercaseString];
+        NSString *lastLetter = [[listNames[1] substringToIndex:1] uppercaseString];
+        nameIcon.text = [firstLetter stringByAppendingString:lastLetter];
+    }
+    else
+    {
+        nameIcon.text = firstLetter;
+    }
+    
     
     if([message.groupId intValue])
     {
@@ -501,6 +524,8 @@ ALMQTTConversationService *alMqttConversationService;
     contactCell.mUserImageView.layer.cornerRadius = contactCell.mUserImageView.frame.size.width/2;
     contactCell.mUserImageView.layer.masksToBounds = YES;
     contactCell.mCountImageView.layer.cornerRadius = contactCell.mCountImageView.frame.size.width/2;
+
+    ///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
     
     ///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
     
@@ -535,7 +560,7 @@ ALMQTTConversationService *alMqttConversationService;
     {
         nameIcon.hidden = NO;
         NSString *firstLetter = [[alContact displayName] substringToIndex:1];
-        nameIcon.text=[firstLetter uppercaseString];
+//        nameIcon.text=[firstLetter uppercaseString];
         //         contactCell.mUserImageView.hidden=YES;
         
     }
@@ -599,7 +624,7 @@ ALMQTTConversationService *alMqttConversationService;
 }
 
 -(void)createDetailChatViewController: (NSString *) contactIds
-{
+{   NSLog(@"Creating Detail VC");
     if (!(self.detailChatViewController))
     {
         _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
@@ -701,7 +726,7 @@ ALMQTTConversationService *alMqttConversationService;
         [self.detailChatViewController syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
     } else {
         // NSLog(@"executing else part....");
-        [dBService fetchAndRefreshQuickConversation];
+        [dBService fetchAndRefreshQuickConversation];  // can be used also instead of syncCall/syncCall:blah blah
     }
 }
 
@@ -752,14 +777,16 @@ ALMQTTConversationService *alMqttConversationService;
 }
 
 -(void) mqttConnectionClosed {
-    if (_mqttRetryCount > MQTT_MAX_RETRY) {
+    
+    if (_mqttRetryCount > MQTT_MAX_RETRY || !self.getVisibleState) {
         return;
     }
     
     if([ALDataNetworkConnection checkDataNetworkAvailable])
         NSLog(@"MQTT connection closed, subscribing again: %lu", (long)_mqttRetryCount);
     dispatch_async(dispatch_get_main_queue(), ^{
-        [alMqttConversationService subscribeToConversation];
+        NSLog(@"ALMessageVC subscribing channel again....");
+        [_alMqttConversationService subscribeToConversation];
     });
     _mqttRetryCount++;
 }
@@ -800,12 +827,9 @@ ALMQTTConversationService *alMqttConversationService;
     
 }
 
-- (void)dealloc {
+- (void)dealloc{
     
-    NSLog(@"dealloc called. Unsubscribing with mqtt.");
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [alMqttConversationService unsubscribeToConversation];
-    });
+//    NSLog(@"dealloc called. Unsubscribing with mqtt.");
 }
 - (IBAction)backButtonAction:(id)sender {
     
@@ -815,5 +839,17 @@ ALMQTTConversationService *alMqttConversationService;
         [self  dismissViewControllerAnimated:YES completion:nil];
     }
     
+}
+-(BOOL)getVisibleState{
+    
+    if( (self.isViewLoaded && self.view.window) ||(_detailChatViewController && _detailChatViewController.isViewLoaded && _detailChatViewController.view.window )) {
+        // viewController is visible
+        NSLog(@"view is visible");
+        return YES;
+    }else {
+        NSLog(@"view is not visible");
+        
+        return NO;
+    }
 }
 @end

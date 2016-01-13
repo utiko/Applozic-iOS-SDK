@@ -259,7 +259,7 @@
 }
 
 +(void)setShowLoadEarlierOption:(BOOL) value forContactId:(NSString*)contactId{
-    if(!contactId){
+    if (!contactId) {
         return;
     }
     NSString *key = [ contactId stringByAppendingString:SHOW_LOAD_ERLIER_MESSAGE];

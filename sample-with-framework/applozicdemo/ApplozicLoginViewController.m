@@ -18,6 +18,7 @@
 #import <Applozic/ALChatLauncher.h>
 #import <Applozic/ALMessageDBService.h>
 #import "DemoChatManager.h"
+#import <LaunchChatFromSimpleViewController.h>
 
 @interface ApplozicLoginViewController ()
 
@@ -164,11 +165,27 @@
     [self.mActivityIndicator startAnimating];
     //ALChatManager...
     
-    DemoChatManager * demoChatManager = [[DemoChatManager alloc]init];
-    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
-  
+//    DemoChatManager * demoChatManager = [[DemoChatManager alloc]init];
+//    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
+    
+    UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic"
+                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    UIViewController *launchChat = [storyboardM instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
+    [self presentViewController:launchChat animated:YES completion:nil];
 }
 
+
++(void)fun{
+    NSLog(@"fun");
+//    ALMessagesViewController* obj=[[ALMessagesViewController alloc]init];
+//    [obj createDetailChatViewController:@"don"];
+
+    
+    LaunchChatFromSimpleViewController* obj=[[LaunchChatFromSimpleViewController alloc] init];
+    [obj.launchChatList sendActionsForControlEvents:UIControlEventTouchUpInside];
+//    [obj whenPush];
+    
+}
 //-------------------------------------------------------------------------------------------------------------------
 //     Textfield delegate methods
 //-------------------------------------------------------------------------------------------------------------------

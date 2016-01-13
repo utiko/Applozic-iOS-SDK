@@ -19,6 +19,8 @@
 
 -(void)registerUser:(ALUser * )alUser;
 
+@property(nonatomic,retain) NSString * userID;
+
 -(void)launchChat: (UIViewController *)fromViewController;
 
 -(void)launchChatForUserWithDefaultText:(NSString * )userId andFromViewController:(UIViewController*)viewController;

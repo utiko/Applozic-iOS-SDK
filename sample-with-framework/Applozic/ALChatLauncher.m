@@ -66,6 +66,9 @@
 -(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
 
 {
+    self.chatLauncherFLAG=[NSNumber numberWithInt:1];
+//    NSLog(self.chatLauncherFLAG ? @"ALCHAT Launcher is TRUE":@"ALCHAT Launcher is FALSE");
+    
     [self ALDefaultChatViewSettings];
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
@@ -78,7 +81,6 @@
     
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
-
 }
 
 -(void)launchChatList:(NSString *)title andViewControllerObject:(UIViewController *)viewController

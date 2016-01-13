@@ -39,7 +39,8 @@
 #import "ALMQTTConversationService.h"
 #import "ALContactDBService.h"
 #import "ALDataNetworkConnection.h"
-#import "ALMessageClientService.h"
+#import "ALAppLocalNotifications.h"
+#import "ALChatLauncher.h"
 
 #define MQTT_MAX_RETRY 3
 
@@ -102,7 +103,12 @@ ALMessageDBService  * dbService;
     [self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
     [self processMarkRead];
     
+//    if(self.individualLaunch){
+//        [self fetchAndRefresh:YES];
+//    }
+    
 //    [self.label setTextColor:[UIColor whiteColor]];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -118,14 +124,17 @@ ALMessageDBService  * dbService;
 //        if(@"view reload called")
  
         [self reloadView];
+        
 //        [super scrollTableViewToBottomWithAnimation:NO];
 //        if (self.refresh) {
 //            self.refresh = false;
 //        }
     }
     
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:) name:@"deliveryReport" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:)
+        name:@"deliveryReport" object:nil];
     self.mqttObject = [ALMQTTConversationService sharedInstance];
 
     
@@ -161,15 +170,18 @@ ALMessageDBService  * dbService;
     [self.sendMessageTextView resignFirstResponder];
     [self.label setHidden:YES];
     [self.typingLabel setHidden:YES];
-    if( self.individualLaunch){
-        NSLog(@"individual launch ...unsubscribeToConversation to mqtt..");
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(self.mqttObject)
+    if(self.individualLaunch){
+        NSLog(@"ALChatVC: Individual launch ...unsubscribeToConversation to mqtt..");
+//        dispatch_async(dispatch_get_main_queue(), ^{
+            if(self.mqttObject){
                 [self.mqttObject unsubscribeToConversation];
+            NSLog(@"ALChatVC: In ViewWillDisapper .. MQTTObject in ==IF== now");
+            }
             else
                 NSLog(@"mqttObject is not found...");
-        });
+//        });
     }
+    
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -1036,6 +1048,7 @@ ALMessageDBService  * dbService;
 
 -(void)individualNotificationhandler:(NSNotification *) notification
 {
+    NSLog(@" OUR Individual Notificationhandler ");
     [self setRefreshMainView:TRUE];
     // see if this view is visible or not...
     NSString * contactId = notification.object;
@@ -1057,8 +1070,9 @@ ALMessageDBService  * dbService;
     } else if (![updateUI boolValue]) {
         NSLog(@"it was in background, updateUI is false");
         self.contactIds = contactId;
-        [self reloadView];
+        
         [self fetchAndRefresh:YES];
+        [self reloadView];
     } else {
         NSLog(@"show notification as someone else thread is already opened");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
@@ -1096,17 +1110,30 @@ ALMessageDBService  * dbService;
     
 }
 
+-(void) reloadViewfor3rdParty{
+    [[self.alMessageWrapper getUpdatedMessageArray] removeAllObjects];
+    self.startIndex =0;
+    [self fetchMessageFromDB];
+    
+}
+
 -(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer{
     
     ALNotificationView * notificationView = (ALNotificationView*)gestureRecognizer.view;
+//    ALChatViewController * ob=[[ALChatViewController alloc] init];
     
     NSLog(@" got the UI label::%@" , notificationView.contactId);
     self.contactIds = notificationView.contactId;
-    [self reloadView];
-   // [self fetchAndRefresh:YES];
+    [UIView animateWithDuration:0.5 animations:^{
+        [self reloadView];
+
+    }];
+    // [self fetchAndRefresh:YES];
     [self processMarkRead];
+    [notificationView removeFromSuperview];
     
 }
+
 
 - (IBAction)loadEarlierButtonAction:(id)sender {
     [self processLoadEarlierMessages:false];
@@ -1362,6 +1389,7 @@ ALMessageDBService  * dbService;
 
 -(void) syncCall:(ALMessage *) alMessage {
     [self syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
+    NSLog(@"syncCall:alMessage  called....");
 }
 
 
@@ -1388,7 +1416,7 @@ ALMessageDBService  * dbService;
 }
 
 -(void) mqttConnectionClosed {
-    if (_mqttRetryCount > MQTT_MAX_RETRY) {
+    if (_mqttRetryCount > MQTT_MAX_RETRY|| !(self.isViewLoaded && self.view.window) ) {
         return;
     }
     

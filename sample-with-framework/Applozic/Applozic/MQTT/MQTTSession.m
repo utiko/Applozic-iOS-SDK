@@ -888,6 +888,8 @@
         [self.delegate connectionClosed:self];
     }
     
+    
+    @try{
     [self tell];
     self.synchronPub = FALSE;
     self.synchronSub = FALSE;
@@ -895,6 +897,18 @@
     self.synchronConnect = FALSE;
     self.synchronDisconnect = FALSE;
     self.selfReference = nil;
+        
+    }
+    @catch(NSException *exception){
+        NSLog(@"Exception:%@",exception);
+        //        return;
+    }
+    @finally{
+        NSLog(@"LOL");
+        return;
+    }
+    
+
 }
 
 
@@ -1477,11 +1491,22 @@
 }
 
 - (void)tell {
+    
+    if(!self.persistence){
+        NSException *exception = [NSException exceptionWithName: @"Exception!"
+                                                         reason: @"Something not so good occurred."
+                                                       userInfo: nil];
+        
+        @throw exception;
+    }
+    
     NSUInteger incoming = [self.persistence allFlowsforClientId:self.clientId
                                                    incomingFlag:YES].count;
     NSUInteger outflowing = [self.persistence allFlowsforClientId:self.clientId
                                                      incomingFlag:NO].count;
-    if ([self.delegate respondsToSelector:@selector(buffered:flowingIn:flowingOut:)]) {
+    
+
+        if ([self.delegate respondsToSelector:@selector(buffered:flowingIn:flowingOut:)]) {
         [self.delegate buffered:self
                       flowingIn:incoming
                      flowingOut:outflowing];
@@ -1545,4 +1570,29 @@
     return clientCerts;
 }
 
+- (void)testException
+{
+    if (1 == 1)
+    {
+        NSException *exception = [NSException exceptionWithName: @"Exception!"
+                                                         reason: @"Something not so good occurred."
+                                                       userInfo: nil];
+        @throw exception;
+    }
+}
+
+//-(void)handle{
+//
+//    @try{
+//        [self testException];
+//    }
+//    @catch(NSException *exception){
+//        NSLog(@"Exception:%@",exception);
+//    }
+//    
+//    @finally{
+//        NSLog(@"LOL");
+//    }
+//    
+//}
 @end

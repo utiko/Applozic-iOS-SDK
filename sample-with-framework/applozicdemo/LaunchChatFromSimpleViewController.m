@@ -8,6 +8,8 @@
 
 #import "LaunchChatFromSimpleViewController.h"
 #import  <Applozic/ALChatViewController.h>
+#import "DemoChatManager.h"
+#import "ApplozicLoginViewController.h"
 @interface LaunchChatFromSimpleViewController ()
 
 - (IBAction)mLaunchChatList:(id)sender;
@@ -20,6 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+//    [self mLaunchChatList:self];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,10 +49,19 @@
 
 - (IBAction)mLaunchChatList:(id)sender {
     
-            UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                                                 bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-            UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
-            [self presentViewController:theTabBar animated:YES completion:nil];
+//     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+//                                                                 bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+//  UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
+//            [self presentViewController:theTabBar animated:YES completion:nil];
+    
+    ALUser *user = [[ALUser alloc] init];
+    [user setUserId:@"iosdev"];
+    [user setEmailId:@""];
+    [user setPassword:@""];
+    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
+//    demoChatManager.userID = user;
+    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
+    //self is got during the first time during app launch but when notification comes then the self is not the right..causing the error..
 
 }
 
@@ -69,4 +82,14 @@
     [self presentViewController:conversationViewNavController animated:YES completion:nil];
     
 }
+
+-(void)whenPush{
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                            bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    UIViewController* theLauncg =[storyboard instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
+      UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
+    [self presentViewController:theLauncg animated:YES completion:nil];
+        [self presentViewController:theTabBar animated:YES completion:nil];
+}
+
 @end

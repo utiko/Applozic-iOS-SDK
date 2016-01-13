@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		297DE09E1C46253300C9D87E /* TSMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE09A1C46253300C9D87E /* TSMessage.h */; };
+		297DE09F1C46253300C9D87E /* TSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 297DE09B1C46253300C9D87E /* TSMessage.m */; };
+		297DE0A01C46253300C9D87E /* TSMessageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE09C1C46253300C9D87E /* TSMessageView.h */; };
+		297DE0A11C46253300C9D87E /* TSMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 297DE09D1C46253300C9D87E /* TSMessageView.m */; };
+		297DE0A31C46254C00C9D87E /* TSMessagesDefaultDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = 297DE0A21C46254C00C9D87E /* TSMessagesDefaultDesign.json */; };
+		297DE0A61C4627ED00C9D87E /* TSBlurView.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE0A41C4627ED00C9D87E /* TSBlurView.h */; };
+		297DE0A71C4627ED00C9D87E /* TSBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 297DE0A51C4627ED00C9D87E /* TSBlurView.m */; };
+		297DE0AA1C46280500C9D87E /* HexColors.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE0A81C46280500C9D87E /* HexColors.h */; };
+		297DE0AB1C46280500C9D87E /* HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 297DE0A91C46280500C9D87E /* HexColors.m */; };
+		29AD70A51C3E8955003C7DB8 /* ALPushAssist.h in Headers */ = {isa = PBXBuildFile; fileRef = 29AD70A31C3E8955003C7DB8 /* ALPushAssist.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		29AD70A61C3E8955003C7DB8 /* ALPushAssist.m in Sources */ = {isa = PBXBuildFile; fileRef = 29AD70A41C3E8955003C7DB8 /* ALPushAssist.m */; };
 		29CBF2021C0303A700BE6A20 /* ALColorUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 29CBF2001C0303A700BE6A20 /* ALColorUtility.h */; };
 		29CBF2031C0303A700BE6A20 /* ALColorUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CBF2011C0303A700BE6A20 /* ALColorUtility.m */; };
 		29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DEA3131BEDEC1F004B8085 /* ALUserService.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -242,6 +253,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		297DE09A1C46253300C9D87E /* TSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMessage.h; sourceTree = "<group>"; };
+		297DE09B1C46253300C9D87E /* TSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMessage.m; sourceTree = "<group>"; };
+		297DE09C1C46253300C9D87E /* TSMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMessageView.h; sourceTree = "<group>"; };
+		297DE09D1C46253300C9D87E /* TSMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMessageView.m; sourceTree = "<group>"; };
+		297DE0A21C46254C00C9D87E /* TSMessagesDefaultDesign.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TSMessagesDefaultDesign.json; sourceTree = "<group>"; };
+		297DE0A41C4627ED00C9D87E /* TSBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSBlurView.h; sourceTree = "<group>"; };
+		297DE0A51C4627ED00C9D87E /* TSBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSBlurView.m; sourceTree = "<group>"; };
+		297DE0A81C46280500C9D87E /* HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HexColors.h; sourceTree = "<group>"; };
+		297DE0A91C46280500C9D87E /* HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HexColors.m; sourceTree = "<group>"; };
+		29AD70A31C3E8955003C7DB8 /* ALPushAssist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALPushAssist.h; sourceTree = "<group>"; };
+		29AD70A41C3E8955003C7DB8 /* ALPushAssist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALPushAssist.m; sourceTree = "<group>"; };
 		29CBF2001C0303A700BE6A20 /* ALColorUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALColorUtility.h; sourceTree = "<group>"; };
 		29CBF2011C0303A700BE6A20 /* ALColorUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALColorUtility.m; sourceTree = "<group>"; };
 		29DEA3131BEDEC1F004B8085 /* ALUserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserService.h; sourceTree = "<group>"; };
@@ -770,6 +792,17 @@
 			children = (
 				6D6DF0C01BC5364C00EBA00F /* ALPushNotificationService.h */,
 				6D6DF08A1BC5364C00EBA00F /* ALPushNotificationService.m */,
+				29AD70A31C3E8955003C7DB8 /* ALPushAssist.h */,
+				29AD70A41C3E8955003C7DB8 /* ALPushAssist.m */,
+				297DE09A1C46253300C9D87E /* TSMessage.h */,
+				297DE09B1C46253300C9D87E /* TSMessage.m */,
+				297DE09C1C46253300C9D87E /* TSMessageView.h */,
+				297DE09D1C46253300C9D87E /* TSMessageView.m */,
+				297DE0A41C4627ED00C9D87E /* TSBlurView.h */,
+				297DE0A51C4627ED00C9D87E /* TSBlurView.m */,
+				297DE0A81C46280500C9D87E /* HexColors.h */,
+				297DE0A91C46280500C9D87E /* HexColors.m */,
+				297DE0A21C46254C00C9D87E /* TSMessagesDefaultDesign.json */,
 			);
 			name = push;
 			sourceTree = "<group>";
@@ -975,6 +1008,7 @@
 				984219251C1EDEC00016B733 /* ALSyncCallService.h in Headers */,
 				6D6DF1501BC5364C00EBA00F /* ALRegisterUserClientService.h in Headers */,
 				6D6DF1701BC5364C00EBA00F /* ALContact.h in Headers */,
+				297DE0AA1C46280500C9D87E /* HexColors.h in Headers */,
 				982F130A1C05D6050024678E /* MQTTMessage.h in Headers */,
 				6D6DF17A1BC5364C00EBA00F /* ALRegistrationResponse.h in Headers */,
 				6D6DF16D1BC5364C00EBA00F /* ALPushNotificationService.h in Headers */,
@@ -983,7 +1017,6 @@
 				6D6DF1741BC5364C00EBA00F /* ALJson.h in Headers */,
 				982F13041C05D6050024678E /* MQTTClient-Prefix.pch in Headers */,
 				6D6DF15A1BC5364C00EBA00F /* ALMessagesViewController.h in Headers */,
-				98E1AB971C08718700BE6312 /* ALMQTTConversationService.h in Headers */,
 				6D6DF1881BC5364C00EBA00F /* ALConstant.h in Headers */,
 				6D6DF1581BC5364C00EBA00F /* ALChatViewController.h in Headers */,
 				6D6DF1D31BC5364C00EBA00F /* KAProgressLabel.h in Headers */,
@@ -1026,6 +1059,7 @@
 				6DCC300D1C315AEF00F17D0E /* ALChannelDBService.h in Headers */,
 				6DCC30251C31826A00F17D0E /* ALChannelUserX.h in Headers */,
 				6DCC30211C31774C00F17D0E /* DB_CHANNEL_USER_X.h in Headers */,
+				29AD70A51C3E8955003C7DB8 /* ALPushAssist.h in Headers */,
 				6D28D3C31C1AA9AA003817C3 /* Reachability.h in Headers */,
 				6D6DF1601BC5364C00EBA00F /* ALChatCell_Image.h in Headers */,
 				6D8904291C3E7A9500B59381 /* ALAppLocalNotifications.h in Headers */,
@@ -1034,8 +1068,10 @@
 				6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */,
 				6D4763F51C3A79A7005BD5EC /* ALChannelService.h in Headers */,
 				6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */,
+				297DE0A61C4627ED00C9D87E /* TSBlurView.h in Headers */,
 				6D6DF13E1BC5364C00EBA00F /* ALConnection.h in Headers */,
 				982F130E1C05D6050024678E /* MQTTSession.h in Headers */,
+				98E1AB971C08718700BE6312 /* ALMQTTConversationService.h in Headers */,
 				6D6DF1561BC5364C00EBA00F /* ALBaseViewController.h in Headers */,
 				6D6DF1401BC5364C00EBA00F /* ALConnectionQueueHandler.h in Headers */,
 				6D6DF1841BC5364C00EBA00F /* DB_Message.h in Headers */,
@@ -1044,6 +1080,7 @@
 				6D36F2081BFF3EE3003D46D3 /* ALApplozicSettings.h in Headers */,
 				6D15F2461BEB6AE00069BE1A /* ALAttachmentController.h in Headers */,
 				982F13081C05D6050024678E /* MQTTEncoder.h in Headers */,
+				297DE09E1C46253300C9D87E /* TSMessage.h in Headers */,
 				6D95476D1BE38DFF00776652 /* ALUITextView.h in Headers */,
 				29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */,
 				6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */,
@@ -1063,6 +1100,7 @@
 				6D6DF1C21BC5364C00EBA00F /* SDWebImageOperation.h in Headers */,
 				6D6DF1B81BC5364C00EBA00F /* SDWebImageCompat.h in Headers */,
 				6D6DF1D11BC5364C00EBA00F /* UIView+WebCacheOperation.h in Headers */,
+				297DE0A01C46253300C9D87E /* TSMessageView.h in Headers */,
 				6D6DF1BA1BC5364C00EBA00F /* SDWebImageDecoder.h in Headers */,
 				6D6DF1BE1BC5364C00EBA00F /* SDWebImageDownloaderOperation.h in Headers */,
 				6D6DF1CD1BC5364C00EBA00F /* UIImageView+HighlightedWebCache.h in Headers */,
@@ -1136,6 +1174,7 @@
 				6D6DF1B11BC5364C00EBA00F /* mobicom_social_share.png in Resources */,
 				6D6DF1931BC5364C00EBA00F /* ic_action_chat.png in Resources */,
 				6D6DF19E1BC5364C00EBA00F /* ic_action_settings.png in Resources */,
+				297DE0A31C46254C00C9D87E /* TSMessagesDefaultDesign.json in Resources */,
 				6D6DF1991BC5364C00EBA00F /* ic_action_message_delivered.png in Resources */,
 				6D6DF1A41BC5364C00EBA00F /* ic_facebook.png in Resources */,
 				6D6DF1941BC5364C00EBA00F /* ic_action_edit.png in Resources */,
@@ -1205,6 +1244,7 @@
 				6D6DF17D1BC5364C00EBA00F /* ALSyncMessageFeed.m in Sources */,
 				6D9C693D1C28383B00C78219 /* ALChatLauncher.m in Sources */,
 				6D6DF1651BC5364C00EBA00F /* ALNewContactCell.m in Sources */,
+				297DE0A71C4627ED00C9D87E /* TSBlurView.m in Sources */,
 				6D6DF14D1BC5364C00EBA00F /* ALUserDefaultsHandler.m in Sources */,
 				6D6DF1C81BC5364C00EBA00F /* UIImage+GIF.m in Sources */,
 				6D89042A1C3E7A9500B59381 /* ALAppLocalNotifications.m in Sources */,
@@ -1232,9 +1272,11 @@
 				6D6DF1511BC5364C00EBA00F /* ALRegisterUserClientService.m in Sources */,
 				6D6DF1751BC5364C00EBA00F /* ALJson.m in Sources */,
 				6DCC300E1C315AEF00F17D0E /* ALChannelDBService.m in Sources */,
+				297DE09F1C46253300C9D87E /* TSMessage.m in Sources */,
 				6D6DF1691BC5364C00EBA00F /* ALLocationManager.m in Sources */,
 				982F13071C05D6050024678E /* MQTTDecoder.m in Sources */,
 				6D95476A1BE38DFF00776652 /* ALContactDBService.m in Sources */,
+				297DE0A11C46253300C9D87E /* TSMessageView.m in Sources */,
 				29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */,
 				6D15F2471BEB6AE00069BE1A /* ALAttachmentController.m in Sources */,
 				6D6DF1B91BC5364C00EBA00F /* SDWebImageCompat.m in Sources */,
@@ -1274,6 +1316,7 @@
 				982F13091C05D6050024678E /* MQTTEncoder.m in Sources */,
 				6DCC301A1C31645700F17D0E /* ALChannelInfo.m in Sources */,
 				6D6DF1791BC5364C00EBA00F /* ALMessageList.m in Sources */,
+				29AD70A61C3E8955003C7DB8 /* ALPushAssist.m in Sources */,
 				6D6DF1D01BC5364C00EBA00F /* UIImageView+WebCache.m in Sources */,
 				6D6DF13F1BC5364C00EBA00F /* ALConnection.m in Sources */,
 				6D95476E1BE38DFF00776652 /* ALUITextView.m in Sources */,
@@ -1288,6 +1331,7 @@
 				982F13131C05D6050024678E /* MQTTSSLSecurityPolicy.m in Sources */,
 				6D6DF1591BC5364C00EBA00F /* ALChatViewController.m in Sources */,
 				6DCC30221C31774C00F17D0E /* DB_CHANNEL_USER_X.m in Sources */,
+				297DE0AB1C46280500C9D87E /* HexColors.m in Sources */,
 				6D6DF1491BC5364C00EBA00F /* ALRequestHandler.m in Sources */,
 				6D6DF17B1BC5364C00EBA00F /* ALRegistrationResponse.m in Sources */,
 			);
@@ -1411,8 +1455,8 @@
 		6D6DF0861BC535C800EBA00F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1428,7 +1472,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d6d31428-5c2c-4a6f-b031-22780d1340be";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -1436,8 +1480,8 @@
 		6D6DF0871BC535C800EBA00F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1453,7 +1497,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d6d31428-5c2c-4a6f-b031-22780d1340be";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;

@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "ALChatLauncher.h"
+#import "ALChatLauncher.h"
 
 @interface ALUtilityClass : NSObject
 
@@ -26,8 +28,16 @@
 
 +(void)displayToastWithMessage:(NSString *)toastMessage;
 
-+(void)displayNotification:(NSString *)toastMessage delegate:(id)delegate;
++(void)thirdDisplayNotification:(NSString *)toastMessage delegate:(id)delegate;
+
++(void)thirdDisplayNotificationTS:(NSString *)toastMessage delegate:(id)delegate;
+
+
+
 +(NSString *)getFileNameWithCurrentTimeStamp;
 +(UIImage *)getImageFromFramworkBundle:(NSString *) UIImageName;
 
+
++(void)localNotification:(NSString *)toastMessage;
++(void)newDisplayNotificaiton:(NSString *)toastMessage delegate:(id)delegate;
 @end
