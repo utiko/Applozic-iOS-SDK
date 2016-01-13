@@ -41,6 +41,7 @@
 #import "ALDataNetworkConnection.h"
 #import "ALAppLocalNotifications.h"
 #import "ALChatLauncher.h"
+#import "ALMessageClientService.h"
 
 #define MQTT_MAX_RETRY 3
 
