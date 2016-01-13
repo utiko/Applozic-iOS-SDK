@@ -21,5 +21,7 @@
 
 -(void)displayAttachmentMediaType:(ALMessage *)message andContactCell:(ALContactCell *)contactCell;
 
+-(UIView *)setCustomBackButton:(NSString *)text;
+
 @end
 
