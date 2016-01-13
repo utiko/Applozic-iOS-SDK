@@ -149,11 +149,12 @@
     }
     else if(difference <= 7200)
     {
-        minutes = (difference - 3600)/60;
-        formattedDateStr = [NSString stringWithFormat:@"%.0f", minutes];
+       // minutes = (difference - 3600)/60;
+        //formattedDateStr = [NSString stringWithFormat:@"%.0f", minutes];
         NSString *hour = @"1h ";
-        formattedDateStr = [hour stringByAppendingString:formattedDateStr];
-        formattedDateStr = [formattedDateStr stringByAppendingString:@"m"];
+        formattedDateStr = hour;
+        //formattedDateStr = [hour stringByAppendingString:formattedDateStr];
+        //formattedDateStr = [formattedDateStr stringByAppendingString:@"m"];
     }
     else
     {
