@@ -84,7 +84,7 @@
     
     
     
-    [ALApplozicSettings setColourForNavigation:[UIColor colorWithRed:179.0/255 green:32.0/255 blue:35.0/255 alpha:1]];
+    [ALApplozicSettings setColourForNavigation:[UIColor colorWithRed:181.0/255 green:31.0/255 blue:35.0/255 alpha:1]];
     
     [ALApplozicSettings setColourForNavigationItem:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
     
