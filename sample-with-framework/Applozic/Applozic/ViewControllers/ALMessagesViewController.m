@@ -121,7 +121,7 @@ ALMQTTConversationService *alMqttConversationService;
     
     self.dataAvailablityLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tabBarController.tabBar.frame.origin.x, self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 30)];
     [self.dataAvailablityLabel setText:@"NO INTERNET CONNECTION"];
-    [self.dataAvailablityLabel setBackgroundColor:[UIColor colorWithRed:179.0/255 green:32.0/255 blue:35.0/255 alpha:1]];
+    [self.dataAvailablityLabel setBackgroundColor:[UIColor colorWithRed:219.0/255 green:68.0/255 blue:55.0/255 alpha:1]];
     [self.dataAvailablityLabel setTextAlignment:NSTextAlignmentCenter];
     [self.dataAvailablityLabel setTextColor:[UIColor whiteColor]];
     [self.view addSubview:self.dataAvailablityLabel];
