@@ -15,6 +15,7 @@
 #import "DB_FileMetaInfo.h"
 #import "ALMessageService.h"
 #import "ALContactService.h"
+#import "ALMessageClientService.h"
 
 @implementation ALMessageDBService
 
@@ -336,7 +337,8 @@
 -(void)syncConverstionDBWithCompletion:(void(^)(BOOL success , NSMutableArray * theArray)) completion
 {
     //[self.mActivityIndicator startAnimating];
-    [ALMessageService getMessagesListGroupByContactswithCompletion:^(NSMutableArray *messageArray, NSError *error) {
+    ALMessageClientService * messageClientService  = [[ALMessageClientService alloc]init];
+    [messageClientService getMessagesListGroupByContactswithCompletion:^(NSMutableArray *messageArray, NSError *error) {
       //  [self.mActivityIndicator stopAnimating];
         if (error) {
             NSLog(@"%@",error);
@@ -358,25 +360,33 @@
 {
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     // get all unique contacts
-
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     [theRequest setResultType:NSDictionaryResultType];
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
-    [theRequest setPropertiesToFetch:@[@"contactId"]];
+    [theRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"contactId", @"groupId", nil]];
     [theRequest setReturnsDistinctResults:YES];
-
+    
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
     // get latest record
     NSMutableArray *messagesArray = [NSMutableArray new];
     for (NSDictionary * theDictionary in theArray) {
         NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-        [theRequest setPredicate:[NSPredicate predicateWithFormat:@"contactId = %@",theDictionary[@"contactId"]]];
+        
+        if([theDictionary[@"groupId"] intValue])
+        {
+            [theRequest setPredicate:[NSPredicate predicateWithFormat:@"groupId = %@",theDictionary[@"groupId"]]];
+        }
+        else
+        {
+            [theRequest setPredicate:[NSPredicate predicateWithFormat:@"contactId = %@",theDictionary[@"contactId"]]];
+        }
+        
         [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
         [theRequest setFetchLimit:1];
-
+        
         NSArray * theArray1 =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
         DB_Message * theMessageEntity = theArray1.firstObject;
-
+        
         ALMessage * theMessage = [self createMessageEntity:theMessageEntity];
         [messagesArray addObject:theMessage];
     }

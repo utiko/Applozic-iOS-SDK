@@ -119,9 +119,10 @@ ALMessageDBService  * dbService;
     self.showloadEarlierAction = TRUE;
     self.typingLabel.hidden = YES;
     
-    if(self.refresh || ([self.alMessageWrapper getUpdatedMessageArray] && [self.alMessageWrapper getUpdatedMessageArray].count == 0) ||
-       !([self.alMessageWrapper getUpdatedMessageArray] && [[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds] isEqualToString:self.contactIds])
-       ) {
+    if(self.refresh || ([self.alMessageWrapper getUpdatedMessageArray] && [self.alMessageWrapper getUpdatedMessageArray].count == 0) || (((!([self.alMessageWrapper getUpdatedMessageArray] && [[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds] isEqualToString:self.contactIds])))||([[self.alMessageWrapper getUpdatedMessageArray][0] groupId] != self.channelKey)))
+    {
+//        if(@"view reload called")
+ 
         [self reloadView];
         
 //        [super scrollTableViewToBottomWithAnimation:NO];
@@ -213,7 +214,8 @@ ALMessageDBService  * dbService;
         ALChannel *alChannel = [channelDBService loadChannelByKey:self.channelKey];
         if(alChannel)
         {
-            self.navigationItem.title = [alChannel name];
+            NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
+            self.navigationItem.title = listNames[0];
         }
     }
     else
@@ -606,13 +608,7 @@ ALMessageDBService  * dbService;
 
 -(void) deleteMessageFromView:(ALMessage *) message {
     
-    [ALMessageService deleteMessage:message.key andContactId:self.contactIds withCompletion:^(NSString* string,NSError* error){
-        if(!error ){
-            NSLog(@"No Error: deleteMessageFromView");
-        }
-    }];
-    
-    //[[self.alMessageWrapper getUpdatedMessageArray] removeObject:message];
+    NSLog(@"  deleteMessageFromView in controller...:: ");
     [self.alMessageWrapper removeALMessageFromMessageArray:message];
     
     [UIView animateWithDuration:1.5 animations:^{
@@ -838,7 +834,8 @@ ALMessageDBService  * dbService;
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
         
         // post image
-        [ALMessageService sendPhotoForUserInfo:userInfo withCompletion:^(NSString *message, NSError *error) {
+        ALMessageClientService * clientService  = [[ALMessageClientService alloc]init];
+        [clientService sendPhotoForUserInfo:userInfo withCompletion:^(NSString *message, NSError *error) {
             if (error) {
                 NSLog(@"%@",error);
                 imageCell.progresLabel.alpha = 0;
@@ -1220,7 +1217,7 @@ ALMessageDBService  * dbService;
 
 -(void)serverCallForLastSeen
 {
-    [ALMessageService userDetailServerCall:self.contactIds withCompletion:^(ALUserDetail *alUserDetail){
+    [ALUserService userDetailServerCall:self.contactIds withCompletion:^(ALUserDetail *alUserDetail){
         if(alUserDetail)
         {
             [[[ALContactDBService alloc]init] updateUserDetail:alUserDetail];
@@ -1257,7 +1254,12 @@ ALMessageDBService  * dbService;
     
     double value = [tempString doubleValue];
     
-    if(value > 0)
+    if([self.channelKey intValue])
+    {
+        ALChannelDBService *ob = [[ALChannelDBService alloc] init];
+        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
+    }
+    else if(value > 0)
     {
         NSDate *date  = [[NSDate alloc] initWithTimeIntervalSince1970:value/1000];
         
@@ -1331,11 +1333,6 @@ ALMessageDBService  * dbService;
             [self.label setText:str];
         }
         
-    }
-    else if([self.channelKey intValue])
-    {
-        ALChannelDBService *ob = [[ALChannelDBService alloc] init];
-        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
     }
     else
     {

@@ -24,84 +24,23 @@
 
 @implementation ALMessageService
 
+
 +(void) processLatestMessagesGroupByContact {
-    /*ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
-     [ almessageDBService fetchAndRefreshFromServer];*/
-    [self getLatestMessageGroupByContactWithCompletion:^(ALMessageList *alMessageList, NSError *error) {
-        if (error) {
-            return;
+    
+    ALMessageClientService * almessageClientService = [[ALMessageClientService alloc]init];
+    
+    [ almessageClientService getLatestMessageGroupByContactWithCompletion:^( ALMessageList *alMessageList, NSError *error){
+        if(alMessageList){
+            ALMessageDBService *alMessageDBService = [[ALMessageDBService alloc] init];
+            [alMessageDBService addMessageList:alMessageList.messageList];
+            ALContactDBService *alContactDBService = [[ALContactDBService alloc] init];
+            [alContactDBService addUserDetails:alMessageList.userDetailsList];
+            [ALUserDefaultsHandler setBoolForKey_isConversationDbSynced:YES];
         }
-        ALMessageDBService *alMessageDBService = [[ALMessageDBService alloc] init];
-        [alMessageDBService addMessageList:alMessageList.messageList];
-        ALContactDBService *alContactDBService = [[ALContactDBService alloc] init];
-        [alContactDBService addUserDetails:alMessageList.userDetailsList];
-        
-        // set yes to userdefaults
-        [ALUserDefaultsHandler setBoolForKey_isConversationDbSynced:YES];
-        
-        
     }];
+
 }
 
-
-+(void) getLatestMessageGroupByContactWithCompletion:(void(^)(ALMessageList * alMessageList, NSError * error)) completion {
-    
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
-    
-    NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@",@"0"];
-    
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
-    
-    [ALResponseHandler processRequest:theRequest andTag:@"GET MESSAGES GROUP BY CONTACT" WithCompletionHandler:^(id theJson, NSError *theError) {
-        
-        if (theError) {
-            
-            completion(nil,theError);
-            
-            return ;
-        }
-        
-        ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
-        
-        completion(messageListResponse,nil);
-        // NSLog(@"message list response THE JSON %@",theJson);
-        //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
-    }];
-    
-}
-
-+(void) getMessagesListGroupByContactswithCompletion:(void(^)(NSMutableArray * messages, NSError * error)) completion {
-    
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
-    
-    NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@",@"0"];
-    
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
-    
-    [ALResponseHandler processRequest:theRequest andTag:@"GET MESSAGES GROUP BY CONTACT" WithCompletionHandler:^(id theJson, NSError *theError) {
-        
-        if (theError) {
-            
-            completion(nil,theError);
-            
-            return ;
-        }
-        
-        ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
-        
-        completion(messageListResponse.messageList,nil);
-        NSLog(@"getMessagesListGroupByContactswithCompletion message list response THE JSON %@",theJson);
-        //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
-        
-        //====== NEED CHECK  DB QUERY AND CALLING METHODS
-        
-        ALChannelService *channelService = [[ALChannelService alloc] init];
-        [channelService callForChannelServiceForDBInsertion:theJson];
-        
-        //=========
-    }];
-    
-}
 
 +(void)getMessageListForUser:(NSString *)userId startIndex:(NSString *)startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSNumber *)endTimeStamp withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion
 {
@@ -110,42 +49,21 @@
     NSMutableArray * messageList = [almessageDBService getMessageListForContactWithCreatedAt:userId withCreatedAt:endTimeStamp];
     //Found Record in DB itself ...if not make call to server
     if(messageList.count > 0 && ![ALUserDefaultsHandler isServerCallDoneForMSGList:userId]){
-        NSLog(@"####message list is coming from DB %ld", (unsigned long)messageList.count);
+        NSLog(@"message list is coming from DB %ld", (unsigned long)messageList.count);
         completion(messageList, nil, nil);
         return;
     }else {
-        NSLog(@"####message list is coming from DB %ld", (unsigned long)messageList.count);
+        NSLog(@"message list is coming from DB %ld", (unsigned long)messageList.count);
     }
+    ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc ]init ];
     
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
-    NSString * theParamString;
-    if(endTimeStamp==nil){
-        theParamString = [NSString stringWithFormat:@"userId=%@&startIndex=%@&pageSize=%@",userId,startIndex,pageSize];
-    }else{
-        theParamString = [NSString stringWithFormat:@"userId=%@&startIndex=%@&pageSize=%@&endTime=%@",userId,startIndex,pageSize,endTimeStamp.stringValue];
-    }
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
-    
-    [ALResponseHandler processRequest:theRequest andTag:@"GET MESSAGES LIST FOR USERID" WithCompletionHandler:^(id theJson, NSError *theError) {
-        
-        if (theError) {
-            completion(nil, theError, nil);
-            return ;
-        }
-        
-        [ALUserDefaultsHandler setServerCallDoneForMSGList:true forContactId:userId];
-        ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson];
-        ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
-        [almessageDBService addMessageList:messageListResponse.messageList];
-        completion(messageListResponse.messageList, nil, messageListResponse.userDetailsList);
-        
-        NSLog(@"getMessageListForUser message list response THE JSON %@",theJson);
- 
+    [alMessageClientService getMessageListForUser:userId startIndex:startIndex pageSize:pageSize endTimeInTimeStamp:endTimeStamp withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
+
+        completion(messages, error,userDetailArray);
     }];
     
 }
 
-//(ALMessage *)userInfo withCompletion:(void(^)(NSString * message, NSError * error)) completion
 
 +(void) sendMessages:(ALMessage *)alMessage withCompletion:(void(^)(NSString * message, NSError * error)) completion {
     
@@ -164,116 +82,71 @@
         dbMessage =(DB_Message*)[dbService getMeesageById:alMessage.msgDBObjectId error:&theError];
     }
     //convert to dic
-    NSDictionary * userInfo = [alMessage dictionary ];
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/send",KBASE_URL];
-    NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
-    
-    NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
-    
-    [ALResponseHandler processRequest:theRequest andTag:@"SEND MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
-        
-        if (theError) {
+    NSDictionary * messageDict = [alMessage dictionary ];
+    ALMessageClientService * alMessageClientService = [[ALMessageClientService alloc]init];
+    [ alMessageClientService sendMessage:messageDict WithCompletionHandler:^(id theJson, NSError *theError) {
+        NSString *statusStr=nil;
+        if(!theError){
+            statusStr = (NSString*)theJson;
+            //TODO: move to db layer
+            ALSendMessageResponse  *response = [[ALSendMessageResponse alloc] initWithJSONString:statusStr ];
             
-            completion(nil,theError);
+            ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+            dbMessage.isSent = [NSNumber numberWithBool:YES];
+            dbMessage.key = response.messageKey;
+            dbMessage.inProgress = [NSNumber numberWithBool:NO];
+            dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
             
-            return ;
+            dbMessage.createdAt =response.createdAt;
+            alMessage.key = dbMessage.key;
+            dbMessage.sentToServer=[NSNumber numberWithBool:YES];
+            dbMessage.isRead=[NSNumber numberWithBool:YES];
+            
+            alMessage.key = dbMessage.key;
+            alMessage.sentToServer= dbMessage.sentToServer.boolValue;
+            alMessage.inProgress=dbMessage.inProgress.boolValue;
+            alMessage.isUploadFailed=dbMessage.isUploadFailed.boolValue;
+            alMessage.sent = dbMessage.isSent.boolValue;
+            
+            [theDBHandler.managedObjectContext save:nil];
+        }else{
+            NSLog(@" got error while sending messages");
         }
-        
-        NSString *statusStr = (NSString *)theJson;
-        //TODO: move to db layer
-        ALSendMessageResponse  *response = [[ALSendMessageResponse alloc] initWithJSONString:statusStr ];
-        
-        ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-        dbMessage.isSent = [NSNumber numberWithBool:YES];
-        dbMessage.key = response.messageKey;
-        dbMessage.inProgress = [NSNumber numberWithBool:NO];
-        dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
-        
-        dbMessage.createdAt =response.createdAt;
-        alMessage.key = dbMessage.key;
-        dbMessage.sentToServer=[NSNumber numberWithBool:YES];
-        dbMessage.isRead=[NSNumber numberWithBool:YES];
-        
-        alMessage.key = dbMessage.key;
-        alMessage.sentToServer= dbMessage.sentToServer.boolValue;
-        alMessage.inProgress=dbMessage.inProgress.boolValue;
-        alMessage.isUploadFailed=dbMessage.isUploadFailed.boolValue;
-        alMessage.sent = dbMessage.isSent.boolValue;
-        
-        [theDBHandler.managedObjectContext save:nil];
-        completion(statusStr,nil);
-        
+        completion(statusStr,theError);
     }];
     
 }
 
-+(void) sendPhotoForUserInfo:(NSDictionary *)userInfo withCompletion:(void(^)(NSString * message, NSError *error)) completion {
-    
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/aws/file/url",KBASE_FILE_URL];
-    
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:nil];
-    
-    [ALResponseHandler processRequest:theRequest andTag:@"CREATE FILE URL" WithCompletionHandler:^(id theJson, NSError *theError) {
-        
-        if (theError) {
-            
-            completion(nil,theError);
-            
-            return ;
-        }
-        
-        NSString *imagePostingURL = (NSString *)theJson;
-        
-        completion(imagePostingURL,nil);
-        
-    }];
-}
 
 
 +(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( NSMutableArray *, NSError *))completion{
-    @synchronized(self) {
-        NSString *lastSyncTime =[ALUserDefaultsHandler
-                                 getLastSyncTime ];
-        if ( lastSyncTime == NULL ){
-            lastSyncTime = @"0";
-        }
-        NSLog(@"last syncTime in call %@", lastSyncTime);
-        NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/sync",KBASE_URL];
+    ALMessageClientService * alMessageClientService = [[ALMessageClientService alloc]init];
+    [ alMessageClientService getLatestMessageForUser:deviceKeyString withCompletion:^(ALSyncMessageFeed * syncResponse , NSError *error) {
+        NSMutableArray *messageArray = nil;
         
-        NSString * theParamString = [NSString stringWithFormat:@"lastSyncTime=%@",lastSyncTime];
-        
-        NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
-        
-        [ALResponseHandler processRequest:theRequest andTag:@"SYNC LATEST MESSAGE URL" WithCompletionHandler:^(id theJson, NSError *theError) {
-            
-            if (theError) {
-                
-                completion(nil,theError);
-                
-                return ;
-            }
-            NSLog(@"theJson :: : %@", theJson);
-            NSMutableArray *messageArray = [[NSMutableArray alloc] init];
-            ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
-            NSLog(@"count is: %lu", (unsigned long)syncResponse.messagesList.count);
-            if(syncResponse.messagesList.count >0 ){
-                ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-                messageArray = [dbService addMessageList:syncResponse.messagesList];
-                // [ALUserService processContactFromMessages:syncResponse.messageList];
-            }
-            
+        if(!error){
             if (syncResponse.deliveredMessageKeys.count > 0) {
                 [ALMessageService updateDeliveredReport: syncResponse.deliveredMessageKeys];
             }
+            if(syncResponse.messagesList.count >0 ){
+                messageArray = [[NSMutableArray alloc] init];
+                ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+                messageArray = [dbService addMessageList:syncResponse.messagesList];
+            }
+            completion(messageArray,error);
+            
             [ALUserDefaultsHandler setLastSyncTime:syncResponse.lastSyncTime];
             ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
             [messageClientService updateDeliveryReports:syncResponse.messagesList];
-            completion(messageArray, nil);
-        }];
+        }else{
+            completion(messageArray,error);
+        }
         
-    }
+    }];
+    
     
 }
+
 
 +(void) updateDeliveredReport: (NSArray *) deliveredMessageKeys {
     for (id key in deliveredMessageKeys) {
@@ -283,47 +156,35 @@
 }
 
 +(void )deleteMessage:( NSString * ) keyString andContactId:( NSString * )contactId withCompletion:(void (^)(NSString *, NSError *))completion{
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delete",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"key=%@&userId=%@",keyString,contactId];
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
-    [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
-        
-        if (theError) {
-            
-            completion(nil,theError);
-            
-            return ;
-        }
-        else{
-            //delete sucessfull/reponse
-            NSLog(@"Response of delete: %@", (NSString *)theJson);
-            completion((NSString *)theJson,nil);
-        }
-    }];
+    //db
+    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+    [dbService deleteMessageByKey:keyString];
+    
+    ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc]init];
+    [alMessageClientService deleteMessage:keyString andContactId:contactId
+                           withCompletion:^(NSString * response, NSError *error) {
+                               completion(response,error);
+                           }];
+    
+    
 }
 
 
 +(void)deleteMessageThread:( NSString * ) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delete/conversation",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
     
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
-    [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
-        if (theError) {
-            completion(nil,theError);
-            NSLog(@"theError");
-            return ;
-        }else{
-            //delete sucessfull
-            NSLog(@"sucessfully deleted !");
-            ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-            [dbService deleteAllMessagesByContact:contactId];
-        }
-        NSLog(@"Response of delete: %@", (NSString *)theJson);
-        completion((NSString *)theJson,nil);
-    }];
+    ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc]init];
+    [alMessageClientService deleteMessageThread:contactId
+                                 withCompletion:^(NSString * response, NSError *error) {
+                                     if (!error){
+                                         //delete sucessfull
+                                         NSLog(@"sucessfully deleted !");
+                                         ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+                                         [dbService deleteAllMessagesByContact:contactId];
+                                     }
+                                     completion(response,error);
+                                 }];
 }
 
 
@@ -383,6 +244,8 @@
     }
     
 }
+
+
 +(void) processImageDownloadforMessage:(ALMessage *) message withdelegate:(id)delegate{
     NSString * urlString = [NSString stringWithFormat:@"%@/rest/ws/aws/file/%@",KBASE_FILE_URL,message.fileMeta.blobKey];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:urlString paramString:nil];
@@ -415,57 +278,17 @@
     
     NSUInteger count = [dbService markConversationAsRead:contactId];
     NSLog(@"Found %ld messages for marking as read.", (unsigned long)count);
-    
+
     if(count == 0)
     {
         return;
     }
-    
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/read/conversation",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
-    
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
-    
-    [ALResponseHandler processRequest:theRequest andTag:@"MARK_CONVERSATION_AS_READ" WithCompletionHandler:^(id theJson, NSError *theError) {
-        if (theError) {
-            completion(nil,theError);
-            NSLog(@"theError");
-            return ;
-        }else{
-            //read sucessfull
-            NSLog(@"sucessfully marked read !");
-        }
-        NSLog(@"Response: %@", (NSString *)theJson);
-        completion((NSString *)theJson,nil);
+    ALMessageClientService * alMessageClientService  = [[ALMessageClientService alloc]init];
+    [alMessageClientService markConversationAsRead:contactId withCompletion:^(NSString *response, NSError * error) {
+        completion(response,error);
     }];
+    
 }
 
-+(void)userDetailServerCall:(NSString *)contactId withCompletion:(void(^)(ALUserDetail *))completionMark
-{
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/detail",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"userIds=%@",contactId];
-    
-    NSLog(@"calling last seen at api for userIds: %@", contactId);
-    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
-    
-    [ALResponseHandler processRequest:theRequest andTag:@"USER_LAST_SEEN" WithCompletionHandler:^(id theJson, NSError *theError) {
-        if (theError)
-        {
-            NSLog(@"ERROR IN LAST SEEN %@", theError);
-        }
-        else
-        {
-            //NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
-            ALUserDetail *userDetailObject = [[ALUserDetail alloc] initWithJSONString:theJson];
-            // [userDetailObject userDetail];
-            completionMark(userDetailObject);
-            
-        }
-        
-        
-    }];
-    
-    
-}
 
 @end
