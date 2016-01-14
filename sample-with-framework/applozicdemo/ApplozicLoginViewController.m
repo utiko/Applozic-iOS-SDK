@@ -59,7 +59,7 @@
     
     [ALDataNetworkConnection checkDataNetworkAvailable];
     [self.mActivityIndicator stopAnimating];
-     [self setTitle:@"< Login Screen"];
+     [self setTitle:@"Login Screen"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -166,9 +166,9 @@
     [user setPassword:[self.passwordField text]];
     [self.mActivityIndicator startAnimating];
     //mbChatManger...
-    [mbChatManager launchChatForUser:user.userId fromViewController:self];
+//    [mbChatManager launchChatForUser:user.userId fromViewController:self];
     //individual chat
-//    [mbChatManager launchIndividualChat:user.userId andViewControllerObject:self andWithText:@"Hello, I am interested in your  Camorta Island property."];
+    [mbChatManager launchIndividualChat:user.userId andViewControllerObject:self andWithText:@"Hello, I am interested in your  Camorta Island property."];
     
 }
 

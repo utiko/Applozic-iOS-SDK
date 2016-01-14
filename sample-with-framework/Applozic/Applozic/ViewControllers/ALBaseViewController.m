@@ -286,7 +286,14 @@
     [imageView setTintColor:[UIColor whiteColor]];
     UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(imageView.frame.origin.x + imageView.frame.size.width - 5, imageView.frame.origin.y + 5 , @"back".length, 15)];
     [label setTextColor:[UIColor whiteColor]];
-    [label setText:@"Back"];
+    if(self.titleOfView)
+    {
+        [label setText:self.titleOfView];
+    }
+    else
+    {
+        [label setText:@"Back"];
+    }
     [label sizeToFit];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imageView.frame.size.width + label.frame.size.width, imageView.frame.size.height)];
