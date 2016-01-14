@@ -169,13 +169,6 @@
 -(void)startChatsForUser:(ALUser *) alUser andWithParentController:(UIViewController *)viewController{
     
     [self mbChatViewSettings];
-    
-    if(![ALUserDefaultsHandler getApnDeviceToken]){
-        
-        [self registerForNotification];
-        
-    }
-    
     if([ALUserDefaultsHandler getDeviceKeyString]){
         
         NSLog(@"user is already registered... ");

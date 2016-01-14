@@ -17,6 +17,7 @@
 #import <Applozic/ALDataNetworkConnection.h>
 #import <Applozic/ALChatLauncher.h>
 #import <Applozic/ALMessageDBService.h>
+#import <DemoChatManager.h>
 
 @interface ApplozicLoginViewController ()
 
@@ -165,17 +166,18 @@
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
     [self.mActivityIndicator startAnimating];
-    //mbChatManger...
-   [mbChatManager launchChatForUser:user.userId fromViewController:self];
-    //individual chat
-//    [mbChatManager launchIndividualChat:user.userId andViewControllerObject:self andWithText:@"Hello, I am interested in your  Camorta Island property."];
+    //demoChatManager
+//    DemoChatManager * demoChatManager  =  [[DemoChatManager alloc]init];
+//    [ demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
     
-//    
-//    UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic"
-//                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-//    UIViewController *launchChat = [storyboardM instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
-//    [self presentViewController:launchChat animated:YES completion:nil];
+    [ALUserDefaultsHandler setUserId:user.userId];
+    [ALUserDefaultsHandler setEmailId:user.emailId];
     
+    
+    UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic"
+                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    UIViewController *launchChat = [storyboardM instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
+    [self presentViewController:launchChat animated:YES completion:nil];
 }
 
 //-------------------------------------------------------------------------------------------------------------------
