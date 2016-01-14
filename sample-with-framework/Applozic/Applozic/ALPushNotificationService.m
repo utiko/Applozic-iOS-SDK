@@ -10,7 +10,10 @@
 #import "ALMessageDBService.h"
 #import "ALUserDetail.h"
 #import "ALUserDefaultsHandler.h"
-
+#import "ALChatViewController.h"
+//#import "LaunchChatFromSimpleViewController.h"
+#import "ALMessagesViewController.h"
+#import "ALPushAssist.h"
 
 @implementation ALPushNotificationService
 
@@ -63,12 +66,34 @@
         
         if ([type isEqualToString:MT_SYNC])
         {
+            //            NSLog(@"pushing to notification center");
+            //            [dict setObject:alertValue forKey:@"alertValue"];
+            //
+            //            [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:notificationMsg
+            //                                                               userInfo:dict];
+            //            [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:notificationMsg userInfo:dict];
+            
             NSLog(@"pushing to notification center");
             [dict setObject:alertValue forKey:@"alertValue"];
-
-            [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:notificationMsg
-                                                               userInfo:dict];
-            [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:notificationMsg userInfo:dict];
+            
+            ALPushAssist* assistant=[[ALPushAssist alloc] init];
+            
+            if(!assistant.isChatViewOnTop){
+                NSLog(@"OUR View NOT Opened");
+                NSLog(@"notification called....");
+                
+                [assistant assist:notificationMsg and:dict ofUser:notificationMsg];
+                
+            }else {
+                NSLog(@"OUR View Opened");
+                [dict setObject:alertValue forKey:@"alertValue"];
+                
+                [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:notificationMsg
+                                                                   userInfo:dict];
+                [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:notificationMsg userInfo:dict];
+            
+            }
+            
         }else if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:MT_DELIVERED]||[type isEqualToString:@"APPLOZIC_08"])  {
             
             NSArray *deliveryParts = [notificationMsg componentsSeparatedByString:@","];

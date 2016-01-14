@@ -8,6 +8,8 @@
 
 #import "LaunchChatFromSimpleViewController.h"
 #import  <Applozic/ALChatViewController.h>
+#import "DemoChatManager.h"
+#import "ApplozicLoginViewController.h"
 @interface LaunchChatFromSimpleViewController ()
 
 - (IBAction)mLaunchChatList:(id)sender;
@@ -45,10 +47,18 @@
 
 - (IBAction)mLaunchChatList:(id)sender {
     
-            UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                                                 bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-            UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
-            [self presentViewController:theTabBar animated:YES completion:nil];
+//            UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+//                                                                 bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+//            UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
+//            [self presentViewController:theTabBar animated:YES completion:nil];
+    
+    ALUser *user = [[ALUser alloc] init];
+    [user setUserId:@"iosdev"];
+    [user setEmailId:@""];
+    [user setPassword:@""];
+    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
+    //    demoChatManager.userID = user;
+    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
 
 }
 

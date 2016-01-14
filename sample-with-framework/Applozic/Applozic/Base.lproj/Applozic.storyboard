@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -34,7 +35,7 @@
                                         <rect key="frame" x="0.0" y="86" width="600" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nkO-yU-f6Y" id="jVl-2p-Q74">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="81"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="81.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="103" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9sE-W8-i33">
@@ -237,7 +238,7 @@
                                         <rect key="frame" x="0.0" y="86" width="600" height="59"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NOy-HJ-2YL" id="p0o-92-QNi">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="58"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="58.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8h-Lp-4Jd">
@@ -689,6 +690,57 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yf6-tf-XQ3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="48" y="603"/>
+        </scene>
+        <!--Launch Chat From Simple View Controller-->
+        <scene sceneID="qE2-HS-lCG">
+            <objects>
+                <viewController storyboardIdentifier="LaunchChatFromSimpleViewController" id="iTy-0H-cXc" customClass="LaunchChatFromSimpleViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Z7M-jh-eAv"/>
+                        <viewControllerLayoutGuide type="bottom" id="OA6-zX-YZH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DFE-2l-fFP">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MFb-OZ-ueX">
+                                <rect key="frame" x="208" y="294" width="186" height="62"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="167" id="8HR-Mx-fKO"/>
+                                    <constraint firstAttribute="height" constant="62" id="tjp-az-AEi"/>
+                                </constraints>
+                                <state key="normal" title="Launch Chat With Applozic">
+                                    <color key="titleShadowColor" red="0.79895767500000003" green="0.94653931469999997" blue="1" alpha="0.28000000000000003" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="mChatLaunchButton:" destination="iTy-0H-cXc" eventType="touchUpInside" id="0z8-3v-Phq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dKj-gA-aYd">
+                                <rect key="frame" x="235" y="148" width="149" height="54"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="54" id="8aW-LW-XFW"/>
+                                    <constraint firstAttribute="width" secondItem="dKj-gA-aYd" secondAttribute="height" multiplier="149:54" id="dbg-0v-DxQ"/>
+                                    <constraint firstAttribute="width" constant="149" id="jV8-Kr-U2y"/>
+                                </constraints>
+                                <state key="normal" title="Launch Chat List"/>
+                                <connections>
+                                    <action selector="mLaunchChatList:" destination="iTy-0H-cXc" eventType="touchUpInside" id="j1v-Z1-B0j"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="MFb-OZ-ueX" firstAttribute="centerX" secondItem="DFE-2l-fFP" secondAttribute="centerX" id="8Bs-N1-Tdc"/>
+                            <constraint firstItem="OA6-zX-YZH" firstAttribute="top" secondItem="MFb-OZ-ueX" secondAttribute="bottom" constant="244" id="Gka-fR-1eT"/>
+                            <constraint firstItem="MFb-OZ-ueX" firstAttribute="top" secondItem="dKj-gA-aYd" secondAttribute="bottom" constant="92" id="I2s-Xg-MQy"/>
+                            <constraint firstItem="dKj-gA-aYd" firstAttribute="trailing" secondItem="MFb-OZ-ueX" secondAttribute="trailing" id="f3u-Ow-SqI"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bVx-VQ-AH7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-481" y="-65"/>
         </scene>
     </scenes>
     <resources>

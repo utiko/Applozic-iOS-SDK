@@ -38,6 +38,7 @@
 #import "ALMessage.h"
 #import "ALUserDetail.h"
 #import "ALSyncCallService.h"
+#import <Applozic/ALChatLauncher.h>
 
 
 
@@ -48,5 +49,10 @@
 -(BOOL) processPushNotification: (NSDictionary *) dictionary updateUI: (BOOL) updateUI;
 
 @property(nonatomic,strong) ALSyncCallService * alSyncCallService;
+
+@property(nonatomic, readonly, strong) UIViewController *topViewController;
+
+@property(nonatomic,strong) ALChatLauncher * chatLauncher;
+
 
 @end

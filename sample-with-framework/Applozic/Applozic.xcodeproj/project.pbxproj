@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		291737501C47A82B00D10F47 /* ALPushAssist.h in Headers */ = {isa = PBXBuildFile; fileRef = 291737451C47A82B00D10F47 /* ALPushAssist.h */; };
+		291737511C47A82B00D10F47 /* ALPushAssist.m in Sources */ = {isa = PBXBuildFile; fileRef = 291737461C47A82B00D10F47 /* ALPushAssist.m */; };
+		291737521C47A82B00D10F47 /* TSMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 291737471C47A82B00D10F47 /* TSMessage.h */; };
+		291737531C47A82B00D10F47 /* TSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 291737481C47A82B00D10F47 /* TSMessage.m */; };
+		291737541C47A82B00D10F47 /* TSMessageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 291737491C47A82B00D10F47 /* TSMessageView.h */; };
+		291737551C47A82B00D10F47 /* TSMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2917374A1C47A82B00D10F47 /* TSMessageView.m */; };
+		291737561C47A82B00D10F47 /* TSBlurView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2917374B1C47A82B00D10F47 /* TSBlurView.h */; };
+		291737571C47A82B00D10F47 /* TSBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2917374C1C47A82B00D10F47 /* TSBlurView.m */; };
+		291737581C47A82B00D10F47 /* HexColors.h in Headers */ = {isa = PBXBuildFile; fileRef = 2917374D1C47A82B00D10F47 /* HexColors.h */; };
+		291737591C47A82B00D10F47 /* HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 2917374E1C47A82B00D10F47 /* HexColors.m */; };
+		2917375A1C47A82B00D10F47 /* TSMessagesDefaultDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = 2917374F1C47A82B00D10F47 /* TSMessagesDefaultDesign.json */; };
 		29CBF2021C0303A700BE6A20 /* ALColorUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 29CBF2001C0303A700BE6A20 /* ALColorUtility.h */; };
 		29CBF2031C0303A700BE6A20 /* ALColorUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CBF2011C0303A700BE6A20 /* ALColorUtility.m */; };
 		29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DEA3131BEDEC1F004B8085 /* ALUserService.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -222,6 +233,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		291737451C47A82B00D10F47 /* ALPushAssist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALPushAssist.h; sourceTree = "<group>"; };
+		291737461C47A82B00D10F47 /* ALPushAssist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALPushAssist.m; sourceTree = "<group>"; };
+		291737471C47A82B00D10F47 /* TSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMessage.h; sourceTree = "<group>"; };
+		291737481C47A82B00D10F47 /* TSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMessage.m; sourceTree = "<group>"; };
+		291737491C47A82B00D10F47 /* TSMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMessageView.h; sourceTree = "<group>"; };
+		2917374A1C47A82B00D10F47 /* TSMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMessageView.m; sourceTree = "<group>"; };
+		2917374B1C47A82B00D10F47 /* TSBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSBlurView.h; sourceTree = "<group>"; };
+		2917374C1C47A82B00D10F47 /* TSBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSBlurView.m; sourceTree = "<group>"; };
+		2917374D1C47A82B00D10F47 /* HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HexColors.h; sourceTree = "<group>"; };
+		2917374E1C47A82B00D10F47 /* HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HexColors.m; sourceTree = "<group>"; };
+		2917374F1C47A82B00D10F47 /* TSMessagesDefaultDesign.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TSMessagesDefaultDesign.json; sourceTree = "<group>"; };
 		29CBF2001C0303A700BE6A20 /* ALColorUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALColorUtility.h; sourceTree = "<group>"; };
 		29CBF2011C0303A700BE6A20 /* ALColorUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALColorUtility.m; sourceTree = "<group>"; };
 		29DEA3131BEDEC1F004B8085 /* ALUserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserService.h; sourceTree = "<group>"; };
@@ -729,6 +751,17 @@
 			children = (
 				6D6DF0C01BC5364C00EBA00F /* ALPushNotificationService.h */,
 				6D6DF08A1BC5364C00EBA00F /* ALPushNotificationService.m */,
+				291737451C47A82B00D10F47 /* ALPushAssist.h */,
+				291737461C47A82B00D10F47 /* ALPushAssist.m */,
+				291737471C47A82B00D10F47 /* TSMessage.h */,
+				291737481C47A82B00D10F47 /* TSMessage.m */,
+				291737491C47A82B00D10F47 /* TSMessageView.h */,
+				2917374A1C47A82B00D10F47 /* TSMessageView.m */,
+				2917374B1C47A82B00D10F47 /* TSBlurView.h */,
+				2917374C1C47A82B00D10F47 /* TSBlurView.m */,
+				2917374D1C47A82B00D10F47 /* HexColors.h */,
+				2917374E1C47A82B00D10F47 /* HexColors.m */,
+				2917374F1C47A82B00D10F47 /* TSMessagesDefaultDesign.json */,
 			);
 			name = push;
 			sourceTree = "<group>";
@@ -918,6 +951,7 @@
 				98E1AB971C08718700BE6312 /* ALMQTTConversationService.h in Headers */,
 				6D6DF1881BC5364C00EBA00F /* ALConstant.h in Headers */,
 				6D6DF1581BC5364C00EBA00F /* ALChatViewController.h in Headers */,
+				291737521C47A82B00D10F47 /* TSMessage.h in Headers */,
 				6D6DF1D31BC5364C00EBA00F /* KAProgressLabel.h in Headers */,
 				6D6DF16A1BC5364C00EBA00F /* ALMessageClientService.h in Headers */,
 				6D6DF1421BC5364C00EBA00F /* ALDBHandler.h in Headers */,
@@ -937,6 +971,7 @@
 				6D6DF1781BC5364C00EBA00F /* ALMessageList.h in Headers */,
 				6D6DF1641BC5364C00EBA00F /* ALNewContactCell.h in Headers */,
 				6D6DF17C1BC5364C00EBA00F /* ALSyncMessageFeed.h in Headers */,
+				291737501C47A82B00D10F47 /* ALPushAssist.h in Headers */,
 				6D6DF1521BC5364C00EBA00F /* ALUtilityClass.h in Headers */,
 				982F13061C05D6050024678E /* MQTTDecoder.h in Headers */,
 				6D6DF15C1BC5364C00EBA00F /* ALNewContactsViewController.h in Headers */,
@@ -955,12 +990,15 @@
 				6D6DF1601BC5364C00EBA00F /* ALChatCell_Image.h in Headers */,
 				6D9C693C1C28383B00C78219 /* ALChatLauncher.h in Headers */,
 				6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */,
+				291737581C47A82B00D10F47 /* HexColors.h in Headers */,
 				6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */,
 				6D6DF13E1BC5364C00EBA00F /* ALConnection.h in Headers */,
 				982F130E1C05D6050024678E /* MQTTSession.h in Headers */,
 				6D6DF1561BC5364C00EBA00F /* ALBaseViewController.h in Headers */,
 				6D6DF1401BC5364C00EBA00F /* ALConnectionQueueHandler.h in Headers */,
+				291737561C47A82B00D10F47 /* TSBlurView.h in Headers */,
 				6D6DF1841BC5364C00EBA00F /* DB_Message.h in Headers */,
+				291737541C47A82B00D10F47 /* TSMessageView.h in Headers */,
 				6D95476B1BE38DFF00776652 /* ALContactService.h in Headers */,
 				6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */,
 				6D36F2081BFF3EE3003D46D3 /* ALApplozicSettings.h in Headers */,
@@ -1058,6 +1096,7 @@
 				6D6DF1B11BC5364C00EBA00F /* mobicom_social_share.png in Resources */,
 				6D6DF1931BC5364C00EBA00F /* ic_action_chat.png in Resources */,
 				6D6DF19E1BC5364C00EBA00F /* ic_action_settings.png in Resources */,
+				2917375A1C47A82B00D10F47 /* TSMessagesDefaultDesign.json in Resources */,
 				6D6DF1991BC5364C00EBA00F /* ic_action_message_delivered.png in Resources */,
 				6D6DF1A41BC5364C00EBA00F /* ic_facebook.png in Resources */,
 				6D6DF1941BC5364C00EBA00F /* ic_action_edit.png in Resources */,
@@ -1134,6 +1173,7 @@
 				6D6DF1BF1BC5364C00EBA00F /* SDWebImageDownloaderOperation.m in Sources */,
 				6D6DF1711BC5364C00EBA00F /* ALContact.m in Sources */,
 				6D28D3C41C1AA9AA003817C3 /* Reachability.m in Sources */,
+				291737511C47A82B00D10F47 /* ALPushAssist.m in Sources */,
 				6D6DF1631BC5364C00EBA00F /* ALContactCell.m in Sources */,
 				6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */,
 				6D6DF15D1BC5364C00EBA00F /* ALNewContactsViewController.m in Sources */,
@@ -1151,11 +1191,13 @@
 				6D6DF1751BC5364C00EBA00F /* ALJson.m in Sources */,
 				6D6DF1691BC5364C00EBA00F /* ALLocationManager.m in Sources */,
 				982F13071C05D6050024678E /* MQTTDecoder.m in Sources */,
+				291737591C47A82B00D10F47 /* HexColors.m in Sources */,
 				6D95476A1BE38DFF00776652 /* ALContactDBService.m in Sources */,
 				29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */,
 				6D15F2471BEB6AE00069BE1A /* ALAttachmentController.m in Sources */,
 				6D6DF1B91BC5364C00EBA00F /* SDWebImageCompat.m in Sources */,
 				6D6DF1CA1BC5364C00EBA00F /* UIImage+MultiFormat.m in Sources */,
+				291737531C47A82B00D10F47 /* TSMessage.m in Sources */,
 				6D6DF13B1BC5364C00EBA00F /* ALMessageDBService.m in Sources */,
 				6D6DF16B1BC5364C00EBA00F /* ALMessageClientService.m in Sources */,
 				98E1AB981C08718700BE6312 /* ALMQTTConversationService.m in Sources */,
@@ -1185,9 +1227,11 @@
 				982F130B1C05D6050024678E /* MQTTMessage.m in Sources */,
 				6D6DF1731BC5364C00EBA00F /* ALFileMetaInfo.m in Sources */,
 				6D6DF1C61BC5364C00EBA00F /* UIButton+WebCache.m in Sources */,
+				291737571C47A82B00D10F47 /* TSBlurView.m in Sources */,
 				982F13091C05D6050024678E /* MQTTEncoder.m in Sources */,
 				6D6DF1791BC5364C00EBA00F /* ALMessageList.m in Sources */,
 				6D6DF1D01BC5364C00EBA00F /* UIImageView+WebCache.m in Sources */,
+				291737551C47A82B00D10F47 /* TSMessageView.m in Sources */,
 				6D6DF13F1BC5364C00EBA00F /* ALConnection.m in Sources */,
 				6D95476E1BE38DFF00776652 /* ALUITextView.m in Sources */,
 				6D6DF1BD1BC5364C00EBA00F /* SDWebImageDownloader.m in Sources */,
@@ -1323,8 +1367,8 @@
 		6D6DF0861BC535C800EBA00F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1340,7 +1384,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d6d31428-5c2c-4a6f-b031-22780d1340be";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -1348,8 +1392,8 @@
 		6D6DF0871BC535C800EBA00F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1365,7 +1409,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d6d31428-5c2c-4a6f-b031-22780d1340be";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;

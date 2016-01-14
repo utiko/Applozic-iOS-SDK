@@ -22,6 +22,7 @@
 -(void)displayAttachmentMediaType:(ALMessage *)message andContactCell:(ALContactCell *)contactCell;
 
 -(UIView *)setCustomBackButton:(NSString *)text;
+@property (weak, nonatomic) IBOutlet UITableView *mTableView;
 
 @end
 

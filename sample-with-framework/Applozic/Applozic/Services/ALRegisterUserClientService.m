@@ -111,7 +111,7 @@
     ALMQTTConversationService *ob  = [[ALMQTTConversationService alloc] init];
     [ob sendTypingStatus:[ALUserDefaultsHandler getApplicationKey] userID:[ALUserDefaultsHandler getUserId] typing:NO];
     
-    [[ALMQTTConversationService sharedInstance] unsubscribeToConversation];
+//    [[ALMQTTConversationService sharedInstance] unsubscribeToConversation];
 }
 
 -(void) logout

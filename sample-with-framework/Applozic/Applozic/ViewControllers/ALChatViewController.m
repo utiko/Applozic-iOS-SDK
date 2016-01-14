@@ -40,6 +40,8 @@
 #import "ALContactDBService.h"
 #import "ALDataNetworkConnection.h"
 #import "ALApplozicSettings.h"
+#import "ALChatLauncher.h"
+#import "ALMessageClientService.h"
 
 #define MQTT_MAX_RETRY 3
 
@@ -177,12 +179,12 @@ ALMessageDBService  * dbService;
     [self.typingLabel setHidden:YES];
     if( self.individualLaunch){
         NSLog(@"individual launch ...unsubscribeToConversation to mqtt..");
-        dispatch_async(dispatch_get_main_queue(), ^{
+//        dispatch_async(dispatch_get_main_queue(), ^{
             if(self.mqttObject)
                 [self.mqttObject unsubscribeToConversation];
             else
                 NSLog(@"mqttObject is not found...");
-        });
+//        });
     }
    
     
@@ -1067,7 +1069,8 @@ ALMessageDBService  * dbService;
     } else {
         NSLog(@"show notification as someone else thread is already opened");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
-        [ alnotification displayNotification:self];
+//        [ alnotification displayNotification:self];
+        [alnotification displayNotificationNew:self];
         [self fetchAndRefresh:YES];
     }
     
@@ -1101,15 +1104,29 @@ ALMessageDBService  * dbService;
     
 }
 
+-(void) reloadViewfor3rdParty{
+    [[self.alMessageWrapper getUpdatedMessageArray] removeAllObjects];
+    self.startIndex =0;
+    [self fetchMessageFromDB];
+    
+}
+
 -(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer{
     
     ALNotificationView * notificationView = (ALNotificationView*)gestureRecognizer.view;
     
     NSLog(@" got the UI label::%@" , notificationView.contactId);
     self.contactIds = notificationView.contactId;
-    [self reloadView];
-    //[self fetchAndRefresh];
+    [UIView animateWithDuration:0.5 animations:^{
+        [self reloadView];
+        
+    }];
+    // [self fetchAndRefresh:YES];
     [self processMarkRead];
+    [UIView animateWithDuration:0.5 animations:^{
+        [notificationView removeFromSuperview];
+    }];
+
 }
 
 -(void)loadEarlierButtonAction {
@@ -1391,7 +1408,7 @@ ALMessageDBService  * dbService;
 }
 
 -(void) mqttConnectionClosed {
-    if (_mqttRetryCount > MQTT_MAX_RETRY) {
+    if (_mqttRetryCount > MQTT_MAX_RETRY|| !(self.isViewLoaded && self.view.window)){
         return;
     }
     

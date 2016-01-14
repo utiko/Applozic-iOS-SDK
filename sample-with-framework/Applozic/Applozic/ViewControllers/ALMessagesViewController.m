@@ -56,7 +56,7 @@
 // Constants
 
 // IBOutlet
-@property (weak, nonatomic) IBOutlet UITableView *mTableView;
+//@property (weak, nonatomic) IBOutlet UITableView *mTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *mTableViewTopConstraint;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mActivityIndicator;
 
@@ -68,6 +68,7 @@
 @property (nonatomic,strong) NSArray* colors;
 @property (strong, nonatomic) UILabel *emptyConversationText;
 @property (strong, nonatomic) UILabel *dataAvailablityLabel;
+@property(strong, nonatomic) ALMQTTConversationService *alMqttConversationService;
 @end
 
 // $$$$$$$$$$$$$$$$$A Class Extension for solving Constraints Issues.$$$$$$$$$$$$$$$$$$$$
@@ -86,7 +87,7 @@
 
 @implementation ALMessagesViewController
 
-ALMQTTConversationService *alMqttConversationService;
+//ALMQTTConversationService *alMqttConversationService;
 
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - View lifecycle
@@ -107,11 +108,11 @@ ALMQTTConversationService *alMqttConversationService;
     [dBService getMessages];
     
     self.unreadCount = [[NSArray alloc] init];
-    alMqttConversationService = [ALMQTTConversationService sharedInstance];
-    alMqttConversationService.mqttConversationDelegate = self;
+    _alMqttConversationService = [ALMQTTConversationService sharedInstance];
+    _alMqttConversationService.mqttConversationDelegate = self;
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [alMqttConversationService subscribeToConversation];
+        [_alMqttConversationService subscribeToConversation];
     });
     
     self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 15 + self.view.frame.size.width/8, self.view.frame.origin.y + self.view.frame.size.height/2, 250, 30)];
@@ -128,6 +129,14 @@ ALMQTTConversationService *alMqttConversationService;
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Profile"]];
     [self.navigationItem setLeftBarButtonItem: barButtonItem];
+}
+
+-(void) viewDidDisappear:(BOOL)animated
+{
+    NSLog(@"Unsubscribing mqtt from ALMessageVC");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_alMqttConversationService unsubscribeToConversation];
+    });
 }
 
 -(UIView *)setCustomBackButton:(NSString *)text
@@ -730,14 +739,15 @@ ALMQTTConversationService *alMqttConversationService;
 }
 
 -(void) mqttConnectionClosed {
-    if (_mqttRetryCount > MQTT_MAX_RETRY) {
+    if (_mqttRetryCount > MQTT_MAX_RETRY || !self.getVisibleState) {
         return;
     }
     
     if([ALDataNetworkConnection checkDataNetworkAvailable])
         NSLog(@"MQTT connection closed, subscribing again: %lu", (long)_mqttRetryCount);
     dispatch_async(dispatch_get_main_queue(), ^{
-        [alMqttConversationService subscribeToConversation];
+        NSLog(@"ALMessageVC subscribing channel again....");
+        [_alMqttConversationService subscribeToConversation];
     });
     _mqttRetryCount++;
 }
@@ -780,9 +790,9 @@ ALMQTTConversationService *alMqttConversationService;
 
 - (void)dealloc {
     
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [alMqttConversationService unsubscribeToConversation];
-        });
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [_alMqttConversationService unsubscribeToConversation];
+//        });
   
 }
 - (IBAction)backButtonAction:(id)sender {
@@ -791,6 +801,18 @@ ALMQTTConversationService *alMqttConversationService;
     
     if(!uiController){
         [self  dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+-(BOOL)getVisibleState{
+    
+    if( (self.isViewLoaded && self.view.window) ||(_detailChatViewController && _detailChatViewController.isViewLoaded && _detailChatViewController.view.window )) {
+        // viewController is visible
+        NSLog(@"view is visible");
+        return YES;
+    }else {
+        NSLog(@"view is not visible");
+        
+        return NO;
     }
 }
 @end
