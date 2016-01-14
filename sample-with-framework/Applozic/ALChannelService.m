@@ -30,6 +30,7 @@
         }
     }
     [alChannelDBService insertChannelUserX:memberArray];
+//    callForChannelProxy inserting in DB
 }
 
 -(void)getChannelInformation:(NSNumber *)channelKey withCompletion:(void (^)(ALChannel *alChannel3)) completion
