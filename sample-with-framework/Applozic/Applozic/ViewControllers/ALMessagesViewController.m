@@ -126,7 +126,7 @@ ALMQTTConversationService *alMqttConversationService;
     [self.dataAvailablityLabel setTextColor:[UIColor whiteColor]];
     [self.view addSubview:self.dataAvailablityLabel];
     
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Back"]];
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Profile"]];
     [self.navigationItem setLeftBarButtonItem: barButtonItem];
 }
 
