@@ -11,6 +11,8 @@
 #import "DemoChatManager.h"
 #import "ApplozicLoginViewController.h"
 #import  <Applozic/ALUserDefaultsHandler.h>
+#import  <Applozic/ALRegisterUserClientService.h>
+
 
 @interface LaunchChatFromSimpleViewController ()
 
@@ -31,6 +33,17 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)logOutButton:(id)sender {
+    
+    ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
+    
+    if([ALUserDefaultsHandler getDeviceKeyString]){
+        alUserClientService.logout;
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 /*
