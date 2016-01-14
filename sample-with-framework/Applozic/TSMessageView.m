@@ -257,14 +257,8 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
             self.alpha = 0.0;
 
             // add background image here
-            
-            //            UIImage*backgroundImage=[[UIImage alloc] initWithCGImage:[ALUtilityClass getImageFromFramworkBundle:@"Notify.png"].CGImage];
-            //            backgroundImage=[ALUtilityClass getImageFromFramworkBundle:@"Notify.png"];
-            
-            
             UIImage *backgroundImage = [self bundledImageNamed:[current valueForKey:@"backgroundImageName"]];
             backgroundImage = [backgroundImage stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0];
-            
             _backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
             self.backgroundImageView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
             [self addSubview:self.backgroundImageView];
@@ -274,7 +268,8 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
             // On iOS 7 and above use a blur layer instead (not yet finished)
             _backgroundBlurView = [[TSBlurView alloc] init];
             self.backgroundBlurView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
-            self.backgroundBlurView.blurTintColor = [UIColor colorWithHexString:current[@"backgroundColor"]];
+//            self.backgroundBlurView.blurTintColor = [UIColor colorWithHexString:current[@"backgroundColor"]];
+            self.backgroundBlurView.blurTintColor = [UIColor blackColor];
             [self addSubview:self.backgroundBlurView];
         }
 

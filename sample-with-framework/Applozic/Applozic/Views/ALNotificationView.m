@@ -78,37 +78,35 @@
     [[TSMessageView appearance] setTitleFont:[UIFont boldSystemFontOfSize:17]];
     [[TSMessageView appearance] setContentFont:[UIFont systemFontOfSize:13]];
     [TSMessage showNotificationInViewController:top.topViewController
-                                          title:@"APPLOZIC"
+                                          title:@"Magic Bricks"
                                        subtitle:self.text
                                           image:img
                                            type:TSMessageNotificationTypeMessage
-                                       duration:2.5
-                                       callback:^(void){
-                                           //          [delegate handleNotification:self];
+                                       duration:1.5
+                                       callback:
+     ^(void){
+//      [delegate handleNotification:self];
+//      ALNotificationView * notificationView = (ALNotificationView*)gestureRecognizer.view;
+//      ALChatViewController * ob=[[ALChatViewController alloc] init];
                                            
-                                           //            ALNotificationView * notificationView = (ALNotificationView*)gestureRecognizer.view;
-                                           //            ALChatViewController * ob=[[ALChatViewController alloc] init];
+         NSLog(@" got the UI label::%@" ,_contactId);
+         delegate.contactIds = self.contactId;
+//        [UIView animateWithDuration:0.5 animations:^{
+         [delegate reloadView];
+//                                }];
+        [delegate processMarkRead];
+//        [UIView animateWithDuration:0.5 animations:^{
+//                                [self removeFromSuperview];
+//                                [[delegate view] removeFromSuperview];
+//                                NSLog(@"Remove");
+//                }];
+        [delegate fetchAndRefresh:YES];
                                            
-                                           NSLog(@" got the UI label::%@" ,_contactId);
-                                           
-                                           delegate.contactIds = self.contactId;
-                                           //            [UIView animateWithDuration:0.5 animations:^{
-                                           [delegate reloadView];
-                                           //            }];
-                                           
-                                           [delegate processMarkRead];
-                                           [UIView animateWithDuration:0.5 animations:^{
-                                               //                [self removeFromSuperview];
-                                               //                [[delegate view] removeFromSuperview];
-                                               //                NSLog(@"Remove");
-                                           }];
-                                           [delegate fetchAndRefresh:YES];
-                                           
-                                       }
-                                    buttonTitle:nil
-                                 buttonCallback:nil
-                                     atPosition:TSMessageNotificationPositionTop
-                           canBeDismissedByUser:YES];
+        }
+        buttonTitle:nil
+        buttonCallback:nil
+        atPosition:TSMessageNotificationPositionTop
+        canBeDismissedByUser:YES];
 }
 
 @end
