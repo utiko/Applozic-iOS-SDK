@@ -280,31 +280,30 @@
 }
 
 -(UIView *)setCustomBackButton
-{
+{    
     UIImageView *imageView=[[UIImageView alloc] initWithImage: [ALUtilityClass getImageFromFramworkBundle:@"bbb.png"]];
     [imageView setFrame:CGRectMake(-10, 0, 30, 30)];
     [imageView setTintColor:[UIColor whiteColor]];
-    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(imageView.frame.origin.x + imageView.frame.size.width - 5, imageView.frame.origin.y + 2 , @"back".length, 15)];
+    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(imageView.frame.origin.x + imageView.frame.size.width - 5, imageView.frame.origin.y + 5 , @"back".length, 15)];
     [label setTextColor:[UIColor whiteColor]];
-    [label setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:11]];
-    [label setText:@"My"];
+    if(self.titleOfView)
+    {
+        [label setText:self.titleOfView];
+    }
+    else
+    {
+        [label setText:@"Back"];
+    }
     [label sizeToFit];
-
-    UILabel *label2=[[UILabel alloc] initWithFrame:CGRectMake(label.frame.origin.x , label.frame.origin.y + label.frame.size.height , @"Chats".length, 15)];
-    [label2 setTextColor:[UIColor whiteColor]];
-    [label2 setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:11]];
-    [label2 setText:@"Chats"];
-    [label2 sizeToFit];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imageView.frame.size.width + label.frame.size.width, imageView.frame.size.height)];
     view.bounds=CGRectMake(view.bounds.origin.x+8, view.bounds.origin.y-1, view.bounds.size.width, view.bounds.size.height);
     [view addSubview:imageView];
     [view addSubview:label];
-    [view addSubview:label2];
     
     UIButton *button=[[UIButton alloc] initWithFrame:view.frame];
     [button addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
-//    [button addSubview:view];
+    //    [button addSubview:view];
     [view addSubview:button];
     return view;
 

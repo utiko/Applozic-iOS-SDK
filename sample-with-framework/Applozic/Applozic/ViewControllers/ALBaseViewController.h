@@ -35,6 +35,7 @@
 @property (strong, nonatomic) UILabel *label;
 @property (strong, nonatomic) UILabel *typingLabel;
 @property (nonatomic) BOOL * individualLaunch;
+@property (nonatomic, strong) NSString * titleOfView;
 
 -(UIView *)setCustomBackButton;
 

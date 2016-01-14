@@ -105,7 +105,7 @@
     chatView.contactIds = userId;
     chatView.text = text;
     chatView.individualLaunch = YES;
-    
+    chatView.titleOfView = viewController.title;
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
     
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];

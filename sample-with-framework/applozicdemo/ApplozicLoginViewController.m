@@ -59,7 +59,7 @@
     
     [ALDataNetworkConnection checkDataNetworkAvailable];
     [self.mActivityIndicator stopAnimating];
-     [self setTitle:@"< Login Screen"];
+     [self setTitle:@"Login Screen"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -168,7 +168,7 @@
     //mbChatManger...
 //COMMENTED    [mbChatManager launchChatForUser:user.userId fromViewController:self];
     //individual chat
-//    [mbChatManager launchIndividualChat:user.userId andViewControllerObject:self andWithText:@"Hello, I am interested in your  Camorta Island property."];
+    [mbChatManager launchIndividualChat:user.userId andViewControllerObject:self andWithText:@"Hello, I am interested in your  Camorta Island property."];
     
     
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic"
