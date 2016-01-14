@@ -285,7 +285,7 @@
 -(DB_ConversationProxy *)createConversationProxy:(ALConversationProxy *)conversationProxy
 {
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-    DB_ConversationProxy *dbConversationProxy; //= [] check for duplicate if exist then update it
+    DB_ConversationProxy *dbConversationProxy = [self getConversationProxyByKey:conversationProxy.ID];
     if(!dbConversationProxy)
     {
         dbConversationProxy = [NSEntityDescription insertNewObjectForEntityForName:@"DB_ConversationProxy" inManagedObjectContext:theDBHandler.managedObjectContext];
