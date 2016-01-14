@@ -238,11 +238,11 @@
     [[TSMessageView appearance] setContentFont:[UIFont systemFontOfSize:13]];
     // [[TSMessageView appearance] setBackgroundColor:[UIColor blackColor]];
     [TSMessage showNotificationInViewController:top.topViewController
-                                          title:@"Applozic"
+                                          title:@"Magic Bricks"
                                        subtitle:toastMessage
                                           image:img
                                            type:TSMessageNotificationTypeMessage
-                                       duration:2.5
+                                       duration:1.5
                                        callback:^(void){
                                            
                                            //ALAppLocalNotifications* launch=[[ALAppLocalNotifications alloc] init];
