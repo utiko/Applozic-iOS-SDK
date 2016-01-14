@@ -1311,13 +1311,13 @@ ALMessageDBService  * dbService;
         }
         else if ([serverdate compare:yesterdaydate] == NSOrderedSame)
         {
-            NSString *str = @"Last seen yesterday ";
-            [format setDateFormat:@"hh:mm a"];
-            str = [str stringByAppendingString:[format stringFromDate:date]];
-            if([str hasPrefix:@"0"])
-            {
-                str = [str substringFromIndex:[@"0" length]];
-            }
+            NSString *str = @"Last seen Yesterday";
+//            [format setDateFormat:@"hh:mm a"];
+//            str = [str stringByAppendingString:[format stringFromDate:date]];
+//            if([str hasPrefix:@"0"])
+//            {
+//                str = [str substringFromIndex:[@"0" length]];
+//            }
             [self.label setText:str];
         }
         else
