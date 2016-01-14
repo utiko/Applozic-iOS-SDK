@@ -39,6 +39,12 @@
     NSLog(@"update ui: %@", updateUI ? @"Yes": @"No");
     //[dictionary setObject:@"Yes" forKey:@"updateUI"]; // adds @"Bar"
     
+    if (![ALUserDefaultsHandler isLoggedIn]){
+        NSLog(@"NOT Logged In");
+        return false;
+    }
+    
+    
     if ([self isApplozicNotification:dictionary]) {
         //Todo: process it
         NSString *alertValue = [[dictionary valueForKey:@"aps"] valueForKey:@"alert"];
