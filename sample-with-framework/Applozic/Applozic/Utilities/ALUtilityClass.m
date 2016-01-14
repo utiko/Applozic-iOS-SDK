@@ -15,6 +15,7 @@
 #import "TSMessageView.h"
 #import "ALPushAssist.h"
 #import "ALAppLocalNotifications.h"
+#import "ALUserDefaultsHandler.h"
 
 @implementation ALUtilityClass
 
@@ -231,16 +232,19 @@
     //    [TSMessage showNotificationWithTitle:@"Applozic" subtitle:toastMessage type:TSMessageNotificationTypeMessage];
     //
     //    [TSMessage showNotificationInViewController:top.topViewController title:@"Applozic" subtitle:toastMessage type:TSMessageNotificationTypeMessage duration:0.5 canBeDismissedByUser:YES];
-    UIImage* img=[[UIImage alloc] init];
-    img=[ALUtilityClass getImageFromFramworkBundle:@"NotificationIcon.png"];
+    
+    UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
+
+//    UIImage* img=[[UIImage alloc] init];
+//    img=[ALUtilityClass getImageFromFramworkBundle:@"NotificationIcon.png"];
     
     [[TSMessageView appearance] setTitleFont:[UIFont boldSystemFontOfSize:17]];
     [[TSMessageView appearance] setContentFont:[UIFont systemFontOfSize:13]];
     // [[TSMessageView appearance] setBackgroundColor:[UIColor blackColor]];
     [TSMessage showNotificationInViewController:top.topViewController
-                                          title:@"Magic Bricks"
+                                          title:[ALUserDefaultsHandler getNotificationTitle]
                                        subtitle:toastMessage
-                                          image:img
+                                          image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.5
                                        callback:^(void){

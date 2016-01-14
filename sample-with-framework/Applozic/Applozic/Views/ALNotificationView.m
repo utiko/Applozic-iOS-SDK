@@ -12,6 +12,7 @@
 #import "ALUtilityClass.h"
 #import "ALChatViewController.h"
 #import "TSMessageView.h"
+#import "ALUserDefaultsHandler.h"
 
 @implementation ALNotificationView
 
@@ -70,17 +71,17 @@
 -(void)displayNotificationNew:(ALChatViewController *)delegate{
     
     ALPushAssist* top=[[ALPushAssist alloc] init];
-    UIImage* img=[[UIImage alloc] init];
-    img=[ALUtilityClass getImageFromFramworkBundle:@"NotificationIcon.png"];
+    UIImage *appIcon =
+    [UIImage imageNamed:[[NSBundle mainBundle].infoDictionary[@"CFBundleIcons"][@"CFBundlePrimaryIcon"][@"CFBundleI‌​conFiles"] firstObject]];
     
     
     // [[TSMessageView appearance] setBackgroundColor:[UIColor blackColor]];
     [[TSMessageView appearance] setTitleFont:[UIFont boldSystemFontOfSize:17]];
     [[TSMessageView appearance] setContentFont:[UIFont systemFontOfSize:13]];
     [TSMessage showNotificationInViewController:top.topViewController
-                                          title:@"Magic Bricks"
+                                          title:[ALUserDefaultsHandler getNotificationTitle]
                                        subtitle:self.text
-                                          image:img
+                                          image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.5
                                        callback:

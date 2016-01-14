@@ -9,6 +9,7 @@
 #define APPLICATION_KEY @"APPLICATION_KEY"
 #define EMAIL_VERIFIED @"EMAIL_VERIFIED"
 #define DISPLAY_NAME @"DISPLAY_NAME"
+#define NOTIFICATION_TITLE @"NOTIFICATION_TITLE"
 #define DEVICE_KEY_STRING @"DEVICE_KEY_STRING"
 #define USER_KEY_STRING @"USER_KEY_STRING"
 #define EMAIL_ID @"EMAIL_ID"
@@ -98,6 +99,10 @@
 +(void)setShowLoadMore:(BOOL) value forContactId:(NSString*)constactId;
 
 +(BOOL)isShowLoadMore:(NSString *) contactId;
+
++(void)setNotificationTitle:(NSString *)notificationTitle;
+
++(NSString *)getNotificationTitle;
 
 
 +(NSNumber *)getLastSyncTime;

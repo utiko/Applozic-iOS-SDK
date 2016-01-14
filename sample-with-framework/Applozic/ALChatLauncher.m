@@ -82,7 +82,7 @@
     
     [ALApplozicSettings setColourForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     
-    
+    [ALUserDefaultsHandler setNotificationTitle:@"Applozic"];
     
     [ALApplozicSettings setColourForNavigation:[UIColor colorWithRed:181.0/255 green:31.0/255 blue:35.0/255 alpha:1]];
     
