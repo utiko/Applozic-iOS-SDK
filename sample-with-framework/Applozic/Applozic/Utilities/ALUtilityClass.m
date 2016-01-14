@@ -234,13 +234,14 @@
     //    [TSMessage showNotificationInViewController:top.topViewController title:@"Applozic" subtitle:toastMessage type:TSMessageNotificationTypeMessage duration:0.5 canBeDismissedByUser:YES];
     
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
-
-//    UIImage* img=[[UIImage alloc] init];
-//    img=[ALUtilityClass getImageFromFramworkBundle:@"NotificationIcon.png"];
     
     [[TSMessageView appearance] setTitleFont:[UIFont boldSystemFontOfSize:17]];
     [[TSMessageView appearance] setContentFont:[UIFont systemFontOfSize:13]];
-    // [[TSMessageView appearance] setBackgroundColor:[UIColor blackColor]];
+    [[TSMessageView appearance] setTitleFont:[UIFont fontWithName:@"Helvetica Neue" size:18.0]];
+    [[TSMessageView appearance] setContentFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
+    [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
+    [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
+    
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:[ALUserDefaultsHandler getNotificationTitle]
                                        subtitle:toastMessage

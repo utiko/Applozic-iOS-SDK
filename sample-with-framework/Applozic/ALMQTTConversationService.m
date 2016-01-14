@@ -93,6 +93,12 @@ static MQTTSession *session;
 
 - (void)newMessage:(MQTTSession *)session data:(NSData *)data onTopic:(NSString *)topic qos:(MQTTQosLevel)qos retained:(BOOL)retained mid:(unsigned int)mid
 {
+    
+    if (![ALUserDefaultsHandler isLoggedIn]){
+        NSLog(@"Not Logged in");
+        return;
+    }
+    
     NSString *fullMessage = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"MQTT got new message: %@", fullMessage);
 

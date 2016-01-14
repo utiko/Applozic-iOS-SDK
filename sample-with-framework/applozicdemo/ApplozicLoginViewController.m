@@ -175,7 +175,7 @@
 //                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
 //    UIViewController *launchChat = [storyboardM instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
 //    [self presentViewController:launchChat animated:YES completion:nil];
-    
+//    
 }
 
 //-------------------------------------------------------------------------------------------------------------------
