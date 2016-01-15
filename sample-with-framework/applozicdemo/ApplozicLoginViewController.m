@@ -173,11 +173,11 @@
 
     [self.mActivityIndicator startAnimating];
     //mbChatManger...
-   //[mbChatManager launchChatForUser:user.userId fromViewController:self];
+  // [mbChatManager launchChatForUser:user.userId fromViewController:self];
     //individual chat
 //    [mbChatManager launchIndividualChat:user.userId andViewControllerObject:self andWithText:@"Hello, I am interested in your  Camorta Island property."];
     
-//    
+    
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic"
                                   bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     UIViewController *launchChat = [storyboardM instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
