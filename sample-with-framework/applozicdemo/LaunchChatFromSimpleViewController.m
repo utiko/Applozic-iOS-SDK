@@ -48,10 +48,11 @@
 
 - (IBAction)mLaunchChatList:(id)sender {
     
+    
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmailId:[ALUserDefaultsHandler getEmailId]];
-    //[user setPassword:@""];
+    [user setApplicationId:@"applozic-sample-app"];//[user setPassword:@""];
     
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
     [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
