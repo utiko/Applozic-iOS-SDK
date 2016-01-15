@@ -14,4 +14,7 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *mTableViewTopConstraint;
 
+@property (nonatomic,strong) NSArray* colors;
+
+
 @end
