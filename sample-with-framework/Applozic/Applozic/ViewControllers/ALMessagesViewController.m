@@ -133,10 +133,15 @@
 
 -(void) viewDidDisappear:(BOOL)animated
 {
-    NSLog(@"Unsubscribing mqtt from ALMessageVC");
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_alMqttConversationService unsubscribeToConversation];
-    });
+    if ( self.navigationController.viewControllers.count ==1){
+        NSLog(@" closing mqtt connections...");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_alMqttConversationService unsubscribeToConversation];
+        });
+        
+  
+    }
+    
 }
 
 -(UIView *)setCustomBackButton:(NSString *)text
