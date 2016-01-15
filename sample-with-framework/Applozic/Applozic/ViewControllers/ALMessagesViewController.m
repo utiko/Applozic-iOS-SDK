@@ -116,7 +116,7 @@
     self.unreadCount = [[NSArray alloc] init];
     _alMqttConversationService = [ALMQTTConversationService sharedInstance];
     _alMqttConversationService.mqttConversationDelegate = self;
-
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [_alMqttConversationService subscribeToConversation];
     });
@@ -138,12 +138,14 @@
     
 }
 
--(void) viewDidDisappear:(BOOL)animated
+-(void)viewDidDisappear:(BOOL)animated
 {
-    NSLog(@"Unsubscribing mqtt from ALMessageVC");
+    if (self.navigationController.viewControllers.count == 1){
+        NSLog(@" closing mqtt connections...");
         dispatch_async(dispatch_get_main_queue(), ^{
             [_alMqttConversationService unsubscribeToConversation];
         });
+    }
 }
 
 -(void)dropShadowInNavigationBar
@@ -159,7 +161,7 @@
     
     [super viewWillAppear:animated];
     [self dropShadowInNavigationBar];
-//    [[self.navigationItem leftBarButtonItem] setTitle:[ALApplozicSettings getBackButtonTitle]];
+    //    [[self.navigationItem leftBarButtonItem] setTitle:[ALApplozicSettings getBackButtonTitle]];
     
     if([ALUserDefaultsHandler isLogoutButtonHidden])
     {
@@ -191,7 +193,7 @@
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:[UIApplication sharedApplication]];
     
-   // [[NSNotificationCenter defaultCenter]  removeObserver:self name:@"showNotificationAndLaunchChat" object:nil];
+    // [[NSNotificationCenter defaultCenter]  removeObserver:self name:@"showNotificationAndLaunchChat" object:nil];
     
     if ([_detailChatViewController refreshMainView])
     {
@@ -267,9 +269,9 @@
     
     // self.navigationController.navigationBar.barTintColor = self.navColor;
     
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [_alMqttConversationService unsubscribeToConversation];
-//    });
+    //    dispatch_async(dispatch_get_main_queue(), ^{
+    //        [_alMqttConversationService unsubscribeToConversation];
+    //    });
 }
 
 - (IBAction)logout:(id)sender {
@@ -476,7 +478,7 @@
     // here for msg dashboard profile pic
     
     NSString *firstLetter = [[[alContact displayName] substringToIndex:1] uppercaseString];
-//    nameIcon.text = firstLetter;
+    //    nameIcon.text = firstLetter;
     NSRange whiteSpaceRange = [[alContact displayName] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
     if (whiteSpaceRange.location != NSNotFound)
     {
@@ -527,7 +529,7 @@
     contactCell.mUserImageView.layer.cornerRadius = contactCell.mUserImageView.frame.size.width/2;
     contactCell.mUserImageView.layer.masksToBounds = YES;
     contactCell.mCountImageView.layer.cornerRadius = contactCell.mCountImageView.frame.size.width/2;
-
+    
     ///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
     
     ///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
@@ -563,7 +565,7 @@
     {
         nameIcon.hidden = NO;
         NSString *firstLetter = [[alContact displayName] substringToIndex:1];
-//        nameIcon.text=[firstLetter uppercaseString];
+        //        nameIcon.text=[firstLetter uppercaseString];
         //         contactCell.mUserImageView.hidden=YES;
         
     }
@@ -832,7 +834,7 @@
 
 - (void)dealloc{
     
-//    NSLog(@"dealloc called. Unsubscribing with mqtt.");
+    //    NSLog(@"dealloc called. Unsubscribing with mqtt.");
 }
 - (IBAction)backButtonAction:(id)sender {
     
