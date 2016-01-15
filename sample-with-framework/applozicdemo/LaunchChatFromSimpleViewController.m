@@ -10,6 +10,7 @@
 #import  <Applozic/ALChatViewController.h>
 #import "DemoChatManager.h"
 #import "ApplozicLoginViewController.h"
+#import <Applozic/ALUserDefaultsHandler.h>
 @interface LaunchChatFromSimpleViewController ()
 
 - (IBAction)mLaunchChatList:(id)sender;
@@ -47,17 +48,12 @@
 
 - (IBAction)mLaunchChatList:(id)sender {
     
-//            UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-//                                                                 bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-//            UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
-//            [self presentViewController:theTabBar animated:YES completion:nil];
-    
     ALUser *user = [[ALUser alloc] init];
-    [user setUserId:@"iosdev"];
-    [user setEmailId:@""];
-    [user setPassword:@""];
+    [user setUserId:[ALUserDefaultsHandler getUserId]];
+    [user setEmailId:[ALUserDefaultsHandler getEmailId]];
+    //[user setPassword:@""];
+    
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    //    demoChatManager.userID = user;
     [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
 
 }
@@ -70,13 +66,15 @@
 
 - (IBAction)mChatLaunchButton:(id)sender {
     
+    ALUser *user = [[ALUser alloc] init];
+    [user setUserId:[ALUserDefaultsHandler getUserId]];
+    [user setEmailId:[ALUserDefaultsHandler getEmailId]];
+    //[user setPassword:@""];
+
+    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
+    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:@"adarshk"];
     
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                                         bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-    ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
-    chatView.contactIds =@"applozic";
-    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
-    [self presentViewController:conversationViewNavController animated:YES completion:nil];
+
     
 }
 @end

@@ -134,10 +134,12 @@
 
 -(void) viewDidDisappear:(BOOL)animated
 {
-    NSLog(@"Unsubscribing mqtt from ALMessageVC");
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_alMqttConversationService unsubscribeToConversation];
-    });
+    if (self.navigationController.viewControllers.count ==1){
+        NSLog(@" closing mqtt connections...");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_alMqttConversationService unsubscribeToConversation];
+        });
+    }
 }
 
 -(UIView *)setCustomBackButton:(NSString *)text
@@ -362,7 +364,13 @@
 -(void)updateMessageList:(NSMutableArray *)messagesArray {
  
     BOOL isreloadRequire = false;
-    for ( ALMessage *msg  in  messagesArray){
+    
+    if(messagesArray.count)
+    {
+        [self.emptyConversationText setHidden:YES];
+    }
+    
+    for (ALMessage *msg  in  messagesArray){
         ALContactCell *contactCell = [self getCell:msg.contactIds];
         if(contactCell){    
             NSLog(@"contact cell found ....");

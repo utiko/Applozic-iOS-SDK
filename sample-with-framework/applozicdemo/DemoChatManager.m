@@ -142,12 +142,13 @@
             ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
             [messageClientService addWelcomeMessage];
         }
-        
+
         if(![ALUserDefaultsHandler getApnDeviceToken]){
             [self.chatLauncher registerForNotification];
+            NSLog(@"Called...for notification");
+
         }
         
-
         if(userId){
             [self.chatLauncher launchIndividualChat:userId andViewControllerObject:viewController andWithText:nil];
         }else{

@@ -131,7 +131,7 @@
         ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
         [almessageDBService addMessageList:messageListResponse.messageList];
         completion(messageListResponse.messageList, nil, messageListResponse.userDetailsList);
-       // NSLog(@"message list response THE JSON %@",theJson);
+        NSLog(@"##### message list response THE JSON %@",theJson);
     }];
     
 }
@@ -228,7 +228,7 @@
         if ( lastSyncTime == NULL ){
             lastSyncTime = @"0";
         }
-        NSLog(@"last syncTime in call %@", lastSyncTime);
+        NSLog(@" getLatestMessageForUser and last syncTime in call %@", lastSyncTime);
         NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/sync",KBASE_URL];
     
         NSString * theParamString = [NSString stringWithFormat:@"lastSyncTime=%@",lastSyncTime];
