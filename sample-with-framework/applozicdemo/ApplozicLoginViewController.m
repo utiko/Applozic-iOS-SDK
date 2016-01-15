@@ -165,6 +165,12 @@
     [user setUserId:[self.userIdField text]];
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
+    
+    [ALUserDefaultsHandler setApplicationKey:user.applicationId];
+    [ALUserDefaultsHandler setUserId:user.userId];
+    [ALUserDefaultsHandler setEmailId:user.emailId];
+
+
     [self.mActivityIndicator startAnimating];
     //mbChatManger...
   // [mbChatManager launchChatForUser:user.userId fromViewController:self];
