@@ -60,7 +60,7 @@
         NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
         
         if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
-            NSLog(@"notificationId is already processed...ALPUSH%@",notificationId);
+            NSLog(@"notificationId is already processed...ALPUSH %@",notificationId);
             return true;
         }
         //TODO : check if notification is alreday received and processed...
@@ -87,7 +87,7 @@
                                                                    userInfo:dict];
                 [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:notificationMsg userInfo:dict];
             }
-//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thirdPartyNotificationHandler:) name:@"showNotificationAndLaunchChat" object:nil];
+            //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thirdPartyNotificationHandler:) name:@"showNotificationAndLaunchChat" object:nil];
             
             
         }else if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:MT_DELIVERED]||[type isEqualToString:@"APPLOZIC_08"])  {

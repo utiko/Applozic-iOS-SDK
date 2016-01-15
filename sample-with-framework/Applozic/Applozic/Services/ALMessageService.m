@@ -50,6 +50,7 @@
     //Found Record in DB itself ...if not make call to server
     if(messageList.count > 0 && ![ALUserDefaultsHandler isServerCallDoneForMSGList:userId]){
         NSLog(@"message list is coming from DB %ld", (unsigned long)messageList.count);
+            NSLog(@"the Message List::%@",messageList);
         completion(messageList, nil, nil);
         return;
     }else {
@@ -61,6 +62,7 @@
 
         completion(messages, error,userDetailArray);
     }];
+
     
 }
 
