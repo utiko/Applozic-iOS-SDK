@@ -325,6 +325,7 @@
         }
         [self addMessageList:messageArray];
         [self.delegate updateMessageList:messageArray];
+        
         //[self fetchConversationsGroupByContactId];
     }];
     

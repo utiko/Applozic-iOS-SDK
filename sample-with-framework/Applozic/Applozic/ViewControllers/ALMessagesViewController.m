@@ -32,6 +32,7 @@
 #import "ALDataNetworkConnection.h"
 #import "Reachability.h"
 #import "ALUserService.h"
+#import "ALNotificationView.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -674,7 +675,7 @@
 
 
 //------------------------------------------------------------------------------------------------------------------
-#pragma mark - MQTT Service delegate methods
+#pragma mark - MQTT Service delegate methods called when View = On My Chat.. i.e. Conversation View 
 //------------------------------------------------------------------------------------------------------------------
 -(void) syncCall:(ALMessage *) alMessage {
     ALMessageDBService *dBService = [ALMessageDBService new];
@@ -688,6 +689,8 @@
         [self.detailChatViewController syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
     } else {
        // NSLog(@"executing else part....");
+        ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:alMessage.contactIds withAlertMessage:alMessage.message];
+        [alnotification displayNotificationNew:self];
         [dBService fetchAndRefreshQuickConversation];
     }
 }

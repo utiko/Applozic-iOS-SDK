@@ -269,7 +269,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
             _backgroundBlurView = [[TSBlurView alloc] init];
             self.backgroundBlurView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
 //            self.backgroundBlurView.blurTintColor = [UIColor colorWithHexString:current[@"backgroundColor"]];
-            self.backgroundBlurView.blurTintColor = [UIColor blackColor];
+            self.backgroundBlurView.blurTintColor =[UIColor colorWithRed:0.169 green:0.169 blue:0.169 alpha:0.50];
             [self addSubview:self.backgroundBlurView];
         }
 
@@ -411,6 +411,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
             topPosition = self.viewController.view.bounds.size.height;
         }
 
+        NSLog(@"top Position %f",topPosition);
         self.frame = CGRectMake(0.0, topPosition, screenWidth, actualHeight);
 
         if (self.messagePosition == TSMessageNotificationPositionTop)
@@ -451,6 +452,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
     CGFloat currentHeight;
     CGFloat screenWidth = self.viewController.view.bounds.size.width;
     CGFloat padding = [self padding];
+
 
     self.titleLabel.frame = CGRectMake(self.textSpaceLeft,
                                        padding,
@@ -537,8 +539,9 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
             BOOL isNavBarIsOpaque = !navigationController.navigationBar.isTranslucent && navigationController.navigationBar.alpha == 1;
 
             if (isNavBarIsHidden || isNavBarIsOpaque) {
-                topOffset = -30.f;
+                topOffset = -30.f;// When Navigation is NOt there..ie.Full View
             }
+           
             backgroundFrame = UIEdgeInsetsInsetRect(backgroundFrame, UIEdgeInsetsMake(topOffset, 0.f, 0.f, 0.f));
         }
         else if (self.messagePosition == TSMessageNotificationPositionBottom)

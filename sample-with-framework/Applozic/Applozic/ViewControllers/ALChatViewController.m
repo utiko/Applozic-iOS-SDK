@@ -1055,6 +1055,7 @@ ALMessageDBService  * dbService;
 
 -(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue
 {
+    
     [self setRefreshMainView:TRUE];
     if ([self.contactIds isEqualToString:contactId]) {
         NSLog(@"current contact thread is opened");
@@ -1066,10 +1067,10 @@ ALMessageDBService  * dbService;
         self.contactIds = contactId;
         [self reloadView];
         [self fetchAndRefresh];
-    } else {
+    }else {
         NSLog(@"show notification as someone else thread is already opened");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
-//        [ alnotification displayNotification:self];
+//        [alnotification displayNotification:self];
         [alnotification displayNotificationNew:self];
         [self fetchAndRefresh:YES];
     }
