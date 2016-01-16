@@ -77,5 +77,5 @@
 -(BOOL)isUploadRequire;
 
 -(NSString *)getCreatedAtTimeChat:(BOOL)today;
-
+-(NSNumber *)getGroupId;
 @end

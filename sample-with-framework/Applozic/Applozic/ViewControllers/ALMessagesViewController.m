@@ -621,7 +621,8 @@
     
     ALMessage * message =  self.mContactsMessageListArray[indexPath.row];
     
-    if([[message groupId] intValue])
+//    if([[message groupId] intValue])
+    if([message getGroupId])
     {
         self.channelKey = [message groupId];
     }
@@ -664,8 +665,9 @@
         
         NSLog(@"Delete Pressed");
         ALMessage * alMessageobj = self.mContactsMessageListArray[indexPath.row];
-        
-        [ALMessageService deleteMessageThread:alMessageobj.contactIds orChannelKey:alMessageobj.groupId withCompletion:^(NSString *string, NSError *error) {
+//         alMessageobj.groupId = nil;
+//        [ALMessageService deleteMessageThread:alMessageobj.contactIds orChannelKey:alMessageobj.groupId withCompletion:^(NSString *string, NSError *error) {
+              [ALMessageService deleteMessageThread:alMessageobj.contactIds orChannelKey:alMessageobj.getGroupId withCompletion:^(NSString *string, NSError *error) {
             
             if(error)
             {
@@ -674,12 +676,14 @@
                 return;
             }
             NSArray * theFilteredArray;
-            if([alMessageobj.groupId intValue])
+            if([alMessageobj getGroupId])
             {
-                theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"groupId = %@",alMessageobj.groupId]];
+//                theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"groupId = %@",alMessageobj.groupId]];
+                theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"groupId = %@",[alMessageobj getGroupId]]];
             }
             else
             {
+                
                 theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",alMessageobj.contactIds]];
             }
             

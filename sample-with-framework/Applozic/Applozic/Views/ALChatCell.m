@@ -194,7 +194,8 @@
         self.mBubleImageView.layer.masksToBounds = NO;
         
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 10 , 10, theTextSize.width, theTextSize.height);
-        if([[alMessage groupId] intValue])
+//        if([[alMessage groupId] intValue])
+        if([alMessage getGroupId])
         {
             [self.mChannelMemberName setHidden:NO];
             NSUInteger randomIndex = random()% [self.colors count];

@@ -10,6 +10,13 @@
 
 @implementation ALMessage
 
+-(NSNumber *)getGroupId
+{
+    if(self.groupId == [NSNumber numberWithInt:0])
+        return nil;
+    else
+        return self.groupId;
+}
 
 -(id)initWithDictonary:(NSDictionary*)messageDictonary{
     [self parseMessage:messageDictonary];

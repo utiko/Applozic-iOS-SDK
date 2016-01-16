@@ -199,7 +199,8 @@ UIViewController * modalCon;
         
         self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10 );
         
-        if([[alMessage groupId] intValue])
+//        if([[alMessage groupId] intValue])
+        if([alMessage getGroupId])
         {
              [self.mChannelMemberName setText:alMessage.to];
             [self.mChannelMemberName setHidden:NO];

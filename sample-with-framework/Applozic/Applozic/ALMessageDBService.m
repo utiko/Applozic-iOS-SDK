@@ -445,7 +445,8 @@
     theMessageEntity.inProgress = [ NSNumber numberWithBool:theMessage.inProgress];
     theMessageEntity.isUploadFailed=[ NSNumber numberWithBool:theMessage.isUploadFailed];
     theMessageEntity.contentType = theMessage.contentType;
-    if(theMessage.groupId)
+    
+    if(theMessage.getGroupId)
     {
         theMessageEntity.groupId = theMessage.groupId;
     }
