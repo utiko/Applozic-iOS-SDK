@@ -24,7 +24,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *mTableView;
 
--(UIView *)setCustomBackButton:(NSString *)text;;
+-(UIView *)setCustomBackButton:(NSString *)text;
 
 @end
 

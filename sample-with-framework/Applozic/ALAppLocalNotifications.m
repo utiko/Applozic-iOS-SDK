@@ -191,14 +191,14 @@
     
             if(updateUI==[NSNumber numberWithBool:NO]){
                 NSLog(@"App launched from Background");
-                [self thirdPartyNotificationTap:nil]; // Directly launching Chat 
+                [self thirdPartyNotificationTap]; // Directly launching Chat 
                 return;
             }
         
             if(updateUI==[NSNumber numberWithBool:YES]){
             
                 if(alertValue){
-                    NSLog(@"App launched from 3rdParty");
+                    NSLog(@"App launched from 3rdParty for c");
                     [ALUtilityClass thirdDisplayNotificationTS:alertValue delegate:self];
 //                    [ALUtilityClass thirdDisplayNotification:alertValue delegate:self];
 //                    [ALUtilityClass newDisplayNotificaiton:alertValue delegate:self];
@@ -216,10 +216,9 @@
 //    [ALUtilityClass displayNotification:alertValue delegate:self];
 }
 
--(void)thirdPartyNotificationTap:(UIGestureRecognizer*)gestureRecognizer{
+-(void)thirdPartyNotificationTap{ //:(UIGestureRecognizer*)gestureRecognizer
     
     ALPushAssist* object=[[ALPushAssist alloc] init];
-    
     //for Individual Chat Conversation Opening...
     NSLog(@"Chat Launch Contact ID: %@",self.contactId);
     self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_KEY];

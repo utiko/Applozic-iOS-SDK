@@ -12,6 +12,7 @@
 #import "ALUtilityClass.h"
 #import "ALChatViewController.h"
 #import "TSMessageView.h"
+#import "ALMessagesViewController.h"
 @implementation ALNotificationView
     
 
@@ -70,42 +71,39 @@
     messageView.backgroundColor=[UIColor blackColor];
 }
 
--(void)displayNotificationNew:(ALChatViewController *)delegate{
+-(void)displayNotificationNew:(id)delegate{
     
     ALPushAssist* top=[[ALPushAssist alloc] init];
-    UIImage* img=[[UIImage alloc] init];
-    img=[ALUtilityClass getImageFromFramworkBundle:@"NotificationIcon.png"];
 
-    
-   // [[TSMessageView appearance] setBackgroundColor:[UIColor blackColor]];
+    UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
+   
     [[TSMessageView appearance] setTitleFont:[UIFont boldSystemFontOfSize:17]];
     [[TSMessageView appearance] setContentFont:[UIFont systemFontOfSize:13]];
+    [[TSMessageView appearance] setTitleFont:[UIFont fontWithName:@"Helvetica Neue" size:18.0]];
+    [[TSMessageView appearance] setContentFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
+    [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
+    [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
+    
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:@"APPLOZIC"
-                                       subtitle:self.text
-                                          image:img
+                                       subtitle:[NSString stringWithFormat:@"%@: %@",_contactId,self.text]
+                                          image:appIcon
                                            type:TSMessageNotificationTypeMessage
-                                       duration:2.5
-                                       callback:^(void){
-                                           //          [delegate handleNotification:self];
-                                           
-//            ALNotificationView * notificationView = (ALNotificationView*)gestureRecognizer.view;
-//            ALChatViewController * ob=[[ALChatViewController alloc] init];
-                                           
-            NSLog(@" got the UI label::%@" ,_contactId);
-
-            delegate.contactIds = self.contactId;
-//            [UIView animateWithDuration:0.5 animations:^{
-                [delegate reloadView];
-//            }];
-
-            [delegate processMarkRead];
-            [UIView animateWithDuration:0.5 animations:^{
-//                [self removeFromSuperview];
-//                [[delegate view] removeFromSuperview];
-//                NSLog(@"Remove");
-            }];
-            [delegate fetchAndRefresh:YES];
+                                       duration:1.75
+                                       callback:
+     ^(void){
+            if([delegate isKindOfClass:[ALChatViewController class]]){
+                ALChatViewController * class1= (ALChatViewController*)delegate;
+                class1.contactIds=self.contactId;
+                [class1 reloadView];
+                [class1 processMarkRead];
+                [class1 fetchAndRefresh:YES];
+                                               
+            }
+            else{ //[delegate isKindOfClass:[ALMessageViewController class]]
+                ALMessagesViewController* class2=(ALMessagesViewController*)delegate;
+                [class2 createDetailChatViewController:_contactId];
+            }
         
     }
                                     buttonTitle:nil

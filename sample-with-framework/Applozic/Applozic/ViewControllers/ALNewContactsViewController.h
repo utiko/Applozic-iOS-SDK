@@ -16,5 +16,6 @@
 
 @property (nonatomic,strong) NSArray* colors;
 
+-(UIView *)setCustomBackButton:(NSString *)text;
 
 @end

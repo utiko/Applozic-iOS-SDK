@@ -35,6 +35,7 @@
 #import "ALChannel.h"
 #import "ALChatLauncher.h"
 #import "ALChannelService.h"
+#import "ALNotificationView.h"
 
 
 // Constants
@@ -433,7 +434,9 @@
     UILabel* nameIcon=(UILabel*)[contactCell viewWithTag:102];
     nameIcon.textColor=[UIColor whiteColor];
     UILabel* unread=(UILabel*)[contactCell viewWithTag:104];
-    
+    unread.backgroundColor = [ALApplozicSettings getColourForNavigation];
+    unread.layer.cornerRadius = unread.frame.size.width/2;
+    unread.layer.masksToBounds = YES;
     [contactCell.onlineImageMarker setBackgroundColor:[UIColor clearColor]];
     
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
@@ -486,11 +489,11 @@
         NSArray *listNames = [[alContact displayName] componentsSeparatedByString:@" "];
         NSString *firstLetter = [[listNames[0] substringToIndex:1] uppercaseString];
         NSString *lastLetter = [[listNames[1] substringToIndex:1] uppercaseString];
-        nameIcon.text = [firstLetter stringByAppendingString:lastLetter];
+        nameIcon.text = [[firstLetter stringByAppendingString:lastLetter] uppercaseString];
     }
     else
     {
-        nameIcon.text = firstLetter;
+        nameIcon.text = [firstLetter uppercaseString];
     }
     
     
@@ -740,6 +743,8 @@
         [self.detailChatViewController syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
     } else {
         // NSLog(@"executing else part....");
+        ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:alMessage.contactIds withAlertMessage:alMessage.message];
+        [alnotification displayNotificationNew:self];
         [dBService fetchAndRefreshQuickConversation];  // can be used also instead of syncCall/syncCall:blah blah
     }
 }

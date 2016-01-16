@@ -227,28 +227,25 @@
 +(void)thirdDisplayNotificationTS:(NSString *)toastMessage delegate:(id)delegate{
     
     ALPushAssist* top=[[ALPushAssist alloc] init];
-//
-//    [TSMessage setDefaultViewController:top.topViewController];
-//    [TSMessage showNotificationWithTitle:@"Applozic" subtitle:toastMessage type:TSMessageNotificationTypeMessage];
-//    
-//    [TSMessage showNotificationInViewController:top.topViewController title:@"Applozic" subtitle:toastMessage type:TSMessageNotificationTypeMessage duration:0.5 canBeDismissedByUser:YES];
-    UIImage* img=[[UIImage alloc] init];
-    img=[ALUtilityClass getImageFromFramworkBundle:@"NotificationIcon.png"];
-   
-    [[TSMessageView appearance] setTitleFont:[UIFont boldSystemFontOfSize:17]];
-    [[TSMessageView appearance] setContentFont:[UIFont systemFontOfSize:13]];
-   // [[TSMessageView appearance] setBackgroundColor:[UIColor blackColor]];
+    NSLog(@"DELEGATE %@",delegate);
+    UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
+    [[TSMessageView appearance] setTitleFont:[UIFont fontWithName:@"Helvetica Neue" size:18.0]];
+    [[TSMessageView appearance] setContentFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
+
+    [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
+    [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
+
     [TSMessage showNotificationInViewController:top.topViewController
                                             title:@"Applozic"
-                                       subtitle:toastMessage
-                                          image:img
+                                       subtitle:[NSString stringWithFormat:@"%@",toastMessage]
+                                          image:appIcon
                                            type:TSMessageNotificationTypeMessage
-                                       duration:2.5
+                                       duration:1.75
                                        callback:^(void){
-       
-        //ALAppLocalNotifications* launch=[[ALAppLocalNotifications alloc] init];
-        //for Individual Chat Conversation Opening...
-        [delegate thirdPartyNotificationTap:nil];
+        
+                                           
+        [delegate thirdPartyNotificationTap];
+
         
     }buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionTop canBeDismissedByUser:YES];
     

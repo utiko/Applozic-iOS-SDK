@@ -24,12 +24,12 @@
 @property(strong) ALReachability * internetConnectionReach;
 @property(nonatomic,strong) ALChatLauncher * chatLauncher;
 @property (nonatomic) BOOL flag;
-
 @property(strong,nonatomic) NSDictionary *dict ;
 @property(strong,nonatomic) NSString * contactId;
 @property(strong,nonatomic) NSMutableDictionary* dict2;
 
 -(void)thirdPartyNotificationTap:(UIGestureRecognizer*)gestureRecognizer;
+-(void)thirdPartyNotificationTap;
 
 
 

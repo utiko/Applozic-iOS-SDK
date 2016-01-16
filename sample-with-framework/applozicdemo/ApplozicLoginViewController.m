@@ -183,8 +183,8 @@
 //    [obj createDetailChatViewController:@"don"];
 
     
-    LaunchChatFromSimpleViewController* obj=[[LaunchChatFromSimpleViewController alloc] init];
-    [obj.launchChatList sendActionsForControlEvents:UIControlEventTouchUpInside];
+//    LaunchChatFromSimpleViewController* obj=[[LaunchChatFromSimpleViewController alloc] init];
+//    [obj.launchChatList sendActionsForControlEvents:UIControlEventTouchUpInside];
 //    [obj whenPush];
     
 }
