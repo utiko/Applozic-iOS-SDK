@@ -265,17 +265,24 @@
                                     <outlet property="delegate" destination="oZy-jo-Qf5" id="vvf-qB-bh1"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Q6U-8n-Zjt">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="nYW-vk-iGf" firstAttribute="top" secondItem="201-eK-m3i" secondAttribute="bottom" constant="15" id="1m4-rs-U0E"/>
                             <constraint firstItem="201-eK-m3i" firstAttribute="centerX" secondItem="8au-eI-HrA" secondAttribute="centerX" id="3y6-Vo-GZw"/>
+                            <constraint firstItem="Q6U-8n-Zjt" firstAttribute="centerY" secondItem="8au-eI-HrA" secondAttribute="centerY" id="SAL-13-lc1"/>
+                            <constraint firstItem="Q6U-8n-Zjt" firstAttribute="centerX" secondItem="201-eK-m3i" secondAttribute="centerX" id="cMZ-zj-YqA"/>
                             <constraint firstItem="201-eK-m3i" firstAttribute="leading" secondItem="8au-eI-HrA" secondAttribute="leadingMargin" constant="-16" id="dM0-eB-0DR"/>
                             <constraint firstItem="201-eK-m3i" firstAttribute="top" secondItem="8au-eI-HrA" secondAttribute="topMargin" constant="49" id="gt3-a2-hFQ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Contacts" id="d3b-NW-KSO"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="Q6U-8n-Zjt" id="t1T-FF-snj"/>
                         <outlet property="contactsTableView" destination="201-eK-m3i" id="sY6-BF-oPu"/>
                     </connections>
                 </viewController>

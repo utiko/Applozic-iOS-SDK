@@ -25,6 +25,8 @@
 
 @property (strong, nonatomic) NSMutableArray *contactList;
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+
 @property (strong, nonatomic) UISearchBar *searchBar;
 
 @property (strong, nonatomic) NSMutableArray *filteredContactList;
@@ -39,7 +41,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [[self activityIndicator] startAnimating];
     UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
     
     if (!color) {
@@ -95,6 +97,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
     //    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
@@ -144,7 +147,7 @@
     //Write the logic to get display nme
     if (contact) {
         newContactCell.contactPersonName.text = [contact getDisplayName];
-        NSLog(@"DISPLAY NAME %@", [contact getDisplayName]);
+//        NSLog(@"DISPLAY NAME %@", [contact getDisplayName]);
         NSString *firstLetter = [newContactCell.contactPersonName.text substringToIndex:1];
         //        nameIcon.text=firstLetter;
         NSRange whiteSpaceRange = [newContactCell.contactPersonName.text rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -159,8 +162,6 @@
         {
             nameIcon.text = [firstLetter uppercaseString];
         }
-        
-        
         
         if (contact.contactImageUrl) {
             newContactCell.contactPersonImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:contact.contactImageUrl]]];
@@ -216,6 +217,7 @@
     NSArray * descriptors = [NSArray arrayWithObject:valueDescriptor];
     self.filteredContactList = [NSMutableArray arrayWithArray:[self.contactList sortedArrayUsingDescriptors:descriptors]];
     
+    [[self activityIndicator] stopAnimating];
     [self.contactsTableView reloadData];
     
 }

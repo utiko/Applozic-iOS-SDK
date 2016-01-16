@@ -73,7 +73,7 @@
             ALContact * createNew=[[ALContact alloc] init];
             createNew.displayName=[userIDs objectForKey:key];
             createNew.userId=key;
-            NSLog(@"DISPLAY NAME %@ and ID %@",[userIDs objectForKey:key],key);
+//            NSLog(@"DISPLAY NAME %@ and ID %@",[userIDs objectForKey:key],key);
             
             ALContactDBService * adding=[[ALContactDBService alloc] init];
             [adding addContact:createNew];
