@@ -123,7 +123,7 @@ static ALMessageClientService *alMsgClientService;
 
 +(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( NSMutableArray *, NSError *))completion{
    
-    if(alMsgClientService){
+    if(!alMsgClientService){
         alMsgClientService = [[ALMessageClientService alloc]init];
     }
     
@@ -314,7 +314,6 @@ static ALMessageClientService *alMsgClientService;
                 }else {
                     NSLog(@" sent sucessfully....maked as delivered...%@", message);
                 }
-                
             }];
         }else{
             NSLog(@" fileMeta present ... %@" ,msg.fileMeta );
