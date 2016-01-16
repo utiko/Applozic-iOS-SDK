@@ -79,16 +79,8 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SAh-hY-LL9" userLabel="xBG">
-                                                    <rect key="frame" x="550" y="36" width="26" height="26"/>
-                                                    <color key="backgroundColor" red="0.76541832010582012" green="0.11992737765871976" blue="0.28911377022198675" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="tintColor" red="0.76541832010582012" green="0.11992737765871976" blue="0.28911377022198675" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="26" id="kPe-YR-WfZ"/>
-                                                    </constraints>
-                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="x" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8um-DV-I1M" userLabel="mCount Label">
-                                                    <rect key="frame" x="550" y="38" width="26" height="22"/>
+                                                    <rect key="frame" x="550" y="38" width="26" height="26"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="26" id="QmV-6U-0gZ"/>
                                                     </constraints>
@@ -134,10 +126,8 @@
                                                 <constraint firstItem="n4n-9f-27k" firstAttribute="bottom" secondItem="9sE-W8-i33" secondAttribute="bottom" id="MJU-e6-EeL"/>
                                                 <constraint firstItem="n4n-9f-27k" firstAttribute="trailing" secondItem="9sE-W8-i33" secondAttribute="trailing" id="NSs-XZ-F1d"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="mUK-kK-XjJ" secondAttribute="trailing" constant="140" id="OhO-4O-97y"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="SAh-hY-LL9" secondAttribute="trailing" constant="16" id="QhY-bn-hw8"/>
                                                 <constraint firstItem="FQ8-OW-duW" firstAttribute="centerY" secondItem="jVl-2p-Q74" secondAttribute="centerY" id="STX-Kz-IyB"/>
                                                 <constraint firstItem="n4n-9f-27k" firstAttribute="top" secondItem="jVl-2p-Q74" secondAttribute="topMargin" constant="42" id="T7G-PL-v9Z"/>
-                                                <constraint firstItem="SAh-hY-LL9" firstAttribute="centerY" secondItem="nFm-Yv-yQF" secondAttribute="centerY" constant="-3" id="TwU-vg-J2t"/>
                                                 <constraint firstAttribute="centerY" secondItem="9sE-W8-i33" secondAttribute="centerY" id="Ut4-Tz-Dst"/>
                                                 <constraint firstItem="r8N-HC-XMt" firstAttribute="leading" secondItem="G4M-aZ-RgP" secondAttribute="trailing" constant="6" id="XaD-kp-j8P"/>
                                                 <constraint firstItem="8um-DV-I1M" firstAttribute="firstBaseline" secondItem="mUK-kK-XjJ" secondAttribute="baseline" constant="-4" id="XgK-wa-SuA"/>
@@ -147,10 +137,9 @@
                                                 <constraint firstItem="9sE-W8-i33" firstAttribute="leading" secondItem="jVl-2p-Q74" secondAttribute="leadingMargin" constant="11" id="eKe-63-9wP"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="r8N-HC-XMt" secondAttribute="trailing" constant="12" id="o3L-ji-pZY"/>
                                                 <constraint firstAttribute="centerY" secondItem="mUK-kK-XjJ" secondAttribute="centerY" multiplier="0.8" id="ojc-mi-E6X"/>
-                                                <constraint firstItem="nFm-Yv-yQF" firstAttribute="baseline" secondItem="8um-DV-I1M" secondAttribute="baseline" constant="4" id="rvc-rn-mkA"/>
+                                                <constraint firstItem="nFm-Yv-yQF" firstAttribute="baseline" secondItem="8um-DV-I1M" secondAttribute="baseline" id="rvc-rn-mkA"/>
                                                 <constraint firstItem="FQ8-OW-duW" firstAttribute="leading" secondItem="jVl-2p-Q74" secondAttribute="leadingMargin" constant="21" id="scR-rY-zO7"/>
-                                                <constraint firstItem="8um-DV-I1M" firstAttribute="bottom" secondItem="ng6-Us-xRU" secondAttribute="bottom" constant="-3" id="tCy-z5-1F2"/>
-                                                <constraint firstItem="SAh-hY-LL9" firstAttribute="top" secondItem="r8N-HC-XMt" secondAttribute="bottom" id="tak-yj-Wlc"/>
+                                                <constraint firstItem="8um-DV-I1M" firstAttribute="bottom" secondItem="ng6-Us-xRU" secondAttribute="bottom" constant="1" id="tCy-z5-1F2"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="mUK-kK-XjJ" secondAttribute="bottom" constant="14" id="uAd-Uh-O03"/>
                                             </constraints>
                                             <variation key="default">
@@ -165,7 +154,6 @@
                                         <connections>
                                             <outlet property="imageMarker" destination="ng6-Us-xRU" id="pm3-Sb-8uh"/>
                                             <outlet property="imageNameLabel" destination="nFm-Yv-yQF" id="iDb-5E-j1g"/>
-                                            <outlet property="mCountImageView" destination="SAh-hY-LL9" id="iYf-sA-V5X"/>
                                             <outlet property="mMessageLabel" destination="mUK-kK-XjJ" id="Qjk-1k-vcd"/>
                                             <outlet property="mTimeLabel" destination="r8N-HC-XMt" id="g1W-I7-CN0"/>
                                             <outlet property="mUserImageView" destination="9sE-W8-i33" id="nJd-di-Nbe"/>
