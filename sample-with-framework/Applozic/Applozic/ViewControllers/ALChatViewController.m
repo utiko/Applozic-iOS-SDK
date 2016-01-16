@@ -87,7 +87,7 @@ ALMessageDBService  * dbService;
 }
 
 -(void)processMarkRead{
-    [ALMessageService markConversationAsRead: self.contactIds withCompletion:^(NSString* string,NSError* error){
+    [ALMessageService markConversationAsRead: self.contactIds orChannelKey:self.channelKey withCompletion:^(NSString* string,NSError* error){
         if(!error) {
             NSLog(@"Marked messages as read for %@", self.contactIds);
         }
@@ -160,7 +160,8 @@ ALMessageDBService  * dbService;
     {
         self.sendMessageTextView.text = self.text;
     }
-    
+ 
+    NSLog(@"view will appers CHANNEL KEY %@", self.channelKey);
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -209,6 +210,7 @@ ALMessageDBService  * dbService;
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     _alContact = [theDBHandler loadContactByKey:@"userId" value: self.contactIds];
 
+    NSLog(@" setitle CHANNEL KEY %@", self.channelKey);
     if([self.channelKey intValue])
     {
         ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
@@ -1152,7 +1154,7 @@ ALMessageDBService  * dbService;
     else {
         time = NULL;
     }
-    [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
+    [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time andChannelKey:self.channelKey withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
         if(!error )
         {
             NSLog(@"No Error");
