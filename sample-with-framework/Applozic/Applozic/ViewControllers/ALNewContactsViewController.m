@@ -144,6 +144,7 @@
     //Write the logic to get display nme
     if (contact) {
         newContactCell.contactPersonName.text = [contact getDisplayName];
+        NSLog(@"DISPLAY NAME %@", [contact getDisplayName]);
         NSString *firstLetter = [newContactCell.contactPersonName.text substringToIndex:1];
         //        nameIcon.text=firstLetter;
         NSRange whiteSpaceRange = [newContactCell.contactPersonName.text rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -211,7 +212,7 @@
     
     //    self.filteredContactList = [NSMutableArray arrayWithArray:self.contactList];
     
-    NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES];
+    NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES selector:@selector(caseInsensitiveCompare:)];
     NSArray * descriptors = [NSArray arrayWithObject:valueDescriptor];
     self.filteredContactList = [NSMutableArray arrayWithArray:[self.contactList sortedArrayUsingDescriptors:descriptors]];
     
