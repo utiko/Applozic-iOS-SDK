@@ -143,15 +143,31 @@
     
 }
 
--(void) getMessageListForUser: (NSString *)userId startIndex:(NSString *)startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSNumber *)endTimeStamp withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion
+-(void) getMessageListForUser: (NSString *)userId startIndex:(NSString *)startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSNumber *)endTimeStamp andChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion
 {
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
     NSString * theParamString;
     if(endTimeStamp==nil){
-        theParamString = [NSString stringWithFormat:@"userId=%@&startIndex=%@&pageSize=%@",userId,startIndex,pageSize];
-    }else{
-        theParamString = [NSString stringWithFormat:@"userId=%@&startIndex=%@&pageSize=%@&endTime=%@",userId,startIndex,pageSize,endTimeStamp.stringValue];
+        if(channelKey != nil)
+        {
+            theParamString = [NSString stringWithFormat:@"groupId=%@&startIndex=%@&pageSize=%@",channelKey,startIndex,pageSize];
+        }
+        else
+        {
+            theParamString = [NSString stringWithFormat:@"userId=%@&startIndex=%@&pageSize=%@",userId,startIndex,pageSize];
+        }
+    }
+    else
+    {
+//        if(channelKey != nil)
+//        {
+//            theParamString = [NSString stringWithFormat:@"groupId=%@&startIndex=%@&pageSize=%@&endTime=%@",channelKey,startIndex,pageSize,endTimeStamp.stringValue];
+//        }
+//        else
+//        {
+            theParamString = [NSString stringWithFormat:@"userId=%@&startIndex=%@&pageSize=%@&endTime=%@",userId,startIndex,pageSize,endTimeStamp.stringValue];
+//        }
     }
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
@@ -227,12 +243,19 @@
     
 }
 
--(void)markConversationAsRead: (NSString *) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
+-(void)markConversationAsRead: (NSString *) contactId andChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion{
     
 
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/read/conversation",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
-    
+    NSString * theParamString;
+    if(channelKey != nil)
+    {
+        theParamString = [NSString stringWithFormat:@"groupId=%@",channelKey];
+    }
+    else
+    {
+        theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
+    }
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"MARK_CONVERSATION_AS_READ" WithCompletionHandler:^(id theJson, NSError *theError) {
@@ -271,10 +294,17 @@
 }
 
 
--(void)deleteMessageThread:( NSString * ) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
+-(void)deleteMessageThread:( NSString * ) contactId orChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion{
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delete/conversation",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
-    
+    NSString * theParamString;
+    if(channelKey != nil)
+    {
+        theParamString = [NSString stringWithFormat:@"groupId=%@",channelKey];
+    }
+    else
+    {
+        theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
+    }
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
@@ -285,8 +315,10 @@
         }else{
             //delete sucessfull
             NSLog(@"sucessfully deleted !");
-            ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-            [dbService deleteAllMessagesByContact:contactId];
+            ALMessageDBService * dbService = [[ALMessageDBService alloc] init];
+        
+                [dbService deleteAllMessagesByContact:contactId orChannelKey:channelKey];
+            
         }
         NSLog(@"Response of delete: %@", (NSString *)theJson);
         completion((NSString *)theJson,nil);

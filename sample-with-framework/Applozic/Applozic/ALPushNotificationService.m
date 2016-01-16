@@ -99,7 +99,7 @@
             [[ NSNotificationCenter defaultCenter] postNotificationName:@"deliveryReport" object:deliveryParts[0] userInfo:dictionary];
         }else if ([type isEqualToString: MT_CONVERSATION_DELETED]){
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
-            [messageDBService deleteAllMessagesByContact:notificationMsg];
+            [messageDBService deleteAllMessagesByContact:notificationMsg orChannelKey:nil];
         }else if ([type isEqualToString: @"APPLOZIC_05"])
         {
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
