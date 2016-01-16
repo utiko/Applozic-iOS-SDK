@@ -462,7 +462,10 @@
     UILabel* nameIcon=(UILabel*)[contactCell viewWithTag:102];
     nameIcon.textColor=[UIColor whiteColor];
     UILabel* unread=(UILabel*)[contactCell viewWithTag:104];
-    
+    unread.backgroundColor = [ALApplozicSettings getColourForNavigation];
+    unread.layer.cornerRadius = unread.frame.size.width/2;
+    unread.layer.masksToBounds = YES;
+    unread.textColor = [UIColor whiteColor];
     [contactCell.onlineImageMarker setBackgroundColor:[UIColor clearColor]];
     
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
