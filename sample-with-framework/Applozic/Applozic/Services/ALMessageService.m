@@ -44,11 +44,11 @@ static ALMessageClientService *alMsgClientService;
 }
 
 
-+(void)getMessageListForUser:(NSString *)userId startIndex:(NSString *)startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSNumber *)endTimeStamp withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion
++(void)getMessageListForUser:(NSString *)userId startIndex:(NSString *)startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSNumber *)endTimeStamp andChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion
 {
     
     ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
-    NSMutableArray * messageList = [almessageDBService getMessageListForContactWithCreatedAt:userId withCreatedAt:endTimeStamp];
+    NSMutableArray * messageList = [almessageDBService getMessageListForContactWithCreatedAt:userId withCreatedAt:endTimeStamp andChannelKey:channelKey];
     //Found Record in DB itself ...if not make call to server
     if(messageList.count > 0 && ![ALUserDefaultsHandler isServerCallDoneForMSGList:userId]){
         NSLog(@"message list is coming from DB %ld", (unsigned long)messageList.count);
@@ -59,7 +59,7 @@ static ALMessageClientService *alMsgClientService;
     }
     ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc ]init ];
     
-    [alMessageClientService getMessageListForUser:userId startIndex:startIndex pageSize:pageSize endTimeInTimeStamp:endTimeStamp withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
+    [alMessageClientService getMessageListForUser:userId startIndex:startIndex pageSize:pageSize endTimeInTimeStamp:endTimeStamp andChannelKey:channelKey  withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
 
         completion(messages, error,userDetailArray);
     }];
@@ -179,17 +179,17 @@ static ALMessageClientService *alMsgClientService;
 }
 
 
-+(void)deleteMessageThread:( NSString * ) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
++(void)deleteMessageThread:( NSString * ) contactId orChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion{
     
     
     ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc]init];
-    [alMessageClientService deleteMessageThread:contactId
+    [alMessageClientService deleteMessageThread:contactId orChannelKey:channelKey
                                  withCompletion:^(NSString * response, NSError *error) {
                                      if (!error){
                                          //delete sucessfull
                                          NSLog(@"sucessfully deleted !");
                                          ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-                                         [dbService deleteAllMessagesByContact:contactId];
+                                         [dbService deleteAllMessagesByContact:contactId orChannelKey:channelKey];
                                      }
                                      completion(response,error);
                                  }];
@@ -280,19 +280,19 @@ static ALMessageClientService *alMsgClientService;
     return message;
 }
 
-+(void)markConversationAsRead: (NSString *) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
++(void)markConversationAsRead: (NSString *) contactId orChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion{
     
-    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+    ALMessageDBService * dbService = [[ALMessageDBService alloc] init];
     
-    NSUInteger count = [dbService markConversationAsRead:contactId];
+    NSUInteger count = [dbService markConversationAsRead:contactId orChannelKey:channelKey];
     NSLog(@"Found %ld messages for marking as read.", (unsigned long)count);
 
     if(count == 0)
     {
         return;
     }
-    ALMessageClientService * alMessageClientService  = [[ALMessageClientService alloc]init];
-    [alMessageClientService markConversationAsRead:contactId withCompletion:^(NSString *response, NSError * error) {
+    ALMessageClientService * alMessageClientService  = [[ALMessageClientService alloc] init];
+    [alMessageClientService markConversationAsRead:contactId andChannelKey:channelKey withCompletion:^(NSString *response, NSError * error) {
         completion(response,error);
     }];
     

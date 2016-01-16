@@ -227,7 +227,7 @@
     
     [self.dataAvailablityLabel setHidden:YES];
     [self callLastSeenStatusUpdate];
-    
+    NSLog(@" = = = = = = = = = viewWIllAppear  COUNTXX  :%lu ==========",(unsigned long)self.mContactsMessageListArray.count);
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -334,6 +334,7 @@
     }
     
     self.mContactsMessageListArray = messagesArray;
+    NSLog(@" = = = = = = = = =getMessagesArray   COUNTXX  :%lu ==========",(unsigned long)self.mContactsMessageListArray.count);
     [self.mTableView reloadData];
 }
 
@@ -382,7 +383,7 @@
         [self.mTableView reloadData];
     }
     
-    
+    NSLog(@" = = = = = = = = =UPDATE MSG LIST   COUNTXX  :%lu ==========",(unsigned long)self.mContactsMessageListArray.count);
 }
 
 -(ALContactCell * ) getCell:(NSString *)key{
@@ -659,17 +660,25 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         NSLog(@"Delete Pressed");
-        ALMessage * alMessageobj=  self.mContactsMessageListArray[indexPath.row];
+        ALMessage * alMessageobj = self.mContactsMessageListArray[indexPath.row];
         
-        [ALMessageService deleteMessageThread:alMessageobj.contactIds withCompletion:^(NSString *string, NSError *error) {
+        [ALMessageService deleteMessageThread:alMessageobj.contactIds orChannelKey:alMessageobj.groupId withCompletion:^(NSString *string, NSError *error) {
             
-            if(error){
+            if(error)
+            {
                 NSLog(@"failure %@",error.description);
                 [ ALUtilityClass displayToastWithMessage:@"Delete failed" ];
                 return;
             }
-            
-            NSArray * theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",alMessageobj.contactIds]];
+            NSArray * theFilteredArray;
+            if([alMessageobj.groupId intValue])
+            {
+                theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"groupId = %@",alMessageobj.groupId]];
+            }
+            else
+            {
+                theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",alMessageobj.contactIds]];
+            }
             
             NSLog(@"getting filteredArray ::%lu", (unsigned long)theFilteredArray.count);
             [self.mContactsMessageListArray removeObjectsInArray:theFilteredArray ];
@@ -688,7 +697,7 @@
     ALMessage * theMessage = notification.object;
     NSLog(@"notification for table update...%@", theMessage.message);
     NSArray * theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",theMessage.contactIds]];
-    
+    //check for group id also
     ALMessage * theLatestMessage = theFilteredArray.firstObject;
     if (theLatestMessage != nil && ![theMessage.createdAtTime isEqualToNumber: theLatestMessage.createdAtTime]) {
         [self.mContactsMessageListArray removeObject:theLatestMessage];
