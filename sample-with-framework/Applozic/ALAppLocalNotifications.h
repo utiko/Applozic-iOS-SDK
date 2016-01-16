@@ -30,6 +30,6 @@
 @property(strong,nonatomic) NSString * contactId;
 @property(strong,nonatomic) NSMutableDictionary* dict2;
 
--(void)thirdPartyNotificationTap:(UIGestureRecognizer*)gestureRecognizer;
+-(void)thirdPartyNotificationTap;//:(UIGestureRecognizer*)gestureRecognizer;
 
 @end

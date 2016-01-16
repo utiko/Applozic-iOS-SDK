@@ -183,7 +183,7 @@
 
         if(updateUI==[NSNumber numberWithBool:NO]){
             NSLog(@"App launched from Background");
-            [self thirdPartyNotificationTap:nil]; // Directly launching Chat
+            [self thirdPartyNotificationTap]; // Directly launching Chat
             return;
         }
         
@@ -208,7 +208,7 @@
     //    [ALUtilityClass displayNotification:alertValue delegate:self];
 }
 
--(void)thirdPartyNotificationTap:(UIGestureRecognizer*)gestureRecognizer{
+-(void)thirdPartyNotificationTap{ //:(UIGestureRecognizer*)gestureRecognizer
     
     ALPushAssist* object=[[ALPushAssist alloc] init];
     

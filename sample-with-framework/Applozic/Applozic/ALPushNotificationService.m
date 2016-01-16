@@ -64,7 +64,7 @@
         NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
         
         if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
-            NSLog(@"notificationId is already processed...%@",notificationId);
+            NSLog(@"notificationId is already processed...log in PushN%@",notificationId);
             return true;
         }
         //TODO : check if notification is alreday received and processed...
@@ -72,12 +72,6 @@
         
         if ([type isEqualToString:MT_SYNC])
         {
-            //            NSLog(@"pushing to notification center");
-            //            [dict setObject:alertValue forKey:@"alertValue"];
-            //
-            //            [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:notificationMsg
-            //                                                               userInfo:dict];
-            //            [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:notificationMsg userInfo:dict];
             
             NSLog(@"pushing to notification center");
             [dict setObject:alertValue forKey:@"alertValue"];

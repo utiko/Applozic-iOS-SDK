@@ -110,7 +110,7 @@ static MQTTSession *session;
     NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
 
     if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
-        NSLog(@"notificationId is already processed...%@",notificationId);
+        NSLog(@"notificationId is already processed...log in MQTT%@",notificationId);
         return;
     }
     

@@ -241,7 +241,7 @@
     
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:[ALUserDefaultsHandler getNotificationTitle]
-                                       subtitle:[NSString stringWithFormat:@"%@:%@",[delegate contactId],toastMessage]
+                                       subtitle:[NSString stringWithFormat:@"%@",toastMessage]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.5
@@ -249,7 +249,7 @@
                                            
                                            //ALAppLocalNotifications* launch=[[ALAppLocalNotifications alloc] init];
                                            //for Individual Chat Conversation Opening...
-                                           [delegate thirdPartyNotificationTap:nil];
+                                           [delegate thirdPartyNotificationTap];
                                            
                                        }buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionTop canBeDismissedByUser:YES];
     
