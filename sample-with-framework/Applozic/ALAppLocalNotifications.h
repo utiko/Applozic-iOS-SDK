@@ -19,9 +19,9 @@
 
 -(void)reachabilityChanged:(NSNotification*)note;
 
-@property(strong) Reachability * googleReach;
-@property(strong) Reachability * localWiFiReach;
-@property(strong) Reachability * internetConnectionReach;
+@property(strong) ALReachability * googleReach;
+@property(strong) ALReachability * localWiFiReach;
+@property(strong) ALReachability * internetConnectionReach;
 
 @property(nonatomic,strong) ALChatLauncher * chatLauncher;
 @property (nonatomic) BOOL flag;
