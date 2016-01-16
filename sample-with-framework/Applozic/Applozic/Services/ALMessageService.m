@@ -24,6 +24,8 @@
 
 @implementation ALMessageService
 
+static ALMessageClientService *alMsgClientService;
+
 
 +(void) processLatestMessagesGroupByContact {
     
@@ -122,8 +124,14 @@
 
 
 +(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( NSMutableArray *, NSError *))completion{
-    ALMessageClientService * alMessageClientService = [[ALMessageClientService alloc]init];
-    [ alMessageClientService getLatestMessageForUser:deviceKeyString withCompletion:^(ALSyncMessageFeed * syncResponse , NSError *error) {
+   
+    if(!alMsgClientService){
+        alMsgClientService = [[ALMessageClientService alloc]init];
+    }
+    
+    @synchronized(alMsgClientService) {
+
+    [ alMsgClientService getLatestMessageForUser:deviceKeyString withCompletion:^(ALSyncMessageFeed * syncResponse , NSError *error) {
         NSMutableArray *messageArray = nil;
         
         if(!error){
@@ -145,8 +153,8 @@
         }
         
     }];
-    
-    
+}
+
 }
 
 
@@ -308,7 +316,6 @@
                 }else {
                     NSLog(@" sent sucessfully....maked as delivered...%@", message);
                 }
-                
             }];
         }else{
             NSLog(@" fileMeta present ... %@" ,msg.fileMeta );

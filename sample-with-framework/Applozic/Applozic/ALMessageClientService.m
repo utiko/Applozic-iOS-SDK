@@ -214,7 +214,7 @@
 }
 
 -(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( ALSyncMessageFeed *, NSError *))completion{
-    @synchronized(self) {
+    //@synchronized(self) {
         NSString *lastSyncTime =[ALUserDefaultsHandler
                                  getLastSyncTime ];
         if ( lastSyncTime == NULL ){
@@ -239,7 +239,7 @@
             NSLog(@"theJson :: : %@", theJson);
         }];
         
-    }
+    //}
     
 }
 

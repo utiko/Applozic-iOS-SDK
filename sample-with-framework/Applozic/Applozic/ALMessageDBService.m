@@ -34,7 +34,7 @@
             NSLog(@"Skipping duplicate message found with key %@", theMessage.key);
             continue;
         }
-        
+        theMessage.sentToServer = YES;
         DB_Message * theMessageEntity= [self createMessageEntityForDBInsertionWithMessage:theMessage];
         [theDBHandler.managedObjectContext save:nil];
         theMessage.msgDBObjectId = theMessageEntity.objectID;
@@ -565,11 +565,12 @@
     
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-    theRequest.predicate =[NSPredicate predicateWithFormat:@"sentToServer = %@",@"0"];
+    theRequest.predicate =[NSPredicate predicateWithFormat:@"sentToServer = %@ and type= %@",@"0",@"5"];
     
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
     NSMutableArray * msgArray = [[NSMutableArray alloc]init];
+    
     for (DB_Message * theEntity in theArray) {
         ALMessage * theMessage = [self createMessageEntity:theEntity];
         [msgArray addObject:theMessage];
