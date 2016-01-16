@@ -61,6 +61,7 @@
     
     [ALDataNetworkConnection checkDataNetworkAvailable];
     [self.mActivityIndicator stopAnimating];
+    [self setTitle:@"Log Out"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -143,7 +144,7 @@
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService logout];
     // Initial login view .....
-    [self setTitle:@"Log Out"];
+    
     
  
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
@@ -163,10 +164,11 @@
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
     [self.mActivityIndicator startAnimating];
-    //ALChatManager...
     
-//    DemoChatManager * demoChatManager = [[DemoChatManager alloc]init];
-//    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
+    [ALUserDefaultsHandler setUserId:user.userId];
+    [ALUserDefaultsHandler setEmailId:user.emailId];
+    
+
     
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic"
                                                           bundle:[NSBundle bundleForClass:ALChatViewController.class]];

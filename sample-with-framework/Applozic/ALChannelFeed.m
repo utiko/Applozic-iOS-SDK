@@ -7,6 +7,7 @@
 //
 
 #import "ALChannelFeed.h"
+#import "ALConversationProxy.h"
 
 @implementation ALChannelFeed
 
@@ -26,6 +27,16 @@
         [theChannelFeedArray addObject:alChannel];
     }
     self.channelFeedsList = theChannelFeedArray;
+    
+    
+    NSMutableArray * theConversationProxyArray = [NSMutableArray new];
+    
+    NSDictionary * theConversationProxyDict = [json valueForKey:@"conversationPxys"];
+    for (NSDictionary * theDictionary in theConversationProxyDict) {
+        ALConversationProxy *conversationProxy = [[ALConversationProxy alloc] initWithDictonary:theDictionary];
+        [theConversationProxyArray addObject:conversationProxy];
+    }
+    self.conversationProxyList = theConversationProxyArray;
 }
 
 @end

@@ -45,13 +45,13 @@
 
 -(void)dataConnectionNotificationHandler
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:AL_kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thirdPartyNotificationHandler:) name:@"showNotificationAndLaunchChat" object:nil];
     // create a Reachability object for www.google.com
     
-    self.googleReach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    self.googleReach = [ALReachability reachabilityWithHostname:@"www.google.com"];
     
-    self.googleReach.reachableBlock = ^(Reachability * reachability)
+    self.googleReach.reachableBlock = ^(ALReachability * reachability)
     {
         NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Reachable(%@)", reachability.currentReachabilityString];
         // NSLog(@"%@", temp);
@@ -62,7 +62,7 @@
         
     };
     
-    self.googleReach.unreachableBlock = ^(Reachability * reachability)
+    self.googleReach.unreachableBlock = ^(ALReachability * reachability)
     {
         NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Unreachable(%@)", reachability.currentReachabilityString];
         //  NSLog(@"%@", temp);
@@ -77,12 +77,12 @@
     
     // create a reachability for the local WiFi
     
-    self.localWiFiReach = [Reachability reachabilityForLocalWiFi];
+    self.localWiFiReach = [ALReachability reachabilityForLocalWiFi];
     
     // we ONLY want to be reachable on WIFI - cellular is NOT an acceptable connectivity
     self.localWiFiReach.reachableOnWWAN = NO;
     
-    self.localWiFiReach.reachableBlock = ^(Reachability * reachability)
+    self.localWiFiReach.reachableBlock = ^(ALReachability * reachability)
     {
         NSString * temp = [NSString stringWithFormat:@"LocalWIFI Block Says Reachable(%@)", reachability.currentReachabilityString];
         // NSLog(@"%@", temp);
@@ -90,7 +90,7 @@
         
     };
     
-    self.localWiFiReach.unreachableBlock = ^(Reachability * reachability)
+    self.localWiFiReach.unreachableBlock = ^(ALReachability * reachability)
     {
         NSString * temp = [NSString stringWithFormat:@"LocalWIFI Block Says Unreachable(%@)", reachability.currentReachabilityString];
         
@@ -102,15 +102,15 @@
     
     // create a Reachability object for the internet
     
-    self.internetConnectionReach = [Reachability reachabilityForInternetConnection];
+    self.internetConnectionReach = [ALReachability reachabilityForInternetConnection];
     
-    self.internetConnectionReach.reachableBlock = ^(Reachability * reachability)
+    self.internetConnectionReach.reachableBlock = ^(ALReachability * reachability)
     {
         NSString * temp = [NSString stringWithFormat:@" InternetConnection Says Reachable(%@)", reachability.currentReachabilityString];
         // NSLog(@"%@", temp);
     };
     
-    self.internetConnectionReach.unreachableBlock = ^(Reachability * reachability)
+    self.internetConnectionReach.unreachableBlock = ^(ALReachability * reachability)
     {
         NSString * temp = [NSString stringWithFormat:@"InternetConnection Block Says Unreachable(%@)", reachability.currentReachabilityString];
         //  NSLog(@"%@", temp);
@@ -121,7 +121,7 @@
 }
 -(void)reachabilityChanged:(NSNotification*)note
 {
-    Reachability * reach = [note object];
+    ALReachability * reach = [note object];
     
     if(reach == self.googleReach)
     {

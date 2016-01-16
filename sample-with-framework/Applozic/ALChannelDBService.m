@@ -115,7 +115,7 @@
 {
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     DB_CHANNEL_USER_X * theChannelUserXEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_CHANNEL_USER_X" inManagedObjectContext:theDBHandler.managedObjectContext];
-
+    
     if(channelUserX)
     {
         theChannelUserXEntity.channelKey = channelUserX.key;
@@ -254,6 +254,64 @@
     {
         channel.name = dbChannel.channelDisplayName;
         return channel;
+    }
+    else
+    {
+        return nil;
+    }
+}
+
+-(void)insertConversationProxy:(NSMutableArray *)proxyArray
+{
+    NSMutableArray *conversationProxyArray = [[NSMutableArray alloc] init];
+    ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
+    
+    for(ALConversationProxy *proxy in proxyArray)
+    {
+        DB_ConversationProxy *dbConversationProxy = [self createConversationProxy:proxy];
+        [theDBHandler.managedObjectContext save:nil];
+        [conversationProxyArray addObject:proxy];
+    }
+    
+    NSError *error = nil;
+    [theDBHandler.managedObjectContext save:&error];
+    if(error)
+    {
+        NSLog(@"ERROR IN insertConversationProxy METHOD %@",error);
+    }
+    
+}
+
+-(DB_ConversationProxy *)createConversationProxy:(ALConversationProxy *)conversationProxy
+{
+    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+    DB_ConversationProxy *dbConversationProxy = [self getConversationProxyByKey:conversationProxy.ID];
+    if(!dbConversationProxy)
+    {
+        dbConversationProxy = [NSEntityDescription insertNewObjectForEntityForName:@"DB_ConversationProxy" inManagedObjectContext:theDBHandler.managedObjectContext];
+    }
+    dbConversationProxy.ID = conversationProxy.ID;
+    dbConversationProxy.topicId = conversationProxy.topicId;
+    dbConversationProxy.groupId = conversationProxy.groupId;
+    dbConversationProxy.created = conversationProxy.created;
+    
+    return dbConversationProxy;
+}
+
+-(DB_ConversationProxy *)getConversationProxyByKey:(NSNumber *)ID
+{
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_ConversationProxy" inManagedObjectContext:dbHandler.managedObjectContext];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id = %@",ID];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:predicate];
+    NSError *fetchError = nil;
+    NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    if (result.count)
+    {
+        DB_ConversationProxy *proxy = [result objectAtIndex:0];
+        return proxy;
     }
     else
     {

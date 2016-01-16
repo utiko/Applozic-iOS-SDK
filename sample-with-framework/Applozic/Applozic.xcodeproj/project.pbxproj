@@ -24,8 +24,8 @@
 		29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DEA3141BEDEC1F004B8085 /* ALUserService.m */; };
 		6D15F2461BEB6AE00069BE1A /* ALAttachmentController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D15F2441BEB6AE00069BE1A /* ALAttachmentController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D15F2471BEB6AE00069BE1A /* ALAttachmentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D15F2451BEB6AE00069BE1A /* ALAttachmentController.m */; };
-		6D28D3C31C1AA9AA003817C3 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D28D3C11C1AA9AA003817C3 /* Reachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6D28D3C41C1AA9AA003817C3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D28D3C21C1AA9AA003817C3 /* Reachability.m */; };
+		6D28D3C31C1AA9AA003817C3 /* ALReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D28D3C11C1AA9AA003817C3 /* ALReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6D28D3C41C1AA9AA003817C3 /* ALReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D28D3C21C1AA9AA003817C3 /* ALReachability.m */; };
 		6D36F2081BFF3EE3003D46D3 /* ALApplozicSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D36F2061BFF3EE3003D46D3 /* ALApplozicSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D36F2091BFF3EE3003D46D3 /* ALApplozicSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D36F2071BFF3EE3003D46D3 /* ALApplozicSettings.m */; };
 		6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D46B6C31BD025060014A5D3 /* ALMapViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -228,6 +228,8 @@
 		6DCC30221C31774C00F17D0E /* DB_CHANNEL_USER_X.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30201C31774C00F17D0E /* DB_CHANNEL_USER_X.m */; };
 		6DCC30251C31826A00F17D0E /* ALChannelUserX.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC30231C31826A00F17D0E /* ALChannelUserX.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DCC30261C31826A00F17D0E /* ALChannelUserX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30241C31826A00F17D0E /* ALChannelUserX.m */; };
+		6DD2E20A1C46A97100134EFB /* DB_ConversationProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DD2E2081C46A97100134EFB /* DB_ConversationProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6DD2E20B1C46A97100134EFB /* DB_ConversationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD2E2091C46A97100134EFB /* DB_ConversationProxy.m */; };
 		6DDE81861C27D8EC009B8CF9 /* ALUserClientService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */; };
 		6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */; };
 		982F13041C05D6050024678E /* MQTTClient-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */; };
@@ -270,8 +272,8 @@
 		29DEA3141BEDEC1F004B8085 /* ALUserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserService.m; sourceTree = "<group>"; };
 		6D15F2441BEB6AE00069BE1A /* ALAttachmentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAttachmentController.h; sourceTree = "<group>"; };
 		6D15F2451BEB6AE00069BE1A /* ALAttachmentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALAttachmentController.m; sourceTree = "<group>"; };
-		6D28D3C11C1AA9AA003817C3 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		6D28D3C21C1AA9AA003817C3 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		6D28D3C11C1AA9AA003817C3 /* ALReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALReachability.h; sourceTree = "<group>"; };
+		6D28D3C21C1AA9AA003817C3 /* ALReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALReachability.m; sourceTree = "<group>"; };
 		6D36F2061BFF3EE3003D46D3 /* ALApplozicSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALApplozicSettings.h; path = Applozic/Handlers/ALApplozicSettings.h; sourceTree = "<group>"; };
 		6D36F2071BFF3EE3003D46D3 /* ALApplozicSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALApplozicSettings.m; path = Applozic/Handlers/ALApplozicSettings.m; sourceTree = "<group>"; };
 		6D46B6C31BD025060014A5D3 /* ALMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMapViewController.h; sourceTree = "<group>"; };
@@ -475,6 +477,8 @@
 		6DCC30201C31774C00F17D0E /* DB_CHANNEL_USER_X.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DB_CHANNEL_USER_X.m; sourceTree = "<group>"; };
 		6DCC30231C31826A00F17D0E /* ALChannelUserX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannelUserX.h; sourceTree = "<group>"; };
 		6DCC30241C31826A00F17D0E /* ALChannelUserX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChannelUserX.m; sourceTree = "<group>"; };
+		6DD2E2081C46A97100134EFB /* DB_ConversationProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DB_ConversationProxy.h; sourceTree = "<group>"; };
+		6DD2E2091C46A97100134EFB /* DB_ConversationProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DB_ConversationProxy.m; sourceTree = "<group>"; };
 		6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserClientService.h; sourceTree = "<group>"; };
 		6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserClientService.m; sourceTree = "<group>"; };
 		982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MQTTClient-Prefix.pch"; path = "Applozic/MQTT/MQTTClient-Prefix.pch"; sourceTree = "<group>"; };
@@ -834,6 +838,8 @@
 				6DCC301C1C31758400F17D0E /* DB_CHANNEL.m */,
 				6DCC301F1C31774C00F17D0E /* DB_CHANNEL_USER_X.h */,
 				6DCC30201C31774C00F17D0E /* DB_CHANNEL_USER_X.m */,
+				6DD2E2081C46A97100134EFB /* DB_ConversationProxy.h */,
+				6DD2E2091C46A97100134EFB /* DB_ConversationProxy.m */,
 			);
 			name = database;
 			sourceTree = "<group>";
@@ -889,8 +895,8 @@
 		6D6DF1E71BC53C4200EBA00F /* networkcommunication */ = {
 			isa = PBXGroup;
 			children = (
-				6D28D3C11C1AA9AA003817C3 /* Reachability.h */,
-				6D28D3C21C1AA9AA003817C3 /* Reachability.m */,
+				6D28D3C11C1AA9AA003817C3 /* ALReachability.h */,
+				6D28D3C21C1AA9AA003817C3 /* ALReachability.m */,
 				6D6DF0901BC5364C00EBA00F /* ALConnectionQueueHandler.m */,
 				6D6DF08F1BC5364C00EBA00F /* ALConnectionQueueHandler.h */,
 				6D6DF0991BC5364C00EBA00F /* ALResponseHandler.h */,
@@ -1063,12 +1069,13 @@
 				6DCC30251C31826A00F17D0E /* ALChannelUserX.h in Headers */,
 				6DCC30211C31774C00F17D0E /* DB_CHANNEL_USER_X.h in Headers */,
 				29AD70A51C3E8955003C7DB8 /* ALPushAssist.h in Headers */,
-				6D28D3C31C1AA9AA003817C3 /* Reachability.h in Headers */,
+				6D28D3C31C1AA9AA003817C3 /* ALReachability.h in Headers */,
 				6D6DF1601BC5364C00EBA00F /* ALChatCell_Image.h in Headers */,
 				6D8904291C3E7A9500B59381 /* ALAppLocalNotifications.h in Headers */,
 				6D8904251C3E744000B59381 /* ALConversationProxy.h in Headers */,
 				6D9C693C1C28383B00C78219 /* ALChatLauncher.h in Headers */,
 				6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */,
+				6DD2E20A1C46A97100134EFB /* DB_ConversationProxy.h in Headers */,
 				6D4763F51C3A79A7005BD5EC /* ALChannelService.h in Headers */,
 				6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */,
 				6D6DF13E1BC5364C00EBA00F /* ALConnection.h in Headers */,
@@ -1253,7 +1260,7 @@
 				6D6DF1811BC5364C00EBA00F /* DB_CONTACT.m in Sources */,
 				6D6DF1BF1BC5364C00EBA00F /* SDWebImageDownloaderOperation.m in Sources */,
 				6D6DF1711BC5364C00EBA00F /* ALContact.m in Sources */,
-				6D28D3C41C1AA9AA003817C3 /* Reachability.m in Sources */,
+				6D28D3C41C1AA9AA003817C3 /* ALReachability.m in Sources */,
 				6D6DF1631BC5364C00EBA00F /* ALContactCell.m in Sources */,
 				6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */,
 				6D6DF15D1BC5364C00EBA00F /* ALNewContactsViewController.m in Sources */,
@@ -1295,6 +1302,7 @@
 				6D6DF1B71BC5364C00EBA00F /* SDImageCache.m in Sources */,
 				6D6DF1771BC5364C00EBA00F /* ALMessage.m in Sources */,
 				6D6DF1C41BC5364C00EBA00F /* SDWebImagePrefetcher.m in Sources */,
+				6DD2E20B1C46A97100134EFB /* DB_ConversationProxy.m in Sources */,
 				6D6DF14B1BC5364C00EBA00F /* ALResponseHandler.m in Sources */,
 				6D6DF1B31BC5364C00EBA00F /* MKAnnotationView+WebCache.m in Sources */,
 				982F130F1C05D6050024678E /* MQTTSession.m in Sources */,

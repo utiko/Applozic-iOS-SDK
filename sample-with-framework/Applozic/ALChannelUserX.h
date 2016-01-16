@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString *userKey;
 @property (nonatomic, strong) NSNumber *key;
 @property (nonatomic) short status;
+@property (nonatomic, strong) NSNumber *unreadCount;
 @property (nonatomic, copy) NSManagedObjectID *channelUserXDBObjectId;
 
 -(id)initWithDictonary:(NSDictionary *)messageDictonary;

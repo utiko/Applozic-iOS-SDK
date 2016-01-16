@@ -117,7 +117,7 @@
     self.unreadCount = [[NSArray alloc] init];
     _alMqttConversationService = [ALMQTTConversationService sharedInstance];
     _alMqttConversationService.mqttConversationDelegate = self;
-
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [_alMqttConversationService subscribeToConversation];
     });
@@ -134,14 +134,19 @@
     [self.dataAvailablityLabel setTextColor:[UIColor whiteColor]];
     [self.view addSubview:self.dataAvailablityLabel];
     
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Back"]];
+    [self.navigationItem setLeftBarButtonItem: barButtonItem];
+    
 }
 
--(void) viewDidDisappear:(BOOL)animated
+-(void)viewDidDisappear:(BOOL)animated
 {
-    NSLog(@"Unsubscribing mqtt from ALMessageVC");
+    if (self.navigationController.viewControllers.count == 1){
+        NSLog(@" closing mqtt connections...");
         dispatch_async(dispatch_get_main_queue(), ^{
             [_alMqttConversationService unsubscribeToConversation];
         });
+    }
 }
 
 -(void)dropShadowInNavigationBar
@@ -157,7 +162,7 @@
     
     [super viewWillAppear:animated];
     [self dropShadowInNavigationBar];
-    [[self.navigationItem leftBarButtonItem] setTitle:[ALApplozicSettings getBackButtonTitle]];
+    //    [[self.navigationItem leftBarButtonItem] setTitle:[ALApplozicSettings getBackButtonTitle]];
     
     if([ALUserDefaultsHandler isLogoutButtonHidden])
     {
@@ -189,7 +194,7 @@
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:[UIApplication sharedApplication]];
     
-   // [[NSNotificationCenter defaultCenter]  removeObserver:self name:@"showNotificationAndLaunchChat" object:nil];
+    // [[NSNotificationCenter defaultCenter]  removeObserver:self name:@"showNotificationAndLaunchChat" object:nil];
     
     if ([_detailChatViewController refreshMainView])
     {
@@ -223,7 +228,7 @@
     
     [self.dataAvailablityLabel setHidden:YES];
     [self callLastSeenStatusUpdate];
-    
+    NSLog(@" = = = = = = = = = viewWIllAppear  COUNTXX  :%lu ==========",(unsigned long)self.mContactsMessageListArray.count);
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -265,9 +270,9 @@
     
     // self.navigationController.navigationBar.barTintColor = self.navColor;
     
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [_alMqttConversationService unsubscribeToConversation];
-//    });
+    //    dispatch_async(dispatch_get_main_queue(), ^{
+    //        [_alMqttConversationService unsubscribeToConversation];
+    //    });
 }
 
 - (IBAction)logout:(id)sender {
@@ -330,6 +335,7 @@
     }
     
     self.mContactsMessageListArray = messagesArray;
+    NSLog(@" = = = = = = = = =getMessagesArray   COUNTXX  :%lu ==========",(unsigned long)self.mContactsMessageListArray.count);
     [self.mTableView reloadData];
 }
 
@@ -378,7 +384,7 @@
         [self.mTableView reloadData];
     }
     
-    
+    NSLog(@" = = = = = = = = =UPDATE MSG LIST   COUNTXX  :%lu ==========",(unsigned long)self.mContactsMessageListArray.count);
 }
 
 -(ALContactCell * ) getCell:(NSString *)key{
@@ -474,7 +480,7 @@
     // here for msg dashboard profile pic
     
     NSString *firstLetter = [[[alContact displayName] substringToIndex:1] uppercaseString];
-    
+    //    nameIcon.text = firstLetter;
     NSRange whiteSpaceRange = [[alContact displayName] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
     if (whiteSpaceRange.location != NSNotFound)
     {
@@ -525,7 +531,7 @@
     contactCell.mUserImageView.layer.cornerRadius = contactCell.mUserImageView.frame.size.width/2;
     contactCell.mUserImageView.layer.masksToBounds = YES;
     contactCell.mCountImageView.layer.cornerRadius = contactCell.mCountImageView.frame.size.width/2;
-
+    
     ///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
     
     ///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
@@ -561,7 +567,7 @@
     {
         nameIcon.hidden = NO;
         NSString *firstLetter = [[alContact displayName] substringToIndex:1];
-//        nameIcon.text=[firstLetter uppercaseString];
+        //        nameIcon.text=[firstLetter uppercaseString];
         //         contactCell.mUserImageView.hidden=YES;
         
     }
@@ -655,17 +661,25 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         NSLog(@"Delete Pressed");
-        ALMessage * alMessageobj=  self.mContactsMessageListArray[indexPath.row];
+        ALMessage * alMessageobj = self.mContactsMessageListArray[indexPath.row];
         
-        [ALMessageService deleteMessageThread:alMessageobj.contactIds withCompletion:^(NSString *string, NSError *error) {
+        [ALMessageService deleteMessageThread:alMessageobj.contactIds orChannelKey:alMessageobj.groupId withCompletion:^(NSString *string, NSError *error) {
             
-            if(error){
+            if(error)
+            {
                 NSLog(@"failure %@",error.description);
                 [ ALUtilityClass displayToastWithMessage:@"Delete failed" ];
                 return;
             }
-            
-            NSArray * theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",alMessageobj.contactIds]];
+            NSArray * theFilteredArray;
+            if([alMessageobj.groupId intValue])
+            {
+                theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"groupId = %@",alMessageobj.groupId]];
+            }
+            else
+            {
+                theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",alMessageobj.contactIds]];
+            }
             
             NSLog(@"getting filteredArray ::%lu", (unsigned long)theFilteredArray.count);
             [self.mContactsMessageListArray removeObjectsInArray:theFilteredArray ];
@@ -684,7 +698,7 @@
     ALMessage * theMessage = notification.object;
     NSLog(@"notification for table update...%@", theMessage.message);
     NSArray * theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",theMessage.contactIds]];
-    
+    //check for group id also
     ALMessage * theLatestMessage = theFilteredArray.firstObject;
     if (theLatestMessage != nil && ![theMessage.createdAtTime isEqualToNumber: theLatestMessage.createdAtTime]) {
         [self.mContactsMessageListArray removeObject:theLatestMessage];
@@ -832,7 +846,7 @@
 
 - (void)dealloc{
     
-//    NSLog(@"dealloc called. Unsubscribing with mqtt.");
+    //    NSLog(@"dealloc called. Unsubscribing with mqtt.");
 }
 - (IBAction)backButtonAction:(id)sender {
     
@@ -855,4 +869,38 @@
         return NO;
     }
 }
+
+
+-(UIView *)setCustomBackButton:(NSString *)text
+{
+    UIImageView *imageView=[[UIImageView alloc] initWithImage: [ALUtilityClass getImageFromFramworkBundle:@"bbb.png"]];
+    [imageView setFrame:CGRectMake(-10, 0, 30, 30)];
+    [imageView setTintColor:[UIColor whiteColor]];
+    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(imageView.frame.origin.x + imageView.frame.size.width - 5, imageView.frame.origin.y + 5 , @"back".length, 15)];
+    [label setTextColor:[UIColor whiteColor]];
+    [label setText:text];
+    [label sizeToFit];
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imageView.frame.size.width + label.frame.size.width, imageView.frame.size.height)];
+    view.bounds=CGRectMake(view.bounds.origin.x+8, view.bounds.origin.y-1, view.bounds.size.width, view.bounds.size.height);
+    [view addSubview:imageView];
+    [view addSubview:label];
+    
+    UIButton *button=[[UIButton alloc] initWithFrame:view.frame];
+    [button addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    //    [button addSubview:view];
+    [view addSubview:button];
+    return view;
+    
+}
+-(void)back:(id)sender {
+    
+    UIViewController *  uiController = [self.navigationController popViewControllerAnimated:YES];
+    
+    if(!uiController){
+        [self  dismissViewControllerAnimated:YES completion:nil];
+    }
+    
+}
+
 @end

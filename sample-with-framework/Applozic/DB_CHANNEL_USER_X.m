@@ -13,5 +13,6 @@
 @dynamic channelKey;
 @dynamic status;
 @dynamic userId;
+@dynamic unreadCount;
 
 @end

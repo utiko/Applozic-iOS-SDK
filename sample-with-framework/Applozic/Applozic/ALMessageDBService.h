@@ -34,11 +34,11 @@
 -(NSManagedObject *)getMeesageById:(NSManagedObjectID *)objectID
                              error:(NSError **)error;
 - (NSManagedObject *)getMessageByKey:(NSString *) key value:(NSString*) value;
--(NSMutableArray *)getMessageListForContactWithCreatedAt:(NSString *)contactId withCreatedAt:(NSNumber*)createdAt;
+-(NSMutableArray *)getMessageListForContactWithCreatedAt:(NSString *)contactId withCreatedAt:(NSNumber*)createdAt andChannelKey:(NSNumber *)channelKey;
 -(NSMutableArray *)getPendingMessages;
 
 
--(NSUInteger)markConversationAsRead:(NSString *) contactId;
+-(NSUInteger)markConversationAsRead:(NSString *) contactId orChannelKey:(NSNumber *)key;
 
 
 
@@ -52,7 +52,7 @@
 
 -(void) deleteMessage;
 -(void) deleteMessageByKey:(NSString*) keyString;
--(void) deleteAllMessagesByContact: (NSString*) contactId;
+-(void) deleteAllMessagesByContact: (NSString*) contactId orChannelKey:(NSNumber *)key;
 
 //Generic APIS
 -(BOOL) isMessageTableEmpty;

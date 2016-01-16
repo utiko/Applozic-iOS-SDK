@@ -135,12 +135,22 @@
     }
 }
 
--(void) deleteAllMessagesByContact: (NSString*) contactId{
+-(void) deleteAllMessagesByContact: (NSString*) contactId orChannelKey:(NSNumber *)key
+{
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
    
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"contactId = %@",contactId];
+    NSPredicate *predicate;
+    if(key != nil)
+    {
+     predicate = [NSPredicate predicateWithFormat:@"groupId = %@",key];
+    }
+    else
+    {
+        predicate = [NSPredicate predicateWithFormat:@"contactId = %@",contactId];
+    }
+    
     [fetchRequest setEntity:entity];
     [fetchRequest setPredicate:predicate];
     
@@ -229,13 +239,18 @@
     }
 }
 
--(NSUInteger)markConversationAsRead:(NSString *) contactId
+-(NSUInteger)markConversationAsRead:(NSString *) contactId orChannelKey:(NSNumber *)key
 {
     NSArray *messages  = [self getUnreadMessages:contactId];
     
     if(messages.count >0 ){
         NSBatchUpdateRequest *req = [[NSBatchUpdateRequest alloc] initWithEntityName:@"DB_Message"];
         req.predicate = [NSPredicate predicateWithFormat:@"contactId==%@",contactId];
+        if(key != nil)
+        {
+            req.predicate = [NSPredicate predicateWithFormat:@"groupId==%@",key];
+        }
+        
         req.propertiesToUpdate = @{
                                    @"isRead" : @(YES)
                                    };
@@ -520,11 +535,19 @@
     
 }
 
--(NSMutableArray *)getMessageListForContactWithCreatedAt:(NSString *)contactId withCreatedAt:(NSNumber*)createdAt
+-(NSMutableArray *)getMessageListForContactWithCreatedAt:(NSString *)contactId withCreatedAt:(NSNumber*)createdAt andChannelKey:(NSNumber *)channelKey
 {
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@",contactId];
+    NSPredicate *predicate1;
+    if(channelKey != nil)
+    {
+        predicate1 = [NSPredicate predicateWithFormat:@"groupId = %@",channelKey];
+    }
+    else
+    {
+        predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@",contactId];
+    }
     NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"createdAt < %lu",createdAt];
     theRequest.predicate =[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1, predicate2]];
     
@@ -546,7 +569,7 @@
     
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
-    NSMutableArray * msgArray =  [[NSMutableArray alloc]init];
+    NSMutableArray * msgArray = [[NSMutableArray alloc]init];
     for (DB_Message * theEntity in theArray) {
         ALMessage * theMessage = [self createMessageEntity:theEntity];
         [msgArray addObject:theMessage];

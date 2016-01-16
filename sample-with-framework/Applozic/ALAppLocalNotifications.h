@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Reachability.h"
+#import "ALReachability.h"
 #import "ALMessageService.h"
 #import "ALChatLauncher.h"
 

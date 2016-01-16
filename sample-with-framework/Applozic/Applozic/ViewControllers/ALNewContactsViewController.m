@@ -16,6 +16,7 @@
 #import "ALConstant.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALMessagesViewController.h"
+#import "ALColorUtility.h"
 
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
@@ -49,21 +50,21 @@
                                     color,NSForegroundColorAttributeName,nil];
     
     self.navigationController.navigationBar.titleTextAttributes = textAttributes;
-    self.navigationItem.title = @"Contacts";    
+    self.navigationItem.title = @"Contacts";
     self.contactList = [NSMutableArray new];
     [self handleFrameForOrientation];
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"< Back" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
     [self.navigationItem setLeftBarButtonItem:barButtonItem];
-
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-          [self fetchConversationsGroupByContactId];
+        [self fetchConversationsGroupByContactId];
     });
     
-  
+    
     
     self.filteredContactList = [NSMutableArray arrayWithArray:self.contactList];
-//    float y = self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height+ [UIApplication sharedApplication].statusBarFrame.size.height;
-//
+    //    float y = self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height+ [UIApplication sharedApplication].statusBarFrame.size.height;
+    //
     
     float y = self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height;
     
@@ -71,15 +72,16 @@
     self.searchBar.delegate = self;
     self.searchBar.placeholder = @"Email, userid, number";
     [self.view addSubview:self.searchBar];
-   // self.navigationItem.titleView = self.searchBar;
+    // self.navigationItem.titleView = self.searchBar;
     
     // Do any additional setup after loading the view.
     
     /*UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
-                                   initWithTarget:self
-                                   action:@selector(dismissKeyboard)];
-    
-    [self.view addGestureRecognizer:tap];*/
+     initWithTarget:self
+     action:@selector(dismissKeyboard)];
+     
+     [self.view addGestureRecognizer:tap];*/
+    self.colors = [[NSArray alloc] initWithObjects:@"#617D8A",@"#628B70",@"#8C8863",@"8B627D",@"8B6F62", nil];
 }
 
 - (void) dismissKeyboard
@@ -93,13 +95,13 @@
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
-//    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
-//        // iOS 6.1 or earlier
-//        self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
-//    } else {
-//        // iOS 7.0 or later
-//        self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
-//    }
+    //    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
+    //        // iOS 6.1 or earlier
+    //        self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
+    //    } else {
+    //        // iOS 7.0 or later
+    //        self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
+    //    }
     
     if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
     {
@@ -112,7 +114,7 @@
 }
 
 -(void) viewWillDisappear:(BOOL)animated{
-
+    
     [self.tabBarController.tabBar setHidden: NO];
 }
 
@@ -130,19 +132,38 @@
     static NSString *cellIdentifier = @"NewContactCell";
     
     ALNewContactCell *newContactCell = (ALNewContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    UILabel* nameIcon=(UILabel*)[newContactCell viewWithTag:101];
+    UILabel* nameIcon = (UILabel*)[newContactCell viewWithTag:101];
+    nameIcon.layer.cornerRadius = nameIcon.frame.size.width/2;
+    NSUInteger randomIndex = random()% [self.colors count];
+    nameIcon.backgroundColor = [ALColorUtility colorWithHexString:self.colors[randomIndex]];
+    [nameIcon setTextColor:[UIColor whiteColor]];
+    nameIcon.layer.masksToBounds = YES;
     ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
     //Write the logic to get display nme
     if (contact) {
         newContactCell.contactPersonName.text = [contact getDisplayName];
         NSString *firstLetter = [newContactCell.contactPersonName.text substringToIndex:1];
-        nameIcon.text=firstLetter;
+        //        nameIcon.text=firstLetter;
+        NSRange whiteSpaceRange = [newContactCell.contactPersonName.text rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
+        if (whiteSpaceRange.location != NSNotFound)
+        {
+            NSArray *listNames = [newContactCell.contactPersonName.text componentsSeparatedByString:@" "];
+            NSString *firstLetter = [[listNames[0] substringToIndex:1] uppercaseString];
+            NSString *lastLetter = [[listNames[1] substringToIndex:1] uppercaseString];
+            nameIcon.text = [firstLetter stringByAppendingString:lastLetter];
+        }
+        else
+        {
+            nameIcon.text = firstLetter;
+        }
+        
+        
         
         if (contact.contactImageUrl) {
             newContactCell.contactPersonImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:contact.contactImageUrl]]];
         }else{
             newContactCell.contactPersonImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
-
+            
         }
         
     }
@@ -155,7 +176,7 @@
     
     ALContact *selectedContact =  self.filteredContactList[indexPath.row];
     [self launchChatForContact:selectedContact.userId];
-
+    
     
 }
 
@@ -185,7 +206,13 @@
         contact.localImageResourceName = dbContact.localImageResourceName;
         [self.contactList addObject:contact];
     }
-    self.filteredContactList = [NSMutableArray arrayWithArray:self.contactList];
+    
+    //    self.filteredContactList = [NSMutableArray arrayWithArray:self.contactList];
+    
+    NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES];
+    NSArray * descriptors = [NSArray arrayWithObject:valueDescriptor];
+    self.filteredContactList = [NSMutableArray arrayWithArray:[self.contactList sortedArrayUsingDescriptors:descriptors]];
+    
     [self.contactsTableView reloadData];
     
 }
@@ -201,7 +228,7 @@
 }
 
 -(void)handleFrameForOrientation {
-   
+    
     UIInterfaceOrientation toOrientation   = (UIInterfaceOrientation)[[UIDevice currentDevice] orientation];
     
     if ([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone && (toOrientation == UIInterfaceOrientationLandscapeLeft || toOrientation == UIInterfaceOrientationLandscapeRight)) {
@@ -238,7 +265,7 @@
         [self getSerachResult:searchText];
     });
     
-   }
+}
 
 -(void)getSerachResult:(NSString*)searchText {
     
@@ -249,14 +276,14 @@
             NSArray *searchResults = [self.contactList filteredArrayUsingPredicate:searchPredicate];
             [self.filteredContactList removeAllObjects];
             [self.filteredContactList addObjectsFromArray:searchResults];
-
+            
         }else{
             NSArray *searchResults = [self.filteredContactList filteredArrayUsingPredicate:searchPredicate];
             [self.filteredContactList removeAllObjects];
             [self.filteredContactList addObjectsFromArray:searchResults];
         }
     }else {
-         [self.filteredContactList removeAllObjects];
+        [self.filteredContactList removeAllObjects];
         [self.filteredContactList addObjectsFromArray:self.contactList];
     }
     

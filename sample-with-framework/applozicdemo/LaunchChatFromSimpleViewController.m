@@ -10,6 +10,10 @@
 #import  <Applozic/ALChatViewController.h>
 #import "DemoChatManager.h"
 #import "ApplozicLoginViewController.h"
+#import  <Applozic/ALUserDefaultsHandler.h>
+#import  <Applozic/ALRegisterUserClientService.h>
+
+
 @interface LaunchChatFromSimpleViewController ()
 
 - (IBAction)mLaunchChatList:(id)sender;
@@ -31,6 +35,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)logOutButton:(id)sender {
+    
+    ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
+    
+    if([ALUserDefaultsHandler getDeviceKeyString]){
+        alUserClientService.logout;
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
 /*
 #pragma mark - Navigation
 
@@ -49,19 +64,13 @@
 
 - (IBAction)mLaunchChatList:(id)sender {
     
-//     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-//                                                                 bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-//  UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
-//            [self presentViewController:theTabBar animated:YES completion:nil];
-    
     ALUser *user = [[ALUser alloc] init];
-    [user setUserId:@"iosdev"];
-    [user setEmailId:@""];
+    [user setUserId:[ALUserDefaultsHandler getUserId]];
+    [user setEmailId:[ALUserDefaultsHandler getEmailId]];
     [user setPassword:@""];
+    
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-//    demoChatManager.userID = user;
     [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
-    //self is got during the first time during app launch but when notification comes then the self is not the right..causing the error..
 
 }
 
@@ -74,13 +83,14 @@
 - (IBAction)mChatLaunchButton:(id)sender {
     
     
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                                         bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-    ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
-    chatView.contactIds =@"applozic";
-    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
-    [self presentViewController:conversationViewNavController animated:YES completion:nil];
+    ALUser *user = [[ALUser alloc] init];
+    [user setUserId:[ALUserDefaultsHandler getUserId]];
+    [user setEmailId:[ALUserDefaultsHandler getEmailId]];
+    [user setPassword:@""];
     
+    
+    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
+    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:@"adarshk"];
 }
 
 -(void)whenPush{

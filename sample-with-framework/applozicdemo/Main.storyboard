@@ -22,8 +22,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RbZ-31-hMw">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="607"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gmQ-aM-HWv">
-                                        <rect key="frame" x="0.0" y="1" width="600" height="607"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gmQ-aM-HWv">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="607"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7iM-P1-Q0S">
                                                 <rect key="frame" x="15" y="218" width="570" height="30"/>
@@ -40,8 +40,8 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                             </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Kf-N3-0PL">
-                                                <rect key="frame" x="15" y="325" width="570" height="38"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Kf-N3-0PL">
+                                                <rect key="frame" x="15" y="311" width="570" height="38"/>
                                                 <color key="backgroundColor" red="0.082352941176470587" green="0.53333333333333333" blue="0.69803921568627447" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="38" id="xfj-OY-XMc"/>
@@ -71,8 +71,8 @@
                                             <constraint firstItem="hRe-YD-lEv" firstAttribute="leading" secondItem="gmQ-aM-HWv" secondAttribute="leading" constant="15" id="osW-c5-nX6"/>
                                         </constraints>
                                     </view>
-                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="BnH-B4-bms">
-                                        <rect key="frame" x="290" y="294" width="20" height="20"/>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="BnH-B4-bms">
+                                        <rect key="frame" x="0.0" y="294" width="600" height="20"/>
                                         <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -85,6 +85,7 @@
                                     <constraint firstItem="gmQ-aM-HWv" firstAttribute="centerX" secondItem="RbZ-31-hMw" secondAttribute="centerX" id="jHR-8B-QeZ"/>
                                     <constraint firstItem="gmQ-aM-HWv" firstAttribute="top" secondItem="RbZ-31-hMw" secondAttribute="top" id="jm5-QB-eEO"/>
                                     <constraint firstItem="gmQ-aM-HWv" firstAttribute="leading" secondItem="RbZ-31-hMw" secondAttribute="leading" id="k3v-m8-fam"/>
+                                    <constraint firstItem="BnH-B4-bms" firstAttribute="centerY" secondItem="gmQ-aM-HWv" secondAttribute="centerY" id="ugd-ke-o4k"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
@@ -121,13 +122,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Pw-n4-Uqk">
-                                <rect key="frame" x="208" y="294" width="186" height="62"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Pw-n4-Uqk">
+                                <rect key="frame" x="235" y="286" width="167" height="75"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="62" id="LDk-cL-Toi"/>
-                                    <constraint firstAttribute="width" constant="167" id="ooH-NF-8sC"/>
+                                    <constraint firstAttribute="width" constant="167" id="SEP-b1-QMF"/>
                                 </constraints>
-                                <state key="normal" title="Launch Chat With Applozic">
+                                <state key="normal" title="Launch Single chat" backgroundImage="full_moon">
                                     <color key="titleShadowColor" red="0.79895767500000003" green="0.94653931469999997" blue="1" alpha="0.28000000000000003" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
@@ -141,18 +141,25 @@
                                     <constraint firstAttribute="width" secondItem="yMM-21-yms" secondAttribute="height" multiplier="149:54" id="uWU-7n-2Yj"/>
                                     <constraint firstAttribute="width" constant="149" id="y4g-yN-aBT"/>
                                 </constraints>
-                                <state key="normal" title="Launch Chat List"/>
+                                <state key="normal" title="Launch Chat List" backgroundImage="full_moon"/>
                                 <connections>
                                     <action selector="mLaunchChatList:" destination="Zmt-x5-PHb" eventType="touchUpInside" id="hB7-kF-9Xx"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dX0-wJ-u0l">
+                                <rect key="frame" x="260" y="58" width="99" height="40"/>
+                                <state key="normal" title="LogOut" backgroundImage="full_moon"/>
+                                <connections>
+                                    <action selector="logOutButton:" destination="Zmt-x5-PHb" eventType="touchUpInside" id="DC0-lu-Bnj"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="2Pw-n4-Uqk" firstAttribute="centerX" secondItem="8nS-Zj-qCT" secondAttribute="centerX" id="4Mw-hc-zug"/>
-                            <constraint firstItem="EpC-Dg-hf7" firstAttribute="top" secondItem="2Pw-n4-Uqk" secondAttribute="bottom" constant="244" id="8ta-aV-JKR"/>
-                            <constraint firstItem="2Pw-n4-Uqk" firstAttribute="top" secondItem="yMM-21-yms" secondAttribute="bottom" constant="92" id="Nwp-hM-iF9"/>
-                            <constraint firstItem="yMM-21-yms" firstAttribute="trailing" secondItem="2Pw-n4-Uqk" secondAttribute="trailing" id="y2p-QB-ScI"/>
+                            <constraint firstItem="2Pw-n4-Uqk" firstAttribute="leading" secondItem="yMM-21-yms" secondAttribute="leading" id="6fa-7C-Ums"/>
+                            <constraint firstItem="2Pw-n4-Uqk" firstAttribute="leading" secondItem="8nS-Zj-qCT" secondAttribute="leading" constant="235" id="Usj-mg-spi"/>
+                            <constraint firstItem="EpC-Dg-hf7" firstAttribute="top" secondItem="2Pw-n4-Uqk" secondAttribute="bottom" constant="239" id="u74-Ko-poG"/>
+                            <constraint firstItem="2Pw-n4-Uqk" firstAttribute="top" secondItem="yMM-21-yms" secondAttribute="bottom" constant="84" id="uon-Pi-Ueb"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -195,4 +202,7 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="full_moon" width="75" height="75"/>
+    </resources>
 </document>

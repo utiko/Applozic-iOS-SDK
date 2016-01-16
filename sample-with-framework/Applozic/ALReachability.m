@@ -25,7 +25,7 @@
  POSSIBILITY OF SUCH DAMAGE. 
  */
 
-#import "Reachability.h"
+#import "ALReachability.h"
 
 #import <sys/socket.h>
 #import <netinet/in.h>
@@ -35,10 +35,10 @@
 #import <netdb.h>
 
 
-NSString *const kReachabilityChangedNotification = @"kReachabilityChangedNotification";
+NSString *const AL_kReachabilityChangedNotification = @"AL_kReachabilityChangedNotification";
 
 
-@interface Reachability ()
+@interface ALReachability ()
 
 @property (nonatomic, assign) SCNetworkReachabilityRef  reachabilityRef;
 @property (nonatomic, strong) dispatch_queue_t          reachabilitySerialQueue;
@@ -73,7 +73,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 {
 #pragma unused (target)
 
-    Reachability *reachability = ((__bridge Reachability*)info);
+    ALReachability *reachability = ((__bridge ALReachability*)info);
 
     // We probably don't need an autoreleasepool here, as GCD docs state each queue has its own autorelease pool,
     // but what the heck eh?
@@ -84,13 +84,13 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 }
 
 
-@implementation Reachability
+@implementation ALReachability
 
 #pragma mark - Class Constructor Methods
 
 +(instancetype)reachabilityWithHostName:(NSString*)hostname
 {
-    return [Reachability reachabilityWithHostname:hostname];
+    return [ALReachability reachabilityWithHostname:hostname];
 }
 
 +(instancetype)reachabilityWithHostname:(NSString*)hostname
@@ -383,19 +383,19 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 #pragma mark - reachability status stuff
 
--(NetworkStatus)currentReachabilityStatus
+-(AL_NetworkStatus)currentReachabilityStatus
 {
     if([self isReachable])
     {
         if([self isReachableViaWiFi])
-            return ReachableViaWiFi;
+            return AL_ReachableViaWiFi;
         
 #if	TARGET_OS_IPHONE
-        return ReachableViaWWAN;
+        return AL_ReachableViaWWAN;
 #endif
     }
     
-    return NotReachable;
+    return AL_NotReachable;
 }
 
 -(SCNetworkReachabilityFlags)reachabilityFlags
@@ -412,14 +412,14 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 -(NSString*)currentReachabilityString
 {
-	NetworkStatus temp = [self currentReachabilityStatus];
+	AL_NetworkStatus temp = [self currentReachabilityStatus];
 	
-	if(temp == ReachableViaWWAN)
+	if(temp == AL_ReachableViaWWAN)
 	{
         // Updated for the fact that we have CDMA phones now!
 		return NSLocalizedString(@"Cellular", @"");
 	}
-	if (temp == ReachableViaWiFi) 
+	if (temp == AL_ReachableViaWiFi) 
 	{
 		return NSLocalizedString(@"WiFi", @"");
 	}
@@ -458,7 +458,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
     
     // this makes sure the change notification happens on the MAIN THREAD
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:kReachabilityChangedNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:AL_kReachabilityChangedNotification object:self];
     });
 }
 
