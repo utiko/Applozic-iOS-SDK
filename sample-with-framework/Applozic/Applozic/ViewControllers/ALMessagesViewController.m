@@ -489,11 +489,11 @@
         NSArray *listNames = [[alContact displayName] componentsSeparatedByString:@" "];
         NSString *firstLetter = [[listNames[0] substringToIndex:1] uppercaseString];
         NSString *lastLetter = [[listNames[1] substringToIndex:1] uppercaseString];
-        nameIcon.text = [firstLetter stringByAppendingString:lastLetter];
+        nameIcon.text = [[firstLetter stringByAppendingString:lastLetter] uppercaseString];
     }
     else
     {
-        nameIcon.text = firstLetter;
+        nameIcon.text = [firstLetter uppercaseString];
     }
     
     
