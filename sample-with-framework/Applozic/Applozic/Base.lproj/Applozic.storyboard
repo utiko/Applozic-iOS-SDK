@@ -168,19 +168,17 @@
                                 </connections>
                             </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dlR-eX-vMZ">
-                                <rect key="frame" x="196" y="357" width="20" height="20"/>
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
                                 <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="S0P-A8-QJi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="GfC-zw-wLg"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="dlR-eX-vMZ" secondAttribute="bottom" constant="174" id="HsO-ce-myu"/>
-                            <constraint firstItem="dlR-eX-vMZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-94" id="ImI-4d-9CB"/>
-                            <constraint firstItem="S0P-A8-QJi" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Qe1-wT-t0O"/>
-                            <constraint firstItem="dlR-eX-vMZ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="67" id="hCW-ST-D2c"/>
-                            <constraint firstAttribute="bottom" secondItem="S0P-A8-QJi" secondAttribute="bottom" id="hds-sI-nh0"/>
-                            <constraint firstItem="dlR-eX-vMZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="196" id="v5i-Rv-TtX"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="S0P-A8-QJi" secondAttribute="trailing" constant="-24" id="vcd-hm-C3Q"/>
+                            <constraint firstItem="dlR-eX-vMZ" firstAttribute="centerY" secondItem="S0P-A8-QJi" secondAttribute="centerY" id="8sj-nF-vOo"/>
+                            <constraint firstItem="dlR-eX-vMZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="FF0-Vp-XwC"/>
+                            <constraint firstItem="S0P-A8-QJi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="S8s-h8-PSY"/>
+                            <constraint firstItem="S0P-A8-QJi" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ZmW-vR-Dcf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="S0P-A8-QJi" secondAttribute="trailing" constant="-24" id="hrM-Pm-nOP"/>
+                            <constraint firstAttribute="bottom" secondItem="S0P-A8-QJi" secondAttribute="bottom" id="pUJ-su-nDN"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lrz-ae-7pi">
