@@ -567,12 +567,16 @@
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     theRequest.predicate =[NSPredicate predicateWithFormat:@"sentToServer = %@ and type= %@",@"0",@"5"];
     
-    [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
+    [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES]]];
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
     NSMutableArray * msgArray = [[NSMutableArray alloc]init];
     
     for (DB_Message * theEntity in theArray) {
         ALMessage * theMessage = [self createMessageEntity:theEntity];
+        if(theMessage.groupId==[NSNumber numberWithInt:0]){
+            NSLog(@"groupId is coming as 0..setting it null" );
+            theMessage.groupId=NULL;
+        }
         [msgArray addObject:theMessage];
     }
     
