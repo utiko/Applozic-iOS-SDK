@@ -341,6 +341,10 @@
 
 -(void)updateMessageList:(NSMutableArray *)messagesArray {
     
+    if(messagesArray.count)
+    {
+        [self.emptyConversationText setHidden:YES];
+    }
     BOOL isreloadRequire = false;
     for ( ALMessage *msg  in  messagesArray){
         ALContactCell *contactCell = [self getCell:msg.contactIds];
