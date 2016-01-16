@@ -24,6 +24,8 @@
 
 @implementation ALMessageService
 
+static ALMessageClientService * alMsgClientService;
+
 +(void) processLatestMessagesGroupByContact {
     /*ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
     [ almessageDBService fetchAndRefreshFromServer];*/
@@ -222,49 +224,38 @@
 
 
 +(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( NSMutableArray *, NSError *))completion{
-    @synchronized(self) {
-        NSString *lastSyncTime =[ALUserDefaultsHandler
-                                 getLastSyncTime ];
-        if ( lastSyncTime == NULL ){
-            lastSyncTime = @"0";
-        }
-        NSLog(@" getLatestMessageForUser and last syncTime in call %@", lastSyncTime);
-        NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/sync",KBASE_URL];
     
-        NSString * theParamString = [NSString stringWithFormat:@"lastSyncTime=%@",lastSyncTime];
-        
-        NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
-        
-        [ALResponseHandler processRequest:theRequest andTag:@"SYNC LATEST MESSAGE URL" WithCompletionHandler:^(id theJson, NSError *theError) {
-            
-            if (theError) {
-                
-                completion(nil,theError);
-                
-                return ;
-            }
-            
-            NSMutableArray *messageArray = [[NSMutableArray alloc] init];
-            ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
-            NSLog(@"count is: %lu", (unsigned long)syncResponse.messagesList.count);
-            if(syncResponse.messagesList.count >0 ){
-                ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-                messageArray = [dbService addMessageList:syncResponse.messagesList];
-               // [ALUserService processContactFromMessages:syncResponse.messageList];
-            }
-            
-            if (syncResponse.deliveredMessageKeys.count > 0) {
-                [ALMessageService updateDeliveredReport: syncResponse.deliveredMessageKeys];
-            }
-            [ALUserDefaultsHandler setLastSyncTime:syncResponse.lastSyncTime];
-            ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
-            [messageClientService updateDeliveryReports:syncResponse.messagesList];
-            completion(messageArray, nil);
-        }];
-
+    if(!alMsgClientService){
+        alMsgClientService = [[ALMessageClientService alloc]init];
     }
     
-  }
+    @synchronized(alMsgClientService) {
+        
+        [ alMsgClientService getLatestMessageForUser:deviceKeyString withCompletion:^(ALSyncMessageFeed * syncResponse , NSError *error) {
+            NSMutableArray *messageArray = nil;
+            
+            if(!error){
+                if (syncResponse.deliveredMessageKeys.count > 0) {
+                    [ALMessageService updateDeliveredReport: syncResponse.deliveredMessageKeys];
+                }
+                if(syncResponse.messagesList.count >0 ){
+                    messageArray = [[NSMutableArray alloc] init];
+                    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+                    messageArray = [dbService addMessageList:syncResponse.messagesList];
+                }
+                completion(messageArray,error);
+                
+                [ALUserDefaultsHandler setLastSyncTime:syncResponse.lastSyncTime];
+                ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
+                [messageClientService updateDeliveryReports:syncResponse.messagesList];
+            }else{
+                completion(messageArray,error);
+            }
+            
+        }];
+    }
+    
+}
 
 +(void) updateDeliveredReport: (NSArray *) deliveredMessageKeys {
     for (id key in deliveredMessageKeys) {

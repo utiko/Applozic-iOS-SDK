@@ -14,6 +14,7 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageDBService.h"
 #import "ALDBHandler.h"
+#import "ALSyncMessageFeed.h"
 
 @implementation ALMessageClientService
 
@@ -76,6 +77,35 @@
     [messageDBService createMessageEntityForDBInsertionWithMessage:theMessage];
     [theDBHandler.managedObjectContext save:nil];
 
+}
+
+-(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( ALSyncMessageFeed *, NSError *))completion{
+    
+    NSString *lastSyncTime =[ALUserDefaultsHandler
+                             getLastSyncTime ];
+    if ( lastSyncTime == NULL ){
+        lastSyncTime = @"0";
+    }
+    NSLog(@"last syncTime in call %@", lastSyncTime);
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/sync",KBASE_URL];
+    
+    NSString * theParamString = [NSString stringWithFormat:@"lastSyncTime=%@",lastSyncTime];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"SYNC LATEST MESSAGE URL" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if (theError) {
+            
+            completion(nil,theError);
+            return ;
+        }
+        ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
+        completion(syncResponse,nil);
+        NSLog(@"theJson :: : %@", theJson);
+    }];
+    
+    
 }
 
 

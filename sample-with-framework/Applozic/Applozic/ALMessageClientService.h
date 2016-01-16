@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ALMessage.h"
+#import "ALSyncMessageFeed.h"
 
 @interface ALMessageClientService : NSObject
 
@@ -16,5 +17,7 @@
 -(void) updateDeliveryReport: (NSString *) key userId: (NSString *) userId;
 
 -(void) addWelcomeMessage;
+
+-(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( ALSyncMessageFeed *, NSError *))completion;
 
 @end
