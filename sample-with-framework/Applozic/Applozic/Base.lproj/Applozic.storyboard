@@ -299,13 +299,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="uEJ-oo-GLz">
-                                <rect key="frame" x="0.0" y="43" width="600" height="464"/>
+                                <rect key="frame" x="20" y="43" width="560" height="289"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KAL-xm-Upd">
-                                <rect key="frame" x="194" y="531" width="193" height="38"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KAL-xm-Upd">
+                                <rect key="frame" x="204" y="382" width="193" height="38"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="38" id="8R7-t2-hhj"/>
-                                    <constraint firstAttribute="width" constant="193" id="Ju4-J0-o2Z"/>
+                                    <constraint firstAttribute="height" constant="38" id="ahJ-OE-q7a"/>
+                                    <constraint firstAttribute="width" constant="193" id="jgF-uK-WJG"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Send Location"/>
@@ -316,15 +316,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="uEJ-oo-GLz" secondAttribute="centerX" id="BnD-S7-m2X"/>
-                            <constraint firstItem="uEJ-oo-GLz" firstAttribute="top" secondItem="qF4-qu-V6r" secondAttribute="bottom" constant="23" id="BsX-2e-PXH"/>
-                            <constraint firstItem="uEJ-oo-GLz" firstAttribute="leading" secondItem="Gop-mz-j8f" secondAttribute="leading" id="I9x-Dr-GfR"/>
-                            <constraint firstAttribute="centerX" secondItem="KAL-xm-Upd" secondAttribute="centerX" id="LaM-Oy-Znd"/>
-                            <constraint firstAttribute="trailing" secondItem="uEJ-oo-GLz" secondAttribute="trailing" id="QKm-qL-Uww"/>
-                            <constraint firstAttribute="centerX" secondItem="KAL-xm-Upd" secondAttribute="centerX" id="XY8-EA-S5A"/>
-                            <constraint firstAttribute="centerY" secondItem="KAL-xm-Upd" secondAttribute="centerY" id="buO-Do-NA2"/>
-                            <constraint firstItem="nG5-eB-qSq" firstAttribute="top" secondItem="KAL-xm-Upd" secondAttribute="bottom" constant="31" id="hsn-ip-WqX"/>
-                            <constraint firstItem="KAL-xm-Upd" firstAttribute="top" secondItem="uEJ-oo-GLz" secondAttribute="bottom" constant="24" id="rg6-gd-Et1"/>
+                            <constraint firstItem="nG5-eB-qSq" firstAttribute="top" secondItem="KAL-xm-Upd" secondAttribute="bottom" constant="180" id="2eN-js-Sdu"/>
+                            <constraint firstItem="uEJ-oo-GLz" firstAttribute="leading" secondItem="Gop-mz-j8f" secondAttribute="leadingMargin" id="FQI-NL-5gL"/>
+                            <constraint firstItem="uEJ-oo-GLz" firstAttribute="trailing" secondItem="Gop-mz-j8f" secondAttribute="trailingMargin" id="RIA-jT-JfX"/>
+                            <constraint firstItem="uEJ-oo-GLz" firstAttribute="centerX" secondItem="KAL-xm-Upd" secondAttribute="centerX" id="YZb-48-CKh"/>
+                            <constraint firstItem="uEJ-oo-GLz" firstAttribute="top" secondItem="qF4-qu-V6r" secondAttribute="bottom" constant="23" id="sSy-M1-QQQ"/>
+                            <constraint firstItem="KAL-xm-Upd" firstAttribute="top" secondItem="uEJ-oo-GLz" secondAttribute="bottom" constant="50" id="vev-gD-KwW"/>
                         </constraints>
                     </view>
                     <connections>
