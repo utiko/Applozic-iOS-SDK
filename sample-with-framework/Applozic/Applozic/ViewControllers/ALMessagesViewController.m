@@ -35,6 +35,7 @@
 #import "ALChannel.h"
 #import "ALChatLauncher.h"
 #import "ALChannelService.h"
+#import "ALNotificationView.h"
 
 
 // Constants
@@ -726,6 +727,8 @@
         [self.detailChatViewController syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
     } else {
         // NSLog(@"executing else part....");
+        ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:alMessage.contactIds withAlertMessage:alMessage.message];
+        [alnotification displayNotificationNew:self];
         [dBService fetchAndRefreshQuickConversation];  // can be used also instead of syncCall/syncCall:blah blah
     }
 }
