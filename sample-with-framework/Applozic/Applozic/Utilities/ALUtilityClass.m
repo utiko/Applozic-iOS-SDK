@@ -227,7 +227,7 @@
 +(void)thirdDisplayNotificationTS:(NSString *)toastMessage delegate:(id)delegate{
     
     ALPushAssist* top=[[ALPushAssist alloc] init];
-    
+    NSLog(@"DELEGATE %@",delegate);
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
     [[TSMessageView appearance] setTitleFont:[UIFont fontWithName:@"Helvetica Neue" size:18.0]];
     [[TSMessageView appearance] setContentFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
@@ -237,13 +237,14 @@
 
     [TSMessage showNotificationInViewController:top.topViewController
                                             title:@"Applozic"
-                                       subtitle:[NSString stringWithFormat:@"%@: %@",[delegate contactIds],toastMessage]
+                                       subtitle:[NSString stringWithFormat:@"%@",toastMessage]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75
                                        callback:^(void){
         
-        [delegate thirdPartyNotificationTap:nil];
+                                           
+        [delegate thirdPartyNotificationTap];
 
         
     }buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionTop canBeDismissedByUser:YES];
