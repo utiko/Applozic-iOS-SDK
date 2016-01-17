@@ -888,6 +888,7 @@
         [self.delegate connectionClosed:self];
     }
     
+    @try{
     [self tell];
     self.synchronPub = FALSE;
     self.synchronSub = FALSE;
@@ -895,6 +896,17 @@
     self.synchronConnect = FALSE;
     self.synchronDisconnect = FALSE;
     self.selfReference = nil;
+        
+    }
+    @catch(NSException *exception){
+        NSLog(@"Exception:%@",exception);
+        //        return;
+    }
+    @finally{
+        NSLog(@"LOL");
+        return;
+    }
+
 }
 
 

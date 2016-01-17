@@ -247,11 +247,16 @@
                                        duration:1.5
                                        callback:^(void){
                                            
-                                           //ALAppLocalNotifications* launch=[[ALAppLocalNotifications alloc] init];
-                                           //for Individual Chat Conversation Opening...
                                            [delegate thirdPartyNotificationTap];
+                                           ;
                                            
-                                       }buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionTop canBeDismissedByUser:YES];
+                                       }
+                                    buttonTitle:nil
+                                 buttonCallback:nil
+                                     atPosition:TSMessageNotificationPositionTop
+                           canBeDismissedByUser:YES];
+    
+
     
 }
 

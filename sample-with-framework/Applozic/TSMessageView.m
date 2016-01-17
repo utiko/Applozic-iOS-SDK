@@ -137,6 +137,10 @@ static NSMutableDictionary *_notificationDesign;
                                           self.padding,
                                           image.size.width,
                                           image.size.height);
+///////////////////////<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>///////////////////////
+    self.iconImageView.layer.cornerRadius=image.size.width/2;
+    self.iconImageView.layer.masksToBounds=YES;
+    
 }
 
 
@@ -179,7 +183,7 @@ static NSMutableDictionary *_notificationDesign;
 - (CGFloat)padding
 {
     // Adds 10 padding to to cover navigation bar
-    return self.messagePosition == TSMessageNotificationPositionNavBarOverlay ? TSMessageViewMinimumPadding + 10.0f : TSMessageViewMinimumPadding;
+    return self.messagePosition == TSMessageNotificationPositionNavBarOverlay ? TSMessageViewMinimumPadding + 20.0f : TSMessageViewMinimumPadding;
 }
 
 - (id)initWithTitle:(NSString *)title
@@ -269,7 +273,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
             _backgroundBlurView = [[TSBlurView alloc] init];
             self.backgroundBlurView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
 //            self.backgroundBlurView.blurTintColor = [UIColor colorWithHexString:current[@"backgroundColor"]];
-            self.backgroundBlurView.blurTintColor =[UIColor colorWithRed:0.169 green:0.169 blue:0.169 alpha:0.50];
+            self.backgroundBlurView.blurTintColor =[UIColor colorWithRed:0.169 green:0.169 blue:0.169 alpha:0.15];
             [self addSubview:self.backgroundBlurView];
         }
 
@@ -334,6 +338,9 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
                                                   padding,
                                                   image.size.width,
                                                   image.size.height);
+            self.iconImageView.layer.cornerRadius=image.size.width/2;
+            self.iconImageView.layer.masksToBounds=YES;
+
             [self addSubview:self.iconImageView];
         }
 

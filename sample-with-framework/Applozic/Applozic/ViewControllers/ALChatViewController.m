@@ -127,7 +127,7 @@ ALMessageDBService  * dbService;
 
     }
 
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:@"showNotificationAndLaunchChat"];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:) name:@"deliveryReport" object:nil];
     self.mqttObject = [ALMQTTConversationService sharedInstance];

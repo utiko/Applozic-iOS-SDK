@@ -107,13 +107,20 @@ static MQTTSession *session;
     NSString *type = [theMessageDict objectForKey:@"type"];
   //  NSString *instantMessageJson = [theMessageDict objectForKey:@"message"];
 
+//    UIApplicationState state = [UIApplication sharedApplication].applicationState;
+//    BOOL result = (state == UIApplicationStateBackground);
+//    
+//    if(result){
+//        return;
+//    }
+//    
     NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
-
-    if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
-        NSLog(@"notificationId is already processed...log in MQTT%@",notificationId);
+    
+    if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId]  ){
+        NSLog(@"notificationId is already processed...(log in MQTT)%@",notificationId);
         return;
     }
-    
+
     if ([topic hasPrefix:@"typing"]) {
         NSArray *typingParts = [fullMessage componentsSeparatedByString:@","];
         NSString *applicationKey = typingParts[0]; //Note: will get used once we support messaging from one app to another
@@ -131,11 +138,12 @@ static MQTTSession *session;
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
             NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
             [dict setObject:alMessage.message forKey:@"alertValue"];
+            NSLog(@"the dictionary %@",theMessageDict);
             [dict setObject:[NSNumber numberWithBool:NO] forKey:@"updateUI"];
-            
+        
+//          When app launches from backgound then set updateUI to 'No' so that double notification is not shown.
             if(!assistant.isChatViewOnTop){
                 [dict setObject:[NSNumber numberWithBool:YES] forKey:@"updateUI"];
-
                 NSLog(@" our notification called for mqtt....");
                 [assistant assist:alMessage.contactIds and:dict ofUser:alMessage.contactIds];
             }

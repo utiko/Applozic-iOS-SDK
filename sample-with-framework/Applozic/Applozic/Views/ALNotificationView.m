@@ -70,6 +70,8 @@
     messageView.backgroundColor=[UIColor blackColor];
 }
 
+
+//<><<<<<><><><><><><><>>OUR VIEW is opned<><>><><><><><><><><><><><><><>><<>
 -(void)displayNotificationNew:(id)delegate{ //ALChatViewController *
     
     ALPushAssist* top=[[ALPushAssist alloc] init];

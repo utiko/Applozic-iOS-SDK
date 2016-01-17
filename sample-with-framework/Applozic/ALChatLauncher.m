@@ -108,7 +108,7 @@
     chatView.titleOfView = viewController.title;
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
     
-    [viewController presentViewController:conversationViewNavController animated:NO completion:nil];
+    [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
     
     
     

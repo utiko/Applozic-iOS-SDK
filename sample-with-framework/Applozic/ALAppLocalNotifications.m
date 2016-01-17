@@ -216,6 +216,12 @@
     NSLog(@"Chat Launch Contact ID: %@",self.contactId);
     self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_KEY];
     [self.chatLauncher launchIndividualChat:self.contactId andViewControllerObject:object.topViewController andWithText:nil];
+    
+
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:@"showNotificationAndLaunchChat"];
+     [[UIApplication sharedApplication] cancelAllLocalNotifications];
+
 }
 
 

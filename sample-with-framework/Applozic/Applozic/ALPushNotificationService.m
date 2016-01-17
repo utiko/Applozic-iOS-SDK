@@ -44,6 +44,7 @@
         return false;
     }
     
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(myMethod) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     if ([self isApplozicNotification:dictionary]) {
         //Todo: process it
