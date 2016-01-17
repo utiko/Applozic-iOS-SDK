@@ -29,7 +29,7 @@
 @property(strong,nonatomic) NSMutableDictionary* dict2;
 
 -(void)thirdPartyNotificationTap:(UIGestureRecognizer*)gestureRecognizer;
--(void)thirdPartyNotificationTap;
+-(void)thirdPartyNotificationTap1:(NSString *) contactId;
 
 
 

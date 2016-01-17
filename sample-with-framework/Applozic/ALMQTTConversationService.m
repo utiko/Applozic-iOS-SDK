@@ -127,8 +127,9 @@ static MQTTSession *session;
             [dict setObject:[NSNumber numberWithBool:NO] forKey:@"updateUI"];
 
             if(!assistant.isChatViewOnTop){
-                NSLog(@" our notification called for mqtt....");
+                NSLog(@" ### our notification called for mqtt....");
                 [assistant assist:alMessage.contactIds and:dict ofUser:alMessage.contactIds];
+                [dict setObject:@"mqtt" forKey:@"Calledfrom"];
             }
             else{
                 [self.alSyncCallService syncCall: alMessage];
@@ -188,6 +189,9 @@ static MQTTSession *session;
 
 -(void) sendTypingStatus:(NSString *) applicationKey userID:(NSString *) userId typing: (BOOL) typing;
 {
+    if(!session){
+        return;
+    }
      NSLog(@"Sending typing status %d to: %@", typing, userId);
     NSData* data=[[NSString stringWithFormat:@"%@,%@,%i", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId], typing ? 1 : 0] dataUsingEncoding:NSUTF8StringEncoding];
     [session publishDataAtMostOnce:data onTopic:[NSString stringWithFormat:@"typing-%@-%@", applicationKey, userId]];

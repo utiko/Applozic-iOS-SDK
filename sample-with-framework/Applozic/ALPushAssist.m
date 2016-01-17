@@ -22,7 +22,9 @@
 -(void)assist:(NSString*)notiMsg and :(NSMutableDictionary*)dict ofUser:(NSString*)userId{
 
     if (!self.isChatViewOnTop) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"showNotificationAndLaunchChat"
+        
+        NSLog(@"####Launched from::: %@", dict );
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"showNotificationAndLaunchChat"
                                                              object:notiMsg
                                                            userInfo:dict];
     }

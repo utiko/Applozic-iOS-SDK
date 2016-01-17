@@ -75,8 +75,10 @@
             ALPushAssist* assistant=[[ALPushAssist alloc] init];
             
             if(!assistant.isChatViewOnTop){
-                NSLog(@"OUR View NOT Opened");
-                NSLog(@"notification called....");
+              //  NSLog(@"OUR View NOT Opened");
+                NSLog(@"notification called from push...");
+                [dict setObject:@"apple push notification.." forKey:@"Calledfrom"];
+
                 [assistant assist:notificationMsg and:dict ofUser:notificationMsg];
 
             }else {

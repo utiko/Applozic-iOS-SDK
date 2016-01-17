@@ -224,7 +224,7 @@
 
 
 
-+(void)thirdDisplayNotificationTS:(NSString *)toastMessage delegate:(id)delegate{
++(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId delegate:(id)delegate{
     
     ALPushAssist* top=[[ALPushAssist alloc] init];
     NSLog(@"DELEGATE %@",delegate);
@@ -244,7 +244,7 @@
                                        callback:^(void){
         
                                            
-        [delegate thirdPartyNotificationTap];
+                                           [delegate thirdPartyNotificationTap1:contactId];
 
         
     }buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionTop canBeDismissedByUser:YES];
