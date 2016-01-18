@@ -112,6 +112,13 @@ ALMessageDBService  * dbService;
 
 }
 
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    [navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColourForNavigationItem], NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:18]}];
+    [navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
+    [navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
+}
+
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden: YES];
