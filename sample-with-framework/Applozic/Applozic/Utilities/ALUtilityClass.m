@@ -15,10 +15,9 @@
 #import "TSMessageView.h"
 #import "ALPushAssist.h"
 #import "ALAppLocalNotifications.h"
-#import "ALUserDefaultsHandler.h"
+
 
 @implementation ALUtilityClass
-
 
 + (NSString *) formatTimestamp:(NSTimeInterval) timeInterval toFormat:(NSString *) forMatStr
 {
@@ -30,13 +29,13 @@
     formatter.timeZone = [NSTimeZone localTimeZone];
     
     NSString * dateStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:timeInterval]];
-        
+    
     return dateStr;
     
 }
 
 + (NSString *)generateJsonStringFromDictionary:(NSDictionary *)dictionary {
- 
+    
     NSString *jsonString = nil;
     
     NSError *error;
@@ -176,7 +175,7 @@
                                    attributes:attributesDictionary
                                       context:nil];
     CGSize stringSize = frame.size;
-
+    
     return stringSize;
 }
 
@@ -211,45 +210,31 @@
 }
 
 
-//        NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
-//        attachment.image = [UIImage imageNamed:@"online_show.png"];
-//        attachment.bounds=CGRectMake(0.0, 0.0, attachment.image.size.width, attachment.image.size.height);
-//        NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
-//        NSLog(@":::Toast Message::: %@",toastMessage);
-//        NSMutableAttributedString *myString= [[NSMutableAttributedString alloc] initWithString:toastMessage];
-//        [myString appendAttributedString:attachmentString];
-//        toastView.attributedText=myString;
-//        toastView.attributedText =[[NSAttributedString alloc] initWithString:toastMessage];
-//        [NSString stringWithFormat:@"%@",toastMessage];
 
-
-
-+(void)thirdDisplayNotificationTS:(NSString *)toastMessage delegate:(id)delegate{
++(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId delegate:(id)delegate{
     
-    
-    //Third Party View Opened then THis Method runs...........
+    //3rd Party View is Opened.........
     
     ALPushAssist* top=[[ALPushAssist alloc] init];
+    NSLog(@"DELEGATE %@",delegate);
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
-    
-    [[TSMessageView appearance] setTitleFont:[UIFont systemFontOfSize:17.0]];
-    [[TSMessageView appearance] setContentFont:[UIFont systemFontOfSize:13]];
     [[TSMessageView appearance] setTitleFont:[UIFont fontWithName:@"Helvetica Neue" size:18.0]];
     [[TSMessageView appearance] setContentFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
+    
     [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
     [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
     
     [TSMessage showNotificationInViewController:top.topViewController
-                                          title:[ALUserDefaultsHandler getNotificationTitle]
+                                          title:@"Applozic"
                                        subtitle:[NSString stringWithFormat:@"%@",toastMessage]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
-                                       duration:1.5
+                                       duration:1.75
                                        callback:^(void){
                                            
-                                           //ALAppLocalNotifications* launch=[[ALAppLocalNotifications alloc] init];
-                                           //for Individual Chat Conversation Opening...
-                                           [delegate thirdPartyNotificationTap];
+                                           
+                                           [delegate thirdPartyNotificationTap1:contactId];
+                                           
                                            
                                        }buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionTop canBeDismissedByUser:YES];
     
@@ -272,7 +257,6 @@
         
         toastView.text = toastMessage;
         toastView.backgroundColor = [UIColor grayColor];
-        //        toastView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"BlueNotify.png"]];
         toastView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.9];
         toastView.textColor = [UIColor whiteColor];
         toastView.textAlignment = NSTextAlignmentCenter;
@@ -286,13 +270,6 @@
         
         UIImageView* dp=[[UIImageView alloc] initWithImage:img];
         [dp setFrame:CGRectMake(toastView.frame.origin.x+10, toastView.frame.origin.y+10, img.size.width, img.size.height)];
-        ////        [dp setFrame:CGRectMake(0.0, 0.0, dp.frame.size.width, dp.frame.size.height)];
-        //        dp.layer.cornerRadius=dp.layer.frame.size.width/2;
-        //        dp.clipsToBounds=YES;
-        //        [toastView addSubview:dp];
-        //        [toastView bringSubviewToFront:dp];
-        
-        
         [toastView addSubview:dp];
         UITapGestureRecognizer *tapGesture =
         [[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(thirdPartyNotificationTap:)];
@@ -382,9 +359,10 @@
     }];
     
 }
-+(NSString *)getFileNameWithCurrentTimeStamp{
-   
 
++(NSString *)getFileNameWithCurrentTimeStamp{
+    
+    
     NSString *resultString = [@"IMG-" stringByAppendingString: @([[NSDate date] timeIntervalSince1970]).stringValue];
     return resultString;
 }

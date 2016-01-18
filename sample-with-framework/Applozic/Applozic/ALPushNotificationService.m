@@ -15,6 +15,8 @@
 #import "ALMessagesViewController.h"
 #import "ALPushAssist.h"
 
+
+
 @implementation ALPushNotificationService
 
 + (NSArray *)ApplozicNotificationTypes
@@ -39,12 +41,6 @@
     NSLog(@"update ui: %@", updateUI ? @"Yes": @"No");
     //[dictionary setObject:@"Yes" forKey:@"updateUI"]; // adds @"Bar"
     
-    if (![ALUserDefaultsHandler isLoggedIn]){
-        NSLog(@"NOT Logged In");
-        return false;
-    }
-    
-    
     if ([self isApplozicNotification:dictionary]) {
         //Todo: process it
         NSString *alertValue = [[dictionary valueForKey:@"aps"] valueForKey:@"alert"];
@@ -64,7 +60,7 @@
         NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
         
         if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
-            NSLog(@"notificationId is already processed...log in PushN%@",notificationId);
+            NSLog(@"notificationId is already processed...ALPUSH %@",notificationId);
             return true;
         }
         //TODO : check if notification is alreday received and processed...
@@ -73,14 +69,12 @@
         if ([type isEqualToString:MT_SYNC])
         {
             
-            NSLog(@"pushing to notification center");
             [dict setObject:alertValue forKey:@"alertValue"];
             
             ALPushAssist* assistant=[[ALPushAssist alloc] init];
             
             if(!assistant.isChatViewOnTop){
-                NSLog(@"OUR View NOT Opened");
-                NSLog(@"notification called....");
+                [dict setObject:@"apple push notification.." forKey:@"Calledfrom"];
                 
                 [assistant assist:notificationMsg and:dict ofUser:notificationMsg];
                 
@@ -91,9 +85,7 @@
                 [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:notificationMsg
                                                                    userInfo:dict];
                 [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:notificationMsg userInfo:dict];
-            
             }
-            
         }else if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:MT_DELIVERED]||[type isEqualToString:@"APPLOZIC_08"])  {
             
             NSArray *deliveryParts = [notificationMsg componentsSeparatedByString:@","];
@@ -131,10 +123,14 @@
             //[self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
             
         }
+        
+        
         return TRUE;
     }
     
     return FALSE;
 }
+
+
 
 @end
