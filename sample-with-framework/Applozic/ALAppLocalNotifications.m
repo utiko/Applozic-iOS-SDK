@@ -20,11 +20,7 @@
 
 
 
-@implementation ALAppLocalNotifications{
-    NSNumber *updateUI ;
-    NSString *alertValue;
-}
-
+@implementation ALAppLocalNotifications
 
 +(ALAppLocalNotifications *)appLocalNotificationHandler
 {
@@ -220,13 +216,11 @@
     ALPushAssist* object=[[ALPushAssist alloc] init];
     //for Individual Chat Conversation Opening...
     NSLog(@"Chat Launch Contact ID: %@",self.contactId);
-    self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_KEY];
-    [self.chatLauncher launchIndividualChat:self.contactId andViewControllerObject:object.topViewController andWithText:nil];
-    
-
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:@"showNotificationAndLaunchChat"];
-     [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    //Check if this view is there or not ..if there just call fetchAnd refresh...
+    if(!object.isChatViewOnTop){
+        self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_KEY];
+        [self.chatLauncher launchIndividualChat:contactId andViewControllerObject:object.topViewController andWithText:nil];
+    }
 
 }
 

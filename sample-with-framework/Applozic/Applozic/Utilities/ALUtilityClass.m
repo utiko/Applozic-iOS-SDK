@@ -232,14 +232,12 @@
                                        duration:1.75
                                        callback:^(void){
                                            
-                                           [delegate thirdPartyNotificationTap];
+                                           //[delegate thirdPartyNotificationTap];
+                                           
+                                           [delegate thirdPartyNotificationTap1:contactId];
                                            
                                            
-                                       }
-                                    buttonTitle:nil
-                                 buttonCallback:nil
-                                     atPosition:TSMessageNotificationPositionTop
-                           canBeDismissedByUser:YES];
+                                       }buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionTop canBeDismissedByUser:YES];
     
 
     

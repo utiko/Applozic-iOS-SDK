@@ -1409,6 +1409,8 @@ ALMessageDBService  * dbService;
 }
 
 -(void) mqttConnectionClosed {
+    NSLog((self.isViewLoaded && self.view.window)?@" View Visible Yes":@" View Visible No");
+
     if (_mqttRetryCount > MQTT_MAX_RETRY|| !(self.isViewLoaded && self.view.window)){
         return;
     }
@@ -1417,7 +1419,11 @@ ALMessageDBService  * dbService;
         NSLog(@"MQTT connection closed, subscribing again: %lu", (long)_mqttRetryCount);
     dispatch_async(dispatch_get_main_queue(), ^{
         
+        
+    
+        if((self.isViewLoaded && self.view.window)){
         [self.mqttObject subscribeToConversation];
+        }
         
     });
     _mqttRetryCount++;

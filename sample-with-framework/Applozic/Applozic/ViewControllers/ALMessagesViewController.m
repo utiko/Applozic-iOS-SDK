@@ -33,6 +33,7 @@
 #import "ALReachability.h"
 #import "ALUserService.h"
 #import "ALNotificationView.h"
+#import "ALPushAssist.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -684,6 +685,8 @@
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
     
+    ALPushAssist* top=[[ALPushAssist alloc] init];
+    
     [self.detailChatViewController setRefresh: TRUE];
     if ([self.detailChatViewController contactIds] != nil) {
        // NSLog(@"executing if part...");
@@ -693,7 +696,9 @@
     } else {
        // NSLog(@"executing else part....");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:alMessage.contactIds withAlertMessage:alMessage.message];
-        [alnotification displayNotificationNew:self];
+        if (top.isMessageViewOnTop) {
+            [alnotification displayNotificationNew:self];
+        }
         [dBService fetchAndRefreshQuickConversation];
     }
 }

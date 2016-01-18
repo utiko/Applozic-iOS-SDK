@@ -98,22 +98,22 @@ static MQTTSession *session;
     NSError *error = nil;
     NSDictionary *theMessageDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     NSString *type = [theMessageDict objectForKey:@"type"];
-  //  NSString *instantMessageJson = [theMessageDict objectForKey:@"message"];
-
-//    UIApplicationState state = [UIApplication sharedApplication].applicationState;
-//    BOOL result = (state == UIApplicationStateBackground);
-//    
-//    if(result){
-//        return;
-//    }
-//    
+    //  NSString *instantMessageJson = [theMessageDict objectForKey:@"message"];
+    
     NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
     
-    if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId]  ){
-        NSLog(@"notificationId is already processed...(log in MQTT)%@",notificationId);
+    
+    ALPushAssist* top=[[ALPushAssist alloc] init];
+    if( [[UIApplication sharedApplication] applicationState] == UIApplicationStateBackground || !top.isChatViewOnTop){
+        NSLog(@"Returing coz Application State is Background");
         return;
     }
-
+    
+    if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
+        NSLog(@"notificationId is already processed...MQTT%@",notificationId);
+        return;
+    }
+    
     if ([topic hasPrefix:@"typing"]) {
         NSArray *typingParts = [fullMessage componentsSeparatedByString:@","];
         NSString *applicationKey = typingParts[0]; //Note: will get used once we support messaging from one app to another
@@ -136,8 +136,7 @@ static MQTTSession *session;
         
 //          When app launches from backgound then set updateUI to 'No' so that double notification is not shown.
             if(!assistant.isChatViewOnTop){
-                [dict setObject:[NSNumber numberWithBool:YES] forKey:@"updateUI"];
-                NSLog(@" our notification called for mqtt....");
+                NSLog(@" ### our notification called for mqtt....");
                 [assistant assist:alMessage.contactIds and:dict ofUser:alMessage.contactIds];
                 [dict setObject:@"mqtt" forKey:@"Calledfrom"];
             }
