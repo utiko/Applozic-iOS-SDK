@@ -211,20 +211,10 @@
 }
 
 
-//        NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
-//        attachment.image = [UIImage imageNamed:@"online_show.png"];
-//        attachment.bounds=CGRectMake(0.0, 0.0, attachment.image.size.width, attachment.image.size.height);
-//        NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
-//        NSLog(@":::Toast Message::: %@",toastMessage);
-//        NSMutableAttributedString *myString= [[NSMutableAttributedString alloc] initWithString:toastMessage];
-//        [myString appendAttributedString:attachmentString];
-//        toastView.attributedText=myString;
-//        toastView.attributedText =[[NSAttributedString alloc] initWithString:toastMessage];
-//        [NSString stringWithFormat:@"%@",toastMessage];
-
-
 
 +(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId delegate:(id)delegate{
+    
+    //3rd Party View is Opened.........
     
     ALPushAssist* top=[[ALPushAssist alloc] init];
     NSLog(@"DELEGATE %@",delegate);

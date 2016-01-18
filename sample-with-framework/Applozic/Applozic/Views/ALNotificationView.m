@@ -36,7 +36,7 @@
 {
 //    [[NSOperationQueue mainQueue] addOperationWithBlock:^ {
 
-    //<><<<<<><><><><><><><>>OUR VIEW is opned<><>><><><><><><><><><><><><><>><<>
+    
     
         UITapGestureRecognizer *tapGesture =
         [[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(handleNotification:)];
@@ -73,6 +73,7 @@
 
 -(void)displayNotificationNew:(id)delegate{
     
+    //<><><><><><><><><><><><><><><><><><><><><><>OUR VIEW is opned<><>><><><><><><><><><><><><><><><>//
     ALPushAssist* top=[[ALPushAssist alloc] init];
 
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
@@ -92,18 +93,33 @@
                                        duration:1.75
                                        callback:
      ^(void){
-            if([delegate isKindOfClass:[ALChatViewController class]]){
-                ALChatViewController * class1= (ALChatViewController*)delegate;
-                class1.contactIds=self.contactId;
-                [class1 reloadView];
-                [class1 processMarkRead];
-                [class1 fetchAndRefresh:YES];
-                                               
+         
+         
+         if([delegate isKindOfClass:[ALMessagesViewController class]] && top.isMessageViewOnTop){
+             // Conversation View is Opened.....
+             ALMessagesViewController* class2=(ALMessagesViewController*)delegate;
+             [class2 createDetailChatViewController:_contactId];
+             self.checkContactId=[NSString stringWithFormat:@"%@",self.contactId];
+         }
+         else{
+             NSLog(@" is NOT ALMessageView Class and Message View is NOT on Top");
+             return;
+         }
+    
+        if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop2){
+            // Chat View is Opened....
+            ALChatViewController * class1= (ALChatViewController*)delegate;
+            class1.contactIds=self.contactId;
+            [class1 reloadView];
+            [class1 processMarkRead];
+            [class1 fetchAndRefresh:YES];
+                
             }
-            else{ //[delegate isKindOfClass:[ALMessageViewController class]]
-                ALMessagesViewController* class2=(ALMessagesViewController*)delegate;
-                [class2 createDetailChatViewController:_contactId];
-            }
+        else{
+             NSLog(@" is NOT ALChatView Class and Chat View is NOT on Top");
+            return;
+        }
+         
         
     }
                                     buttonTitle:nil

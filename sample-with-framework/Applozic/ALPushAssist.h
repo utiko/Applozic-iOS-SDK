@@ -19,4 +19,6 @@
 -(void)assist:(NSString*)notiMsg and :(NSMutableDictionary*)dict ofUser:(NSString*)userId;
 - (UIViewController*)topViewController ;
 -(BOOL) isChatViewOnTop;
+-(BOOL)isMessageViewOnTop;
+-(BOOL)isChatViewOnTop2;
 @end

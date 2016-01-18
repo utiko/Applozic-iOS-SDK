@@ -40,6 +40,14 @@
     return ( [self.topViewController isKindOfClass:[ALMessagesViewController class]]||[self.topViewController isKindOfClass:[ALChatViewController class]]);
 }
 
+-(BOOL)isMessageViewOnTop{
+    return ([self.topViewController isKindOfClass:[ALMessagesViewController class]]);
+}
+
+-(BOOL)isChatViewOnTop2{
+    return ([self.topViewController isKindOfClass:[ALChatViewController class]]);
+}
+
 - (UIViewController*)topViewController {
     return [self topViewControllerWithRootViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
 }
