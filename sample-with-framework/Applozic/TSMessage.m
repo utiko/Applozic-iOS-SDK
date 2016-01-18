@@ -240,9 +240,11 @@ __weak static UIViewController *_defaultViewController;
     
     UIWindow * keyWindow = [[UIApplication sharedApplication] keyWindow];
     keyWindow.opaque=NO;
-    //        keyWindow.windowLevel=UIWindowLevelStatusBar;
+    //keyWindow.windowLevel=UIWindowLevelStatusBar+1; //Causes the navigationBar to Hide....
     [keyWindow addSubview:currentView];
     [keyWindow bringSubviewToFront:currentView];
+    
+
 
     CGPoint toPoint;
     if (currentView.messagePosition != TSMessageNotificationPositionBottom)

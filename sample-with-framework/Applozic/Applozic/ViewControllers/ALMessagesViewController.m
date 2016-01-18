@@ -95,8 +95,6 @@
 @implementation ALMessagesViewController
 
 
-
-
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - View lifecycle
 //------------------------------------------------------------------------------------------------------------------
@@ -137,8 +135,8 @@
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Back"]];
     [self.navigationItem setLeftBarButtonItem: barButtonItem];
-    
 }
+
 
 -(void)viewDidDisappear:(BOOL)animated
 {
@@ -164,8 +162,7 @@
     [super viewWillAppear:animated];
     [self dropShadowInNavigationBar];
     //    [[self.navigationItem leftBarButtonItem] setTitle:[ALApplozicSettings getBackButtonTitle]];
-    
-    if([ALUserDefaultsHandler isLogoutButtonHidden])
+        if([ALUserDefaultsHandler isLogoutButtonHidden])
     {
         [self.navBar setRightBarButtonItems:nil];
     }
@@ -755,12 +752,10 @@
     } else {
         // NSLog(@"executing else part....");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:alMessage.contactIds withAlertMessage:alMessage.message];
-        
         if (top.isMessageViewOnTop) {
             [alnotification displayNotificationNew:self];
         }
-        
-        [dBService fetchAndRefreshQuickConversation];  // can be used also instead of syncCall/syncCall:blah blah
+        [dBService fetchAndRefreshQuickConversation]; // can be used also instead of syncCall/syncCall:blah blah
     }
 }
 

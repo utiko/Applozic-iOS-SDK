@@ -137,6 +137,8 @@ static NSMutableDictionary *_notificationDesign;
                                           self.padding,
                                           image.size.width,
                                           image.size.height);
+    self.iconImageView.layer.cornerRadius=image.size.width/2;
+    self.iconImageView.layer.masksToBounds=YES;
 }
 
 
@@ -257,12 +259,6 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
             self.alpha = 0.0;
 
             // add background image here
-            
-            //            UIImage*backgroundImage=[[UIImage alloc] initWithCGImage:[ALUtilityClass getImageFromFramworkBundle:@"Notify.png"].CGImage];
-            //            backgroundImage=[ALUtilityClass getImageFromFramworkBundle:@"Notify.png"];
-            //NotificationBackgroundMessage.png
-            //            UIImage*backgroundImage=[[UIImage alloc] init];
-            //            backgroundImage=[ALUtilityClass getImageFromFramworkBundle:@"Notify.png"];
             UIImage *backgroundImage = [self bundledImageNamed:[current valueForKey:@"backgroundImageName"]];
             backgroundImage = [backgroundImage stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0];
             
@@ -298,9 +294,10 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
         } else {
             [self.titleLabel setFont:[UIFont boldSystemFontOfSize:fontSize]];
         }
-        [self.titleLabel setShadowColor:[UIColor colorWithHexString:[current valueForKey:@"shadowColor"]]];
-        [self.titleLabel setShadowOffset:CGSizeMake([[current valueForKey:@"shadowOffsetX"] floatValue],
-                                                    [[current valueForKey:@"shadowOffsetY"] floatValue])];
+        
+//        [self.titleLabel setShadowColor:[UIColor colorWithHexString:[current valueForKey:@"shadowColor"]]];
+//        [self.titleLabel setShadowOffset:CGSizeMake([[current valueForKey:@"shadowOffsetX"] floatValue],
+//                                                    [[current valueForKey:@"shadowOffsetY"] floatValue])];
 
         self.titleLabel.numberOfLines = 0;
         self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -341,7 +338,11 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
                                                   padding,
                                                   image.size.width,
                                                   image.size.height);
+            
+            self.iconImageView.layer.cornerRadius=image.size.width/2;
+            self.iconImageView.layer.masksToBounds=YES;
             [self addSubview:self.iconImageView];
+            
         }
 
         // Set up button (if set)

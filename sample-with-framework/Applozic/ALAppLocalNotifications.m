@@ -177,10 +177,9 @@
     self.dict = notification.userInfo;
     NSNumber * updateUI = [self.dict valueForKey:@"updateUI"];
     NSString * alertValue = [self.dict valueForKey:@"alertValue"];
-    NSLog(@"alertValue ALAppLN:>>>%@",alertValue);
+    
     //ALMessageDBService* obj=[[ALMessageDBService alloc] init];
    // [obj fetchAndRefreshQuickConversation];
-    NSLog(@"thirdPartyNotificationHandler dict %@",_dict);
 
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {

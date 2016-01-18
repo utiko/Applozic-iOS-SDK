@@ -19,7 +19,6 @@
 
 @implementation ALUtilityClass
 
-
 + (NSString *) formatTimestamp:(NSTimeInterval) timeInterval toFormat:(NSString *) forMatStr
 {
     
@@ -258,7 +257,6 @@
         
         toastView.text = toastMessage;
         toastView.backgroundColor = [UIColor grayColor];
-//        toastView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"BlueNotify.png"]];
         toastView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.9];
         toastView.textColor = [UIColor whiteColor];
         toastView.textAlignment = NSTextAlignmentCenter;
@@ -272,13 +270,6 @@
         
         UIImageView* dp=[[UIImageView alloc] initWithImage:img];
         [dp setFrame:CGRectMake(toastView.frame.origin.x+10, toastView.frame.origin.y+10, img.size.width, img.size.height)];
-////        [dp setFrame:CGRectMake(0.0, 0.0, dp.frame.size.width, dp.frame.size.height)];
-//        dp.layer.cornerRadius=dp.layer.frame.size.width/2;
-//        dp.clipsToBounds=YES;
-//        [toastView addSubview:dp];
-//        [toastView bringSubviewToFront:dp];
-
-        
         [toastView addSubview:dp];
         UITapGestureRecognizer *tapGesture =
         [[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(thirdPartyNotificationTap:)];

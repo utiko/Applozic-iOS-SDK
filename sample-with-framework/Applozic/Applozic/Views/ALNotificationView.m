@@ -93,38 +93,35 @@
                                        duration:1.75
                                        callback:
      ^(void){
-         
-         
+        
          if([delegate isKindOfClass:[ALMessagesViewController class]] && top.isMessageViewOnTop){
              // Conversation View is Opened.....
              ALMessagesViewController* class2=(ALMessagesViewController*)delegate;
              [class2 createDetailChatViewController:_contactId];
              self.checkContactId=[NSString stringWithFormat:@"%@",self.contactId];
+             
          }
-         else{
-             NSLog(@" is NOT ALMessageView Class and Message View is NOT on Top");
-             return;
-         }
-    
-        if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop2){
+        else if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop2){
             // Chat View is Opened....
             ALChatViewController * class1= (ALChatViewController*)delegate;
             class1.contactIds=self.contactId;
             [class1 reloadView];
             [class1 processMarkRead];
             [class1 fetchAndRefresh:YES];
-                
+            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
             }
-        else{
-             NSLog(@" is NOT ALChatView Class and Chat View is NOT on Top");
-            return;
+         else{
+            NSLog(@"View Already Opened and Notification coming already");
         }
          
-        
     }
                                     buttonTitle:nil
                                  buttonCallback:nil
                                      atPosition:TSMessageNotificationPositionTop
                            canBeDismissedByUser:YES];
+    
+    
+    
+    
 }
 @end

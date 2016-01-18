@@ -65,18 +65,15 @@
         }
         //TODO : check if notification is alreday received and processed...
         NSString *  notificationMsg = [theMessageDict valueForKey:@"message"];
-        NSLog(@"Object Push %@",notificationMsg);
-        NSLog(@"User Info Push %@",dict);
+
         if ([type isEqualToString:MT_SYNC])
         {
-//            NSLog(@"pushing to notification center");
+
             [dict setObject:alertValue forKey:@"alertValue"];
     
             ALPushAssist* assistant=[[ALPushAssist alloc] init];
             
             if(!assistant.isChatViewOnTop){
-              //  NSLog(@"OUR View NOT Opened");
-                NSLog(@"notification called from push...");
                 [dict setObject:@"apple push notification.." forKey:@"Calledfrom"];
 
                 [assistant assist:notificationMsg and:dict ofUser:notificationMsg];
@@ -89,9 +86,6 @@
                                                                    userInfo:dict];
                 [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:notificationMsg userInfo:dict];
             }
-            //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thirdPartyNotificationHandler:) name:@"showNotificationAndLaunchChat" object:nil];
-            
-            
         }else if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:MT_DELIVERED]||[type isEqualToString:@"APPLOZIC_08"])  {
             
             NSArray *deliveryParts = [notificationMsg componentsSeparatedByString:@","];

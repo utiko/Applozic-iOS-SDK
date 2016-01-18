@@ -130,6 +130,10 @@ ALMessageDBService  * dbService;
 //        if (self.refresh) {
 //            self.refresh = false;
 //        }
+        
+//        UIWindow * keyWindow = [[UIApplication sharedApplication] keyWindow];
+//        keyWindow.windowLevel=UIWindowLevelNormal;
+
     }
     
     
