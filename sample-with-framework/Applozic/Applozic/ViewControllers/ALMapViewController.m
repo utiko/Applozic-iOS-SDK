@@ -74,8 +74,10 @@
     
             //simpe location link
      
-    NSString * locationURL=[NSString stringWithFormat:@"http://maps.google.com/?ll=%.8f,%.8f,15z", region.center.latitude, region.center.longitude];
-   
+//    NSString * locationURL=[NSString stringWithFormat:@"http://maps.google.com/?ll=%.8f,%.8f,15z", region.center.latitude, region.center.longitude];
+//   https://www.google.co.in/maps/@12.9328581,77.6274083,19z
+    
+     NSString * locationURL=[NSString stringWithFormat:@"https://www.google.co.in/maps/@%.8f,%.8f,15z&markers=%.8f,%.8f", region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
     
     [self.controllerDelegate getUserCurrentLocation:locationURL];
     
