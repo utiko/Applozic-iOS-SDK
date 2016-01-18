@@ -15,7 +15,6 @@
 #import "ALUserDetail.h"
 #import "ALPushAssist.h"
 
-
 @implementation ALMQTTConversationService
 
 static MQTTSession *session;
@@ -77,13 +76,13 @@ static MQTTSession *session;
         /*if (session.status == MQTTSessionStatusConnected) {
          [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
          }*/
-
+        
     }
     @catch (NSException * e) {
         NSLog(@"Exception: %@", e);
     }
     
-  }
+}
 
 
 
@@ -93,15 +92,9 @@ static MQTTSession *session;
 
 - (void)newMessage:(MQTTSession *)session data:(NSData *)data onTopic:(NSString *)topic qos:(MQTTQosLevel)qos retained:(BOOL)retained mid:(unsigned int)mid
 {
-    
-    if (![ALUserDefaultsHandler isLoggedIn]){
-        NSLog(@"Not Logged in");
-        return;
-    }
-    
     NSString *fullMessage = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"MQTT got new message: %@", fullMessage);
-
+    
     NSError *error = nil;
     NSDictionary *theMessageDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     NSString *type = [theMessageDict objectForKey:@"type"];
@@ -133,7 +126,7 @@ static MQTTSession *session;
             [self.alSyncCallService updateMessageDeliveryReport:deliveryParts[0]];
             [self.mqttConversationDelegate delivered: deliveryParts[0] contactId:deliveryParts[1]];
         } else if ([type isEqualToString: @"MESSAGE_RECEIVED"]||[type isEqualToString:@"APPLOZIC_01"]) {
-
+            
             ALPushAssist* assistant=[[ALPushAssist alloc] init];
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
             NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
@@ -146,6 +139,7 @@ static MQTTSession *session;
                 [dict setObject:[NSNumber numberWithBool:YES] forKey:@"updateUI"];
                 NSLog(@" our notification called for mqtt....");
                 [assistant assist:alMessage.contactIds and:dict ofUser:alMessage.contactIds];
+                [dict setObject:@"mqtt" forKey:@"Calledfrom"];
             }
             else{
                 [self.alSyncCallService syncCall: alMessage];
@@ -193,7 +187,7 @@ static MQTTSession *session;
 - (void)connectionClosed:(MQTTSession *)session {
     NSLog(@"MQTT connection closed");
     [self.mqttConversationDelegate mqttConnectionClosed];
-
+    
     //Todo: inform controller about connection closed.
 }
 
@@ -208,7 +202,10 @@ static MQTTSession *session;
 
 -(void) sendTypingStatus:(NSString *) applicationKey userID:(NSString *) userId typing: (BOOL) typing;
 {
-     NSLog(@"Sending typing status %d to: %@", typing, userId);
+    if(!session){
+        return;
+    }
+    NSLog(@"Sending typing status %d to: %@", typing, userId);
     NSData* data=[[NSString stringWithFormat:@"%@,%@,%i", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId], typing ? 1 : 0] dataUsingEncoding:NSUTF8StringEncoding];
     [session publishDataAtMostOnce:data onTopic:[NSString stringWithFormat:@"typing-%@-%@", applicationKey, userId]];
 }

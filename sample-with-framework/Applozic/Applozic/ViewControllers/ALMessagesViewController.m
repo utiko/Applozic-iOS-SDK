@@ -30,7 +30,7 @@
 #import "ALMQTTConversationService.h"
 #import "ALApplozicSettings.h"
 #import "ALDataNetworkConnection.h"
-#import "Reachability.h"
+#import "ALReachability.h"
 #import "ALUserService.h"
 #import "ALNotificationView.h"
 

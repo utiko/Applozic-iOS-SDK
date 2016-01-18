@@ -20,13 +20,13 @@
 @implementation ALPushAssist
 
 -(void)assist:(NSString*)notiMsg and :(NSMutableDictionary*)dict ofUser:(NSString*)userId{
-
+    
     if (!self.isChatViewOnTop) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"showNotificationAndLaunchChat"
-                                                             object:notiMsg
-                                                           userInfo:dict];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"showNotificationAndLaunchChat"
+                                                            object:notiMsg
+                                                          userInfo:dict];
     }
-
+    
 }
 
 -(void)dealloc{
@@ -36,6 +36,14 @@
 
 -(BOOL) isChatViewOnTop{
     return ( [self.topViewController isKindOfClass:[ALMessagesViewController class]]||[self.topViewController isKindOfClass:[ALChatViewController class]]);
+}
+
+-(BOOL)isMessageViewOnTop{
+    return ([self.topViewController isKindOfClass:[ALMessagesViewController class]]);
+}
+
+-(BOOL)isChatViewOnTop2{
+    return ([self.topViewController isKindOfClass:[ALChatViewController class]]);
 }
 
 - (UIViewController*)topViewController {

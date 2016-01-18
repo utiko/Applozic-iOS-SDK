@@ -60,6 +60,7 @@
 -(DB_Message *) createMessageEntityForDBInsertionWithMessage:(ALMessage *) theMessage;
 -(DB_FileMetaInfo *) createFileMetaInfoEntityForDBInsertionWithMessage:(ALFileMetaInfo *) fileInfo;
 -(ALMessage *) createMessageEntity:(DB_Message *) theEntity;
+-(NSMutableArray *)getPendingMessages;
 
 
 @property(nonatomic,weak) id <ALMessagesDelegate>delegate;

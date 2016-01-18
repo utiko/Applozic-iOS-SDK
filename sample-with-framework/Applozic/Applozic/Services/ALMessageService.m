@@ -450,4 +450,31 @@ static ALMessageClientService * alMsgClientService;
     
 }
 
++(void)processPendingMessages{
+    
+    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+    NSMutableArray * pendingMessageArray = [dbService getPendingMessages];
+    NSLog(@"service called....%lu",pendingMessageArray.count);
+    
+    for(ALMessage *msg  in pendingMessageArray ){
+        
+        if(!msg.fileMeta && !msg.pairedMessageKey){
+            NSLog(@" resenidng message ..%@", msg.message);
+            [self sendMessages:msg withCompletion:^(NSString *message, NSError *error) {
+                if(error){
+                    NSLog(@" pending messages not sent.....%@", error);
+                }else {
+                    NSLog(@" sent sucessfully....maked as delivered...%@", message);
+                }
+                
+            }];
+        }else{
+            NSLog(@" fileMeta present ... %@" ,msg.fileMeta );
+        }
+        
+    }
+    
+}
+
+
 @end

@@ -44,4 +44,7 @@
 
 +(void)userDetailServerCall:(NSString *)contactId withCompletion:(void(^)(ALUserDetail *))completionMark;
 
++(void)processPendingMessages;
+
+
 @end
