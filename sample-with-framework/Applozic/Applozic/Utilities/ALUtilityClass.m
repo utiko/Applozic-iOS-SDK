@@ -248,7 +248,7 @@
                                        callback:^(void){
                                            
                                            [delegate thirdPartyNotificationTap];
-                                           ;
+                                           
                                            
                                        }
                                     buttonTitle:nil

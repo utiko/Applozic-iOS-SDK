@@ -153,12 +153,7 @@ static MQTTSession *session;
                 [self.mqttConversationDelegate syncCall: alMessage];
             }
             
-           
-//            ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
-//            [self.alSyncCallService syncCall: alMessage];
-//            //Todo: split backend logic and ui logic between synccallservice and delegate
-//            [self.mqttConversationDelegate syncCall: alMessage];
-//            
+        
             
             
         } else if ([type isEqualToString:@"APPLOZIC_10"]) {

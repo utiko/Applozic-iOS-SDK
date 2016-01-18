@@ -88,7 +88,7 @@
 
 @implementation ALMessagesViewController
 
-//ALMQTTConversationService *alMqttConversationService;
+
 
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - View lifecycle
@@ -136,9 +136,9 @@
 {
     if (self.navigationController.viewControllers.count ==1){
         NSLog(@" closing mqtt connections...");
-       // dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             [_alMqttConversationService unsubscribeToConversation];
-        //});
+        });
     }
 }
 
@@ -173,13 +173,6 @@
     }
     
 }
--(void) ViewDidUnload
-{
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [alMqttConversationService unsubscribeToConversation];
-//    });
-}
-
 
 
 -(void)dropShadowInNavigationBar
@@ -292,8 +285,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     [super viewWillDisappear:animated];
-    
-   // self.navigationController.navigationBar.barTintColor = self.navColor;
+  
 }
 
 - (IBAction)logout:(id)sender {
@@ -804,9 +796,7 @@
 
 - (void)dealloc {
     
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [_alMqttConversationService unsubscribeToConversation];
-//        });
+
   
 }
 - (IBAction)backButtonAction:(id)sender {
