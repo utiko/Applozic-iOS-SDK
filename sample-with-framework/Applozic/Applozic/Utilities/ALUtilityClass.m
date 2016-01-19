@@ -236,7 +236,6 @@
                                        duration:1.75
                                        callback:^(void){
                                         [delegate thirdPartyNotificationTap1:contactId];
-                                           
                                        }
                                     buttonTitle:nil
                                  buttonCallback:nil
