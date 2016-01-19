@@ -17,6 +17,7 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALMessagesViewController.h"
 #import "ALColorUtility.h"
+#import "UIImageView+WebCache.h"
 
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
@@ -144,7 +145,7 @@
     [nameIcon setTextColor:[UIColor whiteColor]];
     nameIcon.layer.masksToBounds = YES;
     ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
-    //Write the logic to get display nme
+    //Write the logic to get display name
     if (contact) {
         newContactCell.contactPersonName.text = [contact getDisplayName];
 //        NSLog(@"DISPLAY NAME %@", [contact getDisplayName]);
@@ -164,14 +165,17 @@
         }
         
         if (contact.contactImageUrl) {
-            newContactCell.contactPersonImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:contact.contactImageUrl]]];
+//            newContactCell.contactPersonImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:contact.contactImageUrl]]];
+            [newContactCell.contactPersonImageView sd_setImageWithURL:[NSURL URLWithString:contact.contactImageUrl]];
         }else{
             newContactCell.contactPersonImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
             
         }
         
     }
-    
+//    NSLog(@"DISPLAY IMAGE URL  %@", [contact contactImageUrl]);
+//    NSLog(@"DISPLAY IMAGE LOCAL  %@", [contact localImageResourceName]);
+
     
     return newContactCell;
 }
