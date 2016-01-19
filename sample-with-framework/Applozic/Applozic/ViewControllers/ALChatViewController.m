@@ -121,6 +121,7 @@ ALMessageDBService  * dbService;
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [ALUserService updateUserDisplayName:self.alContact];
     [self.tabBarController.tabBar setHidden: YES];
     [self.label setHidden:NO];
     [self.loadEarlierAction setHidden:YES];

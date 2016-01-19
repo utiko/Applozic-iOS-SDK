@@ -147,7 +147,10 @@
         userContact.fullName = contact.fullName;
         userContact.contactNo = contact.contactNumber;
         userContact.contactImageUrl = contact.contactImageUrl;
-        userContact.displayName = contact.displayName;
+        if(contact.displayName)
+        {
+            userContact.displayName = contact.displayName;
+        }
         userContact.localImageResourceName = contact.localImageResourceName;
         
     }
