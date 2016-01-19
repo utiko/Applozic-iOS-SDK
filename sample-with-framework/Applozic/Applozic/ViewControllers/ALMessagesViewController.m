@@ -6,8 +6,8 @@
 //
 
 #define NAVIGATION_TEXT_SIZE 20
-#define USER_NAME_LABEL_SIZE 18
-#define MESSAGE_LABEL_SIZE 12
+#define USER_NAME_LABEL_SIZE 20
+#define MESSAGE_LABEL_SIZE 14
 #define TIME_LABEL_SIZE 10
 #define IMAGE_NAME_LABEL_SIZE 14
 
@@ -215,11 +215,6 @@
     
     //register for notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(callLastSeenStatusUpdate)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:[UIApplication sharedApplication]];
     
     if ([_detailChatViewController refreshMainView])
     {
@@ -247,11 +242,14 @@
     
     [self.dataAvailablityLabel setHidden:YES];
     [self callLastSeenStatusUpdate];
-   
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+
     if (![ALDataNetworkConnection checkDataNetworkAvailable])
     {
         [self.dataAvailablityLabel setHidden:NO];
@@ -283,7 +281,7 @@
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     //unregister for notification
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushNotification" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self];
 
     [super viewWillDisappear:animated];
   
@@ -316,7 +314,7 @@
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                     color,NSForegroundColorAttributeName,nil];
     self.navigationController.navigationBar.titleTextAttributes = textAttributes;
-//    self.navigationItem.title = @"Conversation";
+
     self.navigationItem.title = [ALApplozicSettings getTitleForConversationScreen];
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1){
@@ -693,10 +691,16 @@
 -(void) syncCall:(ALMessage *) alMessage {
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
-    
+  //Simply Sync no notification
+    if(alMessage==nil){
+        NSLog(@"Called from self sync and messages are not present...");
+        [dBService fetchAndRefreshQuickConversation];
+        return;
+    }
     ALPushAssist* top=[[ALPushAssist alloc] init];
     ALChatViewController* refresh=[[ALChatViewController alloc] init];
     [self.detailChatViewController setRefresh: TRUE];
+    
     if ([self.detailChatViewController contactIds] != nil) {
        // NSLog(@"executing if part...");
 
@@ -823,6 +827,7 @@
 
 - (void)dealloc {
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
   
 }
@@ -845,5 +850,12 @@
         
         return NO;
     }
+}
+
+
+- (void)appWillEnterForeground:(NSNotification *)notification {
+    NSLog(@"will enter foreground notification");
+    [self syncCall:nil];
+    [self callLastSeenStatusUpdate];
 }
 @end
