@@ -393,6 +393,7 @@
             
             BOOL isToday = [ALUtilityClass isToday:[NSDate dateWithTimeIntervalSince1970:[msg.createdAtTime doubleValue]/1000]];
             contactCell.mTimeLabel.text = [msg getCreatedAtTime:isToday];
+            [self displayAttachmentMediaType:msg andContactCell: contactCell];
 
         }else{
             isreloadRequire = true;
@@ -785,10 +786,15 @@
     NSString * contactId = notification.object;
     NSDictionary *dict = notification.userInfo;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
+    NSString * alretValue =  [dict valueForKey:@"alertValue" ];
     
     if (self.isViewLoaded && self.view.window && [updateUI boolValue])
     {
-        [self syncCall:nil];
+        ALMessage *msg = [[ALMessage alloc]init];
+        msg.contactIds =  contactId;
+        msg.message = alretValue;
+        
+        [self syncCall:msg];
     }
     else if(![updateUI boolValue])
     {
