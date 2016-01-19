@@ -784,9 +784,14 @@
     NSString * contactId = notification.object;
     NSDictionary *dict = notification.userInfo;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
+    NSString * alretValue =  [dict valueForKey:@"alertValue" ];
     
     if (self.isViewLoaded && self.view.window && [updateUI boolValue])
     {
+        ALMessage *msg = [[ALMessage alloc]init];
+        msg.contactIds =  contactId;
+        msg.message = alretValue;
+        
         [self syncCall:nil];
     }
     else if(![updateUI boolValue])
