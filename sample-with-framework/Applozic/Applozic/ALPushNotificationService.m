@@ -87,8 +87,8 @@
                 
             }else {
                 NSLog(@"OUR View Opened");
-                [dict setObject:alertValue forKey:@"alertValue"];
                 
+                //[dict setObject:alertValue forKey:@"alertValue"];
                 [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:notificationMsg
                                                                    userInfo:dict];
                 [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:notificationMsg userInfo:dict];

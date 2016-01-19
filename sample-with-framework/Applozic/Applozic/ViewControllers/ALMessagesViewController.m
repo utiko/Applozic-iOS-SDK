@@ -686,7 +686,7 @@
     dBService.delegate = self;
     
     ALPushAssist* top=[[ALPushAssist alloc] init];
-    
+    ALChatViewController* refresh=[[ALChatViewController alloc] init];
     [self.detailChatViewController setRefresh: TRUE];
     if ([self.detailChatViewController contactIds] != nil) {
        // NSLog(@"executing if part...");
@@ -700,6 +700,7 @@
             [alnotification displayNotificationNew:self];
         }
         [dBService fetchAndRefreshQuickConversation];
+        [refresh fetchAndRefresh:YES];
     }
 }
 

@@ -213,16 +213,20 @@
 
 +(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId delegate:(id)delegate{
     
-    //3rd Party View is Opened.........
+    NSLog(@"3rd Party View is Opened.........");
     
     ALPushAssist* top=[[ALPushAssist alloc] init];
+    ALChatViewController* refresh=[[ALChatViewController alloc] init];
     NSLog(@"DELEGATE %@",delegate);
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
     [[TSMessageView appearance] setTitleFont:[UIFont fontWithName:@"Helvetica Neue" size:18.0]];
     [[TSMessageView appearance] setContentFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
-    
     [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
     [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
+    
+    NSString *myString = [NSString stringWithFormat:@"%@",toastMessage];
+    myString = (myString.length > 20) ? [NSString stringWithFormat:@"%@...",[myString substringToIndex:20]] : myString;
+
     
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:@"Applozic"
@@ -231,13 +235,13 @@
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75
                                        callback:^(void){
-                                           
-                                           //[delegate thirdPartyNotificationTap];
-                                           
-                                           [delegate thirdPartyNotificationTap1:contactId];
-                                           
-                                           
-                                       }buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionTop canBeDismissedByUser:YES];
+                                        [delegate thirdPartyNotificationTap1:contactId];
+                                        [refresh fetchAndRefresh:YES];
+                                       }
+                                    buttonTitle:nil
+                                 buttonCallback:nil
+                                     atPosition:TSMessageNotificationPositionTop
+                           canBeDismissedByUser:YES];
     
 
     
