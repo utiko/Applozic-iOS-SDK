@@ -13,6 +13,7 @@
 #import "ALChatViewController.h"
 #import "TSMessageView.h"
 #import "ALMessagesViewController.h"
+#import "ALUserDefaultsHandler.h"
 @implementation ALNotificationView
 
 
@@ -87,9 +88,9 @@
     
     NSString *myString = [NSString stringWithFormat:@"%@",self.text];
     myString = (myString.length > 20) ? [NSString stringWithFormat:@"%@...",[myString substringToIndex:20]] : myString;
-                                
+    
     [TSMessage showNotificationInViewController:top.topViewController
-                                          title:@"APPLOZIC"
+                                          title:[ALUserDefaultsHandler getNotificationTitle]
                                        subtitle:[NSString stringWithFormat:@"%@: %@",_contactId,myString]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage

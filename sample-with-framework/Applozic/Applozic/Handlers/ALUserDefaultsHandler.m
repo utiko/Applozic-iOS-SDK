@@ -207,7 +207,11 @@
         return NO;
     }
     NSString *key = [ contactId stringByAppendingString:MSG_LIST_CALL_SUFIX];
-    return [[NSUserDefaults standardUserDefaults] boolForKey:key];
+    if ( ![[NSUserDefaults standardUserDefaults] valueForKey:key] ){
+        return NO;
+    }else{
+        return [[NSUserDefaults standardUserDefaults] boolForKey:key];
+    }
     
 }
 
