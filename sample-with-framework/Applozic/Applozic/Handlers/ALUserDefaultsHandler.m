@@ -234,7 +234,7 @@
     BOOL isTheObjectThere = [mutableArray containsObject:withNotificationId];
     
     if ( isTheObjectThere ){
-        [mutableArray removeObject:withNotificationId];
+        //[mutableArray removeObject:withNotificationId];
     }else {
         [mutableArray addObject:withNotificationId];
     }

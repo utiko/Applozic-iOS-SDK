@@ -1066,7 +1066,7 @@ ALMessageDBService  * dbService;
         NSLog(@"it was in background, updateUI is false");
         self.contactIds = contactId;
         [self reloadView];
-        [self fetchAndRefresh];
+        [self fetchAndRefresh:YES];
     }else {
         NSLog(@"show notification as someone else thread is already opened");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
