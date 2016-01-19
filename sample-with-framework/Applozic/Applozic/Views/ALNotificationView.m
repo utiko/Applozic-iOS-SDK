@@ -72,7 +72,7 @@
 }
 
 -(void)displayNotificationNew:(id)delegate{
-    
+    NSLog(@"OUR VIEW OPENED DISPLAY with Text %@ and contact ID: %@",self.text,_contactId);
     //<><><><><><><><><><><><><><><><><><><><><><>OUR VIEW is opned<><>><><><><><><><><><><><><><><><>//
     ALPushAssist* top=[[ALPushAssist alloc] init];
     
@@ -85,9 +85,12 @@
     [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
     [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
     
+    NSString *myString = [NSString stringWithFormat:@"%@",self.text];
+    myString = (myString.length > 20) ? [NSString stringWithFormat:@"%@...",[myString substringToIndex:20]] : myString;
+                                
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:@"APPLOZIC"
-                                       subtitle:[NSString stringWithFormat:@"%@: %@",_contactId,self.text]
+                                       subtitle:[NSString stringWithFormat:@"%@: %@",_contactId,myString]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75

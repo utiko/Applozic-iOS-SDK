@@ -695,7 +695,7 @@
     dBService.delegate = self;
     
     ALPushAssist* top=[[ALPushAssist alloc] init];
-    
+    ALChatViewController* refresh=[[ALChatViewController alloc] init];
     [self.detailChatViewController setRefresh: TRUE];
     if ([self.detailChatViewController contactIds] != nil) {
        // NSLog(@"executing if part...");
@@ -709,6 +709,7 @@
             [alnotification displayNotificationNew:self];
         }
         [dBService fetchAndRefreshQuickConversation];
+        [refresh fetchAndRefresh:YES];
     }
 }
 
@@ -798,9 +799,16 @@
     if (self.isViewLoaded && self.view.window && [updateUI boolValue])
     {
         ALMessage *msg = [[ALMessage alloc]init];
-        msg.contactIds =  contactId;
-        msg.message = alretValue;
         
+        msg.message=alretValue;
+        NSArray *myArray = [msg.message
+                            componentsSeparatedByCharactersInSet:
+                            [NSCharacterSet characterSetWithCharactersInString:@":"]];
+
+        alretValue=[NSString stringWithFormat:@"%@",myArray[1]];
+        NSLog(@"VALUE ::%@",alretValue);
+        msg.message=alretValue;
+        msg.contactIds = contactId;
         [self syncCall:msg];
     }
     else if(![updateUI boolValue])

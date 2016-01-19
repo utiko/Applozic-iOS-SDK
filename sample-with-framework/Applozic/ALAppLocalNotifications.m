@@ -212,7 +212,7 @@
 
 -(void)thirdPartyNotificationTap1:(NSString *) contactId{ //:(UIGestureRecognizer*)gestureRecognizer
     
-    
+    ALChatViewController* refresh=[[ALChatViewController alloc] init];
     ALPushAssist* object=[[ALPushAssist alloc] init];
     //for Individual Chat Conversation Opening...
     NSLog(@"Chat Launch Contact ID: %@",self.contactId);
@@ -220,6 +220,7 @@
     if(!object.isChatViewOnTop){
         self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_KEY];
         [self.chatLauncher launchIndividualChat:contactId andViewControllerObject:object.topViewController andWithText:nil];
+        [refresh fetchAndRefresh:YES];
     }
 
 }
