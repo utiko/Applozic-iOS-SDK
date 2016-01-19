@@ -145,37 +145,47 @@
     [nameIcon setTextColor:[UIColor whiteColor]];
     nameIcon.layer.masksToBounds = YES;
     ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
+    [nameIcon setHidden:NO];
+    [newContactCell.contactPersonImageView setHidden:YES];
+    newContactCell.contactPersonImageView.layer.cornerRadius = newContactCell.contactPersonImageView.frame.size.width/2;
+    newContactCell.contactPersonImageView.layer.masksToBounds = YES;
     //Write the logic to get display name
-    if (contact) {
-        newContactCell.contactPersonName.text = [contact getDisplayName];
-//        NSLog(@"DISPLAY NAME %@", [contact getDisplayName]);
-        NSString *firstLetter = [newContactCell.contactPersonName.text substringToIndex:1];
-        //        nameIcon.text=firstLetter;
-        NSRange whiteSpaceRange = [newContactCell.contactPersonName.text rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
-        if (whiteSpaceRange.location != NSNotFound)
+    if (contact)
+    {
+        if (contact.contactImageUrl)
         {
-            NSArray *listNames = [newContactCell.contactPersonName.text componentsSeparatedByString:@" "];
-            NSString *firstLetter = [[listNames[0] substringToIndex:1] uppercaseString];
-            NSString *lastLetter = [[listNames[1] substringToIndex:1] uppercaseString];
-            nameIcon.text = [[firstLetter stringByAppendingString:lastLetter] uppercaseString];
+            [newContactCell.contactPersonImageView setHidden:NO];
+            [nameIcon setHidden:YES];
+            [newContactCell.contactPersonImageView sd_setImageWithURL:[NSURL URLWithString:contact.contactImageUrl]];
+        }
+        else if(contact.localImageResourceName)
+        {
+           [newContactCell.contactPersonImageView setHidden:NO];
+           [nameIcon setHidden:YES];
+           [newContactCell.contactPersonImageView setImage:[ALUtilityClass getImageFromFramworkBundle:contact.localImageResourceName]];
         }
         else
         {
-            nameIcon.text = [firstLetter uppercaseString];
+            
+            newContactCell.contactPersonName.text = [contact getDisplayName];
+            NSString *firstLetter = [newContactCell.contactPersonName.text substringToIndex:1];
+            //        nameIcon.text=firstLetter;
+            NSRange whiteSpaceRange = [newContactCell.contactPersonName.text rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
+            if (whiteSpaceRange.location != NSNotFound)
+            {
+                NSArray *listNames = [newContactCell.contactPersonName.text componentsSeparatedByString:@" "];
+                NSString *firstLetter = [[listNames[0] substringToIndex:1] uppercaseString];
+                NSString *lastLetter = [[listNames[1] substringToIndex:1] uppercaseString];
+                nameIcon.text = [[firstLetter stringByAppendingString:lastLetter] uppercaseString];
+            }
+            else
+            {
+                nameIcon.text = [firstLetter uppercaseString];
+            }
         }
         
-        if (contact.contactImageUrl) {
-//            newContactCell.contactPersonImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:contact.contactImageUrl]]];
-            [newContactCell.contactPersonImageView sd_setImageWithURL:[NSURL URLWithString:contact.contactImageUrl]];
-        }else{
-            newContactCell.contactPersonImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
-            
-        }
         
     }
-//    NSLog(@"DISPLAY IMAGE URL  %@", [contact contactImageUrl]);
-//    NSLog(@"DISPLAY IMAGE LOCAL  %@", [contact localImageResourceName]);
-
     
     return newContactCell;
 }
@@ -209,9 +219,12 @@
         contact.fullName = dbContact.fullName;
         contact.contactNumber = dbContact.contactNo;
         contact.displayName = dbContact.displayName;
+        NSLog(@"XX == DISPLAY NAME %@", dbContact.displayName);
         contact.contactImageUrl = dbContact.contactImageUrl;
+        NSLog(@"XX == DISPLAY IMAGE URL  %@",  dbContact.contactImageUrl);
         contact.email = dbContact.email;
         contact.localImageResourceName = dbContact.localImageResourceName;
+        NSLog(@"XX == DISPLAY IMAGE LOCAL  %@", dbContact.localImageResourceName);
         [self.contactList addObject:contact];
     }
     
