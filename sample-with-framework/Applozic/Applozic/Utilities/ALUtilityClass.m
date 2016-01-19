@@ -236,7 +236,6 @@
                                        duration:1.75
                                        callback:^(void){
                                         [delegate thirdPartyNotificationTap1:contactId];
-                                        [refresh fetchAndRefresh:YES];
                                        }
                                     buttonTitle:nil
                                  buttonCallback:nil
@@ -244,7 +243,7 @@
                            canBeDismissedByUser:YES];
     
 
-    
+    [refresh fetchAndRefresh:YES];
 }
 
 
