@@ -7,7 +7,7 @@
 //
 
 #define NAVIGATION_TEXT_SIZE 20
-#define LAST_SEEN_LABEL_SIZE 10
+#define LAST_SEEN_LABEL_SIZE 12
 #define TYPING_LABEL_SIZE 12.5
 #define MQTT_MAX_RETRY 3
 
@@ -107,7 +107,11 @@
         // self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:refreshButton ,nil];
     }
-    self.label = [[UILabel alloc] initWithFrame: CGRectMake(80,26,223,21)];
+//    self.label = [[UILabel alloc] initWithFrame: CGRectMake(80,26,223,21)];
+    CGFloat x = self.navigationController.navigationBar.frame.origin.x + self.navigationController.navigationBar.frame.size.width/2 - 112;
+    CGFloat y =  self.navigationController.navigationBar.frame.size.height - [[UIApplication sharedApplication] statusBarFrame].size.height + 2;
+     self.label = [[UILabel alloc] initWithFrame: CGRectMake(x,y,224,21)];
+    
     self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.label.backgroundColor = [UIColor clearColor];
     [self.label setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:LAST_SEEN_LABEL_SIZE]];
@@ -161,8 +165,9 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     
+    NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
     [self.label setTextColor: [ALApplozicSettings getColourForNavigationItem]];
-    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:boldFace size:NAVIGATION_TEXT_SIZE]}];
     [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
     [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
     
