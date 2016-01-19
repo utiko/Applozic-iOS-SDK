@@ -56,8 +56,8 @@
     self.navigationItem.title = @"Contacts";
     self.contactList = [NSMutableArray new];
     [self handleFrameForOrientation];
-//    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"< Back" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
-//    [self.navigationItem setLeftBarButtonItem:barButtonItem];
+    //    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"< Back" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
+    //    [self.navigationItem setLeftBarButtonItem:barButtonItem];
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Back"]];
     [self.navigationItem setLeftBarButtonItem: barButtonItem];
     
@@ -145,6 +145,7 @@
     [nameIcon setTextColor:[UIColor whiteColor]];
     nameIcon.layer.masksToBounds = YES;
     ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
+    newContactCell.contactPersonName.text = [contact getDisplayName];
     [nameIcon setHidden:NO];
     [newContactCell.contactPersonImageView setHidden:YES];
     newContactCell.contactPersonImageView.layer.cornerRadius = newContactCell.contactPersonImageView.frame.size.width/2;
@@ -160,14 +161,13 @@
         }
         else if(contact.localImageResourceName)
         {
-           [newContactCell.contactPersonImageView setHidden:NO];
-           [nameIcon setHidden:YES];
-           [newContactCell.contactPersonImageView setImage:[ALUtilityClass getImageFromFramworkBundle:contact.localImageResourceName]];
+            [newContactCell.contactPersonImageView setHidden:NO];
+            [nameIcon setHidden:YES];
+            [newContactCell.contactPersonImageView setImage:[ALUtilityClass getImageFromFramworkBundle:contact.localImageResourceName]];
         }
         else
         {
             
-            newContactCell.contactPersonName.text = [contact getDisplayName];
             NSString *firstLetter = [newContactCell.contactPersonName.text substringToIndex:1];
             //        nameIcon.text=firstLetter;
             NSRange whiteSpaceRange = [newContactCell.contactPersonName.text rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
