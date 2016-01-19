@@ -393,6 +393,7 @@
             
             BOOL isToday = [ALUtilityClass isToday:[NSDate dateWithTimeIntervalSince1970:[msg.createdAtTime doubleValue]/1000]];
             contactCell.mTimeLabel.text = [msg getCreatedAtTime:isToday];
+            [self displayAttachmentMediaType:msg andContactCell: contactCell];
 
         }else{
             isreloadRequire = true;
@@ -792,7 +793,7 @@
         msg.contactIds =  contactId;
         msg.message = alretValue;
         
-        [self syncCall:nil];
+        [self syncCall:msg];
     }
     else if(![updateUI boolValue])
     {
