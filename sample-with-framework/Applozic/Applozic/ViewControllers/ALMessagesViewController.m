@@ -791,9 +791,16 @@
     if (self.isViewLoaded && self.view.window && [updateUI boolValue])
     {
         ALMessage *msg = [[ALMessage alloc]init];
-        msg.contactIds =  contactId;
-        msg.message = alretValue;
         
+        msg.message=alretValue;
+        NSArray *myArray = [msg.message
+                            componentsSeparatedByCharactersInSet:
+                            [NSCharacterSet characterSetWithCharactersInString:@":"]];
+
+        alretValue=[NSString stringWithFormat:@"%@",myArray[1]];
+        NSLog(@"VALUE ::%@",alretValue);
+        msg.message=alretValue;
+        msg.contactIds = contactId;
         [self syncCall:msg];
     }
     else if(![updateUI boolValue])
