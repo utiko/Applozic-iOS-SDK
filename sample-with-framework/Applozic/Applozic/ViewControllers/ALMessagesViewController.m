@@ -367,7 +367,6 @@
         ALContactCell *contactCell = [self getCell:msg.contactIds];
         if(contactCell){    
             NSLog(@"contact cell found ....");
-            contactCell.mMessageLabel.text = msg.message;
             
             ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
             ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: msg.contactIds];
@@ -393,7 +392,16 @@
             
             BOOL isToday = [ALUtilityClass isToday:[NSDate dateWithTimeIntervalSince1970:[msg.createdAtTime doubleValue]/1000]];
             contactCell.mTimeLabel.text = [msg getCreatedAtTime:isToday];
-            [self displayAttachmentMediaType:msg andContactCell: contactCell];
+            
+            if(msg.fileMeta){
+                [self displayAttachmentMediaType:msg andContactCell: contactCell];
+            }else{
+                contactCell.imageNameLabel.hidden = YES;
+                contactCell.imageMarker.hidden = YES;
+                contactCell.mMessageLabel.hidden=NO;
+                contactCell.mMessageLabel.text = msg.message;
+            }
+
 
         }else{
             isreloadRequire = true;
