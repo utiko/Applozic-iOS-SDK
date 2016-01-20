@@ -33,8 +33,9 @@
             NSLog(@"Skipping duplicate message found with key %@", theMessage.key);
             continue;
         }
-        
+        theMessage.sentToServer = YES;
         DB_Message * theMessageEntity= [self createMessageEntityForDBInsertionWithMessage:theMessage];
+        
         [theDBHandler.managedObjectContext save:nil];
         theMessage.msgDBObjectId = theMessageEntity.objectID;
         
