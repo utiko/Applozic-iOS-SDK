@@ -168,12 +168,17 @@
     [ALUserDefaultsHandler setUserId:user.userId];
     [ALUserDefaultsHandler setEmailId:user.emailId];
     
+//    DemoChatManager * demoChatManager = [[DemoChatManager alloc]init];
+//    [self.mActivityIndicator startAnimating];
+//    [ demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
+//    [self.mActivityIndicator stopAnimating];
 
-    
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic"
                                                           bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     UIViewController *launchChat = [storyboardM instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
     [self presentViewController:launchChat animated:YES completion:nil];
+    
+
 }
 
 

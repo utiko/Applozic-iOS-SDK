@@ -76,13 +76,13 @@ static MQTTSession *session;
         /*if (session.status == MQTTSessionStatusConnected) {
          [session subscribeToTopic:[ALUserDefaultsHandler getUserKeyString] atLevel:MQTTQosLevelAtMostOnce];
          }*/
-
+        
     }
     @catch (NSException * e) {
         NSLog(@"Exception: %@", e);
     }
     
-  }
+}
 
 
 
@@ -94,14 +94,21 @@ static MQTTSession *session;
 {
     NSString *fullMessage = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"MQTT got new message: %@", fullMessage);
-
+    
     NSError *error = nil;
     NSDictionary *theMessageDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     NSString *type = [theMessageDict objectForKey:@"type"];
-  //  NSString *instantMessageJson = [theMessageDict objectForKey:@"message"];
-
+    //  NSString *instantMessageJson = [theMessageDict objectForKey:@"message"];
+    
     NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
-
+    
+    
+    ALPushAssist* top=[[ALPushAssist alloc] init];
+    if( [[UIApplication sharedApplication] applicationState] == UIApplicationStateBackground || !top.isChatViewOnTop){
+        NSLog(@"Returing coz Application State is Background");
+        return;
+    }
+    
     if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
         NSLog(@"notificationId is already processed...MQTT%@",notificationId);
         return;
@@ -124,8 +131,10 @@ static MQTTSession *session;
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
             NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
             [dict setObject:alMessage.message forKey:@"alertValue"];
+            NSLog(@"the dictionary %@",theMessageDict);
             [dict setObject:[NSNumber numberWithBool:NO] forKey:@"updateUI"];
-
+            
+            //          When app launches from backgound then set updateUI to 'No' so that double notification is not shown.
             if(!assistant.isChatViewOnTop){
                 NSLog(@" ### our notification called for mqtt....");
                 [assistant assist:alMessage.contactIds and:dict ofUser:alMessage.contactIds];
@@ -136,6 +145,9 @@ static MQTTSession *session;
                 //Todo: split backend logic and ui logic between synccallservice and delegate
                 [self.mqttConversationDelegate syncCall: alMessage];
             }
+            
+            
+            
             
         } else if ([type isEqualToString:@"APPLOZIC_10"]) {
             NSString *contactId = [theMessageDict objectForKey:@"message"];
@@ -174,7 +186,7 @@ static MQTTSession *session;
 - (void)connectionClosed:(MQTTSession *)session {
     NSLog(@"MQTT connection closed");
     [self.mqttConversationDelegate mqttConnectionClosed];
-
+    
     //Todo: inform controller about connection closed.
 }
 
@@ -192,7 +204,7 @@ static MQTTSession *session;
     if(!session){
         return;
     }
-     NSLog(@"Sending typing status %d to: %@", typing, userId);
+    NSLog(@"Sending typing status %d to: %@", typing, userId);
     NSData* data=[[NSString stringWithFormat:@"%@,%@,%i", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId], typing ? 1 : 0] dataUsingEncoding:NSUTF8StringEncoding];
     [session publishDataAtMostOnce:data onTopic:[NSString stringWithFormat:@"typing-%@-%@", applicationKey, userId]];
 }
