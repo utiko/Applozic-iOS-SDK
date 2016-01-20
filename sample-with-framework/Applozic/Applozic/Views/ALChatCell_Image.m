@@ -7,7 +7,7 @@
 //
 
 #define DATE_LABEL_SIZE 12
-#define MESSAGE_TEXT_SIZE 14
+#define MESSAGE_TEXT_SIZE 16
 
 #import "ALChatCell_Image.h"
 #import "UIImageView+WebCache.h"

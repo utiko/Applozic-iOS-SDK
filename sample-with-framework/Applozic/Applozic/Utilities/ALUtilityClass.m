@@ -15,6 +15,7 @@
 #import "TSMessageView.h"
 #import "ALPushAssist.h"
 #import "ALAppLocalNotifications.h"
+#import "ALApplozicSettings.h"
 
 
 @implementation ALUtilityClass
@@ -216,11 +217,11 @@
     NSLog(@"3rd Party View is Opened.........");
     
     ALPushAssist* top=[[ALPushAssist alloc] init];
-    ALChatViewController* refresh=[[ALChatViewController alloc] init];
     NSLog(@"DELEGATE %@",delegate);
+    
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
-    [[TSMessageView appearance] setTitleFont:[UIFont fontWithName:@"Helvetica Neue" size:18.0]];
-    [[TSMessageView appearance] setContentFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
+    [[TSMessageView appearance] setTitleFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:18.0]];
+    [[TSMessageView appearance] setContentFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:14]];
     [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
     [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
     

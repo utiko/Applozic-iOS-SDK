@@ -481,17 +481,18 @@
     theMessage.contentType = theEntity.contentType;
     
     // file meta info
-    
-    ALFileMetaInfo * theFileMeta = [ALFileMetaInfo new];
-    theFileMeta.blobKey = theEntity.fileMetaInfo.blobKeyString;
-    theFileMeta.contentType = theEntity.fileMetaInfo.contentType;
-    theFileMeta.createdAtTime = theEntity.fileMetaInfo.createdAtTime;
-    theFileMeta.key = theEntity.fileMetaInfo.key;
-    theFileMeta.name = theEntity.fileMetaInfo.name;
-    theFileMeta.size = theEntity.fileMetaInfo.size;
-    theFileMeta.userKey = theEntity.fileMetaInfo.suUserKeyString;
-    theFileMeta.thumbnailUrl = theEntity.fileMetaInfo.thumbnailUrl;
-    theMessage.fileMeta = theFileMeta;
+    if(theEntity.fileMetaInfo){
+        ALFileMetaInfo * theFileMeta = [ALFileMetaInfo new];
+        theFileMeta.blobKey = theEntity.fileMetaInfo.blobKeyString;
+        theFileMeta.contentType = theEntity.fileMetaInfo.contentType;
+        theFileMeta.createdAtTime = theEntity.fileMetaInfo.createdAtTime;
+        theFileMeta.key = theEntity.fileMetaInfo.key;
+        theFileMeta.name = theEntity.fileMetaInfo.name;
+        theFileMeta.size = theEntity.fileMetaInfo.size;
+        theFileMeta.userKey = theEntity.fileMetaInfo.suUserKeyString;
+        theFileMeta.thumbnailUrl = theEntity.fileMetaInfo.thumbnailUrl;
+        theMessage.fileMeta = theFileMeta;
+    }
     return theMessage;
 }
 
@@ -534,13 +535,18 @@
     
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-    theRequest.predicate =[NSPredicate predicateWithFormat:@"sentToServer = %@",@"0"];
+    theRequest.predicate =[NSPredicate predicateWithFormat:@"sentToServer = %@ and type= %@",@"0",@"5"];
     
-    [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
+    [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES]]];
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
     NSMutableArray * msgArray = [[NSMutableArray alloc]init];
+    
     for (DB_Message * theEntity in theArray) {
         ALMessage * theMessage = [self createMessageEntity:theEntity];
+        //if(theMessage.groupId==[NSNumber numberWithInt:0]){
+            NSLog(@"groupId is coming as 0..setting it null" );
+          //  theMessage.groupId=NULL;
+        //}
         [msgArray addObject:theMessage];
     }
     
@@ -550,4 +556,5 @@
     
     
 }
+
 @end

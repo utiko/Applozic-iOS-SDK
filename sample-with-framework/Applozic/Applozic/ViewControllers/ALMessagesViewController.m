@@ -6,8 +6,8 @@
 //
 
 #define NAVIGATION_TEXT_SIZE 20
-#define USER_NAME_LABEL_SIZE 18
-#define MESSAGE_LABEL_SIZE 12
+#define USER_NAME_LABEL_SIZE 20
+#define MESSAGE_LABEL_SIZE 14
 #define TIME_LABEL_SIZE 10
 #define IMAGE_NAME_LABEL_SIZE 14
 
@@ -131,6 +131,8 @@
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Profile"]];
     [self.navigationItem setLeftBarButtonItem: barButtonItem];
+    
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 -(void) viewDidDisappear:(BOOL)animated
@@ -215,11 +217,6 @@
     
     //register for notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(callLastSeenStatusUpdate)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:[UIApplication sharedApplication]];
     
     if ([_detailChatViewController refreshMainView])
     {
@@ -229,7 +226,8 @@
         [_detailChatViewController setRefreshMainView:FALSE];
     }
     
-     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+    NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
+     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:boldFace size:NAVIGATION_TEXT_SIZE]}];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
     [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
@@ -247,11 +245,13 @@
     
     [self.dataAvailablityLabel setHidden:YES];
     [self callLastSeenStatusUpdate];
-   
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
+
+
     if (![ALDataNetworkConnection checkDataNetworkAvailable])
     {
         [self.dataAvailablityLabel setHidden:NO];
@@ -283,7 +283,7 @@
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     //unregister for notification
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushNotification" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self];
 
     [super viewWillDisappear:animated];
   
@@ -316,7 +316,7 @@
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                     color,NSForegroundColorAttributeName,nil];
     self.navigationController.navigationBar.titleTextAttributes = textAttributes;
-//    self.navigationItem.title = @"Conversation";
+
     self.navigationItem.title = [ALApplozicSettings getTitleForConversationScreen];
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1){
@@ -367,7 +367,6 @@
         ALContactCell *contactCell = [self getCell:msg.contactIds];
         if(contactCell){    
             NSLog(@"contact cell found ....");
-            contactCell.mMessageLabel.text = msg.message;
             
             ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
             ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: msg.contactIds];
@@ -393,7 +392,16 @@
             
             BOOL isToday = [ALUtilityClass isToday:[NSDate dateWithTimeIntervalSince1970:[msg.createdAtTime doubleValue]/1000]];
             contactCell.mTimeLabel.text = [msg getCreatedAtTime:isToday];
-            [self displayAttachmentMediaType:msg andContactCell: contactCell];
+            
+            if(msg.fileMeta){
+                [self displayAttachmentMediaType:msg andContactCell: contactCell];
+            }else{
+                contactCell.imageNameLabel.hidden = YES;
+                contactCell.imageMarker.hidden = YES;
+                contactCell.mMessageLabel.hidden=NO;
+                contactCell.mMessageLabel.text = msg.message;
+            }
+
 
         }else{
             isreloadRequire = true;
@@ -685,10 +693,16 @@
 -(void) syncCall:(ALMessage *) alMessage {
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
-    
+  //Simply Sync no notification
+    if(alMessage==nil){
+        NSLog(@"Called from self sync and messages are not present...");
+        [dBService fetchAndRefreshQuickConversation];
+        return;
+    }
     ALPushAssist* top=[[ALPushAssist alloc] init];
     ALChatViewController* refresh=[[ALChatViewController alloc] init];
     [self.detailChatViewController setRefresh: TRUE];
+    
     if ([self.detailChatViewController contactIds] != nil) {
        // NSLog(@"executing if part...");
 
@@ -815,6 +829,7 @@
 
 - (void)dealloc {
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
   
 }
@@ -837,5 +852,12 @@
         
         return NO;
     }
+}
+
+
+- (void)appWillEnterForeground:(NSNotification *)notification {
+    NSLog(@"will enter foreground notification");
+    [self syncCall:nil];
+    [self callLastSeenStatusUpdate];
 }
 @end

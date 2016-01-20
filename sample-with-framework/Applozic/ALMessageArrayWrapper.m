@@ -206,7 +206,7 @@
         }
         else
         {
-            [format setDateFormat:@"EEEE MMM dd,yyyy"];
+            [format setDateFormat:@"EEEE MMM dd, yyyy"];
             self.dateCellText = [format stringFromDate:newerDate];
         }
         return YES;
@@ -244,7 +244,7 @@
     }
     else
     {
-        [format setDateFormat:@"EEEE MMM dd,yyyy"];
+        [format setDateFormat:@"EEEE MMM dd, yyyy"];
         actualDate = [format stringFromDate:olderDate];
     }
     
