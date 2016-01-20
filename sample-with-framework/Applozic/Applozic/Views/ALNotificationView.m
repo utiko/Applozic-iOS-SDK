@@ -14,6 +14,7 @@
 #import "TSMessageView.h"
 #import "ALMessagesViewController.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALApplozicSettings.h"
 @implementation ALNotificationView
 
 
@@ -78,11 +79,13 @@
     ALPushAssist* top=[[ALPushAssist alloc] init];
     
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
-    
+   
+    NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
+
     [[TSMessageView appearance] setTitleFont:[UIFont boldSystemFontOfSize:17]];
     [[TSMessageView appearance] setContentFont:[UIFont systemFontOfSize:13]];
-    [[TSMessageView appearance] setTitleFont:[UIFont fontWithName:@"Helvetica Neue" size:18.0]];
-    [[TSMessageView appearance] setContentFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
+    [[TSMessageView appearance] setTitleFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:18.0]];
+    [[TSMessageView appearance] setContentFont:[UIFont fontWithName:[ALApplozicSettings getFontFace]  size:14]];
     [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
     [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
     

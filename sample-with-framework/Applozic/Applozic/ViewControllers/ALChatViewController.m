@@ -214,7 +214,9 @@ ALMessageDBService  * dbService;
 }
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-      [navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:18]}];
+    NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
+
+    [navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:boldFace size:18]}];
     [navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
     [navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
 }
@@ -424,11 +426,12 @@ ALMessageDBService  * dbService;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ALMessage * theMessage = [self.alMessageWrapper getUpdatedMessageArray][indexPath.row];
-    
+    NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
+
     if((theMessage.message.length > 0) && (theMessage.fileMeta.thumbnailUrl!=nil))
     {
-        
-        CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:@"Helvetica-Bold" fontSize:15];
+
+        CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:boldFace fontSize:15];
         
         return theTextSize.height + self.view.frame.size.width - 30;
     }
@@ -438,7 +441,7 @@ ALMessageDBService  * dbService;
         return 30;
     }
     else if (theMessage.fileMeta.thumbnailUrl == nil) {
-        CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:@"Helvetica-Bold" fontSize:15];
+        CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:boldFace fontSize:15];
         int extraSpace = 50 ;
         return theTextSize.height+21+extraSpace;
     }
