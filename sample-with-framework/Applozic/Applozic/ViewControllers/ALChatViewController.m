@@ -86,8 +86,8 @@ ALMessageDBService  * dbService;
     [self loadChatView];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)])
-        [self.navigationController.view removeGestureRecognizer:self.navigationController.interactivePopGestureRecognizer];
+//    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)])
+//        [self.navigationController.view removeGestureRecognizer:self.navigationController.interactivePopGestureRecognizer];
     
 }
 
