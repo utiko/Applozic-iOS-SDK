@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-@protocol ALMapViewControllerDelegate <NSObject>
+@protocol ALMapViewControllerDelegate <NSObject, CLLocationManagerDelegate>
 
 -(void) getUserCurrentLocation:(NSString *)googleMapUrl ;
 

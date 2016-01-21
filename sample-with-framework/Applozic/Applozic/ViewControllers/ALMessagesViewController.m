@@ -122,7 +122,7 @@
     [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:self.emptyConversationText];
     
-    self.dataAvailablityLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tabBarController.tabBar.frame.origin.x, self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 30)];
+    self.dataAvailablityLabel = [[UILabel alloc] init];//WithFrame:CGRectMake(self.navigationController.navigationBar.frame.origin.x, self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 30)];
     [self.dataAvailablityLabel setText:@"NO INTERNET CONNECTION"];
     [self.dataAvailablityLabel setBackgroundColor:[UIColor colorWithRed:219.0/255 green:68.0/255 blue:55.0/255 alpha:1]];
     [self.dataAvailablityLabel setTextAlignment:NSTextAlignmentCenter];
@@ -226,8 +226,8 @@
         [_detailChatViewController setRefreshMainView:FALSE];
     }
     
-    NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
-     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:boldFace size:NAVIGATION_TEXT_SIZE]}];
+//    NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
+     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
     [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
@@ -250,14 +250,18 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-
-
-    if (![ALDataNetworkConnection checkDataNetworkAvailable])
+    [self.dataAvailablityLabel setFrame:CGRectMake(self.navigationController.navigationBar.frame.origin.x, self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 30)];
+    
+    if(![self.mActivityIndicator isAnimating])
     {
-        [self.dataAvailablityLabel setHidden:NO];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5  * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-            [self.dataAvailablityLabel setHidden:YES];
-        });
+        if (![ALDataNetworkConnection checkDataNetworkAvailable])
+        {
+            
+                [self.dataAvailablityLabel setHidden:NO];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5  * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    [self.dataAvailablityLabel setHidden:YES];
+                });
+        }
     }
     else
     {

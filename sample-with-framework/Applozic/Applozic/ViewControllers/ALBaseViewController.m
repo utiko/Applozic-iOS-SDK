@@ -165,9 +165,9 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     
-    NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
+//    NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
     [self.label setTextColor: [ALApplozicSettings getColourForNavigationItem]];
-    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:boldFace size:NAVIGATION_TEXT_SIZE]}];
+    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
     [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
     [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
     
@@ -204,7 +204,7 @@
     self.checkBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y + 64;
     NSLog(@"KEY BOAD WILL SHOW %f",self.checkBottomConstraint.constant);
     NSLog(@"KEY BOAD ORIGIN %f",keyboardEndFrame.origin.y);
-    self.typingLabel.frame = CGRectMake(10,keyboardEndFrame.origin.y - 90, self.view.frame.size.width, 30);
+    self.typingLabel.frame = CGRectMake(10,keyboardEndFrame.origin.y - 90 - 50, self.view.frame.size.width, 30);
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         [self scrollTableViewToBottomWithAnimation:YES];
@@ -222,7 +222,7 @@
     NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     self.checkBottomConstraint.constant = 0;
     CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    self.typingLabel.frame = CGRectMake(10,keyboardEndFrame.origin.y - 90, self.view.frame.size.width, 30);
+    self.typingLabel.frame = CGRectMake(10,keyboardEndFrame.origin.y - 90 - 50, self.view.frame.size.width, 30);
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         
