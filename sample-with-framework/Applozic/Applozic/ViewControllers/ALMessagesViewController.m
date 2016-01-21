@@ -861,7 +861,7 @@
 
 - (void)appWillEnterForeground:(NSNotification *)notification {
     NSLog(@"will enter foreground notification");
-    [self syncCall:nil];
+   // [self syncCall:nil];
     [self callLastSeenStatusUpdate];
 }
 @end
