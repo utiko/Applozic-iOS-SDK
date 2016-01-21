@@ -122,7 +122,7 @@
     [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:self.emptyConversationText];
     
-    self.dataAvailablityLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tabBarController.tabBar.frame.origin.x, self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 30)];
+    self.dataAvailablityLabel = [[UILabel alloc] init];//WithFrame:CGRectMake(self.navigationController.navigationBar.frame.origin.x, self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 30)];
     [self.dataAvailablityLabel setText:@"NO INTERNET CONNECTION"];
     [self.dataAvailablityLabel setBackgroundColor:[UIColor colorWithRed:219.0/255 green:68.0/255 blue:55.0/255 alpha:1]];
     [self.dataAvailablityLabel setTextAlignment:NSTextAlignmentCenter];
@@ -250,6 +250,8 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    [self.dataAvailablityLabel setFrame:CGRectMake(self.navigationController.navigationBar.frame.origin.x, self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 30)];
+    
     if(![self.mActivityIndicator isAnimating])
     {
         if (![ALDataNetworkConnection checkDataNetworkAvailable])
