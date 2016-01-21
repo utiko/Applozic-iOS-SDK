@@ -214,9 +214,9 @@ ALMessageDBService  * dbService;
 }
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
+//    NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
 
-    [navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:boldFace size:18]}];
+    [navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:18]}];
     [navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
     [navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
 }
