@@ -70,7 +70,6 @@ UIViewController * modalCon;
         mImageView.contentMode = UIViewContentModeScaleAspectFill;
         mImageView.clipsToBounds = YES;
         mImageView.backgroundColor = [UIColor grayColor];
-        mImageView.clipsToBounds = YES;
         mImageView.userInteractionEnabled = YES;
         mImageView.layer.cornerRadius = 5;
         
