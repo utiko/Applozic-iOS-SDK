@@ -7,6 +7,7 @@
 //
 
 #import "ALChatCell_Media.h"
+#import "UIImageView+WebCache.h"
 
 // Constants
 #define MT_INBOX_CONSTANT "4"
@@ -25,6 +26,9 @@
     
     if(self)
     {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0  alpha:1];
+        
         self.bubbleImageView = [[UIImageView alloc] init];
         [self.bubbleImageView setBackgroundColor:[UIColor whiteColor]];
         self.bubbleImageView.layer.cornerRadius = 5;
@@ -32,7 +36,7 @@
         [self.contentView addSubview:self.bubbleImageView];
         
         self.dateLabel = [[UILabel alloc] init];
-        [self.dateLabel setTextColor:[UIColor blackColor]];
+        [self.dateLabel setTextColor:[UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5]];
         [self.dateLabel setBackgroundColor:[UIColor clearColor]];
         [self.dateLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:DATE_LABEL_SIZE]];
         [self.dateLabel setNumberOfLines:1];
@@ -41,8 +45,6 @@
         self.userProfileImageView = [[UIImageView alloc] init];
         self.userProfileImageView.contentMode = UIViewContentModeScaleAspectFill;
         self.userProfileImageView.clipsToBounds = YES;
-        self.userProfileImageView.layer.cornerRadius = self.userProfileImageView.frame.size.width/2;
-        self.userProfileImageView.layer.masksToBounds = YES;
         [self.contentView addSubview:self.userProfileImageView];
         
         self.playPauseStop = [[UIButton alloc] init];
@@ -53,6 +55,9 @@
         [self.contentView addSubview:self.mediaTrackProgress];
         
         self.mediaTrackLength = [[UILabel alloc] init];
+        [self.mediaTrackLength setTextColor:[UIColor blackColor]];
+        [self.mediaTrackLength setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:DATE_LABEL_SIZE]];
+//        [self.mediaTrackLength setText:@"00:00"];
         [self.contentView addSubview:self.mediaTrackLength];
         
         [self.dowloadRetryButton addTarget:self action:@selector(dowloadRetryAction) forControlEvents:UIControlEventTouchUpInside];
@@ -62,6 +67,11 @@
         self.dowloadRetryButton.layer.cornerRadius = 4;
         [self.dowloadRetryButton.titleLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:14]];
         [self.contentView addSubview:self.dowloadRetryButton];
+        
+        //=====
+//            for testing only
+        [self.playPauseStop setImage:[ALUtilityClass getImageFromFramworkBundle:@"PAUSE.png"] forState: UIControlStateNormal];
+        //=====
         
         self.count = 1;
     }
@@ -78,7 +88,7 @@
     self.bubbleImageView.layer.masksToBounds = NO;
 }
 
--(instancetype) populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize
+-(instancetype) populateCell:(ALMessage *) alMessage viewSize:(CGSize)viewSize
 {
     BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[alMessage.createdAtTime doubleValue]/1000]];
     NSString * theDate = [NSString stringWithFormat:@"%@",[alMessage getCreatedAtTimeChat:today]];
@@ -86,8 +96,12 @@
     if([alMessage.type isEqualToString:@MT_INBOX_CONSTANT])
     {
         [self.userProfileImageView setFrame:CGRectMake(5, 5, 45, 45)];
-        [self.bubbleImageView setFrame:CGRectMake(self.userProfileImageView.frame.origin.x + self.userProfileImageView.frame.size.width + 13, self.userProfileImageView.frame.origin.y, 100, 70)];
-        [self.dateLabel setFrame:CGRectMake(self.bubbleImageView.frame.origin.x, self.bubbleImageView.frame.origin.x + self.bubbleImageView.frame.size.width + 5, 80, 20)];
+        self.userProfileImageView.layer.cornerRadius = self.userProfileImageView.frame.size.width/2;
+        self.userProfileImageView.layer.masksToBounds = YES;
+        
+        [self.bubbleImageView setFrame:CGRectMake(self.userProfileImageView.frame.size.width + 13, self.userProfileImageView.frame.origin.y, self.contentView.frame.size.width/2 + 50, 70)];
+        
+        [self.dateLabel setFrame:CGRectMake(self.bubbleImageView.frame.origin.x, self.bubbleImageView.frame.size.height + 7, 80, 20)];
         
         ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
         ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
@@ -106,36 +120,39 @@
             self.userProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         }
         
-        [self setupProgressValueX: (self.bubbleImageView.frame.size.width - 55) andY: (self.bubbleImageView.frame.origin.y + 10)];
+        [self setupProgressValueX: (self.bubbleImageView.frame.origin.x + self.bubbleImageView.frame.size.width - 60) andY: (self.bubbleImageView.frame.origin.y + 10)];
         
-//        if (alMessage.imageFilePath == NULL) {
-//            
-//            self.mDowloadRetryButton.alpha = 1;
-//            [self.mDowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
-//            [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_download.png"]
-//                                      forState:UIControlStateNormal];
-//            
-//        }else{
-//            
-//            self.mDowloadRetryButton.alpha = 0;
-//            
-//        }if (alMessage.inProgress == YES) {
-//            
-//            self.progresLabel.alpha = 1;
-//            self.mDowloadRetryButton.alpha = 0;
-//            
-//        }else {
-//            
-//            self.progresLabel.alpha = 0;
-//            
-//        }
+        [self.dowloadRetryButton setFrame:CGRectMake(self.self.progresLabel.frame.origin.x , self.self.progresLabel.frame.origin.y + self.bubbleImageView.frame.size.height/2, 100, 30)];
         
-        [self.playPauseStop setFrame:CGRectMake(self.bubbleImageView.frame.origin.x + 10, self.bubbleImageView.frame.origin.y + 10, 45, 45)];
+        if (alMessage.imageFilePath == NULL)    // find other condition this is invalid for audio/mp3
+        {
+            [self.dowloadRetryButton setHidden:NO];
+            [self.dowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
+            [self.dowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_download.png"] forState:UIControlStateNormal];
+        }
+        else
+        {
+            [self.dowloadRetryButton setHidden:YES];
+        }
+        if (alMessage.inProgress == YES)
+        {
+            [self.progresLabel setHidden:NO];
+            [self.dowloadRetryButton setHidden:YES];
+        }
+        else
+        {
+            [self.progresLabel setHidden:YES];
+        }
         
-        [self.mediaTrackProgress setFrame:CGRectMake(self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10, self.bubbleImageView.frame.origin.y, 50, 30)];
+        [self.playPauseStop setFrame:CGRectMake(self.bubbleImageView.frame.origin.x + 5, self.bubbleImageView.frame.origin.y + 5, 60, 60)];
         
-         [self.mediaTrackProgress setProgress:self.audioPlayer.currentTime];
+        [self.mediaTrackProgress setFrame:CGRectMake(self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 5, self.bubbleImageView.frame.origin.y + self.bubbleImageView.frame.size.height/2 - 15, 100, 30)];
+        
+        [self.mediaTrackProgress setProgress:self.audioPlayer.currentTime];
+        [self.mediaTrackLength setFrame:CGRectMake(self.mediaTrackProgress.frame.origin.x, self.mediaTrackProgress.frame.origin.y + self.mediaTrackProgress.frame.size.height + 10, 80, 20)];
         [self.mediaTrackLength setText: [self getProgressOfTrack]];
+        
+        
     }
     else
     {
@@ -148,9 +165,11 @@
             [self.userProfileImageView setFrame:CGRectMake(viewSize.width - 45 - 5 , 5, 0, 45)];
         }
         
-        [self.bubbleImageView setFrame:CGRectMake(viewSize.width - 100 - 13, self.userProfileImageView.frame.origin.y, 100, 70)];
+        [self.bubbleImageView setFrame:CGRectMake(viewSize.width - 100 - 13, self.userProfileImageView.frame.origin.y, self.contentView.frame.size.width/2 + 50, 70)];
         
         [self setupProgressValueX: (self.bubbleImageView.frame.origin.x + 10) andY: (self.bubbleImageView.frame.origin.y + 10)];
+        
+        [self.dowloadRetryButton setFrame:CGRectMake(self.self.progresLabel.frame.origin.x , self.self.progresLabel.frame.origin.y + self.bubbleImageView.frame.size.height/2 , 100, 30)];
         
         //        [self.progresLabel setHidden:YES];
         //        [self.dowloadRetryButton setHidden:YES];
@@ -174,16 +193,17 @@
         //            [self.dowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_upload.png"] forState:UIControlStateNormal];
         //        }
         
-        [self.playPauseStop setFrame:CGRectMake(self.progresLabel.frame.origin.x + self.progresLabel.frame.size.width + 10, self.bubbleImageView.frame.origin.y + 10, 45, 45)];
+        [self.playPauseStop setFrame:CGRectMake(self.progresLabel.frame.origin.x + self.progresLabel.frame.size.width + 5, self.bubbleImageView.frame.origin.y + 5, 60, 60)];
         [self.mediaTrackProgress setFrame:CGRectMake(self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10, self.bubbleImageView.frame.origin.y, 50, 30)];
         
         [self.mediaTrackProgress setProgress:self.audioPlayer.currentTime];
+        [self.mediaTrackLength setFrame:CGRectMake(self.mediaTrackProgress.frame.origin.x, self.mediaTrackProgress.frame.origin.y + self.mediaTrackProgress.frame.size.height + 10, 80, 20)];
         [self.mediaTrackLength setText: [self getProgressOfTrack]];
-
-
+        [self.dateLabel setFrame:CGRectMake(self.bubbleImageView.frame.origin.x, self.bubbleImageView.frame.size.height + 7, 80, 20)];
+        
     }
     
-    [self.dowloadRetryButton setFrame:CGRectMake(self.bubbleImageView.frame.origin.x + self.bubbleImageView.frame.size.width/2 - 50, self.bubbleImageView.frame.origin.y + self.bubbleImageView.frame.size.height/2 - 15, 100, 30)];
+
     
     [self.dateLabel setText: theDate]; //check of inbox/outbox i.e deliverd or not also
     [self addShadowEffects];
@@ -245,7 +265,7 @@
 -(void) setupProgressValueX:(CGFloat)cooridinateX andY:(CGFloat)cooridinateY
 {
     self.progresLabel = [[KAProgressLabel alloc] init];
-    [self.progresLabel setFrame:CGRectMake(cooridinateX, cooridinateY, 45, 45)];
+    [self.progresLabel setFrame:CGRectMake(cooridinateX, cooridinateY, 50, 50)];
     self.progresLabel.delegate = self;
     [self.progresLabel setTrackWidth: 4.0];
     [self.progresLabel setProgressWidth: 4];
@@ -278,7 +298,7 @@
 
 -(void) mediaButtonAction
 {
-//     NSString *soundFilePath = [NSString stringWithFormat:@"%@/test.m4a",[[NSBundle mainBundle] resourcePath]];
+    //     NSString *soundFilePath = [NSString stringWithFormat:@"%@/test.m4a",[[NSBundle mainBundle] resourcePath]];
     NSString *soundFilePath = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], self.alMessage.fileMeta.name];// add name  herefrom almessage from
     NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:nil];
@@ -305,7 +325,7 @@
     
     if(minutes > 0)
     {
-        return [NSString stringWithFormat:@"%.2d:%.00f", minutes, seconds];
+        return [NSString stringWithFormat:@"%.2d:%f", minutes, seconds];
     }
     else
     {

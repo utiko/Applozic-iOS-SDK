@@ -9,7 +9,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "UIImageView+WebCache.h"
 #import "ALMessage.h"
 #import "ALColorUtility.h"
 #import "ALApplozicSettings.h"
@@ -44,7 +43,7 @@
 
 @property (nonatomic, retain) ALMessage * alMessage;
 
--(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize;
+-(instancetype)populateCell:(ALMessage *) alMessage viewSize:(CGSize)viewSize;
 
 -(NSString *)getProgressOfTrack;
 -(void) mediaButtonAction;
