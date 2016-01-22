@@ -131,8 +131,6 @@
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Profile"]];
     [self.navigationItem setLeftBarButtonItem: barButtonItem];
-    
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 -(void) viewDidDisappear:(BOOL)animated
@@ -856,7 +854,7 @@
 
 
 - (void)appWillEnterForeground:(NSNotification *)notification {
-    NSLog(@"will enter foreground notification");
+    NSLog(@"will enter foreground notification into Message View");
     [self syncCall:nil];
     [self callLastSeenStatusUpdate];
 }

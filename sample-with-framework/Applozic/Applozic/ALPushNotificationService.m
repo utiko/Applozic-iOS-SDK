@@ -11,9 +11,9 @@
 #import "ALUserDetail.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALChatViewController.h"
-//#import "LaunchChatFromSimpleViewController.h"
 #import "ALMessagesViewController.h"
 #import "ALPushAssist.h"
+#import "ALUtilityClass.h"
 
 
 

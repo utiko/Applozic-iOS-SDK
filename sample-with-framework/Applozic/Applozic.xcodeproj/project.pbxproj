@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		291737501C47A82B00D10F47 /* ALPushAssist.h in Headers */ = {isa = PBXBuildFile; fileRef = 291737451C47A82B00D10F47 /* ALPushAssist.h */; };
+		291737501C47A82B00D10F47 /* ALPushAssist.h in Headers */ = {isa = PBXBuildFile; fileRef = 291737451C47A82B00D10F47 /* ALPushAssist.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		291737511C47A82B00D10F47 /* ALPushAssist.m in Sources */ = {isa = PBXBuildFile; fileRef = 291737461C47A82B00D10F47 /* ALPushAssist.m */; };
 		291737521C47A82B00D10F47 /* TSMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 291737471C47A82B00D10F47 /* TSMessage.h */; };
 		291737531C47A82B00D10F47 /* TSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 291737481C47A82B00D10F47 /* TSMessage.m */; };
@@ -937,6 +937,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DAEC20A1C25A596000A7243 /* ALLastSeenSyncFeed.h in Headers */,
+				291737501C47A82B00D10F47 /* ALPushAssist.h in Headers */,
 				6DC367B91C4D01200042DA8A /* ALReachability.h in Headers */,
 				984219251C1EDEC00016B733 /* ALSyncCallService.h in Headers */,
 				6D6DF1501BC5364C00EBA00F /* ALRegisterUserClientService.h in Headers */,
@@ -972,7 +973,6 @@
 				6D6DF1781BC5364C00EBA00F /* ALMessageList.h in Headers */,
 				6D6DF1641BC5364C00EBA00F /* ALNewContactCell.h in Headers */,
 				6D6DF17C1BC5364C00EBA00F /* ALSyncMessageFeed.h in Headers */,
-				291737501C47A82B00D10F47 /* ALPushAssist.h in Headers */,
 				6D6DF1521BC5364C00EBA00F /* ALUtilityClass.h in Headers */,
 				982F13061C05D6050024678E /* MQTTDecoder.h in Headers */,
 				6D6DF15C1BC5364C00EBA00F /* ALNewContactsViewController.h in Headers */,
