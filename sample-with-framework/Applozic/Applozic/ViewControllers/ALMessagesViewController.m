@@ -34,6 +34,7 @@
 #import "ALUserService.h"
 #import "ALNotificationView.h"
 #import "ALPushAssist.h"
+#import "TSMessage.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -122,12 +123,12 @@
     [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:self.emptyConversationText];
     
-    self.dataAvailablityLabel = [[UILabel alloc] init];//WithFrame:CGRectMake(self.navigationController.navigationBar.frame.origin.x, self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 30)];
-    [self.dataAvailablityLabel setText:@"NO INTERNET CONNECTION"];
-    [self.dataAvailablityLabel setBackgroundColor:[UIColor colorWithRed:219.0/255 green:68.0/255 blue:55.0/255 alpha:1]];
-    [self.dataAvailablityLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.dataAvailablityLabel setTextColor:[UIColor whiteColor]];
-    [self.view addSubview:self.dataAvailablityLabel];
+//    self.dataAvailablityLabel = [[UILabel alloc] init];//WithFrame:CGRectMake(self.navigationController.navigationBar.frame.origin.x, self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 30)];
+//    [self.dataAvailablityLabel setText:@"NO INTERNET CONNECTION"];
+//    [self.dataAvailablityLabel setBackgroundColor:[UIColor colorWithRed:219.0/255 green:68.0/255 blue:55.0/255 alpha:1]];
+//    [self.dataAvailablityLabel setTextAlignment:NSTextAlignmentCenter];
+//    [self.dataAvailablityLabel setTextColor:[UIColor whiteColor]];
+//    [self.view addSubview:self.dataAvailablityLabel];
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Profile"]];
     [self.navigationItem setLeftBarButtonItem: barButtonItem];
@@ -255,10 +256,13 @@
         if (![ALDataNetworkConnection checkDataNetworkAvailable])
         {
             
-                [self.dataAvailablityLabel setHidden:NO];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5  * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                    [self.dataAvailablityLabel setHidden:YES];
-                });
+//                [self.dataAvailablityLabel setHidden:NO];
+//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5  * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+//                    [self.dataAvailablityLabel setHidden:YES];
+//                });
+            
+            [TSMessage showNotificationInViewController:self title:@"" subtitle:@"No Internet" type:TSMessageNotificationTypeError duration:1.0 canBeDismissedByUser:NO];
+            
         }
     }
     else

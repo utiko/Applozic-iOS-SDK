@@ -123,31 +123,34 @@
     {
         if([reach isReachable])
         {
-            NSLog(@"========== IF googleReach ============");
+//            NSLog(@"========== IF googleReach ============");
         }
         else
         {
-            NSLog(@"========== ELSE googleReach ============");
+//            NSLog(@"========== ELSE googleReach ============");
         }
     }
     else if (reach == self.localWiFiReach)
     {
         if([reach isReachable])
         {
-            NSLog(@"========== IF localWiFiReach ============");
+//            NSLog(@"========== IF localWiFiReach ============");
         }
         else
         {
-            NSLog(@"========== ELSE localWiFiReach ============");
+//            NSLog(@"========== ELSE localWiFiReach ============");
         }
     }
     else if (reach == self.internetConnectionReach)
     {
         if([reach isReachable])
         {
-            NSLog(@"========== IF internetConnectionReach ============");
-            [ALMessageService processLatestMessagesGroupByContact];
-            [ALMessageService processPendingMessages];
+            if([ALUserDefaultsHandler isLoggedIn])//
+            {
+                NSLog(@"========== IF internetConnectionReach ============");
+                [ALMessageService processLatestMessagesGroupByContact];
+                    [ALMessageService processPendingMessages];
+            }
             //changes required
         }
         else
