@@ -22,6 +22,7 @@
 #import "ALUserClientService.h"
 #import "ALUserDetail.h"
 #import "ALMessageDBService.h"
+#import "ALAPIResponse.h"
 
 
 @implementation ALUserService
@@ -97,5 +98,30 @@
     
 
 }
+
++(void)updateUserDisplayName:(ALContact *)alContact
+{
+    if(alContact.userId && alContact.displayName)
+    {
+        ALUserClientService * alUserClientService  = [[ALUserClientService alloc] init];
+        [alUserClientService updateUserDisplayName:alContact withCompletion:^(id theJson, NSError *theError) {
+            
+            if(theError)
+            {
+                NSLog(@"GETTING ERROR in SEVER CALL FOR DISPLAY NAME");
+            }
+            else
+            {
+                ALAPIResponse *apiResponse = [[ALAPIResponse alloc] initWithJSONString:theJson];
+            }
+            
+        }];
+    }
+    else
+    {
+        return;
+    }
+}
+
 
 @end

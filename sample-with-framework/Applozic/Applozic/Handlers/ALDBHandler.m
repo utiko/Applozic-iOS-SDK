@@ -334,7 +334,7 @@
     if (!dbContact) {
          contact.userId = value;
          contact.displayName = value;
-         return contact;
+        return contact;
     }
      contact.userId = dbContact.userId;
      contact.fullName = dbContact.fullName;

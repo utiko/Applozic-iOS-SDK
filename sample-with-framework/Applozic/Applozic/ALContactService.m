@@ -10,6 +10,7 @@
 #import "ALContactDBService.h"
 #import "ALDBHandler.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALUserService.h"
 
 @implementation ALContactService
 
@@ -81,6 +82,33 @@
 
 }
 
+
+#pragma mark fetching OR SAVE with Serevr call...
+
+
+- (ALContact *)loadOrAddContactByKeyWithDisplayName:(NSString *) contactId value:(NSString*) displayName{
+    
+    DB_CONTACT *dbContact = [alContactDBService getContactByKey:@"userId" value:contactId];
+    
+    ALContact *contact = [[ALContact alloc]init];
+    if (!dbContact) {
+        contact.userId = contactId;
+        contact.displayName = displayName;
+        [self addContact:contact];
+        [ ALUserService updateUserDisplayName:contact];
+        return contact;
+    }
+    contact.userId = dbContact.userId;
+    contact.fullName = dbContact.fullName;
+    contact.contactNumber = dbContact.contactNo;
+    contact.displayName = dbContact.displayName;
+    contact.contactImageUrl = dbContact.contactImageUrl;
+    contact.email = dbContact.email;
+    contact.localImageResourceName = dbContact.localImageResourceName;
+    contact.connected = dbContact.connected;
+    contact.lastSeenAt = dbContact.lastSeenAt;
+    return contact;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 // Helper method for demo purpose. This method shows possible ways to insert contact and save it in local database.

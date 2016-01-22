@@ -86,6 +86,55 @@
 }
 
 
+// ----------------------  ------------------------------------------------------/
+
+// convenient method to directly launch individual user chat screen. UserId parameter define users for which it intented to launch chat screen.
+//
+// This will automatically handle unregistered users provided getLoggedinUserInformation is implemented properly.
+
+// ----------------------  ------------------------------------------------------/
+
+-(void)launchChatForUserWithDisplayName:(NSString * )userId andwithDisplayName:(NSString*)displayName andFromViewController:(UIViewController*)fromViewController{
+    self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
+
+    if([ALUserDefaultsHandler getDeviceKeyString]){
+        
+        [self.chatLauncher launchIndividualChat:userId withDisplayName:displayName andViewControllerObject:fromViewController andWithText:nil];
+        
+        return;
+    }
+    
+    [self.chatLauncher mbChatViewSettings];
+    ALUser *alUser =  DemoChatManager.getLoggedinUserInformation;
+
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+    [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
+        if (error) {
+            //Handle Registration error here ....
+            NSLog(@"%@",error);
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response"
+                                      
+                                                                message:rResponse.message delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles: nil, nil];
+            
+            [alertView show];
+            
+            return ;
+            
+        }
+        if (rResponse && [rResponse.message containsString: @"REGISTERED"])
+        {                ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
+            [messageClientService addWelcomeMessage];
+            
+        }
+        
+        if(![ALUserDefaultsHandler getApnDeviceToken]){
+            [self.chatLauncher registerForNotification];
+        }
+        
+        
+        NSLog(@"Registration response from server:%@", rResponse);
+    }];
+}
 
 // ----------------------  ------------------------------------------------------/
 

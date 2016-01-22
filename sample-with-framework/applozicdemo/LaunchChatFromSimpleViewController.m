@@ -73,7 +73,7 @@
     //[user setPassword:@""];
 
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:@"adarshk"];
+    [demoChatManager launchChatForUserWithDisplayName:@"nayawalauser" andwithDisplayName:@"Adarsh New" andFromViewController:self];
     
 
     

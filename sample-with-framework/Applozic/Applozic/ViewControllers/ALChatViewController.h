@@ -22,6 +22,7 @@
 @property (strong, nonatomic) ALMessageArrayWrapper *alMessageWrapper;
 @property (strong, nonatomic) NSMutableArray *mMessageListArrayKeyStrings;
 @property (strong, nonatomic) NSString * contactIds;
+@property (strong, nonatomic) NSString * displayName;
 @property (nonatomic) BOOL refreshMainView;
 @property (nonatomic) BOOL refresh;
 @property (strong, nonatomic) NSString * text;

@@ -206,6 +206,8 @@
 		6DAEC20B1C25A596000A7243 /* ALLastSeenSyncFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DAEC2091C25A596000A7243 /* ALLastSeenSyncFeed.m */; };
 		6DB665071C0EE5EC004D04A8 /* ALDataNetworkConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DB665081C0EE5EC004D04A8 /* ALDataNetworkConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB665061C0EE5EC004D04A8 /* ALDataNetworkConnection.m */; };
+		6DBD44B31C514EC300C6BBFE /* ALAPIResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DBD44B11C514EC300C6BBFE /* ALAPIResponse.h */; };
+		6DBD44B41C514EC300C6BBFE /* ALAPIResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DBD44B21C514EC300C6BBFE /* ALAPIResponse.m */; };
 		6DC367B91C4D01200042DA8A /* ALReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DC367B71C4D01200042DA8A /* ALReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DC367BA1C4D01200042DA8A /* ALReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC367B81C4D01200042DA8A /* ALReachability.m */; };
 		6DDE81861C27D8EC009B8CF9 /* ALUserClientService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */; };
@@ -433,6 +435,8 @@
 		6DAEC2091C25A596000A7243 /* ALLastSeenSyncFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALLastSeenSyncFeed.m; sourceTree = "<group>"; };
 		6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDataNetworkConnection.h; sourceTree = "<group>"; };
 		6DB665061C0EE5EC004D04A8 /* ALDataNetworkConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDataNetworkConnection.m; sourceTree = "<group>"; };
+		6DBD44B11C514EC300C6BBFE /* ALAPIResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAPIResponse.h; sourceTree = "<group>"; };
+		6DBD44B21C514EC300C6BBFE /* ALAPIResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALAPIResponse.m; sourceTree = "<group>"; };
 		6DC367B71C4D01200042DA8A /* ALReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALReachability.h; sourceTree = "<group>"; };
 		6DC367B81C4D01200042DA8A /* ALReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALReachability.m; sourceTree = "<group>"; };
 		6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserClientService.h; sourceTree = "<group>"; };
@@ -858,6 +862,8 @@
 				6D10A12E1C3EA0120023D68B /* ALAppLocalNotifications.m */,
 				6DC367B71C4D01200042DA8A /* ALReachability.h */,
 				6DC367B81C4D01200042DA8A /* ALReachability.m */,
+				6DBD44B11C514EC300C6BBFE /* ALAPIResponse.h */,
+				6DBD44B21C514EC300C6BBFE /* ALAPIResponse.m */,
 			);
 			name = networkcommunication;
 			sourceTree = "<group>";
@@ -1016,6 +1022,7 @@
 				6D6DF1C91BC5364C00EBA00F /* UIImage+MultiFormat.h in Headers */,
 				6D6DF1C51BC5364C00EBA00F /* UIButton+WebCache.h in Headers */,
 				6D6DF1C71BC5364C00EBA00F /* UIImage+GIF.h in Headers */,
+				6DBD44B31C514EC300C6BBFE /* ALAPIResponse.h in Headers */,
 				6D6DF1B41BC5364C00EBA00F /* NSData+ImageContentType.h in Headers */,
 				6D6DF1CB1BC5364C00EBA00F /* UIImage+WebP.h in Headers */,
 				6D6DF1C31BC5364C00EBA00F /* SDWebImagePrefetcher.h in Headers */,
@@ -1223,6 +1230,7 @@
 				6D6DF1CE1BC5364C00EBA00F /* UIImageView+HighlightedWebCache.m in Sources */,
 				6D7AFD191BE9FDF5009DDC1D /* ALLoginViewController.m in Sources */,
 				6D6DF1D61BC5364C00EBA00F /* TPPropertyAnimation.m in Sources */,
+				6DBD44B41C514EC300C6BBFE /* ALAPIResponse.m in Sources */,
 				6D6DF17F1BC5364C00EBA00F /* ALUser.m in Sources */,
 				982F130B1C05D6050024678E /* MQTTMessage.m in Sources */,
 				6D6DF1731BC5364C00EBA00F /* ALFileMetaInfo.m in Sources */,
