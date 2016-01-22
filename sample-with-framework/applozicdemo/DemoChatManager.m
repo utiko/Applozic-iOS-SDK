@@ -126,7 +126,7 @@
             [messageClientService addWelcomeMessage];
             
         }
-        
+        [self.chatLauncher launchIndividualChat:userId withDisplayName:displayName andViewControllerObject:fromViewController andWithText:nil]; 
         if(![ALUserDefaultsHandler getApnDeviceToken]){
             [self.chatLauncher registerForNotification];
         }

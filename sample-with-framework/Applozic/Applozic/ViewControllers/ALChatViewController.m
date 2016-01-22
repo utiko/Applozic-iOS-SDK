@@ -110,6 +110,9 @@ ALMessageDBService  * dbService;
     [self.view endEditing:YES];
     [self processMarkRead];
     [self.label setTextColor:[UIColor whiteColor]];
+    
+    [[[self navigationController] interactivePopGestureRecognizer] setEnabled:NO];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -191,7 +194,8 @@ ALMessageDBService  * dbService;
 //        });
     }
    
-    
+    [[[self navigationController] interactivePopGestureRecognizer] setEnabled:YES];
+
 }
 
 //------------------------------------------------------------------------------------------------------------------
