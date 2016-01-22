@@ -295,7 +295,7 @@ ALMessageDBService  * dbService;
     }
     else
     {
-        NSString *alertMsg = @"Unable to fetch current location. Check GPS Settings!!!";
+        NSString *alertMsg = @"Unable to fetch current location. Try Again!!!";
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Current Location" message:alertMsg delegate: nil cancelButtonTitle:@"OK" otherButtonTitles: nil, nil];
         
         [alertView show];
