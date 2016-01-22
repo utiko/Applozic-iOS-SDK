@@ -181,7 +181,7 @@
     
     
     
-    if([self.dict2 valueForKey:@"alertValue"] == nil) {
+    if([[self.dict2 valueForKey:@"alertValue"] isEqualToString:self.contactId]) {
         // The key do not exist......
         [self.dict2 setValue:[NSString stringWithFormat:@"%@: Sent you an attachment",self.contactId] forKey:@"alertValue"];
     }
