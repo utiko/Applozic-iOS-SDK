@@ -35,7 +35,7 @@
 @property (nonatomic, retain) UIButton * playPauseStop;
 @property (nonatomic, retain) UIProgressView *mediaTrackProgress;
 @property (nonatomic, retain) UILabel *mediaTrackLength;
-@property (nonatomic, retain) UIButton * mDowloadRetryButton;
+@property (nonatomic, retain) UIButton * dowloadRetryButton;
 @property (nonatomic, retain) KAProgressLabel *progresLabel;
 
 @property (nonatomic, retain) AVAudioPlayer *audioPlayer;
@@ -45,5 +45,14 @@
 @property (nonatomic, retain) ALMessage * alMessage;
 
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize;
+
+-(NSString *)getProgressOfTrack;
+-(void) mediaButtonAction;
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
+-(void) setupProgressValueX:(CGFloat)cooridinateX andY:(CGFloat)cooridinateY;
+-(void) dowloadRetryAction;
+-(void) cancelAction;
+
+@property (nonatomic) int count;
 
 @end

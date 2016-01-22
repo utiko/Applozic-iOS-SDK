@@ -15,15 +15,6 @@
 
 @interface ALChatCell_Media()
 
--(NSString *)getProgressOfTrack;
--(void) mediaButtonAction;
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
--(void) setupProgressValueX:(CGFloat)cooridinateX andY:(CGFloat)cooridinateY;
--(void) dowloadRetryButtonAction;
--(void) cancelAction;
-
-@property (nonatomic) int count;
-
 @end
 
 @implementation ALChatCell_Media
@@ -64,6 +55,14 @@
         self.mediaTrackLength = [[UILabel alloc] init];
         [self.contentView addSubview:self.mediaTrackLength];
         
+        [self.dowloadRetryButton addTarget:self action:@selector(dowloadRetryAction) forControlEvents:UIControlEventTouchUpInside];
+        [self.dowloadRetryButton setTitle:@"Retry" forState:UIControlStateNormal]; //set title with image
+        [self.dowloadRetryButton setContentMode:UIViewContentModeCenter];
+        [self.dowloadRetryButton setBackgroundColor:[[UIColor blackColor] colorWithAlphaComponent:0.3]];
+        self.dowloadRetryButton.layer.cornerRadius = 4;
+        [self.dowloadRetryButton.titleLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:14]];
+        [self.contentView addSubview:self.dowloadRetryButton];
+        
         self.count = 1;
     }
     
@@ -81,6 +80,8 @@
 
 -(instancetype) populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize
 {
+    BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[alMessage.createdAtTime doubleValue]/1000]];
+    NSString * theDate = [NSString stringWithFormat:@"%@",[alMessage getCreatedAtTimeChat:today]];
     
     if([alMessage.type isEqualToString:@MT_INBOX_CONSTANT])
     {
@@ -106,6 +107,29 @@
         }
         
         [self setupProgressValueX: (self.bubbleImageView.frame.size.width - 55) andY: (self.bubbleImageView.frame.origin.y + 10)];
+        
+//        if (alMessage.imageFilePath == NULL) {
+//            
+//            self.mDowloadRetryButton.alpha = 1;
+//            [self.mDowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
+//            [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_download.png"]
+//                                      forState:UIControlStateNormal];
+//            
+//        }else{
+//            
+//            self.mDowloadRetryButton.alpha = 0;
+//            
+//        }if (alMessage.inProgress == YES) {
+//            
+//            self.progresLabel.alpha = 1;
+//            self.mDowloadRetryButton.alpha = 0;
+//            
+//        }else {
+//            
+//            self.progresLabel.alpha = 0;
+//            
+//        }
+        
         [self.playPauseStop setFrame:CGRectMake(self.bubbleImageView.frame.origin.x + 10, self.bubbleImageView.frame.origin.y + 10, 45, 45)];
         
         [self.mediaTrackProgress setFrame:CGRectMake(self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10, self.bubbleImageView.frame.origin.y, 50, 30)];
@@ -127,14 +151,41 @@
         [self.bubbleImageView setFrame:CGRectMake(viewSize.width - 100 - 13, self.userProfileImageView.frame.origin.y, 100, 70)];
         
         [self setupProgressValueX: (self.bubbleImageView.frame.origin.x + 10) andY: (self.bubbleImageView.frame.origin.y + 10)];
+        
+        //        [self.progresLabel setHidden:YES];
+        //        [self.dowloadRetryButton setHidden:YES];
+        //
+        //        if (alMessage.inProgress == YES)
+        //        {
+        //            [self.progresLabel setHidden:NO];
+        //            NSLog(@"calling you progress label....");
+        //        }
+        //        else if(!alMessage.imageFilePath && alMessage.fileMeta.blobKey)
+        //        {
+        //            [self.dowloadRetryButton setHidden:NO];
+        //            [self.dowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
+        //            [self.dowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_download.png"]
+        //                                      forState:UIControlStateNormal];
+        //        }
+        //        else if (alMessage.imageFilePath && !alMessage.fileMeta.blobKey)
+        //        {
+        //            [self.dowloadRetryButton setHidden:NO];
+        //            [self.dowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
+        //            [self.dowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_upload.png"] forState:UIControlStateNormal];
+        //        }
+        
         [self.playPauseStop setFrame:CGRectMake(self.progresLabel.frame.origin.x + self.progresLabel.frame.size.width + 10, self.bubbleImageView.frame.origin.y + 10, 45, 45)];
         [self.mediaTrackProgress setFrame:CGRectMake(self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10, self.bubbleImageView.frame.origin.y, 50, 30)];
         
-         [self.mediaTrackProgress setProgress:self.audioPlayer.currentTime];
+        [self.mediaTrackProgress setProgress:self.audioPlayer.currentTime];
         [self.mediaTrackLength setText: [self getProgressOfTrack]];
+
+
     }
     
-   
+    [self.dowloadRetryButton setFrame:CGRectMake(self.bubbleImageView.frame.origin.x + self.bubbleImageView.frame.size.width/2 - 50, self.bubbleImageView.frame.origin.y + self.bubbleImageView.frame.size.height/2 - 15, 100, 30)];
+    
+    [self.dateLabel setText: theDate]; //check of inbox/outbox i.e deliverd or not also
     [self addShadowEffects];
     
     return self;
@@ -167,7 +218,6 @@
 
 -(void) cancelAction
 {
-    
     if ([self.delegate respondsToSelector:@selector(stopDownloadForIndex:andMessage:)])
     {
         [self.delegate stopDownloadForIndex:(int)self.tag andMessage:self.alMessage];
@@ -179,14 +229,15 @@
     [super setSelected:selected animated:animated];
 }
 
--(void) dowloadRetryButtonAction
+-(void) dowloadRetryAction
 {
-    [_delegate downloadRetryButtonActionDelegate:(int)self.tag andMessage:self.alMessage];
+    [self.delegate downloadRetryButtonActionDelegate:(int)self.tag andMessage:self.alMessage];
 }
 
 - (void) dealloc
 {
-    if(self.alMessage.fileMeta){
+    if(self.alMessage.fileMeta)
+    {
         [self.alMessage.fileMeta removeObserver:self forKeyPath:@"progressValue" context:nil];
     }
 }
