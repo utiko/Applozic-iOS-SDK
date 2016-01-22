@@ -92,6 +92,10 @@
     NSString *myString = [NSString stringWithFormat:@"%@",self.text];
     myString = (myString.length > 20) ? [NSString stringWithFormat:@"%@...",[myString substringToIndex:20]] : myString;
     
+//    NSLog(@"myString:: %@",myString);
+    if([myString isEqualToString:@""]){
+        myString=[NSString stringWithFormat:@"Attachment"];
+    }
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:[ALUserDefaultsHandler getNotificationTitle]
                                        subtitle:[NSString stringWithFormat:@"%@: %@",_contactId,myString]
