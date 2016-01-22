@@ -121,6 +121,9 @@
              NSLog(@"View Already Opened and Notification coming already");
          }
          
+         [[UIApplication sharedApplication] setApplicationIconBadgeNumber: 0];
+         [[UIApplication sharedApplication] cancelAllLocalNotifications];
+         
      }
                                     buttonTitle:nil
                                  buttonCallback:nil

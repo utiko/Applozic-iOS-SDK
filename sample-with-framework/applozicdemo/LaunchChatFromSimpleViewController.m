@@ -11,6 +11,7 @@
 #import "DemoChatManager.h"
 #import "ApplozicLoginViewController.h"
 #import <Applozic/ALUserDefaultsHandler.h>
+#import <Applozic/ALRegisterUserClientService.h>
 @interface LaunchChatFromSimpleViewController ()
 
 - (IBAction)mLaunchChatList:(id)sender;
@@ -18,7 +19,9 @@
 
 @end
 
-@implementation LaunchChatFromSimpleViewController
+@implementation LaunchChatFromSimpleViewController{
+    UIActivityIndicatorView *activityView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -48,7 +51,14 @@
 
 - (IBAction)mLaunchChatList:(id)sender {
     
+    activityView = [[UIActivityIndicatorView alloc]
+                                             initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
+    activityView.center=self.view.center;
+    [activityView startAnimating];
+    [self.view addSubview:activityView];
+    
+  
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmailId:[ALUserDefaultsHandler getEmailId]];
@@ -78,4 +88,19 @@
 
     
 }
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [activityView removeFromSuperview];
+}
+
+- (IBAction)logoutBtn:(id)sender {
+    ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
+    
+    if([ALUserDefaultsHandler getDeviceKeyString]){
+        alUserClientService.logout;
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 @end

@@ -131,8 +131,6 @@
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Profile"]];
     [self.navigationItem setLeftBarButtonItem: barButtonItem];
-    
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 -(void) viewDidDisappear:(BOOL)animated
@@ -800,7 +798,7 @@
     
 }
 
--(void)pushNotificationhandler:(NSNotification *) notification{
+-(void)pushNotificationhandler:(NSNotification *) notification{   // If coming from Push Notification
     NSString * contactId = notification.object;
     NSDictionary *dict = notification.userInfo;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
@@ -808,14 +806,20 @@
     
     if (self.isViewLoaded && self.view.window && [updateUI boolValue])
     {
-        ALMessage *msg = [[ALMessage alloc]init];
         
+        NSLog(@"Alert Value:>>>> %@",alretValue);
+        ALMessage *msg = [[ALMessage alloc]init];
         msg.message=alretValue;
         NSArray *myArray = [msg.message
                             componentsSeparatedByCharactersInSet:
                             [NSCharacterSet characterSetWithCharactersInString:@":"]];
-
-        alretValue=[NSString stringWithFormat:@"%@",myArray[1]];
+        if (myArray.count>1) {
+            alretValue=[NSString stringWithFormat:@"%@",myArray[1]];
+        }
+        else{
+            alretValue=[NSString stringWithFormat:@"Attachment"];
+        }
+        
         NSLog(@"VALUE ::%@",alretValue);
         msg.message=alretValue;
         msg.contactIds = contactId;
@@ -860,8 +864,8 @@
 
 
 - (void)appWillEnterForeground:(NSNotification *)notification {
-    NSLog(@"will enter foreground notification");
-   // [self syncCall:nil];
+    NSLog(@"will enter foreground notification into Message View");
+    [self syncCall:nil];
     [self callLastSeenStatusUpdate];
 }
 @end

@@ -168,14 +168,30 @@
     NSLog(@" 3rd Party notificationHandler called .....");
     
     self.contactId = notification.object;
-    NSLog(@"Notification Object %@",self.contactId);
-    self.dict = notification.userInfo;
-    NSNumber * updateUI = [self.dict valueForKey:@"updateUI"];
-    NSString * alertValue = [self.dict valueForKey:@"alertValue"];
+//    NSLog(@"Notification Object %@",self.contactId);
+//    self.dict = notification.userInfo;
+//    NSNumber * updateUI = [self.dict valueForKey:@"updateUI"];
+//    NSString * alertValue = [self.dict valueForKey:@"alertValue"];
+//    NSLog(@"alertValue ALAppLN:>>>%@",alertValue);
+//    NSLog(@"thirdPartyNotificationHandler dict %@",_dict);
+    
+    
+    self.dict2=(NSMutableDictionary*)notification.userInfo;
+    NSNumber * updateUI = [self.dict2 valueForKey:@"updateUI"];
+    
+    
+    
+    if([self.dict2 valueForKey:@"message"] == nil) {
+        // The key do not exist......
+        [self.dict2 setValue:[NSString stringWithFormat:@"%@: Sent you an attachment",self.contactId] forKey:@"alertValue"];
+    }
+    else{
+        
+    }
+    
+    NSString * alertValue = [self.dict2 valueForKey:@"alertValue"];
     NSLog(@"alertValue ALAppLN:>>>%@",alertValue);
-    //ALMessageDBService* obj=[[ALMessageDBService alloc] init];
-    // [obj fetchAndRefreshQuickConversation];
-    NSLog(@"thirdPartyNotificationHandler dict %@",_dict);
+    NSLog(@"thirdPartyNotificationHandler dict %@",self.dict2);
     
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
@@ -184,7 +200,6 @@
             NSLog(@"%@",error);
             return ;
         }
-        
         
         if(updateUI==[NSNumber numberWithBool:NO]){
             NSLog(@"App launched from Background....Directly opening view from %@",self.dict);

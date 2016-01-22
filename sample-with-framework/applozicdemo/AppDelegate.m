@@ -35,23 +35,31 @@
     }
     
     NSLog(@"launchOptions: %@", launchOptions);
+    ALAppLocalNotifications *localNotification = [ALAppLocalNotifications appLocalNotificationHandler];
+    [localNotification dataConnectionNotificationHandler];
     
     if (launchOptions != nil)
     {
+        
+//        NSMutableDictionary* dict=[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+//        [dict setObject:@"YES" forKey:@"firstLaunch"];
+        
         NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (dictionary != nil)
+//        if(dict!=nil)
         {
             NSLog(@"Launched from push notification: %@", dictionary);
             ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc ]init];
             BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:NO];
+//            BOOL applozicProcessed = [pushNotificationService processPushNotification:dict updateUI:NO];
             if (!applozicProcessed) {
                 //Note: notification for app
             }
         }
     }
     
-    ALAppLocalNotifications *localNotification = [ALAppLocalNotifications appLocalNotificationHandler];
-    [localNotification dataConnectionNotificationHandler];
+   
+
     
     return YES;
 }

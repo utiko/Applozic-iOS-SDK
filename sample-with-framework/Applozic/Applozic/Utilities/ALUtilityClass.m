@@ -237,6 +237,8 @@
                                        duration:1.75
                                        callback:^(void){
                                         [delegate thirdPartyNotificationTap1:contactId];
+                                        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+                                        [[UIApplication sharedApplication] cancelAllLocalNotifications];
                                        }
                                     buttonTitle:nil
                                  buttonCallback:nil

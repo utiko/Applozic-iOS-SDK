@@ -86,10 +86,7 @@ ALMessageDBService  * dbService;
     [self fetchMessageFromDB];
     [self loadChatView];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    //  if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)])
-    //        [self.navigationController.view removeGestureRecognizer:self.navigationController.interactivePopGestureRecognizer];
-    
+
 }
 
 -(void)processMarkRead{
@@ -110,7 +107,6 @@ ALMessageDBService  * dbService;
     [self.view endEditing:YES];
     [self processMarkRead];
     [self.label setTextColor:[UIColor whiteColor]];
-    
     [[[self navigationController] interactivePopGestureRecognizer] setEnabled:NO];
 
 }
@@ -150,6 +146,7 @@ ALMessageDBService  * dbService;
                 NSLog(@"mqttObject is not found...");
         });
         [self serverCallForLastSeen];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     }
     
     if(![ALUserDefaultsHandler isServerCallDoneForMSGList:self.contactIds])
@@ -193,6 +190,7 @@ ALMessageDBService  * dbService;
             NSLog(@"mqttObject is not found...");
         //        });
     }
+   
     [[[self navigationController] interactivePopGestureRecognizer] setEnabled:YES];
 
 }
@@ -1459,5 +1457,28 @@ ALMessageDBService  * dbService;
     _mqttRetryCount++;
 }
 
+
+
+#pragma Methods to handle launch from background.
+
+-(void) callLastSeenStatusUpdate {
+    
+    [ALUserService getLastSeenUpdateForUsers:[ALUserDefaultsHandler getLastSeenSyncTime]  withCompletion:^(NSMutableArray * userDetailArray)
+     {
+         for(ALUserDetail * userDetail in userDetailArray){
+             [ self updateLastSeenAtStatus:userDetail ];
+         }
+         
+     }];
+    
+    
+}
+- (void)appWillEnterForeground:(NSNotification *)notification {
+    NSLog(@"will enter foreground notification into Chat View");
+    ALMessageDBService *dBService = [ALMessageDBService new];
+    [dBService fetchAndRefreshQuickConversation];
+    [self fetchAndRefresh:YES];
+    [self callLastSeenStatusUpdate];
+}
 
 @end
