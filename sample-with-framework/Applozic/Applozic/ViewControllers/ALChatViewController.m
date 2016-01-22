@@ -87,8 +87,8 @@ ALMessageDBService  * dbService;
     [self loadChatView];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-//  if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)])
-//        [self.navigationController.view removeGestureRecognizer:self.navigationController.interactivePopGestureRecognizer];
+    //  if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)])
+    //        [self.navigationController.view removeGestureRecognizer:self.navigationController.interactivePopGestureRecognizer];
     
 }
 
@@ -128,14 +128,14 @@ ALMessageDBService  * dbService;
         if (self.refresh) {
             self.refresh = false;
         }
-
+        
     }
-
+    
     [[NSNotificationCenter defaultCenter] removeObserver:@"showNotificationAndLaunchChat"];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:) name:@"deliveryReport" object:nil];
     self.mqttObject = [ALMQTTConversationService sharedInstance];
-
+    
     
     if(self.individualLaunch){
         NSLog(@"individual launch ...unsubscribeToConversation to mqtt..");
@@ -148,7 +148,7 @@ ALMessageDBService  * dbService;
         });
         [self serverCallForLastSeen];
     }
-
+    
     if(![ALUserDefaultsHandler isServerCallDoneForMSGList:self.contactIds])
     {
         //NSLog(@"called first time .....");
@@ -160,21 +160,21 @@ ALMessageDBService  * dbService;
     }
     else
     {
-     self.sendMessageTextView.text = @"";
+        self.sendMessageTextView.text = @"";
     }
     
-//    NSLog(@" ========  Table Origin y %f  ========",self.mTableView.frame.origin.y);
-//    NSLog(@" ======== Load More button origin y %f  ========",self.loadEarlierAction.frame.origin.y);
-//    NSLog(@" ======== Load More button height %f  ======",self.loadEarlierAction.frame.size.height);
-//    NSLog(@" ======== navigation bar height %f  ========",self.navigationController.navigationBar.frame.size.height);
-//    NSLog(@" ======== navigation bar origin y %f  ======",self.navigationController.navigationBar.frame.origin.y);
+    //    NSLog(@" ========  Table Origin y %f  ========",self.mTableView.frame.origin.y);
+    //    NSLog(@" ======== Load More button origin y %f  ========",self.loadEarlierAction.frame.origin.y);
+    //    NSLog(@" ======== Load More button height %f  ======",self.loadEarlierAction.frame.size.height);
+    //    NSLog(@" ======== navigation bar height %f  ========",self.navigationController.navigationBar.frame.size.height);
+    //    NSLog(@" ======== navigation bar origin y %f  ======",self.navigationController.navigationBar.frame.origin.y);
     
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     
     [super viewWillDisappear:animated];
-     self.text = nil;
+    self.text = nil;
     [self.tabBarController.tabBar setHidden: YES];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
@@ -183,14 +183,14 @@ ALMessageDBService  * dbService;
     [self.typingLabel setHidden:YES];
     if( self.individualLaunch){
         NSLog(@"individual launch ...unsubscribeToConversation to mqtt..");
-//        dispatch_async(dispatch_get_main_queue(), ^{
-            if(self.mqttObject)
-                [self.mqttObject unsubscribeToConversation];
-            else
-                NSLog(@"mqttObject is not found...");
-//        });
+        //        dispatch_async(dispatch_get_main_queue(), ^{
+        if(self.mqttObject)
+            [self.mqttObject unsubscribeToConversation];
+        else
+            NSLog(@"mqttObject is not found...");
+        //        });
     }
-   
+    
     
 }
 
@@ -215,8 +215,8 @@ ALMessageDBService  * dbService;
 }
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-//    NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
-
+    //    NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
+    
     [navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:18]}];
     [navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
     [navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
@@ -226,11 +226,11 @@ ALMessageDBService  * dbService;
     if(self.displayName){
         ALContactService * contactService = [[ALContactService alloc]init];
         _alContact = [contactService loadOrAddContactByKeyWithDisplayName:self.contactIds value: self.displayName];
- 
+        
     }else{
         ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
         _alContact = [theDBHandler loadContactByKey:@"userId" value: self.contactIds];
-   
+        
     }
     
     self.navigationItem.title = [_alContact displayName];
@@ -275,21 +275,32 @@ ALMessageDBService  * dbService;
 
 
 #pragma  mark - ALMapViewController Delegate Methods -
--(void) getUserCurrentLocation:googleMapUrl
+
+-(void) getUserCurrentLocation:(NSString *)googleMapUrl
 {
-    
-    ALMessage * theMessage = [self getMessageToPost];
-    theMessage.message=googleMapUrl;
-    [self.alMessageWrapper addALMessageToMessageArray:theMessage];
-    [self.mTableView reloadData];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [super scrollTableViewToBottomWithAnimation:YES];
-    });
-    // save message to db
-    [self.sendMessageTextView setText:nil];
-    self.mTotalCount = self.mTotalCount+1;
-    self.startIndex = self.startIndex + 1;
-    [ self sendMessage:theMessage];
+    if(googleMapUrl.length != 0)
+    {
+        ALMessage * theMessage = [self getMessageToPost];
+        theMessage.message = googleMapUrl;
+        [self.alMessageWrapper addALMessageToMessageArray:theMessage];
+        [self.mTableView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [super scrollTableViewToBottomWithAnimation:YES];
+        });
+        // save message to db
+        [self.sendMessageTextView setText:nil];
+        self.mTotalCount = self.mTotalCount+1;
+        self.startIndex = self.startIndex + 1;
+        [self sendMessage:theMessage];
+    }
+    else
+    {
+        NSString *alertMsg = @"Unable to fetch current location. Check GPS Settings!!!";
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Current Location" message:alertMsg delegate: nil cancelButtonTitle:@"OK" otherButtonTitles: nil, nil];
+        
+        [alertView show];
+        
+    }
     
 }
 
@@ -436,10 +447,10 @@ ALMessageDBService  * dbService;
 {
     ALMessage * theMessage = [self.alMessageWrapper getUpdatedMessageArray][indexPath.row];
     NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
-
+    
     if((theMessage.message.length > 0) && (theMessage.fileMeta.thumbnailUrl!=nil))
     {
-
+        
         CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width-115 font:boldFace fontSize:15];
         
         return theTextSize.height + self.view.frame.size.width - 30;
@@ -899,7 +910,7 @@ ALMessageDBService  * dbService;
         [self openGallery];
         
     }]];
-   
+    
     
     [self presentViewController:theController animated:YES completion:nil];
 }
@@ -1086,7 +1097,7 @@ ALMessageDBService  * dbService;
     }else {
         NSLog(@"show notification as someone else thread is already opened");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
-//        [alnotification displayNotification:self];
+        //        [alnotification displayNotification:self];
         [alnotification displayNotificationNew:self];
         [self fetchAndRefresh:YES];
     }
@@ -1143,7 +1154,7 @@ ALMessageDBService  * dbService;
     [UIView animateWithDuration:0.5 animations:^{
         [notificationView removeFromSuperview];
     }];
-
+    
 }
 
 -(void)loadEarlierButtonAction {
@@ -1329,12 +1340,12 @@ ALMessageDBService  * dbService;
         else if ([serverdate compare:yesterdaydate] == NSOrderedSame)
         {
             NSString *str = @"Last seen Yesterday";
-//            [format setDateFormat:@"hh:mm a"];
-//            str = [str stringByAppendingString:[format stringFromDate:date]];
-//            if([str hasPrefix:@"0"])
-//            {
-//                str = [str substringFromIndex:[@"0" length]];
-//            }
+            //            [format setDateFormat:@"hh:mm a"];
+            //            str = [str stringByAppendingString:[format stringFromDate:date]];
+            //            if([str hasPrefix:@"0"])
+            //            {
+            //                str = [str substringFromIndex:[@"0" length]];
+            //            }
             [self.label setText:str];
         }
         else
@@ -1426,7 +1437,7 @@ ALMessageDBService  * dbService;
 
 -(void) mqttConnectionClosed {
     NSLog((self.isViewLoaded && self.view.window)?@" View Visible Yes":@" View Visible No");
-
+    
     if (_mqttRetryCount > MQTT_MAX_RETRY|| !(self.isViewLoaded && self.view.window)){
         return;
     }
@@ -1436,9 +1447,9 @@ ALMessageDBService  * dbService;
     dispatch_async(dispatch_get_main_queue(), ^{
         
         
-    
+        
         if((self.isViewLoaded && self.view.window)){
-        [self.mqttObject subscribeToConversation];
+            [self.mqttObject subscribeToConversation];
         }
         
     });
