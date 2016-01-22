@@ -141,7 +141,7 @@
 
     
     [self.geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-        NSLog(@"inside GEOCODER");
+
         if (error == nil && [placemarks count] > 0)
         {
             self.placemark = [placemarks lastObject];
@@ -151,7 +151,8 @@
                                  self.placemark.administrativeArea,
                                  self.placemark.country];
 
-        } else
+        }
+        else
         {
                     NSLog(@"inside GEOCODER");
         }
