@@ -794,7 +794,7 @@
     
 }
 
--(void)pushNotificationhandler:(NSNotification *) notification{
+-(void)pushNotificationhandler:(NSNotification *) notification{   // If coming from Push Notification
     NSString * contactId = notification.object;
     NSDictionary *dict = notification.userInfo;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
@@ -802,14 +802,20 @@
     
     if (self.isViewLoaded && self.view.window && [updateUI boolValue])
     {
-        ALMessage *msg = [[ALMessage alloc]init];
         
+        NSLog(@"Alert Value:>>>> %@",alretValue);
+        ALMessage *msg = [[ALMessage alloc]init];
         msg.message=alretValue;
         NSArray *myArray = [msg.message
                             componentsSeparatedByCharactersInSet:
                             [NSCharacterSet characterSetWithCharactersInString:@":"]];
-
-        alretValue=[NSString stringWithFormat:@"%@",myArray[1]];
+        if (myArray.count>1) {
+            alretValue=[NSString stringWithFormat:@"%@",myArray[1]];
+        }
+        else{
+            alretValue=[NSString stringWithFormat:@"Attachment"];
+        }
+        
         NSLog(@"VALUE ::%@",alretValue);
         msg.message=alretValue;
         msg.contactIds = contactId;

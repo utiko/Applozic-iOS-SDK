@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="t0V-gj-2WO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="t0V-gj-2WO">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -35,7 +34,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                             </textField>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="iosdev" borderStyle="roundedRect" placeholder="User id" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hRe-YD-lEv">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ultimo" borderStyle="roundedRect" placeholder="User id" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hRe-YD-lEv">
                                                 <rect key="frame" x="15" y="168" width="570" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
@@ -121,38 +120,75 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Pw-n4-Uqk">
-                                <rect key="frame" x="208" y="294" width="186" height="62"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="62" id="LDk-cL-Toi"/>
-                                    <constraint firstAttribute="width" constant="167" id="ooH-NF-8sC"/>
-                                </constraints>
-                                <state key="normal" title="Launch Chat With Applozic">
+                            <button opaque="NO" alpha="0.94999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Pw-n4-Uqk">
+                                <rect key="frame" x="0.0" y="294" width="600" height="137"/>
+                                <state key="normal" backgroundImage="ApplozicChat">
                                     <color key="titleShadowColor" red="0.79895767500000003" green="0.94653931469999997" blue="1" alpha="0.28000000000000003" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="mChatLaunchButton:" destination="Zmt-x5-PHb" eventType="touchUpInside" id="IQI-Gg-W3t"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yMM-21-yms">
-                                <rect key="frame" x="235" y="148" width="149" height="54"/>
+                            <button opaque="NO" alpha="0.94999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yMM-21-yms">
+                                <rect key="frame" x="0.0" y="170" width="600" height="124"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="54" id="9ae-yw-PQj"/>
-                                    <constraint firstAttribute="width" secondItem="yMM-21-yms" secondAttribute="height" multiplier="149:54" id="uWU-7n-2Yj"/>
-                                    <constraint firstAttribute="width" constant="149" id="y4g-yN-aBT"/>
+                                    <constraint firstAttribute="height" constant="124" id="RWW-qo-WEU"/>
                                 </constraints>
-                                <state key="normal" title="Launch Chat List"/>
+                                <state key="normal" backgroundImage="ChatList"/>
                                 <connections>
                                     <action selector="mLaunchChatList:" destination="Zmt-x5-PHb" eventType="touchUpInside" id="hB7-kF-9Xx"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lHq-s3-QTE">
+                                <rect key="frame" x="0.0" y="490" width="600" height="39"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="600" id="H1V-ST-Yx3"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="Logout"/>
+                                <connections>
+                                    <action selector="logoutBtn:" destination="Zmt-x5-PHb" eventType="touchUpInside" id="ikp-Pd-DyV"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRe-1O-2dg">
+                                <rect key="frame" x="195" y="62" width="211" height="57"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" image="YES" staticText="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="211" id="p5t-fN-8xC"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="WELCOME">
+                                        <attributes>
+                                            <color key="NSColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <font key="NSFont" size="38" name="Futura-Medium"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="clipping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="2Pw-n4-Uqk" firstAttribute="centerX" secondItem="8nS-Zj-qCT" secondAttribute="centerX" id="4Mw-hc-zug"/>
-                            <constraint firstItem="EpC-Dg-hf7" firstAttribute="top" secondItem="2Pw-n4-Uqk" secondAttribute="bottom" constant="244" id="8ta-aV-JKR"/>
-                            <constraint firstItem="2Pw-n4-Uqk" firstAttribute="top" secondItem="yMM-21-yms" secondAttribute="bottom" constant="92" id="Nwp-hM-iF9"/>
-                            <constraint firstItem="yMM-21-yms" firstAttribute="trailing" secondItem="2Pw-n4-Uqk" secondAttribute="trailing" id="y2p-QB-ScI"/>
+                            <constraint firstItem="yMM-21-yms" firstAttribute="trailing" secondItem="2Pw-n4-Uqk" secondAttribute="trailing" id="0ld-WB-NFl"/>
+                            <constraint firstItem="lHq-s3-QTE" firstAttribute="centerX" secondItem="8nS-Zj-qCT" secondAttribute="centerX" id="63E-k9-Bdh"/>
+                            <constraint firstItem="2Pw-n4-Uqk" firstAttribute="leading" secondItem="8nS-Zj-qCT" secondAttribute="leadingMargin" constant="-20" id="91f-8h-CBs"/>
+                            <constraint firstItem="yMM-21-yms" firstAttribute="leading" secondItem="8nS-Zj-qCT" secondAttribute="leading" id="E06-cj-Wgm"/>
+                            <constraint firstItem="lHq-s3-QTE" firstAttribute="width" secondItem="8nS-Zj-qCT" secondAttribute="width" id="Op6-Z3-Mbl"/>
+                            <constraint firstItem="yMM-21-yms" firstAttribute="leading" secondItem="2Pw-n4-Uqk" secondAttribute="leading" id="Qst-FK-dcw"/>
+                            <constraint firstItem="yMM-21-yms" firstAttribute="top" secondItem="KRe-1O-2dg" secondAttribute="bottom" constant="51" id="Rjd-Ag-PAv"/>
+                            <constraint firstItem="yMM-21-yms" firstAttribute="height" secondItem="2Pw-n4-Uqk" secondAttribute="height" constant="-13" id="Rre-f9-EXp"/>
+                            <constraint firstItem="lHq-s3-QTE" firstAttribute="top" secondItem="gZt-cC-Hdr" secondAttribute="bottom" constant="470" id="Ws3-Af-Yex"/>
+                            <constraint firstItem="2Pw-n4-Uqk" firstAttribute="top" secondItem="yMM-21-yms" secondAttribute="bottom" id="b4o-At-MfA"/>
+                            <constraint firstItem="KRe-1O-2dg" firstAttribute="centerX" secondItem="yMM-21-yms" secondAttribute="centerX" id="bFO-zW-TGu"/>
+                            <constraint firstItem="yMM-21-yms" firstAttribute="top" secondItem="8nS-Zj-qCT" secondAttribute="top" constant="170" id="cyJ-C1-Bbk"/>
+                            <constraint firstItem="yMM-21-yms" firstAttribute="top" secondItem="lHq-s3-QTE" secondAttribute="bottom" constant="-359" id="go1-3z-apM"/>
+                            <constraint firstAttribute="trailing" secondItem="yMM-21-yms" secondAttribute="trailing" id="kTr-9p-Uoz"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="yMM-21-yms" secondAttribute="trailing" constant="-20" id="kn0-MG-uMk"/>
+                            <constraint firstItem="yMM-21-yms" firstAttribute="leading" secondItem="8nS-Zj-qCT" secondAttribute="leadingMargin" constant="-20" id="oAA-NR-7cb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2Pw-n4-Uqk" secondAttribute="trailing" constant="-20" id="uTB-d8-heZ"/>
+                            <constraint firstItem="KRe-1O-2dg" firstAttribute="top" secondItem="gZt-cC-Hdr" secondAttribute="bottom" constant="42" id="yRx-0U-gSW"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -195,4 +231,9 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="ApplozicChat" width="640" height="200"/>
+        <image name="ChatList" width="640" height="200"/>
+        <image name="Logout" width="640" height="88"/>
+    </resources>
 </document>
