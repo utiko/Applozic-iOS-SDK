@@ -36,6 +36,9 @@
 
 -(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
 
+
+-(void)launchIndividualChat:(NSString *)userId withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
+
 -(void)launchChatList:(NSString *)title andViewControllerObject:(UIViewController *)viewController;
 
 

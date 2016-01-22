@@ -21,4 +21,7 @@
 
 +(void)getLastSeenUpdateForUsers:(NSNumber *)lastSeenAt withCompletion:(void(^)(NSMutableArray *))completionMark;
 
++(void)updateUserDisplayName:(ALContact *)alContact;
+
+
 @end

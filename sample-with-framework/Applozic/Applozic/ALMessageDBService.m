@@ -353,7 +353,7 @@
 -(void)syncConactsDB
 {
     ALContactService *contactservice = [[ALContactService alloc] init];
-    [contactservice insertInitialContacts];
+   // [contactservice insertInitialContacts];
 }
 
 -(void)fetchConversationsGroupByContactId

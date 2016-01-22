@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "ALLastSeenSyncFeed.h"
+#import "ALContact.h"
 
 @interface ALUserClientService : NSObject
 
 +(void)userLastSeenDetail:(NSNumber *)lastSeenAt withCompletion:(void(^)(ALLastSeenSyncFeed *))completionMark;
+
+-(void)updateUserDisplayName:(ALContact *)alContact withCompletion:(void(^)(id theJson, NSError *theError))completion;
 @end

@@ -14,9 +14,18 @@
 
 
 - (IBAction)sendLocation:(id)sender;
+
+@property (nonatomic, strong) CLGeocoder * geocoder;
+@property (nonatomic, strong) CLPlacemark * placemark;
+@property (nonatomic, strong) NSString * addressLabel;
+@property (nonatomic, strong) NSString * longX;
+@property (nonatomic, strong) NSString * lattY;
 @end
 
 @implementation ALMapViewController
+{
+   
+}
 @synthesize locationManager, region;
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,6 +47,7 @@
     
     [self.mapKitView setShowsUserLocation:YES];
     [self.mapKitView setDelegate:self];
+    self.geocoder = [[CLGeocoder alloc] init];
   
 }
 
@@ -72,13 +82,16 @@
  /*  NSString * locationURL=[NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/staticmap?center=%.8f,%.8f&zoom=17&size=290x179&maptype=roadmap&format=png&visual_refresh=true&markers=%.8f,%.8f",region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
     */
     
-            //simpe location link
+            //simpe location link       comgooglemaps://?q=Pizza&center=37.759748,-122.427135
      
 //    NSString * locationURL=[NSString stringWithFormat:@"http://maps.google.com/?ll=%.8f,%.8f,15z", region.center.latitude, region.center.longitude];
 //   https://www.google.co.in/maps/@12.9328581,77.6274083,19z
     
-     NSString * locationURL=[NSString stringWithFormat:@"https://www.google.co.in/maps/@%.8f,%.8f,15z&markers=%.8f,%.8f", region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
+//     NSString * locationURL=[NSString stringWithFormat:@"https://www.google.co.in/maps/@%.8f,%.8f,15z&markers=%.8f,%.8f", region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
     
+    NSString * locationURL=[NSString stringWithFormat:@"http://maps.google.com/?center=%.8f,%.8f,15z",[self.lattY doubleValue], [self.longX doubleValue]];
+    
+    locationURL = [self.addressLabel stringByAppendingString:locationURL];
     [self.controllerDelegate getUserCurrentLocation:locationURL];
     
     [self.navigationController popViewControllerAnimated:YES];
@@ -120,8 +133,33 @@
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     NSLog(@"%@",[locations lastObject]);
     
-}
+    CLLocation *newLocation = [locations lastObject];
 
+    
+    self.lattY = [NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
+    self.longX = [NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
+
+    
+    [self.geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+
+        if (error == nil && [placemarks count] > 0)
+        {
+            self.placemark = [placemarks lastObject];
+            self.addressLabel = [NSString stringWithFormat:@"Address: %@\n%@ %@, %@, %@\n",
+                                 self.placemark.thoroughfare,
+                                 self.placemark.postalCode, self.placemark.locality,
+                                 self.placemark.administrativeArea,
+                                 self.placemark.country];
+
+        }
+        else
+        {
+                    NSLog(@"inside GEOCODER");
+        }
+        
+    }];
+    
+}
 
 #pragma mark - MKMapViewDelegate Methods
 

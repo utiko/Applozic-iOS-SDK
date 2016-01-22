@@ -12,6 +12,7 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALRequestHandler.h"
 #import "ALResponseHandler.h"
+#import  "ALContact.h"
 
 @implementation ALUserClientService
 
@@ -43,6 +44,28 @@
         
         
     }];
+}
+-(void)updateUserDisplayName:(ALContact *)alContact withCompletion:(void(^)(id theJson, NSError *theError))completion
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/name", KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"userId=%@&displayName=%@", alContact.userId, alContact.displayName];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"USER_DISPLAY_NAME_UPDATE" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if (theError)
+        {
+            completion(nil,theError);
+            return ;
+        }
+        else
+        {
+            NSLog(@"Response of USER_DISPLAY_NAME_UPDATE : %@", (NSString *)theJson);
+            completion((NSString *)theJson, nil);
+        }
+        
+    }];
     
 }
+
 @end
