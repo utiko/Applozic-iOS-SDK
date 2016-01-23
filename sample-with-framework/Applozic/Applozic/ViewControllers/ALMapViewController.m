@@ -9,6 +9,8 @@
 #import "ALMapViewController.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALApplozicSettings.h"
+#import "ALDataNetworkConnection.h"
+#import "TSMessage.h"
 
 @interface ALMapViewController ()
 
@@ -59,6 +61,11 @@
     [self.tabBarController.tabBar setHidden: YES];
     [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
     [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
+    
+    if (![ALDataNetworkConnection checkDataNetworkAvailable])
+    {
+        [TSMessage showNotificationInViewController:self title:@"" subtitle:@"No Internet" type:TSMessageNotificationTypeError duration:1.0 canBeDismissedByUser:NO];
+    }
 }
 
 
@@ -92,7 +99,10 @@
     
     NSString * locationURL=[NSString stringWithFormat:@"http://maps.google.com/?center=%.8f,%.8f,15z",[self.lattY doubleValue], [self.longX doubleValue]];
     
-    locationURL = [self.addressLabel stringByAppendingString:locationURL];
+    if([ALDataNetworkConnection checkDataNetworkAvailable])
+    {
+        locationURL = [self.addressLabel stringByAppendingString:locationURL];
+    }
     [self.controllerDelegate getUserCurrentLocation:locationURL];
     
     [self.navigationController popViewControllerAnimated:YES];
@@ -132,7 +142,7 @@
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    NSLog(@"%@",[locations lastObject]);
+//    NSLog(@"%@",[locations lastObject]);
     
     _sendLocationButton.enabled=NO;
     CLLocation *newLocation = [locations lastObject];
