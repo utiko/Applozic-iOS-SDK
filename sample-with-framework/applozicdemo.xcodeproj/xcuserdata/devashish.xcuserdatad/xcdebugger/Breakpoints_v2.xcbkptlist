@@ -925,8 +925,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "80"
             endingLineNumber = "80"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "5">
+            landmarkName = "@implementation ALChatViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -941,7 +941,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "85"
             endingLineNumber = "85"
-            landmarkName = "-processMarkRead"
+            landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1005,8 +1005,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "81"
             endingLineNumber = "81"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "5">
+            landmarkName = "@implementation ALChatViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2987,7 +2987,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "96"
             endingLineNumber = "96"
-            landmarkName = "-viewDidAppear:"
+            landmarkName = "-processMarkRead"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3030,13 +3030,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1403"
-            endingLineNumber = "1403"
-            landmarkName = "@implementation ALChatViewController"
-            landmarkType = "3">
+            startingLineNumber = "1407"
+            endingLineNumber = "1407"
+            landmarkName = "-scrollViewDidScroll:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3046,11 +3046,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1405"
-            endingLineNumber = "1405">
+            startingLineNumber = "1409"
+            endingLineNumber = "1409"
+            landmarkName = "-scrollViewDidScroll:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3060,13 +3062,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1404"
-            endingLineNumber = "1404"
-            landmarkName = "@implementation ALChatViewController"
-            landmarkType = "3">
+            startingLineNumber = "1408"
+            endingLineNumber = "1408"
+            landmarkName = "-scrollViewDidScroll:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3076,12 +3078,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1322"
-            endingLineNumber = "1322"
-            landmarkName = "-textViewDidBeginEditing:"
+            startingLineNumber = "1326"
+            endingLineNumber = "1326"
+            landmarkName = "-updateLastSeenAtStatus:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3444,12 +3446,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1225"
-            endingLineNumber = "1225"
-            landmarkName = "-updateLastSeenAtStatus:"
+            startingLineNumber = "1229"
+            endingLineNumber = "1229"
+            landmarkName = "-processLoadEarlierMessages:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3460,11 +3462,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1226"
-            endingLineNumber = "1226"
+            startingLineNumber = "1230"
+            endingLineNumber = "1230"
+            landmarkName = "-processLoadEarlierMessages:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
+            timestampString = "475164521.09146"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1290"
+            endingLineNumber = "1290"
             landmarkName = "-updateLastSeenAtStatus:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3476,12 +3494,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1286"
-            endingLineNumber = "1286"
-            landmarkName = "-updateLastSeenAtStatus:"
+            startingLineNumber = "1281"
+            endingLineNumber = "1281"
+            landmarkName = "-showTypingLabel:userId:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3492,12 +3510,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1277"
-            endingLineNumber = "1277"
-            landmarkName = "-updateLastSeenAtStatus:"
+            startingLineNumber = "1282"
+            endingLineNumber = "1282"
+            landmarkName = "-showTypingLabel:userId:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3508,12 +3526,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1278"
-            endingLineNumber = "1278"
-            landmarkName = "-updateLastSeenAtStatus:"
+            startingLineNumber = "1272"
+            endingLineNumber = "1272"
+            landmarkName = "-showTypingLabel:userId:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3524,28 +3542,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1268"
-            endingLineNumber = "1268"
-            landmarkName = "-updateLastSeenAtStatus:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1269"
-            endingLineNumber = "1269"
-            landmarkName = "-updateLastSeenAtStatus:"
+            startingLineNumber = "1273"
+            endingLineNumber = "1273"
+            landmarkName = "-showTypingLabel:userId:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3556,12 +3558,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1258"
-            endingLineNumber = "1258"
-            landmarkName = "-updateLastSeenAtStatus:"
+            startingLineNumber = "1262"
+            endingLineNumber = "1262"
+            landmarkName = "-serverCallForLastSeen"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3572,12 +3574,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1259"
-            endingLineNumber = "1259"
-            landmarkName = "-updateLastSeenAtStatus:"
+            startingLineNumber = "1263"
+            endingLineNumber = "1263"
+            landmarkName = "-serverCallForLastSeen"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3588,12 +3590,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1250"
-            endingLineNumber = "1250"
-            landmarkName = "-updateLastSeenAtStatus:"
+            startingLineNumber = "1254"
+            endingLineNumber = "1254"
+            landmarkName = "@implementation ALChatViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
+            timestampString = "475164521.09146"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1255"
+            endingLineNumber = "1255"
+            landmarkName = "-serverCallForLastSeen"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3604,156 +3622,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1251"
-            endingLineNumber = "1251"
-            landmarkName = "-updateLastSeenAtStatus:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1235"
-            endingLineNumber = "1235"
-            landmarkName = "-updateLastSeenAtStatus:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1236"
-            endingLineNumber = "1236"
-            landmarkName = "-updateLastSeenAtStatus:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1237"
-            endingLineNumber = "1237"
-            landmarkName = "-updateLastSeenAtStatus:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1246"
-            endingLineNumber = "1246"
-            landmarkName = "-updateLastSeenAtStatus:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1247"
-            endingLineNumber = "1247"
-            landmarkName = "-updateLastSeenAtStatus:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1248"
-            endingLineNumber = "1248"
-            landmarkName = "-updateLastSeenAtStatus:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1242"
-            endingLineNumber = "1242"
-            landmarkName = "-updateLastSeenAtStatus:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1243"
-            endingLineNumber = "1243"
-            landmarkName = "-updateLastSeenAtStatus:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1239"
             endingLineNumber = "1239"
-            landmarkName = "-updateLastSeenAtStatus:"
+            landmarkName = "-processLoadEarlierMessages:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3764,12 +3638,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1240"
             endingLineNumber = "1240"
-            landmarkName = "-updateLastSeenAtStatus:"
+            landmarkName = "-processLoadEarlierMessages:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3780,12 +3654,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1233"
-            endingLineNumber = "1233"
-            landmarkName = "-updateLastSeenAtStatus:"
+            startingLineNumber = "1241"
+            endingLineNumber = "1241"
+            landmarkName = "-processLoadEarlierMessages:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3796,12 +3670,140 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1232"
-            endingLineNumber = "1232"
-            landmarkName = "-updateLastSeenAtStatus:"
+            startingLineNumber = "1250"
+            endingLineNumber = "1250"
+            landmarkName = "-processLoadEarlierMessages:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
+            timestampString = "475164521.09146"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1251"
+            endingLineNumber = "1251"
+            landmarkName = "-processLoadEarlierMessages:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
+            timestampString = "475164521.09146"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1252"
+            endingLineNumber = "1252"
+            landmarkName = "-processLoadEarlierMessages:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
+            timestampString = "475164521.09146"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1246"
+            endingLineNumber = "1246"
+            landmarkName = "-processLoadEarlierMessages:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
+            timestampString = "475164521.09146"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1247"
+            endingLineNumber = "1247"
+            landmarkName = "-processLoadEarlierMessages:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
+            timestampString = "475164521.09146"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1243"
+            endingLineNumber = "1243"
+            landmarkName = "-processLoadEarlierMessages:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
+            timestampString = "475164521.09146"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1244"
+            endingLineNumber = "1244"
+            landmarkName = "-processLoadEarlierMessages:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
+            timestampString = "475164521.09146"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1237"
+            endingLineNumber = "1237"
+            landmarkName = "-processLoadEarlierMessages:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
+            timestampString = "475164521.09146"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1236"
+            endingLineNumber = "1236"
+            landmarkName = "-processLoadEarlierMessages:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4025,7 +4027,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "254"
             endingLineNumber = "254"
-            landmarkName = "-getUserCurrentLocation:"
+            landmarkName = "-fetchMessageFromDB"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4041,7 +4043,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "251"
             endingLineNumber = "251"
-            landmarkName = "-getUserCurrentLocation:"
+            landmarkName = "-fetchMessageFromDB"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4057,7 +4059,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "257"
             endingLineNumber = "257"
-            landmarkName = "-getUserCurrentLocation:"
+            landmarkName = "-fetchMessageFromDB"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4073,7 +4075,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "255"
             endingLineNumber = "255"
-            landmarkName = "-getUserCurrentLocation:"
+            landmarkName = "-fetchMessageFromDB"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4089,7 +4091,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "256"
             endingLineNumber = "256"
-            landmarkName = "-getUserCurrentLocation:"
+            landmarkName = "-fetchMessageFromDB"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4105,8 +4107,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "320"
             endingLineNumber = "320"
-            landmarkName = "-postMessage"
-            landmarkType = "5">
+            landmarkName = "@implementation ALChatViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -4121,8 +4123,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "330"
             endingLineNumber = "330"
-            landmarkName = "-postMessage"
-            landmarkType = "5">
+            landmarkName = "@implementation ALChatViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -4137,8 +4139,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "331"
             endingLineNumber = "331"
-            landmarkName = "-postMessage"
-            landmarkType = "5">
+            landmarkName = "@implementation ALChatViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -4148,12 +4150,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Applozic/Applozic/ViewControllers/ALChatViewController.m"
-            timestampString = "473686615.949426"
+            timestampString = "475164521.09146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1234"
-            endingLineNumber = "1234"
-            landmarkName = "-updateLastSeenAtStatus:"
+            startingLineNumber = "1238"
+            endingLineNumber = "1238"
+            landmarkName = "-processLoadEarlierMessages:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
