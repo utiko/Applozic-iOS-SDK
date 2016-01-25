@@ -25,7 +25,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    activityView = [[UIActivityIndicatorView alloc]
+                    initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+    activityView.center=self.view.center;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,14 +55,10 @@
 
 - (IBAction)mLaunchChatList:(id)sender {
     
-    activityView = [[UIActivityIndicatorView alloc]
-                                             initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
-    activityView.center=self.view.center;
-    [activityView startAnimating];
     [self.view addSubview:activityView];
-    
-  
+    [activityView startAnimating];
+
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmailId:[ALUserDefaultsHandler getEmailId]];
@@ -69,6 +69,12 @@
 
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [activityView removeFromSuperview];
+}
+-(void)viewWillDisappear:(BOOL)animated {
+    [activityView removeFromSuperview];
+}
 
 //===============================================================================
 // TO LAUNCH INDIVIDUAL MESSAGE LIST....
@@ -89,9 +95,7 @@
     
 }
 
--(void)viewWillDisappear:(BOOL)animated {
-    [activityView removeFromSuperview];
-}
+
 
 - (IBAction)logoutBtn:(id)sender {
     ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
