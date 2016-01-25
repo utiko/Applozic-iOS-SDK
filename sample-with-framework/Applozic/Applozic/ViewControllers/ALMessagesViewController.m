@@ -719,9 +719,10 @@
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:alMessage.contactIds withAlertMessage:alMessage.message];
         if (top.isMessageViewOnTop) {
             [alnotification displayNotificationNew:self];
+            [dBService fetchAndRefreshQuickConversation];
+            return;
         }
-        [dBService fetchAndRefreshQuickConversation];
-        [refresh fetchAndRefresh:YES];
+       [refresh fetchAndRefresh:YES];
     }
 }
 

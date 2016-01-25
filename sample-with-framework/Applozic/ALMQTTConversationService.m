@@ -141,9 +141,9 @@ static MQTTSession *session;
                 [dict setObject:@"mqtt" forKey:@"Calledfrom"];
             }
             else{
-                [self.alSyncCallService syncCall: alMessage];
+                //[self.alSyncCallService syncCall: alMessage];
                 //Todo: split backend logic and ui logic between synccallservice and delegate
-                [self.mqttConversationDelegate syncCall: alMessage];
+               [self.mqttConversationDelegate syncCall: alMessage];
             }
             
         
