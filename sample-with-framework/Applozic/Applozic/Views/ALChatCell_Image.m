@@ -168,6 +168,7 @@ UIViewController * modalCon;
     if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION){
         theTextSize=CGSizeMake(0, 0);
         [mImageView addGestureRecognizer:tapperForLocationMap];
+        imageWithText.text=nil;
         
     }else {
         [mImageView addGestureRecognizer:tapper];
@@ -219,7 +220,7 @@ UIViewController * modalCon;
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         
-        if(alMessage.message.length > 0)
+        if(alMessage.message.length > 0 && alMessage.contentType!=ALMESSAGE_CONTENT_LOCATION)
         {
           imageWithText.textColor = [UIColor grayColor];
             self.mBubleImageView.frame = CGRectMake(self.partImageBubble.frame.origin.x + self.partImageBubble.frame.size.width , 0, viewSize.width - 120, (viewSize.width - 120) + theTextSize.height + 5);
@@ -244,10 +245,14 @@ UIViewController * modalCon;
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
         if (alMessage.imageFilePath == NULL) {
             
-            self.mDowloadRetryButton.alpha = 1;
-            [self.mDowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
-            [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_download.png"]
+            if(alMessage.contentType!=ALMESSAGE_CONTENT_LOCATION) {
+                self.mDowloadRetryButton.alpha = 1;
+                [self.mDowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
+            
+
+                [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_download.png"]
                                       forState:UIControlStateNormal];
+            }
 
         }else{
             
@@ -326,10 +331,7 @@ UIViewController * modalCon;
         
 //        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5 , theDateSize.width, 20);
         
-        if(alMessage.contentType == ALMESSAGE_CONTENT_LOCATION){
-            imageWithText.text=nil;
-        }
-
+        
         if(alMessage.message.length > 0 && alMessage.contentType!=ALMESSAGE_CONTENT_LOCATION)
         {
             imageWithText.alpha = 1;
@@ -536,8 +538,9 @@ UIViewController * modalCon;
 -(void)respondToLocationMap:(UITapGestureRecognizer*)sender{
     
     NSString *needle = [_mMessage.message componentsSeparatedByString:@"true&markers="][1];
-    NSLog(@"needle: %@",needle);
-    NSURL * locationURL=[NSURL URLWithString:[NSString stringWithFormat:@"http://maps.google.com/?center=%@,15z",needle]];
+    NSLog(@"needle:%@",needle);
+    
+    NSURL * locationURL=[NSURL URLWithString:[NSString stringWithFormat:@"http://maps.google.com/maps?q=loc:%@",needle]];
     [[UIApplication sharedApplication] openURL:locationURL];
 }
 
