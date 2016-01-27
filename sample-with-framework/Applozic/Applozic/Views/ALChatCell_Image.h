@@ -52,5 +52,8 @@
 
 @property (strong, nonatomic) NSString *string;
 
+@property(strong,nonatomic) UITapGestureRecognizer *tapper;
+@property(strong,nonatomic) UITapGestureRecognizer *tapperForLocationMap;
+
 
 @end

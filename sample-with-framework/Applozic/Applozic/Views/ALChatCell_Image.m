@@ -27,7 +27,7 @@
 
 @implementation ALChatCell_Image
 
-@synthesize mBubleImageView,mDateLabel,mImageView,mMessageStatusImageView,mUserProfileImageView,mDowloadRetryButton,progresLabel,imageWithText;
+@synthesize mBubleImageView,mDateLabel,mImageView,mMessageStatusImageView,mUserProfileImageView,mDowloadRetryButton,progresLabel,imageWithText,tapper,tapperForLocationMap;
 
 UIViewController * modalCon;
 
@@ -78,9 +78,12 @@ UIViewController * modalCon;
         
         
         
-        UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageFullScreen:)];
+        tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageFullScreen:)];
         tapper.numberOfTapsRequired = 1;
-        [mImageView addGestureRecognizer:tapper];
+//         [mImageView addGestureRecognizer:tapper];
+        
+        tapperForLocationMap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(respondToLocationMap:)];
+        tapperForLocationMap.numberOfTapsRequired=1;
         
         [self.contentView addSubview:mImageView];
         
@@ -164,6 +167,10 @@ UIViewController * modalCon;
     
     if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION){
         theTextSize=CGSizeMake(0, 0);
+        [mImageView addGestureRecognizer:tapperForLocationMap];
+        
+    }else {
+        [mImageView addGestureRecognizer:tapper];
     }
     
     if ([alMessage.type isEqualToString:@MT_INBOX_CONSTANT]) { //@"4" //Recieved Message
@@ -319,12 +326,12 @@ UIViewController * modalCon;
         
 //        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5 , theDateSize.width, 20);
         
+        if(alMessage.contentType == ALMESSAGE_CONTENT_LOCATION){
+            imageWithText.text=nil;
+        }
+
         if(alMessage.message.length > 0 && alMessage.contentType!=ALMESSAGE_CONTENT_LOCATION)
         {
-            
-            if(alMessage.contentType == ALMESSAGE_CONTENT_LOCATION){
-                imageWithText.text=nil;
-            }
             imageWithText.alpha = 1;
             imageWithText.backgroundColor = [UIColor clearColor];
             imageWithText.textColor = [UIColor whiteColor];
@@ -508,10 +515,8 @@ UIViewController * modalCon;
 
 -(void)imageFullScreen:(UITapGestureRecognizer*)sender {
     
-    //if ( self.mMessage.imageFilePath ){
-//    if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION){
-    
-//    }
+//    if ( self.mMessage.imageFilePath ){
+
     modalCon = [[UIViewController alloc] init];
     modalCon.view.backgroundColor=[UIColor blackColor];
     modalCon.view.userInteractionEnabled=YES;
@@ -526,6 +531,14 @@ UIViewController * modalCon;
     //  NSLog(@" image is not present on  SDCARD...");
     //}
     return;
+}
+
+-(void)respondToLocationMap:(UITapGestureRecognizer*)sender{
+    
+    NSString *needle = [_mMessage.message componentsSeparatedByString:@"true&markers="][1];
+    NSLog(@"needle: %@",needle);
+    NSURL * locationURL=[NSURL URLWithString:[NSString stringWithFormat:@"http://maps.google.com/?center=%@,15z",needle]];
+    [[UIApplication sharedApplication] openURL:locationURL];
 }
 
 -(void)setupProgress{
