@@ -312,9 +312,15 @@ ALMessageDBService  * dbService;
     
     if (googleMapUrl.length != 0) {
     
+        
         ALMessage * theMessage = [self getMessageToPost];
         theMessage.contentType=2;
         theMessage.message=googleMapUrl;
+
+        ALFileMetaInfo *info = [ALFileMetaInfo new];
+        info.contentType = @"location";
+        theMessage.fileMeta=info;
+    
         
         [self.alMessageWrapper addALMessageToMessageArray:theMessage];
         [self.mTableView reloadData];

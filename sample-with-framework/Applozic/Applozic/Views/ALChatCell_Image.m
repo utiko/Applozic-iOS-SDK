@@ -170,7 +170,7 @@ UIViewController * modalCon;
         [mImageView addGestureRecognizer:tapperForLocationMap];
         imageWithText.text=nil;
         
-    }else {
+    }else {  // Image type...
         [mImageView addGestureRecognizer:tapper];
     }
     
@@ -317,7 +317,10 @@ UIViewController * modalCon;
         self.mBubleImageView.layer.shadowRadius = 1;
         self.mBubleImageView.layer.masksToBounds = NO;
         
-        self.partImageBubble.frame = CGRectMake(viewSize.width - 28, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 18, 18, 18);
+        self.partImageBubble.frame = CGRectMake(viewSize.width - 28,
+                                                self.mBubleImageView.frame.origin.y +
+                                                self.mBubleImageView.frame.size.height - 18,
+                                                18, 18);
         self.mUserProfileImageView.alpha=0;
         
         self.partImageBubble.layer.shadowOpacity = 0.3;
@@ -349,10 +352,27 @@ UIViewController * modalCon;
             [self.contentView bringSubviewToFront:mMessageStatusImageView];
             
         }
-        else
+        else if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION)
         {
+
+            self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60) - 18,
+                                                    0,
+                                                    viewSize.width - 120,
+                                                    viewSize.width - 220);
+            
+             self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
+            
+            self.partImageBubble.frame = CGRectMake(viewSize.width - 28,
+                                                    self.mBubleImageView.frame.origin.y +
+                                                    self.mBubleImageView.frame.size.height - 18,
+                                                    18,
+                                                    18);
+            
             imageWithText.alpha = 0;
             
+        }
+        else{
+             imageWithText.alpha = 0;
         }
         
         
@@ -416,15 +436,23 @@ UIViewController * modalCon;
         self.mDateLabel.text = theDate;
     }
     
+    
+    NSLog(@"alMessage = '%@'", alMessage.dictionary);
+    
+
     NSURL * theUrl = nil ;
 //    if([alMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"])
     if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION)
     {
-        imageWithText.text=nil;
-        NSURL *ur=[NSURL URLWithString:alMessage.message];
-        NSData* data = [NSData dataWithContentsOfURL:ur];
-        UIImage *img = [UIImage imageWithData:data];
-        [self.mImageView setImage:img];
+//        imageWithText.text=nil;
+//        NSURL *ur=[NSURL URLWithString:alMessage.message];
+//        NSData* data = [NSData dataWithContentsOfURL:ur];
+//        UIImage *img = [UIImage imageWithData:data];
+//        [self.mImageView setImage:img];
+        
+        [self.mImageView sd_setImageWithURL:[NSURL URLWithString:alMessage.message]];
+
+
         return self;
     }
     if (alMessage.imageFilePath!=NULL) {
@@ -437,7 +465,22 @@ UIViewController * modalCon;
         theUrl = [NSURL URLWithString:alMessage.fileMeta.thumbnailUrl];
     }
     
+    
     [self.mImageView sd_setImageWithURL:theUrl];
+    NSLog(@"mImageView X:%f Y:%f Width:%f Height:%f",
+          mImageView.frame.origin.x,
+          mImageView.frame.origin.y,
+          mImageView.frame.size.width,
+          mImageView.frame.size.height
+          );
+    NSLog(@"mBubleImageView X:%f Y:%f Width:%f Height:%f",
+          mBubleImageView.frame.origin.x,
+          mBubleImageView.frame.origin.y,
+          mBubleImageView.frame.size.width,
+          mBubleImageView.frame.size.height
+          );
+
+    
     return self;
     
 }
