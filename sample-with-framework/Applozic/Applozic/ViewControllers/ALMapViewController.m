@@ -11,6 +11,8 @@
 #import "ALApplozicSettings.h"
 #import "ALDataNetworkConnection.h"
 #import "TSMessage.h"
+#import "UIImageView+WebCache.h"
+#import "ALMessage.h"
 
 @interface ALMapViewController ()
 
@@ -85,10 +87,12 @@
     NSLog(@"latitude: %.8f && longitude: %.8f", region.center.latitude, region.center.longitude);
     
     //static map location
+ NSString * staticMapLocationURL=[NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/staticmap?center=%.8f,%.8f&zoom=17&size=290x179&maptype=roadmap&format=png&visual_refresh=true&markers=%.8f,%.8f",region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
+    NSURL* staticImageURL=[NSURL URLWithString:staticMapLocationURL];
+    [self.mapView sd_setImageWithURL:staticImageURL];
     
     
- /*  NSString * locationURL=[NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/staticmap?center=%.8f,%.8f&zoom=17&size=290x179&maptype=roadmap&format=png&visual_refresh=true&markers=%.8f,%.8f",region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
-    */
+
     
             //simpe location link       comgooglemaps://?q=Pizza&center=37.759748,-122.427135
      
@@ -101,9 +105,11 @@
     
     if([ALDataNetworkConnection checkDataNetworkAvailable])
     {
-        locationURL = [self.addressLabel stringByAppendingString:locationURL];
+//        locationURL = [self.addressLabel stringByAppendingString:locationURL];
     }
-    [self.controllerDelegate getUserCurrentLocation:locationURL];
+//    [self.controllerDelegate getUserCurrentLocation:locationURL];
+    
+    [self.controllerDelegate googleImage:nil withURL:staticMapLocationURL];
     
     [self.navigationController popViewControllerAnimated:YES];
     

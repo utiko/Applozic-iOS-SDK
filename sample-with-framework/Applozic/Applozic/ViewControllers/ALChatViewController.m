@@ -274,9 +274,9 @@ ALMessageDBService  * dbService;
     return YES;
 }
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma  mark - ALMapViewController Delegate Methods -
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 -(void) getUserCurrentLocation:(NSString *)googleMapUrl
 {
     if(googleMapUrl.length != 0)
@@ -293,6 +293,7 @@ ALMessageDBService  * dbService;
         self.mTotalCount = self.mTotalCount+1;
         self.startIndex = self.startIndex + 1;
         [self sendMessage:theMessage];
+        
     }
     else
     {
@@ -301,6 +302,33 @@ ALMessageDBService  * dbService;
         
         [alertView show];
         
+    }
+    
+}
+
+
+-(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl{
+    
+    if (googleMapUrl.length != 0) {
+    
+        ALMessage * theMessage = [self getMessageToPost];
+        theMessage.contentType=2;
+        theMessage.message=googleMapUrl;
+        
+        [self.alMessageWrapper addALMessageToMessageArray:theMessage];
+        [self.mTableView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [super scrollTableViewToBottomWithAnimation:YES];
+        });
+        // save message to db
+        [self.sendMessageTextView setText:nil];
+        self.mTotalCount = self.mTotalCount+1;
+        self.startIndex = self.startIndex + 1;
+        [self sendMessage:theMessage];
+        
+    }
+    else{
+        NSLog(@"Google Map Length = ZERO");
     }
     
 }
@@ -393,7 +421,9 @@ ALMessageDBService  * dbService;
     
     ALMessage * theMessage = [self.alMessageWrapper getUpdatedMessageArray][indexPath.row];
     
-    if([theMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"]){
+//    if([theMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"]){
+    
+    if(theMessage.contentType==ALMESSAGE_CONTENT_LOCATION){
         
         ALChatCell_Image *theCell = (ALChatCell_Image *)[tableView dequeueReusableCellWithIdentifier:@"ChatCell_Image"];
         theCell.tag = indexPath.row;
@@ -402,6 +432,8 @@ ALMessageDBService  * dbService;
         [theCell populateCell:theMessage viewSize:self.view.frame.size ];
         [self.view layoutIfNeeded];
         return theCell;
+        
+
         
     }
     if (theMessage.fileMeta.thumbnailUrl == nil ) { // textCell

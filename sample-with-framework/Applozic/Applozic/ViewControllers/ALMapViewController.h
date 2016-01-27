@@ -12,7 +12,7 @@
 @protocol ALMapViewControllerDelegate <NSObject, CLLocationManagerDelegate>
 
 -(void) getUserCurrentLocation:(NSString *)googleMapUrl ;
-
+-(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl;
 @end
 @interface ALMapViewController : UIViewController
 
@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet MKMapView *mapKitView;
 @property (strong, nonatomic ) CLLocationManager *locationManager;
 @property  MKCoordinateRegion region;
+
+@property(nonatomic,strong) UIImageView* mapView;
 
 @property(nonatomic, weak) id<ALMapViewControllerDelegate>controllerDelegate;
 

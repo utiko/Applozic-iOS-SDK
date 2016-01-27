@@ -70,9 +70,11 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [activityView stopAnimating];
     [activityView removeFromSuperview];
 }
 -(void)viewWillDisappear:(BOOL)animated {
+    [activityView stopAnimating];
     [activityView removeFromSuperview];
 }
 

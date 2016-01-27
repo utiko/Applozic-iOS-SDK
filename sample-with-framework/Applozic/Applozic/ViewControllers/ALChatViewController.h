@@ -48,4 +48,6 @@
 -(void)processMarkRead;
 
 -(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer;
+
+-(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl;
 @end

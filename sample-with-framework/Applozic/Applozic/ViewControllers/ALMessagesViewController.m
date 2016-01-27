@@ -587,11 +587,17 @@
             contactCell.imageNameLabel.text = NSLocalizedString(@"Image", nil);
         }
     }
-    else if (message.message.length == 0)           //other than video and image
+    else if (message.message.length == 0 )           //other than video and image
     {
 //        contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_ATTACHMENT", nil);
         contactCell.imageNameLabel.text = NSLocalizedString(@"Attachment", nil);
         contactCell.imageMarker.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_attachment.png"];
+    }
+    else if (message.contentType==ALMESSAGE_CONTENT_LOCATION){   // location..
+        
+        contactCell.mMessageLabel.hidden = YES;
+        contactCell.imageNameLabel.text = NSLocalizedString(@"Location", nil);
+        contactCell.imageMarker.image = [ALUtilityClass getImageFromFramworkBundle:@"location_filled.png"];
     }
     else
     {

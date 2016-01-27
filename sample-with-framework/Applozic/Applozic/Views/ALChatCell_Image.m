@@ -162,6 +162,10 @@ UIViewController * modalCon;
     
     CGSize theTextSize = [self getSizeForText:alMessage.message maxWidth:viewSize.width-115 font:self.imageWithText.font.fontName fontSize:self.imageWithText.font.pointSize];
     
+    if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION){
+        theTextSize=CGSizeMake(0, 0);
+    }
+    
     if ([alMessage.type isEqualToString:@MT_INBOX_CONSTANT]) { //@"4" //Recieved Message
         
         if([ALApplozicSettings isUserProfileHidden])
@@ -273,7 +277,9 @@ UIViewController * modalCon;
         }
         self.partImageBubble.layer.shadowOpacity = 0;
         
-    }else{ //Sent Message
+    }
+    
+    else{ //Sent Message
         
         
         if([ALApplozicSettings getSendMsgColour])
@@ -312,15 +318,22 @@ UIViewController * modalCon;
           self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
         
 //        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5 , theDateSize.width, 20);
-        if(alMessage.message.length > 0)
+        
+        if(alMessage.message.length > 0 && alMessage.contentType!=ALMESSAGE_CONTENT_LOCATION)
         {
+            
+            if(alMessage.contentType == ALMESSAGE_CONTENT_LOCATION){
+                imageWithText.text=nil;
+            }
             imageWithText.alpha = 1;
             imageWithText.backgroundColor = [UIColor clearColor];
             imageWithText.textColor = [UIColor whiteColor];
             self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60) - 18, 0, viewSize.width - 120, (viewSize.width - 120) + theTextSize.height + 5);
             
             imageWithText.frame = CGRectMake(mBubleImageView.frame.origin.x + 5, mBubleImageView.frame.origin.y + self.mImageView.frame.size.height + 10, self.mImageView.frame.size.width, theTextSize.height);
+            
             self.partImageBubble.frame = CGRectMake(viewSize.width - 28, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 18, 18, 18);
+            
             //mDateLabel.frame = CGRectMake(self.imageWithText.frame.origin.x + 5 , self.imageWithText.frame.origin.y + self.imageWithText.frame.size.height + 5, theDateSize.width , 20);
             
             [self.contentView bringSubviewToFront:mDateLabel];
@@ -332,6 +345,8 @@ UIViewController * modalCon;
             imageWithText.alpha = 0;
             
         }
+        
+        
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
@@ -364,7 +379,9 @@ UIViewController * modalCon;
             [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_upload.png"] forState:UIControlStateNormal];
         }
         
-    }
+     }
+    
+    
     self.mDowloadRetryButton.frame = CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0 - 50 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2.0 - 15 , 100, 30);
     
     if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]) { //@"5"
@@ -380,6 +397,7 @@ UIViewController * modalCon;
         }
         
     }
+    
     imageWithText.text = alMessage.message;
    // self.mDateLabel.text = theDate;
     if(![self.status isEqualToString:@""] && [alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]){
@@ -390,8 +408,10 @@ UIViewController * modalCon;
     }
     
     NSURL * theUrl = nil ;
-    if([alMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"])
+//    if([alMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"])
+    if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION)
     {
+        imageWithText.text=nil;
         NSURL *ur=[NSURL URLWithString:alMessage.message];
         NSData* data = [NSData dataWithContentsOfURL:ur];
         UIImage *img = [UIImage imageWithData:data];
@@ -489,7 +509,9 @@ UIViewController * modalCon;
 -(void)imageFullScreen:(UITapGestureRecognizer*)sender {
     
     //if ( self.mMessage.imageFilePath ){
+//    if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION){
     
+//    }
     modalCon = [[UIViewController alloc] init];
     modalCon.view.backgroundColor=[UIColor blackColor];
     modalCon.view.userInteractionEnabled=YES;
