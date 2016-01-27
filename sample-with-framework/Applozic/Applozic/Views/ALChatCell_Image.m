@@ -73,14 +73,14 @@ UIViewController * modalCon;
         mImageView.clipsToBounds = YES;
         mImageView.backgroundColor = [UIColor grayColor];
         mImageView.clipsToBounds = YES;
-//        mImageView.layer.cornerRadius=mImageView.frame.size.width/2; NSLog(@"mImageView.frame.size.width/2 %f",mImageView.frame.size.width/2);
+        //        mImageView.layer.cornerRadius=mImageView.frame.size.width/2; NSLog(@"mImageView.frame.size.width/2 %f",mImageView.frame.size.width/2);
         mImageView.userInteractionEnabled = YES;
         
         
         
         tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageFullScreen:)];
         tapper.numberOfTapsRequired = 1;
-//         [mImageView addGestureRecognizer:tapper];
+        //         [mImageView addGestureRecognizer:tapper];
         
         tapperForLocationMap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(respondToLocationMap:)];
         tapperForLocationMap.numberOfTapsRequired=1;
@@ -112,7 +112,7 @@ UIViewController * modalCon;
         
         mMessageStatusImageView.backgroundColor = [UIColor clearColor];
         
-       // [self.contentView addSubview:mMessageStatusImageView];
+        // [self.contentView addSubview:mMessageStatusImageView];
         
         
         
@@ -199,22 +199,22 @@ UIViewController * modalCon;
         
         self.partImageBubble.image = [ALUtilityClass getImageFromFramworkBundle:@"RCV.png"];
         
-//        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width - 120, viewSize.width - 120);
+        //        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width - 120, viewSize.width - 120);
         
         self.mBubleImageView.frame = CGRectMake(self.partImageBubble.frame.origin.x + self.partImageBubble.frame.size.width , 0, viewSize.width - 120, viewSize.width - 120);
-    
+        
         self.mBubleImageView.layer.shadowOpacity = 0.3;
         self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
         self.mBubleImageView.layer.shadowRadius = 1;
         self.mBubleImageView.layer.masksToBounds = NO;
         
-//        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 15 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40 );
+        //        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 15 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40 );
         
         self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10 );
         
         [self setupProgress];
         
-//        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5, theDateSize.width , 20);
+        //        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5, theDateSize.width , 20);
         self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width , 21);
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
@@ -222,7 +222,7 @@ UIViewController * modalCon;
         
         if(alMessage.message.length > 0 && alMessage.contentType!=ALMESSAGE_CONTENT_LOCATION)
         {
-          imageWithText.textColor = [UIColor grayColor];
+            imageWithText.textColor = [UIColor grayColor];
             self.mBubleImageView.frame = CGRectMake(self.partImageBubble.frame.origin.x + self.partImageBubble.frame.size.width , 0, viewSize.width - 120, (viewSize.width - 120) + theTextSize.height + 5);
             
             imageWithText.frame = CGRectMake(self.mImageView.frame.origin.x, mBubleImageView.frame.origin.y + self.mImageView.frame.size.height + 10, self.mImageView.frame.size.width, theTextSize.height);
@@ -248,12 +248,12 @@ UIViewController * modalCon;
             if(alMessage.contentType!=ALMESSAGE_CONTENT_LOCATION) {
                 self.mDowloadRetryButton.alpha = 1;
                 [self.mDowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
-            
-
+                
+                
                 [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_download.png"]
-                                      forState:UIControlStateNormal];
+                                          forState:UIControlStateNormal];
             }
-
+            
         }else{
             
             self.mDowloadRetryButton.alpha = 0;
@@ -328,11 +328,11 @@ UIViewController * modalCon;
         self.partImageBubble.layer.shadowRadius = 1;
         self.partImageBubble.layer.masksToBounds = NO;
         
-//        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y+15 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40);
+        //        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y+15 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40);
         
-          self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
+        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
         
-//        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5 , theDateSize.width, 20);
+        //        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5 , theDateSize.width, 20);
         
         
         if(alMessage.message.length > 0 && alMessage.contentType!=ALMESSAGE_CONTENT_LOCATION)
@@ -354,25 +354,26 @@ UIViewController * modalCon;
         }
         else if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION)
         {
-
+            
             self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60) - 18,
                                                     0,
                                                     viewSize.width - 120,
                                                     viewSize.width - 220);
             
-             self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
+            self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
             
             self.partImageBubble.frame = CGRectMake(viewSize.width - 28,
                                                     self.mBubleImageView.frame.origin.y +
                                                     self.mBubleImageView.frame.size.height - 18,
                                                     18,
                                                     18);
-            
             imageWithText.alpha = 0;
             
         }
+        
         else{
-             imageWithText.alpha = 0;
+            
+            imageWithText.alpha = 0;
         }
         
         
@@ -408,7 +409,7 @@ UIViewController * modalCon;
             [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_upload.png"] forState:UIControlStateNormal];
         }
         
-     }
+    }
     
     
     self.mDowloadRetryButton.frame = CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0 - 50 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2.0 - 15 , 100, 30);
@@ -428,7 +429,7 @@ UIViewController * modalCon;
     }
     
     imageWithText.text = alMessage.message;
-   // self.mDateLabel.text = theDate;
+    // self.mDateLabel.text = theDate;
     if(![self.status isEqualToString:@""] && [alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]){
         self.mDateLabel.text = [self.string stringByAppendingString:theDate];
     }
@@ -439,20 +440,20 @@ UIViewController * modalCon;
     
     NSLog(@"alMessage = '%@'", alMessage.dictionary);
     
-
+    
     NSURL * theUrl = nil ;
-//    if([alMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"])
+    //    if([alMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"])
     if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION)
     {
-//        imageWithText.text=nil;
-//        NSURL *ur=[NSURL URLWithString:alMessage.message];
-//        NSData* data = [NSData dataWithContentsOfURL:ur];
-//        UIImage *img = [UIImage imageWithData:data];
-//        [self.mImageView setImage:img];
+        //        imageWithText.text=nil;
+        //        NSURL *ur=[NSURL URLWithString:alMessage.message];
+        //        NSData* data = [NSData dataWithContentsOfURL:ur];
+        //        UIImage *img = [UIImage imageWithData:data];
+        //        [self.mImageView setImage:img];
         
         [self.mImageView sd_setImageWithURL:[NSURL URLWithString:alMessage.message]];
-
-
+        
+        
         return self;
     }
     if (alMessage.imageFilePath!=NULL) {
@@ -479,7 +480,7 @@ UIViewController * modalCon;
           mBubleImageView.frame.size.width,
           mBubleImageView.frame.size.height
           );
-
+    
     
     return self;
     
@@ -533,7 +534,7 @@ UIViewController * modalCon;
     [self setNeedsDisplay];
     self.progresLabel.startDegree =0;
     self.progresLabel.endDegree = metaInfo.progressValue;
-   // NSLog(@"##observer is called....%f",self.progresLabel.endDegree );
+    // NSLog(@"##observer is called....%f",self.progresLabel.endDegree );
 }
 
 - (CGSize)getSizeForText:(NSString *)text maxWidth:(CGFloat)width font:(NSString *)fontName fontSize:(float)fontSize {
@@ -560,8 +561,8 @@ UIViewController * modalCon;
 
 -(void)imageFullScreen:(UITapGestureRecognizer*)sender {
     
-//    if ( self.mMessage.imageFilePath ){
-
+    //    if ( self.mMessage.imageFilePath ){
+    
     modalCon = [[UIViewController alloc] init];
     modalCon.view.backgroundColor=[UIColor blackColor];
     modalCon.view.userInteractionEnabled=YES;
@@ -631,7 +632,7 @@ UIViewController * modalCon;
             NSLog(@"some error");
         }
     }];
-
+    
 }
 
 
