@@ -69,7 +69,7 @@
         //Todo: figure out how to set country code
         //mobiComUserPreference.setCountryCode(user.getCountryCode());
         //mobiComUserPreference.setContactNumber(user.getContactNumber());
-
+@try{
         [ALUserDefaultsHandler setUserId:user.userId];
         [ALUserDefaultsHandler setEmailVerified: user.emailVerified];
         [ALUserDefaultsHandler setDisplayName: user.displayName];
@@ -77,15 +77,27 @@
         [ALUserDefaultsHandler setDeviceKeyString:response.deviceKey];
         [ALUserDefaultsHandler setUserKeyString:response.userKey];
         //[ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.lastSyncTime];
-        
+}
+           
+@catch (NSException *exception) {
+    NSLog(@"EXCEPTION: %@",exception);
+}
+           
+@finally {
+    NSLog(@"..");
+}
         [ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.currentTimeStamp];
 
         [self connect];
-        
+           
         [ALMessageService processLatestMessagesGroupByContact];
+           
         completion(response,nil);
     }];
     
+   
+    
+
 }
 
 -(void) updateApnDeviceTokenWithCompletion:(NSString *)apnDeviceToken withCompletion:(void(^)(ALRegistrationResponse * response, NSError *error)) completion

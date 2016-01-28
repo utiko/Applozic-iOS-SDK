@@ -128,7 +128,7 @@
         if (error) {
             //Handle Registration error here ....
             NSLog(@"%@",error);
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response"
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response: Cant Register User Client"
                                       
                                                                 message:rResponse.message delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles: nil, nil];
             

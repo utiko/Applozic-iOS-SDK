@@ -44,7 +44,7 @@
     unsigned int count = 0;
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     objc_property_t *properties = class_copyPropertyList([self class], &count);
-    @try {
+@try {
    
     for (int i = 0; i < count; i++) {
         
@@ -59,6 +59,8 @@
                  || [value isKindOfClass:[NSDictionary class]] || [value isKindOfClass:[NSMutableArray class]] || [value isKindOfClass:[NSArray class]]) {
             // TODO: extend to other types
             [dictionary setObject:value forKey:key];
+            NSLog(@"DICT:%@",dictionary);
+//            [dictionary setObject:@" " forKey:key];
         }
         else if ([value isKindOfClass:[NSObject class]]) {
             if ([value isKindOfClass:[ALFileMetaInfo class]]) {
@@ -71,7 +73,8 @@
         }
     }
     free(properties);
-    }@catch (NSException *exception) {
+}
+    @catch (NSException *exception) {
         NSLog(@"Exception in ALJson %@",exception);
     }
     return dictionary;
