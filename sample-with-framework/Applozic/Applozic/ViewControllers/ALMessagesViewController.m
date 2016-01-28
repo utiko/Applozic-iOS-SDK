@@ -265,12 +265,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [super viewWillDisappear:animated];
-    
-    // self.navigationController.navigationBar.barTintColor = self.navColor;
-    
-    //    dispatch_async(dispatch_get_main_queue(), ^{
-    //        [_alMqttConversationService unsubscribeToConversation];
-    //    });
 }
 
 - (IBAction)logout:(id)sender {
@@ -606,6 +600,12 @@
         //        contactCell.imageNameLabel.text = NSLocalizedString(@"MEDIA_TYPE_ATTACHMENT", nil);
         contactCell.imageNameLabel.text = NSLocalizedString(@"Attachment", nil);
         contactCell.imageMarker.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_attachment.png"];
+    }
+    else if (message.contentType==ALMESSAGE_CONTENT_LOCATION){   // location..
+        
+        contactCell.mMessageLabel.hidden = YES;
+        contactCell.imageNameLabel.text = NSLocalizedString(@"Location", nil);
+        contactCell.imageMarker.image = [ALUtilityClass getImageFromFramworkBundle:@"location_filled.png"];
     }
     else
     {

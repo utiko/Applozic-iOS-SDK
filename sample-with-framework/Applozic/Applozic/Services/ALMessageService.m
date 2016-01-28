@@ -325,5 +325,11 @@ static ALMessageClientService *alMsgClientService;
 
 }
 
++(ALMessage*)getMessagefromKeyValuePair:(NSString*)key andValue:(NSString*)value{
+    
+    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+    DB_Message *dbMessage =  (DB_Message*)[dbService getMessageByKey:key value:value];
+    return [dbService createMessageEntity:dbMessage];
+}
 
 @end

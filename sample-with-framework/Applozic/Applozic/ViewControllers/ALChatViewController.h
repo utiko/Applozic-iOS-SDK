@@ -53,4 +53,8 @@
 
 -(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer;
 
+-(void) getUserCurrentLocation:(NSString *)googleMapUrl;
+-(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl;
+
+
 @end

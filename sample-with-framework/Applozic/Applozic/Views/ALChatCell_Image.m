@@ -19,6 +19,7 @@
 #import "ALMessageDBService.h"
 #import "ALUtilityClass.h"
 #import "ALColorUtility.h"
+#import "ALMessage.h"
 
 // Constants
 #define MT_INBOX_CONSTANT "4"
@@ -222,7 +223,7 @@ UIViewController * modalCon;
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         
-        if(alMessage.message.length > 0)
+        if(alMessage.message.length > 0 && alMessage.contentType!=ALMESSAGE_CONTENT_LOCATION)
         {
           imageWithText.textColor = [UIColor grayColor];
             self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, viewSize.width - 120, (viewSize.width - 120) + theTextSize.height + 5);
@@ -235,6 +236,24 @@ UIViewController * modalCon;
             
             [self.contentView bringSubviewToFront:mDateLabel];
             [self.contentView bringSubviewToFront:mMessageStatusImageView];
+        }
+        else if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION)
+        {
+            
+            self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60) - 18,
+                                                    0,
+                                                    viewSize.width - 120,
+                                                    viewSize.width - 220);
+            
+            self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
+            
+//            self.partImageBubble.frame = CGRectMake(viewSize.width - 28,
+//                                                    self.mBubleImageView.frame.origin.y +
+//                                                    self.mBubleImageView.frame.size.height - 18,
+//                                                    18,
+//                                                    18);
+            imageWithText.alpha = 0;
+            
         }
         
         else
@@ -318,7 +337,7 @@ UIViewController * modalCon;
           self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
         
 //        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5 , theDateSize.width, 20);
-        if(alMessage.message.length > 0)
+        if(alMessage.message.length > 0 && alMessage.contentType!=ALMESSAGE_CONTENT_LOCATION)
         {
             imageWithText.alpha = 1;
             imageWithText.backgroundColor = [UIColor clearColor];
@@ -333,6 +352,25 @@ UIViewController * modalCon;
             [self.contentView bringSubviewToFront:mMessageStatusImageView];
             
         }
+        else if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION)
+        {
+            
+            self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60) - 18,
+                                                    0,
+                                                    viewSize.width - 120,
+                                                    viewSize.width - 220);
+            
+            self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
+            
+            //            self.partImageBubble.frame = CGRectMake(viewSize.width - 28,
+            //                                                    self.mBubleImageView.frame.origin.y +
+            //                                                    self.mBubleImageView.frame.size.height - 18,
+            //                                                    18,
+            //                                                    18);
+            imageWithText.alpha = 0;
+            
+        }
+
         else
         {
             imageWithText.alpha = 0;
@@ -495,6 +533,15 @@ UIViewController * modalCon;
 -(void)imageFullScreen:(UITapGestureRecognizer*)sender {
     
     //if ( self.mMessage.imageFilePath ){
+    
+    if(_mMessage.contentType==ALMESSAGE_CONTENT_LOCATION){
+        NSString *needle = [_mMessage.message componentsSeparatedByString:@"true&markers="][1];
+        NSLog(@"needle:%@",needle);
+        
+        NSURL * locationURL=[NSURL URLWithString:[NSString stringWithFormat:@"http://maps.google.com/maps?q=loc:%@",needle]];
+        [[UIApplication sharedApplication] openURL:locationURL];
+        return;
+    }
     
     modalCon = [[UIViewController alloc] init];
     modalCon.view.backgroundColor=[UIColor blackColor];

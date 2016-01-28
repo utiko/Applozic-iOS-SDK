@@ -21,10 +21,6 @@
 
 
 @implementation ALAppLocalNotifications
-//{
-//    NSNumber *updateUI ;
-//    NSString *alertValue;
-//}
 
 
 +(ALAppLocalNotifications *)appLocalNotificationHandler

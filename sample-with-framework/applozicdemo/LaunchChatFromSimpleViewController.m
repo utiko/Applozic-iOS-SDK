@@ -21,7 +21,10 @@
 
 @end
 
-@implementation LaunchChatFromSimpleViewController
+@implementation LaunchChatFromSimpleViewController{
+    UIActivityIndicatorView *activityView;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -82,7 +85,9 @@
 
 - (IBAction)mChatLaunchButton:(id)sender {
     
-    
+    [self.view addSubview:activityView];
+    [activityView startAnimating];
+
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmailId:[ALUserDefaultsHandler getEmailId]];
@@ -93,6 +98,15 @@
     [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:@"adarshk"];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [activityView stopAnimating];
+    [activityView removeFromSuperview];
+}
+-(void)viewWillDisappear:(BOOL)animated {
+    [activityView stopAnimating];
+    [activityView removeFromSuperview];
+}
+
 -(void)whenPush{
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                             bundle:[NSBundle bundleForClass:ALChatViewController.class]];
@@ -100,6 +114,15 @@
       UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
     [self presentViewController:theLauncg animated:YES completion:nil];
         [self presentViewController:theTabBar animated:YES completion:nil];
+}
+
+- (IBAction)logoutBtn:(id)sender {
+    ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
+    
+    if([ALUserDefaultsHandler getDeviceKeyString]){
+        alUserClientService.logout;
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

@@ -39,6 +39,7 @@
 +(void)markConversationAsRead: (NSString *) contactId orChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion;
 
 +(void)processPendingMessages;
++(ALMessage*)getMessagefromKeyValuePair:(NSString*)key andValue:(NSString*)value;
 
 
 @end

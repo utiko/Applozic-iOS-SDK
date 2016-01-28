@@ -277,21 +277,69 @@ ALMessageDBService  * dbService;
 }
 
 #pragma  mark - ALMapViewController Delegate Methods -
--(void) getUserCurrentLocation:googleMapUrl
+-(void) getUserCurrentLocation:(NSString *)googleMapUrl
 {
+    if(googleMapUrl.length != 0)
+    {
+        ALMessage * theMessage = [self getMessageToPost];
+        theMessage.message = googleMapUrl;
+        [self.alMessageWrapper addALMessageToMessageArray:theMessage];
+        [self.mTableView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [super scrollTableViewToBottomWithAnimation:YES];
+        });
+        // save message to db
+        [self.sendMessageTextView setText:nil];
+        self.mTotalCount = self.mTotalCount+1;
+        self.startIndex = self.startIndex + 1;
+        [self sendMessage:theMessage];
+        
+    }
+    else
+    {
+        NSString *alertMsg = @"Unable to fetch current location. Try Again!!!";
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Current Location" message:alertMsg delegate: nil cancelButtonTitle:@"OK" otherButtonTitles: nil, nil];
+        
+        [alertView show];
+        
+    }
     
-    ALMessage * theMessage = [self getMessageToPost];
-    theMessage.message=googleMapUrl;
-    [self.alMessageWrapper addALMessageToMessageArray:theMessage];
-    [self.mTableView reloadData];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [super scrollTableViewToBottomWithAnimation:YES];
-    });
-    // save message to db
-    [self.sendMessageTextView setText:nil];
-    self.mTotalCount = self.mTotalCount+1;
-    self.startIndex = self.startIndex + 1;
-    [ self sendMessage:theMessage];
+}
+
+-(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl{
+    
+    if (googleMapUrl.length != 0) {
+        
+        
+        ALMessage * theMessage = [self getMessageToPost];
+        theMessage.contentType=2;
+        theMessage.message=googleMapUrl;
+        
+        ALFileMetaInfo *info = [ALFileMetaInfo new];
+        info.contentType = @"location";
+        theMessage.fileMeta=info;
+        
+        
+        [self.alMessageWrapper addALMessageToMessageArray:theMessage];
+        [self.mTableView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [super scrollTableViewToBottomWithAnimation:YES];
+        });
+        // save message to db
+        [self.sendMessageTextView setText:nil];
+        self.mTotalCount = self.mTotalCount+1;
+        self.startIndex = self.startIndex + 1;
+        [self sendMessage:theMessage];
+        
+    }
+    else{
+        NSLog(@"Google Map Length = ZERO");
+        
+        NSString *alertMsg = @"Unable to fetch current location. Try Again!!!";
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Current Location" message:alertMsg delegate: nil cancelButtonTitle:@"OK" otherButtonTitles: nil, nil];
+        
+        [alertView show];
+    }
     
 }
 
@@ -382,8 +430,9 @@ ALMessageDBService  * dbService;
     
     ALMessage * theMessage = [self.alMessageWrapper getUpdatedMessageArray][indexPath.row];
     
-    if([theMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"]){
-        
+//    if([theMessage.message hasPrefix:@"http://maps.googleapis.com/maps/api/staticmap"]){
+    if(theMessage.contentType==ALMESSAGE_CONTENT_LOCATION){
+
         ALChatCell_Image *theCell = (ALChatCell_Image *)[tableView dequeueReusableCellWithIdentifier:@"ChatCell_Image"];
         theCell.tag = indexPath.row;
         theCell.delegate = self;
@@ -1057,6 +1106,24 @@ ALMessageDBService  * dbService;
     if (alMessage){
         alMessage.delivered=YES;
         [self.mTableView reloadData];
+    }else{
+        //not found
+        
+        
+        //get message from db by key
+        [ALMessageService getMessagefromKeyValuePair:@"key" andValue:key];
+        //and get alMessage.msgDBObjectId
+        
+        ALMessage* fetchMsg=[ALMessage new];
+        fetchMsg=[ALMessageService getMessagefromKeyValuePair:@"key" andValue:key];
+        
+        //now find in list ...
+        ALMessage * alMessage2 =  [self getMessageFromViewList:@"msgDBObjectId" withValue:fetchMsg.msgDBObjectId];
+        
+        if (alMessage2){
+            alMessage2.delivered=YES;
+            [self.mTableView reloadData];
+        }
     }
 }
 
@@ -1081,13 +1148,14 @@ ALMessageDBService  * dbService;
         [self fetchAndRefresh:YES];
         //[self processMarkRead];
         NSLog(@"INDIVIDUAL NOTIFICATION HANDLER");
-    } else if (![updateUI boolValue]) {
+    }
+    else if (![updateUI boolValue]) {
         NSLog(@"it was in background, updateUI is false");
         self.contactIds = contactId;
-        
         [self fetchAndRefresh:YES];
         [self reloadView];
-    } else {
+    }
+    else {
         NSLog(@"show notification as someone else thread is already opened");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
 //        [alnotification displayNotification:self];
