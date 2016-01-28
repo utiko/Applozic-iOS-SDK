@@ -14,12 +14,16 @@
 #import "DB_FileMetaInfo.h"
 #import "ALLastSeenSyncFeed.h"
 #import "ALUserClientService.h"
+#import "ALAPIResponse.h"
 
 @interface ALUserService : NSObject
 
 + (void)processContactFromMessages:(NSArray *) messagesArr;
 
 +(void)getLastSeenUpdateForUsers:(NSNumber *)lastSeenAt withCompletion:(void(^)(NSMutableArray *))completionMark;
+
 +(void)userDetailServerCall:(NSString *)contactId withCompletion:(void(^)(ALUserDetail *))completionMark;
+
++(void)updateUserDisplayName:(ALContact *)alContact;
 
 @end

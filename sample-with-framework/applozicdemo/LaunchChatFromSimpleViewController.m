@@ -18,6 +18,7 @@
 
 - (IBAction)mLaunchChatList:(id)sender;
 - (IBAction)mChatLaunchButton:(id)sender;
+@property(nonatomic,strong) UIActivityIndicatorView *activityView;
 
 @end
 
@@ -67,6 +68,17 @@
 
 - (IBAction)mLaunchChatList:(id)sender {
     
+  _activityView = [[UIActivityIndicatorView alloc]
+                                             
+                                             initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+    
+    
+    _activityView.center=self.view.center;
+    
+    [_activityView startAnimating];
+    
+    [self.view addSubview:_activityView];
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmailId:[ALUserDefaultsHandler getEmailId]];

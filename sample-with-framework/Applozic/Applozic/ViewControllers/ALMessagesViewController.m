@@ -231,6 +231,7 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     if (![ALDataNetworkConnection checkDataNetworkAvailable])
     {
         [self.dataAvailablityLabel setHidden:NO];
@@ -368,6 +369,14 @@
             
             BOOL isToday = [ALUtilityClass isToday:[NSDate dateWithTimeIntervalSince1970:[msg.createdAtTime doubleValue]/1000]];
             contactCell.mTimeLabel.text = [msg getCreatedAtTime:isToday];
+            if(msg.fileMeta){
+                [self displayAttachmentMediaType:msg andContactCell: contactCell];
+            }else{
+                contactCell.imageNameLabel.hidden = YES;
+                contactCell.imageMarker.hidden = YES;
+                contactCell.mMessageLabel.hidden=NO;
+                contactCell.mMessageLabel.text = msg.message;
+            }
             
         }else{
             isreloadRequire = true;
@@ -741,6 +750,12 @@
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
     
+    if(alMessage==nil){
+        NSLog(@"Called from self sync and messages are not present...");
+        [dBService fetchAndRefreshQuickConversation];
+        return;
+    }
+    
     ALPushAssist* top=[[ALPushAssist alloc] init];
     
     [self.detailChatViewController setRefresh: YES];
@@ -841,10 +856,20 @@
     NSString * contactId = notification.object;
     NSDictionary *dict = notification.userInfo;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
+    NSString * alretValue =  [dict valueForKey:@"alertValue" ];
     
     if (self.isViewLoaded && self.view.window && [updateUI boolValue])
     {
-        [self syncCall:nil];
+        ALMessage *msg = [[ALMessage alloc]init];
+        msg.message=alretValue;
+        NSArray *myArray = [msg.message
+                            componentsSeparatedByCharactersInSet:
+                            [NSCharacterSet characterSetWithCharactersInString:@":"]];
+        
+        alretValue=[NSString stringWithFormat:@"%@",myArray[1]];
+        msg.message=alretValue;
+        msg.contactIds = contactId;
+        [self syncCall:msg];
     }
     else if(![updateUI boolValue])
     {
@@ -859,6 +884,7 @@
 - (void)dealloc{
     
     //    NSLog(@"dealloc called. Unsubscribing with mqtt.");
+     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 - (IBAction)backButtonAction:(id)sender {
     
@@ -915,4 +941,9 @@
     
 }
 
+- (void)appWillEnterForeground:(NSNotification *)notification {
+    NSLog(@"will enter foreground notification");
+    [self syncCall:nil];
+    [self callLastSeenStatusUpdate];
+}
 @end

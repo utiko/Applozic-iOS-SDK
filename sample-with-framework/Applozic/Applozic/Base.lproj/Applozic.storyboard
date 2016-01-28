@@ -246,16 +246,24 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cri-hJ-XT9">
+                                                    <rect key="frame" x="18" y="11" width="55" height="55"/>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="yhR-xr-fbW" firstAttribute="leading" secondItem="p0o-92-QNi" secondAttribute="leadingMargin" constant="10" id="15t-Ip-O6G"/>
                                                 <constraint firstAttribute="centerY" secondItem="H8h-Lp-4Jd" secondAttribute="centerY" constant="2" id="1a3-OU-9ho"/>
                                                 <constraint firstItem="yhR-xr-fbW" firstAttribute="top" secondItem="p0o-92-QNi" secondAttribute="topMargin" constant="3" id="C6i-x1-e9I"/>
                                                 <constraint firstItem="yhR-xr-fbW" firstAttribute="centerY" secondItem="p0o-92-QNi" secondAttribute="centerY" constant="-2" id="M4F-ZK-C01"/>
+                                                <constraint firstItem="Cri-hJ-XT9" firstAttribute="top" secondItem="p0o-92-QNi" secondAttribute="topMargin" constant="3" id="Rqj-Bx-pKX"/>
+                                                <constraint firstItem="H8h-Lp-4Jd" firstAttribute="leading" secondItem="Cri-hJ-XT9" secondAttribute="trailing" constant="14" id="XnE-35-fXg"/>
+                                                <constraint firstItem="Cri-hJ-XT9" firstAttribute="centerY" secondItem="yhR-xr-fbW" secondAttribute="centerY" id="ZTF-Ae-5Wj"/>
+                                                <constraint firstItem="Cri-hJ-XT9" firstAttribute="centerX" secondItem="yhR-xr-fbW" secondAttribute="centerX" id="awx-gW-r4l"/>
                                                 <constraint firstItem="H8h-Lp-4Jd" firstAttribute="leading" secondItem="yhR-xr-fbW" secondAttribute="trailing" constant="14" id="uRQ-bK-zR4"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="contactPersonImageView" destination="Cri-hJ-XT9" id="mc5-8d-GW1"/>
                                             <outlet property="contactPersonName" destination="H8h-Lp-4Jd" id="95v-QW-Pdf"/>
                                         </connections>
                                     </tableViewCell>
