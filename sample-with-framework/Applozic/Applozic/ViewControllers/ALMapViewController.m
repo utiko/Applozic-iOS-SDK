@@ -157,7 +157,6 @@
     self.lattY = [NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
     self.longX = [NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
 
-    
     [self.geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
 
         if (error == nil && [placemarks count] > 0)

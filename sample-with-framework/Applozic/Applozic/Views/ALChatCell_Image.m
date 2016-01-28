@@ -80,7 +80,7 @@ UIViewController * modalCon;
         
         tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageFullScreen:)];
         tapper.numberOfTapsRequired = 1;
-        //         [mImageView addGestureRecognizer:tapper];
+                 [mImageView addGestureRecognizer:tapper];
         
         tapperForLocationMap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(respondToLocationMap:)];
         tapperForLocationMap.numberOfTapsRequired=1;
@@ -165,14 +165,14 @@ UIViewController * modalCon;
     
     CGSize theTextSize = [self getSizeForText:alMessage.message maxWidth:viewSize.width-115 font:self.imageWithText.font.fontName fontSize:self.imageWithText.font.pointSize];
     
-    if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION){
-        theTextSize=CGSizeMake(0, 0);
-        [mImageView addGestureRecognizer:tapperForLocationMap];
-        imageWithText.text=nil;
-        
-    }else {  // Image type...
-        [mImageView addGestureRecognizer:tapper];
-    }
+//    if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION){
+//        theTextSize=CGSizeMake(0, 0);
+//        [mImageView addGestureRecognizer:tapperForLocationMap];
+//        imageWithText.text=nil;
+//        
+//    }else {  // Image type...
+//        [mImageView addGestureRecognizer:tapper];
+//    }
     
     if ([alMessage.type isEqualToString:@MT_INBOX_CONSTANT]) { //@"4" //Recieved Message
         
@@ -234,6 +234,25 @@ UIViewController * modalCon;
             [self.contentView bringSubviewToFront:mDateLabel];
             [self.contentView bringSubviewToFront:mMessageStatusImageView];
         }
+        else if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION)
+        {
+            
+            self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60) - 18,
+                                                    0,
+                                                    viewSize.width - 120,
+                                                    viewSize.width - 220);
+            
+            self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
+            
+            self.partImageBubble.frame = CGRectMake(viewSize.width - 28,
+                                                    self.mBubleImageView.frame.origin.y +
+                                                    self.mBubleImageView.frame.size.height - 18,
+                                                    18,
+                                                    18);
+            imageWithText.alpha = 0;
+            
+        }
+
         
         else
         {
@@ -563,6 +582,15 @@ UIViewController * modalCon;
     
     //    if ( self.mMessage.imageFilePath ){
     
+    if(_mMessage.contentType==ALMESSAGE_CONTENT_LOCATION){
+        NSString *needle = [_mMessage.message componentsSeparatedByString:@"true&markers="][1];
+        NSLog(@"needle:%@",needle);
+        
+        NSURL * locationURL=[NSURL URLWithString:[NSString stringWithFormat:@"http://maps.google.com/maps?q=loc:%@",needle]];
+        [[UIApplication sharedApplication] openURL:locationURL];
+        return;
+    }
+    
     modalCon = [[UIViewController alloc] init];
     modalCon.view.backgroundColor=[UIColor blackColor];
     modalCon.view.userInteractionEnabled=YES;
@@ -580,6 +608,8 @@ UIViewController * modalCon;
 }
 
 -(void)respondToLocationMap:(UITapGestureRecognizer*)sender{
+    
+    
     
     NSString *needle = [_mMessage.message componentsSeparatedByString:@"true&markers="][1];
     NSLog(@"needle:%@",needle);
