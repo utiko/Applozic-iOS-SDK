@@ -391,6 +391,13 @@ static ALMessageClientService * alMsgClientService;
     return message;
 }
 
++(ALMessage*)getMessagefromKeyValuePair:(NSString*)key andValue:(NSString*)value{
+    
+    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+    DB_Message *dbMessage =  (DB_Message*)[dbService getMessageByKey:key value:value];
+    return [dbService createMessageEntity:dbMessage];
+}
+
 +(void)markConversationAsRead: (NSString *) contactId withCompletion:(void (^)(NSString *, NSError *))completion{
     
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];

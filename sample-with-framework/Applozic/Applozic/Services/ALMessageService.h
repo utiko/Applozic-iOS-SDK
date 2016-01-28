@@ -45,6 +45,6 @@
 +(void)userDetailServerCall:(NSString *)contactId withCompletion:(void(^)(ALUserDetail *))completionMark;
 
 +(void)processPendingMessages;
-
++(ALMessage*)getMessagefromKeyValuePair:(NSString*)key andValue:(NSString*)value;
 
 @end

@@ -1102,9 +1102,29 @@ ALMessageDBService  * dbService;
 -(void)updateDeliveryReport:(NSString*)key{
     
     ALMessage * alMessage =  [self getMessageFromViewList:@"key" withValue:key ];
+    
     if (alMessage){
         alMessage.delivered=YES;
         [self.mTableView reloadData];
+    }else{
+        //not found
+        
+        
+        //get message from db by key
+        [ALMessageService getMessagefromKeyValuePair:@"key" andValue:key];
+        //and get alMessage.msgDBObjectId
+
+        ALMessage* fetchMsg=[ALMessage new];
+        fetchMsg=[ALMessageService getMessagefromKeyValuePair:@"key" andValue:key];
+        
+        //now find in list ...
+        ALMessage * alMessage2 =  [self getMessageFromViewList:@"msgDBObjectId" withValue:fetchMsg.msgDBObjectId];
+        
+        if (alMessage2){
+            alMessage2.delivered=YES;
+            [self.mTableView reloadData];
+        }
+
     }
 }
 
