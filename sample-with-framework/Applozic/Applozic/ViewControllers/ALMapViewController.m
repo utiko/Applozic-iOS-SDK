@@ -105,11 +105,11 @@
     
     if([ALDataNetworkConnection checkDataNetworkAvailable])
     {
-//        locationURL = [self.addressLabel stringByAppendingString:locationURL];
+        locationURL = [self.addressLabel stringByAppendingString:locationURL];
     }
-//    [self.controllerDelegate getUserCurrentLocation:locationURL];
+    [self.controllerDelegate getUserCurrentLocation:locationURL];
     
-    [self.controllerDelegate googleImage:nil withURL:staticMapLocationURL];
+//    [self.controllerDelegate googleImage:nil withURL:staticMapLocationURL];
     
     [self.navigationController popViewControllerAnimated:YES];
     
