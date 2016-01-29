@@ -125,6 +125,8 @@
     
     NSManagedObject* message = [self getMessageByKey:@"key" value:keyString];
     if(message){
+        
+        //set deleteFlag to> 1 and then asyncronously delete all messages which have deleteFlag=1
         [dbHandler.managedObjectContext deleteObject:message];
         NSError *error = nil;
         if ( [dbHandler.managedObjectContext save:&error]){

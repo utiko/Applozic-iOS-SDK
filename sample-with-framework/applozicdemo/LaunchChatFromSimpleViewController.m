@@ -22,16 +22,17 @@
 
 @end
 
-@implementation LaunchChatFromSimpleViewController{
-    UIActivityIndicatorView *activityView;
-}
+@implementation LaunchChatFromSimpleViewController
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 //    [self mLaunchChatList:self];
-    
+    _activityView = [[UIActivityIndicatorView alloc]
+                     initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    _activityView.center=self.view.center;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,13 +69,6 @@
 
 - (IBAction)mLaunchChatList:(id)sender {
     
-  _activityView = [[UIActivityIndicatorView alloc]
-                                             
-                                             initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    
-    
-    
-    _activityView.center=self.view.center;
     
     [_activityView startAnimating];
     
@@ -97,8 +91,8 @@
 
 - (IBAction)mChatLaunchButton:(id)sender {
     
-    [self.view addSubview:activityView];
-    [activityView startAnimating];
+    [self.view addSubview:_activityView];
+    [_activityView startAnimating];
 
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
@@ -111,12 +105,12 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [activityView stopAnimating];
-    [activityView removeFromSuperview];
+//    [activityView stopAnimating];
+    [_activityView removeFromSuperview];
 }
 -(void)viewWillDisappear:(BOOL)animated {
-    [activityView stopAnimating];
-    [activityView removeFromSuperview];
+    [_activityView stopAnimating];
+    [_activityView removeFromSuperview];
 }
 
 -(void)whenPush{

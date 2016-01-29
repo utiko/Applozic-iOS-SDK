@@ -8,10 +8,12 @@
 
 //#define KBASE_URL @"https://applozic.appspot.com"
 #define KBASE_URL @"https://apps.applozic.com"
-//#define KBASE_URL @"http://test.applozic.com"
+//#define KBASE_URL @"https://test.applozic.com"
+//#define KBASE_URL @"https://staging.applozic.com"
 //#define KBASE_URL @"http://dashboard.mobicomkit.com"
 
 #define MQTT_URL @"apps.applozic.com"
+//#define MQTT_URL @"test.applozic.com"
 //#define MQTT_URL @"dashboard.mobicomkit.com"
 
 #define MQTT_PORT @"1883"
