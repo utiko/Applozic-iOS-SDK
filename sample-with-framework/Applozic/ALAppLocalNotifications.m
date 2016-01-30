@@ -147,7 +147,7 @@
         if([reach isReachable])
         {
              NSLog(@"========== IF internetConnectionReach ============");
-            [ALMessageService processLatestMessagesGroupByContact];
+//            [ALMessageService processLatestMessagesGroupByContact];
             [ALMessageService processPendingMessages];
             //changes required
         }
