@@ -17,7 +17,10 @@
 #import "ALContactService.h"
 #import "ALMessageClientService.h"
 
-@implementation ALMessageDBService
+@implementation ALMessageDBService{
+    ALMessageDBService  * dbService;
+
+}
 
 
 //Add message APIS
@@ -124,17 +127,36 @@
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     
     NSManagedObject* message = [self getMessageByKey:@"key" value:keyString];
+    
+   /* 
+    DB_Message* dbMessage=(DB_Message*)[dbService getMessageByKey:@"key" value:keyString];
+    dbMessage.deleted=[NSNumber numberWithBool:YES];
+    NSEntityDescription * myEntity = [message entity];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:myEntity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"deleted == %@", YES];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *result = [message.managedObjectContext executeFetchRequest:request error:&error];
+    */
+    
     if(message){
-        
-        //set deleteFlag to> 1 and then asyncronously delete all messages which have deleteFlag=1
-        [dbHandler.managedObjectContext deleteObject:message];
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                //for every dbMessage toDelete set to YES, deleteObject...
+                [dbHandler.managedObjectContext deleteObject:message];
+//        });
+
         NSError *error = nil;
         if ( [dbHandler.managedObjectContext save:&error]){
             NSLog(@"message found ");
         }
-    }else{
-        // NSLog(@"message not found with this key");
     }
+    else{
+         NSLog(@"message not found with this key");
+    }
+    
 }
 
 -(void) deleteAllMessagesByContact: (NSString*) contactId orChannelKey:(NSNumber *)key
