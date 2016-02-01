@@ -128,25 +128,8 @@
     
     NSManagedObject* message = [self getMessageByKey:@"key" value:keyString];
     
-   /* 
-    DB_Message* dbMessage=(DB_Message*)[dbService getMessageByKey:@"key" value:keyString];
-    dbMessage.deleted=[NSNumber numberWithBool:YES];
-    NSEntityDescription * myEntity = [message entity];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:myEntity];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"deleted == %@", YES];
-    [request setPredicate:predicate];
-    
-    NSError *error = nil;
-    NSArray *result = [message.managedObjectContext executeFetchRequest:request error:&error];
-    */
-    
     if(message){
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                //for every dbMessage toDelete set to YES, deleteObject...
                 [dbHandler.managedObjectContext deleteObject:message];
-//        });
 
         NSError *error = nil;
         if ( [dbHandler.managedObjectContext save:&error]){
@@ -573,8 +556,11 @@
     {
         predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@",contactId];
     }
+    
+    NSPredicate* predicateDeletedCheck=[NSPredicate predicateWithFormat:@"deleted == %@",[NSNumber numberWithBool:NO]];
+    
     NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"createdAt < %lu",createdAt];
-    theRequest.predicate =[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1, predicate2]];
+    theRequest.predicate =[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1, predicate2, predicateDeletedCheck]];
     
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
