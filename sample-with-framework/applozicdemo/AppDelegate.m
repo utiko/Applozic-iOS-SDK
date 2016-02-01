@@ -13,7 +13,8 @@
 #import "ApplozicLoginViewController.h"
 #import "Applozic/ALDBHandler.h"
 #import "Applozic/ALMessagesViewController.h"
-//#import "Applozic/ALPushAssist.h"
+#import "Applozic/ALPushAssist.h"
+#import "Applozic/ALMessageService.h"
 
 
 
@@ -21,7 +22,9 @@
 
 @end
 
-@implementation AppDelegate
+@implementation AppDelegate{
+    BOOL toSync;
+}
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -45,6 +48,7 @@
         NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (dictionary != nil)
         {
+            toSync=NO;
             NSLog(@"Launched from push notification: %@", dictionary);
             ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
             BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:NO];
@@ -102,6 +106,30 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    //Check if notificaition came BUT applicaiton is Launched Manually i.e. Becomes Active not Lauched
+    if (toSync==NO) {
+        //Dont Sync...
+        NSLog(@"DONT SYNC..");
+        return;
+    }
+    
+   
+        
+//        if (/*Notificaiton came but not interacted with*/) {
+        // Sync the Latest Messages....in DB.
+         NSString *deviceKeyString =[ALUserDefaultsHandler getDeviceKeyString ] ;
+        [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *message, NSError *error) {
+            NSLog(@"SYNC....");
+            if (error) {
+                NSLog(@"Error!!");
+                return ;
+            }
+        }];
+        
+//        }
+        
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
