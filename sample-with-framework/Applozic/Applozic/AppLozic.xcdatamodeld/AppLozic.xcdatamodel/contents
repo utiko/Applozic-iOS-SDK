@@ -45,7 +45,7 @@
         <attribute name="contactId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contentType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="deleted" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="deletedFlag" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="delivered" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="deviceKey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="filePath" optional="YES" attributeType="String" syncable="YES"/>
@@ -71,6 +71,6 @@
         <element name="DB_CONTACT" positionX="-144" positionY="-171" width="128" height="180"/>
         <element name="DB_ConversationProxy" positionX="-171" positionY="90" width="128" height="105"/>
         <element name="DB_FileMetaInfo" positionX="-270" positionY="-144" width="128" height="165"/>
-        <element name="DB_Message" positionX="-441" positionY="-153" width="128" height="373"/>
+        <element name="DB_Message" positionX="-441" positionY="-153" width="128" height="375"/>
     </elements>
 </model>

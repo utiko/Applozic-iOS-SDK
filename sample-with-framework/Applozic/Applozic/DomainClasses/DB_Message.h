@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSString * filePath;
 @property (nonatomic, retain) NSNumber * isRead;
 @property (nonatomic, retain) NSNumber * isSent;
+@property (nonatomic, retain) NSNumber * deletedFlag;
 @property (nonatomic, retain) NSNumber * isSentToDevice;
 @property (nonatomic, retain) NSNumber * isShared;
 @property (nonatomic, retain) NSNumber * isStoredOnDevice;
@@ -34,6 +35,5 @@
 @property (nonatomic, retain) NSNumber * sentToServer;
 @property (nonatomic, retain) DB_FileMetaInfo *fileMetaInfo;
 @property (nonatomic, retain) NSNumber * groupId;
-@property (nonatomic, retain) NSNumber * deleted;
 
 @end

@@ -170,18 +170,18 @@ static ALMessageClientService *alMsgClientService;
     //db
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
     DB_Message* dbMessage=(DB_Message*)[dbService getMessageByKey:@"key" value:keyString];
-    // Here set update values of every object....
-    [dbMessage setDeleted:[NSNumber numberWithBool:YES]];
-    [[ALDBHandler sharedInstance].managedObjectContext save:nil];
-
+    [dbMessage setDeletedFlag:[NSNumber numberWithBool:YES]];
     NSError *error;
     if (![[dbMessage managedObjectContext] save:&error]) {
-//        //Handle Error
         NSLog(@"Delete Flag Not Set");
     }
-    NSArray *keys = [[[dbMessage entity] attributesByName] allKeys];
-    NSDictionary *dict = [dbMessage dictionaryWithValuesForKeys:keys];
-    NSLog(@"DB Message: %@",dict);
+    
+    ALMessageDBService * dbService2 = [[ALMessageDBService alloc]init];
+    DB_Message* dbMessage2=(DB_Message*)[dbService2 getMessageByKey:@"key" value:keyString];
+    NSArray *keys = [[[dbMessage2 entity] attributesByName] allKeys];
+    NSDictionary *dict = [dbMessage2 dictionaryWithValuesForKeys:keys];
+    NSLog(@"DB Message In Del: %@",dict);
+
     
     ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc]init];
     

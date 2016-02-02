@@ -33,5 +33,5 @@
 @dynamic fileMetaInfo;
 @dynamic contentType;
 @dynamic groupId;
-@dynamic deleted;
+@dynamic deletedFlag;
 @end

@@ -130,6 +130,8 @@
 
                 self.fileMeta = theFileMetaInfo;
             }
+    
+    self.deleted=NO;
 }
 
 
