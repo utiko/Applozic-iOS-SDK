@@ -6,21 +6,14 @@
 //
 
 
-//#define KBASE_URL @"https://applozic.appspot.com"
 #define KBASE_URL @"https://apps.applozic.com"
-//#define KBASE_URL @"https://test.applozic.com"
-//#define KBASE_URL @"https://staging.applozic.com"
-//#define KBASE_URL @"http://dashboard.mobicomkit.com"
 
 #define MQTT_URL @"apps.applozic.com"
-//#define MQTT_URL @"test.applozic.com"
-//#define MQTT_URL @"dashboard.mobicomkit.com"
 
 #define MQTT_PORT @"1883"
 
 #define KBASE_FILE_URL @"https://applozic.appspot.com"
 
-//#define KBASE_URL @"http://push.mobi-com.appspot.com"
 
 #define FORWARD_STATUS @"5"
 #define REPLIED_STATUS @"4"

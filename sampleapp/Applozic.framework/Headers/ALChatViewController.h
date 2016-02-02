@@ -32,6 +32,7 @@
 @property (strong, nonatomic) NSString * text;
 
 -(void)fetchAndRefresh;
+-(void)fetchAndRefresh:(BOOL)flag;
 
 -(void)updateDeliveryReport:(NSString*)keyString;
 
@@ -42,9 +43,18 @@
 -(void)updateDeliveryStatus:(NSNotification *) notification;
 
 -(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue;
-
+-(void) syncCall:(ALMessage *) alMessage;
 -(void)showTypingLabel:(BOOL)flag userId:(NSString *)userId;
 
 -(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail;
+-(void) reloadViewfor3rdParty;
+-(void) reloadView;
+-(void)processMarkRead;
+
+-(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer;
+
+-(void) getUserCurrentLocation:(NSString *)googleMapUrl;
+-(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl;
+
 
 @end

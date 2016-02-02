@@ -50,5 +50,9 @@
 
 @property (strong, nonatomic) NSString *string;
 
+@property (retain, nonatomic) UILabel *mChannelMemberName;
+
+@property (strong, nonatomic) NSArray *colors;
+@property(strong,nonatomic) UITapGestureRecognizer *tapperForLocationMap;
 
 @end
