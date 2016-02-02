@@ -17,7 +17,10 @@
 #import "ALContactService.h"
 #import "ALMessageClientService.h"
 
-@implementation ALMessageDBService
+@implementation ALMessageDBService{
+    ALMessageDBService  * dbService;
+
+}
 
 
 //Add message APIS
@@ -124,17 +127,19 @@
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     
     NSManagedObject* message = [self getMessageByKey:@"key" value:keyString];
+    
     if(message){
-        
-        //set deleteFlag to> 1 and then asyncronously delete all messages which have deleteFlag=1
-        [dbHandler.managedObjectContext deleteObject:message];
+                [dbHandler.managedObjectContext deleteObject:message];
+
         NSError *error = nil;
         if ( [dbHandler.managedObjectContext save:&error]){
             NSLog(@"message found ");
         }
-    }else{
-        // NSLog(@"message not found with this key");
     }
+    else{
+         NSLog(@"message not found with this key");
+    }
+    
 }
 
 -(void) deleteAllMessagesByContact: (NSString*) contactId orChannelKey:(NSNumber *)key
@@ -224,16 +229,23 @@
 
 - (NSManagedObject *)getMessageByKey:(NSString *) key value:(NSString*) value{
     
+    
+    //Runs at MessageList viewing/opening...ONLY FIRST TIME AND if delete an msg
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %@",key,value];
+//    NSPredicate *predicate3 = [NSPredicate predicateWithFormat:@"deletedFlag == NO"];
+    NSPredicate * resultPredicate=[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate]];//,predicate3]];
+    
     [fetchRequest setEntity:entity];
-    [fetchRequest setPredicate:predicate];
+    [fetchRequest setPredicate:resultPredicate];
+
     NSError *fetchError = nil;
     NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
     if (result.count > 0) {
         NSManagedObject* message = [result objectAtIndex:0];
+       
         return message;
     } else {
       //  NSLog(@"message not found with this key");
@@ -266,13 +278,14 @@
 
 - (NSArray *)getUnreadMessages:(NSString *) contactId
 {
-    
+    //Runs at Opening AND Leaving ChatVC AND Opening MessageList..
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
     NSPredicate *predicate;
 
-    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"isRead==%@ AND type==%@",@"0",@"4"];
+    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"isRead==%@ AND type==%@ ",@"0",@"4"];
+//    NSPredicate *predicate3 = [NSPredicate predicateWithFormat:@"deletedFlag == NO"];
     if (contactId) {
         NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"%K=%@",@"contactId",contactId];
         predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
@@ -424,6 +437,8 @@
 
 -(DB_Message *) createMessageEntityForDBInsertionWithMessage:(ALMessage *) theMessage
 {
+    
+    //Runs at MessageList viewing/opening... ONLY FIRST TIME
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     
     DB_Message * theMessageEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message" inManagedObjectContext:theDBHandler.managedObjectContext];
@@ -447,6 +462,8 @@
     theMessageEntity.inProgress = [ NSNumber numberWithBool:theMessage.inProgress];
     theMessageEntity.isUploadFailed=[ NSNumber numberWithBool:theMessage.isUploadFailed];
     theMessageEntity.contentType = theMessage.contentType;
+    theMessageEntity.deletedFlag=[NSNumber numberWithBool:theMessage.deleted];
+    NSLog(@"Deleted Entity Flag :%@", theMessageEntity.deletedFlag);
     
     if(theMessage.getGroupId)
     {
@@ -500,6 +517,8 @@
     theMessage.sentToServer = theEntity.sentToServer.boolValue;
     theMessage.isUploadFailed = theEntity.isUploadFailed.boolValue;
     theMessage.contentType = theEntity.contentType;
+    theMessage.deleted=theEntity.deletedFlag.boolValue;
+    NSLog(@"theMessage Deleted flag setting %hhd",theMessage.deleted);
     if(theEntity.groupId)
     {
         theMessage.groupId = theEntity.groupId;
@@ -551,8 +570,11 @@
     {
         predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@",contactId];
     }
+    
+    NSPredicate* predicateDeletedCheck=[NSPredicate predicateWithFormat:@"deletedFlag == NO"];
+    
     NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"createdAt < %lu",createdAt];
-    theRequest.predicate =[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1, predicate2]];
+    theRequest.predicate =[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1, predicate2, predicateDeletedCheck]];
     
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];

@@ -169,13 +169,34 @@ static ALMessageClientService *alMsgClientService;
     
     //db
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-    [dbService deleteMessageByKey:keyString];
+    DB_Message* dbMessage=(DB_Message*)[dbService getMessageByKey:@"key" value:keyString];
+    [dbMessage setDeletedFlag:[NSNumber numberWithBool:YES]];
+    NSError *error;
+    if (![[dbMessage managedObjectContext] save:&error]) {
+        NSLog(@"Delete Flag Not Set");
+    }
+    
+    ALMessageDBService * dbService2 = [[ALMessageDBService alloc]init];
+    DB_Message* dbMessage2=(DB_Message*)[dbService2 getMessageByKey:@"key" value:keyString];
+    NSArray *keys = [[[dbMessage2 entity] attributesByName] allKeys];
+    NSDictionary *dict = [dbMessage2 dictionaryWithValuesForKeys:keys];
+    NSLog(@"DB Message In Del: %@",dict);
+
     
     ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc]init];
-    [alMessageClientService deleteMessage:keyString andContactId:contactId
-                           withCompletion:^(NSString * response, NSError *error) {
-                               completion(response,error);
-                           }];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+    
+        [alMessageClientService deleteMessage:keyString andContactId:contactId
+                               withCompletion:^(NSString * response, NSError *error) {
+                                   if(!error){
+                                       //none error then delete from DB.
+                                       [dbService deleteMessageByKey:keyString];
+                                   }
+                                   completion(response,error);
+                               }];
+        
+    });
     
     
 }

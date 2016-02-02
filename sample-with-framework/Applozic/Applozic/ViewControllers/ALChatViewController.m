@@ -593,7 +593,10 @@ ALMessageDBService  * dbService;
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     [theRequest setFetchLimit:self.rp];
-    theRequest.predicate = [NSPredicate predicateWithFormat:@"contactId = %@",self.contactIds];
+    NSPredicate* predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@",self.contactIds];
+    NSPredicate* predicate2=[NSPredicate predicateWithFormat:@"deletedFlag == NO"];
+    NSPredicate* compoundPredicate=[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
+    [theRequest setPredicate:compoundPredicate];
     [theRequest setFetchOffset:self.startIndex];
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
     
@@ -775,7 +778,7 @@ ALMessageDBService  * dbService;
         ALMessage * almessage =  [ALMessageService processFileUploadSucess:message];
         
         [self sendMessage:almessage ];
-    }else {
+    }else { 
         
         NSString * docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSString * filePath = [docPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.local",connection.keystring]];
