@@ -42,6 +42,7 @@
 #import "ALAppLocalNotifications.h"
 #import "ALChatLauncher.h"
 #import "ALMessageClientService.h"
+#import "ALContactService.h"
 
 #define MQTT_MAX_RETRY 3
 
@@ -219,31 +220,24 @@ ALMessageDBService  * dbService;
 }
 
 -(void) setTitle {
-    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-    _alContact = [theDBHandler loadContactByKey:@"userId" value: self.contactIds];
-
-    NSLog(@" setitle CHANNEL KEY %@", self.channelKey);
-    if([self.channelKey intValue])
-    {
-        ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-        ALChannel *alChannel = [channelDBService loadChannelByKey:self.channelKey];
-        if(alChannel)
-        {
-            NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
-            self.navigationItem.title = listNames[0];
-        }
-    }
-    else
-    {
-        self.navigationItem.title = [self.alContact displayName];
+    if(self.displayName){
+        ALContactService * contactService = [[ALContactService alloc]init];
+        _alContact = [contactService loadOrAddContactByKeyWithDisplayName:self.contactIds value: self.displayName];
+        
+    }else{
+        ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+        _alContact = [theDBHandler loadContactByKey:@"userId" value: self.contactIds];
+        
     }
     
+    self.navigationItem.title = [_alContact displayName];
     ALUserDetail *userDetail = [[ALUserDetail alloc] init];
     userDetail.connected = self.alContact.connected;
     userDetail.userId = self.alContact.userId;
     userDetail.lastSeenAtTime = self.alContact.lastSeenAt;
     [self updateLastSeenAtStatus:userDetail];
 }
+
 
 -(void)fetchMessageFromDB {
     

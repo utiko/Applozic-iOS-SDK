@@ -29,6 +29,8 @@
 @property (nonatomic, strong) NSString *channeLName;
 @property (nonatomic) BOOL refreshMainView;
 @property (nonatomic) BOOL refresh;
+@property (strong, nonatomic) NSString * displayName;
+
 @property (strong, nonatomic) NSString * text;
 
 -(void)fetchAndRefresh;

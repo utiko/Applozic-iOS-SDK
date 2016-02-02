@@ -83,6 +83,29 @@
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
 }
 
+
+-(void)launchIndividualChat:(NSString *)userId withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
+
+{
+    [self ALDefaultChatViewSettings];
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                
+                                                         bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    
+    ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+    
+    chatView.contactIds = userId;
+    chatView.text = text;
+    chatView.individualLaunch = YES;
+    chatView.displayName=displayName;
+    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
+    
+    [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
+    
+    
+    
+}
+
 -(void)launchChatList:(NSString *)title andViewControllerObject:(UIViewController *)viewController
 
 {

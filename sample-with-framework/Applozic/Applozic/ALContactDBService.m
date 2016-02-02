@@ -359,6 +359,11 @@
         NSManagedObject *ob = [result objectAtIndex:0];
         [ob setValue: userDetail.lastSeenAtTime forKey:@"lastSeenAt"];
         [ob setValue:[NSNumber numberWithBool:userDetail.connected] forKey:@"connected"];
+        
+        if(userDetail.displayName){
+            [ob setValue:userDetail.displayName forKey:@"displayName"];
+        }
+        
     }
     NSError *error = nil;
     
