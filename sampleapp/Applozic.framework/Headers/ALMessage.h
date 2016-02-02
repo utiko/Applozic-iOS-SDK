@@ -9,6 +9,7 @@
 #import <CoreData/NSManagedObject.h>
 #import "ALJson.h"
 #import "ALFileMetaInfo.h"
+#define ALMESSAGE_CONTENT_LOCATION 2
 
 
 @interface ALMessage : ALJson
@@ -77,5 +78,5 @@
 -(BOOL)isUploadRequire;
 
 -(NSString *)getCreatedAtTimeChat:(BOOL)today;
-
+-(NSNumber *)getGroupId;
 @end

@@ -14,4 +14,8 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *mTableViewTopConstraint;
 
+@property (nonatomic,strong) NSArray* colors;
+
+-(UIView *)setCustomBackButton:(NSString *)text;
+
 @end

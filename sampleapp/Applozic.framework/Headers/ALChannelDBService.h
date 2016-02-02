@@ -12,6 +12,8 @@
 #import "DB_CHANNEL_USER_X.h"
 #import "ALDBHandler.h"
 #import "ALChannelUserX.h"
+#import "ALConversationProxy.h"
+#import "DB_ConversationProxy.h"
 
 @interface ALChannelDBService : NSObject
 
@@ -32,5 +34,11 @@
 -(NSString *)stringFromChannelUserList:(NSNumber *)key;
 
 -(ALChannel *)checkChannelEntity:(NSNumber *)channelKey;
+
+-(void)insertConversationProxy:(NSMutableArray *)proxyArray;
+
+-(DB_ConversationProxy *)createConversationProxy:(ALConversationProxy *)conversationProxy;
+
+-(DB_ConversationProxy *)getConversationProxyByKey:(NSNumber *)ID;
 
 @end

@@ -14,4 +14,6 @@
 
 @property (nonatomic) NSMutableArray <ALChannel *>* channelFeedsList;
 
+@property (nonatomic) NSMutableArray <ALChannel *>* conversationProxyList;
+
 @end

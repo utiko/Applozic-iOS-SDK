@@ -73,6 +73,8 @@
 
 +(void) setEmailId:(NSString*)emailId;
 
++(NSString *)getEmailId;
+
 +(NSString *) getDeviceKeyString;
 
 +(void) setUserId: (NSString *) userId;
