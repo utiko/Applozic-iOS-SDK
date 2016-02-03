@@ -343,25 +343,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" alpha="0.94999998807907104" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5L-s2-2A5">
-                                <rect key="frame" x="0.0" y="294" width="600" height="137"/>
-                                <state key="normal" backgroundImage="ApplozicChat">
-                                    <color key="titleShadowColor" red="0.79895767500000003" green="0.94653931469999997" blue="1" alpha="0.28000000000000003" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="mChatLaunchButton:" destination="8U3-hu-EI6" eventType="touchUpInside" id="pkt-Gr-W4j"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" alpha="0.94999998807907104" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VPP-1t-zAh">
-                                <rect key="frame" x="0.0" y="170" width="600" height="124"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="124" id="2d2-uu-bCJ"/>
-                                </constraints>
-                                <state key="normal" backgroundImage="ChatList"/>
-                                <connections>
-                                    <action selector="mLaunchChatList:" destination="8U3-hu-EI6" eventType="touchUpInside" id="EBr-mh-spQ"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M1H-iO-fA9">
                                 <rect key="frame" x="0.0" y="490" width="600" height="39"/>
                                 <constraints>
@@ -391,15 +372,34 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" alpha="0.94999998807907104" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5L-s2-2A5">
+                                <rect key="frame" x="55" y="299" width="490" height="119"/>
+                                <state key="normal" backgroundImage="Applozic512h">
+                                    <color key="titleShadowColor" red="0.79895767500000003" green="0.94653931469999997" blue="1" alpha="0.28000000000000003" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="mChatLaunchButton:" destination="8U3-hu-EI6" eventType="touchUpInside" id="pkt-Gr-W4j"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" alpha="0.94999998807907104" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VPP-1t-zAh">
+                                <rect key="frame" x="55" y="172" width="490" height="124"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="124" id="2d2-uu-bCJ"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="ChatList512h"/>
+                                <connections>
+                                    <action selector="mLaunchChatList:" destination="8U3-hu-EI6" eventType="touchUpInside" id="EBr-mh-spQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="VPP-1t-zAh" firstAttribute="leading" secondItem="sMl-DE-bto" secondAttribute="leading" id="0Uy-hv-hFr"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="S5L-s2-2A5" secondAttribute="trailing" constant="-20" id="2VJ-Vl-Pdq"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="S5L-s2-2A5" secondAttribute="trailing" constant="27" id="2VJ-Vl-Pdq"/>
                             <constraint firstItem="VPP-1t-zAh" firstAttribute="top" secondItem="M1H-iO-fA9" secondAttribute="bottom" constant="-359" id="40X-BM-cEs"/>
                             <constraint firstItem="VPP-1t-zAh" firstAttribute="leading" secondItem="S5L-s2-2A5" secondAttribute="leading" id="8U3-MP-pLj"/>
-                            <constraint firstItem="S5L-s2-2A5" firstAttribute="top" secondItem="VPP-1t-zAh" secondAttribute="bottom" id="AsC-aM-Bat"/>
-                            <constraint firstItem="S5L-s2-2A5" firstAttribute="leading" secondItem="sMl-DE-bto" secondAttribute="leadingMargin" constant="-20" id="I6y-i1-kca"/>
+                            <constraint firstItem="S5L-s2-2A5" firstAttribute="top" secondItem="VPP-1t-zAh" secondAttribute="bottom" constant="3" id="AsC-aM-Bat"/>
+                            <constraint firstItem="S5L-s2-2A5" firstAttribute="leading" secondItem="sMl-DE-bto" secondAttribute="leadingMargin" constant="43" id="I6y-i1-kca"/>
                             <constraint firstItem="VPP-1t-zAh" firstAttribute="leading" secondItem="sMl-DE-bto" secondAttribute="leadingMargin" constant="-20" id="L3T-9l-zpN"/>
                             <constraint firstAttribute="trailing" secondItem="VPP-1t-zAh" secondAttribute="trailing" id="NaH-Zg-Rn0"/>
                             <constraint firstItem="M1H-iO-fA9" firstAttribute="centerX" secondItem="sMl-DE-bto" secondAttribute="centerX" id="Qfl-YH-R7M"/>
@@ -407,7 +407,7 @@
                             <constraint firstItem="VPP-1t-zAh" firstAttribute="trailing" secondItem="S5L-s2-2A5" secondAttribute="trailing" id="Zvu-kA-FN4"/>
                             <constraint firstItem="VPP-1t-zAh" firstAttribute="top" secondItem="sMl-DE-bto" secondAttribute="top" constant="170" id="eJw-s5-hCt"/>
                             <constraint firstItem="hDa-gQ-21a" firstAttribute="top" secondItem="bhv-if-pRZ" secondAttribute="bottom" constant="42" id="fl6-WD-9fp"/>
-                            <constraint firstItem="VPP-1t-zAh" firstAttribute="height" secondItem="S5L-s2-2A5" secondAttribute="height" constant="-13" id="fmZ-2P-pHQ"/>
+                            <constraint firstItem="VPP-1t-zAh" firstAttribute="height" secondItem="S5L-s2-2A5" secondAttribute="height" constant="5" id="fmZ-2P-pHQ"/>
                             <constraint firstItem="M1H-iO-fA9" firstAttribute="width" secondItem="sMl-DE-bto" secondAttribute="width" id="kp2-88-JzY"/>
                             <constraint firstItem="VPP-1t-zAh" firstAttribute="top" secondItem="hDa-gQ-21a" secondAttribute="bottom" constant="51" id="lPT-Vs-So8"/>
                             <constraint firstItem="hDa-gQ-21a" firstAttribute="centerX" secondItem="VPP-1t-zAh" secondAttribute="centerX" id="oNB-GL-zpS"/>
@@ -421,8 +421,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ApplozicChat" width="640" height="200"/>
-        <image name="ChatList" width="640" height="200"/>
+        <image name="Applozic512h" width="1521" height="512"/>
+        <image name="ChatList512h" width="1499" height="512"/>
         <image name="Logout" width="640" height="88"/>
     </resources>
 </document>
