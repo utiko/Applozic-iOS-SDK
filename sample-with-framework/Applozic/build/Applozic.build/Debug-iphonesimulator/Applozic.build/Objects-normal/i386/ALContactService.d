@@ -1,20 +1,20 @@
 dependencies: \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ALContactService.m \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ALContactService.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALContact.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALJson.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/DB_CONTACT.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ALContactDBService.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALUserDetail.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Handlers/ALDBHandler.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Handlers/ALUserDefaultsHandler.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALUserService.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Resources/Files/ALConstant.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALSyncMessageFeed.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALMessageList.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALMessage.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALFileMetaInfo.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/DB_FileMetaInfo.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALLastSeenSyncFeed.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALUserClientService.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALAPIResponse.h
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/ALContactService.m \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/ALContactService.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/DomainClasses/ALContact.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/DomainClasses/ALJson.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/DomainClasses/DB_CONTACT.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/ALContactDBService.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/ALUserDetail.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/Handlers/ALDBHandler.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/Handlers/ALUserDefaultsHandler.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/ALUserService.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/Resources/Files/ALConstant.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/DomainClasses/ALSyncMessageFeed.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/DomainClasses/ALMessageList.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/DomainClasses/ALMessage.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/DomainClasses/ALFileMetaInfo.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/DomainClasses/DB_FileMetaInfo.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/ALLastSeenSyncFeed.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/ALUserClientService.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/ALAPIResponse.h

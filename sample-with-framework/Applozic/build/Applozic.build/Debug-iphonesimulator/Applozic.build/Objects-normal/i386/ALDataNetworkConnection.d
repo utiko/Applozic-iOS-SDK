@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALDataNetworkConnection.m \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALDataNetworkConnection.h
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/ALDataNetworkConnection.m \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/ALDataNetworkConnection.h

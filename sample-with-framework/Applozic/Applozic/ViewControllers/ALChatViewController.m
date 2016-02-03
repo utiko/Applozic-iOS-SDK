@@ -104,7 +104,7 @@ ALMessageDBService  * dbService;
     [self.loadEarlierAction setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
     [self processMarkRead];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForegroundInChat:) name:UIApplicationWillEnterForegroundNotification object:nil];
 //    if(self.individualLaunch){
 //        [self fetchAndRefresh:YES];
 //    }
@@ -1512,5 +1512,9 @@ ALMessageDBService  * dbService;
     _mqttRetryCount++;
 }
 
+- (void)appWillEnterForegroundInChat:(NSNotification *)notification {
+    NSLog(@"will enter foreground notification");
+    [self syncCall:self.contactIds updateUI:nil alertValue:nil];
+}
 
 @end

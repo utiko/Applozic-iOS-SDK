@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "893"
             endingLineNumber = "893"
-            landmarkName = "-openCamera"
+            landmarkName = "-uploadImage:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -47,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "872"
             endingLineNumber = "872"
-            landmarkName = "-showActionAlert"
+            landmarkName = "-uploadImage:"
             landmarkType = "5">
             <Locations>
                <Location
@@ -95,8 +95,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "883"
             endingLineNumber = "883"
-            landmarkName = "@implementation ALChatViewController"
-            landmarkType = "3">
+            landmarkName = "-uploadImage:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -401,7 +401,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "592"
             endingLineNumber = "592"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkName = "-displayAttachmentMediaType:andContactCell:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -417,7 +417,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "597"
             endingLineNumber = "597"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkName = "-displayAttachmentMediaType:andContactCell:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -449,7 +449,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "309"
             endingLineNumber = "309"
-            landmarkName = "-viewWillAppear:"
+            landmarkName = "-setUpTableView"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -481,7 +481,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1037"
             endingLineNumber = "1037"
-            landmarkName = "-individualNotificationhandler:"
+            landmarkName = "-sendMessage:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -497,7 +497,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1049"
             endingLineNumber = "1049"
-            landmarkName = "-syncCall:updateUI:alertValue:"
+            landmarkName = "-getMessageFromViewList:withValue:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

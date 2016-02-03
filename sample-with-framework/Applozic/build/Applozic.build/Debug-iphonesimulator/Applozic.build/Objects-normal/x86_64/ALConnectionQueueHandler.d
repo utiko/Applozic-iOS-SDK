@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Handlers/ALConnectionQueueHandler.m \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Handlers/ALConnectionQueueHandler.h
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/Handlers/ALConnectionQueueHandler.m \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/Handlers/ALConnectionQueueHandler.h

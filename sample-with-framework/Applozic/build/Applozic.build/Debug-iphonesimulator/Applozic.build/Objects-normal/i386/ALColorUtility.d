@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Utilities/ALColorUtility.m \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Utilities/ALColorUtility.h
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/Utilities/ALColorUtility.m \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/Utilities/ALColorUtility.h

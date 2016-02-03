@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Handlers/ALUserDefaultsHandler.m \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Handlers/ALUserDefaultsHandler.h
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/Handlers/ALUserDefaultsHandler.m \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/Handlers/ALUserDefaultsHandler.h

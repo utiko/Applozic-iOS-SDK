@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/DB_CHANNEL.m \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/DB_CHANNEL.h
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/DB_CHANNEL.m \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/DB_CHANNEL.h

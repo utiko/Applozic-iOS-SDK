@@ -1,6 +1,6 @@
 dependencies: \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Resources/ProgressView/KAProgressLabel.m \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Resources/ProgressView/KAProgressLabel.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Resources/ProgressView/TPPropertyAnimation.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Utilities/ALUtilityClass.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALChatLauncher.h
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/Resources/ProgressView/KAProgressLabel.m \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/Resources/ProgressView/KAProgressLabel.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/Resources/ProgressView/TPPropertyAnimation.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/Applozic/Utilities/ALUtilityClass.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/ALChatLauncher.h

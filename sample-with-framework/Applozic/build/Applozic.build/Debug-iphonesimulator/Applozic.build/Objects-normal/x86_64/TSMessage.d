@@ -1,4 +1,4 @@
 dependencies: \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/TSMessage.m \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/TSMessage.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/TSMessageView.h
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/TSMessage.m \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/TSMessage.h \
+  /Users/divjyotsingh/GitHub/Applozic-iOS-SDK(Master)/sample-with-framework/Applozic/TSMessageView.h

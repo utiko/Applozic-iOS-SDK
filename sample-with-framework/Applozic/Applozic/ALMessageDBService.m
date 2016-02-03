@@ -463,7 +463,7 @@
     theMessageEntity.isUploadFailed=[ NSNumber numberWithBool:theMessage.isUploadFailed];
     theMessageEntity.contentType = theMessage.contentType;
     theMessageEntity.deletedFlag=[NSNumber numberWithBool:theMessage.deleted];
-    NSLog(@"Deleted Entity Flag :%@", theMessageEntity.deletedFlag);
+    
     
     if(theMessage.getGroupId)
     {
