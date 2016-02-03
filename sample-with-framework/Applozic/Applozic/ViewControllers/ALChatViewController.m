@@ -149,6 +149,7 @@ ALMessageDBService  * dbService;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:)
         name:@"deliveryReport" object:nil];
+
     self.mqttObject = [ALMQTTConversationService sharedInstance];
 
     
@@ -182,6 +183,7 @@ ALMessageDBService  * dbService;
     [self.tabBarController.tabBar setHidden: YES];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
+[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     [self.sendMessageTextView resignFirstResponder];
     [self.label setHidden:YES];
     [self.typingLabel setHidden:YES];
