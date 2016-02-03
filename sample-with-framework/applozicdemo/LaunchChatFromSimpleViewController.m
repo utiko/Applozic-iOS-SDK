@@ -12,7 +12,8 @@
 #import "ApplozicLoginViewController.h"
 #import  <Applozic/ALUserDefaultsHandler.h>
 #import  <Applozic/ALRegisterUserClientService.h>
-
+#import  <Applozic/ALDBHandler.h>
+#import  <Applozic/ALContact.h>
 
 @interface LaunchChatFromSimpleViewController ()
 
@@ -81,6 +82,10 @@
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
     [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
 
+    //Adding sample contacts...
+    [self insertInitialContacts];
+
+
 }
 
 
@@ -98,9 +103,6 @@
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmailId:[ALUserDefaultsHandler getEmailId]];
     [user setPassword:@""];
-    
-    //Adding sample contacts...
-    [self insertInitialContacts];
     
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
     [demoChatManager launchChatForUserWithDisplayName:@"masterUser" andwithDisplayName:@"Master" andFromViewController:self];
