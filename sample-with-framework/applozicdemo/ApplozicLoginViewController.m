@@ -168,11 +168,8 @@
     [ALUserDefaultsHandler setUserId:user.userId];
     [ALUserDefaultsHandler setEmailId:user.emailId];
     
-//    DemoChatManager * demoChatManager = [[DemoChatManager alloc]init];
-//    [self.mActivityIndicator startAnimating];
-//    [ demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
-//    [self.mActivityIndicator stopAnimating];
-
+    DemoChatManager * demoChatManager = [[DemoChatManager alloc]init];
+    [demoChatManager registerUser:user];
     
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Main"
                                                           bundle:nil];

@@ -93,7 +93,7 @@
     
     [self.view addSubview:_activityView];
     [_activityView startAnimating];
-
+    
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmailId:[ALUserDefaultsHandler getEmailId]];
@@ -101,7 +101,8 @@
     
     
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:@"adarshk"];
+    [demoChatManager launchChatForUserWithDisplayName:@"masterUser" andwithDisplayName:@"Master" andFromViewController:self];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{

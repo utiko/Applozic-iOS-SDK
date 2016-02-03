@@ -67,4 +67,5 @@ dependencies: \
   /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALDataNetworkConnection.h \
   /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALAppLocalNotifications.h \
   /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALReachability.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ALMessageClientService.h
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ALMessageClientService.h \
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ALContactService.h

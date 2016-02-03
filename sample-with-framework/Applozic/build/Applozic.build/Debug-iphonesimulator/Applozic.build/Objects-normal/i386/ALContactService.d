@@ -7,4 +7,14 @@ dependencies: \
   /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/ALContactDBService.h \
   /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALUserDetail.h \
   /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Handlers/ALDBHandler.h \
-  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Handlers/ALUserDefaultsHandler.h
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Handlers/ALUserDefaultsHandler.h \
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALUserService.h \
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/Resources/Files/ALConstant.h \
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALSyncMessageFeed.h \
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALMessageList.h \
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALMessage.h \
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/ALFileMetaInfo.h \
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/Applozic/DomainClasses/DB_FileMetaInfo.h \
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALLastSeenSyncFeed.h \
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALUserClientService.h \
+  /Users/devashish/Applozic-iOS-SDK/sample-with-framework/Applozic/ALAPIResponse.h
