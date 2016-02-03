@@ -45,17 +45,6 @@
         
         NSString *statusStr = (NSString *)theJson;
         
-        /*NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
-        
-        if ([statusStr rangeOfString: @"<html"].location != NSNotFound) {
-            //[errorDetail setValue:@"Failed to process from server" forKey:NSLocalizedDescriptionKey];
-            theError = [NSError errorWithDomain:@"server" code:200 userInfo:errorDetail];
-        }
-        
-        if ([statusStr rangeOfString: @"INVALID_APPLICATIONID"].location != NSNotFound) {
-            //[errorDetail setValue:@"Invalid Application Id" forKey:NSLocalizedDescriptionKey];
-            theError = [NSError errorWithDomain:@"server" code:200 userInfo:errorDetail];
-        }*/
         
         if (theError) {
             
@@ -69,36 +58,35 @@
         //Todo: figure out how to set country code
         //mobiComUserPreference.setCountryCode(user.getCountryCode());
         //mobiComUserPreference.setContactNumber(user.getContactNumber());
-@try{
-        [ALUserDefaultsHandler setUserId:user.userId];
-        [ALUserDefaultsHandler setEmailVerified: user.emailVerified];
-        [ALUserDefaultsHandler setDisplayName: user.displayName];
-        [ALUserDefaultsHandler setEmailId:user.emailId];
-        [ALUserDefaultsHandler setDeviceKeyString:response.deviceKey];
-        [ALUserDefaultsHandler setUserKeyString:response.userKey];
-        //[ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.lastSyncTime];
-}
-           
-@catch (NSException *exception) {
-    NSLog(@"EXCEPTION: %@",exception);
-}
-           
-@finally {
-    NSLog(@"..");
-}
+        @try{
+            [ALUserDefaultsHandler setUserId:user.userId];
+            [ALUserDefaultsHandler setEmailVerified: user.emailVerified];
+            [ALUserDefaultsHandler setDisplayName: user.displayName];
+            [ALUserDefaultsHandler setEmailId:user.emailId];
+            [ALUserDefaultsHandler setDeviceKeyString:response.deviceKey];
+            [ALUserDefaultsHandler setUserKeyString:response.userKey];
+            //[ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.lastSyncTime];
+        }
+        
+        @catch (NSException *exception) {
+            NSLog(@"EXCEPTION: %@",exception);
+        }
+        
+        @finally {
+            NSLog(@"..");
+        }
         [ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.currentTimeStamp];
-
         [self connect];
-           
-        [ALMessageService processLatestMessagesGroupByContact];
-           
+        ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+        if(dbService.isMessageTableEmpty){
+            [ALMessageService processLatestMessagesGroupByContact];
+            
+        }
         completion(response,nil);
     }];
     
-   
-    
-
 }
+
 
 -(void) updateApnDeviceTokenWithCompletion:(NSString *)apnDeviceToken withCompletion:(void(^)(ALRegistrationResponse * response, NSError *error)) completion
 {
