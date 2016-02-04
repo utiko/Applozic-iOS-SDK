@@ -104,7 +104,6 @@ ALMessageDBService  * dbService;
     [self.loadEarlierAction setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
     [self processMarkRead];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForegroundInChat:) name:UIApplicationWillEnterForegroundNotification object:nil];
 //    if(self.individualLaunch){
 //        [self fetchAndRefresh:YES];
 //    }
@@ -144,8 +143,7 @@ ALMessageDBService  * dbService;
 //        keyWindow.windowLevel=UIWindowLevelNormal;
 
     }
-    
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:)
         name:@"deliveryReport" object:nil];
@@ -183,7 +181,6 @@ ALMessageDBService  * dbService;
     [self.tabBarController.tabBar setHidden: YES];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
-[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     [self.sendMessageTextView resignFirstResponder];
     [self.label setHidden:YES];
     [self.typingLabel setHidden:YES];

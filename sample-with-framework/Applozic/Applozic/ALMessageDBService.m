@@ -518,7 +518,7 @@
     theMessage.isUploadFailed = theEntity.isUploadFailed.boolValue;
     theMessage.contentType = theEntity.contentType;
     theMessage.deleted=theEntity.deletedFlag.boolValue;
-    NSLog(@"theMessage Deleted flag setting %hhd",theMessage.deleted);
+//    NSLog(@"theMessage Deleted flag setting %hhd",theMessage.deleted);
     if(theEntity.groupId)
     {
         theMessage.groupId = theEntity.groupId;

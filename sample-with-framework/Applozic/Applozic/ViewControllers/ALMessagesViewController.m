@@ -189,7 +189,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(callLastSeenStatusUpdate)
-                                                 name:UIApplicationWillEnterForegroundNotification
+                                                 name:UIApplicationDidBecomeActiveNotification
                                                object:[UIApplication sharedApplication]];
     
     // [[NSNotificationCenter defaultCenter]  removeObserver:self name:@"showNotificationAndLaunchChat" object:nil];
@@ -227,11 +227,13 @@
     [self.dataAvailablityLabel setHidden:YES];
     [self callLastSeenStatusUpdate];
 //    NSLog(@" = = = = = = = = = viewWIllAppear  COUNTXX  :%lu ==========",(unsigned long)self.mContactsMessageListArray.count);
+    
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     if (![ALDataNetworkConnection checkDataNetworkAvailable])
     {
         [self.dataAvailablityLabel setHidden:NO];
@@ -264,7 +266,6 @@
     //unregister for notification
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushNotification" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     [super viewWillDisappear:animated];
 }
 

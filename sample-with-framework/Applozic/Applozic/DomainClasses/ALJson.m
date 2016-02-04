@@ -59,8 +59,6 @@
                  || [value isKindOfClass:[NSDictionary class]] || [value isKindOfClass:[NSMutableArray class]] || [value isKindOfClass:[NSArray class]]) {
             // TODO: extend to other types
             [dictionary setObject:value forKey:key];
-            NSLog(@"DICT:%@",dictionary);
-//            [dictionary setObject:@" " forKey:key];
         }
         else if ([value isKindOfClass:[NSObject class]]) {
             if ([value isKindOfClass:[ALFileMetaInfo class]]) {

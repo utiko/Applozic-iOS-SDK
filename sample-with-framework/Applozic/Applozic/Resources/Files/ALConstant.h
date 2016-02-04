@@ -7,7 +7,7 @@
 
 
 #define KBASE_URL @"https://apps.applozic.com"
-
+//#define KBASE_URL @"https://test.applozic.com"
 #define MQTT_URL @"apps.applozic.com"
 
 #define MQTT_PORT @"1883"
