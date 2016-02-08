@@ -30,8 +30,8 @@
         
         localNotificationHandler = [[self alloc] init];
         
-
-
+        
+        
         
     });
     
@@ -127,27 +127,27 @@
         }
         else
         {
-             NSLog(@"========== ELSE googleReach ============");
+            NSLog(@"========== ELSE googleReach ============");
         }
     }
     else if (reach == self.localWiFiReach)
     {
         if([reach isReachable])
         {
-             NSLog(@"========== IF localWiFiReach ============");
+            NSLog(@"========== IF localWiFiReach ============");
         }
         else
         {
-             NSLog(@"========== ELSE localWiFiReach ============");
+            NSLog(@"========== ELSE localWiFiReach ============");
         }
     }
     else if (reach == self.internetConnectionReach)
     {
         if([reach isReachable])
         {
-             NSLog(@"========== IF internetConnectionReach ============");
-    
-//            [ALMessageService processLatestMessagesGroupByContact];
+            NSLog(@"========== IF internetConnectionReach ============");
+            
+            //            [ALMessageService processLatestMessagesGroupByContact];
             [ALMessageService processPendingMessages];
         }
         else
@@ -155,7 +155,7 @@
             NSLog(@"========== ELSE internetConnectionReach ============");
         }
     }
-        
+    
 }
 
 
@@ -185,8 +185,8 @@
     NSString * alertValue = [self.dict valueForKey:@"alertValue"];
     
     //ALMessageDBService* obj=[[ALMessageDBService alloc] init];
-   // [obj fetchAndRefreshQuickConversation];
-
+    // [obj fetchAndRefreshQuickConversation];
+    
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
         
@@ -195,33 +195,31 @@
             return ;
         }
         
-    
-            if(updateUI==[NSNumber numberWithBool:NO]){
-                NSLog(@"App launched from Background....Directly opening view from %@",self.dict);
-                [self thirdPartyNotificationTap1:self.contactId]; // Directly launching Chat
-                return;
-            }
         
-            if(updateUI==[NSNumber numberWithBool:YES]){
+        if(updateUI==[NSNumber numberWithBool:NO]){
+            NSLog(@"App launched from Background....Directly opening view from %@",self.dict);
+            [self thirdPartyNotificationTap1:self.contactId]; // Directly launching Chat
+            return;
+        }
+        
+        if(updateUI==[NSNumber numberWithBool:YES]){
             
-                if(alertValue){
-                    NSLog(@"App launched from 3rdParty for c");
-                    NSLog(@"posting to notification....%@",notification.userInfo);
-                    [ALUtilityClass thirdDisplayNotificationTS:alertValue andForContactId:self.contactId delegate:self];
-                }
-                else{
-                    NSLog(@"Nil Alert Value");
-                }
+            if(alertValue){
+                NSLog(@"App launched from 3rdParty for c");
+                NSLog(@"posting to notification....%@",notification.userInfo);
+                [ALUtilityClass thirdDisplayNotificationTS:alertValue andForContactId:self.contactId delegate:self];
             }
+            else{
+                NSLog(@"Nil Alert Value");
+            }
+        }
         
     }];
     
-
-//    [ALUtilityClass displayNotification:alertValue delegate:self];
-}
-
--(void)thirdPartyNotificationTap1:(NSString *) contactId{ //:(UIGestureRecognizer*)gestureRecognizer
     
+    //    [ALUtilityClass displayNotification:alertValue delegate:self];
+}
+-(void)thirdPartyNotificationTap1:(NSString *) contactId{ //:(UIGestureRecognizer*)gestureRecognizer
     
     ALPushAssist* object=[[ALPushAssist alloc] init];
     //for Individual Chat Conversation Opening...

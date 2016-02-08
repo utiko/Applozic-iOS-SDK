@@ -191,9 +191,10 @@
                                              selector:@selector(callLastSeenStatusUpdate)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:[UIApplication sharedApplication]];
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self selector:@selector(newMessageHandler:) name:NEW_MESSAGE_NOTIFICATION  object:nil];
     
-    // [[NSNotificationCenter defaultCenter]  removeObserver:self name:@"showNotificationAndLaunchChat" object:nil];
-    
+
     if ([_detailChatViewController refreshMainView])
     {
         ALMessageDBService *dBService = [ALMessageDBService new];
@@ -945,7 +946,16 @@
 
 - (void)appWillEnterForeground:(NSNotification *)notification {
     NSLog(@"will enter foreground notification");
-    [self syncCall:nil];
-    [self callLastSeenStatusUpdate];
+   // [self syncCall:nil];
+    //[self callLastSeenStatusUpdate];
+}
+
+-(void)newMessageHandler:(NSNotification *) notification{
+    
+    NSMutableArray * messageArray = notification.object;
+    NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
+    NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
+    [messageArray sortUsingDescriptors:descriptors];
+    [self updateMessageList:messageArray];
 }
 @end
