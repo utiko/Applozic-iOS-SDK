@@ -45,6 +45,8 @@
 #import "ALContactService.h"
 
 #define MQTT_MAX_RETRY 3
+#define NEW_MESSAGE_NOTIFICATION @"newMessageNotification"
+
 
 @interface ALChatViewController ()<ALChatCellImageDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate,ALMQTTConversationDelegate>
 
@@ -131,18 +133,7 @@ ALMessageDBService  * dbService;
     
     if(self.refresh || ([self.alMessageWrapper getUpdatedMessageArray] && [self.alMessageWrapper getUpdatedMessageArray].count == 0) || (((!([self.alMessageWrapper getUpdatedMessageArray] && [[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds] isEqualToString:self.contactIds])))||([[self.alMessageWrapper getUpdatedMessageArray][0] groupId] != self.channelKey)))
     {
-//        if(@"view reload called")
- 
         [self reloadView];
-        
-//        [super scrollTableViewToBottomWithAnimation:NO];
-//        if (self.refresh) {
-//            self.refresh = false;
-//        }
-        
-//        UIWindow * keyWindow = [[UIApplication sharedApplication] keyWindow];
-//        keyWindow.windowLevel=UIWindowLevelNormal;
-
     }
     
     
@@ -150,6 +141,11 @@ ALMessageDBService  * dbService;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:)
         name:@"deliveryReport" object:nil];
 
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self selector:@selector(newMessageHandler:) name:NEW_MESSAGE_NOTIFICATION  object:nil];
+    
+    self.mqttObject = [ALMQTTConversationService sharedInstance];
+    
     self.mqttObject = [ALMQTTConversationService sharedInstance];
 
     
@@ -1069,18 +1065,7 @@ ALMessageDBService  * dbService;
             return ;
         } else {
             if (messageList.count > 0 ){
-                NSArray * theFilteredArray = [messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];
-                NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
-                NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
-                NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
-                if(sortedArray.count==0){
-                    NSLog(@"No message for contact .....%@",self.contactIds);
-                    return;
-                }
-                [self.alMessageWrapper addLatestObjectToArray:(NSMutableArray *)sortedArray];
-                //[ALUserService processContactFromMessages:messageList];
-                [self setTitle];
-                [self.mTableView reloadData];
+                
                 if(flag)
                 {
                     [self processMarkRead];
@@ -1516,7 +1501,34 @@ ALMessageDBService  * dbService;
 
 - (void)appWillEnterForegroundInChat:(NSNotification *)notification {
     NSLog(@"will enter foreground notification");
-    [self syncCall:self.contactIds updateUI:nil alertValue:nil];
+   // [self syncCall:self.contactIds updateUI:nil alertValue:nil];
+}
+-(void)addMessageToList: (NSMutableArray  *)messageList{
+    
+    
+    NSLog(@"ADD MESSAGE %@",messageList);
+    NSArray * theFilteredArray = [messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];
+    NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
+    NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
+    NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
+    if(sortedArray.count==0){
+        NSLog(@"No message for contact .....%@",self.contactIds);
+        return;
+    }
+    [self.alMessageWrapper addLatestObjectToArray:(NSMutableArray *)sortedArray];
+    //[ALUserService processContactFromMessages:messageList];
+    [self setTitle];
+    //    [self fetchAndRefresh:true];
+    [self.mTableView reloadData];
+    [self scrollTableViewToBottomWithAnimation:YES];
+}
+
+-(void)newMessageHandler:(NSNotification *) notification{
+    
+    NSMutableArray * messageArray = notification.object;
+    // if([self.alMessageWrapper g])
+    [self addMessageToList:messageArray];
+    [self processMarkRead];
 }
 
 @end
