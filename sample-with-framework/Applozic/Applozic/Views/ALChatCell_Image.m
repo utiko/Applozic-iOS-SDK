@@ -27,7 +27,10 @@
 
 
 
-@implementation ALChatCell_Image
+@implementation ALChatCell_Image{
+    float heightLocation;
+}
+
 
 @synthesize mBubleImageView,mDateLabel,mImageView,mMessageStatusImageView,mUserProfileImageView,mDowloadRetryButton,progresLabel,imageWithText;
 
@@ -140,6 +143,16 @@ UIViewController * modalCon;
         self.mChannelMemberName.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:self.mChannelMemberName];
         
+        
+        if (IS_IPHONE_5) {
+            heightLocation=180.0;
+        }
+        if(IS_IPHONE_6){
+            heightLocation=220.0;
+        }
+        if (IS_IPHONE_6_PLUS) {
+            heightLocation=280.0;
+        }
     }
     
     return self;
@@ -238,22 +251,24 @@ UIViewController * modalCon;
         }
         else if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION)
         {
+            imageWithText.alpha = 0;
+            [self.mDowloadRetryButton removeFromSuperview];
             
-            self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60) - 18,
+            self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 ,
                                                     0,
                                                     viewSize.width - 120,
-                                                    viewSize.width - 220);
+                                                    viewSize.width - heightLocation);
             
-            self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
+            self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5,
+                                               self.mBubleImageView.frame.origin.y + 5,
+                                               self.mBubleImageView.frame.size.width - 10,
+                                               self.mBubleImageView.frame.size.height - 10);
             
-//            self.partImageBubble.frame = CGRectMake(viewSize.width - 28,
-//                                                    self.mBubleImageView.frame.origin.y +
-//                                                    self.mBubleImageView.frame.size.height - 18,
-//                                                    18,
-//                                                    18);
-            imageWithText.alpha = 0;
-            
-        }
+            self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x,
+                                               self.mBubleImageView.frame.origin.y +
+                                               self.mBubleImageView.frame.size.height,
+                                               theDateSize.width,
+                                               21);        }
         
         else
         {
@@ -336,8 +351,7 @@ UIViewController * modalCon;
           self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
         
 //        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5 , theDateSize.width, 20);
-        if(alMessage.message.length > 0 && alMessage.contentType!=ALMESSAGE_CONTENT_LOCATION)
-        {
+        if(alMessage.message.length > 0 && alMessage.contentType!=ALMESSAGE_CONTENT_LOCATION){
             imageWithText.alpha = 1;
             imageWithText.backgroundColor = [UIColor clearColor];
             imageWithText.textColor = [UIColor whiteColor];
@@ -353,20 +367,16 @@ UIViewController * modalCon;
         }
         else if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION)
         {
-            
-            self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60) - 18,
+            self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60),
                                                     0,
                                                     viewSize.width - 120,
-                                                    viewSize.width - 220);
+                                                    viewSize.width - heightLocation) ;
             
-            self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
-            
-            //            self.partImageBubble.frame = CGRectMake(viewSize.width - 28,
-            //                                                    self.mBubleImageView.frame.origin.y +
-            //                                                    self.mBubleImageView.frame.size.height - 18,
-            //                                                    18,
-            //                                                    18);
-            imageWithText.alpha = 0;
+            self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5,
+                                               self.mBubleImageView.frame.origin.y + 5,
+                                               self.mBubleImageView.frame.size.width - 10,
+                                               self.mBubleImageView.frame.size.height - 10);
+
             
         }
 

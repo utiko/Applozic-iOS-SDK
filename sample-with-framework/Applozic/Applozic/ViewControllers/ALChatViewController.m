@@ -145,8 +145,7 @@ ALMessageDBService  * dbService;
     }
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:)
-        name:@"deliveryReport" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:) name:@"deliveryReport" object:nil];
 
     self.mqttObject = [ALMQTTConversationService sharedInstance];
 
@@ -399,7 +398,7 @@ ALMessageDBService  * dbService;
     }
     ALMessage * theMessage = [self getMessageToPost];
     [self.alMessageWrapper addALMessageToMessageArray:theMessage];
-    
+    NSLog(@"Message  %@",theMessage.message);
     [self.mTableView reloadData];
     dispatch_async(dispatch_get_main_queue(), ^{
         [super scrollTableViewToBottomWithAnimation:YES];
@@ -877,10 +876,8 @@ ALMessageDBService  * dbService;
         
         ALChatCell_Image*  imageCell=  [self getCell:theMessage.key];
         if(!imageCell){
-
             NSLog(@" not able to find the image cell for upload....");
             return;
-            
         }
         imageCell.progresLabel.alpha = 1;
         imageCell.mMessage.fileMeta.progressValue = 0;
@@ -1027,7 +1024,7 @@ ALMessageDBService  * dbService;
         if (error) {
             NSLog(@"%@",error);
             [self handleErrorStatus:theMessage];
-            return ;
+            return;
         }
         [self.mTableView reloadData];
         [self setRefreshMainView:TRUE];

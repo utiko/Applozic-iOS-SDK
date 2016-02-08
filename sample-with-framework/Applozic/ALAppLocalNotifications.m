@@ -38,19 +38,6 @@
     return localNotificationHandler;
 }
 
-- (void)appWillEnterForegroundBase:(NSNotification *)notification {
-    
-    //Works in 3rd Party borders..
-    NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
-    [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
-        if (error) {
-            NSLog(@"ERROR");
-        }
-        else{
-        }
-    }];
-    }
-
 -(void)dataConnectionNotificationHandler
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:AL_kReachabilityChangedNotification object:nil];
@@ -173,7 +160,18 @@
 
 
 //receiver
-
+- (void)appWillEnterForegroundBase:(NSNotification *)notification {
+    
+    //Works in 3rd Party borders..
+    NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
+    [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
+        if (error) {
+            NSLog(@"ERROR");
+        }
+        else{
+        }
+    }];
+}
 
 // To DISPLAY THE NOTIFICATION ONLY ...from 3rd Party View.
 -(void)thirdPartyNotificationHandler:(NSNotification*)notification{

@@ -180,11 +180,15 @@
             self.mBubleImageView.backgroundColor = [UIColor whiteColor];
         }
         
-        self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
+        self.mUserProfileImageView.image = [ALUtilityClass
+                                            getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
         
         
         
-        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, theTextSize.width + 18 , theTextSize.height + 20);
+        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13,
+                                                0,
+                                                theTextSize.width + 18,
+                                                theTextSize.height + 20);
         
         
         
