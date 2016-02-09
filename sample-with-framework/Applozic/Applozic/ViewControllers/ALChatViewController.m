@@ -1076,6 +1076,12 @@ ALMessageDBService  * dbService;
 }
 
 -(void) updateDeliveryReportForConversation {
+    NSArray * filteredArray = [[self.alMessageWrapper getUpdatedMessageArray] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"delivered = %@",@(NO)]];
+    
+    for(ALMessage * message  in  filteredArray){
+            message.delivered=true;
+    }
+    [self.mTableView reloadData];
     //Todo: update all delivery report in all messages
 }
 
