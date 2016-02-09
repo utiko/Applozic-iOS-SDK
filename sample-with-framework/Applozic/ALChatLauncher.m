@@ -51,7 +51,7 @@
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     [ALApplozicSettings setUserProfileHidden:NO];
     [ALApplozicSettings hideRefreshButton:NO];
-    [ALApplozicSettings setTitleForConversationScreen:@"Conversation"];
+    [ALApplozicSettings setTitleForConversationScreen:@"Chats"];
     
     [ALApplozicSettings setFontFace:@"Helvetica"];
     [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];

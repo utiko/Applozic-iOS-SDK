@@ -252,7 +252,7 @@ UIViewController * modalCon;
         else if(alMessage.contentType==ALMESSAGE_CONTENT_LOCATION)
         {
             imageWithText.alpha = 0;
-            [self.mDowloadRetryButton removeFromSuperview];
+            self.mDowloadRetryButton.hidden=YES;
             
             self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 ,
                                                     0,
@@ -272,6 +272,7 @@ UIViewController * modalCon;
         
         else
         {
+            self.mDowloadRetryButton.hidden=NO;
             imageWithText.alpha = 0;
         }
         
