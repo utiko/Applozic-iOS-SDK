@@ -10,6 +10,7 @@
 #import <Applozic/ALUserDefaultsHandler.h>
 #import <Applozic/ALRegisterUserClientService.h>
 #import <Applozic/ALMessageClientService.h>
+#import "LaunchChatFromSimpleViewController.h"
 
 @implementation DemoChatManager
 
@@ -105,6 +106,8 @@
     //User is already registered ..directly launch the chat...
     if([ALUserDefaultsHandler getDeviceKeyString]){
         
+        LaunchChatFromSimpleViewController *lObj=[[LaunchChatFromSimpleViewController alloc] init];
+        [lObj.activityView removeFromSuperview];
         if(userId){
             [self.chatLauncher launchIndividualChat:userId andViewControllerObject:viewController andWithText:nil];
         }else{

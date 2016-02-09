@@ -14,12 +14,13 @@
 #import  <Applozic/ALRegisterUserClientService.h>
 #import  <Applozic/ALDBHandler.h>
 #import  <Applozic/ALContact.h>
+#import <Applozic/ALDataNetworkConnection.h>
 
 @interface LaunchChatFromSimpleViewController ()
 
 - (IBAction)mLaunchChatList:(id)sender;
 - (IBAction)mChatLaunchButton:(id)sender;
-@property(nonatomic,strong) UIActivityIndicatorView *activityView;
+
 
 @end
 
@@ -70,9 +71,12 @@
 
 - (IBAction)mLaunchChatList:(id)sender {
     
-    
-    [_activityView startAnimating];
-    
+    if (![ALDataNetworkConnection checkDataNetworkAvailable]){
+        [_activityView removeFromSuperview];
+    }
+    else {
+        [_activityView startAnimating];
+    }
     [self.view addSubview:_activityView];
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
@@ -111,7 +115,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
 //    [activityView stopAnimating];
-    [_activityView removeFromSuperview];
+//    [_activityView removeFromSuperview];
 }
 -(void)viewWillDisappear:(BOOL)animated {
     [_activityView stopAnimating];
