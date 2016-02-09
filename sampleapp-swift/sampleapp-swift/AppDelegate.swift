@@ -19,7 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-     
+        let alApplocalNotificationHnadler : ALAppLocalNotifications =  ALAppLocalNotifications.appLocalNotificationHandler();
+        alApplocalNotificationHnadler.dataConnectionNotificationHandler();
+        
         if (ALUserDefaultsHandler.isLoggedIn())
         {
             // Get login screen from storyboard and present it
@@ -49,8 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        let localNotification: ALAppLocalNotifications = ALAppLocalNotifications.appLocalNotificationHandler;
-        localNotification.dataConnectionNotificationHandler;
+       
         return true
     }
     

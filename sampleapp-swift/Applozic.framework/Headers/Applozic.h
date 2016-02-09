@@ -59,3 +59,5 @@ FOUNDATION_EXPORT const unsigned char ApplozicVersionString[];
 #import <Applozic/UIImage+Utility.h>
 #import <Applozic/ALUserDetail.h>
 #import <Applozic/ALDataNetworkConnection.h>
+#import <Applozic/ALAppLocalNotifications.h>
+
