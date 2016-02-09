@@ -30,11 +30,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    if (![ALUserDefaultsHandler isLoggedIn])
+    if ([ALUserDefaultsHandler isLoggedIn])
     {
         // Get login screen from storyboard and present it
+        
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        ApplozicLoginViewController *viewController = (ApplozicLoginViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ALLoginViewController"];
+        ApplozicLoginViewController *viewController = (ApplozicLoginViewController *)[storyboard instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
         [self.window makeKeyAndVisible];
         [self.window.rootViewController presentViewController:viewController
                                                      animated:nil

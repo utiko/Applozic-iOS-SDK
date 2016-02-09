@@ -174,9 +174,7 @@
     self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
     
     if([ALUserDefaultsHandler getDeviceKeyString]){
-        
         [self.chatLauncher launchIndividualChat:userId withDisplayName:displayName andViewControllerObject:fromViewController andWithText:nil];
-        
         return;
     }
     
