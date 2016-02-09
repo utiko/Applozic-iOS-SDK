@@ -1,0 +1,44 @@
+//
+//  ALChannelDBService.h
+//  Applozic
+//
+//  Created by devashish on 28/12/2015.
+//  Copyright © 2015 applozic Inc. All rights reserved.
+//  class for databse actios for group
+
+#import <Foundation/Foundation.h>
+#import "ALChannel.h"
+#import "DB_CHANNEL.h"
+#import "DB_CHANNEL_USER_X.h"
+#import "ALDBHandler.h"
+#import "ALChannelUserX.h"
+#import "ALConversationProxy.h"
+#import "DB_ConversationProxy.h"
+
+@interface ALChannelDBService : NSObject
+
+-(void)insertChannel:(NSMutableArray *)channelList;
+
+-(DB_CHANNEL *) createChannelEntity:(ALChannel *)channel;
+
+-(void)insertChannelUserX:(NSMutableArray *)channelUserX;
+
+-(DB_CHANNEL_USER_X *)createChannelUserXEntity:(ALChannelUserX *)channelUserXList;
+
+-(NSMutableArray *)getChannelMembersList:(NSNumber *)channelKey;
+
+-(ALChannel *)loadChannelByKey:(NSNumber *)key;
+
+-(DB_CHANNEL *)getChannelByKey:(NSNumber *)key;
+
+-(NSString *)stringFromChannelUserList:(NSNumber *)key;
+
+-(ALChannel *)checkChannelEntity:(NSNumber *)channelKey;
+
+-(void)insertConversationProxy:(NSMutableArray *)proxyArray;
+
+-(DB_ConversationProxy *)createConversationProxy:(ALConversationProxy *)conversationProxy;
+
+-(DB_ConversationProxy *)getConversationProxyByKey:(NSNumber *)ID;
+
+@end

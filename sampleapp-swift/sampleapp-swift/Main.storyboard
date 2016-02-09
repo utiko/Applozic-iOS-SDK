@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1509" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="t0V-gj-2WO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="t0V-gj-2WO">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -111,5 +111,99 @@
             </objects>
             <point key="canvasLocation" x="118" y="627"/>
         </scene>
+        <!--Launch Chat From SimpleVC View Controller-->
+        <scene sceneID="nIP-tc-0P9">
+            <objects>
+                <viewController storyboardIdentifier="LaunchChatFromSimpleViewController" id="6PF-jp-a3N" customClass="LaunchChatFromSimpleVCViewController" customModule="sampleapp_swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="72q-if-Kzx"/>
+                        <viewControllerLayoutGuide type="bottom" id="JnB-DM-abd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rXw-CW-CVX">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ptd-If-cTK">
+                                <rect key="frame" x="0.0" y="490" width="600" height="39"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="600" id="FRJ-yN-tdo"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="Logout"/>
+                                <connections>
+                                    <action selector="logout:" destination="6PF-jp-a3N" eventType="touchUpInside" id="c9f-ZT-Zna"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BJl-We-FAB">
+                                <rect key="frame" x="195" y="62" width="211" height="57"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" image="YES" staticText="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="211" id="OpV-fg-Akc"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="WELCOME">
+                                        <attributes>
+                                            <color key="NSColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <font key="NSFont" size="38" name="Futura-Medium"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="clipping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" alpha="0.94999998807907104" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBz-FT-aec">
+                                <rect key="frame" x="55" y="299" width="490" height="93"/>
+                                <state key="normal" backgroundImage="Applozic512h">
+                                    <color key="titleShadowColor" red="0.79895767500000003" green="0.94653931469999997" blue="1" alpha="0.28000000000000003" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="launchUserChat:" destination="6PF-jp-a3N" eventType="touchUpInside" id="ibq-js-bwS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" alpha="0.94999998807907104" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zbu-By-M3e">
+                                <rect key="frame" x="55" y="172" width="490" height="95"/>
+                                <state key="normal" backgroundImage="ChatList512h"/>
+                                <connections>
+                                    <action selector="launchList:" destination="6PF-jp-a3N" eventType="touchUpInside" id="0GW-dS-1wf"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ptd-If-cTK" firstAttribute="top" secondItem="EBz-FT-aec" secondAttribute="bottom" constant="98" id="03m-7I-mUh"/>
+                            <constraint firstAttribute="trailing" secondItem="Zbu-By-M3e" secondAttribute="trailing" constant="55" id="17C-yd-ggY"/>
+                            <constraint firstItem="Zbu-By-M3e" firstAttribute="leading" secondItem="rXw-CW-CVX" secondAttribute="leading" constant="55" id="5CT-Eb-3Bz"/>
+                            <constraint firstItem="EBz-FT-aec" firstAttribute="centerX" secondItem="ptd-If-cTK" secondAttribute="centerX" id="6kZ-eE-C2b"/>
+                            <constraint firstItem="Zbu-By-M3e" firstAttribute="leading" secondItem="rXw-CW-CVX" secondAttribute="leadingMargin" constant="35" id="Bic-1V-lQo"/>
+                            <constraint firstItem="Zbu-By-M3e" firstAttribute="leading" secondItem="rXw-CW-CVX" secondAttribute="leadingMargin" constant="35" id="Bjj-ne-7fV"/>
+                            <constraint firstItem="ptd-If-cTK" firstAttribute="top" secondItem="72q-if-Kzx" secondAttribute="bottom" constant="470" id="Dsl-qO-C70"/>
+                            <constraint firstItem="Zbu-By-M3e" firstAttribute="top" secondItem="ptd-If-cTK" secondAttribute="bottom" constant="-357" id="GmJ-cm-adZ"/>
+                            <constraint firstItem="ptd-If-cTK" firstAttribute="centerX" secondItem="rXw-CW-CVX" secondAttribute="centerX" id="IfL-Jo-WEk"/>
+                            <constraint firstItem="Zbu-By-M3e" firstAttribute="trailing" secondItem="EBz-FT-aec" secondAttribute="trailing" id="J12-Vt-ix2"/>
+                            <constraint firstItem="EBz-FT-aec" firstAttribute="top" secondItem="Zbu-By-M3e" secondAttribute="bottom" constant="32" id="KGE-3u-Uok"/>
+                            <constraint firstItem="Zbu-By-M3e" firstAttribute="leading" secondItem="EBz-FT-aec" secondAttribute="leading" id="KX3-l2-BKa"/>
+                            <constraint firstItem="BJl-We-FAB" firstAttribute="centerX" secondItem="Zbu-By-M3e" secondAttribute="centerX" id="NWh-lN-irv"/>
+                            <constraint firstItem="ptd-If-cTK" firstAttribute="width" secondItem="rXw-CW-CVX" secondAttribute="width" id="Q7m-k3-MIN"/>
+                            <constraint firstItem="Zbu-By-M3e" firstAttribute="width" secondItem="EBz-FT-aec" secondAttribute="width" id="RCu-ik-cF6"/>
+                            <constraint firstItem="Zbu-By-M3e" firstAttribute="top" secondItem="BJl-We-FAB" secondAttribute="bottom" constant="53" id="RTR-nd-COo"/>
+                            <constraint firstItem="Zbu-By-M3e" firstAttribute="height" secondItem="EBz-FT-aec" secondAttribute="height" constant="2" id="S90-oN-9E3"/>
+                            <constraint firstItem="EBz-FT-aec" firstAttribute="top" secondItem="Zbu-By-M3e" secondAttribute="bottom" constant="32" id="SNv-dK-txj"/>
+                            <constraint firstItem="BJl-We-FAB" firstAttribute="top" secondItem="72q-if-Kzx" secondAttribute="bottom" constant="42" id="dn5-Ba-8CT"/>
+                            <constraint firstItem="Zbu-By-M3e" firstAttribute="top" secondItem="rXw-CW-CVX" secondAttribute="top" constant="172" id="eck-1Z-wAL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Zbu-By-M3e" secondAttribute="trailing" constant="35" id="fyC-ag-Zio"/>
+                            <constraint firstItem="EBz-FT-aec" firstAttribute="top" secondItem="Zbu-By-M3e" secondAttribute="bottom" constant="32" id="si2-Lw-nr9"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Jf-ch-3lm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="821" y="622"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="Applozic512h" width="1521" height="512"/>
+        <image name="ChatList512h" width="1499" height="512"/>
+        <image name="Logout" width="640" height="88"/>
+    </resources>
 </document>

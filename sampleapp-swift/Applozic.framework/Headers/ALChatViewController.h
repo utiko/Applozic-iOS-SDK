@@ -15,18 +15,26 @@
 #import "ALAttachmentController.h"
 #import "ALUserDetail.h"
 #import "ALMessageArrayWrapper.h"
+#import "ALChannelDBService.h"
+#import "ALChannel.h"
 
 @interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate,ALChatCellDelegate,ALImageWithTextControllerDelegate>
 
 @property (strong, nonatomic) ALContact *alContact;
+@property (nonatomic, strong) ALChannel *alChannel;
 @property (strong, nonatomic) ALMessageArrayWrapper *alMessageWrapper;
 @property (strong, nonatomic) NSMutableArray *mMessageListArrayKeyStrings;
 @property (strong, nonatomic) NSString * contactIds;
+@property (nonatomic, strong) NSNumber *channelKey;
+@property (nonatomic, strong) NSString *channeLName;
 @property (nonatomic) BOOL refreshMainView;
 @property (nonatomic) BOOL refresh;
+@property (strong, nonatomic) NSString * displayName;
+
 @property (strong, nonatomic) NSString * text;
 
 -(void)fetchAndRefresh;
+-(void)fetchAndRefresh:(BOOL)flag;
 
 -(void)updateDeliveryReport:(NSString*)keyString;
 
@@ -37,9 +45,18 @@
 -(void)updateDeliveryStatus:(NSNotification *) notification;
 
 -(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue;
-
+-(void) syncCall:(ALMessage *) alMessage;
 -(void)showTypingLabel:(BOOL)flag userId:(NSString *)userId;
 
 -(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail;
+-(void) reloadViewfor3rdParty;
+-(void) reloadView;
+-(void)processMarkRead;
+
+-(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer;
+
+-(void) getUserCurrentLocation:(NSString *)googleMapUrl;
+-(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl;
+
 
 @end

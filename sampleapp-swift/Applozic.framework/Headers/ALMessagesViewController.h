@@ -9,6 +9,7 @@
 #import "ALChatViewController.h"
 #import "ALContactCell.h"
 
+
 @interface ALMessagesViewController : UIViewController
 
 @property(nonatomic,strong) ALChatViewController * detailChatViewController;
@@ -20,6 +21,12 @@
 -(void)pushNotificationhandler:(NSNotification *) notification;
 
 -(void)displayAttachmentMediaType:(ALMessage *)message andContactCell:(ALContactCell *)contactCell;
+
+@property (weak, nonatomic) IBOutlet UITableView *mTableView;
+
+-(UIView *)setCustomBackButton:(NSString *)text;
+
+-(void) callLastSeenStatusUpdate;
 
 @end
 

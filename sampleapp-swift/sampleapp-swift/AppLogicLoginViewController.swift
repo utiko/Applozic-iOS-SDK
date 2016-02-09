@@ -32,10 +32,7 @@ class AppLogicLoginViewController: UIViewController {
 
     
     @IBAction func getStartedBtn(sender: AnyObject) {
-        
-        let registerUserClientService : ALRegisterUserClientService  = ALRegisterUserClientService ();
-        registerUserClientService.logout();
-        
+
         let alUser : ALUser =  ALUser();
         alUser.applicationId = ALChatManager.applicationId
         
@@ -46,18 +43,27 @@ class AppLogicLoginViewController: UIViewController {
             return;
         }
         alUser.userId = self.userName.text
+        ALUserDefaultsHandler.setUserId(alUser.userId)
+
         print("userName:: " , alUser.userId)
         if( (emailId.text?.isEmpty) != false ){
+           
              alUser.emailId = emailId.text
+             ALUserDefaultsHandler.setEmailId(alUser.emailId)
         }
         if ((password.text?.isEmpty) != false ){
             alUser.password = password.text
-        }
 
-        let chatManager : ALChatManager =  ALChatManager()
-        chatManager.registerUserAndLaunchChat(alUser, fromController: self, forUser:nil)
+        }
+        ALChatManager.registerUser(alUser);
+        let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("LaunchChatFromSimpleViewController") as UIViewController
+        self.presentViewController(viewController, animated:true, completion: nil)
 
     }
     
-    
-}
+   
+
+
+    }
+
+

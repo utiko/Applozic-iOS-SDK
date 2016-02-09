@@ -80,7 +80,6 @@
         ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
         if(dbService.isMessageTableEmpty){
             [ALMessageService processLatestMessagesGroupByContact];
-            
         }
         completion(response,nil);
     }];

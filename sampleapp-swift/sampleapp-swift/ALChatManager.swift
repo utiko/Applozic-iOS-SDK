@@ -22,24 +22,26 @@ class ALChatManager: NSObject {
     
     //----------------------
     
-    class func registerChat() {
+    class func registerUser(alUser: ALUser) {
         
-        let user: ALUser = getUserDetail();
-        let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: user.applicationId )
+       
+        let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: applicationId )
         alChatLauncher.ALDefaultChatViewSettings()
-        
-        if(isNilOrEmpty(ALUserDefaultsHandler.getApnDeviceToken())){
-            alChatLauncher.registerForNotification()
-        }
-        
+
         let registerUserClientService: ALRegisterUserClientService = ALRegisterUserClientService()
-        registerUserClientService.initWithCompletion(user, withCompletion: { (response, error) in
+        registerUserClientService.initWithCompletion(alUser, withCompletion: { (response, error) in
             if (error != nil) {
                 print("error while registering to applozic");
             } else {
                 print("registered")
-                let messageClientService: ALMessageClientService = ALMessageClientService()
-                messageClientService.addWelcomeMessage()
+                
+                if(isNilOrEmpty(ALUserDefaultsHandler.getApnDeviceToken())){
+                    alChatLauncher.registerForNotification()
+                }
+                
+                //let messageClientService: ALMessageClientService = ALMessageClientService()
+               // messageClientService.addWelcomeMessage()
+                
             }
         })
         
@@ -88,9 +90,6 @@ class ALChatManager: NSObject {
     {
     
         let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: ALChatManager.applicationId)
-        if(ALChatManager.isNilOrEmpty(ALUserDefaultsHandler.getApnDeviceToken())){
-            alChatLauncher.registerForNotification()
-        }
        
         if(!ALChatManager.isNilOrEmpty(ALUserDefaultsHandler.getDeviceKeyString())){
             if (ALChatManager.isNilOrEmpty(forUser)){
@@ -121,8 +120,11 @@ class ALChatManager: NSObject {
                 return;
             } else if(response.message == "REGISTERD"){
                 print("registered!!!")
-                let messageClientService: ALMessageClientService = ALMessageClientService()
-                messageClientService.addWelcomeMessage()
+                if(ALChatManager.isNilOrEmpty(ALUserDefaultsHandler.getApnDeviceToken())){
+                    alChatLauncher.registerForNotification()
+                }
+                //let messageClientService: ALMessageClientService = ALMessageClientService()
+                //messageClientService.addWelcomeMessage()
             }
             if (ALChatManager.isNilOrEmpty(forUser)){
                 let title  = ALChatManager.isNilOrEmpty(fromController.title) ?"< Back" : fromController.title;

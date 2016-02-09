@@ -489,12 +489,12 @@
     
     // here for msg dashboard profile pic
     
-    NSString *firstLetter = [[[alContact displayName] substringToIndex:1] uppercaseString];
+    NSString *firstLetter = [[[alContact getDisplayName] substringToIndex:1] uppercaseString];
     //    nameIcon.text = firstLetter;
-    NSRange whiteSpaceRange = [[alContact displayName] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSRange whiteSpaceRange = [[alContact getDisplayName] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
     if (whiteSpaceRange.location != NSNotFound)
     {
-        NSArray *listNames = [[alContact displayName] componentsSeparatedByString:@" "];
+        NSArray *listNames = [[alContact getDisplayName] componentsSeparatedByString:@" "];
         NSString *firstLetter = [[listNames[0] substringToIndex:1] uppercaseString];
         NSString *lastLetter = [[listNames[1] substringToIndex:1] uppercaseString];
         nameIcon.text = [[firstLetter stringByAppendingString:lastLetter] uppercaseString];

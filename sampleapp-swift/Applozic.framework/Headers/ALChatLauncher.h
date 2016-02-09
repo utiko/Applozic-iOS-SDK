@@ -25,6 +25,7 @@
 
 
 @property(nonatomic,assign) NSString* applicationId;
+@property (nonatomic,strong) NSNumber* chatLauncherFLAG;
 
 -(instancetype)initWithApplicationId:(NSString *) applicationId;
 -(void)ALDefaultChatViewSettings;
@@ -32,8 +33,12 @@
 -(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
 -(void)launchChatList:(NSString *)title andViewControllerObject:(UIViewController *)viewController;
 
-
+-(void) launchContactList: (UIViewController *)uiViewController ;
 -(void)registerForNotification;
+
+-(void)launchIndividualChat:(NSString *)userId withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
+
+
 
 
 
