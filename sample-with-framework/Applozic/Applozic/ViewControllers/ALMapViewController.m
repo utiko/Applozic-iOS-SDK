@@ -150,7 +150,7 @@
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     //    NSLog(@"%@",[locations lastObject]);
     
-    _sendLocationButton.enabled=NO;
+//    _sendLocationButton.enabled=NO;
     CLLocation *newLocation = [locations lastObject];
     
     
@@ -161,7 +161,7 @@
         
         if (error == nil && [placemarks count] > 0)
         {
-            _sendLocationButton.enabled=YES;
+//            _sendLocationButton.enabled=YES;
             self.placemark = [placemarks lastObject];
             self.addressLabel = [NSString stringWithFormat:@"Address: %@\n%@ %@, %@, %@\n",
                                  self.placemark.thoroughfare,
