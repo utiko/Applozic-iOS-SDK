@@ -171,9 +171,9 @@
         [self.navBar setLeftBarButtonItems:nil];
     }
     
-    self.detailChatViewController.contactIds = nil;
+//   SHIFTED TO ViewDidAppear     self.detailChatViewController.contactIds = nil;
     
-    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+//   SHIFTED TO ViewDidAppear    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
@@ -194,16 +194,18 @@
     [[NSNotificationCenter defaultCenter]
      addObserver:self selector:@selector(newMessageHandler:) name:NEW_MESSAGE_NOTIFICATION  object:nil];
     
-
-    if ([_detailChatViewController refreshMainView])
+/////////////   SHIFTED TO ViewDidAppear /////////////   /////////////   /////////////   /////////////   /////////////   /////////////*
+    /*if ([_detailChatViewController refreshMainView])
     {
         ALMessageDBService *dBService = [ALMessageDBService new];
         dBService.delegate = self;
         [dBService getMessages];
         [_detailChatViewController setRefreshMainView:FALSE];
-    }
+    }*/
+/////////////   SHIFTED TO ViewDidAppear /////////////   /////////////   /////////////   /////////////   /////////////   ////////////
     
     //     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+    
     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
     
     if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
@@ -212,6 +214,40 @@
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
+    }
+    
+//    SHIFTED TO ViewDidAppear //
+//    [self.mTableView reloadData];
+//    if([self.mActivityIndicator isAnimating])
+//    {
+//        [self.emptyConversationText setHidden:YES];
+//    }
+//    else
+//    {
+//        [self emptyConversationAlertLabel];
+//    }
+    
+    [self.dataAvailablityLabel setHidden:YES];
+    [self callLastSeenStatusUpdate];
+//    NSLog(@" = = = = = = = = = viewWIllAppear  COUNTXX  :%lu ==========",(unsigned long)self.mContactsMessageListArray.count);
+    
+    
+    
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    self.detailChatViewController.contactIds = nil;
+    
+    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+    
+    if ([_detailChatViewController refreshMainView])
+    {
+        ALMessageDBService *dBService = [ALMessageDBService new];
+        dBService.delegate = self;
+        [dBService getMessages];
+        [_detailChatViewController setRefreshMainView:FALSE];
     }
     
     [self.mTableView reloadData];
@@ -225,17 +261,6 @@
         [self emptyConversationAlertLabel];
     }
     
-    [self.dataAvailablityLabel setHidden:YES];
-    [self callLastSeenStatusUpdate];
-//    NSLog(@" = = = = = = = = = viewWIllAppear  COUNTXX  :%lu ==========",(unsigned long)self.mContactsMessageListArray.count);
-    
-    
-    
-    
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
     if (![ALDataNetworkConnection checkDataNetworkAvailable])
     {
         [self.dataAvailablityLabel setHidden:NO];
@@ -247,6 +272,8 @@
     {
         [self.dataAvailablityLabel setHidden:YES];
     }
+    
+    
     
 }
 

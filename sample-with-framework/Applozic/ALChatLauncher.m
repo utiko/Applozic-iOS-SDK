@@ -80,6 +80,7 @@
     chatView.individualLaunch = YES;
     
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
+    conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
 }
 
@@ -99,7 +100,7 @@
     chatView.individualLaunch = YES;
     chatView.displayName=displayName;
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
-    
+    conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
     
     
@@ -115,6 +116,9 @@
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
+    
+    //              To Lunch with different Animation...
+    //theTabBar.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
     [viewController presentViewController:theTabBar animated:YES completion:nil];
     
 }
