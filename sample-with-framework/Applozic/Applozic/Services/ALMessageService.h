@@ -13,6 +13,9 @@
 #import "DB_FileMetaInfo.h"
 #import "ALUserDetail.h"
 
+#define NEW_MESSAGE_NOTIFICATION @"newMessageNotification"
+
+
 @interface ALMessageService : NSObject
 
 +(void) processLatestMessagesGroupByContact;

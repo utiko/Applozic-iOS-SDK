@@ -22,6 +22,7 @@
 
 @implementation ALAppLocalNotifications
 
+
 +(ALAppLocalNotifications *)appLocalNotificationHandler
 {
     static ALAppLocalNotifications * localNotificationHandler = nil;
@@ -43,6 +44,21 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:AL_kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thirdPartyNotificationHandler:) name:@"showNotificationAndLaunchChat" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForegroundBase:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    if([ALUserDefaultsHandler isLoggedIn]){
+        NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
+        [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
+            if (error) {
+                NSLog(@"ERROR");
+            }
+            else{
+            }
+        }];
+        
+    }
+    
     // create a Reachability object for www.google.com
     
     self.googleReach = [ALReachability reachabilityWithHostname:@"www.google.com"];
@@ -123,35 +139,32 @@
     {
         if([reach isReachable])
         {
-//            NSLog(@"========== IF googleReach ============");
+            NSLog(@"========== IF googleReach ============");
         }
         else
         {
-//            NSLog(@"========== ELSE googleReach ============");
+            NSLog(@"========== ELSE googleReach ============");
         }
     }
     else if (reach == self.localWiFiReach)
     {
         if([reach isReachable])
         {
-//            NSLog(@"========== IF localWiFiReach ============");
+            NSLog(@"========== IF localWiFiReach ============");
         }
         else
         {
-//            NSLog(@"========== ELSE localWiFiReach ============");
+            NSLog(@"========== ELSE localWiFiReach ============");
         }
     }
     else if (reach == self.internetConnectionReach)
     {
         if([reach isReachable])
         {
-            if([ALUserDefaultsHandler isLoggedIn])//
-            {
-                NSLog(@"========== IF internetConnectionReach ============");
-                [ALMessageService processLatestMessagesGroupByContact];
-                    [ALMessageService processPendingMessages];
-            }
-            //changes required
+            NSLog(@"========== IF internetConnectionReach ============");
+            
+            //            [ALMessageService processLatestMessagesGroupByContact];
+            [ALMessageService processPendingMessages];
         }
         else
         {
@@ -163,7 +176,18 @@
 
 
 //receiver
-
+- (void)appWillEnterForegroundBase:(NSNotification *)notification {
+    
+    //Works in 3rd Party borders..
+    NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
+    [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
+        if (error) {
+            NSLog(@"ERROR");
+        }
+        else{
+        }
+    }];
+}
 
 // To DISPLAY THE NOTIFICATION ONLY ...from 3rd Party View.
 -(void)thirdPartyNotificationHandler:(NSNotification*)notification{
@@ -171,30 +195,13 @@
     NSLog(@" 3rd Party notificationHandler called .....");
     
     self.contactId = notification.object;
-//    NSLog(@"Notification Object %@",self.contactId);
-//    self.dict = notification.userInfo;
-//    NSNumber * updateUI = [self.dict valueForKey:@"updateUI"];
-//    NSString * alertValue = [self.dict valueForKey:@"alertValue"];
-//    NSLog(@"alertValue ALAppLN:>>>%@",alertValue);
-//    NSLog(@"thirdPartyNotificationHandler dict %@",_dict);
+    NSLog(@"Notification Object %@",self.contactId);
+    self.dict = notification.userInfo;
+    NSNumber * updateUI = [self.dict valueForKey:@"updateUI"];
+    NSString * alertValue = [self.dict valueForKey:@"alertValue"];
     
-    
-    self.dict2=(NSMutableDictionary*)notification.userInfo;
-    NSNumber * updateUI = [self.dict2 valueForKey:@"updateUI"];
-    
-    
-    
-    if([[self.dict2 valueForKey:@"alertValue"] isEqualToString:self.contactId]) {
-        // The key do not exist......
-        [self.dict2 setValue:[NSString stringWithFormat:@"%@: Sent you an attachment",self.contactId] forKey:@"alertValue"];
-    }
-    else{
-        
-    }
-    
-    NSString * alertValue = [self.dict2 valueForKey:@"alertValue"];
-    NSLog(@"alertValue ALAppLN:>>>%@",alertValue);
-    NSLog(@"thirdPartyNotificationHandler dict %@",self.dict2);
+    //ALMessageDBService* obj=[[ALMessageDBService alloc] init];
+    // [obj fetchAndRefreshQuickConversation];
     
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
@@ -203,6 +210,7 @@
             NSLog(@"%@",error);
             return ;
         }
+        
         
         if(updateUI==[NSNumber numberWithBool:NO]){
             NSLog(@"App launched from Background....Directly opening view from %@",self.dict);
@@ -227,10 +235,9 @@
     
     //    [ALUtilityClass displayNotification:alertValue delegate:self];
 }
-
 -(void)thirdPartyNotificationTap1:(NSString *) contactId{ //:(UIGestureRecognizer*)gestureRecognizer
     
-    ALChatViewController* refresh=[[ALChatViewController alloc] init];
+    
     ALPushAssist* object=[[ALPushAssist alloc] init];
     //for Individual Chat Conversation Opening...
     NSLog(@"Chat Launch Contact ID: %@",self.contactId);
@@ -238,9 +245,8 @@
     if(!object.isChatViewOnTop){
         self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_KEY];
         [self.chatLauncher launchIndividualChat:contactId andViewControllerObject:object.topViewController andWithText:nil];
-        [refresh fetchAndRefresh:YES];
     }
-
+    
 }
 
 

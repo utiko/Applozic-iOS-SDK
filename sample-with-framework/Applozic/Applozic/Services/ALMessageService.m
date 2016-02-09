@@ -242,6 +242,9 @@ static ALMessageClientService * alMsgClientService;
                     messageArray = [[NSMutableArray alloc] init];
                     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
                     messageArray = [dbService addMessageList:syncResponse.messagesList];
+                    
+                   [[NSNotificationCenter defaultCenter] postNotificationName:NEW_MESSAGE_NOTIFICATION object:messageArray userInfo:nil];
+
                 }
                 completion(messageArray,error);
                 

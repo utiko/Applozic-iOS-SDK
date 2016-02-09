@@ -217,6 +217,8 @@
     //register for notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationhandler:) name:@"pushNotification" object:nil];
     
+    [[NSNotificationCenter defaultCenter]
+         addObserver:self selector:@selector(newMessageHandler:) name:NEW_MESSAGE_NOTIFICATION  object:nil];
     if ([_detailChatViewController refreshMainView])
     {
         ALMessageDBService *dBService = [ALMessageDBService new];
@@ -289,6 +291,8 @@
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     //unregister for notification
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NEW_MESSAGE_NOTIFICATION object:nil];
+
     //[[NSNotificationCenter defaultCenter] removeObserver:self];
 
     [super viewWillDisappear:animated];
@@ -879,4 +883,13 @@
     //[self syncCall:nil];
     [self callLastSeenStatusUpdate];
 }
+-(void)newMessageHandler:(NSNotification *) notification{
+    
+    NSMutableArray * messageArray = notification.object;
+    NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
+    NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
+    [messageArray sortUsingDescriptors:descriptors];
+    [self updateMessageList:messageArray];
+}
+
 @end
