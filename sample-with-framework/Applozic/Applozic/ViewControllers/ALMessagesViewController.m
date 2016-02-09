@@ -294,6 +294,7 @@
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     //unregister for notification
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NEW_MESSAGE_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewWillDisappear:animated];
 }

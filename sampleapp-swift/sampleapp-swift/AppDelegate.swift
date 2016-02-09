@@ -10,6 +10,7 @@
 import UIKit
 import Applozic
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -18,19 +19,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        /*
+     
+        if (ALUserDefaultsHandler.isLoggedIn())
+        {
+            // Get login screen from storyboard and present it
+            let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("LaunchChatFromSimpleViewController") as UIViewController
+            self.window?.makeKeyAndVisible();
+            self.window?.rootViewController!.presentViewController(viewController, animated:true, completion: nil)
+           
+        }
         
-        // PUSH NOTIFICATION
-        let deviceToken = ALUserDefaultsHandler.getApnDeviceToken() as String?
-        
-        if (deviceToken == nil) {
-        print("There is no deviceToken saved yet.")
-        
-        let settings: UIUserNotificationSettings = UIUserNotificationSettings( forTypes: [.Alert, .Badge], categories: nil )
-        
-        application.registerUserNotificationSettings( settings )
-        application.registerForRemoteNotifications()
-        }*/
         
         if (launchOptions != nil)
         {
@@ -51,6 +49,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        let localNotification: ALAppLocalNotifications = ALAppLocalNotifications.appLocalNotificationHandler;
+        localNotification.dataConnectionNotificationHandler;
         return true
     }
     

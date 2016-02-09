@@ -9,3 +9,4 @@
 #import "Applozic/ALUser.h"
 #import "Applozic/ALChatLauncher.h"
 #import "Applozic/ALApplozicSettings.h"
+#import "Applozic/ALAppLocalNotifications.h"
