@@ -134,4 +134,16 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:BACK_BUTTON_TITLE];
 }
 
++(void)setNotificationTitle:(NSString *)notificationTitle
+{
+    [[NSUserDefaults standardUserDefaults] setValue:notificationTitle forKey:NOTIFICATION_TITLE];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getNotificationTitle{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:NOTIFICATION_TITLE];
+}
+
+
 @end

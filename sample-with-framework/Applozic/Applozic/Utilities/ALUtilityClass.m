@@ -231,7 +231,7 @@
     [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
 
     [TSMessage showNotificationInViewController:top.topViewController
-                                            title:[ALUserDefaultsHandler getNotificationTitle]
+                                          title:[ALApplozicSettings getNotificationTitle]
                                        subtitle:[NSString stringWithFormat:@"%@",dpName.getDisplayName]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage

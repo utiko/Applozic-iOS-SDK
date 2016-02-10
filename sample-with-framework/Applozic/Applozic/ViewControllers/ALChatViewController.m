@@ -73,7 +73,7 @@
     
     UIActivityIndicatorView *loadingIndicator;
     NSString *messageId;
-    
+    BOOL typingStat;
     
 }
 
@@ -129,7 +129,7 @@ ALMessageDBService  * dbService;
     [self.loadEarlierAction setHidden:YES];
     self.showloadEarlierAction = TRUE;
     self.typingLabel.hidden = YES;
-    
+    typingStat=NO;
     if(self.refresh || ([self.alMessageWrapper getUpdatedMessageArray] && [self.alMessageWrapper getUpdatedMessageArray].count == 0) || (((!([self.alMessageWrapper getUpdatedMessageArray] && [[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds] isEqualToString:self.contactIds])))||([[self.alMessageWrapper getUpdatedMessageArray][0] groupId] != self.channelKey)))
     {
         [self reloadView];
@@ -137,6 +137,7 @@ ALMessageDBService  * dbService;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(individualNotificationhandler:) name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:) name:@"deliveryReport" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
 
     [[NSNotificationCenter defaultCenter]
      addObserver:self selector:@selector(newMessageHandler:) name:NEW_MESSAGE_NOTIFICATION  object:nil];
@@ -192,7 +193,6 @@ ALMessageDBService  * dbService;
                 NSLog(@"mqttObject is not found...");
 //        });
     }
-    
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -406,6 +406,10 @@ ALMessageDBService  * dbService;
     self.mTotalCount = self.mTotalCount + 1;
     self.startIndex = self.startIndex + 1;
     [self sendMessage:theMessage];
+    if(typingStat == YES){
+        typingStat = NO;
+    [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:typingStat];
+    }
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -1424,7 +1428,6 @@ ALMessageDBService  * dbService;
     {
         self.alContact.applicationId = [ALUserDefaultsHandler getApplicationKey];
     }
-    [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:YES];
     
 }
 
@@ -1434,7 +1437,10 @@ ALMessageDBService  * dbService;
     {
         self.alContact.applicationId = [ALUserDefaultsHandler getApplicationKey];
     }
-    [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:NO];
+    if(typingStat==YES){
+        typingStat=NO;
+    [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:typingStat];
+    }
 }
 
 -(void)scrollViewDidScroll: (UIScrollView*)scrollView
@@ -1451,6 +1457,13 @@ ALMessageDBService  * dbService;
     else
     {
         [self.loadEarlierAction setHidden:YES];
+    }
+}
+- (void)textViewDidChange:(UITextView *)textView{
+ 
+    if(typingStat==NO){
+        typingStat=YES;
+        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:typingStat];
     }
 }
 //------------------------------------------------------------------------------------------------------------------
@@ -1531,5 +1544,12 @@ ALMessageDBService  * dbService;
     [self addMessageToList:messageArray];
     [self processMarkRead];
 }
+-(void)appWillResignActive{
+    
+    if(typingStat==YES){
+        typingStat=NO;
+        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:typingStat];
+    }
 
+}
 @end
