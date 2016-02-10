@@ -60,4 +60,12 @@
 
 }
 
+-(NSString *)getChannelName:(NSNumber *)channelKey
+{
+    ALChannelDBService *dbSerivce = [[ALChannelDBService alloc] init];
+    ALChannel *channel = [dbSerivce loadChannelByKey:channelKey];
+    return channel.name;
+    
+}
+
 @end

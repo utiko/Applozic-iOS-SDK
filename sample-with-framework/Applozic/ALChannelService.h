@@ -17,4 +17,6 @@
 
 -(void)getChannelInformation:(NSNumber *)channelKey withCompletion:(void (^)(ALChannel *alChannel3)) completion;
 
+-(NSString *)getChannelName:(NSNumber *)channelKey;
+
 @end
