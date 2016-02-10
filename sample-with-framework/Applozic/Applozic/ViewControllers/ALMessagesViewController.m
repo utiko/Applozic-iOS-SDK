@@ -211,12 +211,15 @@
     
     if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
     {
-        self.navigationController.navigationBar.translucent = NO;
-        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColourForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+        
+       // self.navigationController.navigationBar.translucent = NO;
+        //[self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColourForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
-        [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColourForNavigation]];
+       // [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColourForNavigation]];
+
     }
     
 //    SHIFTED TO ViewDidAppear //
