@@ -1145,7 +1145,6 @@ ALMessageDBService  * dbService;
     else {
         NSLog(@"show notification as someone else thread is already opened");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
-//        [alnotification displayNotification:self];
         [alnotification displayNotificationNew:self];
         [self fetchAndRefresh:YES];
     }

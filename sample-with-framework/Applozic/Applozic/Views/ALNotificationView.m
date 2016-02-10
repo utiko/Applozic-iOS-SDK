@@ -15,6 +15,7 @@
 #import "ALMessagesViewController.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALContact.h"
+#import "ALContactDBService.h"
 @implementation ALNotificationView
     
 
@@ -77,8 +78,10 @@
     
     //<><><><><><><><><><><><><><><><><><><><><><>OUR VIEW is opned<><>><><><><><><><><><><><><><><><>//
     ALPushAssist* top=[[ALPushAssist alloc] init];
-    //ALContact* dpName=[[ALContact alloc] init];
-
+    ALContact* dpName=[[ALContact alloc] init];//WithDict:[delegate userInfo]];
+    ALContactDBService * contactDb=[[ALContactDBService alloc] init];
+    dpName=[contactDb loadContactByKey:@"userId" value:self.contactId];
+    
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
    
     [[TSMessageView appearance] setTitleFont:[UIFont boldSystemFontOfSize:17]];
@@ -99,7 +102,7 @@
     
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:[ALUserDefaultsHandler getNotificationTitle]
-                                       subtitle:[NSString stringWithFormat:@"%@: %@",_contactId,myString]
+                                       subtitle:[NSString stringWithFormat:@"%@: %@",dpName.getDisplayName,myString]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75

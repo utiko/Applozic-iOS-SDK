@@ -45,7 +45,7 @@
         //Todo: process it
         NSString *alertValue = [[dictionary valueForKey:@"aps"] valueForKey:@"alert"];
         
-        NSLog(@"Alert: %@", alertValue);
+        //NSLog(@"Alert: %@", alertValue);
         self.alSyncCallService =  [[ALSyncCallService alloc]init];
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
         [dict setObject:[NSNumber numberWithBool:updateUI] forKey:@"updateUI"];
@@ -68,14 +68,14 @@
 
         if ([type isEqualToString:MT_SYNC])
         {
-
+            
             [dict setObject:alertValue forKey:@"alertValue"];
     
             ALPushAssist* assistant=[[ALPushAssist alloc] init];
             
             if(!assistant.isChatViewOnTop){
                 [dict setObject:@"apple push notification.." forKey:@"Calledfrom"];
-
+                //NSLog(@"Dict>> %@ \n Dictionary>> %@",dict,dictionary);
                 [assistant assist:notificationMsg and:dict ofUser:notificationMsg];
 
             }else {
