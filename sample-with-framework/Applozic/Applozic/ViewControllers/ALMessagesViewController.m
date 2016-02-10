@@ -380,7 +380,9 @@
         ALContactCell *contactCell=nil;
         if(msg.groupId){
             contactCell =[self getCellForGroup:msg.groupId];
+            NSLog(@"groupId found ....");
         }else{
+            NSLog(@"groupId not found ....");
             contactCell = [self getCell:msg.contactIds];
         }
        
@@ -464,7 +466,7 @@
     int index=(int) [self.mContactsMessageListArray indexOfObjectPassingTest:^BOOL(id element,NSUInteger idx,BOOL *stop)
                      {
                          ALMessage *message = (ALMessage*)element;
-                         if(message.groupId == groupKey )
+                         if([message.groupId isEqualToNumber:groupKey ])
                          {
                              *stop = YES;
                              return YES;
@@ -515,20 +517,10 @@
     ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: message.to];
     if([message.groupId intValue])
     {
-        //            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-        //            ALChannel *alChannel = [channelDBService loadChannelByKey:message.groupId];
-        //                if(alChannel)
-        //                {
-        //                    NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
-        //                    contactCell.mUserNameLabel.text = listNames[0];
-        //                }
-        
-        //new
-        
         ALChannelService *channelService = [[ALChannelService alloc] init];
         [channelService getChannelInformation:message.groupId withCompletion:^(ALChannel *alChannel) {
 //            NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
-//            contactCell.mUserNameLabel.text = listNames[0];
+//            contactCell.mUserNameLabel.text = listNames[0]; //need changes for buyer/supplier don't delete
             contactCell.mUserNameLabel.text = [alChannel name];
         }];
         
