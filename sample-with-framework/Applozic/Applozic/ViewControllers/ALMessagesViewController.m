@@ -381,7 +381,7 @@
         if(msg.groupId){
             contactCell =[self getCellForGroup:msg.groupId];
         }else{
-             ALContactCell *contactCell = [self getCell:msg.contactIds];
+            contactCell = [self getCell:msg.contactIds];
         }
        
         if(contactCell){
