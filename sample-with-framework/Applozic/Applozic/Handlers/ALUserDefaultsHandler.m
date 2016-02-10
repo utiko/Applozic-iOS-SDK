@@ -281,6 +281,14 @@
     }
     
 }
+//Notification settings...
+
++(void)setNotificationTitle:(NSString *)notificationTitle
+{
+    [[NSUserDefaults standardUserDefaults] setValue:notificationTitle forKey:NOTIFICATION_TITLE];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 
 +(NSString *)getNotificationTitle{
     return [[NSUserDefaults standardUserDefaults] valueForKey:NOTIFICATION_TITLE];
