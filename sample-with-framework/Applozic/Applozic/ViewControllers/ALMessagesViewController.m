@@ -377,7 +377,13 @@
     }
     BOOL isreloadRequire = false;
     for ( ALMessage *msg  in  messagesArray){
-        ALContactCell *contactCell = [self getCell:msg.contactIds];
+        ALContactCell *contactCell=nil;
+        if(msg.groupId){
+            contactCell =[self getCellForGroup:msg.groupId];
+        }else{
+             ALContactCell *contactCell = [self getCell:msg.contactIds];
+        }
+       
         if(contactCell){
             NSLog(@"contact cell found ....");
             contactCell.mMessageLabel.text = msg.message;
@@ -453,6 +459,23 @@
     
 }
 
+-(ALContactCell * ) getCellForGroup:(NSNumber *)groupKey {
+    
+    int index=(int) [self.mContactsMessageListArray indexOfObjectPassingTest:^BOOL(id element,NSUInteger idx,BOOL *stop)
+                     {
+                         ALMessage *message = (ALMessage*)element;
+                         if(message.groupId == groupKey )
+                         {
+                             *stop = YES;
+                             return YES;
+                         }
+                         return NO;
+                     }];
+    NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
+    ALContactCell *contactCell  = (ALContactCell *)[self.mTableView cellForRowAtIndexPath:path];
+    return contactCell;
+    
+}
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - Table View DataSource Methods
 //------------------------------------------------------------------------------------------------------------------
@@ -502,11 +525,12 @@
         
         //new
         
-//        ALChannelService *channelService = [[ALChannelService alloc] init];
-//        [channelService getChannelInformation:message.groupId withCompletion:^(ALChannel *alChannel) {
+        ALChannelService *channelService = [[ALChannelService alloc] init];
+        [channelService getChannelInformation:message.groupId withCompletion:^(ALChannel *alChannel) {
 //            NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
 //            contactCell.mUserNameLabel.text = listNames[0];
-//        }];
+            contactCell.mUserNameLabel.text = [alChannel name];
+        }];
         
         
     }
