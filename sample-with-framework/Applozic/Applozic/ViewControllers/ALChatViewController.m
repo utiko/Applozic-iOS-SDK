@@ -1334,7 +1334,7 @@ ALMessageDBService  * dbService;
     if([self.channelKey intValue])
     {
         ALChannelDBService *ob = [[ALChannelDBService alloc] init];
-        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
+//        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
     }
     else if(value > 0)
     {

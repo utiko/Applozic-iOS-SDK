@@ -160,14 +160,14 @@
     }
     else
     {
-//        if(channelKey != nil)
-//        {
-//            theParamString = [NSString stringWithFormat:@"groupId=%@&startIndex=%@&pageSize=%@&endTime=%@",channelKey,startIndex,pageSize,endTimeStamp.stringValue];
-//        }
-//        else
-//        {
+        if(channelKey != nil)
+        {
+            theParamString = [NSString stringWithFormat:@"groupId=%@&startIndex=%@&pageSize=%@&endTime=%@",channelKey,startIndex,pageSize,endTimeStamp.stringValue];
+        }
+        else
+        {
             theParamString = [NSString stringWithFormat:@"userId=%@&startIndex=%@&pageSize=%@&endTime=%@",userId,startIndex,pageSize,endTimeStamp.stringValue];
-//        }
+        }
     }
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
