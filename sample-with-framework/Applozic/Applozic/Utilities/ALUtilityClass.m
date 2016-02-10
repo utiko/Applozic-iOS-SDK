@@ -15,6 +15,7 @@
 #import "TSMessageView.h"
 #import "ALPushAssist.h"
 #import "ALAppLocalNotifications.h"
+#import "ALUserDefaultsHandler.h"
 
 
 @implementation ALUtilityClass
@@ -225,7 +226,7 @@
     [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
 
     [TSMessage showNotificationInViewController:top.topViewController
-                                            title:@"Applozic"
+                                            title:[ALUserDefaultsHandler getNotificationTitle]
                                        subtitle:[NSString stringWithFormat:@"%@",toastMessage]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage

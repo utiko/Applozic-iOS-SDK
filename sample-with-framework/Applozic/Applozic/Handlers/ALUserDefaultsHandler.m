@@ -7,6 +7,7 @@
 //
 
 #import "ALUserDefaultsHandler.h"
+#define NOTIFICATION_TITLE @"NOTIFICATION_TITLE"
 
 @implementation ALUserDefaultsHandler
 
@@ -281,6 +282,8 @@
     
 }
 
-
++(NSString *)getNotificationTitle{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:NOTIFICATION_TITLE];
+}
 
 @end

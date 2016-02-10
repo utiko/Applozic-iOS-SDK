@@ -105,4 +105,6 @@
 +(NSNumber *)getLastSyncTime;
 +(NSString *)getUserKeyString;
 +(NSString *)getDisplayName;
+
++(NSString *)getNotificationTitle;
 @end
