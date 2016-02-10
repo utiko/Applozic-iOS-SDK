@@ -16,6 +16,7 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALContact.h"
 #import "ALContactDBService.h"
+#import "ALApplozicSettings.h"
 @implementation ALNotificationView
     
 
@@ -101,7 +102,7 @@
     }
     
     [TSMessage showNotificationInViewController:top.topViewController
-                                          title:[ALUserDefaultsHandler getNotificationTitle]
+                                          title:[ALApplozicSettings getNotificationTitle]
                                        subtitle:[NSString stringWithFormat:@"%@: %@",dpName.getDisplayName,myString]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage

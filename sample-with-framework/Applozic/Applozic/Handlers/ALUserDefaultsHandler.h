@@ -106,5 +106,6 @@
 +(NSString *)getUserKeyString;
 +(NSString *)getDisplayName;
 
-+(NSString *)getNotificationTitle;
+//+(NSString *)getNotificationTitle;
+//+(void)setNotificationTitle:(NSString *)notificationTitle;
 @end

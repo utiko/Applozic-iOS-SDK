@@ -21,7 +21,7 @@
 #import "ALUser.h"
 #import "ALRegisterUserClientService.h"
 #import "ALMessageClientService.h"
-
+#import "ALUserDefaultsHandler.h"
 
 
 @interface ALChatLauncher ()
@@ -59,6 +59,9 @@
     [ALApplozicSettings setColourForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     [ALApplozicSettings setColourForNavigationItem: [UIColor whiteColor]];
     
+    NSString* appName=[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
+    [ALApplozicSettings setNotificationTitle:appName];
+     //[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]];
 }
 
 
