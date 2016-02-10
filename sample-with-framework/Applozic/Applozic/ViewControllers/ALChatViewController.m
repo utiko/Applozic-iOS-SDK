@@ -217,7 +217,7 @@ ALMessageDBService  * dbService;
 
 -(void) setTitle {
     if(self.displayName){
-        ALContactService * contactService = [[ALContactService alloc]init];
+        ALContactService * contactService = [[ALContactService alloc] init];
         _alContact = [contactService loadOrAddContactByKeyWithDisplayName:self.contactIds value: self.displayName];
         
     }else{
@@ -227,6 +227,11 @@ ALMessageDBService  * dbService;
     }
     
     self.navigationItem.title = [_alContact displayName];
+    if(self.channelKey != nil)
+    {
+        ALChannelService *channelService = [[ALChannelService alloc] init];
+        self.navigationItem.title = [channelService getChannelName:self.channelKey];
+    }
     ALUserDetail *userDetail = [[ALUserDetail alloc] init];
     userDetail.connected = self.alContact.connected;
     userDetail.userId = self.alContact.userId;
@@ -1297,7 +1302,7 @@ ALMessageDBService  * dbService;
     [ALUserService userDetailServerCall:self.contactIds withCompletion:^(ALUserDetail *alUserDetail){
         if(alUserDetail)
         {
-            [[[ALContactDBService alloc]init] updateUserDetail:alUserDetail];
+            [[[ALContactDBService alloc] init] updateUserDetail:alUserDetail];
             [self updateLastSeenAtStatus:alUserDetail];
         }
         else
@@ -1333,7 +1338,7 @@ ALMessageDBService  * dbService;
     
     if([self.channelKey intValue])
     {
-        ALChannelDBService *ob = [[ALChannelDBService alloc] init];
+//        ALChannelDBService *ob = [[ALChannelDBService alloc] init];
 //        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
     }
     else if(value > 0)
