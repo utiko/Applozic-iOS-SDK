@@ -207,7 +207,7 @@
     NSError *fetchError = nil;
     NSArray *resultArray = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
     NSLog(@"ERROR (IF ANY) : %@", fetchError);
-    
+//    NSLog(@"======= xxxxxx ====== COUNT ARRAY DB :%lu ======XXXXX===== ",(unsigned long)resultArray.count);
     if (resultArray.count)
     {
         for(DB_CHANNEL_USER_X *dbChannelUserX in resultArray)
@@ -230,6 +230,10 @@
     NSString *str = @"";
     NSMutableArray *listArray = [NSMutableArray array];
     listArray = [NSMutableArray arrayWithArray:[self getListOfAllUsersInChannel:key]];
+//    NSLog(@"======= xxxxxx ====== COUNT ARRAY :%lu ======XXXXX===== ",(unsigned long)listArray.count);
+//    for(NSString *xxx in listArray)
+//        NSLog(@"MEM : %@", xxx);
+    
     listString = [listString stringByAppendingString:listArray[0]];
     listString = [listString stringByAppendingString:@", "];
     listString = [listString stringByAppendingString:listArray[1]];

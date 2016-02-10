@@ -1336,10 +1336,10 @@ ALMessageDBService  * dbService;
     
     double value = [tempString doubleValue];
     
-    if([self.channelKey intValue])
+    if(self.channelKey != nil)
     {
-//        ALChannelDBService *ob = [[ALChannelDBService alloc] init];
-//        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
+        ALChannelService *ob = [[ALChannelService alloc] init];
+        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
     }
     else if(value > 0)
     {
