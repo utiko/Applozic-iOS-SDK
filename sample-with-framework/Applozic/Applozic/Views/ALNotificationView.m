@@ -13,6 +13,8 @@
 #import "ALChatViewController.h"
 #import "TSMessageView.h"
 #import "ALMessagesViewController.h"
+#import "ALUserDefaultsHandler.h"
+#import "ALContact.h"
 @implementation ALNotificationView
     
 
@@ -75,6 +77,7 @@
     
     //<><><><><><><><><><><><><><><><><><><><><><>OUR VIEW is opned<><>><><><><><><><><><><><><><><><>//
     ALPushAssist* top=[[ALPushAssist alloc] init];
+    //ALContact* dpName=[[ALContact alloc] init];
 
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
    
@@ -95,8 +98,8 @@
     }
     
     [TSMessage showNotificationInViewController:top.topViewController
-                                          title:@"APPLOZIC"
-                                       subtitle:[NSString stringWithFormat:@"%@: %@",_contactId,self.text]
+                                          title:[ALUserDefaultsHandler getNotificationTitle]
+                                       subtitle:[NSString stringWithFormat:@"%@: %@",_contactId,myString]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75
