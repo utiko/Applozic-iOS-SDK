@@ -35,6 +35,13 @@
         self.bubbleImageView.layer.masksToBounds = YES;
         [self.contentView addSubview:self.bubbleImageView];
         
+        self.mediaName = [[UILabel alloc] init];
+        [self.mediaName setTextColor:[UIColor blackColor]];
+        [self.mediaName setBackgroundColor:[UIColor clearColor]];
+        [self.mediaName setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:DATE_LABEL_SIZE]];
+        [self.contentView addSubview:self.mediaName];
+//        [self.mediaName setText:@"XXXXXXXXX.mp3"];
+        
         self.dateLabel = [[UILabel alloc] init];
         [self.dateLabel setTextColor:[UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5]];
         [self.dateLabel setBackgroundColor:[UIColor clearColor]];
@@ -99,7 +106,7 @@
         self.userProfileImageView.layer.cornerRadius = self.userProfileImageView.frame.size.width/2;
         self.userProfileImageView.layer.masksToBounds = YES;
         
-        [self.bubbleImageView setFrame:CGRectMake(self.userProfileImageView.frame.size.width + 13, self.userProfileImageView.frame.origin.y, self.contentView.frame.size.width/2 + 50, 70)];
+        [self.bubbleImageView setFrame:CGRectMake(self.userProfileImageView.frame.size.width + 13, self.userProfileImageView.frame.origin.y, viewSize.width/2 + 50, 70)];
         
         [self.dateLabel setFrame:CGRectMake(self.bubbleImageView.frame.origin.x, self.bubbleImageView.frame.size.height + 7, 80, 20)];
         
@@ -203,7 +210,7 @@
         
     }
     
-
+    [self.mediaName setFrame:CGRectMake(self.mediaTrackProgress.frame.origin.x, self.playPauseStop.frame.origin.y, 100, 15)];
     self.playPauseStop.layer.cornerRadius = self.playPauseStop.frame.size.width/2;
     self.playPauseStop.layer.masksToBounds = YES;
     [self.dateLabel setText: theDate]; //check of inbox/outbox i.e deliverd or not also
