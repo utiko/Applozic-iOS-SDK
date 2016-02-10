@@ -204,7 +204,8 @@
     }
     
 
-    
+    self.playPauseStop.layer.cornerRadius = self.playPauseStop.frame.size.width/2;
+    self.playPauseStop.layer.masksToBounds = YES;
     [self.dateLabel setText: theDate]; //check of inbox/outbox i.e deliverd or not also
     [self addShadowEffects];
     
