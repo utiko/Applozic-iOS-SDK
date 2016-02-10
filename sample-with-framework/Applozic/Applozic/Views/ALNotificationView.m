@@ -95,7 +95,7 @@
     
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:@"APPLOZIC"
-                                       subtitle:[NSString stringWithFormat:@"%@: %@",_contactId,self.text]
+                                       subtitle:[NSString stringWithFormat:@"%@: %@",_contactId,myString]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75

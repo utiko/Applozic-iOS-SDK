@@ -43,6 +43,19 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:AL_kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thirdPartyNotificationHandler:) name:@"showNotificationAndLaunchChat" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForegroundBase:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    
+    if([ALUserDefaultsHandler isLoggedIn]){
+        
+        [ALMessageService getLatestMessageForUser:[ALUserDefaultsHandler getDeviceKeyString] withCompletion:^(NSMutableArray *messageArray, NSError *error) {
+            if (error) {
+                NSLog(@"ERROR");
+            }
+            else{
+            }
+        }];
+    }
+    
     // create a Reachability object for www.google.com
     
     self.googleReach = [ALReachability reachabilityWithHostname:@"www.google.com"];
