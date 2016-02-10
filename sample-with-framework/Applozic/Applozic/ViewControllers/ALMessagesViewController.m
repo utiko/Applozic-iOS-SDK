@@ -500,11 +500,13 @@
         //                    contactCell.mUserNameLabel.text = listNames[0];
         //                }
         
-        ALChannelService *channelService = [[ALChannelService alloc] init];
-        [channelService getChannelInformation:message.groupId withCompletion:^(ALChannel *alChannel) {
-            NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
-            contactCell.mUserNameLabel.text = listNames[0];
-        }];
+        //new
+        
+//        ALChannelService *channelService = [[ALChannelService alloc] init];
+//        [channelService getChannelInformation:message.groupId withCompletion:^(ALChannel *alChannel) {
+//            NSArray *listNames = [[alChannel name] componentsSeparatedByString:@":"];
+//            contactCell.mUserNameLabel.text = listNames[0];
+//        }];
         
         
     }

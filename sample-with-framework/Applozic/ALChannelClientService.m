@@ -17,7 +17,7 @@
 +(void)getChannelInfo:(NSNumber *)channelKey withCompletion:(void(^)(NSMutableArray * arrayList, ALChannel *channel)) completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/group/info", KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"key=%@", channelKey];
+    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@", channelKey];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"CHANNEL_INFORMATION" WithCompletionHandler:^(id theJson, NSError *error) {
@@ -28,6 +28,7 @@
         }
         else
         {
+            NSLog(@"x=x=x==x=x=x==x  JSON ALCHANNEL CLIENT SERVICE CLASS : :%@  =x=x==x", theJson);
             ALChannelFeed *channelFeed = [[ALChannelFeed alloc] initWithJSONString:theJson];
             
             ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
