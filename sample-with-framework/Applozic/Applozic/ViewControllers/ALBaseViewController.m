@@ -164,6 +164,7 @@
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
         [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
        // [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColourForNavigation]];
+
         [self.label setTextColor:[ALApplozicSettings getColourForNavigationItem]];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
     }

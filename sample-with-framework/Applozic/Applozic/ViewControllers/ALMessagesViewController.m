@@ -219,6 +219,7 @@
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
        // [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColourForNavigation]];
+
     }
     
 //    SHIFTED TO ViewDidAppear //
