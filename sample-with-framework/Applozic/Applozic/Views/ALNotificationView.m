@@ -22,7 +22,7 @@
 
 
 
--(instancetype)initWithContactId:(NSString*) contactId withAlertMessage: (NSString *) alertMessage{
+-(instancetype)initWithContactId:(NSString*) contactId orGroupId:(NSNumber*) groupId withAlertMessage: (NSString *) alertMessage{
     self = [super init];
     self.text = alertMessage;
     self.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"BlueNotify.png"]];
@@ -32,6 +32,7 @@
     self.layer.cornerRadius = 0;
     self.userInteractionEnabled = YES;
     self.contactId = contactId;
+    self.groupId = groupId;
     return self;
 }
 
@@ -83,6 +84,15 @@
     ALContactDBService * contactDb=[[ALContactDBService alloc] init];
     dpName=[contactDb loadContactByKey:@"userId" value:self.contactId];
     
+    NSString* title;
+    if(self.groupId){
+        title=self.groupId;
+        _contactId=[NSString stringWithFormat:@"%@",self.groupId];
+        
+    }
+    else {
+        title=dpName.getDisplayName;
+    }
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
    
     [[TSMessageView appearance] setTitleFont:[UIFont boldSystemFontOfSize:17]];
@@ -101,15 +111,17 @@
         myString=[NSString stringWithFormat:@"Attachment"];
     }
     
+    
+    
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:[ALApplozicSettings getNotificationTitle]
-                                       subtitle:[NSString stringWithFormat:@"%@: %@",dpName.getDisplayName,myString]
+                                       subtitle:[NSString stringWithFormat:@"%@: %@",title,myString]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75
                                        callback:
      ^(void){
-        
+         
          if([delegate isKindOfClass:[ALMessagesViewController class]] && top.isMessageViewOnTop){
              // Conversation View is Opened.....
              ALMessagesViewController* class2=(ALMessagesViewController*)delegate;
@@ -117,19 +129,53 @@
              self.checkContactId=[NSString stringWithFormat:@"%@",self.contactId];
              
          }
-        else if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop2){
-            // Chat View is Opened....
-            ALChatViewController * class1= (ALChatViewController*)delegate;
-            class1.contactIds=self.contactId;
-            [class1 reloadView];
-            [class1 processMarkRead];
-            [class1 fetchAndRefresh:YES];
-            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-            }
+         else if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop2){
+             // Chat View is Opened....
+             ALChatViewController * class1= (ALChatViewController*)delegate;
+             class1.contactIds=self.contactId;
+             [class1 reloadView];
+             [class1 processMarkRead];
+             [class1 fetchAndRefresh:YES];
+             [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+         }
          else{
-            NSLog(@"View Already Opened and Notification coming already");
-        }
+             NSLog(@"View Already Opened and Notification coming already");
+         }
+
          
+//         if (self.groupId) {
+//             if([delegate isKindOfClass:[ALMessagesViewController class]] && top.isMessageViewOnTop){
+//                 // Conversation View is Opened.....
+//                 ALMessagesViewController* class2=(ALMessagesViewController*)delegate;
+//                 [class2 createDetailChatViewController:_contactId];
+//                 self.checkContactId=[NSString stringWithFormat:@"%@",self.contactId];
+//             }
+//             else if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop2){
+//                 // Chat View is Opened....
+//                 ALChatViewController * class1= (ALChatViewController*)delegate;
+//             }
+//         }
+//         else{
+//             if([delegate isKindOfClass:[ALMessagesViewController class]] && top.isMessageViewOnTop){
+//             // Conversation View is Opened.....
+//             ALMessagesViewController* class2=(ALMessagesViewController*)delegate;
+//             [class2 createDetailChatViewController:_contactId];
+//             self.checkContactId=[NSString stringWithFormat:@"%@",self.contactId];
+//             
+//         }
+//         else if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop2){
+//            // Chat View is Opened....
+//            ALChatViewController * class1= (ALChatViewController*)delegate;
+//            class1.contactIds=self.contactId;
+//            [class1 reloadView];
+//            [class1 processMarkRead];
+//            [class1 fetchAndRefresh:YES];
+//            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+//            }
+//         else{
+//             NSLog(@"View Already Opened and Notification coming already");
+//            }
+//         }
     }
                                     buttonTitle:nil
                                  buttonCallback:nil
