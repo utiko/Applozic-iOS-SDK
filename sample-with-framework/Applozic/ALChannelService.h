@@ -19,4 +19,6 @@
 
 -(NSString *)getChannelName:(NSNumber *)channelKey;
 
+-(NSString *)stringFromChannelUserList:(NSNumber *)key;
+
 @end
