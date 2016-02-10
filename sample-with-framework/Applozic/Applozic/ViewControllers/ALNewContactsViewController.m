@@ -220,12 +220,12 @@
         contact.fullName = dbContact.fullName;
         contact.contactNumber = dbContact.contactNo;
         contact.displayName = dbContact.displayName;
-        NSLog(@"XX == DISPLAY NAME %@", dbContact.displayName);
+//        NSLog(@"XX == DISPLAY NAME %@", dbContact.displayName);
         contact.contactImageUrl = dbContact.contactImageUrl;
-        NSLog(@"XX == DISPLAY IMAGE URL  %@",  dbContact.contactImageUrl);
+//        NSLog(@"XX == DISPLAY IMAGE URL  %@",  dbContact.contactImageUrl);
         contact.email = dbContact.email;
         contact.localImageResourceName = dbContact.localImageResourceName;
-        NSLog(@"XX == DISPLAY IMAGE LOCAL  %@", dbContact.localImageResourceName);
+//        NSLog(@"XX == DISPLAY IMAGE LOCAL  %@", dbContact.localImageResourceName);
         [self.contactList addObject:contact];
     }
     

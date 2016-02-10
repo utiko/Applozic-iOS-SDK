@@ -381,4 +381,26 @@
     return image;
 }
 
+
++(NSString *)getNameAlphabets:(NSString *)actualName
+{
+    NSString *alpha = @"";
+    
+    NSRange whiteSpaceRange = [actualName rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
+    if (whiteSpaceRange.location != NSNotFound)
+    {
+        NSArray *listNames = [actualName componentsSeparatedByString:@" "];
+        NSString *firstLetter = [[listNames[0] substringToIndex:1] uppercaseString];
+        NSString *lastLetter = [[listNames[1] substringToIndex:1] uppercaseString];
+        alpha = [[firstLetter stringByAppendingString: lastLetter] uppercaseString];
+    }
+    else
+    {
+        NSString *firstLetter = [actualName substringToIndex:1];
+        alpha = [firstLetter uppercaseString];
+    }
+    return alpha;
+}
+
+
 @end
