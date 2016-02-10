@@ -393,7 +393,7 @@
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     [theRequest setResultType:NSDictionaryResultType];
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
-    [theRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"contactId", @"groupId", nil]];
+    [theRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"groupId", nil]];
     [theRequest setReturnsDistinctResults:YES];
     
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
@@ -401,24 +401,42 @@
     NSMutableArray *messagesArray = [NSMutableArray new];
     for (NSDictionary * theDictionary in theArray) {
         NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-        
-        if([theDictionary[@"groupId"] intValue])
-        {
-            [theRequest setPredicate:[NSPredicate predicateWithFormat:@"groupId = %@",theDictionary[@"groupId"]]];
-        }
-        else
-        {
-            [theRequest setPredicate:[NSPredicate predicateWithFormat:@"contactId = %@",theDictionary[@"contactId"]]];
+        if([theDictionary[@"groupId"] intValue]==0){
+            continue;
         }
         
+        NSLog(@"found group....#### %d",[theDictionary[@"groupId"] intValue]);
         [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
+        [theRequest setPredicate:[NSPredicate predicateWithFormat:@" groupId==%d",[theDictionary[@"groupId"] intValue] ]];
         [theRequest setFetchLimit:1];
         
         NSArray * theArray1 =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
         DB_Message * theMessageEntity = theArray1.firstObject;
         
         ALMessage * theMessage = [self createMessageEntity:theMessageEntity];
+        NSLog(@"  group message theMessage %@ ", theMessage.message );
         [messagesArray addObject:theMessage];
+    }
+    // Find all message only have contact ...
+    NSFetchRequest * theRequest1 = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
+    [theRequest1 setResultType:NSDictionaryResultType];
+    [theRequest1 setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
+    [theRequest1 setPropertiesToFetch:[NSArray arrayWithObjects:@"contactId", nil]];
+    [theRequest1 setReturnsDistinctResults:YES];
+    NSArray * theArray1 = [theDbHandler.managedObjectContext executeFetchRequest:theRequest1 error:nil];
+
+    for (NSDictionary * theDictionary in theArray1) {
+        
+        NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
+        [theRequest setPredicate:[NSPredicate predicateWithFormat:@"contactId = %@ and groupId=%d",theDictionary[@"contactId"],0]];
+        [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
+        NSArray * theArray1 =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
+        DB_Message * theMessageEntity = theArray1.firstObject;
+        ALMessage * theMessage = [self createMessageEntity:theMessageEntity];
+        // NSLog(@" theMessage %@ ", theMessage.get );
+        [messagesArray addObject:theMessage];
+         NSLog(@"  indi message theMessage %@ ,%@ ", theMessage.contactIds, theMessage.groupId);
+        
     }
     if(!self.delegate ){
         NSLog(@"delegate is not set.");
