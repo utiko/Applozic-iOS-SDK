@@ -30,6 +30,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    ALAppLocalNotifications *localNotification = [ALAppLocalNotifications appLocalNotificationHandler];
+    [localNotification dataConnectionNotificationHandler];
+    
     if ([ALUserDefaultsHandler isLoggedIn])
     {
         // Get login screen from storyboard and present it
@@ -59,8 +62,7 @@
         }
     }
     
-    ALAppLocalNotifications *localNotification = [ALAppLocalNotifications appLocalNotificationHandler];
-    [localNotification dataConnectionNotificationHandler];
+
     
     return YES;
 }

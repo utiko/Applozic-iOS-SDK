@@ -7,10 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		29E4CA6C1C6A293C00CEC243 /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E4CA6B1C6A293C00CEC243 /* Applozic.framework */; };
-		29E4CA6D1C6A29B700CEC243 /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E4CA6B1C6A293C00CEC243 /* Applozic.framework */; };
-		29E4CA6E1C6A29B700CEC243 /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 29E4CA6B1C6A293C00CEC243 /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6DB2153E1C69FD00007CA71B /* LaunchChatFromSimpleVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB2153D1C69FCFF007CA71B /* LaunchChatFromSimpleVCViewController.swift */; };
+		6DB2155E1C6A5B93007CA71B /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DB2155D1C6A5B93007CA71B /* Applozic.framework */; };
+		6DB2155F1C6A5B93007CA71B /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6DB2155D1C6A5B93007CA71B /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6DB75B551C35221700077658 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB75B541C35221700077658 /* AppDelegate.swift */; };
 		6DB75B5D1C35221700077658 /* sampleapp_swift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6DB75B5B1C35221700077658 /* sampleapp_swift.xcdatamodeld */; };
 		6DB75B621C35221700077658 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DB75B601C35221700077658 /* LaunchScreen.storyboard */; };
@@ -28,7 +27,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				29E4CA6E1C6A29B700CEC243 /* Applozic.framework in Embed Frameworks */,
+				6DB2155F1C6A5B93007CA71B /* Applozic.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -36,8 +35,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		29E4CA6B1C6A293C00CEC243 /* Applozic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Applozic.framework; sourceTree = "<group>"; };
 		6DB2153D1C69FCFF007CA71B /* LaunchChatFromSimpleVCViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchChatFromSimpleVCViewController.swift; sourceTree = "<group>"; };
+		6DB2155D1C6A5B93007CA71B /* Applozic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Applozic.framework; sourceTree = "<group>"; };
 		6DB75B511C35221700077658 /* sampleapp-swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sampleapp-swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DB75B541C35221700077658 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6DB75B5C1C35221700077658 /* sampleapp_swift.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = sampleapp_swift.xcdatamodel; sourceTree = "<group>"; };
@@ -57,8 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				29E4CA6D1C6A29B700CEC243 /* Applozic.framework in Frameworks */,
-				29E4CA6C1C6A293C00CEC243 /* Applozic.framework in Frameworks */,
+				6DB2155E1C6A5B93007CA71B /* Applozic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,7 +66,7 @@
 		6DB75B481C35221700077658 = {
 			isa = PBXGroup;
 			children = (
-				29E4CA6B1C6A293C00CEC243 /* Applozic.framework */,
+				6DB2155D1C6A5B93007CA71B /* Applozic.framework */,
 				6DB75B781C35250800077658 /* NSObject+ApplozicBridge.h */,
 				6DB75B791C35250800077658 /* NSObject+ApplozicBridge.m */,
 				6DB75B531C35221700077658 /* sampleapp-swift */,

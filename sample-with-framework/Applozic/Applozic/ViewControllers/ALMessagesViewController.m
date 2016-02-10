@@ -125,6 +125,7 @@
     [self.emptyConversationText setText:@"You have no conversations yet"];
     [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:self.emptyConversationText];
+    self.emptyConversationText.hidden =  YES;
     
     self.dataAvailablityLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tabBarController.tabBar.frame.origin.x, self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 30)];
     [self.dataAvailablityLabel setText:@"NO INTERNET CONNECTION"];
@@ -402,6 +403,12 @@
             contactCell.mTimeLabel.text = [msg getCreatedAtTime:isToday];
             if(msg.fileMeta){
                 [self displayAttachmentMediaType:msg andContactCell: contactCell];
+            }else if (msg.contentType==ALMESSAGE_CONTENT_LOCATION){
+                  // location..
+                    
+                    contactCell.mMessageLabel.hidden = YES;
+                    contactCell.imageNameLabel.text = NSLocalizedString(@"Location", nil);
+                    contactCell.imageMarker.image = [ALUtilityClass getImageFromFramworkBundle:@"location_filled.png"];
             }else{
                 contactCell.imageNameLabel.hidden = YES;
                 contactCell.imageMarker.hidden = YES;

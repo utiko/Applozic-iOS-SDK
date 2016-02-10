@@ -317,9 +317,8 @@
         theUserDetailEntity.displayName = userDetail.displayName;
     }
     
-    theUserDetailEntity.lastSeenAt = [NSNumber numberWithInt:[userDetail.lastSeenAtTime doubleValue]];
+    theUserDetailEntity.lastSeenAt =  userDetail.lastSeenAtTime;   //   [NSNumber numberWithInt:[userDetail.lastSeenAtTime doubleValue]];
     theUserDetailEntity.connected = userDetail.connected;
-    
     return theUserDetailEntity;
 }
 
@@ -357,6 +356,7 @@
     {
 
         NSManagedObject *ob = [result objectAtIndex:0];
+        
         [ob setValue: userDetail.lastSeenAtTime forKey:@"lastSeenAt"];
         [ob setValue:[NSNumber numberWithBool:userDetail.connected] forKey:@"connected"];
         

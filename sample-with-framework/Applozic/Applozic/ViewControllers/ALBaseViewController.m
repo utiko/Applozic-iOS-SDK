@@ -106,7 +106,7 @@
         // self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:refreshButton ,nil];
     }
-    self.label = [[UILabel alloc] initWithFrame: CGRectMake(80,26,223,21)];
+    self.label = [[UILabel alloc] initWithFrame: CGRectMake(70,26,223,21)];
     self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.label.backgroundColor = [UIColor clearColor];
     [self.label setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:LAST_SEEN_LABEL_SIZE]];
