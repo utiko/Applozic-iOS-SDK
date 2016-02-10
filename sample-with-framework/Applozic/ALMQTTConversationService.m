@@ -134,7 +134,7 @@ static MQTTSession *session;
             NSLog(@"the dictionary %@",theMessageDict);
             [dict setObject:[NSNumber numberWithBool:NO] forKey:@"updateUI"];
             
-            //          When app launches from backgound then set updateUI to 'No' so that double notification is not shown.
+//          When app launches from backgound then set updateUI to 'No' so that double notification is not shown.
             if(!assistant.isChatViewOnTop){
                 NSLog(@" ### our notification called for mqtt....");
                 [assistant assist:alMessage.contactIds and:dict ofUser:alMessage.contactIds];

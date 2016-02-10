@@ -16,6 +16,8 @@
 #import "ALPushAssist.h"
 #import "ALAppLocalNotifications.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALContactDBService.h"
+#import "ALContact.h"
 
 
 @implementation ALUtilityClass
@@ -215,19 +217,22 @@
 +(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId delegate:(id)delegate{
     
     //3rd Party View is Opened.........
+    ALContact* dpName=[[ALContact alloc] init];
+    ALContactDBService * contactDb=[[ALContactDBService alloc] init];
+    dpName=[contactDb loadContactByKey:@"userId" value:contactId];
     
     ALPushAssist* top=[[ALPushAssist alloc] init];
-    NSLog(@"DELEGATE %@",delegate);
+    
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
+    
     [[TSMessageView appearance] setTitleFont:[UIFont fontWithName:@"Helvetica Neue" size:18.0]];
     [[TSMessageView appearance] setContentFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
-
     [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
     [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
 
     [TSMessage showNotificationInViewController:top.topViewController
                                             title:[ALUserDefaultsHandler getNotificationTitle]
-                                       subtitle:[NSString stringWithFormat:@"%@",toastMessage]
+                                       subtitle:[NSString stringWithFormat:@"%@",dpName.getDisplayName]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75
