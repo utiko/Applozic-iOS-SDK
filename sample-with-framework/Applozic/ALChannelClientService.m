@@ -29,6 +29,8 @@
         else
         {
             NSLog(@"x=x=x==x=x=x==x  JSON ALCHANNEL CLIENT SERVICE CLASS : :%@  =x=x==x", theJson);
+            
+            //TODO:::FIX IT
             ALChannelFeed *channelFeed = [[ALChannelFeed alloc] initWithJSONString:theJson];
             
             ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];

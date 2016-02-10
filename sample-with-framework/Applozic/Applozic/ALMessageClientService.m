@@ -104,7 +104,9 @@
         ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
         completion(messageListResponse,nil);
-        // NSLog(@"message list response THE JSON %@",theJson);
+         NSLog(@"message list response THE JSON %@",theJson);
+        ALChannelService *channelService = [[ALChannelService alloc] init];
+        [channelService callForChannelServiceForDBInsertion:theJson];
         //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
     }];
     
