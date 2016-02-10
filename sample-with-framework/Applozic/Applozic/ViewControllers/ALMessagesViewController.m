@@ -380,7 +380,9 @@
         ALContactCell *contactCell=nil;
         if(msg.groupId){
             contactCell =[self getCellForGroup:msg.groupId];
+            NSLog(@"groupId found ....");
         }else{
+            NSLog(@"groupId not found ....");
             contactCell = [self getCell:msg.contactIds];
         }
        
@@ -464,7 +466,7 @@
     int index=(int) [self.mContactsMessageListArray indexOfObjectPassingTest:^BOOL(id element,NSUInteger idx,BOOL *stop)
                      {
                          ALMessage *message = (ALMessage*)element;
-                         if(message.groupId == groupKey )
+                         if([message.groupId isEqualToNumber:groupKey ])
                          {
                              *stop = YES;
                              return YES;
