@@ -1148,7 +1148,20 @@ ALMessageDBService  * dbService;
     }
     else {
         NSLog(@"show notification as someone else thread is already opened");
-        ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
+        ALNotificationView * alnotification;
+        if(self.channelKey){
+            alnotification =[[ALNotificationView alloc]
+                             initWithContactId:nil
+                             orGroupId:self.channelKey
+                             withAlertMessage:alertValue];
+        }
+        else if (contactId){
+        alnotification =[[ALNotificationView alloc]
+                         initWithContactId:contactId
+                         orGroupId:nil
+                         withAlertMessage:alertValue];
+//        [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
+        }
         [alnotification displayNotificationNew:self];
         [self fetchAndRefresh:YES];
     }

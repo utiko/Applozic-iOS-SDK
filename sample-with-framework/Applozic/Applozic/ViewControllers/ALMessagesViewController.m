@@ -805,11 +805,19 @@
         //Todo: set value of updateUI and [self.detailChatViewController contactIds] with actual contactId of the message
         [self.detailChatViewController syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
     } else {
-        // NSLog(@"executing else part....");
-        ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:alMessage.contactIds withAlertMessage:alMessage.message];
-        if (top.isMessageViewOnTop) {
-            [alnotification displayNotificationNew:self];
+        
+        ALNotificationView * alnotification;
+        if (alMessage.groupId) {
+            alnotification = [[ALNotificationView alloc] initWithContactId:nil orGroupId:alMessage.groupId withAlertMessage:alMessage.message];
         }
+        else{
+            alnotification = [[ALNotificationView alloc] initWithContactId:alMessage.contactIds orGroupId:nil withAlertMessage:alMessage.message];
+        }
+        
+    if (top.isMessageViewOnTop) {
+            [alnotification displayNotificationNew:self];
+    }
+        
         [dBService fetchAndRefreshQuickConversation]; // can be used also instead of syncCall/syncCall:blah blah
     }
 }

@@ -22,7 +22,7 @@
 
 
 
--(instancetype)initWithContactId:(NSString*) contactId withAlertMessage: (NSString *) alertMessage{
+-(instancetype)initWithContactId:(NSString*) contactId orGroupId:(NSNumber*) groupId withAlertMessage: (NSString *) alertMessage{
     self = [super init];
     self.text = alertMessage;
     self.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"BlueNotify.png"]];
@@ -112,9 +112,11 @@
         
          if([delegate isKindOfClass:[ALMessagesViewController class]] && top.isMessageViewOnTop){
              // Conversation View is Opened.....
+             
              ALMessagesViewController* class2=(ALMessagesViewController*)delegate;
              [class2 createDetailChatViewController:_contactId];
              self.checkContactId=[NSString stringWithFormat:@"%@",self.contactId];
+            
              
          }
         else if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop2){

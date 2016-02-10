@@ -12,10 +12,11 @@
 
 
 @property (retain ,nonatomic) NSString * contactId;
+@property (retain,nonatomic) NSNumber * groudId;
 
 @property (retain ,nonatomic) NSString * checkContactId;
 
--(instancetype)initWithContactId:(NSString*) contactId withAlertMessage: (NSString *) alertMessage;
+-(instancetype)initWithContactId:(NSString*) contactId orGroupId:(NSNumber*) groupId withAlertMessage: (NSString *) alertMessage;
 
 -(void)displayNotification:(id)delegate;
 -(void)displayNotificationNew:(id)delegate;
