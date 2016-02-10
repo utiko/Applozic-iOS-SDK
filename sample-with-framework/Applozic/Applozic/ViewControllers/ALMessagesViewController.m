@@ -211,10 +211,12 @@
     
     if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
     {
-        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+        self.navigationController.navigationBar.translucent = NO;
+        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColourForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
+        [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColourForNavigation]];
     }
     
 //    SHIFTED TO ViewDidAppear //
@@ -949,11 +951,13 @@
 
 -(UIView *)setCustomBackButton:(NSString *)text
 {
-    UIImageView *imageView=[[UIImageView alloc] initWithImage: [ALUtilityClass getImageFromFramworkBundle:@"bbb.png"]];
+//    UIImageView *imageView = [[UIImageView alloc] initWithImage: [ALUtilityClass getImageFromFramworkBundle:@"DTDT.png"]];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage: [ALUtilityClass getImageFromFramworkBundle:@"bbb.png"]];
     [imageView setFrame:CGRectMake(-10, 0, 30, 30)];
     [imageView setTintColor:[UIColor whiteColor]];
     UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(imageView.frame.origin.x + imageView.frame.size.width - 5, imageView.frame.origin.y + 5 , @"back".length, 15)];
-    [label setTextColor:[UIColor whiteColor]];
+//    [label setTextColor:[UIColor whiteColor]];
+    [label setTextColor: [ALApplozicSettings getColourForNavigationItem]];
     [label setText:text];
     [label sizeToFit];
     

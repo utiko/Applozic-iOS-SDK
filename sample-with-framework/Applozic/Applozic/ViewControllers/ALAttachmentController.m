@@ -24,9 +24,11 @@
     
     if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
     {
+        self.navigationController.navigationBar.translucent = NO;
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
+        [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColourForNavigation]];
     }
     
     self.textMessageWithImage.layer.masksToBounds = YES;

@@ -157,9 +157,11 @@
     
     if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
     {
-        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+        self.navigationController.navigationBar.translucent = NO;
+        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColourForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
         [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
+        [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColourForNavigation]];
         [self.label setTextColor:[ALApplozicSettings getColourForNavigationItem]];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
     }
