@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D1BCD851C6B6AAF00241798 /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1BCD841C6B6AAF00241798 /* Applozic.framework */; };
+		6D1BCD861C6B6AAF00241798 /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1BCD841C6B6AAF00241798 /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6DB2153E1C69FD00007CA71B /* LaunchChatFromSimpleVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB2153D1C69FCFF007CA71B /* LaunchChatFromSimpleVCViewController.swift */; };
-		6DB2155E1C6A5B93007CA71B /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DB2155D1C6A5B93007CA71B /* Applozic.framework */; };
-		6DB2155F1C6A5B93007CA71B /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6DB2155D1C6A5B93007CA71B /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6DB75B551C35221700077658 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB75B541C35221700077658 /* AppDelegate.swift */; };
 		6DB75B5D1C35221700077658 /* sampleapp_swift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6DB75B5B1C35221700077658 /* sampleapp_swift.xcdatamodeld */; };
 		6DB75B621C35221700077658 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DB75B601C35221700077658 /* LaunchScreen.storyboard */; };
@@ -27,7 +27,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6DB2155F1C6A5B93007CA71B /* Applozic.framework in Embed Frameworks */,
+				6D1BCD861C6B6AAF00241798 /* Applozic.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -35,8 +35,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6D1BCD841C6B6AAF00241798 /* Applozic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Applozic.framework; sourceTree = "<group>"; };
 		6DB2153D1C69FCFF007CA71B /* LaunchChatFromSimpleVCViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchChatFromSimpleVCViewController.swift; sourceTree = "<group>"; };
-		6DB2155D1C6A5B93007CA71B /* Applozic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Applozic.framework; sourceTree = "<group>"; };
 		6DB75B511C35221700077658 /* sampleapp-swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sampleapp-swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DB75B541C35221700077658 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6DB75B5C1C35221700077658 /* sampleapp_swift.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = sampleapp_swift.xcdatamodel; sourceTree = "<group>"; };
@@ -56,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DB2155E1C6A5B93007CA71B /* Applozic.framework in Frameworks */,
+				6D1BCD851C6B6AAF00241798 /* Applozic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,7 +66,7 @@
 		6DB75B481C35221700077658 = {
 			isa = PBXGroup;
 			children = (
-				6DB2155D1C6A5B93007CA71B /* Applozic.framework */,
+				6D1BCD841C6B6AAF00241798 /* Applozic.framework */,
 				6DB75B781C35250800077658 /* NSObject+ApplozicBridge.h */,
 				6DB75B791C35250800077658 /* NSObject+ApplozicBridge.m */,
 				6DB75B531C35221700077658 /* sampleapp-swift */,
@@ -225,7 +225,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -247,6 +248,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "64a8dda8-1462-49b9-a533-9e79449ba2f0";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -270,7 +272,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -285,6 +288,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "64a8dda8-1462-49b9-a533-9e79449ba2f0";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -296,14 +300,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "sampleapp-swift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.customer.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "sampleapp-swift/sampleapp-swift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -314,14 +322,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "sampleapp-swift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.customer.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "sampleapp-swift/sampleapp-swift-Bridging-Header.h";
 			};
 			name = Release;

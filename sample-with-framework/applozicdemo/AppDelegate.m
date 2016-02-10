@@ -43,6 +43,7 @@
         [self.window.rootViewController presentViewController:viewController
                                                      animated:nil
                                                    completion:nil];
+       // [ALUserDefaultsHandler setNoti]
     }
     
     NSLog(@"launchOptions: %@", launchOptions);
