@@ -244,9 +244,12 @@ ALMessageDBService  * dbService;
     
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-    theRequest.predicate = [NSPredicate predicateWithFormat:@"contactId = %@",self.contactIds];
+    if(self.channelKey){
+        theRequest.predicate = [NSPredicate predicateWithFormat:@"groupId=%d",[self.channelKey intValue]];
+    }else{
+         theRequest.predicate = [NSPredicate predicateWithFormat:@"contactId = %@" ,self.contactIds];
+    }
     self.mTotalCount = [theDbHandler.managedObjectContext countForFetchRequest:theRequest error:nil];
-    
 }
 
 //This is just a test method
@@ -598,7 +601,14 @@ ALMessageDBService  * dbService;
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     [theRequest setFetchLimit:self.rp];
-    NSPredicate* predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@",self.contactIds];
+    NSPredicate* predicate1;
+    if(self.channelKey){
+       predicate1 = [NSPredicate predicateWithFormat:@"groupId=%d",[self.channelKey intValue]];
+    }else{
+       predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@ and groupId=0" ,self.contactIds];
+    }
+    self.mTotalCount = [theDbHandler.managedObjectContext countForFetchRequest:theRequest error:nil];
+    
     NSPredicate* predicate2=[NSPredicate predicateWithFormat:@"deletedFlag == NO"];
     NSPredicate* compoundPredicate=[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
     [theRequest setPredicate:compoundPredicate];
@@ -1351,10 +1361,10 @@ ALMessageDBService  * dbService;
     
     double value = [tempString doubleValue];
     
-    if([self.channelKey intValue])
+    if(self.channelKey != nil)
     {
-//        ALChannelDBService *ob = [[ALChannelDBService alloc] init];
-//        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
+        ALChannelService *ob = [[ALChannelService alloc] init];
+        [self.label setText:[ob stringFromChannelUserList:self.channelKey]];
     }
     else if(value > 0)
     {

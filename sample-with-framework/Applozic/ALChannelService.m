@@ -68,4 +68,10 @@
     
 }
 
+-(NSString *)stringFromChannelUserList:(NSNumber *)key
+{
+    ALChannelDBService *ob = [[ALChannelDBService alloc] init];
+    return [ob stringFromChannelUserList: key];
+}
+
 @end
