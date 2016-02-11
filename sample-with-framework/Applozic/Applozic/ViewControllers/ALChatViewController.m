@@ -130,13 +130,9 @@ ALMessageDBService  * dbService;
     self.showloadEarlierAction = TRUE;
     self.typingLabel.hidden = YES;
     typingStat = NO;
-    if(self.refresh || ([self.alMessageWrapper getUpdatedMessageArray] && [self.alMessageWrapper getUpdatedMessageArray].count == 0) || (((!([self.alMessageWrapper getUpdatedMessageArray] && [[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds] isEqualToString:self.contactIds])))))
+    if(!self.channelKey || [[self.alMessageWrapper getUpdatedMessageArray][0] groupId] != self.channelKey || self.refresh || ([self.alMessageWrapper getUpdatedMessageArray] && [self.alMessageWrapper getUpdatedMessageArray].count == 0) || (((!([self.alMessageWrapper getUpdatedMessageArray] && [[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds] isEqualToString:self.contactIds])))))
     {
        [self reloadView];
-    }
-    if([[self.alMessageWrapper getUpdatedMessageArray][0] groupId] != self.channelKey)
-    {
-         [self reloadView];
     }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
