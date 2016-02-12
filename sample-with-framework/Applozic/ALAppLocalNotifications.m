@@ -191,15 +191,25 @@
     
     NSLog(@" 3rd Party notificationHandler called .....");
     
-    self.contactId = notification.object;
-    NSLog(@"Notification Object %@",self.contactId);
+    NSArray *needleArr = [notification.object componentsSeparatedByString:@":"];
+    if(needleArr.count>1){
+    NSString *needle = [notification.object componentsSeparatedByString:@":"][1];
+    needle=[needle componentsSeparatedByString:@":"][0];
+        self.contactId = needle;
+    }
+    else{
+        self.contactId=notification.object;
+        //TO DO: Set groupId: nil
+    }
+//    self.contactId = notification.object;
+    
     self.dict = notification.userInfo;
     NSNumber * updateUI = [self.dict valueForKey:@"updateUI"];
     NSString * alertValue = [self.dict valueForKey:@"alertValue"];
     
-    //ALMessageDBService* obj=[[ALMessageDBService alloc] init];
-    // [obj fetchAndRefreshQuickConversation];
+    //NSLog(@"needle %@",needle);
     
+    NSLog(@"Notification Dictionary %@ and notificaiotn Object%@",self.dict,notification.object);
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
         

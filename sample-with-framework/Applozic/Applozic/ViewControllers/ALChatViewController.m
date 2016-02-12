@@ -1172,6 +1172,7 @@ ALMessageDBService  * dbService;
                              withAlertMessage:alertValue];
         }
         else{
+            self.channelKey=nil;
             alnotification =[[ALNotificationView alloc]
                              initWithContactId:contactId
                              orGroupId:nil
@@ -1502,7 +1503,7 @@ ALMessageDBService  * dbService;
 
 -(void) syncCall:(ALMessage *) alMessage {
     [self syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
-    NSLog(@"syncCall:alMessage  called....");
+    NSLog(@"syncCall:alMessage  called....GROUPiD %@ & CONTACTiD %@",alMessage.groupId,alMessage.contactIds);
 }
 
 

@@ -74,7 +74,7 @@
 @property (nonatomic,strong) NSArray* colors;
 @property (strong, nonatomic) UILabel *emptyConversationText;
 @property (strong, nonatomic) UILabel *dataAvailablityLabel;
-@property (strong, nonatomic) NSNumber *channelKey;
+//@property (strong, nonatomic) NSNumber *channelKey;
 @property(strong, nonatomic) ALMQTTConversationService *alMqttConversationService;
 @end
 
@@ -821,7 +821,13 @@
     
     [self.detailChatViewController setRefresh: YES];
     if ([self.detailChatViewController contactIds] != nil) {
-        // NSLog(@"executing if part...");
+        
+        if(alMessage.groupId){
+            alMessage.contactIds=alMessage.groupId;
+        }
+        else{
+            alMessage.groupId=NULL;
+        }
         
         //Todo: set value of updateUI and [self.detailChatViewController contactIds] with actual contactId of the message
         [self.detailChatViewController syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
