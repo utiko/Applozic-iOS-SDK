@@ -187,7 +187,7 @@
                                 <action selector="backButtonAction:" destination="BYZ-38-t0r" id="vWD-0a-q4j"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Contacts" id="3pR-ud-INa">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="3pR-ud-INa">
                             <connections>
                                 <action selector="logout:" destination="BYZ-38-t0r" id="7Ka-oa-KIh"/>
                             </connections>
