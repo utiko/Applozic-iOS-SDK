@@ -84,7 +84,7 @@
     [user setPassword:@""];
     
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
+    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil withGroupId:nil];
 
     //Adding sample contacts...
     [self insertInitialContacts];
@@ -109,7 +109,7 @@
     [user setPassword:@""];
     
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    [demoChatManager launchChatForUserWithDisplayName:@"masterUser" andwithDisplayName:@"Master" andFromViewController:self];
+    [demoChatManager launchChatForUserWithDisplayName:@"masteruser" withGroupId:nil andwithDisplayName:@"Master" andFromViewController:self];
     
 }
 

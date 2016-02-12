@@ -69,7 +69,7 @@
 
 
 -(void)launchChat: (UIViewController *)fromViewController{
-   [ self registerUserAndLaunchChat:nil andFromController:fromViewController forUser:nil];
+   [ self registerUserAndLaunchChat:nil andFromController:fromViewController forUser:nil withGroupId:nil];
 }
 
 
@@ -83,7 +83,7 @@
 
 -(void)launchChatForUserWithDefaultText:(NSString * )userId andFromViewController:(UIViewController*)fromViewController{
   
-    [ self registerUserAndLaunchChat:nil andFromController:fromViewController forUser:userId];
+    [ self registerUserAndLaunchChat:nil andFromController:fromViewController forUser:userId withGroupId:nil];
 
 }
 
@@ -98,7 +98,7 @@
 //-----------------------  ------------------------------------------------------/
 
 
--(void)registerUserAndLaunchChat:(ALUser *)alUser andFromController:(UIViewController*)viewController forUser:(NSString*)userId {
+-(void)registerUserAndLaunchChat:(ALUser *)alUser andFromController:(UIViewController*)viewController forUser:(NSString*)userId withGroupId:(NSNumber*)groupID{
    
     self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
    
@@ -109,7 +109,7 @@
         LaunchChatFromSimpleViewController *lObj=[[LaunchChatFromSimpleViewController alloc] init];
         [lObj.activityView removeFromSuperview];
         if(userId){
-            [self.chatLauncher launchIndividualChat:userId andViewControllerObject:viewController andWithText:nil];
+            [self.chatLauncher launchIndividualChat:userId withGroupId:groupID andViewControllerObject:viewController andWithText:nil];
         }else{
             NSString * title = viewController.title? viewController.title: @"< Back";
             [self.chatLauncher launchChatList:title andViewControllerObject:viewController ];
@@ -153,7 +153,7 @@
         
 
         if(userId){
-            [self.chatLauncher launchIndividualChat:userId andViewControllerObject:viewController andWithText:nil];
+            [self.chatLauncher launchIndividualChat:userId withGroupId:groupID andViewControllerObject:viewController andWithText:nil];
         }else{
             NSString * title = viewController.title? viewController.title: @"< Back";
             [self.chatLauncher launchChatList:title andViewControllerObject:viewController ];
@@ -173,11 +173,11 @@
 
 // ----------------------  ------------------------------------------------------/
 
--(void)launchChatForUserWithDisplayName:(NSString * )userId andwithDisplayName:(NSString*)displayName andFromViewController:(UIViewController*)fromViewController{
+-(void)launchChatForUserWithDisplayName:(NSString * )userId withGroupId:(NSNumber*)groupID andwithDisplayName:(NSString*)displayName andFromViewController:(UIViewController*)fromViewController{
     self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
     
     if([ALUserDefaultsHandler getDeviceKeyString]){
-        [self.chatLauncher launchIndividualChat:userId withDisplayName:displayName andViewControllerObject:fromViewController andWithText:nil];
+        [self.chatLauncher launchIndividualChat:userId withGroupId:groupID withDisplayName:displayName andViewControllerObject:fromViewController andWithText:nil];
         return;
     }
     
@@ -200,7 +200,7 @@
             [messageClientService addWelcomeMessage];
             
         }
-        [self.chatLauncher launchIndividualChat:userId withDisplayName:displayName andViewControllerObject:fromViewController andWithText:nil];
+        [self.chatLauncher launchIndividualChat:userId withGroupId:groupID withDisplayName:displayName andViewControllerObject:fromViewController andWithText:nil];
 
         if(![ALUserDefaultsHandler getApnDeviceToken]){
             [self.chatLauncher registerForNotification];

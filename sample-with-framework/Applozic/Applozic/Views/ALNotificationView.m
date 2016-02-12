@@ -131,7 +131,9 @@
              }
              else{
                  class2.channelKey=nil;
+                 self.groupId=nil;
              }
+             NSLog(@"self.contactId %@ and channelKey %@",_contactId, self.groupId);
              [class2 createDetailChatViewController:_contactId];
              self.checkContactId=[NSString stringWithFormat:@"%@",self.contactId];
              

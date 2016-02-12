@@ -214,7 +214,7 @@
 
 
 
-+(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId delegate:(id)delegate{
++(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId withGroupId:(NSNumber*) groupID delegate:(id)delegate{
     
     //3rd Party View is Opened.........
     ALContact* dpName=[[ALContact alloc] init];
@@ -240,7 +240,7 @@
                                        callback:^(void){
         
                                            
-                                           [delegate thirdPartyNotificationTap1:contactId];
+                                           [delegate thirdPartyNotificationTap1:contactId withGroupId:groupID];
 
         
     }buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionTop canBeDismissedByUser:YES];
