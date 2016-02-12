@@ -191,15 +191,26 @@
     
     NSLog(@" 3rd Party notificationHandler called .....");
     
+    NSArray *needleArr = [notification.object componentsSeparatedByString:@":"];
+    NSNumber* groupId;
+
+    if(needleArr.count>1){
+        NSString *groupIdString = [notification.object componentsSeparatedByString:@":"][1];
+        groupIdString=[groupIdString componentsSeparatedByString:@":"][0];
+        groupId=[NSNumber numberWithInt:groupIdString.intValue];
+    }
+    else{
+        groupId=nil;
+        //TO DO: Set groupId: nil
+    }
     self.contactId = notification.object;
-    NSLog(@"Notification Object %@",self.contactId);
     self.dict = notification.userInfo;
     NSNumber * updateUI = [self.dict valueForKey:@"updateUI"];
     NSString * alertValue = [self.dict valueForKey:@"alertValue"];
     
-    //ALMessageDBService* obj=[[ALMessageDBService alloc] init];
-    // [obj fetchAndRefreshQuickConversation];
+    //NSLog(@"needle %@",needle);
     
+    NSLog(@"Notification Dictionary %@ and notificaiotn Object%@",self.dict,notification.object);
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
         
@@ -211,7 +222,7 @@
         
         if(updateUI==[NSNumber numberWithBool:NO]){
             NSLog(@"App launched from Background....Directly opening view from %@",self.dict);
-            [self thirdPartyNotificationTap1:self.contactId]; // Directly launching Chat
+            [self thirdPartyNotificationTap1:self.contactId withGroupId:groupId]; // Directly launching Chat
             return;
         }
         
@@ -220,7 +231,7 @@
             if(alertValue){
                 NSLog(@"App launched from 3rdParty for c");
                 NSLog(@"posting to notification....%@",notification.userInfo);
-                [ALUtilityClass thirdDisplayNotificationTS:alertValue andForContactId:self.contactId delegate:self];
+                [ALUtilityClass thirdDisplayNotificationTS:alertValue andForContactId:self.contactId withGroupId:groupId delegate:self];
             }
             else{
                 NSLog(@"Nil Alert Value");
@@ -232,7 +243,7 @@
     
     //    [ALUtilityClass displayNotification:alertValue delegate:self];
 }
--(void)thirdPartyNotificationTap1:(NSString *) contactId{ //:(UIGestureRecognizer*)gestureRecognizer
+-(void)thirdPartyNotificationTap1:(NSString *) contactId withGroupId:(NSNumber*) groupID{ //:(UIGestureRecognizer*)gestureRecognizer
     
     ALPushAssist* object=[[ALPushAssist alloc] init];
     //for Individual Chat Conversation Opening...
@@ -240,7 +251,7 @@
     //Check if this view is there or not ..if there just call fetchAnd refresh...
     if(!object.isChatViewOnTop){
         self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_KEY];
-        [self.chatLauncher launchIndividualChat:contactId andViewControllerObject:object.topViewController andWithText:nil];
+        [self.chatLauncher launchIndividualChat:contactId withGroupId:groupID andViewControllerObject:object.topViewController andWithText:nil];
     }
     
 }

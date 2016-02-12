@@ -74,7 +74,7 @@
 @property (nonatomic,strong) NSArray* colors;
 @property (strong, nonatomic) UILabel *emptyConversationText;
 @property (strong, nonatomic) UILabel *dataAvailablityLabel;
-@property (strong, nonatomic) NSNumber *channelKey;
+//@property (strong, nonatomic) NSNumber *channelKey;
 @property(strong, nonatomic) ALMQTTConversationService *alMqttConversationService;
 @end
 
@@ -384,6 +384,7 @@
         }else{
             NSLog(@"groupId not found ....");
             contactCell = [self getCell:msg.contactIds];
+            msg.groupId=NULL;
         }
        
         if(contactCell){
@@ -406,7 +407,18 @@
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
             unread.hidden=FALSE;
             contactCell.mCountImageView.hidden=FALSE;
-            unread.text=[NSString stringWithFormat:@"%lu",(unsigned long)[[messageDBService getUnreadMessages:msg.contactIds] count]];
+            
+            if(msg.groupId)
+            {
+                unread.text=[NSString stringWithFormat:@"%lu",
+                             (unsigned long)[[messageDBService getUnreadMessagesForGroup:msg.groupId] count]];
+            }
+            else{
+                unread.text=[NSString stringWithFormat:@"%lu",
+                             (unsigned long)[[messageDBService getUnreadMessagesForIndividual:msg.contactIds] count]];
+
+            }
+            
             if ([msg.type integerValue] == [FORWARD_STATUS integerValue])
                 contactCell.mLastMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"mobicom_social_forward.png"];
             else if ([msg.type integerValue] == [REPLIED_STATUS integerValue])
@@ -448,7 +460,8 @@
     int index=(int) [self.mContactsMessageListArray indexOfObjectPassingTest:^BOOL(id element,NSUInteger idx,BOOL *stop)
                      {
                          ALMessage *message = (ALMessage*)element;
-                         if( [ message.contactIds isEqualToString:key ])
+                         if( [ message.contactIds isEqualToString:key ] &&
+                            ([message.groupId isEqual:NULL] ||[message.groupId isEqualToNumber:[NSNumber numberWithInt:0]]))
                          {
                              *stop = YES;
                              return YES;
@@ -579,9 +592,15 @@
     ///////////$$$$$$$$$$$$$$$$//////////////////////COUNT//////////////////////$$$$$$$$$$$$$$$$///////////
     
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
-    self.unreadCount=[messageDBService getUnreadMessages:[alContact userId]];
     
-    // NSLog(@"self.unreadCount Array of ||%@|| withCount ||%lu|| is %@",[alContact userId],(unsigned long)self.unreadCount.count,self.unreadCount);
+    if([message.groupId intValue])
+    {
+        self.unreadCount=[messageDBService getUnreadMessagesForGroup:message.groupId];
+    }
+    else if([alContact userId] && (message.groupId.intValue == 0 || message.groupId == NULL)){
+        self.unreadCount=[messageDBService getUnreadMessagesForIndividual:[alContact userId]];
+        message.groupId =NULL;
+    }
     
     if(self.unreadCount.count!=0){
         unread.hidden=FALSE;
@@ -592,8 +611,7 @@
         unread.hidden=TRUE;
         contactCell.mCountImageView.hidden = YES;
     }
-    
-    
+
     
     contactCell.mUserImageView.hidden = NO;
     contactCell.mUserImageView.layer.cornerRadius = contactCell.mUserImageView.frame.size.width/2;
@@ -821,18 +839,26 @@
     
     [self.detailChatViewController setRefresh: YES];
     if ([self.detailChatViewController contactIds] != nil) {
-        // NSLog(@"executing if part...");
-        
         //Todo: set value of updateUI and [self.detailChatViewController contactIds] with actual contactId of the message
-        [self.detailChatViewController syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
+        [self.detailChatViewController syncCall:alMessage.contactIds withGroupId:alMessage.groupId updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
     } else {
-        // NSLog(@"executing else part....");
-        ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:alMessage.contactIds withAlertMessage:alMessage.message];
+        ALNotificationView * alnotification;
+        if (alMessage.groupId) {
+            
+            alnotification = [[ALNotificationView alloc] initWithContactId:nil orGroupId:alMessage.groupId withAlertMessage:alMessage.message];
+        }
+        else{
+            alnotification = [[ALNotificationView alloc] initWithContactId:alMessage.contactIds orGroupId:nil withAlertMessage:alMessage.message];
+        }
+        
         if (top.isMessageViewOnTop) {
             [alnotification displayNotificationNew:self];
         }
+        
         [dBService fetchAndRefreshQuickConversation]; // can be used also instead of syncCall/syncCall:blah blah
     }
+
+
 }
 
 -(void) delivered:(NSString *)messageKey contactId:(NSString *)contactId {

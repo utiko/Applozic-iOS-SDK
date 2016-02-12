@@ -65,6 +65,7 @@
         }
         //TODO : check if notification is alreday received and processed...
         NSString *  notificationMsg = [theMessageDict valueForKey:@"message"];
+        NSLog(@"NOTIFICATION %@",notificationMsg);
 
         if ([type isEqualToString:MT_SYNC])
         {

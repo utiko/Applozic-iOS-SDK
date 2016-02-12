@@ -255,7 +255,7 @@
 
 -(NSUInteger)markConversationAsRead:(NSString *) contactId orChannelKey:(NSNumber *)key
 {
-    NSArray *messages  = [self getUnreadMessages:contactId];
+    NSArray *messages  = [self getUnreadMessagesForIndividual:contactId];
     
     if(messages.count >0 ){
         NSBatchUpdateRequest *req = [[NSBatchUpdateRequest alloc] initWithEntityName:@"DB_Message"];
@@ -276,19 +276,21 @@
     return messages.count;
 }
 
-- (NSArray *)getUnreadMessages:(NSString *) contactId
-{
+- (NSArray *)getUnreadMessagesForIndividual:(NSString *)contactId {
+    
     //Runs at Opening AND Leaving ChatVC AND Opening MessageList..
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
-    NSPredicate *predicate;
 
+    NSPredicate *predicate;
     NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"isRead==%@ AND type==%@ ",@"0",@"4"];
-//    NSPredicate *predicate3 = [NSPredicate predicateWithFormat:@"deletedFlag == NO"];
+
     if (contactId) {
         NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"%K=%@",@"contactId",contactId];
-        predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
+        NSPredicate *predicate3 = [NSPredicate predicateWithFormat:@"groupId==%d OR groupId==%@",0,NULL];
+       // NSPredicate *predicate3 = [NSPredicate predicateWithFormat:@"groupId==%@",0];
+        predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2,predicate3]];
     } else {
         predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate2]];
     }
@@ -299,6 +301,29 @@
     return result;
 }
 
+- (NSArray *)getUnreadMessagesForGroup:(NSNumber*)groupId {
+    
+    //Runs at Opening AND Leaving ChatVC AND Opening MessageList..
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
+    
+    NSPredicate *predicate;
+    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"isRead==%@ AND type==%@ ",@"0",@"4"];
+    
+    if (groupId) {
+        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"%K=%d",@"groupId",groupId.intValue];
+        predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
+    }
+    else {
+        predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate2]];
+    }
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:predicate];
+    NSError *fetchError = nil;
+    NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    return result;
+}
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark - ALMessagesViewController DB Operations.
 //------------------------------------------------------------------------------------------------------------------
