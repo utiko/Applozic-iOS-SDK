@@ -22,7 +22,8 @@
 @end
 
 @interface ALMessageDBService : NSObject
-- (NSArray *)getUnreadMessages:(NSString *) contactId;
+- (NSArray *)getUnreadMessagesForIndividual:(NSString *) contactId;
+- (NSArray *)getUnreadMessagesForGroup:(NSNumber*)groupId;
 //Add Message APIS
 -(NSMutableArray *)addMessageList:(NSMutableArray*) messageList;
 -(DB_Message*)addMessage:(ALMessage*) message;
