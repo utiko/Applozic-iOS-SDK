@@ -65,7 +65,7 @@
     }];
 }
 
-+(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSError *error, NSString *json))completion
++(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSError *error, ALChannelCreateResponse *response))completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, CREATE_CHANNEL_URL];
 //    NSString * theUrlString = [NSString stringWithFormat:@"https://staging.applozic.com%@", CREATE_CHANNEL_URL];
@@ -79,9 +79,12 @@
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:channelDictionary options:0 error:&error];
     NSString *theParamString = [[NSString alloc] initWithData:postdata encoding: NSUTF8StringEncoding];
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
+    NSLog(@"PARAm STRINg %@", theParamString);
+    
+    __block ALChannelCreateResponse *response = nil;
 
     [ALResponseHandler processRequest:theRequest andTag:@"CREATE_CHANNEL" WithCompletionHandler:^(id theJson, NSError *theError) {
-        
+         NSLog(@"CHANEEL CREATE JSON %@", theParamString);
         if (theError)
         {
             NSLog(@"ERROR IN CREATE_CHANNEL %@", theError);
@@ -89,9 +92,10 @@
         else
         {
             NSLog(@"SEVER RESPONSE FROM JSON CREATE_CHANNEL : %@", (NSString *)theJson);
+            response = [[ALChannelCreateResponse alloc] initWithJSONString:theJson];
         }
         
-        completion(theError, theJson);
+        completion(theError, response);
         
     }];
     

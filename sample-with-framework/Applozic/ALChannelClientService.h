@@ -14,11 +14,12 @@
 #import "ALChannelUserX.h"
 #import "ALChannelDBService.h"
 #import "ALChannelFeed.h"
+#import "ALChannelCreateResponse.h"
 
 @interface ALChannelClientService : NSObject
 
 +(void)getChannelInfo:(NSNumber *)channelKey withCompletion:(void(^)(NSMutableArray * arrayList, ALChannel *channel)) completion;
 
-+(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSError *error, NSString *json))completion;
++(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSError *error, ALChannelCreateResponse *response))completion;
 
 @end

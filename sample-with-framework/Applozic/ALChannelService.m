@@ -80,10 +80,11 @@
 
 -(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray
 {
-    [ALChannelClientService createChannel: channelName andMembersList: memberArray withCompletion:^(NSError *error, NSString *json) {
+    [ALChannelClientService createChannel: channelName andMembersList: memberArray withCompletion:^(NSError *error, ALChannelCreateResponse *response) {
         if(!error)
         {
-//            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+            [channelDBService createChannel: response.alChannel];
         }
     }];
 }
