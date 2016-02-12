@@ -1144,10 +1144,12 @@ ALMessageDBService  * dbService;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
     NSString *alertValue = [dict valueForKey:@"alertValue"];
     NSLog(@"Notification received by Individual chat list: %@", contactId);
-    [self syncCall:contactId updateUI:updateUI alertValue:alertValue];
+//    [self syncCall:contactId updateUI:updateUI alertValue:alertValue];
+    //NSNumber* groupID =[dict valueForKey:@""];
+    [self syncCall:contactId withGroupId:nil updateUI:updateUI alertValue:alertValue];
 }
 
--(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue
+-(void) syncCall:(NSString *)contactId withGroupId:(NSNumber*)groupID  updateUI:(NSNumber *)updateUI alertValue: (NSString *)alertValue
 {
     [self setRefreshMainView:TRUE];
     if ([self.contactIds isEqualToString:contactId]) {
@@ -1166,20 +1168,14 @@ ALMessageDBService  * dbService;
         NSLog(@"show notification as someone else thread is already opened");
         ALNotificationView * alnotification;
         
-        if(self.channelKey){
-            alnotification =[[ALNotificationView alloc]
-                             initWithContactId:nil
-                             orGroupId:self.channelKey
-                             withAlertMessage:alertValue];
+        if(!groupID){
+            groupID=nil;
         }
-        else{
-            self.channelKey=nil;
-            alnotification =[[ALNotificationView alloc]
+        
+        alnotification =[[ALNotificationView alloc]
                              initWithContactId:contactId
-                             orGroupId:nil
-                             withAlertMessage:alertValue];
-            //        [[ALNotificationView alloc]initWithContactId:contactId withAlertMessage:alertValue];
-        }
+                                     orGroupId:groupID
+                              withAlertMessage:alertValue];
         [alnotification displayNotificationNew:self];
         [self fetchAndRefresh:YES];
 
@@ -1503,7 +1499,7 @@ ALMessageDBService  * dbService;
 //------------------------------------------------------------------------------------------------------------------
 
 -(void) syncCall:(ALMessage *) alMessage {
-    [self syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
+    [self syncCall:alMessage.contactIds withGroupId:nil updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
     NSLog(@"syncCall:alMessage  called....GROUPiD %@ & CONTACTiD %@",alMessage.groupId,alMessage.contactIds);
 }
 

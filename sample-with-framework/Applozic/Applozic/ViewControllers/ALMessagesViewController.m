@@ -821,16 +821,8 @@
     
     [self.detailChatViewController setRefresh: YES];
     if ([self.detailChatViewController contactIds] != nil) {
-        
-        if(alMessage.groupId){
-            alMessage.contactIds=alMessage.groupId;
-        }
-        else{
-            alMessage.groupId=NULL;
-        }
-        
         //Todo: set value of updateUI and [self.detailChatViewController contactIds] with actual contactId of the message
-        [self.detailChatViewController syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
+        [self.detailChatViewController syncCall:alMessage.contactIds withGroupId:alMessage.groupId updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
     } else {
         ALNotificationView * alnotification;
         if (alMessage.groupId) {

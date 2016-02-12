@@ -45,7 +45,7 @@
 
 -(void)updateDeliveryStatus:(NSNotification *) notification;
 
--(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue;
+//-(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue;
 -(void) syncCall:(ALMessage *) alMessage;
 -(void)showTypingLabel:(BOOL)flag userId:(NSString *)userId;
 
@@ -59,5 +59,6 @@
 -(void) getUserCurrentLocation:(NSString *)googleMapUrl;
 -(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl;
 
+-(void) syncCall:(NSString *)contactId withGroupId:(NSNumber*)groupID  updateUI:(NSNumber *)updateUI alertValue: (NSString *)alertValue;
 
 @end

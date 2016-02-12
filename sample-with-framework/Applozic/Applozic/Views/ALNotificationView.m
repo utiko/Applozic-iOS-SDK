@@ -139,16 +139,15 @@
          else if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop2){
              // Chat View is Opened....
              ALChatViewController * class1= (ALChatViewController*)delegate;
-             NSLog(@"self.contactId and self.groupId %@",self.contactId, self.groupId);
+             NSLog(@"self.contactId %@ and self.groupId %@",self.contactId, self.groupId);
              if(self.groupId){
                  class1.channelKey=self.groupId;
-                 class1.contactIds=[NSString stringWithFormat:@"%@",self.groupId];
              }
              else {
-                 class1.contactIds=self.contactId;
                  class1.channelKey=nil;
              }
              
+             class1.contactIds=self.contactId;
              [class1 reloadView];
              [class1 processMarkRead];
              [class1 fetchAndRefresh:YES];
