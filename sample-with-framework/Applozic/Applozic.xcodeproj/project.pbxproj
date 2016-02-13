@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		294637B61C6F16050025ED76 /* ALGroupCreationViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 294637B41C6F16050025ED76 /* ALGroupCreationViewController.h */; };
+		294637B71C6F16050025ED76 /* ALGroupCreationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 294637B51C6F16050025ED76 /* ALGroupCreationViewController.m */; };
 		297DE09E1C46253300C9D87E /* TSMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE09A1C46253300C9D87E /* TSMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		297DE09F1C46253300C9D87E /* TSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 297DE09B1C46253300C9D87E /* TSMessage.m */; };
 		297DE0A01C46253300C9D87E /* TSMessageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE09C1C46253300C9D87E /* TSMessageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -259,6 +261,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		294637B41C6F16050025ED76 /* ALGroupCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALGroupCreationViewController.h; sourceTree = "<group>"; };
+		294637B51C6F16050025ED76 /* ALGroupCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALGroupCreationViewController.m; sourceTree = "<group>"; };
 		297DE09A1C46253300C9D87E /* TSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMessage.h; sourceTree = "<group>"; };
 		297DE09B1C46253300C9D87E /* TSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMessage.m; sourceTree = "<group>"; };
 		297DE09C1C46253300C9D87E /* TSMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMessageView.h; sourceTree = "<group>"; };
@@ -589,6 +593,8 @@
 				6D6DF0AF1BC5364C00EBA00F /* ALNewContactsViewController.m */,
 				6D46B6C31BD025060014A5D3 /* ALMapViewController.h */,
 				6D46B6C41BD025060014A5D3 /* ALMapViewController.m */,
+				294637B41C6F16050025ED76 /* ALGroupCreationViewController.h */,
+				294637B51C6F16050025ED76 /* ALGroupCreationViewController.m */,
 			);
 			name = ViewControllers;
 			path = Applozic/ViewControllers;
@@ -1097,6 +1103,7 @@
 				98E1AB971C08718700BE6312 /* ALMQTTConversationService.h in Headers */,
 				6D6DF1561BC5364C00EBA00F /* ALBaseViewController.h in Headers */,
 				6D6DF1401BC5364C00EBA00F /* ALConnectionQueueHandler.h in Headers */,
+				294637B61C6F16050025ED76 /* ALGroupCreationViewController.h in Headers */,
 				6D6DF1841BC5364C00EBA00F /* DB_Message.h in Headers */,
 				6D95476B1BE38DFF00776652 /* ALContactService.h in Headers */,
 				6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */,
@@ -1351,6 +1358,7 @@
 				6D46B6C61BD025060014A5D3 /* ALMapViewController.m in Sources */,
 				6DB665081C0EE5EC004D04A8 /* ALDataNetworkConnection.m in Sources */,
 				6D6DF1531BC5364C00EBA00F /* ALUtilityClass.m in Sources */,
+				294637B71C6F16050025ED76 /* ALGroupCreationViewController.m in Sources */,
 				6D95476C1BE38DFF00776652 /* ALContactService.m in Sources */,
 				982F13131C05D6050024678E /* MQTTSSLSecurityPolicy.m in Sources */,
 				6D6DF1591BC5364C00EBA00F /* ALChatViewController.m in Sources */,
@@ -1479,8 +1487,8 @@
 		6D6DF0861BC535C800EBA00F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1504,8 +1512,8 @@
 		6D6DF0871BC535C800EBA00F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

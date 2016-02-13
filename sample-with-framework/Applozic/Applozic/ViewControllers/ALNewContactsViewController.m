@@ -36,6 +36,8 @@
 
 @property  NSUInteger lastSearchLength;
 
+@property (strong,nonatomic)NSMutableArray* groupMembers;
+
 @end
 
 @implementation ALNewContactsViewController
@@ -87,6 +89,10 @@
      
      [self.view addGestureRecognizer:tap];*/
     self.colors = [[NSArray alloc] initWithObjects:@"#617D8A",@"#628B70",@"#8C8863",@"8B627D",@"8B6F62", nil];
+    
+    self.groupMembers=[[NSMutableArray alloc] init];
+    
+    
 }
 
 - (void) dismissKeyboard
@@ -118,6 +124,41 @@
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
         
     }
+
+    if (self.forGroup) {
+        NSLog(@"forGroup %@",self.forGroup);
+        self.done = [[UIBarButtonItem alloc]
+                                 initWithTitle:@"Done"
+                                 style:UIBarButtonItemStyleBordered
+                                 target:self
+                                 action:@selector(createNewGroup:)];
+        
+        self.navigationItem.rightBarButtonItem = self.done;
+        self.contactsTableView.editing=YES;
+        self.contactsTableView.allowsMultipleSelectionDuringEditing = YES;
+        [self updateButtonsToMatchTableState];
+
+    }
+
+}
+
+- (void)updateButtonsToMatchTableState
+{
+    if (self.contactsTableView.editing)
+    {
+        NSLog(@"Show the option to cancel the edit");
+        
+    }
+    else
+    {
+        NSLog(@"Not in editing mode");
+        
+    }
+}
+
+-(void)createNewGroup:(id)sender{
+    NSLog(@"Group Members Ultimatly %@",self.groupMembers);
+
 }
 
 -(void) viewWillDisappear:(BOOL)animated{
@@ -193,11 +234,30 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    ALContact *selectedContact =  self.filteredContactList[indexPath.row];
-    [self launchChatForContact:selectedContact.userId];
     
+    if(!self.forGroup){
+        ALContact *selectedContact =  self.filteredContactList[indexPath.row];
+        [self launchChatForContact:selectedContact.userId];
+    }
+    else{
+        
+        ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
+        [self.groupMembers addObject:contact.userId];
+        NSLog(@"Group Members Addition %@",self.groupMembers);
+        
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(self.forGroup){
+        ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
+        [self.groupMembers removeObject:contact.userId];
+        NSLog(@"Group Members Deletion%@",self.groupMembers);
+    }
     
 }
+
 
 -(void) fetchConversationsGroupByContactId
 {

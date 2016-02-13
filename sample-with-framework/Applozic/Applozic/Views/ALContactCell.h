@@ -27,4 +27,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *onlineImageMarker;
 
+@property (weak, nonatomic) IBOutlet UILabel *L;
+
 @end

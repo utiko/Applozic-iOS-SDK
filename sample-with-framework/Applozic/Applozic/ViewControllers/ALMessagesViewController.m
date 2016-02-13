@@ -484,12 +484,25 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return (self.mTableView == nil)?0:1;
+    return (self.mTableView == nil)?0:2;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.mContactsMessageListArray.count>0?[self.mContactsMessageListArray count]:0;
+    switch (section) {
+        case 0:{
+            return 1;
+        }break;
+            
+        case 1:{
+            return self.mContactsMessageListArray.count>0?[self.mContactsMessageListArray count]:0;
+        }break;
+            
+        default:
+            return 0;
+            break;
+    }
+
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -497,6 +510,28 @@
     static NSString *cellIdentifier = @"ContactCell";
     ALContactCell *contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
+    switch (indexPath.section) {
+            
+        case 0:{
+            
+            [self disableItems:contactCell];
+            //Add group button.....
+            UIButton *newBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+            [newBtn setTitle:@"Create Group" forState:UIControlStateNormal];
+            [newBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+            [newBtn setFrame:CGRectMake(self.mTableView.frame.size.width-150,
+                                        tableView.frame.origin.y-5,
+                                        150,
+                                        50)];
+            [newBtn addTarget:self action:@selector(createGroup:) forControlEvents:UIControlEventTouchUpInside];
+            newBtn.userInteractionEnabled=YES;
+            [contactCell addSubview:newBtn];
+            
+        }break;
+
+        case 1:{
+            
+            //Add rest of messageList
     [contactCell.mUserNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:USER_NAME_LABEL_SIZE]];//size check
     [contactCell.mMessageLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_LABEL_SIZE]];
     [contactCell.mTimeLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TIME_LABEL_SIZE]];
@@ -639,6 +674,12 @@
         //         contactCell.mUserImageView.hidden=YES;
         
     }
+        }break;
+            
+        default:
+            break;
+    }
+
     
     return contactCell;
 }
@@ -723,6 +764,17 @@
     [self.navigationController pushViewController:_detailChatViewController animated:YES];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if(indexPath.section == 0){
+        tableView.rowHeight=40.0;
+    }
+    else{
+        tableView.rowHeight=81.5;
+    }
+    
+    return tableView.rowHeight;
+}
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - Table View Editing Methods
 //------------------------------------------------------------------------------------------------------------------
@@ -919,6 +971,7 @@
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
     NSString * alretValue =  [dict valueForKey:@"alertValue" ];
     
+    NSLog(@"notificaiotn object %@",dict);
     if (self.isViewLoaded && self.view.window && [updateUI boolValue])
     {
         ALMessage *msg = [[ALMessage alloc]init];
@@ -927,7 +980,12 @@
                             componentsSeparatedByCharactersInSet:
                             [NSCharacterSet characterSetWithCharactersInString:@":"]];
         
-        alretValue=[NSString stringWithFormat:@"%@",myArray[1]];
+        if(myArray.count>1){
+            alretValue=[NSString stringWithFormat:@"%@",myArray[1]];
+        }
+        else{
+            alretValue=myArray[0];
+        }
         msg.message=alretValue;
         msg.contactIds = contactId;
         [self syncCall:msg];
@@ -1017,5 +1075,27 @@
     NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
     [messageArray sortUsingDescriptors:descriptors];
     [self updateMessageList:messageArray];
+}
+
+- (IBAction)createGroup:(id)sender {
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                                         bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    UIViewController *groupCreation = [storyboard instantiateViewControllerWithIdentifier:@"ALGroupCreationViewController"];
+    [self.navigationController pushViewController:groupCreation animated:YES];
+}
+
+-(void)disableItems:(ALContactCell*)contactCell{
+    
+    contactCell.mUserImageView.hidden               =YES;
+    contactCell.mUserNameLabel.hidden               =YES;
+    contactCell.mMessageLabel.hidden                =YES;
+    contactCell.mTimeLabel.hidden                   =YES;
+    contactCell.mLastMessageStatusImageView.hidden  =YES;
+    contactCell.imageNameLabel.hidden               =YES;
+    contactCell.imageMarker.hidden                  =YES;
+    contactCell.mCountImageView.hidden              =YES;
+    contactCell.onlineImageMarker.hidden            =YES;
+    contactCell.L.hidden                            =YES;
+
 }
 @end

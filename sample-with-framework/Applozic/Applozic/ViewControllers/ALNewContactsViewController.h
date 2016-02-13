@@ -18,4 +18,7 @@
 
 -(UIView *)setCustomBackButton:(NSString *)text;
 
+@property (nonatomic,strong) NSNumber* forGroup;
+@property (nonatomic,strong)UIBarButtonItem *done;
+
 @end
