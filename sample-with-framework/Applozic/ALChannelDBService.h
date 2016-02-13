@@ -19,6 +19,8 @@
 
 -(void)createChannel:(ALChannel *)channel;
 
+-(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
+
 -(void)insertChannel:(NSMutableArray *)channelList;
 
 -(DB_CHANNEL *) createChannelEntity:(ALChannel *)channel;

@@ -23,4 +23,6 @@
 
 -(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray;
 
+-(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
+
 @end

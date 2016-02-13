@@ -22,6 +22,20 @@
     //channel.channelDBObjectId = dbChannel.objectID;
 }
 
+-(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey
+{
+    ALChannelUserX *newUserX = [[ALChannelUserX alloc] init];
+    newUserX.key = channelKey;
+    newUserX.userKey = userId;
+    
+    ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
+    DB_CHANNEL_USER_X *dbChannelUserX = [self createChannelUserXEntity: newUserX];
+    
+    [theDBHandler.managedObjectContext save:nil];
+    //channelUserX.channelDBObjectId = dbChannelUserX.objectID;
+    
+}
+
 -(void)insertChannel:(NSMutableArray *)channelList
 {
     NSMutableArray *channelArray = [[NSMutableArray alloc] init];
