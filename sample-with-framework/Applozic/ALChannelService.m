@@ -74,4 +74,19 @@
     return [ob stringFromChannelUserList: key];
 }
 
+//=========================
+#pragma mark CHANNEL API
+//=========================
+
+-(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray
+{
+    [ALChannelClientService createChannel: channelName andMembersList: memberArray withCompletion:^(NSError *error, ALChannelCreateResponse *response) {
+        if(!error)
+        {
+            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+            [channelDBService createChannel: response.alChannel];
+        }
+    }];
+}
+
 @end

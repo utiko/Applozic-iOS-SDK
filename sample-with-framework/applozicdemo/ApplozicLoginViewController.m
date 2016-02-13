@@ -168,7 +168,7 @@
     [ALUserDefaultsHandler setUserId:user.userId];
     [ALUserDefaultsHandler setEmailId:user.emailId];
     
-    DemoChatManager * demoChatManager = [[DemoChatManager alloc]init];
+    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
     [demoChatManager registerUser:user];
     
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Main"

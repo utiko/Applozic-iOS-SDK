@@ -214,15 +214,16 @@
 
 
 
-+(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId delegate:(id)delegate{
++(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId withGroupId:(NSNumber*) groupID delegate:(id)delegate{
     
     //3rd Party View is Opened.........
     ALContact* dpName=[[ALContact alloc] init];
     ALContactDBService * contactDb=[[ALContactDBService alloc] init];
     dpName=[contactDb loadContactByKey:@"userId" value:contactId];
     
+    NSLog(@"dpName %@ and dpName.getDisplayName %@ and contactId %@",dpName,dpName.getDisplayName,contactId);
+
     ALPushAssist* top=[[ALPushAssist alloc] init];
-    
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
     
     [[TSMessageView appearance] setTitleFont:[UIFont fontWithName:@"Helvetica Neue" size:18.0]];
@@ -232,14 +233,14 @@
 
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:[ALApplozicSettings getNotificationTitle]
-                                       subtitle:[NSString stringWithFormat:@"%@",dpName.getDisplayName]
+                                       subtitle:[NSString stringWithFormat:@"%@:%@",dpName.getDisplayName,toastMessage]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75
                                        callback:^(void){
         
                                            
-                                           [delegate thirdPartyNotificationTap1:contactId];
+                                           [delegate thirdPartyNotificationTap1:contactId withGroupId:groupID];
 
         
     }buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionTop canBeDismissedByUser:YES];

@@ -66,7 +66,7 @@
 
 
 
--(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
+-(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
 
 {
     self.chatLauncherFLAG=[NSNumber numberWithInt:1];
@@ -78,6 +78,12 @@
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
     ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+    
+    if(groupID){
+        chatView.channelKey=groupID;
+    }else{
+        chatView.channelKey=nil;
+    }
     chatView.contactIds = userId;
     chatView.text = text;
     chatView.individualLaunch = YES;
@@ -88,7 +94,7 @@
 }
 
 
--(void)launchIndividualChat:(NSString *)userId withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
+-(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
 
 {
     [self ALDefaultChatViewSettings];
@@ -98,10 +104,17 @@
     
     ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     
+    if(groupID){
+        chatView.channelKey=groupID;
+    }else{
+        chatView.channelKey=nil;
+    }
+    
     chatView.contactIds = userId;
     chatView.text = text;
     chatView.individualLaunch = YES;
     chatView.displayName=displayName;
+    
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
     conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];

@@ -14,6 +14,14 @@
 
 @implementation ALChannelDBService
 
+-(void)createChannel:(ALChannel *)channel
+{
+    ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
+     DB_CHANNEL *dbChannel = [self createChannelEntity:channel];
+    [theDBHandler.managedObjectContext save:nil];
+    //channel.channelDBObjectId = dbChannel.objectID;
+}
+
 -(void)insertChannel:(NSMutableArray *)channelList
 {
     NSMutableArray *channelArray = [[NSMutableArray alloc] init];

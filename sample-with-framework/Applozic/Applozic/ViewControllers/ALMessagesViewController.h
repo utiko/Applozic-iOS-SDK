@@ -28,5 +28,6 @@
 
 -(void) callLastSeenStatusUpdate;
 
+@property (strong, nonatomic) NSNumber *channelKey;
 @end
 
