@@ -122,4 +122,26 @@
     }];
 }
 
++(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion
+{
+    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, REMOVE_MEMBER_FROM_CHANNEL_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey, userId];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"REMOVE_MEMBER_FROM_CHANNEL_URL" WithCompletionHandler:^(id theJson, NSError *error) {
+        ALAPIResponse *response = nil;
+        if(error)
+        {
+            NSLog(@"ERROR IN REMOVE_MEMBER_FROM_CHANNEL_URL SERVER CALL REQUEST %@", error);
+        }
+        else
+        {
+            response = [[ALAPIResponse alloc] initWithJSONString:theJson];
+        }
+        
+        completion(error, response);
+    }];
+}
+
 @end

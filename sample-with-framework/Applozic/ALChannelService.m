@@ -74,11 +74,14 @@
     return [ob stringFromChannelUserList: key];
 }
 
+
 //====================================================================================================
 #pragma mark CHANNEL API
 //====================================================================================================
 
+
 #pragma mark CREATE CHANNEL
+//=========================
 
 -(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray
 {
@@ -92,6 +95,7 @@
 }
 
 #pragma mark ADD NEW MEMBER TO CHANNEL
+//====================================
 
 -(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey
 {
@@ -103,5 +107,20 @@
         }
     }];
 }
+
+#pragma mark REMOVE MEMBER FROM CHANNEL
+//=====================================
+
+-(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey
+{
+    [ALChannelClientService removeMemberFromChannel:userId andChannelKey:channelKey withComletion:^(NSError *error, ALAPIResponse *response) {
+        if([response.status isEqualToString:@"success"])
+        {
+            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+            [channelDBService removeMemberFromChannel:userId andChannelKey:channelKey];
+        }
+    }];
+}
+
 
 @end

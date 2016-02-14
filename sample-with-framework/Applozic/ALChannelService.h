@@ -25,4 +25,6 @@
 
 -(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
 
+-(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
+
 @end

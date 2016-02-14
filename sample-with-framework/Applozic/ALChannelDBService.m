@@ -345,4 +345,26 @@
     }
 }
 
+-(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey
+{
+    ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL_USER_X" inManagedObjectContext:theDBHandler.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"channelKey = %@", channelKey];
+    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"userId = %@", userId];
+    NSPredicate* combinePredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
+    [fetchRequest setPredicate: combinePredicate];
+    
+    NSError *error = nil;
+    NSArray *array = [theDBHandler.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    NSManagedObject *manageOBJ = [array objectAtIndex:0];
+    
+    [theDBHandler.managedObjectContext deleteObject:manageOBJ];
+    [theDBHandler.managedObjectContext save:nil];
+    
+}
+
 @end

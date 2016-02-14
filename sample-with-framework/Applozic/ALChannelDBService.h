@@ -45,4 +45,6 @@
 
 -(DB_ConversationProxy *)getConversationProxyByKey:(NSNumber *)ID;
 
+-(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
+
 @end
