@@ -3,7 +3,7 @@
 
 ### Overview         
 
-Open source Chat and Messaging SDK that lets you add real time messaging in your mobile (android, iOS)c applications and website.
+Open source Chat and Messaging SDK that lets you add real time messaging in your mobile (android, iOS) applications and website.
 
 Features:
 
