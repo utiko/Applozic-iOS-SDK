@@ -10,6 +10,7 @@
 #import "ALChannelFeed.h"
 #import "ALChannelDBService.h"
 #import "ALChannelClientService.h"
+#import "ALUserDefaultsHandler.h"
 
 @interface ALChannelService : NSObject
 
@@ -28,5 +29,7 @@
 -(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
 
 -(void)deleteChannelFromLocalDB:(NSNumber *)channelKey;
+
+-(BOOL)checkAdmin:(NSNumber *)channelKey;
 
 @end

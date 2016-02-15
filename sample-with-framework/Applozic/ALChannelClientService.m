@@ -9,6 +9,8 @@
 #define CHANNEL_INFO_URL @"/rest/ws/group/info"
 #define CHANNEL_SYNC_URL @"/rest/ws/group/list"
 #define CREATE_CHANNEL_URL @"/rest/ws/group/create"
+#define DELETE_CHANNEL_URL @"/rest/ws/group/delete"
+#define LEFT_CHANNEL_URL @"/rest/ws/group/left"
 #define ADD_MEMBER_TO_CHANNEL_URL @"/rest/ws/group/add/member"
 #define REMOVE_MEMBER_FROM_CHANNEL_URL @"/rest/ws/group/remove/member"
 #define CHANNEL_NAME_CHANGE_URL @"/rest/ws/group/change/name"
@@ -134,6 +136,27 @@
         if(error)
         {
             NSLog(@"ERROR IN REMOVE_MEMBER_FROM_CHANNEL_URL SERVER CALL REQUEST %@", error);
+        }
+        else
+        {
+            response = [[ALAPIResponse alloc] initWithJSONString:theJson];
+        }
+        
+        completion(error, response);
+    }];
+}
+
++(void)deleteChannel:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, DELETE_CHANNEL_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@", channelKey];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"DELETE_CHANNEL" WithCompletionHandler:^(id theJson, NSError *error) {
+        ALAPIResponse *response = nil;
+        if(error)
+        {
+            NSLog(@"ERROR IN DELETE_CHANNEL SERVER CALL REQUEST %@", error);
         }
         else
         {

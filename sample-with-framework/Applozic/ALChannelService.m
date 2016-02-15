@@ -146,20 +146,34 @@
     }
 }
 
-#pragma mark DELETE CHANNEL (FROM LOCAL DB)
-//=========================================
+#pragma mark DELETE CHANNEL
+//=========================
 
 -(void)deleteChannelFromLocalDB:(NSNumber *)channelKey
 {
     if(channelKey != nil)
     {
-        ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-        [channelDBService deleteChannel:channelKey];
+        [ALChannelClientService deleteChannel:channelKey withComletion:^(NSError *error, ALAPIResponse *response) {
+            if([response.status isEqualToString:@"success"])
+            {
+                ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+                [channelDBService deleteChannel:channelKey];
+            }
+        }];
     }
     else
     {
         return;
     }
+}
+
+-(BOOL)checkAdmin:(NSNumber *)channelKey
+{
+    ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+    ALChannel *channel = [channelDBService loadChannelByKey:channelKey];
+    
+    return [channel.adminKey isEqualToString:[ALUserDefaultsHandler getUserId]];
+    
 }
 
 @end
