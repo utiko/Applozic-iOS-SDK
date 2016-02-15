@@ -149,7 +149,7 @@
 #pragma mark DELETE CHANNEL
 //=========================
 
--(void)deleteChannelFromLocalDB:(NSNumber *)channelKey
+-(void)deleteChannel:(NSNumber *)channelKey
 {
     if(channelKey != nil)
     {
