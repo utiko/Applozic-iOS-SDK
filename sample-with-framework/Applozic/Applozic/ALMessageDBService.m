@@ -151,7 +151,7 @@
     NSPredicate *predicate;
     if(key != nil)
     {
-     predicate = [NSPredicate predicateWithFormat:@"groupId = %@",key];
+        predicate = [NSPredicate predicateWithFormat:@"groupId = %@",key];
     }
     else
     {

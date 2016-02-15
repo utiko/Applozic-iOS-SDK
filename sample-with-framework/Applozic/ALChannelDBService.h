@@ -19,6 +19,8 @@
 
 -(void)createChannel:(ALChannel *)channel;
 
+-(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
+
 -(void)insertChannel:(NSMutableArray *)channelList;
 
 -(DB_CHANNEL *) createChannelEntity:(ALChannel *)channel;
@@ -42,5 +44,11 @@
 -(DB_ConversationProxy *)createConversationProxy:(ALConversationProxy *)conversationProxy;
 
 -(DB_ConversationProxy *)getConversationProxyByKey:(NSNumber *)ID;
+
+-(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
+
+-(void)deleteChannel:(NSNumber *)channelKey;
+
+-(void)getAllChannelKeyAndName;
 
 @end

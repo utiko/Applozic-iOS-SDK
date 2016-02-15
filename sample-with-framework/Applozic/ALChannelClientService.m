@@ -80,11 +80,11 @@
     NSString *theParamString = [[NSString alloc] initWithData:postdata encoding: NSUTF8StringEncoding];
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
     NSLog(@"PARAm STRINg %@", theParamString);
-    
-    __block ALChannelCreateResponse *response = nil;
 
     [ALResponseHandler processRequest:theRequest andTag:@"CREATE_CHANNEL" WithCompletionHandler:^(id theJson, NSError *theError) {
-         NSLog(@"CHANEEL CREATE JSON %@", theParamString);
+
+        ALChannelCreateResponse *response = nil;
+        
         if (theError)
         {
             NSLog(@"ERROR IN CREATE_CHANNEL %@", theError);
@@ -99,6 +99,49 @@
         
     }];
     
+}
+
++(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, ADD_MEMBER_TO_CHANNEL_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey, userId];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"ADD_NEW_MEMBER_TO_CHANNEL" WithCompletionHandler:^(id theJson, NSError *error) {
+        ALAPIResponse *response = nil;
+        if(error)
+        {
+            NSLog(@"ERROR IN ADD_NEW_MEMBER_TO_CHANNEL SERVER CALL REQUEST %@", error);
+        }
+        else
+        {
+            response = [[ALAPIResponse alloc] initWithJSONString:theJson];
+        }
+        
+        completion(error, response);
+    }];
+}
+
++(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion
+{
+    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, REMOVE_MEMBER_FROM_CHANNEL_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey, userId];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"REMOVE_MEMBER_FROM_CHANNEL_URL" WithCompletionHandler:^(id theJson, NSError *error) {
+        ALAPIResponse *response = nil;
+        if(error)
+        {
+            NSLog(@"ERROR IN REMOVE_MEMBER_FROM_CHANNEL_URL SERVER CALL REQUEST %@", error);
+        }
+        else
+        {
+            response = [[ALAPIResponse alloc] initWithJSONString:theJson];
+        }
+        
+        completion(error, response);
+    }];
 }
 
 @end

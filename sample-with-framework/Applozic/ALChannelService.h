@@ -23,4 +23,10 @@
 
 -(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray;
 
+-(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
+
+-(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
+
+-(void)deleteChannelFromLocalDB:(NSNumber *)channelKey;
+
 @end

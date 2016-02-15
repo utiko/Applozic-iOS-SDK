@@ -309,19 +309,30 @@
     }
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
-    [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
-        if (theError) {
+    [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE/CHANNEL" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if (theError)
+        {
             completion(nil,theError);
             NSLog(@"theError");
             return ;
-        }else{
+        }
+        else
+        {
             //delete sucessfull
             NSLog(@"sucessfully deleted !");
             ALMessageDBService * dbService = [[ALMessageDBService alloc] init];
-        
-                [dbService deleteAllMessagesByContact:contactId orChannelKey:channelKey];
+            [dbService deleteAllMessagesByContact:contactId orChannelKey:channelKey];
+            
+               //delete CHANNEL from local DB
+            if(channelKey != nil)
+            {
+                ALChannelService *channelService = [[ALChannelService alloc] init];
+                [channelService deleteChannelFromLocalDB:channelKey];
+            }
             
         }
+        
         NSLog(@"Response of delete: %@", (NSString *)theJson);
         completion((NSString *)theJson,nil);
     }];
