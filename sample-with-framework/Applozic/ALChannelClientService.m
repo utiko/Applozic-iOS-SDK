@@ -167,4 +167,26 @@
     }];
 }
 
++(void)leaveChannel:(NSNumber *)channelKey withUserId:(NSString *)userId andCompletion:(void (^)(NSError *, ALAPIResponse *))completion
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, LEFT_CHANNEL_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey, userId];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"LEAVE_FROM_CHANNEL" WithCompletionHandler:^(id theJson, NSError *error) {
+        ALAPIResponse *response = nil;
+        if(error)
+        {
+            NSLog(@"ERROR IN LEAVE_FROM_CHANNEL SERVER CALL REQUEST %@", error);
+        }
+        else
+        {
+            response = [[ALAPIResponse alloc] initWithJSONString:theJson];
+        }
+        
+        completion(error, response);
+    }];
+}
+
+
 @end

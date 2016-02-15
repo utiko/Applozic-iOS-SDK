@@ -32,4 +32,6 @@
 
 -(BOOL)checkAdmin:(NSNumber *)channelKey;
 
+-(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId;
+
 @end

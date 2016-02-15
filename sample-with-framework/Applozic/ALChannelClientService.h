@@ -28,4 +28,6 @@
 
 +(void)deleteChannel:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion;
 
++(void)leaveChannel:(NSNumber *)channelKey withUserId:(NSString *)userId andCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion;
+
 @end

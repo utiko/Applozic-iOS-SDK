@@ -176,4 +176,25 @@
     
 }
 
+#pragma mark LEAVE CHANNEL
+//=========================
+
+-(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId
+{
+    if(channelKey != nil && userId != nil)
+    {
+        [ALChannelClientService leaveChannel:channelKey withUserId:(NSString *)userId andCompletion:^(NSError *error, ALAPIResponse *response) {
+            if([response.status isEqualToString:@"success"])
+            {
+                ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+                [channelDBService removeMemberFromChannel:userId andChannelKey:channelKey];
+            }
+        }];
+    }
+    else
+    {
+        return;
+    }
+}
+
 @end
