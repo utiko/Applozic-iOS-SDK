@@ -380,7 +380,7 @@
         ALContactCell *contactCell=nil;
         if(msg.groupId){
             contactCell =[self getCellForGroup:msg.groupId];
-            NSLog(@"groupId found ....");
+            NSLog(@"groupId found .... %@", msg.groupId);
         }else{
             NSLog(@"groupId not found ....");
             contactCell = [self getCell:msg.contactIds];
@@ -444,7 +444,6 @@
         }else{
             isreloadRequire = true;
             [self.mContactsMessageListArray insertObject:msg atIndex:0];
-            
             NSLog(@"contact cell not found ....");
         }
     }
@@ -460,9 +459,10 @@
     int index=(int) [self.mContactsMessageListArray indexOfObjectPassingTest:^BOOL(id element,NSUInteger idx,BOOL *stop)
                      {
                          ALMessage *message = (ALMessage*)element;
-                         if( [ message.contactIds isEqualToString:key ] &&
-                            ([message.groupId isEqual:NULL] ||[message.groupId isEqualToNumber:[NSNumber numberWithInt:0]]))
+                         if( [ message.contactIds isEqualToString:key ]
+                            &&  (message.groupId==NULL)  )
                          {
+                            
                              *stop = YES;
                              return YES;
                          }
