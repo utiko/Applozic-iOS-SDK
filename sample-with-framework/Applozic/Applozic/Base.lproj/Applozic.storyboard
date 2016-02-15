@@ -420,7 +420,7 @@
         <!--Chat View Controller-->
         <scene sceneID="Qxl-dr-KMt">
             <objects>
-                <viewController storyboardIdentifier="ALChatViewController" automaticallyAdjustsScrollViewInsets="NO" id="gFB-TQ-g19" customClass="ALChatViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ALChatViewController" extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="gFB-TQ-g19" customClass="ALChatViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lnW-pa-sGH"/>
                         <viewControllerLayoutGuide type="bottom" id="onN-md-bNU"/>

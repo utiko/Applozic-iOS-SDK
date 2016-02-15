@@ -37,6 +37,7 @@
 #import "ALChannelService.h"
 #import "ALNotificationView.h"
 #import "ALPushAssist.h"
+#import "ALNewContactsViewController.h"
 
 
 // Constants
@@ -50,7 +51,7 @@
 // Private interface
 //------------------------------------------------------------------------------------------------------------------
 
-@interface ALMessagesViewController ()<UITableViewDataSource,UITableViewDelegate,ALMessagesDelegate, ALMQTTConversationDelegate>
+@interface ALMessagesViewController ()<UITableViewDataSource,UITableViewDelegate,ALMessagesDelegate, ALMQTTConversationDelegate,ALContactDelegate>
 
 - (IBAction)logout:(id)sender;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
@@ -194,6 +195,10 @@
                                                object:[UIApplication sharedApplication]];
     [[NSNotificationCenter defaultCenter]
      addObserver:self selector:@selector(newMessageHandler:) name:NEW_MESSAGE_NOTIFICATION  object:nil];
+
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self selector:@selector(reloadTable:) name:@"LOL"  object:nil];
+    
     
 /////////////   SHIFTED TO ViewDidAppear /////////////   /////////////   /////////////   /////////////   /////////////   /////////////*
     /*if ([_detailChatViewController refreshMainView])
@@ -351,6 +356,16 @@
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - ALMessagesDelegate
 //------------------------------------------------------------------------------------------------------------------
+-(void)reloadTable:(NSNotification*)notification{
+    
+    NSArray* arr=[[NSArray alloc] initWithArray:notification.object];
+    
+    [self.mContactsMessageListArray addObject:arr[0]];
+    [self updateMessageList:notification.object];
+    
+    [self.mTableView reloadData];
+    [[NSNotificationCenter defaultCenter] removeObserver:@"LOL"];
+}
 
 -(void)getMessagesArray:(NSMutableArray *)messagesArray {
     [self.mActivityIndicator stopAnimating];
@@ -468,7 +483,7 @@
                          }
                          return NO;
                      }];
-    NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
+    NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:1];
     ALContactCell *contactCell  = (ALContactCell *)[self.mTableView cellForRowAtIndexPath:path];
     return contactCell;
     
@@ -486,7 +501,7 @@
                          }
                          return NO;
                      }];
-    NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
+    NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:1];
     ALContactCell *contactCell  = (ALContactCell *)[self.mTableView cellForRowAtIndexPath:path];
     return contactCell;
     
@@ -508,6 +523,7 @@
         }break;
             
         case 1:{
+            NSLog(@"mContactsMessageListArray COUNT %lu",(unsigned long)self.mContactsMessageListArray.count);
             return self.mContactsMessageListArray.count>0?[self.mContactsMessageListArray count]:0;
         }break;
             
@@ -1104,6 +1120,11 @@
 }
 
 - (IBAction)createGroup:(id)sender {
+    
+    ALNewContactsViewController* contactsVC=[[ALNewContactsViewController alloc] init];
+    
+    contactsVC.delegate=self;
+    
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     UIViewController *groupCreation = [storyboard instantiateViewControllerWithIdentifier:@"ALGroupCreationViewController"];

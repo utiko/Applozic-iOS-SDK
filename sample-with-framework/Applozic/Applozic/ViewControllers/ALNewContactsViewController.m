@@ -39,11 +39,12 @@
 @property  NSUInteger lastSearchLength;
 
 @property (strong,nonatomic)NSMutableArray* groupMembers;
+@property (strong,nonatomic)ALChannelService * creatingChannel;
 
 @end
 
 @implementation ALNewContactsViewController
-
+@synthesize delegate;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[self activityIndicator] startAnimating];
@@ -179,13 +180,16 @@
         return;
 
     }
-    NSLog(@"Group Name :%@: with Members  %@",self.groupName,self.groupMembers);
+//    NSLog(@"Group Name :%@: with Members  %@",self.groupName,self.groupMembers);
     
     //Server Call
-    ALChannelService * creatingChannel=[[ALChannelService alloc] init];
-    [creatingChannel createChannel:self.groupName andMembersList:self.groupMembers];
-    
-    //Update MessageViewList
+    self.creatingChannel=[[ALChannelService alloc] init];
+    [self.creatingChannel createChannel:self.groupName andMembersList:self.groupMembers withCompletion:^(NSNumber *channelKey) {
+        
+        if(channelKey){
+            [self addDummyMessage:channelKey];
+        }
+    }];
     
     
     //Updating view, popping to MessageList View
@@ -197,13 +201,67 @@
     }
 
 }
--(void)dummyGroupMessage:(id)sender{
+-(void)dummyGroupMessage:(NSNumber*)sender{
     //Create an ALMessage (dummy)
     ALMessage *welcomeMsg=[[ALMessage alloc] init];
+    welcomeMsg.deviceKey=[ALUserDefaultsHandler getDeviceKeyString];
     welcomeMsg.message=@"Welcome to group";
-    welcomeMsg.groupId=@"";
+    welcomeMsg.groupId=sender;
+    welcomeMsg.type=@"101";
+    welcomeMsg.fileMetaKey=nil;
+//    NSLog(@"GroupID %@",sender);
+    welcomeMsg.createdAtTime=[NSNumber numberWithInt:[NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000].intValue];
+
+    NSMutableArray* updateArr=[[NSMutableArray alloc] initWithObjects:welcomeMsg, nil];
+//    [delegate addChannelCreateMessage:updateArr];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"LOL" object:updateArr];
     
 }
+
+-(void) addDummyMessage:(NSNumber *)channelKey
+{
+    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+    ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
+    
+    ALMessage * theMessage = [ALMessage new];
+    
+    
+    theMessage.contactIds = @"applozic";//1
+    theMessage.to = @"applozic";//2
+    theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
+    theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
+    theMessage.sendToDevice = NO;
+    theMessage.sent = NO;
+    theMessage.shared = NO;
+    theMessage.fileMeta = nil;
+    theMessage.read = NO;
+    theMessage.key = @"welcome-message-temp-key-string";
+    theMessage.delivered=NO;
+    theMessage.fileMetaKey = @"";//4
+    theMessage.contentType = 0;
+    
+    if(channelKey!=nil) //Group's Welcome
+    {
+        theMessage.type=@"101";
+        theMessage.message=@"You have created a new group, Say Hi to members :)";
+        theMessage.groupId = channelKey;
+        theMessage.read=YES;
+    }
+    else //Individual's Welcome
+    {
+        theMessage.groupId = nil;
+    }
+    
+    //UI update...
+    NSMutableArray* updateArr=[[NSMutableArray alloc] initWithObjects:theMessage, nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"LOL" object:updateArr];
+    
+    //db insert..
+    [messageDBService createMessageEntityForDBInsertionWithMessage:theMessage];
+    [theDBHandler.managedObjectContext save:nil];
+    
+}
+
 -(void) viewWillDisappear:(BOOL)animated{
     
     [self.tabBarController.tabBar setHidden: NO];

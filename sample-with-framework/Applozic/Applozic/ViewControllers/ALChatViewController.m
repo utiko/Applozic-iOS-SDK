@@ -1152,26 +1152,38 @@ ALMessageDBService  * dbService;
 -(void) syncCall:(NSString *)contactId withGroupId:(NSNumber*)groupID  updateUI:(NSNumber *)updateUI alertValue: (NSString *)alertValue
 {
     [self setRefreshMainView:TRUE];
-    if ([self.contactIds isEqualToString:contactId]) {
+
+    if(!groupID){
+        groupID=nil;
+    }
+    
+    if ([self.channelKey isEqualToNumber:groupID]) {
+        self.contactIds=contactId;
+        [self reloadView];
+        [self processMarkRead];
+        [self fetchAndRefresh:YES];
+    }
+    else if ([self.contactIds isEqualToString:contactId]) {
+        
         NSLog(@"current contact thread is opened");
         [self fetchAndRefresh:YES];
         //[self processMarkRead];
         NSLog(@"INDIVIDUAL NOTIFICATION HANDLER");
+        
     }
     else if (![updateUI boolValue]) {
+        
         NSLog(@"it was in background, updateUI is false");
         self.contactIds = contactId;
+        self.channelKey=groupID;
         [self fetchAndRefresh:YES];
         [self reloadView];
+        
     }
-    else {
+    else
+    {
         NSLog(@"show notification as someone else thread is already opened");
         ALNotificationView * alnotification;
-        
-        if(!groupID){
-            groupID=nil;
-        }
-        
         alnotification =[[ALNotificationView alloc]
                              initWithContactId:contactId
                                      orGroupId:groupID

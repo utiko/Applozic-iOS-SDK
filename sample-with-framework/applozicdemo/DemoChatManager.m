@@ -44,7 +44,7 @@
             }
             if (rResponse && [rResponse.message containsString: @"REGISTERED"])
             {                ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
-                [messageClientService addWelcomeMessage];
+                [messageClientService addWelcomeMessage:nil];
 
             }
             
@@ -144,7 +144,7 @@
         if (rResponse && [rResponse.message containsString: @"REGISTERED"])
         {
             ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
-            [messageClientService addWelcomeMessage];
+            [messageClientService addWelcomeMessage:nil];
         }
         
         if(![ALUserDefaultsHandler getApnDeviceToken]){
@@ -197,7 +197,7 @@
         }
         if (rResponse && [rResponse.message containsString: @"REGISTERED"])
         {                ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
-            [messageClientService addWelcomeMessage];
+            [messageClientService addWelcomeMessage:nil];
             
         }
         [self.chatLauncher launchIndividualChat:userId withGroupId:groupID withDisplayName:displayName andViewControllerObject:fromViewController andWithText:nil];

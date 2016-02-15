@@ -7,6 +7,7 @@
 //
 
 #import "ALChannelService.h"
+#import "ALMessageClientService.h"
 
 @implementation ALChannelService
 
@@ -83,16 +84,16 @@
 #pragma mark CREATE CHANNEL
 //=========================
 
--(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray
-{
-    if(channelName != nil && memberArray.count > 2)
+-(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSNumber *channelKey))completion{
+    
+    if(channelName != nil && memberArray.count >= 2)
     {
         [ALChannelClientService createChannel: channelName andMembersList: memberArray withCompletion:^(NSError *error, ALChannelCreateResponse *response) {
             if(!error)
             {
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
                 [channelDBService createChannel: response.alChannel];
-                self.channelKey = response.alChannel.key;
+            completion(response.alChannel.key);
             }
         }];
     }

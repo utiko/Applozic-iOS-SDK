@@ -257,17 +257,20 @@
     NSMutableArray *listArray = [NSMutableArray array];
     listArray = [NSMutableArray arrayWithArray:[self getListOfAllUsersInChannel:key]];
     
+    if(listArray.count){
     listString = [listString stringByAppendingString:listArray[0]];
     listString = [listString stringByAppendingString:@", "];
-    listString = [listString stringByAppendingString:listArray[1]];
     
-    if(listArray.count > 2)
-    {
-        int counter = (int)listArray.count;
-        counter = counter - 2;
-        str = [NSString stringWithFormat:@" and %d",counter];
-        str = [str stringByAppendingString:@" Other"];
-        listString = [listString stringByAppendingString:str];
+    listString = [listString stringByAppendingString:listArray[1]];
+
+        if(listArray.count > 2)
+        {
+            int counter = (int)listArray.count;
+            counter = counter - 2;
+            str = [NSString stringWithFormat:@" and %d",counter];
+            str = [str stringByAppendingString:@" Other"];
+            listString = [listString stringByAppendingString:str];
+        }
     }
     return listString;
 }
