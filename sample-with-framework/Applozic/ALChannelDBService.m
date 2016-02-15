@@ -187,6 +187,7 @@
     
     alChannel.name = dbChannel.channelDisplayName;
     alChannel.unreadCount = dbChannel.unreadCount;
+    alChannel.adminKey = dbChannel.adminId;
     
     return alChannel;
 }

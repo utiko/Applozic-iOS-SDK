@@ -13,8 +13,6 @@
 
 @interface ALChannelService : NSObject
 
-@property (nonatomic, strong) NSNumber * channelKey;
-
 -(void)callForChannelServiceForDBInsertion:(id)theJson;
 
 -(void)getChannelInformation:(NSNumber *)channelKey withCompletion:(void (^)(ALChannel *alChannel3)) completion;
@@ -23,7 +21,7 @@
 
 -(NSString *)stringFromChannelUserList:(NSNumber *)key;
 
--(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray;
+-(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSNumber *channelKey))completion;
 
 -(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
 

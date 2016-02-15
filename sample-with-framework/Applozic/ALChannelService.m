@@ -83,7 +83,7 @@
 #pragma mark CREATE CHANNEL
 //=========================
 
--(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray
+-(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSNumber *channelKey))completion
 {
     if(channelName != nil && memberArray.count > 2)
     {
@@ -92,7 +92,8 @@
             {
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
                 [channelDBService createChannel: response.alChannel];
-                self.channelKey = response.alChannel.key;
+
+                completion(response.alChannel.key);
             }
         }];
     }
