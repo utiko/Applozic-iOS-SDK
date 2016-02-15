@@ -13,6 +13,8 @@
 
 @interface ALChannelService : NSObject
 
+@property (nonatomic, strong) NSNumber * channelKey;
+
 -(void)callForChannelServiceForDBInsertion:(id)theJson;
 
 -(void)getChannelInformation:(NSNumber *)channelKey withCompletion:(void (^)(ALChannel *alChannel3)) completion;
