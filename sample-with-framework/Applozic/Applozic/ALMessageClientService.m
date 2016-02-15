@@ -309,7 +309,7 @@
     }
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
-    [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE/CHANNEL" WithCompletionHandler:^(id theJson, NSError *theError) {
+    [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
         
         if (theError)
         {
@@ -323,13 +323,6 @@
             NSLog(@"sucessfully deleted !");
             ALMessageDBService * dbService = [[ALMessageDBService alloc] init];
             [dbService deleteAllMessagesByContact:contactId orChannelKey:channelKey];
-            
-               //delete CHANNEL from local DB
-            if(channelKey != nil)
-            {
-                ALChannelService *channelService = [[ALChannelService alloc] init];
-                [channelService deleteChannelFromLocalDB:channelKey];
-            }
             
         }
         
