@@ -255,14 +255,25 @@
 
 -(NSUInteger)markConversationAsRead:(NSString *) contactId orChannelKey:(NSNumber *)key
 {
-    NSArray *messages  = [self getUnreadMessagesForIndividual:contactId];
+    NSArray *messages;
     
+    if( key ){
+        messages =  [self getUnreadMessagesForGroup:key];
+    }else{
+        messages =  [self getUnreadMessagesForIndividual:contactId];
+    }
+
     if(messages.count >0 ){
-        NSBatchUpdateRequest *req = [[NSBatchUpdateRequest alloc] initWithEntityName:@"DB_Message"];
-        req.predicate = [NSPredicate predicateWithFormat:@"contactId==%@",contactId];
+        NSBatchUpdateRequest *req= [[NSBatchUpdateRequest alloc] initWithEntityName:@"DB_Message"];
+        if( key ){
+            req.predicate = [NSPredicate predicateWithFormat:@"groupId=%d",[key intValue] ];
+        }else{
+            req.predicate = [NSPredicate predicateWithFormat:@"contactId==%@ and groupId=0",contactId];
+        }
+        
         if(key != nil)
         {
-            req.predicate = [NSPredicate predicateWithFormat:@"groupId==%@",key];
+            req.predicate = [NSPredicate predicateWithFormat:@"groupId==%d",[key intValue]];
         }
         
         req.propertiesToUpdate = @{

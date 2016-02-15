@@ -90,6 +90,7 @@ ALMessageDBService  * dbService;
 }
 
 -(void)processMarkRead{
+    
     [ALMessageService markConversationAsRead: self.contactIds orChannelKey:self.channelKey withCompletion:^(NSString* string,NSError* error){
         if(!error) {
             NSLog(@"Marked messages as read for %@", self.contactIds);
@@ -1152,7 +1153,7 @@ ALMessageDBService  * dbService;
 -(void) syncCall:(NSString *)contactId withGroupId:(NSNumber*)groupID  updateUI:(NSNumber *)updateUI alertValue: (NSString *)alertValue
 {
     [self setRefreshMainView:TRUE];
-    if ([self.contactIds isEqualToString:contactId]) {
+    if ( groupID==nil && [self.contactIds isEqualToString:contactId]) {
         NSLog(@"current contact thread is opened");
         [self fetchAndRefresh:YES];
         //[self processMarkRead];
@@ -1161,6 +1162,7 @@ ALMessageDBService  * dbService;
     else if (![updateUI boolValue]) {
         NSLog(@"it was in background, updateUI is false");
         self.contactIds = contactId;
+        self.channelKey=groupID;
         [self fetchAndRefresh:YES];
         [self reloadView];
     }
@@ -1549,7 +1551,14 @@ ALMessageDBService  * dbService;
     
     
     NSLog(@"ADD MESSAGE %@",messageList);
-    NSArray * theFilteredArray = [messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];
+    NSPredicate * predicate;
+    if(self.channelKey){
+        predicate = [NSPredicate predicateWithFormat:@"groupId = %@",self.channelKey];
+    }else{
+        predicate = [NSPredicate predicateWithFormat:@"contactIds = %@ and groupId = %d",self.contactIds,0];
+    }
+    NSArray * theFilteredArray = [messageList filteredArrayUsingPredicate:predicate];
+
     NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
     NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
     NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
