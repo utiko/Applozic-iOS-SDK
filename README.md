@@ -211,4 +211,4 @@ Once your app receive notification, pass it to applozic handler for applozic not
 ```
 For more details, visit: https://apps.applozic.com/applozic/developers.html#ios-sdk
 
-Applozic is the best iOS chat sdk, still not convinced? Write to us at contact@applozic.com and we will be happy to schedule a demo for you.
+Applozic is the best iOS chat sdk, still not convinced? Write to us at github@applozic.com and we will be happy to schedule a demo for you.
