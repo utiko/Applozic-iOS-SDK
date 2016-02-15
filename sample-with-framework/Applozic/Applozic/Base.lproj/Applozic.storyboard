@@ -358,7 +358,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="Please provide group name along with optional group icon" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10y-gF-sJ8">
+                            <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="Please provide group name along with optional group icon" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10y-gF-sJ8">
                                 <rect key="frame" x="20" y="102" width="478" height="64"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>

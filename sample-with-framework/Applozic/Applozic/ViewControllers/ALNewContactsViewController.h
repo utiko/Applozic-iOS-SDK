@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ALChannelService.h"
 
 @interface ALNewContactsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 
@@ -20,5 +21,6 @@
 
 @property (nonatomic,strong) NSNumber* forGroup;
 @property (nonatomic,strong)UIBarButtonItem *done;
+@property (nonatomic,strong)NSString* groupName;
 
 @end

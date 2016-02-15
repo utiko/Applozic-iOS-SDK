@@ -17,9 +17,13 @@
 -(void)createChannel:(ALChannel *)channel
 {
     ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
-     DB_CHANNEL *dbChannel = [self createChannelEntity:channel];
-    [theDBHandler.managedObjectContext save:nil];
-    //channel.channelDBObjectId = dbChannel.objectID;
+    DB_CHANNEL *dbChannel = [self createChannelEntity:channel];
+    
+    NSError *error=nil;
+    [theDBHandler.managedObjectContext save:&error];
+    if(![theDBHandler.managedObjectContext save:&error]){
+        NSLog(@"unable to save to db");
+    };
 }
 
 -(void)insertChannel:(NSMutableArray *)channelList

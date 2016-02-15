@@ -750,18 +750,18 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    ALMessage * message =  self.mContactsMessageListArray[indexPath.row];
-    
-//    if([[message groupId] intValue])
-    if([message getGroupId])
-    {
-        self.channelKey = [message groupId];
+    if(indexPath.section!=0){
+        ALMessage * message =  self.mContactsMessageListArray[indexPath.row];
+        if([message getGroupId])
+        {
+            self.channelKey = [message groupId];
+        }
+        else
+        {
+            self.channelKey = nil;
+        }
+        [self createDetailChatViewController: message.contactIds];
     }
-    else
-    {
-        self.channelKey = nil;
-    }
-    [self createDetailChatViewController: message.contactIds];
 }
 
 -(void)createDetailChatViewController: (NSString *) contactIds

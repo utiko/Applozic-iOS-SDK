@@ -18,6 +18,8 @@
 #import "ALMessagesViewController.h"
 #import "ALColorUtility.h"
 #import "UIImageView+WebCache.h"
+#import "ALGroupCreationViewController.h"
+
 
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
@@ -157,10 +159,51 @@
 }
 
 -(void)createNewGroup:(id)sender{
-    NSLog(@"Group Members Ultimatly %@",self.groupMembers);
+    
+    //check whether at least two memebers selected
+    if(self.groupMembers.count < 2){
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"Group Members"
+                                              message:@"Please select atleast two members"
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       NSLog(@"OK action");
+                                   }];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+        return;
+
+    }
+    NSLog(@"Group Name :%@: with Members  %@",self.groupName,self.groupMembers);
+    
+    //Server Call
+    ALChannelService * creatingChannel=[[ALChannelService alloc] init];
+    [creatingChannel createChannel:self.groupName andMembersList:self.groupMembers];
+    
+    //Update MessageViewList
+    
+    
+    //Updating view, popping to MessageList View
+    NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
+    for (UIViewController *aViewController in allViewControllers) {
+        if ([aViewController isKindOfClass:[ALMessagesViewController class]]) {
+            [self.navigationController popToViewController:aViewController animated:YES];
+        }
+    }
 
 }
-
+-(void)dummyGroupMessage:(id)sender{
+    //Create an ALMessage (dummy)
+    ALMessage *welcomeMsg=[[ALMessage alloc] init];
+    welcomeMsg.message=@"Welcome to group";
+    welcomeMsg.groupId=@"";
+    
+}
 -(void) viewWillDisappear:(BOOL)animated{
     
     [self.tabBarController.tabBar setHidden: NO];

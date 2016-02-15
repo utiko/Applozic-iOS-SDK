@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ALGroupCreationViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@interface ALGroupCreationViewController : UIViewController
+//<UITableViewDataSource,UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *groupNameInput;
 
