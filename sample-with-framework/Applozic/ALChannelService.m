@@ -74,19 +74,91 @@
     return [ob stringFromChannelUserList: key];
 }
 
-//=========================
+
+//====================================================================================================
 #pragma mark CHANNEL API
+//====================================================================================================
+
+
+#pragma mark CREATE CHANNEL
 //=========================
 
 -(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray
 {
-    [ALChannelClientService createChannel: channelName andMembersList: memberArray withCompletion:^(NSError *error, ALChannelCreateResponse *response) {
-        if(!error)
-        {
-            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-            [channelDBService createChannel: response.alChannel];
-        }
-    }];
+    if(channelName != nil && memberArray.count > 2)
+    {
+        [ALChannelClientService createChannel: channelName andMembersList: memberArray withCompletion:^(NSError *error, ALChannelCreateResponse *response) {
+            if(!error)
+            {
+                ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+                [channelDBService createChannel: response.alChannel];
+                self.channelKey = response.alChannel.key;
+            }
+        }];
+    }
+    else
+    {
+        return;
+    }
+}
+
+#pragma mark ADD NEW MEMBER TO CHANNEL
+//====================================
+
+-(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey
+{
+    if(channelKey != nil && userId != nil)
+    {
+        [ALChannelClientService addMemberToChannel:userId andChannelKey:channelKey withComletion:^(NSError *error, ALAPIResponse *response) {
+            if([response.status isEqualToString:@"success"])
+            {
+                ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+                [channelDBService addMemberToChannel:userId andChannelKey:channelKey];
+            }
+        }];
+    }
+    else
+    {
+        return;
+    }
+
+}
+
+#pragma mark REMOVE MEMBER FROM CHANNEL
+//=====================================
+
+-(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey
+{
+    if(channelKey != nil && userId != nil)
+    {
+        [ALChannelClientService removeMemberFromChannel:userId andChannelKey:channelKey withComletion:^(NSError *error, ALAPIResponse *response) {
+            if([response.status isEqualToString:@"success"])
+            {
+                ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+                [channelDBService removeMemberFromChannel:userId andChannelKey:channelKey];
+            }
+        }];
+    }
+    else
+    {
+        return;
+    }
+}
+
+#pragma mark DELETE CHANNEL (FROM LOCAL DB)
+//=========================================
+
+-(void)deleteChannelFromLocalDB:(NSNumber *)channelKey
+{
+    if(channelKey != nil)
+    {
+        ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+        [channelDBService deleteChannel:channelKey];
+    }
+    else
+    {
+        return;
+    }
 }
 
 @end
