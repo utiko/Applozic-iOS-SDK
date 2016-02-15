@@ -27,4 +27,6 @@
 
 -(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
 
+-(void)deleteChannelFromLocalDB:(NSNumber *)channelKey;
+
 @end

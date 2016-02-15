@@ -47,4 +47,8 @@
 
 -(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
 
+-(void)deleteChannel:(NSNumber *)channelKey;
+
+-(void)getAllChannelKeyAndName;
+
 @end
