@@ -19,6 +19,18 @@
     ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
      DB_CHANNEL *dbChannel = [self createChannelEntity:channel];
     [theDBHandler.managedObjectContext save:nil];
+
+    NSMutableArray * memberArray = [NSMutableArray new];
+
+    for(NSString *member in channel.membersName)
+    {
+        ALChannelUserX *newChannelUserX = [[ALChannelUserX alloc] init];
+        newChannelUserX.key = channel.key;
+        newChannelUserX.userKey = member;
+        [memberArray addObject:newChannelUserX];
+    }
+    
+    [self insertChannelUserX:memberArray];
     //channel.channelDBObjectId = dbChannel.objectID;
 }
 

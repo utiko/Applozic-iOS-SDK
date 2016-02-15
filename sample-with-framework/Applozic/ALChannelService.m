@@ -28,8 +28,10 @@
             newChannelUserX.userKey = memberName;
             [memberArray addObject:newChannelUserX];
         }
+        [alChannelDBService insertChannelUserX:memberArray];
+        [memberArray removeAllObjects];
     }
-    [alChannelDBService insertChannelUserX:memberArray];
+    
 //    callForChannelProxy inserting in DB
 }
 
