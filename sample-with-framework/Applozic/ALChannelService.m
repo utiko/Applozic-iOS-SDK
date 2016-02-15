@@ -44,12 +44,12 @@
     }
     else
     {
-        [ALChannelClientService getChannelInfo:channelKey withCompletion:^(NSMutableArray *array, ALChannel *alChannel2) {
+        [ALChannelClientService getChannelInfo:channelKey withCompletion:^(NSError *error, ALChannel *alChannel2) {
             
-            if(array.count)
+            if(!error)
             {
-                ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-                [channelDBService insertChannelUserX:array];
+                ALChannelDBService *dbService = [[ALChannelDBService alloc] init];
+                [dbService createChannel:alChannel2];
             }
             
             completion (alChannel2);

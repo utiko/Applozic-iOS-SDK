@@ -18,7 +18,7 @@
 
 @interface ALChannelClientService : NSObject
 
-+(void)getChannelInfo:(NSNumber *)channelKey withCompletion:(void(^)(NSMutableArray * arrayList, ALChannel *channel)) completion;
++(void)getChannelInfo:(NSNumber *)channelKey withCompletion:(void(^)(NSError *error, ALChannel *channel)) completion;
 
 +(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSError *error, ALChannelCreateResponse *response))completion;
 

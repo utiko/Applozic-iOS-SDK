@@ -23,7 +23,7 @@
 
 @implementation ALChannelClientService
 
-+(void)getChannelInfo:(NSNumber *)channelKey withCompletion:(void(^)(NSMutableArray * arrayList, ALChannel *channel)) completion
++(void)getChannelInfo:(NSNumber *)channelKey withCompletion:(void(^)(NSError *error, ALChannel *channel)) completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/group/info", KBASE_URL];
     NSString * theParamString = [NSString stringWithFormat:@"groupId=%@", channelKey];
@@ -37,31 +37,9 @@
         }
         else
         {
-//            NSLog(@"x=x=x==x=x=x==x  JSON ALCHANNEL CLIENT SERVICE CLASS : :%@  =x=x==x", theJson);
-            
-            //TODO:::FIX IT
-            ALChannelFeed *channelFeed = [[ALChannelFeed alloc] initWithJSONString:theJson];
-            
-            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-            [channelDBService insertChannel:channelFeed.channelFeedsList];
-            
-            ALChannel *alChannel = [channelFeed.channelFeedsList objectAtIndex:0];
-            
-            NSMutableArray * memberArray = [NSMutableArray new];
-            
-            for(ALChannel *channel in channelFeed.channelFeedsList)
-            {
-                for(NSString *memberName in channel.membersName)
-                {
-                    ALChannelUserX *newChannelUserX = [[ALChannelUserX alloc] init];
-                    newChannelUserX.key = channel.key;
-                    newChannelUserX.userKey = memberName;
-                    [memberArray addObject:newChannelUserX];
-                }
-            }
-            completion(memberArray, alChannel);
-            
-            
+            NSLog(@"x=x=x==x=x=x==x  JSON ALCHANNEL CLIENT SERVICE CLASS : :%@  =x=x==x", theJson);
+            ALChannelCreateResponse *response = [[ALChannelCreateResponse alloc] initWithJSONString:theJson];
+            completion(error, response.alChannel);
         }
         
     }];
