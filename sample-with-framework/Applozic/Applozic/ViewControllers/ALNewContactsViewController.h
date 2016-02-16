@@ -7,6 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ALChannelService.h"
+#import "ALMessageDBService.h"
+
+
+@protocol ALContactDelegate <NSObject>
+
+-(void)addChannelCreateMessage:(NSMutableArray*)messagesArray;
+
+@end
+
 
 @interface ALNewContactsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 
@@ -18,4 +28,9 @@
 
 -(UIView *)setCustomBackButton:(NSString *)text;
 
+@property (nonatomic,strong) NSNumber* forGroup;
+@property (nonatomic,strong)UIBarButtonItem *done;
+@property (nonatomic,strong)NSString* groupName;
+
+@property(nonatomic,assign)id delegate;
 @end

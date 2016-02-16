@@ -221,7 +221,21 @@
     ALContactDBService * contactDb=[[ALContactDBService alloc] init];
     dpName=[contactDb loadContactByKey:@"userId" value:contactId];
     
-    NSLog(@"dpName %@ and dpName.getDisplayName %@ and contactId %@",dpName,dpName.getDisplayName,contactId);
+    
+    ALChannel *channel=[[ALChannel alloc] init];
+    ALChannelDBService *groupDb= [[ALChannelDBService alloc] init];
+    
+    NSString* title;
+    if(groupID){
+        channel = [groupDb loadChannelByKey:groupID];
+        title=channel.name;
+        contactId=[NSString stringWithFormat:@"%@",groupID];
+    }
+    else {
+        title=dpName.getDisplayName;
+    }
+    
+    NSLog(@"DisplayName %@ and contactId %@",dpName.getDisplayName,contactId);
 
     ALPushAssist* top=[[ALPushAssist alloc] init];
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
@@ -230,10 +244,10 @@
     [[TSMessageView appearance] setContentFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
     [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
     [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
-
+    NSLog(@"TITLE <%@>",toastMessage);
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:[ALApplozicSettings getNotificationTitle]
-                                       subtitle:[NSString stringWithFormat:@"%@:%@",dpName.getDisplayName,toastMessage]
+                                       subtitle:[NSString stringWithFormat:@"%@",toastMessage]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75

@@ -19,7 +19,7 @@
 
 -(void) updateDeliveryReport: (NSString *) key;
 
--(void) addWelcomeMessage;
+-(void) addWelcomeMessage:(NSNumber *)channelKey;
 
 -(void) getLatestMessageGroupByContactWithCompletion:(void(^)(ALMessageList * alMessageList, NSError * error)) completion;
 

@@ -7,6 +7,7 @@
 //
 
 #import "ALChannelService.h"
+#import "ALMessageClientService.h"
 
 @implementation ALChannelService
 
@@ -32,7 +33,7 @@
         [memberArray removeAllObjects];
     }
     
-//    callForChannelProxy inserting in DB
+    //    callForChannelProxy inserting in DB
 }
 
 -(void)getChannelInformation:(NSNumber *)channelKey withCompletion:(void (^)(ALChannel *alChannel3)) completion
@@ -59,7 +60,7 @@
         }];
         
     }
-
+    
 }
 
 -(NSString *)getChannelName:(NSNumber *)channelKey
@@ -85,16 +86,15 @@
 #pragma mark CREATE CHANNEL
 //=========================
 
--(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSNumber *channelKey))completion
-{
-    if(channelName != nil && memberArray.count > 2)
+-(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSNumber *channelKey))completion{
+    
+    if(channelName != nil && memberArray.count >= 2)
     {
         [ALChannelClientService createChannel: channelName andMembersList: memberArray withCompletion:^(NSError *error, ALChannelCreateResponse *response) {
             if(!error)
             {
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
                 [channelDBService createChannel: response.alChannel];
-
                 completion(response.alChannel.key);
             }
         }];
@@ -124,7 +124,7 @@
     {
         return;
     }
-
+    
 }
 
 #pragma mark REMOVE MEMBER FROM CHANNEL
@@ -197,6 +197,48 @@
     {
         return;
     }
+}
+
+#pragma mark RENAME CHANNEL (FROM DEVICE SIDE)
+//============================================
+
+-(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName
+{
+    if(channelKey != nil && newName != nil)
+    {
+        [ALChannelClientService renameChannel:channelKey andNewName:newName andCompletion:^(NSError *error, ALAPIResponse *response) {
+            
+            if([response.status isEqualToString:@"success"])
+            {
+                ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+                [channelDBService renameChannel:channelKey andNewName:newName];
+            }
+            
+        }];
+    }
+    else
+    {
+        return;
+    }
+    
+}
+
+#pragma mark CHANNEL SYNCHRONIZATION
+//==================================
+
+-(void)syncCallForChannel
+{
+    NSNumber *updateAt = [ALUserDefaultsHandler getLastSyncChannelTime];
+    
+    [ALChannelClientService syncCallForChannel:updateAt andCompletion:^(NSError *error, ALChannelSyncResponse *response) {
+        
+        if([response.status isEqualToString:@"success"])
+        {
+            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+            [channelDBService processArrayAfterSyncCall:response.alChannelArray];
+        }
+    }];
+    
 }
 
 @end

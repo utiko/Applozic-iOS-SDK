@@ -53,19 +53,18 @@
 
 }
 
--(void) addWelcomeMessage
+-(void) addWelcomeMessage:(NSNumber *)channelKey
 {
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     
     ALMessage * theMessage = [ALMessage new];
     
-    theMessage.type = @"4";
+    
     theMessage.contactIds = @"applozic";//1
     theMessage.to = @"applozic";//2
     theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
     theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
-    theMessage.message = @"Welcome to Applozic! Drop a message here or contact us at devashish@applozic.com for any queries. Thanks";//3
     theMessage.sendToDevice = NO;
     theMessage.sent = NO;
     theMessage.shared = NO;
@@ -76,9 +75,21 @@
     theMessage.fileMetaKey = @"";//4
     theMessage.contentType = 0;
     
+    if(channelKey!=nil) //Group's Welcome
+    {
+        theMessage.type=@"101";
+        theMessage.message=@"You have created a new group, Say something!!";
+        theMessage.groupId = channelKey;
+    }
+    else //Individual's Welcome
+    {
+        theMessage.type = @"4";
+         theMessage.message = @"Welcome to Applozic! Drop a message here or contact us at devashish@applozic.com for any queries. Thanks";//3
+        theMessage.groupId = nil;
+    }
     [messageDBService createMessageEntityForDBInsertionWithMessage:theMessage];
     [theDBHandler.managedObjectContext save:nil];
-
+    
 }
 
 
@@ -217,8 +228,7 @@
 
 -(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( ALSyncMessageFeed *, NSError *))completion{
     //@synchronized(self) {
-        NSString *lastSyncTime =[ALUserDefaultsHandler
-                                 getLastSyncTime ];
+        NSString *lastSyncTime =[ALUserDefaultsHandler getLastSyncTime];
         if ( lastSyncTime == NULL ){
             lastSyncTime = @"0";
         }

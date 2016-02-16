@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -35,7 +35,7 @@
                                         <rect key="frame" x="0.0" y="86" width="600" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nkO-yU-f6Y" id="jVl-2p-Q74">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="81"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="81.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="103" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9sE-W8-i33">
@@ -152,6 +152,7 @@
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="L" destination="FQ8-OW-duW" id="wOg-01-oT3"/>
                                             <outlet property="imageMarker" destination="ng6-Us-xRU" id="pm3-Sb-8uh"/>
                                             <outlet property="imageNameLabel" destination="nFm-Yv-yQF" id="iDb-5E-j1g"/>
                                             <outlet property="mMessageLabel" destination="mUK-kK-XjJ" id="Qjk-1k-vcd"/>
@@ -220,11 +221,11 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="82" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="201-eK-m3i">
                                 <rect key="frame" x="4" y="49" width="592" height="487"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewContactCell" rowHeight="82" id="NOy-HJ-2YL" customClass="ALNewContactCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewContactCell" rowHeight="82" id="NOy-HJ-2YL" customClass="ALNewContactCell">
                                         <rect key="frame" x="0.0" y="86" width="592" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NOy-HJ-2YL" id="p0o-92-QNi">
-                                            <rect key="frame" x="0.0" y="0.0" width="592" height="81"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="592" height="81.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8h-Lp-4Jd">
@@ -296,7 +297,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nhF-Eu-64D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1883" y="946"/>
+            <point key="canvasLocation" x="1821" y="946"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="soh-3d-q0E">
@@ -344,6 +345,77 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zqg-iw-rq4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2560" y="946"/>
+        </scene>
+        <!--Create Group-->
+        <scene sceneID="lv3-2p-LvI">
+            <objects>
+                <viewController storyboardIdentifier="ALGroupCreationViewController" id="Aee-Wf-Lu6" customClass="ALGroupCreationViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jkY-Dh-YVO"/>
+                        <viewControllerLayoutGuide type="bottom" id="YdH-6c-go9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rwd-H8-lRv">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="Please provide group name along with optional group icon" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10y-gF-sJ8">
+                                <rect key="frame" x="20" y="102" width="478" height="64"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="478" id="GXf-ch-OAD"/>
+                                </constraints>
+                                <color key="textColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L1b-27-OrZ">
+                                <rect key="frame" x="506" y="92" width="74" height="74"/>
+                                <color key="backgroundColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="74" id="Zh8-ou-eFm"/>
+                                    <constraint firstAttribute="width" constant="74" id="zQl-MB-64G"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type your group name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NDG-3p-bsz">
+                                <rect key="frame" x="15" y="223" width="565" height="30"/>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" selected="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="565" id="bQd-MR-WzO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="NDG-3p-bsz" firstAttribute="top" secondItem="10y-gF-sJ8" secondAttribute="bottom" constant="57" id="DQt-Vk-TYh"/>
+                            <constraint firstItem="10y-gF-sJ8" firstAttribute="leading" secondItem="rwd-H8-lRv" secondAttribute="leadingMargin" id="E4l-YN-qaW"/>
+                            <constraint firstItem="L1b-27-OrZ" firstAttribute="leading" secondItem="10y-gF-sJ8" secondAttribute="trailing" constant="8" id="I8q-2D-uMG"/>
+                            <constraint firstItem="L1b-27-OrZ" firstAttribute="centerY" secondItem="10y-gF-sJ8" secondAttribute="centerY" constant="-5" id="JuP-77-OJo"/>
+                            <constraint firstItem="L1b-27-OrZ" firstAttribute="trailing" secondItem="rwd-H8-lRv" secondAttribute="trailingMargin" id="NTb-cL-siS"/>
+                            <constraint firstItem="NDG-3p-bsz" firstAttribute="top" secondItem="L1b-27-OrZ" secondAttribute="bottom" constant="57" id="fci-qF-eBC"/>
+                            <constraint firstItem="L1b-27-OrZ" firstAttribute="top" secondItem="jkY-Dh-YVO" secondAttribute="bottom" constant="72" id="kOG-ej-46T"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="NDG-3p-bsz" secondAttribute="trailing" id="q3x-4C-sVT"/>
+                            <constraint firstItem="NDG-3p-bsz" firstAttribute="leading" secondItem="10y-gF-sJ8" secondAttribute="leading" constant="-5" id="wd8-X2-dYL"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Create Group" id="GZX-25-MlA">
+                        <barButtonItem key="backBarButtonItem" title="Cancel" id="rtK-cw-32j"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="groupIcon" destination="L1b-27-OrZ" id="mCP-tX-VkG"/>
+                        <outlet property="groupNameInput" destination="NDG-3p-bsz" id="pRQ-Q9-v05"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TgV-Hf-2V9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3265" y="-387"/>
         </scene>
         <!--Chat View Controller-->
         <scene sceneID="Qxl-dr-KMt">
@@ -448,7 +520,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KEu-PH-USU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="ICE-46-P9k"/>
             </objects>
-            <point key="canvasLocation" x="2560" y="241"/>
+            <point key="canvasLocation" x="2560" y="274"/>
         </scene>
         <!--Attachment Controller-->
         <scene sceneID="mJq-Dy-oId">
@@ -522,7 +594,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hM0-Wd-eVG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3329" y="241"/>
+            <point key="canvasLocation" x="3265" y="274"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="44I-5Y-y8P">

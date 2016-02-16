@@ -37,6 +37,7 @@
 #import "ALChannelService.h"
 #import "ALNotificationView.h"
 #import "ALPushAssist.h"
+#import "ALNewContactsViewController.h"
 
 
 // Constants
@@ -50,7 +51,7 @@
 // Private interface
 //------------------------------------------------------------------------------------------------------------------
 
-@interface ALMessagesViewController ()<UITableViewDataSource,UITableViewDelegate,ALMessagesDelegate, ALMQTTConversationDelegate>
+@interface ALMessagesViewController ()<UITableViewDataSource,UITableViewDelegate,ALMessagesDelegate, ALMQTTConversationDelegate,ALContactDelegate>
 
 - (IBAction)logout:(id)sender;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
@@ -194,6 +195,10 @@
                                                object:[UIApplication sharedApplication]];
     [[NSNotificationCenter defaultCenter]
      addObserver:self selector:@selector(newMessageHandler:) name:NEW_MESSAGE_NOTIFICATION  object:nil];
+
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self selector:@selector(reloadTable:) name:@"reloadTable"  object:nil];
+    
     
 /////////////   SHIFTED TO ViewDidAppear /////////////   /////////////   /////////////   /////////////   /////////////   /////////////*
     /*if ([_detailChatViewController refreshMainView])
@@ -351,6 +356,16 @@
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - ALMessagesDelegate
 //------------------------------------------------------------------------------------------------------------------
+-(void)reloadTable:(NSNotification*)notification{
+    
+    NSArray* arr=[[NSArray alloc] initWithArray:notification.object];
+    
+    [self.mContactsMessageListArray addObject:arr[0]];
+    [self updateMessageList:notification.object];
+    
+    [self.mTableView reloadData];
+    [[NSNotificationCenter defaultCenter] removeObserver:@"reloadTable"];
+}
 
 -(void)getMessagesArray:(NSMutableArray *)messagesArray {
     [self.mActivityIndicator stopAnimating];
@@ -378,17 +393,18 @@
     BOOL isreloadRequire = false;
     for ( ALMessage *msg  in  messagesArray){
         ALContactCell *contactCell=nil;
+        NSLog(@"Group ID:%@",msg.groupId);
         if(msg.groupId){
             contactCell =[self getCellForGroup:msg.groupId];
-            NSLog(@"groupId found .... %@", msg.groupId);
+            
         }else{
-            NSLog(@"groupId not found ....");
+            
             contactCell = [self getCell:msg.contactIds];
             msg.groupId=NULL;
         }
        
         if(contactCell){
-            NSLog(@"contact cell found ....");
+            
             contactCell.mMessageLabel.text = msg.message;
             
             ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
@@ -468,7 +484,7 @@
                          }
                          return NO;
                      }];
-    NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
+    NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:1];
     ALContactCell *contactCell  = (ALContactCell *)[self.mTableView cellForRowAtIndexPath:path];
     return contactCell;
     
@@ -486,7 +502,7 @@
                          }
                          return NO;
                      }];
-    NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
+    NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:1];
     ALContactCell *contactCell  = (ALContactCell *)[self.mTableView cellForRowAtIndexPath:path];
     return contactCell;
     
@@ -497,12 +513,25 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return (self.mTableView == nil)?0:1;
+    return (self.mTableView == nil)?0:2;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.mContactsMessageListArray.count>0?[self.mContactsMessageListArray count]:0;
+    switch (section) {
+        case 0:{
+            return 1;
+        }break;
+            
+        case 1:{
+            return self.mContactsMessageListArray.count>0?[self.mContactsMessageListArray count]:0;
+        }break;
+            
+        default:
+            return 0;
+            break;
+    }
+
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -510,6 +539,28 @@
     static NSString *cellIdentifier = @"ContactCell";
     ALContactCell *contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
+    switch (indexPath.section) {
+            
+        case 0:{
+            
+            [self disableItems:contactCell];
+            //Add group button.....
+            UIButton *newBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+            [newBtn setTitle:@"Create Group" forState:UIControlStateNormal];
+            [newBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+            [newBtn setFrame:CGRectMake(self.mTableView.frame.size.width-150,
+                                        tableView.frame.origin.y-5,
+                                        150,
+                                        50)];
+            [newBtn addTarget:self action:@selector(createGroup:) forControlEvents:UIControlEventTouchUpInside];
+            newBtn.userInteractionEnabled=YES;
+            [contactCell addSubview:newBtn];
+            
+        }break;
+
+        case 1:{
+            
+            //Add rest of messageList
     [contactCell.mUserNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:USER_NAME_LABEL_SIZE]];//size check
     [contactCell.mMessageLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_LABEL_SIZE]];
     [contactCell.mTimeLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TIME_LABEL_SIZE]];
@@ -657,6 +708,12 @@
         //         contactCell.mUserImageView.hidden=YES;
         
     }
+        }break;
+            
+        default:
+            break;
+    }
+
     
     return contactCell;
 }
@@ -709,18 +766,18 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    ALMessage * message =  self.mContactsMessageListArray[indexPath.row];
-    
-//    if([[message groupId] intValue])
-    if([message getGroupId])
-    {
-        self.channelKey = [message groupId];
+    if(indexPath.section!=0){
+        ALMessage * message =  self.mContactsMessageListArray[indexPath.row];
+        if([message getGroupId])
+        {
+            self.channelKey = [message groupId];
+        }
+        else
+        {
+            self.channelKey = nil;
+        }
+        [self createDetailChatViewController: message.contactIds];
     }
-    else
-    {
-        self.channelKey = nil;
-    }
-    [self createDetailChatViewController: message.contactIds];
 }
 
 -(void)createDetailChatViewController: (NSString *) contactIds
@@ -741,6 +798,17 @@
     [self.navigationController pushViewController:_detailChatViewController animated:YES];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if(indexPath.section == 0){
+        tableView.rowHeight=40.0;
+    }
+    else{
+        tableView.rowHeight=81.5;
+    }
+    
+    return tableView.rowHeight;
+}
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - Table View Editing Methods
 //------------------------------------------------------------------------------------------------------------------
@@ -944,7 +1012,6 @@
     NSDictionary *dict = notification.userInfo;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
     NSString * alretValue =  [dict valueForKey:@"alertValue" ];
-    
     if (self.isViewLoaded && self.view.window && [updateUI boolValue])
     {
         ALMessage *msg = [[ALMessage alloc]init];
@@ -953,7 +1020,12 @@
                             componentsSeparatedByCharactersInSet:
                             [NSCharacterSet characterSetWithCharactersInString:@":"]];
         
-        alretValue=[NSString stringWithFormat:@"%@",myArray[1]];
+        if(myArray.count>1){
+            alretValue=[NSString stringWithFormat:@"%@",myArray[1]];
+        }
+        else{
+            alretValue=myArray[0];
+        }
         msg.message=alretValue;
         msg.contactIds = contactId;
         [self syncCall:msg];
@@ -1043,5 +1115,32 @@
     NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
     [messageArray sortUsingDescriptors:descriptors];
     [self updateMessageList:messageArray];
+}
+
+- (IBAction)createGroup:(id)sender {
+    
+    ALNewContactsViewController* contactsVC=[[ALNewContactsViewController alloc] init];
+    
+    contactsVC.delegate=self;
+    
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                                         bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    UIViewController *groupCreation = [storyboard instantiateViewControllerWithIdentifier:@"ALGroupCreationViewController"];
+    [self.navigationController pushViewController:groupCreation animated:YES];
+}
+
+-(void)disableItems:(ALContactCell*)contactCell{
+    
+    contactCell.mUserImageView.hidden               =YES;
+    contactCell.mUserNameLabel.hidden               =YES;
+    contactCell.mMessageLabel.hidden                =YES;
+    contactCell.mTimeLabel.hidden                   =YES;
+    contactCell.mLastMessageStatusImageView.hidden  =YES;
+    contactCell.imageNameLabel.hidden               =YES;
+    contactCell.imageMarker.hidden                  =YES;
+    contactCell.mCountImageView.hidden              =YES;
+    contactCell.onlineImageMarker.hidden            =YES;
+    contactCell.L.hidden                            =YES;
+
 }
 @end

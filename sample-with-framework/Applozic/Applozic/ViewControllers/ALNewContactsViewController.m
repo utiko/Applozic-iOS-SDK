@@ -18,6 +18,8 @@
 #import "ALMessagesViewController.h"
 #import "ALColorUtility.h"
 #import "UIImageView+WebCache.h"
+#import "ALGroupCreationViewController.h"
+
 
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
@@ -36,10 +38,13 @@
 
 @property  NSUInteger lastSearchLength;
 
+@property (strong,nonatomic)NSMutableArray* groupMembers;
+@property (strong,nonatomic)ALChannelService * creatingChannel;
+
 @end
 
 @implementation ALNewContactsViewController
-
+@synthesize delegate;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[self activityIndicator] startAnimating];
@@ -87,6 +92,10 @@
      
      [self.view addGestureRecognizer:tap];*/
     self.colors = [[NSArray alloc] initWithObjects:@"#617D8A",@"#628B70",@"#8C8863",@"8B627D",@"8B6F62", nil];
+    
+    self.groupMembers=[[NSMutableArray alloc] init];
+    
+    
 }
 
 - (void) dismissKeyboard
@@ -118,6 +127,139 @@
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
         
     }
+
+    if (self.forGroup) {
+        NSLog(@"forGroup %@",self.forGroup);
+        self.done = [[UIBarButtonItem alloc]
+                                 initWithTitle:@"Done"
+                                 style:UIBarButtonItemStyleBordered
+                                 target:self
+                                 action:@selector(createNewGroup:)];
+        
+        self.navigationItem.rightBarButtonItem = self.done;
+        self.contactsTableView.editing=YES;
+        self.contactsTableView.allowsMultipleSelectionDuringEditing = YES;
+        [self updateButtonsToMatchTableState];
+
+    }
+
+}
+
+- (void)updateButtonsToMatchTableState
+{
+    if (self.contactsTableView.editing)
+    {
+        NSLog(@"Show the option to cancel the edit");
+        
+    }
+    else
+    {
+        NSLog(@"Not in editing mode");
+        
+    }
+}
+
+-(void)createNewGroup:(id)sender{
+    
+    //check whether at least two memebers selected
+    if(self.groupMembers.count < 2){
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"Group Members"
+                                              message:@"Please select atleast two members"
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       NSLog(@"OK action");
+                                   }];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+        return;
+
+    }
+//    NSLog(@"Group Name :%@: with Members  %@",self.groupName,self.groupMembers);
+    
+    //Server Call
+    self.creatingChannel=[[ALChannelService alloc] init];
+    [self.creatingChannel createChannel:self.groupName andMembersList:self.groupMembers withCompletion:^(NSNumber *channelKey) {
+        
+        if(channelKey){
+            [self addDummyMessage:channelKey];
+        }
+    }];
+    
+    
+    //Updating view, popping to MessageList View
+    NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
+    for (UIViewController *aViewController in allViewControllers) {
+        if ([aViewController isKindOfClass:[ALMessagesViewController class]]) {
+            [self.navigationController popToViewController:aViewController animated:YES];
+        }
+    }
+
+}
+-(void)dummyGroupMessage:(NSNumber*)sender{
+    //Create an ALMessage (dummy)
+    ALMessage *welcomeMsg=[[ALMessage alloc] init];
+    welcomeMsg.deviceKey=[ALUserDefaultsHandler getDeviceKeyString];
+    welcomeMsg.message=@"Welcome to group";
+    welcomeMsg.groupId=sender;
+    welcomeMsg.type=@"101";
+    welcomeMsg.fileMetaKey=nil;
+//    NSLog(@"GroupID %@",sender);
+    welcomeMsg.createdAtTime=[NSNumber numberWithInt:[NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000].intValue];
+
+    NSMutableArray* updateArr=[[NSMutableArray alloc] initWithObjects:welcomeMsg, nil];
+//    [delegate addChannelCreateMessage:updateArr];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTable" object:updateArr];
+    
+}
+
+-(void) addDummyMessage:(NSNumber *)channelKey
+{
+    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+    ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
+    
+    ALMessage * theMessage = [ALMessage new];
+    
+    
+    theMessage.contactIds = @"applozic";//1
+    theMessage.to = @"applozic";//2
+    theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
+    theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
+    theMessage.sendToDevice = NO;
+    theMessage.sent = NO;
+    theMessage.shared = NO;
+    theMessage.fileMeta = nil;
+    theMessage.read = NO;
+    theMessage.key = @"welcome-message-temp-key-string";
+    theMessage.delivered=NO;
+    theMessage.fileMetaKey = @"";//4
+    theMessage.contentType = 0;
+    
+    if(channelKey!=nil) //Group's Welcome
+    {
+        theMessage.type=@"101";
+        theMessage.message=@"You have created a new group, Say Hi to members :)";
+        theMessage.groupId = channelKey;
+        theMessage.read=YES;
+    }
+    else //Individual's Welcome
+    {
+        theMessage.groupId = nil;
+    }
+    
+    //UI update...
+    NSMutableArray* updateArr=[[NSMutableArray alloc] initWithObjects:theMessage, nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTable" object:updateArr];
+    
+    //db insert..
+    [messageDBService createMessageEntityForDBInsertionWithMessage:theMessage];
+    [theDBHandler.managedObjectContext save:nil];
+    
 }
 
 -(void) viewWillDisappear:(BOOL)animated{
@@ -193,11 +335,29 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    ALContact *selectedContact =  self.filteredContactList[indexPath.row];
-    [self launchChatForContact:selectedContact.userId];
     
+    if(!self.forGroup){
+        ALContact *selectedContact =  self.filteredContactList[indexPath.row];
+        [self launchChatForContact:selectedContact.userId];
+    }
+    else{
+        ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
+        [self.groupMembers addObject:contact.userId];
+        NSLog(@"Group Members Addition %@",self.groupMembers);
+        
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(self.forGroup){
+        ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
+        [self.groupMembers removeObject:contact.userId];
+        NSLog(@"Group Members Deletion%@",self.groupMembers);
+    }
     
 }
+
 
 -(void) fetchConversationsGroupByContactId
 {

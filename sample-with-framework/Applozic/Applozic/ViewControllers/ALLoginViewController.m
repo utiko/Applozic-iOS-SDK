@@ -193,7 +193,7 @@
         if (rResponse && [rResponse.message containsString: @"REGISTERED"])
         {
             ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
-            [messageClientService addWelcomeMessage];
+            [messageClientService addWelcomeMessage:nil];
         }
         
         NSLog(@"Registration response from server:%@", rResponse);

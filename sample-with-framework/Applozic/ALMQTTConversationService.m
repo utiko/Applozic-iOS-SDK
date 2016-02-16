@@ -14,6 +14,7 @@
 #import "ALMessageDBService.h"
 #import "ALUserDetail.h"
 #import "ALPushAssist.h"
+#import "ALChannelService.h"
 
 @implementation ALMQTTConversationService
 
@@ -131,7 +132,7 @@ static MQTTSession *session;
             
             ALPushAssist* assistant=[[ALPushAssist alloc] init];
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
-            NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
             [dict setObject:alMessage.message forKey:@"alertValue"];
             NSLog(@"the dictionary %@",theMessageDict);
             [dict setObject:[NSNumber numberWithBool:NO] forKey:@"updateUI"];
@@ -147,10 +148,7 @@ static MQTTSession *session;
                 //Todo: split backend logic and ui logic between synccallservice and delegate
                 [self.mqttConversationDelegate syncCall: alMessage];
             }
-            
-            
-            
-            
+
         } else if ([type isEqualToString:@"APPLOZIC_10"]) {
             NSString *contactId = [theMessageDict objectForKey:@"message"];
             [self.alSyncCallService updateDeliveryStatusForContact: contactId];
@@ -172,6 +170,14 @@ static MQTTSession *session;
             
             [self.alSyncCallService updateConnectedStatus: alUserDetail];
             [self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
+        } else if ([type isEqualToString:@"APPLOZIC_15"]) {
+            ALChannelService *channelService = [[ALChannelService alloc] init];
+            [channelService syncCallForChannel];
+            // TODO HANDLE
+        } else if ([type isEqualToString:@"APPLOZIC_06"]) {
+            // TODO HANDLE
+            // IF CONTACT ID THE DELETE USER
+            // IF CHANNEL KEY then DELETE CHANNEL
         }
     }
 }

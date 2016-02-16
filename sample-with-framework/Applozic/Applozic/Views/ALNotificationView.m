@@ -17,6 +17,7 @@
 #import "ALContact.h"
 #import "ALContactDBService.h"
 #import "ALApplozicSettings.h"
+#import "ALChannelDBService.h"
 @implementation ALNotificationView
     
 
@@ -84,9 +85,17 @@
     ALContactDBService * contactDb=[[ALContactDBService alloc] init];
     dpName=[contactDb loadContactByKey:@"userId" value:self.contactId];
     
+    ALChannel *channel=[[ALChannel alloc] init];
+    ALChannelDBService *groupDb= [[ALChannelDBService alloc] init];
+    
     NSString* title;
     if(self.groupId){
-        title=self.groupId;
+        channel = [groupDb loadChannelByKey:self.groupId];
+        if(dpName.userId==nil){
+            dpName.userId=@"";
+        }
+        title=[NSString stringWithFormat:@"%@:\n%@",channel.name,dpName.userId];
+//                title=channel.name;
         _contactId=[NSString stringWithFormat:@"%@",self.groupId];
     }
     else {
@@ -111,11 +120,11 @@
         myString=[NSString stringWithFormat:@"Attachment"];
     }
     
-    
+    NSLog(@"Title <%@> and myString <%@>",title,myString);
     NSLog(@"CONTACT ID_GROUP %@",_contactId);
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:[ALApplozicSettings getNotificationTitle]
-                                       subtitle:[NSString stringWithFormat:@"%@: %@",title,myString]
+                                       subtitle:[NSString stringWithFormat:@"%@ %@",title,myString]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75
@@ -126,7 +135,7 @@
              // Conversation View is Opened.....
              ALMessagesViewController* class2=(ALMessagesViewController*)delegate;
              if(self.groupId){
-                 class2.channelKey=self.groupId;
+                 class2.channelKey=self.groupId; NSLog(@"CLASS %@",class2.channelKey);
                  //_contactId=self.groupId; CRASH: if you send contactId as NSNumber.
              }
              else{

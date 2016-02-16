@@ -123,6 +123,14 @@
             [self.alSyncCallService updateConnectedStatus: alUserDetail];
             //[self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
             
+        } else if ([type isEqualToString:@"APPLOZIC_15"]) {
+            ALChannelService *channelService = [[ALChannelService alloc] init];
+            [channelService syncCallForChannel];
+            // TODO HANDLE
+        } else if ([type isEqualToString:@"APPLOZIC_06"]) {
+            // TODO HANDLE
+            // IF CONTACT ID THE DELETE USER
+            // IF CHANNEL KEY then DELETE CHANNEL
         }
 
         
