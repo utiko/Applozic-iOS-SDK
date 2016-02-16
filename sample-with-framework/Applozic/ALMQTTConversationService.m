@@ -148,10 +148,7 @@ static MQTTSession *session;
                 //Todo: split backend logic and ui logic between synccallservice and delegate
                 [self.mqttConversationDelegate syncCall: alMessage];
             }
-            
-            
-            
-            
+
         } else if ([type isEqualToString:@"APPLOZIC_10"]) {
             NSString *contactId = [theMessageDict objectForKey:@"message"];
             [self.alSyncCallService updateDeliveryStatusForContact: contactId];
@@ -176,6 +173,11 @@ static MQTTSession *session;
         } else if ([type isEqualToString:@"APPLOZIC_15"]) {
             ALChannelService *channelService = [[ALChannelService alloc] init];
             [channelService syncCallForChannel];
+            // TODO HANDLE
+        } else if ([type isEqualToString:@"APPLOZIC_06"]) {
+            // TODO HANDLE
+            // IF CONTACT ID THE DELETE USER
+            // IF CHANNEL KEY then DELETE CHANNEL
         }
     }
 }
