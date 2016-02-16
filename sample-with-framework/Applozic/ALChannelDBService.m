@@ -462,4 +462,12 @@
     }
 }
 
+-(void)processArrayAfterSyncCall:(NSMutableArray *)channelArray
+{
+    for(ALChannel *channelObject in channelArray)
+    {
+        [self createChannel:channelObject];
+    }
+}
+
 @end

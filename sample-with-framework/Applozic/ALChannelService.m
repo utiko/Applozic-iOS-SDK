@@ -32,7 +32,7 @@
         [memberArray removeAllObjects];
     }
     
-//    callForChannelProxy inserting in DB
+    //    callForChannelProxy inserting in DB
 }
 
 -(void)getChannelInformation:(NSNumber *)channelKey withCompletion:(void (^)(ALChannel *alChannel3)) completion
@@ -59,7 +59,7 @@
         }];
         
     }
-
+    
 }
 
 -(NSString *)getChannelName:(NSNumber *)channelKey
@@ -94,7 +94,7 @@
             {
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
                 [channelDBService createChannel: response.alChannel];
-
+                
                 completion(response.alChannel.key);
             }
         }];
@@ -124,7 +124,7 @@
     {
         return;
     }
-
+    
 }
 
 #pragma mark REMOVE MEMBER FROM CHANNEL
@@ -233,8 +233,8 @@
         
         if([response.status isEqualToString:@"success"])
         {
-           ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-            //TO DO HERE
+            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+            [channelDBService processArrayAfterSyncCall:response.alChannelArray];
         }
     }];
     
