@@ -1008,7 +1008,15 @@
 }
 
 -(void)pushNotificationhandler:(NSNotification *) notification{
+  
     NSString * contactId = notification.object;
+    
+    NSArray *myArray =  [contactId componentsSeparatedByCharactersInSet:
+     [NSCharacterSet characterSetWithCharactersInString:@":"]];
+    if(myArray.count>2){
+        self.channelKey =  @([ myArray[1] intValue]);
+    }
+    
     NSDictionary *dict = notification.userInfo;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
     NSString * alretValue =  [dict valueForKey:@"alertValue" ];
@@ -1028,6 +1036,7 @@
         }
         msg.message=alretValue;
         msg.contactIds = contactId;
+        msg.groupId = self.channelKey;
         [self syncCall:msg];
     }
     else if(![updateUI boolValue])

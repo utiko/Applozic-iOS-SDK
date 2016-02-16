@@ -1148,6 +1148,7 @@ ALMessageDBService  * dbService;
     NSArray *com=[contactId componentsSeparatedByString:@":"];
     NSString* appendToGroupId;
     if(com.count>1){
+        
         appendToGroupId=[NSString stringWithFormat:@"%@",com[1]];
 //        appendToGroupId=[appendToGroupId componentsSeparatedByString:@":"][0];
         contactId=appendToGroupId;
@@ -1174,13 +1175,15 @@ ALMessageDBService  * dbService;
         //Current Same Individual Contact thread is opened..
         self.channelKey=nil;
         self.contactIds=contactId;
-//        [self reloadView];
+      // [self reloadView];
         [self fetchAndRefresh:YES];
-//       [self processMarkRead];
+        //[self processMarkRead];
         NSLog(@"INDIVIDUAL NOTIFICATION HANDLER");
     }
     else if (![updateUI boolValue]) {
         NSLog(@"it was in background, updateUI is false");
+        self.channelKey=groupID;
+        self.contactIds=contactId;
         [self fetchAndRefresh:YES];
         [self reloadView];
         
