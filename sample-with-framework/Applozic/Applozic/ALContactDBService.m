@@ -314,7 +314,7 @@
         theUserDetailEntity.displayName = userDetail.displayName;
     }
     
-    theUserDetailEntity.lastSeenAt = [NSNumber numberWithInt:[userDetail.lastSeenAtTime doubleValue]];
+    theUserDetailEntity.lastSeenAt = userDetail.lastSeenAtTime;
     theUserDetailEntity.connected = userDetail.connected;
     
     return theUserDetailEntity;

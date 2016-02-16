@@ -85,7 +85,7 @@ ALMessageDBService  * dbService;
     [super viewDidLoad];
     [self initialSetUp];
     [self fetchMessageFromDB];
-    [self loadChatView];
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
 
 }
@@ -113,18 +113,28 @@ ALMessageDBService  * dbService;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
     [self.tabBarController.tabBar setHidden: YES];
     [self.label setHidden:NO];
     [self.loadEarlierAction setHidden:YES];
     self.showloadEarlierAction = TRUE;
     self.typingLabel.hidden = YES;
-    
+
     if(self.refresh || ([self.alMessageWrapper getUpdatedMessageArray] && [self.alMessageWrapper getUpdatedMessageArray].count == 0) ||
        !([self.alMessageWrapper getUpdatedMessageArray] && [[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds] isEqualToString:self.contactIds])
        ) {
-        [self reloadView];
-        [super scrollTableViewToBottomWithAnimation:NO];
+        if(![ALUserDefaultsHandler isServerCallDoneForMSGList:self.contactIds])
+        {
+            [[self.alMessageWrapper getUpdatedMessageArray] removeAllObjects];
+            self.startIndex =0;
+            [self.mTableView reloadData];
+            [self setTitle];
+            [self processLoadEarlierMessages:true];
+        }else{
+            [self reloadView];
+            [super scrollTableViewToBottomWithAnimation:NO];
+        }
         if (self.refresh) {
             self.refresh = false;
         }
@@ -151,12 +161,6 @@ ALMessageDBService  * dbService;
         [self serverCallForLastSeen];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     }
-    
-    if(![ALUserDefaultsHandler isServerCallDoneForMSGList:self.contactIds])
-    {
-        //NSLog(@"called first time .....");
-        [self processLoadEarlierMessages:true];
-    }
     if(self.text)
     {
         self.sendMessageTextView.text = self.text;
@@ -166,11 +170,6 @@ ALMessageDBService  * dbService;
         self.sendMessageTextView.text = @"";
     }
     
-    //    NSLog(@" ========  Table Origin y %f  ========",self.mTableView.frame.origin.y);
-    //    NSLog(@" ======== Load More button origin y %f  ========",self.loadEarlierAction.frame.origin.y);
-    //    NSLog(@" ======== Load More button height %f  ======",self.loadEarlierAction.frame.size.height);
-    //    NSLog(@" ======== navigation bar height %f  ========",self.navigationController.navigationBar.frame.size.height);
-    //    NSLog(@" ======== navigation bar origin y %f  ======",self.navigationController.navigationBar.frame.origin.y);
     
 }
 
@@ -230,6 +229,7 @@ ALMessageDBService  * dbService;
 
 -(void) setTitle {
     if(self.displayName){
+       
         ALContactService * contactService = [[ALContactService alloc]init];
         _alContact = [contactService loadOrAddContactByKeyWithDisplayName:self.contactIds value: self.displayName];
         
@@ -641,14 +641,6 @@ ALMessageDBService  * dbService;
             self.mTableView.tableHeaderView = self.mTableHeaderView;
         }
         self.startIndex = theArray.count;
-        
-        /*if (self.mMessageListArray.count != 0) {
-         CGRect theFrame = [self.mTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:theArray.count-1 inSection:0]];
-         [self.mTableView setContentOffset:CGPointMake(0, theFrame.origin.y)];
-         }*/
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [super scrollTableViewToBottomWithAnimation:YES];
-        });
         
     }
 }
@@ -1108,13 +1100,8 @@ ALMessageDBService  * dbService;
         alMessage.delivered=YES;
         [self.mTableView reloadData];
     }else{
-        //not found
-        
-        
-        //get message from db by key
-        [ALMessageService getMessagefromKeyValuePair:@"key" andValue:key];
-        //and get alMessage.msgDBObjectId
 
+        
         ALMessage* fetchMsg=[ALMessage new];
         fetchMsg=[ALMessageService getMessagefromKeyValuePair:@"key" andValue:key];
         
@@ -1125,7 +1112,6 @@ ALMessageDBService  * dbService;
             alMessage2.delivered=YES;
             [self.mTableView reloadData];
         }
-
     }
 }
 
@@ -1231,9 +1217,22 @@ ALMessageDBService  * dbService;
     else {
         time = NULL;
     }
+    
+    loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    loadingIndicator.center = self.view.center;
+    loadingIndicator.hidesWhenStopped = YES;
+    [self.view addSubview:loadingIndicator];
+    [loadingIndicator startAnimating];
+    
     [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
+        
+        [loadingIndicator stopAnimating];
+        //[loadingIndicator removeFromSuperview];
+        NSLog(@"removing animator....");
+
         if(!error )
         {
+            
             NSLog(@"No Error");
             self.loadEarlierAction.hidden=YES;
             if( messages.count< 50 ){
@@ -1281,12 +1280,19 @@ ALMessageDBService  * dbService;
                 ALMessage *lastMsg = [self.alMessageWrapper getDatePrototype:dateTxt andAlMessageObject:message];
                 [[self.alMessageWrapper getUpdatedMessageArray] insertObject:lastMsg atIndex:0];
             }
-            self.startIndex = self.startIndex + messages.count;
+            CGFloat oldTableViewHeight = self.mTableView.contentSize.height;
             [self.mTableView reloadData];
+
+           
+            //self.startIndex = self.startIndex + messages.count;
             if(isScrollToBottom){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [super scrollTableViewToBottomWithAnimation:NO];
-                });
+                    
+                      });
+            }else{
+                CGFloat newTableViewHeight = self.mTableView.contentSize.height;
+                self.mTableView.contentOffset = CGPointMake(0, newTableViewHeight - oldTableViewHeight);
             }
         }
         else
@@ -1551,8 +1557,9 @@ ALMessageDBService  * dbService;
 -(void)newMessageHandler:(NSNotification *) notification{
     
     NSMutableArray * messageArray = notification.object;
-    // if([self.alMessageWrapper g])
     [self addMessageToList:messageArray];
     [self processMarkRead];
 }
+
+
 @end
