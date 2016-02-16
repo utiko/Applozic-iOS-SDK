@@ -1149,7 +1149,7 @@ ALMessageDBService  * dbService;
     NSString* appendToGroupId;
     if(com.count>1){
         appendToGroupId=[NSString stringWithFormat:@"%@",com[1]];
-        appendToGroupId=[appendToGroupId componentsSeparatedByString:@":"][0];
+//        appendToGroupId=[appendToGroupId componentsSeparatedByString:@":"][0];
         contactId=appendToGroupId;
     }
     else{
@@ -1166,7 +1166,7 @@ ALMessageDBService  * dbService;
         //Current Same Group thread is Opened...
             self.channelKey=groupID;
             self.contactIds=contactId;
-            [self reloadView];
+//            [self reloadView];
             [self processMarkRead];
             [self fetchAndRefresh:YES];
     }
@@ -1174,7 +1174,7 @@ ALMessageDBService  * dbService;
         //Current Same Individual Contact thread is opened..
         self.channelKey=nil;
         self.contactIds=contactId;
-        [self reloadView];
+//        [self reloadView];
         [self fetchAndRefresh:YES];
 //       [self processMarkRead];
         NSLog(@"INDIVIDUAL NOTIFICATION HANDLER");
@@ -1195,6 +1195,7 @@ ALMessageDBService  * dbService;
                               withAlertMessage:alertValue];
         [alnotification displayNotificationNew:self];
         [self fetchAndRefresh:YES];
+        NSLog(@"Alert Value OURSDK %@",alertValue);
 
     }
     

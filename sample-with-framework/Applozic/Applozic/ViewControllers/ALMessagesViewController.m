@@ -197,7 +197,7 @@
      addObserver:self selector:@selector(newMessageHandler:) name:NEW_MESSAGE_NOTIFICATION  object:nil];
 
     [[NSNotificationCenter defaultCenter]
-     addObserver:self selector:@selector(reloadTable:) name:@"LOL"  object:nil];
+     addObserver:self selector:@selector(reloadTable:) name:@"reloadTable"  object:nil];
     
     
 /////////////   SHIFTED TO ViewDidAppear /////////////   /////////////   /////////////   /////////////   /////////////   /////////////*
@@ -364,7 +364,7 @@
     [self updateMessageList:notification.object];
     
     [self.mTableView reloadData];
-    [[NSNotificationCenter defaultCenter] removeObserver:@"LOL"];
+    [[NSNotificationCenter defaultCenter] removeObserver:@"reloadTable"];
 }
 
 -(void)getMessagesArray:(NSMutableArray *)messagesArray {

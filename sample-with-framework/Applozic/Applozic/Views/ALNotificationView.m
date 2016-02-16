@@ -85,13 +85,17 @@
     ALContactDBService * contactDb=[[ALContactDBService alloc] init];
     dpName=[contactDb loadContactByKey:@"userId" value:self.contactId];
     
-    ALChannel *groupTitle=[[ALChannel alloc] init];
+    ALChannel *channel=[[ALChannel alloc] init];
     ALChannelDBService *groupDb= [[ALChannelDBService alloc] init];
     
     NSString* title;
     if(self.groupId){
-        groupTitle = [groupDb loadChannelByKey:self.groupId];
-        title=groupTitle.name;
+        channel = [groupDb loadChannelByKey:self.groupId];
+        if(dpName.userId==nil){
+            dpName.userId=@"";
+        }
+        title=[NSString stringWithFormat:@"%@:\n%@",channel.name,dpName.userId];
+//                title=channel.name;
         _contactId=[NSString stringWithFormat:@"%@",self.groupId];
     }
     else {
@@ -116,11 +120,11 @@
         myString=[NSString stringWithFormat:@"Attachment"];
     }
     
-    
+    NSLog(@"Title <%@> and myString <%@>",title,myString);
     NSLog(@"CONTACT ID_GROUP %@",_contactId);
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:[ALApplozicSettings getNotificationTitle]
-                                       subtitle:[NSString stringWithFormat:@"%@: %@",title,myString]
+                                       subtitle:[NSString stringWithFormat:@"%@ %@",title,myString]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75

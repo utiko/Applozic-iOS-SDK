@@ -6,14 +6,14 @@
 //
 
 
-//#define KBASE_URL @"https://apps.applozic.com"
-//#define MQTT_URL @"apps.applozic.com"
+#define KBASE_URL @"https://apps.applozic.com"
+#define MQTT_URL @"apps.applozic.com"
 
-#define KBASE_URL @"https://test.applozic.com:543/"
+//#define KBASE_URL @"https://test.applozic.com:543/"
 //#define MQTT_URL @"test.applozic.com"
 
 //#define KBASE_URL @"https://staging.applozic.com"
-#define MQTT_URL @"staging.applozic.com"
+//#define MQTT_URL @"staging.applozic.com"
 
 
 #define MQTT_PORT @"1883"

@@ -214,7 +214,7 @@
 
     NSMutableArray* updateArr=[[NSMutableArray alloc] initWithObjects:welcomeMsg, nil];
 //    [delegate addChannelCreateMessage:updateArr];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"LOL" object:updateArr];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTable" object:updateArr];
     
 }
 
@@ -254,7 +254,7 @@
     
     //UI update...
     NSMutableArray* updateArr=[[NSMutableArray alloc] initWithObjects:theMessage, nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"LOL" object:updateArr];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTable" object:updateArr];
     
     //db insert..
     [messageDBService createMessageEntityForDBInsertionWithMessage:theMessage];
@@ -341,7 +341,6 @@
         [self launchChatForContact:selectedContact.userId];
     }
     else{
-        
         ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
         [self.groupMembers addObject:contact.userId];
         NSLog(@"Group Members Addition %@",self.groupMembers);

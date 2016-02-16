@@ -196,7 +196,7 @@
 
     if(needleArr.count>1){
         NSString *groupIdString = [notification.object componentsSeparatedByString:@":"][1];
-        groupIdString=[groupIdString componentsSeparatedByString:@":"][0];
+//        groupIdString=[groupIdString componentsSeparatedByString:@":"][0];
         groupId=[NSNumber numberWithInt:groupIdString.intValue];
     }
     else{
