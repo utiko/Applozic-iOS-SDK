@@ -206,7 +206,7 @@
 {
     if(channelKey != nil && newName != nil)
     {
-        [ALChannelClientService renameChannel:channelKey andNewName:newName ndCompletion:^(NSError *error, ALAPIResponse *response) {
+        [ALChannelClientService renameChannel:channelKey andNewName:newName andCompletion:^(NSError *error, ALAPIResponse *response) {
             
             if([response.status isEqualToString:@"success"])
             {
@@ -220,6 +220,23 @@
     {
         return;
     }
+    
+}
+
+#pragma mark CHANNEL SYNCHRONIZATION
+//==================================
+
++(void)syncCallForChannel:(NSNumber *)updateAt
+{
+    
+    [ALChannelClientService syncCallForChannel:updateAt andCompletion:^(NSError *error, ALChannelSyncResponse *response) {
+        
+        if([response.status isEqualToString:@"success"])
+        {
+           ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+            //TO DO HERE
+        }
+    }];
     
 }
 

@@ -11,6 +11,7 @@
 #import "ALChannelDBService.h"
 #import "ALChannelClientService.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALChannelSyncResponse.h"
 
 @interface ALChannelService : NSObject
 

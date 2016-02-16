@@ -166,7 +166,7 @@
     }];
 }
 
-+(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName ndCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion
++(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName andCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, RENAME_CHANNEL_URL];
     NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey, newName];
@@ -187,5 +187,35 @@
     }];
 }
 
++(void)syncCallForChannel:(NSNumber *)updatedAt andCompletion:(void(^)(NSError *error, ALChannelSyncResponse *response))completion
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, CHANNEL_SYNC_URL];
+    NSMutableURLRequest * theRequest;
+    
+    if(updatedAt != nil)  // IF NEED DATA AFTER A PARTICULAR TIME
+    {
+        NSString * theParamString = [NSString stringWithFormat:@"updatedAt=%@", updatedAt];
+        theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    }
+    else  // IF CALLING FIRST TIME
+    {
+        theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:nil];
+    }
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"CHANNEL_SYNCHRONIZATION" WithCompletionHandler:^(id theJson, NSError *error) {
+        ALChannelSyncResponse *response = nil;
+        if(error)
+        {
+            NSLog(@"ERROR IN CHANNEL_SYNCHRONIZATION SERVER CALL REQUEST %@", error);
+        }
+        else
+        {
+            response = [[ALChannelSyncResponse alloc] initWithJSONString:theJson];
+        }
+        
+        completion(error, response);
+    }];
+
+}
 
 @end

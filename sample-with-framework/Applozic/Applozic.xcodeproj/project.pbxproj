@@ -214,6 +214,8 @@
 		6D9C693D1C28383B00C78219 /* ALChatLauncher.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9C693B1C28383B00C78219 /* ALChatLauncher.m */; };
 		6DAEC20A1C25A596000A7243 /* ALLastSeenSyncFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DAEC2081C25A596000A7243 /* ALLastSeenSyncFeed.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DAEC20B1C25A596000A7243 /* ALLastSeenSyncFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DAEC2091C25A596000A7243 /* ALLastSeenSyncFeed.m */; };
+		6DB061171C732FE400EB7393 /* ALChannelSyncResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DB061151C732FE400EB7393 /* ALChannelSyncResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6DB061181C732FE400EB7393 /* ALChannelSyncResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB061161C732FE400EB7393 /* ALChannelSyncResponse.m */; };
 		6DB665071C0EE5EC004D04A8 /* ALDataNetworkConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DB665081C0EE5EC004D04A8 /* ALDataNetworkConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB665061C0EE5EC004D04A8 /* ALDataNetworkConnection.m */; };
 		6DBE8C441C6E2BBF00DC5778 /* ALChannelCreateResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DBE8C421C6E2BBF00DC5778 /* ALChannelCreateResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -469,6 +471,8 @@
 		6D9C693B1C28383B00C78219 /* ALChatLauncher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChatLauncher.m; sourceTree = "<group>"; };
 		6DAEC2081C25A596000A7243 /* ALLastSeenSyncFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALLastSeenSyncFeed.h; sourceTree = "<group>"; };
 		6DAEC2091C25A596000A7243 /* ALLastSeenSyncFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALLastSeenSyncFeed.m; sourceTree = "<group>"; };
+		6DB061151C732FE400EB7393 /* ALChannelSyncResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannelSyncResponse.h; sourceTree = "<group>"; };
+		6DB061161C732FE400EB7393 /* ALChannelSyncResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChannelSyncResponse.m; sourceTree = "<group>"; };
 		6DB665051C0EE5EC004D04A8 /* ALDataNetworkConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDataNetworkConnection.h; sourceTree = "<group>"; };
 		6DB665061C0EE5EC004D04A8 /* ALDataNetworkConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDataNetworkConnection.m; sourceTree = "<group>"; };
 		6DBE8C421C6E2BBF00DC5778 /* ALChannelCreateResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannelCreateResponse.h; sourceTree = "<group>"; };
@@ -957,6 +961,8 @@
 				6D8904241C3E744000B59381 /* ALConversationProxy.m */,
 				6DBE8C421C6E2BBF00DC5778 /* ALChannelCreateResponse.h */,
 				6DBE8C431C6E2BBF00DC5778 /* ALChannelCreateResponse.m */,
+				6DB061151C732FE400EB7393 /* ALChannelSyncResponse.h */,
+				6DB061161C732FE400EB7393 /* ALChannelSyncResponse.m */,
 			);
 			name = ALChannel;
 			sourceTree = "<group>";
@@ -1100,6 +1106,7 @@
 				6D98B4681C4FE4B600A6BBFE /* ALChatCell_Media.h in Headers */,
 				982F130E1C05D6050024678E /* MQTTSession.h in Headers */,
 				6DBE8C441C6E2BBF00DC5778 /* ALChannelCreateResponse.h in Headers */,
+				6DB061171C732FE400EB7393 /* ALChannelSyncResponse.h in Headers */,
 				6D7AFD251BECF061009DDC1D /* ALSendMessageResponse.h in Headers */,
 				98E1AB971C08718700BE6312 /* ALMQTTConversationService.h in Headers */,
 				6D6DF1561BC5364C00EBA00F /* ALBaseViewController.h in Headers */,
@@ -1304,6 +1311,7 @@
 				6D3260EB1C4E29F2003991EB /* ALAPIResponse.m in Sources */,
 				297DE09F1C46253300C9D87E /* TSMessage.m in Sources */,
 				6D6DF1691BC5364C00EBA00F /* ALLocationManager.m in Sources */,
+				6DB061181C732FE400EB7393 /* ALChannelSyncResponse.m in Sources */,
 				982F13071C05D6050024678E /* MQTTDecoder.m in Sources */,
 				6D95476A1BE38DFF00776652 /* ALContactDBService.m in Sources */,
 				297DE0A11C46253300C9D87E /* TSMessageView.m in Sources */,
