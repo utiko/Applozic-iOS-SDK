@@ -17,6 +17,7 @@
 #import "ALContact.h"
 #import "ALContactDBService.h"
 #import "ALApplozicSettings.h"
+#import "ALChannelDBService.h"
 @implementation ALNotificationView
     
 
@@ -84,9 +85,13 @@
     ALContactDBService * contactDb=[[ALContactDBService alloc] init];
     dpName=[contactDb loadContactByKey:@"userId" value:self.contactId];
     
+    ALChannel *groupTitle=[[ALChannel alloc] init];
+    ALChannelDBService *groupDb= [[ALChannelDBService alloc] init];
+    
     NSString* title;
     if(self.groupId){
-        title=self.groupId;
+        groupTitle = [groupDb loadChannelByKey:self.groupId];
+        title=groupTitle.name;
         _contactId=[NSString stringWithFormat:@"%@",self.groupId];
     }
     else {
@@ -126,7 +131,7 @@
              // Conversation View is Opened.....
              ALMessagesViewController* class2=(ALMessagesViewController*)delegate;
              if(self.groupId){
-                 class2.channelKey=self.groupId;
+                 class2.channelKey=self.groupId; NSLog(@"CLASS %@",class2.channelKey);
                  //_contactId=self.groupId; CRASH: if you send contactId as NSNumber.
              }
              else{

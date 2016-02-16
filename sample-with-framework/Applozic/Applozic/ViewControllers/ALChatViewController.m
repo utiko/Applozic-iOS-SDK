@@ -1145,38 +1145,43 @@ ALMessageDBService  * dbService;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
     NSString *alertValue = [dict valueForKey:@"alertValue"];
     NSLog(@"Notification received by Individual chat list: %@", contactId);
-//    [self syncCall:contactId updateUI:updateUI alertValue:alertValue];
-    //NSNumber* groupID =[dict valueForKey:@""];
-    [self syncCall:contactId withGroupId:nil updateUI:updateUI alertValue:alertValue];
+    
+    NSArray *com=[contactId componentsSeparatedByString:@":"];
+    NSString* appendToGroupId;
+    if(com.count>1){
+        appendToGroupId=[NSString stringWithFormat:@"%@",com[1]];
+        appendToGroupId=[appendToGroupId componentsSeparatedByString:@":"][0];
+        contactId=appendToGroupId;
+    }
+    else{
+        appendToGroupId=nil;
+    }
+    [self syncCall:contactId withGroupId:[NSNumber numberWithInt:appendToGroupId.intValue] updateUI:updateUI alertValue:alertValue];
 }
 
 -(void) syncCall:(NSString *)contactId withGroupId:(NSNumber*)groupID  updateUI:(NSNumber *)updateUI alertValue: (NSString *)alertValue
 {
     [self setRefreshMainView:TRUE];
 
-    if(!groupID){
-        groupID=nil;
-    }
-    
     if ([self.channelKey isEqualToNumber:groupID]) {
+        //Current Same Group thread is Opened...
+            self.channelKey=groupID;
+            self.contactIds=contactId;
+            [self reloadView];
+            [self processMarkRead];
+            [self fetchAndRefresh:YES];
+    }
+    else if ([self.contactIds isEqualToString:contactId] && groupID == nil) {
+        //Current Same Individual Contact thread is opened..
+        self.channelKey=nil;
         self.contactIds=contactId;
         [self reloadView];
-        [self processMarkRead];
         [self fetchAndRefresh:YES];
-    }
-    else if ([self.contactIds isEqualToString:contactId]) {
-        
-        NSLog(@"current contact thread is opened");
-        [self fetchAndRefresh:YES];
-        //[self processMarkRead];
+//       [self processMarkRead];
         NSLog(@"INDIVIDUAL NOTIFICATION HANDLER");
-        
     }
     else if (![updateUI boolValue]) {
-        
         NSLog(@"it was in background, updateUI is false");
-        self.contactIds = contactId;
-        self.channelKey=groupID;
         [self fetchAndRefresh:YES];
         [self reloadView];
         
@@ -1562,13 +1567,27 @@ ALMessageDBService  * dbService;
     
     
     NSLog(@"ADD MESSAGE %@",messageList);
-    NSPredicate * predicate;
-    if(self.channelKey){
-        predicate = [NSPredicate predicateWithFormat:@"groupId = %@",self.channelKey];
-    }else{
-        predicate = [NSPredicate predicateWithFormat:@"contactIds = %@ and groupId = %d",self.contactIds,0];
+    NSCompoundPredicate *compoundPredicate;
+//    if(self.channelKey){
+//        compoundPredicate = [NSPredicate predicateWithFormat:@"groupId = %@",self.channelKey];
+//    }else{
+//        NSPredicate *groupPredicate=[NSPredicate predicateWithFormat:@"groupId = %@ or groupId = nil",0];
+////        predicate = [NSPredicate predicateWithFormat:@"contactIds = %@ and groupId = %d",self.contactIds,0];
+//        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds];
+//        compoundPredicate = [NSPredicate];
+//    }
+    
+    if(self.contactIds && self.channelKey == nil){
+        NSPredicate *groupPredicate=[NSPredicate predicateWithFormat:@"groupId = %d or groupId = nil",0];
+        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds];
+        compoundPredicate=[NSCompoundPredicate andPredicateWithSubpredicates:@[groupPredicate,predicate]];
     }
-    NSArray * theFilteredArray = [messageList filteredArrayUsingPredicate:predicate];
+    else{  //self.channelKey not Nil
+        NSPredicate * groupP=[NSPredicate predicateWithFormat:@"groupId = %@",self.channelKey];
+        compoundPredicate=[NSCompoundPredicate andPredicateWithSubpredicates:@[groupP]];
+    }
+    
+    NSArray * theFilteredArray = [messageList filteredArrayUsingPredicate:compoundPredicate];
 
     NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
     NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
