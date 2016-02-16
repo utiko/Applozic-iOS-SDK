@@ -1283,11 +1283,11 @@ ALMessageDBService  * dbService;
             CGFloat oldTableViewHeight = self.mTableView.contentSize.height;
             [self.mTableView reloadData];
 
+           
+            //self.startIndex = self.startIndex + messages.count;
             if(isScrollToBottom){
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    CGFloat newTableViewHeight = self.mTableView.contentSize.height;
-                    self.mTableView.contentOffset = CGPointMake(0, newTableViewHeight - self.mTableView.frame.size.height);
+                    [super scrollTableViewToBottomWithAnimation:NO];
                       });
             }else{
                 CGFloat newTableViewHeight = self.mTableView.contentSize.height;
