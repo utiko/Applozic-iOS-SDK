@@ -199,4 +199,28 @@
     }
 }
 
+#pragma mark RENAME CHANNEL (FROM DEVICE SIDE)
+//============================================
+
+-(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName
+{
+    if(channelKey != nil && newName != nil)
+    {
+        [ALChannelClientService renameChannel:channelKey andNewName:newName ndCompletion:^(NSError *error, ALAPIResponse *response) {
+            
+            if([response.status isEqualToString:@"success"])
+            {
+                ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+                [channelDBService renameChannel:channelKey andNewName:newName];
+            }
+            
+        }];
+    }
+    else
+    {
+        return;
+    }
+    
+}
+
 @end

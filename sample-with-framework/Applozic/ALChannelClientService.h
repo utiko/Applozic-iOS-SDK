@@ -30,4 +30,7 @@
 
 +(void)leaveChannel:(NSNumber *)channelKey withUserId:(NSString *)userId andCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion;
 
+
++(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName ndCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion;
+
 @end

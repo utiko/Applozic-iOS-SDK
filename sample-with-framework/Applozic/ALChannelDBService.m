@@ -17,11 +17,11 @@
 -(void)createChannel:(ALChannel *)channel
 {
     ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
-     DB_CHANNEL *dbChannel = [self createChannelEntity:channel];
+    DB_CHANNEL *dbChannel = [self createChannelEntity:channel];
     [theDBHandler.managedObjectContext save:nil];
-
+    
     NSMutableArray * memberArray = [NSMutableArray new];
-
+    
     for(NSString *member in channel.membersName)
     {
         ALChannelUserX *newChannelUserX = [[ALChannelUserX alloc] init];
@@ -241,8 +241,8 @@
     
     NSError *fetchError = nil;
     NSArray *resultArray = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
-//    NSLog(@"ERROR (IF ANY) : %@", fetchError);
-
+    //    NSLog(@"ERROR (IF ANY) : %@", fetchError);
+    
     if (resultArray.count)
     {
         for(DB_CHANNEL_USER_X *dbChannelUserX in resultArray)
@@ -372,7 +372,7 @@
     
     if(array.count)
     {
- 
+        
         NSManagedObject *manageOBJ = [array objectAtIndex:0];
         [theDBHandler.managedObjectContext deleteObject:manageOBJ];
         [theDBHandler.managedObjectContext save:nil];
@@ -385,7 +385,7 @@
 
 -(void)deleteChannel:(NSNumber *)channelKey
 {
-    //Delete channel 
+    //Delete channel
     ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL" inManagedObjectContext:theDBHandler.managedObjectContext];
@@ -396,8 +396,8 @@
     
     NSError *error = nil;
     NSArray *array = [theDBHandler.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-//    NSLog(@"CHANEL KEY = %@", channelKey);
-//    NSLog(@"ARRAY COUNT = %lu", (unsigned long)array.count);
+    //    NSLog(@"CHANEL KEY = %@", channelKey);
+    //    NSLog(@"ARRAY COUNT = %lu", (unsigned long)array.count);
     if(array.count)
     {
         NSManagedObject *manageOBJ = [array objectAtIndex:0];
@@ -406,7 +406,7 @@
         
         // Delete all members
         [self deleteMembers:channelKey];
-
+        
     }
     else
     {
@@ -434,6 +434,31 @@
     else
     {
         NSLog(@"NO ENTRY FOUND");
+    }
+}
+
+-(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName
+{
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL" inManagedObjectContext:dbHandler.managedObjectContext];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channelKey = %@",channelKey];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *fetchError = nil;
+    NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    
+    if (result.count)
+    {
+        DB_CHANNEL *dbChannel = [result objectAtIndex:0];
+        dbChannel.channelDisplayName = newName;
+        [dbHandler.managedObjectContext save:nil];
+    }
+    else
+    {
+        NSLog(@"NO CHANNEL FOUND");
     }
 }
 
