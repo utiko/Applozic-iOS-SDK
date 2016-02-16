@@ -33,7 +33,7 @@
         [memberArray removeAllObjects];
     }
     
-//    callForChannelProxy inserting in DB
+    //    callForChannelProxy inserting in DB
 }
 
 -(void)getChannelInformation:(NSNumber *)channelKey withCompletion:(void (^)(ALChannel *alChannel3)) completion
@@ -60,7 +60,7 @@
         }];
         
     }
-
+    
 }
 
 -(NSString *)getChannelName:(NSNumber *)channelKey
@@ -124,7 +124,7 @@
     {
         return;
     }
-
+    
 }
 
 #pragma mark REMOVE MEMBER FROM CHANNEL
@@ -197,6 +197,48 @@
     {
         return;
     }
+}
+
+#pragma mark RENAME CHANNEL (FROM DEVICE SIDE)
+//============================================
+
+-(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName
+{
+    if(channelKey != nil && newName != nil)
+    {
+        [ALChannelClientService renameChannel:channelKey andNewName:newName andCompletion:^(NSError *error, ALAPIResponse *response) {
+            
+            if([response.status isEqualToString:@"success"])
+            {
+                ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+                [channelDBService renameChannel:channelKey andNewName:newName];
+            }
+            
+        }];
+    }
+    else
+    {
+        return;
+    }
+    
+}
+
+#pragma mark CHANNEL SYNCHRONIZATION
+//==================================
+
+-(void)syncCallForChannel
+{
+    NSNumber *updateAt = [ALUserDefaultsHandler getLastSyncChannelTime];
+    
+    [ALChannelClientService syncCallForChannel:updateAt andCompletion:^(NSError *error, ALChannelSyncResponse *response) {
+        
+        if([response.status isEqualToString:@"success"])
+        {
+            ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
+            [channelDBService processArrayAfterSyncCall:response.alChannelArray];
+        }
+    }];
+    
 }
 
 @end

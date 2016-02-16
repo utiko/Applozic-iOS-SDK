@@ -294,4 +294,17 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:NOTIFICATION_TITLE];
 }
 
++(void)setLastSyncChannelTime:(NSNumber *)lastSyncChannelTime
+{
+    lastSyncChannelTime = @([lastSyncChannelTime doubleValue] + 1);
+    
+    [[NSUserDefaults standardUserDefaults] setDouble:[lastSyncChannelTime doubleValue] forKey:LAST_SYNC_CHANNEL_TIME];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSNumber *)getLastSyncChannelTime
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:LAST_SYNC_CHANNEL_TIME];
+}
+
 @end

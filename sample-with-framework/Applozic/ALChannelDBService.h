@@ -51,4 +51,8 @@
 
 -(void)getAllChannelKeyAndName;
 
+-(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName;
+
+-(void)processArrayAfterSyncCall:(NSMutableArray *)channelArray;
+
 @end

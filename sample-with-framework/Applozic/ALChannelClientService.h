@@ -15,6 +15,7 @@
 #import "ALChannelDBService.h"
 #import "ALChannelFeed.h"
 #import "ALChannelCreateResponse.h"
+#import "ALChannelSyncResponse.h"
 
 @interface ALChannelClientService : NSObject
 
@@ -29,5 +30,10 @@
 +(void)deleteChannel:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion;
 
 +(void)leaveChannel:(NSNumber *)channelKey withUserId:(NSString *)userId andCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion;
+
+
++(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName andCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion;
+
++(void)syncCallForChannel:(NSNumber *)channelKey andCompletion:(void(^)(NSError *error, ALChannelSyncResponse *response))completion;
 
 @end

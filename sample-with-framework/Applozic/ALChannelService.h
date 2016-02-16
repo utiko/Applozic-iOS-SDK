@@ -11,6 +11,7 @@
 #import "ALChannelDBService.h"
 #import "ALChannelClientService.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALChannelSyncResponse.h"
 
 @interface ALChannelService : NSObject
 
@@ -33,5 +34,7 @@
 -(BOOL)checkAdmin:(NSNumber *)channelKey;
 
 -(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId;
+
+-(void)syncCallForChannel;
 
 @end

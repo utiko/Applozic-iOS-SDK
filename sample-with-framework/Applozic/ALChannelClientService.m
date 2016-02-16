@@ -13,7 +13,7 @@
 #define LEFT_CHANNEL_URL @"/rest/ws/group/left"
 #define ADD_MEMBER_TO_CHANNEL_URL @"/rest/ws/group/add/member"
 #define REMOVE_MEMBER_FROM_CHANNEL_URL @"/rest/ws/group/remove/member"
-#define CHANNEL_NAME_CHANGE_URL @"/rest/ws/group/change/name"
+#define RENAME_CHANNEL_URL @"/rest/ws/group/change/name"
 
 #import "ALChannelClientService.h"
 
@@ -166,5 +166,56 @@
     }];
 }
 
++(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName andCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, RENAME_CHANNEL_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey, newName];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"RENAME_CHANNEL" WithCompletionHandler:^(id theJson, NSError *error) {
+        ALAPIResponse *response = nil;
+        if(error)
+        {
+            NSLog(@"ERROR IN RENAME_CHANNEL SERVER CALL REQUEST %@", error);
+        }
+        else
+        {
+            response = [[ALAPIResponse alloc] initWithJSONString:theJson];
+        }
+        
+        completion(error, response);
+    }];
+}
+
++(void)syncCallForChannel:(NSNumber *)updatedAt andCompletion:(void(^)(NSError *error, ALChannelSyncResponse *response))completion
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, CHANNEL_SYNC_URL];
+    NSMutableURLRequest * theRequest;
+    
+    if(updatedAt != nil || updatedAt != NULL)  // IF NEED DATA AFTER A PARTICULAR TIME
+    {
+        NSString * theParamString = [NSString stringWithFormat:@"updatedAt=%@", updatedAt];
+        theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    }
+    else  // IF CALLING FIRST TIME
+    {
+        theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:nil];
+    }
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"CHANNEL_SYNCHRONIZATION" WithCompletionHandler:^(id theJson, NSError *error) {
+        ALChannelSyncResponse *response = nil;
+        if(error)
+        {
+            NSLog(@"ERROR IN CHANNEL_SYNCHRONIZATION SERVER CALL REQUEST %@", error);
+        }
+        else
+        {
+            response = [[ALChannelSyncResponse alloc] initWithJSONString:theJson];
+        }
+        
+        completion(error, response);
+    }];
+
+}
 
 @end
