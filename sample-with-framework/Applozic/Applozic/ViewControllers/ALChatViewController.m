@@ -1227,7 +1227,7 @@ ALMessageDBService  * dbService;
     [ALMessageService getMessageListForUser:self.contactIds startIndex:@"0" pageSize:@"50" endTimeInTimeStamp:time withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
         
         [loadingIndicator stopAnimating];
-        //[loadingIndicator removeFromSuperview];
+
         NSLog(@"removing animator....");
 
         if(!error )
@@ -1283,12 +1283,11 @@ ALMessageDBService  * dbService;
             CGFloat oldTableViewHeight = self.mTableView.contentSize.height;
             [self.mTableView reloadData];
 
-           
-            //self.startIndex = self.startIndex + messages.count;
             if(isScrollToBottom){
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [super scrollTableViewToBottomWithAnimation:NO];
                     
+                    CGFloat newTableViewHeight = self.mTableView.contentSize.height;
+                    self.mTableView.contentOffset = CGPointMake(0, newTableViewHeight - self.mTableView.frame.size.height);
                       });
             }else{
                 CGFloat newTableViewHeight = self.mTableView.contentSize.height;
