@@ -95,7 +95,7 @@
             {
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
                 [channelDBService createChannel: response.alChannel];
-            completion(response.alChannel.key);
+                completion(response.alChannel.key);
             }
         }];
     }

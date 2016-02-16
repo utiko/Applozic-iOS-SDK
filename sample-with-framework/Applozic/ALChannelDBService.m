@@ -16,14 +16,22 @@
 
 -(void)createChannel:(ALChannel *)channel
 {
+
     ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
     DB_CHANNEL *dbChannel = [self createChannelEntity:channel];
+    [theDBHandler.managedObjectContext save:nil];
     
-    NSError *error=nil;
-    [theDBHandler.managedObjectContext save:&error];
-    if(![theDBHandler.managedObjectContext save:&error]){
-        NSLog(@"unable to save to db");
-    };
+    NSMutableArray * memberArray = [NSMutableArray new];
+    
+    for(NSString *member in channel.membersName)
+    {
+        ALChannelUserX *newChannelUserX = [[ALChannelUserX alloc] init];
+        newChannelUserX.key = channel.key;
+        newChannelUserX.userKey = member;
+        [memberArray addObject:newChannelUserX];
+    }
+    
+    [self insertChannelUserX:memberArray];
 }
 
 -(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey
@@ -255,23 +263,25 @@
 {
     NSString *listString = @"";
     NSString *str = @"";
-    NSMutableArray *listArray = [NSMutableArray array];
-    listArray = [NSMutableArray arrayWithArray:[self getListOfAllUsersInChannel:key]];
+    //NSMutableArray *listArray = [NSMutableArray array];
+   NSMutableArray * listArray = [NSMutableArray arrayWithArray:[self getListOfAllUsersInChannel:key]];
+    NSLog(@"ARRRAY COUNT :%lu",(unsigned long)listArray.count);
     
-    if(listArray.count){
-    listString = [listString stringByAppendingString:listArray[0]];
-    listString = [listString stringByAppendingString:@", "];
-    
-    listString = [listString stringByAppendingString:listArray[1]];
+    if(listArray.count)
+    {
+        listString = [listString stringByAppendingString:listArray[0]];
+        listString = [listString stringByAppendingString:@", "];
+        
+   
+        listString = [listString stringByAppendingString:listArray[1]];
 
         if(listArray.count > 2)
         {
-            int counter = (int)listArray.count;
-            counter = counter - 2;
-            str = [NSString stringWithFormat:@" and %d",counter];
-            str = [str stringByAppendingString:@" Other"];
+            int counter = (int)listArray.count - 2;
+            str = [NSString stringWithFormat:@" and %d Other",counter];
             listString = [listString stringByAppendingString:str];
         }
+        
     }
     return listString;
 }
