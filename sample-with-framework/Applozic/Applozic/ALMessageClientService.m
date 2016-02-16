@@ -217,8 +217,7 @@
 
 -(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( ALSyncMessageFeed *, NSError *))completion{
     //@synchronized(self) {
-        NSString *lastSyncTime =[ALUserDefaultsHandler
-                                 getLastSyncTime ];
+        NSString *lastSyncTime =[ALUserDefaultsHandler getLastSyncTime];
         if ( lastSyncTime == NULL ){
             lastSyncTime = @"0";
         }

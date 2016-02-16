@@ -24,7 +24,7 @@
 #define PROCESSED_NOTIFICATION_IDS  @"PROCESSED_NOTIFICATION_IDS"
 #define LAST_SEEN_SYNC_TIME @"LAST_SEEN_SYNC_TIME"
 #define SHOW_LOAD_ERLIER_MESSAGE @":SHOW_LOAD_ERLIER_MESSAGE"
-
+#define LAST_SYNC_CHANNEL_TIME @"LAST_SYNC_CHANNEL_TIME"
 
 
 #import <Foundation/Foundation.h>
@@ -95,12 +95,15 @@
 
 +(NSNumber *) getLastSeenSyncTime;
 
-+(void ) setLastSeenSyncTime :(NSNumber*) lastSeenTime;
++(void) setLastSeenSyncTime :(NSNumber*) lastSeenTime;
 
 +(void) setShowLoadEarlierOption : (BOOL) value forContactId:(NSString*)constactId;
 
 +(BOOL)isShowLoadEarlierOption :(NSString*)constactId;
 
++(void)setLastSyncChannelTime:(NSNumber *)lastSyncChannelTime;
+
++(NSNumber *)getLastSyncChannelTime;
 
 +(NSNumber *)getLastSyncTime;
 +(NSString *)getUserKeyString;

@@ -226,8 +226,9 @@
 #pragma mark CHANNEL SYNCHRONIZATION
 //==================================
 
-+(void)syncCallForChannel:(NSNumber *)updateAt
+-(void)syncCallForChannel
 {
+    NSNumber *updateAt = [ALUserDefaultsHandler getLastSyncChannelTime];
     
     [ALChannelClientService syncCallForChannel:updateAt andCompletion:^(NSError *error, ALChannelSyncResponse *response) {
         

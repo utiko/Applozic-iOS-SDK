@@ -192,7 +192,7 @@
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, CHANNEL_SYNC_URL];
     NSMutableURLRequest * theRequest;
     
-    if(updatedAt != nil)  // IF NEED DATA AFTER A PARTICULAR TIME
+    if(updatedAt != nil || updatedAt != NULL)  // IF NEED DATA AFTER A PARTICULAR TIME
     {
         NSString * theParamString = [NSString stringWithFormat:@"updatedAt=%@", updatedAt];
         theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];

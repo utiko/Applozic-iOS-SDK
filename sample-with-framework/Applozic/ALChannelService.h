@@ -35,4 +35,6 @@
 
 -(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId;
 
+-(void)syncCallForChannel;
+
 @end
