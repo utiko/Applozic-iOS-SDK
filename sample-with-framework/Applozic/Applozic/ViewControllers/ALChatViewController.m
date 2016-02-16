@@ -171,7 +171,7 @@ ALMessageDBService  * dbService;
         self.sendMessageTextView.text = self.text;
     }
  
-    NSLog(@"view will appers CHANNEL KEY %@", self.channelKey);
+//    NSLog(@"view will appers CHANNEL KEY %@", self.channelKey);
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -406,7 +406,6 @@ ALMessageDBService  * dbService;
     }
     ALMessage * theMessage = [self getMessageToPost];
     [self.alMessageWrapper addALMessageToMessageArray:theMessage];
-    NSLog(@"Message  %@",theMessage.message);
     [self.mTableView reloadData];
     dispatch_async(dispatch_get_main_queue(), ^{
         [super scrollTableViewToBottomWithAnimation:YES];
@@ -1518,7 +1517,7 @@ ALMessageDBService  * dbService;
 
 -(void) syncCall:(ALMessage *) alMessage {
     [self syncCall:alMessage.contactIds withGroupId:nil updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
-    NSLog(@"syncCall:alMessage  called....GROUPiD %@ & CONTACTiD %@",alMessage.groupId,alMessage.contactIds);
+//    NSLog(@"syncCall:alMessage  called....GROUPiD %@ & CONTACTiD %@",alMessage.groupId,alMessage.contactIds);
 }
 
 
@@ -1565,8 +1564,7 @@ ALMessageDBService  * dbService;
 }
 -(void)addMessageToList: (NSMutableArray  *)messageList{
     
-    
-    NSLog(@"ADD MESSAGE %@",messageList);
+//    NSLog(@"ADD MESSAGE %@",messageList);
     NSCompoundPredicate *compoundPredicate;
 //    if(self.channelKey){
 //        compoundPredicate = [NSPredicate predicateWithFormat:@"groupId = %@",self.channelKey];

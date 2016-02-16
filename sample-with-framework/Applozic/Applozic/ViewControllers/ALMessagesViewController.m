@@ -393,17 +393,18 @@
     BOOL isreloadRequire = false;
     for ( ALMessage *msg  in  messagesArray){
         ALContactCell *contactCell=nil;
+        NSLog(@"Group ID:%@",msg.groupId);
         if(msg.groupId){
             contactCell =[self getCellForGroup:msg.groupId];
-            NSLog(@"groupId found .... %@", msg.groupId);
+            
         }else{
-            NSLog(@"groupId not found ....");
+            
             contactCell = [self getCell:msg.contactIds];
             msg.groupId=NULL;
         }
        
         if(contactCell){
-            NSLog(@"contact cell found ....");
+            
             contactCell.mMessageLabel.text = msg.message;
             
             ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
@@ -523,7 +524,6 @@
         }break;
             
         case 1:{
-            NSLog(@"mContactsMessageListArray COUNT %lu",(unsigned long)self.mContactsMessageListArray.count);
             return self.mContactsMessageListArray.count>0?[self.mContactsMessageListArray count]:0;
         }break;
             
@@ -1012,8 +1012,6 @@
     NSDictionary *dict = notification.userInfo;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
     NSString * alretValue =  [dict valueForKey:@"alertValue" ];
-    
-    NSLog(@"notificaiotn object %@",dict);
     if (self.isViewLoaded && self.view.window && [updateUI boolValue])
     {
         ALMessage *msg = [[ALMessage alloc]init];
