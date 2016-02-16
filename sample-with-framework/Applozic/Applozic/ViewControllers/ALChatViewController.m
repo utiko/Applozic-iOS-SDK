@@ -90,6 +90,7 @@ ALMessageDBService  * dbService;
 }
 
 -(void)processMarkRead{
+    
     [ALMessageService markConversationAsRead: self.contactIds orChannelKey:self.channelKey withCompletion:^(NSString* string,NSError* error){
         if(!error) {
             NSLog(@"Marked messages as read for %@", self.contactIds);
@@ -1561,7 +1562,14 @@ ALMessageDBService  * dbService;
     
     
     NSLog(@"ADD MESSAGE %@",messageList);
-    NSArray * theFilteredArray = [messageList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds]];
+    NSPredicate * predicate;
+    if(self.channelKey){
+        predicate = [NSPredicate predicateWithFormat:@"groupId = %@",self.channelKey];
+    }else{
+        predicate = [NSPredicate predicateWithFormat:@"contactIds = %@ and groupId = %d",self.contactIds,0];
+    }
+    NSArray * theFilteredArray = [messageList filteredArrayUsingPredicate:predicate];
+
     NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
     NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
     NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];

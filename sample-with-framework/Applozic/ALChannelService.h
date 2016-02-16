@@ -10,10 +10,9 @@
 #import "ALChannelFeed.h"
 #import "ALChannelDBService.h"
 #import "ALChannelClientService.h"
+#import "ALUserDefaultsHandler.h"
 
 @interface ALChannelService : NSObject
-
-@property (nonatomic, strong) NSNumber * channelKey;
 
 -(void)callForChannelServiceForDBInsertion:(id)theJson;
 
@@ -29,6 +28,10 @@
 
 -(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
 
--(void)deleteChannelFromLocalDB:(NSNumber *)channelKey;
+-(void)deleteChannel:(NSNumber *)channelKey;
+
+-(BOOL)checkAdmin:(NSNumber *)channelKey;
+
+-(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId;
 
 @end
