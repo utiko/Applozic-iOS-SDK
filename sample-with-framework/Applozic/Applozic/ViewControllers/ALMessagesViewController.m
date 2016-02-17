@@ -163,8 +163,17 @@
     
     [super viewWillAppear:animated];
     [self dropShadowInNavigationBar];
-    //    [[self.navigationItem leftBarButtonItem] setTitle:[ALApplozicSettings getBackButtonTitle]];
-        if([ALUserDefaultsHandler isLogoutButtonHidden])
+    
+    if ([_detailChatViewController refreshMainView])
+    {
+        ALMessageDBService *dBService = [ALMessageDBService new];
+        dBService.delegate = self;
+        [dBService getMessages];
+        [_detailChatViewController setRefreshMainView:FALSE];
+        [self.mTableView reloadData];
+    }
+    
+    if([ALUserDefaultsHandler isLogoutButtonHidden])
     {
         [self.navBar setRightBarButtonItems:nil];
     }
@@ -172,11 +181,7 @@
     {
         [self.navBar setLeftBarButtonItems:nil];
     }
-    
-//   SHIFTED TO ViewDidAppear     self.detailChatViewController.contactIds = nil;
-    
-//   SHIFTED TO ViewDidAppear    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
-    
+
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
@@ -200,50 +205,21 @@
      addObserver:self selector:@selector(reloadTable:) name:@"reloadTable"  object:nil];
     
     
-/////////////   SHIFTED TO ViewDidAppear /////////////   /////////////   /////////////   /////////////   /////////////   /////////////*
-    /*if ([_detailChatViewController refreshMainView])
-    {
-        ALMessageDBService *dBService = [ALMessageDBService new];
-        dBService.delegate = self;
-        [dBService getMessages];
-        [_detailChatViewController setRefreshMainView:FALSE];
-    }*/
-/////////////   SHIFTED TO ViewDidAppear /////////////   /////////////   /////////////   /////////////   /////////////   ////////////
-    
-    //     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
-    
+
     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
     
     if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
     {
         [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
         
-       // self.navigationController.navigationBar.translucent = NO;
-        //[self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColourForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+       
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
-       // [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColourForNavigation]];
+          }
 
-    }
-    
-//    SHIFTED TO ViewDidAppear //
-//    [self.mTableView reloadData];
-//    if([self.mActivityIndicator isAnimating])
-//    {
-//        [self.emptyConversationText setHidden:YES];
-//    }
-//    else
-//    {
-//        [self emptyConversationAlertLabel];
-//    }
-    
     [self.dataAvailablityLabel setHidden:YES];
     [self callLastSeenStatusUpdate];
-//    NSLog(@" = = = = = = = = = viewWIllAppear  COUNTXX  :%lu ==========",(unsigned long)self.mContactsMessageListArray.count);
-    
-    
-    
     
 }
 
@@ -253,15 +229,9 @@
     
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
-    if ([_detailChatViewController refreshMainView])
-    {
-        ALMessageDBService *dBService = [ALMessageDBService new];
-        dBService.delegate = self;
-        [dBService getMessages];
-        [_detailChatViewController setRefreshMainView:FALSE];
-    }
+   
     
-    [self.mTableView reloadData];
+    //[self.mTableView reloadData];
     
     if([self.mActivityIndicator isAnimating])
     {
@@ -923,9 +893,14 @@
 }
 
 -(void) delivered:(NSString *)messageKey contactId:(NSString *)contactId {
-    if ([[self.detailChatViewController contactIds] isEqualToString: contactId]) {
+    
+    
+    if ( (self.channelKey && !contactId)
+        ||[self.detailChatViewController.contactIds isEqualToString:contactId]) {
+        
         [self.detailChatViewController updateDeliveryReport: messageKey];
     }
+    
 }
 
 -(void) updateDeliveryStatusForContact: (NSString *) contactId {

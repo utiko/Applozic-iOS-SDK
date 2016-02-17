@@ -125,9 +125,9 @@ static MQTTSession *session;
         if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:@"APPLOZIC_04"]||[type isEqualToString:@"APPLOZIC_08"]) {
             NSArray *deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
            [self.alSyncCallService updateMessageDeliveryReport:deliveryParts[0]];
-            if(deliveryParts.count>1){
-                [self.mqttConversationDelegate delivered: deliveryParts[0] contactId:deliveryParts[1]];
-            }
+            NSString * contactId = deliveryParts.count>1 ? deliveryParts[1]:nil;
+            [self.mqttConversationDelegate delivered: deliveryParts[0] contactId:contactId];
+
         } else if ([type isEqualToString: @"MESSAGE_RECEIVED"]||[type isEqualToString:@"APPLOZIC_01"]) {
             
             ALPushAssist* assistant=[[ALPushAssist alloc] init];
