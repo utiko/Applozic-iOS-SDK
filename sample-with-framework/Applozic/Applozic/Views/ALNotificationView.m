@@ -90,13 +90,17 @@
     
     NSString* title;
     if(self.groupId){
-        channel = [groupDb loadChannelByKey:self.groupId];
-        if(dpName.userId==nil){
-            dpName.userId=@"";
-        }
-        title=[NSString stringWithFormat:@"%@:\n%@",channel.name,dpName.userId];
-//                title=channel.name;
-        _contactId=[NSString stringWithFormat:@"%@",self.groupId];
+        
+    channel = [groupDb loadChannelByKey:self.groupId];
+    if(dpName.userId==nil){
+        dpName.userId=@"";
+    }
+    if(channel.name == nil){
+        channel.name=self.groupId;
+    }
+    title=[NSString stringWithFormat:@"%@:\n%@",channel.name,dpName.userId];
+    _contactId=[NSString stringWithFormat:@"%@",self.groupId];
+        
     }
     else {
         title=dpName.getDisplayName;
@@ -115,13 +119,11 @@
     NSString *myString = [NSString stringWithFormat:@"%@",self.text];
     myString = (myString.length > 20) ? [NSString stringWithFormat:@"%@...",[myString substringToIndex:20]] : myString;
     
-    //    NSLog(@"myString:: %@",myString);
     if([myString isEqualToString:@""]){
         myString=[NSString stringWithFormat:@"Attachment"];
     }
-    
-    NSLog(@"Title <%@> and myString <%@>",title,myString);
-    NSLog(@"CONTACT ID_GROUP %@",_contactId);
+//    NSLog(@"Title <%@> and myString <%@>",title,myString);
+//    NSLog(@"CONTACT ID_GROUP %@",_contactId);
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:[ALApplozicSettings getNotificationTitle]
                                        subtitle:[NSString stringWithFormat:@"%@ %@",title,myString]
@@ -142,7 +144,7 @@
                  class2.channelKey=nil;
                  self.groupId=nil;
              }
-             NSLog(@"self.contactId %@ and channelKey %@",_contactId, self.groupId);
+             NSLog(@"onTopMessageVC: ContactID %@ and ChannelID %@",self.contactId, self.groupId);
              [class2 createDetailChatViewController:_contactId];
              self.checkContactId=[NSString stringWithFormat:@"%@",self.contactId];
              
@@ -150,14 +152,13 @@
          else if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop2){
              // Chat View is Opened....
              ALChatViewController * class1= (ALChatViewController*)delegate;
-             NSLog(@"self.contactId %@ and self.groupId %@",self.contactId, self.groupId);
+             NSLog(@"onTopChatVC: ContactID %@ and ChannelID %@",self.contactId, self.groupId);
              if(self.groupId){
                  class1.channelKey=self.groupId;
              }
              else {
                  class1.channelKey=nil;
              }
-             
              class1.contactIds=self.contactId;
              [class1 reloadView];
              [class1 processMarkRead];

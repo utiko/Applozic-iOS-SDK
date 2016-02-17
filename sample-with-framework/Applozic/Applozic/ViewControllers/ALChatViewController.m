@@ -1520,8 +1520,15 @@ ALMessageDBService  * dbService;
 //------------------------------------------------------------------------------------------------------------------
 
 -(void) syncCall:(ALMessage *) alMessage {
-    [self syncCall:alMessage.contactIds withGroupId:nil updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
-//    NSLog(@"syncCall:alMessage  called....GROUPiD %@ & CONTACTiD %@",alMessage.groupId,alMessage.contactIds);
+
+    NSNumber *groupID;
+    if(alMessage.groupId!=nil){
+        groupID=alMessage.groupId;
+    }
+    else{
+        groupID=nil;
+    }
+    [self syncCall:alMessage.contactIds withGroupId:groupID updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
 }
 
 
@@ -1539,7 +1546,6 @@ ALMessageDBService  * dbService;
 
 -(void) updateTypingStatus:(NSString *)applicationKey userId:(NSString *)userId status:(BOOL)status
 {
-    // NSLog(@"==== Received typing status %d for: %@ ====", status, userId);
     
     if ([self.contactIds isEqualToString:userId])
     {
@@ -1568,16 +1574,7 @@ ALMessageDBService  * dbService;
 }
 -(void)addMessageToList: (NSMutableArray  *)messageList{
     
-//    NSLog(@"ADD MESSAGE %@",messageList);
     NSCompoundPredicate *compoundPredicate;
-//    if(self.channelKey){
-//        compoundPredicate = [NSPredicate predicateWithFormat:@"groupId = %@",self.channelKey];
-//    }else{
-//        NSPredicate *groupPredicate=[NSPredicate predicateWithFormat:@"groupId = %@ or groupId = nil",0];
-////        predicate = [NSPredicate predicateWithFormat:@"contactIds = %@ and groupId = %d",self.contactIds,0];
-//        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"contactIds = %@",self.contactIds];
-//        compoundPredicate = [NSPredicate];
-//    }
     
     if(self.contactIds && self.channelKey == nil){
         NSPredicate *groupPredicate=[NSPredicate predicateWithFormat:@"groupId = %d or groupId = nil",0];
