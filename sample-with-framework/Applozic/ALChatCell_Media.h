@@ -37,6 +37,7 @@
 @property (nonatomic, retain) UIButton * dowloadRetryButton;
 @property (nonatomic, retain) KAProgressLabel *progresLabel;
 @property (nonatomic, retain) UILabel *mediaName;
+@property (nonatomic, retain) NSTimer *timer;
 
 @property (nonatomic, retain) AVAudioPlayer *audioPlayer;
 
@@ -46,9 +47,9 @@
 
 -(instancetype)populateCell:(ALMessage *) alMessage viewSize:(CGSize)viewSize;
 
--(NSString *)getProgressOfTrack;
+-(void) getProgressOfTrack;
 -(void) mediaButtonAction;
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
+-(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
 -(void) setupProgressValueX:(CGFloat)cooridinateX andY:(CGFloat)cooridinateY;
 -(void) dowloadRetryAction;
 -(void) cancelAction;

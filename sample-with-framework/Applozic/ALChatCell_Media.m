@@ -14,7 +14,7 @@
 #define MT_OUTBOX_CONSTANT "5"
 #define DATE_LABEL_SIZE 12
 
-@interface ALChatCell_Media()
+@interface ALChatCell_Media()<AVAudioPlayerDelegate>
 
 @end
 
@@ -40,7 +40,7 @@
         [self.mediaName setBackgroundColor:[UIColor clearColor]];
         [self.mediaName setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:DATE_LABEL_SIZE]];
         [self.contentView addSubview:self.mediaName];
-//        [self.mediaName setText:@"XXXXXXXXX.mp3"];
+        //        [self.mediaName setText:@"XXXXXXXXX.mp3"];
         [self.contentView sizeToFit];
         
         self.dateLabel = [[UILabel alloc] init];
@@ -65,7 +65,7 @@
         self.mediaTrackLength = [[UILabel alloc] init];
         [self.mediaTrackLength setTextColor:[UIColor blackColor]];
         [self.mediaTrackLength setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:DATE_LABEL_SIZE]];
-//        [self.mediaTrackLength setText:@"00:00"];
+        //        [self.mediaTrackLength setText:@"00:00"];
         [self.contentView addSubview:self.mediaTrackLength];
         
         [self.dowloadRetryButton addTarget:self action:@selector(dowloadRetryAction) forControlEvents:UIControlEventTouchUpInside];
@@ -76,15 +76,31 @@
         [self.dowloadRetryButton.titleLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:14]];
         [self.contentView addSubview:self.dowloadRetryButton];
         
-        //=====
-//            for testing only
-        [self.playPauseStop setImage:[ALUtilityClass getImageFromFramworkBundle:@"PAUSE.png"] forState: UIControlStateNormal];
-        //=====
+        [self.playPauseStop setImage:[ALUtilityClass getImageFromFramworkBundle:@"PLAY.png"] forState: UIControlStateNormal];
         
         self.count = 1;
+        
+        //        [self createSession];
     }
     
     return self;
+    
+}
+
+-(void)createSession
+{
+    
+    NSError * error;
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
+    
+    if(error == nil)
+    {
+        NSLog(@"AUDIO SESSION CREATED SUCCESSFULLY");
+    }
+    else
+    {
+        NSLog(@"AUDIO SESSION FAIL TO CREATE : %@", [error description]);
+    }
     
 }
 
@@ -158,7 +174,7 @@
         
         [self.mediaTrackProgress setProgress:self.audioPlayer.currentTime];
         [self.mediaTrackLength setFrame:CGRectMake(self.mediaTrackProgress.frame.origin.x, self.mediaTrackProgress.frame.origin.y + self.mediaTrackProgress.frame.size.height + 10, 80, 20)];
-        [self.mediaTrackLength setText: [self getProgressOfTrack]];
+//        [self.mediaTrackLength setText: [self getProgressOfTrack]];
         
         
     }
@@ -206,7 +222,7 @@
         
         [self.mediaTrackProgress setProgress:self.audioPlayer.currentTime];
         [self.mediaTrackLength setFrame:CGRectMake(self.mediaTrackProgress.frame.origin.x, self.mediaTrackProgress.frame.origin.y + self.mediaTrackProgress.frame.size.height + 10, 80, 20)];
-        [self.mediaTrackLength setText: [self getProgressOfTrack]];
+       
         [self.dateLabel setFrame:CGRectMake(self.bubbleImageView.frame.origin.x, self.bubbleImageView.frame.size.height + 7, 80, 20)];
         
     }
@@ -311,6 +327,7 @@
     NSString *soundFilePath = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], self.alMessage.fileMeta.name];// add name  herefrom almessage from
     NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:nil];
+    self.audioPlayer.delegate = self;
     self.audioPlayer.numberOfLoops = 1; // for Infinite set it to -1
     
     if(self.count)
@@ -318,28 +335,36 @@
         [self.playPauseStop setImage:[ALUtilityClass getImageFromFramworkBundle:@"PLAY.png"] forState: UIControlStateNormal];
         [self.audioPlayer play];
         self.count = 0;
-    }
+        self.timer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(getProgressOfTrack) userInfo:nil repeats:YES];
+    }                                                                                                       // update Progress
     else
     {
         [self.playPauseStop setImage:[ALUtilityClass getImageFromFramworkBundle:@"PAUSE.png"] forState: UIControlStateNormal];
         [self.audioPlayer pause];
         self.count = 1;
+        [self.timer invalidate];
     }
 }
 
--(NSString *) getProgressOfTrack
+-(void) getProgressOfTrack
 {
-    int minutes = self.audioPlayer.currentTime / 60;
-    float seconds = (int)(self.audioPlayer.currentTime) % 60;
+    NSInteger durationMinutes = [self.audioPlayer duration] / 60;
+    NSInteger durationSeconds = [self.audioPlayer duration] - durationMinutes * 60;
     
-    if(minutes > 0)
-    {
-        return [NSString stringWithFormat:@"%.2d:%f", minutes, seconds];
-    }
-    else
-    {
-        return [NSString stringWithFormat:@"00:%f", self.audioPlayer.currentTime];
-    }
+    NSInteger currentTimeMinutes = [self.audioPlayer currentTime] / 60;
+    NSInteger currentTimeSeconds = [self.audioPlayer currentTime] - currentTimeMinutes * 60;
+    
+    NSString *progressString = [NSString stringWithFormat:@"%d:%02d / %d:%02d", currentTimeMinutes, currentTimeSeconds, durationMinutes, durationSeconds];
+    
+    self.progresLabel.progress = [self.audioPlayer currentTime] / [self.audioPlayer duration];
+
+    [self.mediaTrackLength setText: progressString];
+    
+}
+
+-(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+{
+    
 }
 
 @end
