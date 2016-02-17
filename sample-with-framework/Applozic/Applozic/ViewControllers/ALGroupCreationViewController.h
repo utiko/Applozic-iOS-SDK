@@ -8,13 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ALGroupCreationViewController : UIViewController
-//<UITableViewDataSource,UITableViewDelegate>
+@interface ALGroupCreationViewController : UIViewController<UIImagePickerControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *groupNameInput;
-
-@property (weak, nonatomic) IBOutlet UIImageView *groupIcon;
+@property (weak, nonatomic) IBOutlet UIImageView *groupIconView;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
-
 @property (weak, nonatomic) IBOutlet UITableView *mTableView;
 @end

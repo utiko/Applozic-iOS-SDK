@@ -988,7 +988,6 @@ ALMessageDBService  * dbService;
 
 
 -(void) handleErrorStatus:(ALMessage *) message{
-    //[ALUtilityClass displayToastWithMessage:@"network error." ];
     message.inProgress=NO;
     message.isUploadFailed=YES;
     NSError *error=nil;

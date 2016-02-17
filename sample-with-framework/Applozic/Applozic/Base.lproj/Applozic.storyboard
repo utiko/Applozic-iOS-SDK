@@ -397,10 +397,9 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <imageView tag="102" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L1b-27-OrZ">
+                                    <imageView tag="102" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="applozic_group_icon" translatesAutoresizingMaskIntoConstraints="NO" id="L1b-27-OrZ">
                                         <rect key="frame" x="511" y="86" width="74" height="74"/>
-                                        <color key="backgroundColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="tintColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="74" id="YEh-dX-Bxk"/>
                                         </constraints>
@@ -442,7 +441,7 @@
                         <barButtonItem key="backBarButtonItem" title="Cancel" id="rtK-cw-32j"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="groupIcon" destination="L1b-27-OrZ" id="mCP-tX-VkG"/>
+                        <outlet property="groupIconView" destination="L1b-27-OrZ" id="5DU-OM-1Lf"/>
                         <outlet property="groupNameInput" destination="NDG-3p-bsz" id="pRQ-Q9-v05"/>
                     </connections>
                 </viewController>
@@ -860,6 +859,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="applozic_group_icon" width="100" height="100"/>
         <image name="attachments" width="22" height="12"/>
         <image name="ic_action_camera" width="64" height="64"/>
         <image name="online_show" width="200" height="200"/>
