@@ -129,7 +129,6 @@
     }
 
     if (self.forGroup) {
-        NSLog(@"forGroup %@",self.forGroup);
         self.done = [[UIBarButtonItem alloc]
                                  initWithTitle:@"Done"
                                  style:UIBarButtonItemStyleBordered
@@ -157,109 +156,6 @@
         NSLog(@"Not in editing mode");
         
     }
-}
-
--(void)createNewGroup:(id)sender{
-    
-    //check whether at least two memebers selected
-    if(self.groupMembers.count < 2){
-        UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"Group Members"
-                                              message:@"Please select atleast two members"
-                                              preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *okAction = [UIAlertAction
-                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
-                                   style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction *action)
-                                   {
-                                       NSLog(@"OK action");
-                                   }];
-        [alertController addAction:okAction];
-        [self presentViewController:alertController animated:YES completion:nil];
-        return;
-
-    }
-//    NSLog(@"Group Name :%@: with Members  %@",self.groupName,self.groupMembers);
-    
-    //Server Call
-    self.creatingChannel=[[ALChannelService alloc] init];
-    [self.creatingChannel createChannel:self.groupName andMembersList:self.groupMembers withCompletion:^(NSNumber *channelKey) {
-        
-        if(channelKey){
-            [self addDummyMessage:channelKey];
-        }
-    }];
-    
-    
-    //Updating view, popping to MessageList View
-    NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
-    for (UIViewController *aViewController in allViewControllers) {
-        if ([aViewController isKindOfClass:[ALMessagesViewController class]]) {
-            [self.navigationController popToViewController:aViewController animated:YES];
-        }
-    }
-
-}
--(void)dummyGroupMessage:(NSNumber*)sender{
-    //Create an ALMessage (dummy)
-    ALMessage *welcomeMsg=[[ALMessage alloc] init];
-    welcomeMsg.deviceKey=[ALUserDefaultsHandler getDeviceKeyString];
-    welcomeMsg.message=@"Welcome to group";
-    welcomeMsg.groupId=sender;
-    welcomeMsg.type=@"101";
-    welcomeMsg.fileMetaKey=nil;
-//    NSLog(@"GroupID %@",sender);
-    welcomeMsg.createdAtTime=[NSNumber numberWithInt:[NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000].intValue];
-
-    NSMutableArray* updateArr=[[NSMutableArray alloc] initWithObjects:welcomeMsg, nil];
-//    [delegate addChannelCreateMessage:updateArr];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTable" object:updateArr];
-    
-}
-
--(void) addDummyMessage:(NSNumber *)channelKey
-{
-    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-    ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
-    
-    ALMessage * theMessage = [ALMessage new];
-    
-    
-    theMessage.contactIds = @"applozic";//1
-    theMessage.to = @"applozic";//2
-    theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
-    theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
-    theMessage.sendToDevice = NO;
-    theMessage.sent = NO;
-    theMessage.shared = NO;
-    theMessage.fileMeta = nil;
-    theMessage.read = NO;
-    theMessage.key = @"welcome-message-temp-key-string";
-    theMessage.delivered=NO;
-    theMessage.fileMetaKey = @"";//4
-    theMessage.contentType = 0;
-    
-    if(channelKey!=nil) //Group's Welcome
-    {
-        theMessage.type=@"101";
-        theMessage.message=@"You have created a new group, Say Hi to members :)";
-        theMessage.groupId = channelKey;
-        theMessage.read=YES;
-    }
-    else //Individual's Welcome
-    {
-        theMessage.groupId = nil;
-    }
-    
-    //UI update...
-    NSMutableArray* updateArr=[[NSMutableArray alloc] initWithObjects:theMessage, nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTable" object:updateArr];
-    
-    //db insert..
-    [messageDBService createMessageEntityForDBInsertionWithMessage:theMessage];
-    [theDBHandler.managedObjectContext save:nil];
-    
 }
 
 -(void) viewWillDisappear:(BOOL)animated{
@@ -476,10 +372,8 @@
 
 
 -(void)back:(id)sender {
-    NSLog(@"backbuttonClicked.....");
-    // UIViewController uiController = [self.navigationController pop];
     
-    UIViewController *    viewControllersFromStack = [self.navigationController popViewControllerAnimated:YES];
+    UIViewController * viewControllersFromStack = [self.navigationController popViewControllerAnimated:YES];
     if(!viewControllersFromStack){
         self.tabBarController.selectedIndex = 0;
         [self.navigationController popToRootViewControllerAnimated:YES];
@@ -551,6 +445,92 @@
     [button addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:button];
     return view;
+    
+}
+
+#pragma mark - Create group method
+
+-(void)createNewGroup:(id)sender{
+    
+    //check whether at least two memebers selected
+    if(self.groupMembers.count < 2){
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"Group Members"
+                                              message:@"Please select atleast two members"
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       NSLog(@"OK action");
+                                   }];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+        return;
+        
+    }
+    //    NSLog(@"Group Name :%@: with Members  %@",self.groupName,self.groupMembers);
+    
+    //Server Call
+    self.creatingChannel=[[ALChannelService alloc] init];
+    [self.creatingChannel createChannel:self.groupName andMembersList:self.groupMembers withCompletion:^(NSNumber *channelKey) {
+        
+        if(channelKey){
+            [self addDummyMessage:channelKey];
+        }
+    }];
+    
+    
+    //Updating view, popping to MessageList View
+    NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
+    for (UIViewController *aViewController in allViewControllers) {
+        if ([aViewController isKindOfClass:[ALMessagesViewController class]]) {
+            [self.navigationController popToViewController:aViewController animated:YES];
+        }
+    }
+    
+}
+
+# pragma mark - Dummy group message method
+
+-(void) addDummyMessage:(NSNumber *)channelKey
+{
+    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+    ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
+    
+    ALMessage * theMessage = [ALMessage new];
+    theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
+    theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
+    theMessage.sendToDevice = NO;
+    theMessage.sent = NO;
+    theMessage.shared = NO;
+    theMessage.fileMeta = nil;
+    theMessage.read = YES;
+    theMessage.key = @"welcome-message-temp-key-string";
+    theMessage.fileMetaKey = @"";//4
+    theMessage.contentType = 0;
+    
+    if(channelKey!=nil) //Group's Welcome
+    {
+        theMessage.type=@"101";
+        theMessage.message=@"You have created a new group, Say Hi to members :)";
+        theMessage.groupId = channelKey;
+        theMessage.read=YES;
+    }
+    else //Individual's Welcome
+    {
+        theMessage.groupId = nil;
+    }
+    
+    //UI update...
+    NSMutableArray* updateArr=[[NSMutableArray alloc] initWithObjects:theMessage, nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTable" object:updateArr];
+    
+    //db insertion..
+    [messageDBService createMessageEntityForDBInsertionWithMessage:theMessage];
+    [theDBHandler.managedObjectContext save:nil];
     
 }
 

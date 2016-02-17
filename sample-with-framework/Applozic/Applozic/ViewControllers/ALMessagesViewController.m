@@ -536,30 +536,31 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *cellIdentifier = @"ContactCell";
-    ALContactCell *contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    ALContactCell *contactCell;
     
     switch (indexPath.section) {
             
-        case 0:{
-            
-            [self disableItems:contactCell];
-            //Add group button.....
-            UIButton *newBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-            [newBtn setTitle:@"Create Group" forState:UIControlStateNormal];
-            [newBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-            [newBtn setFrame:CGRectMake(self.mTableView.frame.size.width-150,
-                                        tableView.frame.origin.y-5,
-                                        150,
-                                        50)];
-            [newBtn addTarget:self action:@selector(createGroup:) forControlEvents:UIControlEventTouchUpInside];
-            newBtn.userInteractionEnabled=YES;
-            [contactCell addSubview:newBtn];
-            
-        }break;
+    case 0:{
+        
+        contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:@"groupCell" forIndexPath:indexPath];
 
-        case 1:{
+        //Add group button.....
+        UIButton *newBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [newBtn setTitle:@"Create Group" forState:UIControlStateNormal];
+        [newBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        [newBtn setFrame:CGRectMake(self.mTableView.frame.size.width-150,
+                                    tableView.frame.origin.y-5,
+                                    150,
+                                    50)];
+        [newBtn addTarget:self action:@selector(createGroup:) forControlEvents:UIControlEventTouchUpInside];
+        newBtn.userInteractionEnabled=YES;
+        [contactCell addSubview:newBtn];
+        
+    }break;
+
+    case 1:{
             
+    contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
             //Add rest of messageList
     [contactCell.mUserNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:USER_NAME_LABEL_SIZE]];//size check
     [contactCell.mMessageLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_LABEL_SIZE]];
@@ -640,7 +641,6 @@
         [contactCell.onlineImageMarker setHidden:YES];
     }
     
-    ///////////$$$$$$$$$$$$$$$$//////////////////////COUNT//////////////////////$$$$$$$$$$$$$$$$///////////
     
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     
@@ -669,16 +669,11 @@
     contactCell.mUserImageView.layer.masksToBounds = YES;
     contactCell.mCountImageView.layer.cornerRadius = contactCell.mCountImageView.frame.size.width/2;
     
-    ///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
-    
-    ///////////$$$$$$$$$$$$$$$$//////////////////////COLORING//////////////////////$$$$$$$$$$$$$$$$///////////
     
     NSUInteger randomIndex = random()% [self.colors count];
     contactCell.mUserImageView.image= [ALColorUtility imageWithSize:CGRectMake(0,0,55,55)
                                                       WithHexString:self.colors[randomIndex] ];
     
-    
-    ///////////$$$$$$$$$$$$$$$$//////////////////////$$$$$$$$$$$$$$$$//////////////////////$$$$$$$$$$$$$$$$///////////
     
     //applozic_group_icon
     if([message.groupId intValue])
@@ -704,8 +699,6 @@
     {
         nameIcon.hidden = NO;
         NSString *firstLetter = [[alContact displayName] substringToIndex:1];
-        //        nameIcon.text=[firstLetter uppercaseString];
-        //         contactCell.mUserImageView.hidden=YES;
         
     }
         }break;
@@ -1136,20 +1129,5 @@
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     UIViewController *groupCreation = [storyboard instantiateViewControllerWithIdentifier:@"ALGroupCreationViewController"];
     [self.navigationController pushViewController:groupCreation animated:YES];
-}
-
--(void)disableItems:(ALContactCell*)contactCell{
-    
-    contactCell.mUserImageView.hidden               =YES;
-    contactCell.mUserNameLabel.hidden               =YES;
-    contactCell.mMessageLabel.hidden                =YES;
-    contactCell.mTimeLabel.hidden                   =YES;
-    contactCell.mLastMessageStatusImageView.hidden  =YES;
-    contactCell.imageNameLabel.hidden               =YES;
-    contactCell.imageMarker.hidden                  =YES;
-    contactCell.mCountImageView.hidden              =YES;
-    contactCell.onlineImageMarker.hidden            =YES;
-    contactCell.L.hidden                            =YES;
-
 }
 @end
