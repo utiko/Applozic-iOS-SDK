@@ -239,7 +239,6 @@
     else{
         ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
         [self.groupMembers addObject:contact.userId];
-        NSLog(@"Group Members Addition %@",self.groupMembers);
         
     }
 }
@@ -249,7 +248,6 @@
     if(self.forGroup){
         ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
         [self.groupMembers removeObject:contact.userId];
-        NSLog(@"Group Members Deletion%@",self.groupMembers);
     }
     
 }
@@ -471,14 +469,16 @@
         return;
         
     }
-    //    NSLog(@"Group Name :%@: with Members  %@",self.groupName,self.groupMembers);
     
     //Server Call
     self.creatingChannel=[[ALChannelService alloc] init];
     [self.creatingChannel createChannel:self.groupName andMembersList:self.groupMembers withCompletion:^(NSNumber *channelKey) {
-        
+
         if(channelKey){
             [self addDummyMessage:channelKey];
+        }
+        else{
+            NSLog(@"null channel key");
         }
     }];
     
@@ -507,22 +507,13 @@
     theMessage.sent = NO;
     theMessage.shared = NO;
     theMessage.fileMeta = nil;
-    theMessage.read = YES;
     theMessage.key = @"welcome-message-temp-key-string";
     theMessage.fileMetaKey = @"";//4
     theMessage.contentType = 0;
-    
-    if(channelKey!=nil) //Group's Welcome
-    {
-        theMessage.type=@"101";
-        theMessage.message=@"You have created a new group, Say Hi to members :)";
-        theMessage.groupId = channelKey;
-        theMessage.read=YES;
-    }
-    else //Individual's Welcome
-    {
-        theMessage.groupId = nil;
-    }
+    theMessage.type=@"101";
+    theMessage.message=@"You have created a new group, Say Hi to members :)";
+    theMessage.groupId = channelKey;
+    theMessage.read=YES;
     
     //UI update...
     NSMutableArray* updateArr=[[NSMutableArray alloc] initWithObjects:theMessage, nil];

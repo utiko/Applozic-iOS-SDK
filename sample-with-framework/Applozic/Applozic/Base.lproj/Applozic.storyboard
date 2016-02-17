@@ -37,6 +37,22 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IGO-Q9-WQK" id="L3w-n8-49r">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" tag="101" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lgk-it-0jV">
+                                                    <rect key="frame" x="484" y="10" width="100" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="hSZ-9o-uPR"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <state key="normal" title="Create Group">
+                                                        <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="lgk-it-0jV" firstAttribute="centerY" secondItem="L3w-n8-49r" secondAttribute="centerY" id="HKq-ke-bFu"/>
+                                                <constraint firstItem="lgk-it-0jV" firstAttribute="trailing" secondItem="L3w-n8-49r" secondAttribute="trailingMargin" constant="-8" id="dUe-fn-lDJ"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ContactCell" rowHeight="82" id="nkO-yU-f6Y" customClass="ALContactCell">
@@ -366,51 +382,60 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="Please provide group name along with optional group icon" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10y-gF-sJ8">
-                                <rect key="frame" x="20" y="102" width="478" height="64"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" notEnabled="YES"/>
-                                </accessibility>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EIb-qn-EDT">
+                                <rect key="frame" x="-5" y="0.0" width="605" height="672"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="Please provide group name along with optional group icon" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10y-gF-sJ8">
+                                        <rect key="frame" x="20" y="86" width="478" height="64"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                                        </accessibility>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="64" id="pnv-ZG-QiI"/>
+                                        </constraints>
+                                        <color key="textColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <imageView tag="102" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L1b-27-OrZ">
+                                        <rect key="frame" x="511" y="86" width="74" height="74"/>
+                                        <color key="backgroundColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="74" id="YEh-dX-Bxk"/>
+                                        </constraints>
+                                    </imageView>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type your group name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NDG-3p-bsz">
+                                        <rect key="frame" x="20" y="194" width="565" height="30"/>
+                                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" selected="YES"/>
+                                        </accessibility>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                    </textField>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="478" id="GXf-ch-OAD"/>
+                                    <constraint firstItem="10y-gF-sJ8" firstAttribute="top" secondItem="EIb-qn-EDT" secondAttribute="top" constant="86" id="BQ0-mv-iBY"/>
+                                    <constraint firstItem="NDG-3p-bsz" firstAttribute="centerX" secondItem="EIb-qn-EDT" secondAttribute="centerX" id="IRj-xS-W9i"/>
+                                    <constraint firstItem="NDG-3p-bsz" firstAttribute="top" secondItem="L1b-27-OrZ" secondAttribute="bottom" constant="34" id="Ks1-P7-sBr"/>
+                                    <constraint firstItem="L1b-27-OrZ" firstAttribute="top" secondItem="10y-gF-sJ8" secondAttribute="top" id="LQu-o6-dDH"/>
+                                    <constraint firstItem="10y-gF-sJ8" firstAttribute="leading" secondItem="EIb-qn-EDT" secondAttribute="leading" constant="20" id="Oto-HI-YsM"/>
+                                    <constraint firstAttribute="bottom" secondItem="NDG-3p-bsz" secondAttribute="bottom" constant="448" id="VqU-7M-Dpx"/>
+                                    <constraint firstItem="NDG-3p-bsz" firstAttribute="leading" secondItem="10y-gF-sJ8" secondAttribute="leading" id="WnT-2h-fN7"/>
+                                    <constraint firstItem="NDG-3p-bsz" firstAttribute="top" secondItem="10y-gF-sJ8" secondAttribute="bottom" constant="44" id="cZh-XZ-VH4"/>
+                                    <constraint firstItem="L1b-27-OrZ" firstAttribute="trailing" secondItem="NDG-3p-bsz" secondAttribute="trailing" id="ho0-fn-qIb"/>
+                                    <constraint firstItem="L1b-27-OrZ" firstAttribute="leading" secondItem="10y-gF-sJ8" secondAttribute="trailing" constant="13" id="imV-aI-CaF"/>
+                                    <constraint firstAttribute="trailing" secondItem="L1b-27-OrZ" secondAttribute="trailing" constant="20" id="oq3-A6-H5m"/>
                                 </constraints>
-                                <color key="textColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L1b-27-OrZ">
-                                <rect key="frame" x="506" y="92" width="74" height="74"/>
-                                <color key="backgroundColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="tintColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="74" id="Zh8-ou-eFm"/>
-                                    <constraint firstAttribute="width" constant="74" id="zQl-MB-64G"/>
-                                </constraints>
-                            </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type your group name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NDG-3p-bsz">
-                                <rect key="frame" x="15" y="223" width="565" height="30"/>
-                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" selected="YES"/>
-                                </accessibility>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="565" id="bQd-MR-WzO"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="NDG-3p-bsz" firstAttribute="top" secondItem="10y-gF-sJ8" secondAttribute="bottom" constant="57" id="DQt-Vk-TYh"/>
-                            <constraint firstItem="10y-gF-sJ8" firstAttribute="leading" secondItem="rwd-H8-lRv" secondAttribute="leadingMargin" id="E4l-YN-qaW"/>
-                            <constraint firstItem="L1b-27-OrZ" firstAttribute="leading" secondItem="10y-gF-sJ8" secondAttribute="trailing" constant="8" id="I8q-2D-uMG"/>
-                            <constraint firstItem="L1b-27-OrZ" firstAttribute="centerY" secondItem="10y-gF-sJ8" secondAttribute="centerY" constant="-5" id="JuP-77-OJo"/>
-                            <constraint firstItem="L1b-27-OrZ" firstAttribute="trailing" secondItem="rwd-H8-lRv" secondAttribute="trailingMargin" id="NTb-cL-siS"/>
-                            <constraint firstItem="NDG-3p-bsz" firstAttribute="top" secondItem="L1b-27-OrZ" secondAttribute="bottom" constant="57" id="fci-qF-eBC"/>
-                            <constraint firstItem="L1b-27-OrZ" firstAttribute="top" secondItem="jkY-Dh-YVO" secondAttribute="bottom" constant="72" id="kOG-ej-46T"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="NDG-3p-bsz" secondAttribute="trailing" id="q3x-4C-sVT"/>
-                            <constraint firstItem="NDG-3p-bsz" firstAttribute="leading" secondItem="10y-gF-sJ8" secondAttribute="leading" constant="-5" id="wd8-X2-dYL"/>
+                            <constraint firstItem="EIb-qn-EDT" firstAttribute="leading" secondItem="rwd-H8-lRv" secondAttribute="leadingMargin" constant="-25" id="4kQ-fh-KIF"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="EIb-qn-EDT" secondAttribute="bottom" constant="-72" id="B2t-Dp-Rs4"/>
+                            <constraint firstAttribute="trailing" secondItem="EIb-qn-EDT" secondAttribute="trailing" id="KUh-Jo-5AK"/>
+                            <constraint firstItem="EIb-qn-EDT" firstAttribute="top" secondItem="rwd-H8-lRv" secondAttribute="top" id="a9M-ch-Rqv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Create Group" id="GZX-25-MlA">

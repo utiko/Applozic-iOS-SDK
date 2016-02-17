@@ -1521,13 +1521,7 @@ ALMessageDBService  * dbService;
 
 -(void) syncCall:(ALMessage *) alMessage {
 
-    NSNumber *groupID;
-    if(alMessage.groupId!=nil){
-        groupID=alMessage.groupId;
-    }
-    else{
-        groupID=nil;
-    }
+    NSNumber *groupID = alMessage.groupId;
     [self syncCall:alMessage.contactIds withGroupId:groupID updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
 }
 

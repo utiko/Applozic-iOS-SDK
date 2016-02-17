@@ -246,8 +246,9 @@
     [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
     NSLog(@"TITLE <%@>",toastMessage);
     [TSMessage showNotificationInViewController:top.topViewController
-                                          title:[ALApplozicSettings getNotificationTitle]
-                                       subtitle:[NSString stringWithFormat:@"%@",toastMessage]
+                                          title:[NSString stringWithFormat:@"%@",toastMessage]
+                                       subtitle:nil
+     //[NSString stringWithFormat:@"%@",toastMessage]
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75

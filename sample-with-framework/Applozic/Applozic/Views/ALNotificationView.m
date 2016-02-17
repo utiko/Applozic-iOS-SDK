@@ -89,22 +89,32 @@
     ALChannelDBService *groupDb= [[ALChannelDBService alloc] init];
     
     NSString* title;
+    NSString *message = [NSString stringWithFormat:@"%@",self.text]; //20 characters fixed
+    if([message isEqualToString:@""]){
+        message=[NSString stringWithFormat:@"Attachment"];
+    }
+    
     if(self.groupId){
         
-    channel = [groupDb loadChannelByKey:self.groupId];
-    if(dpName.userId==nil){
-        dpName.userId=@"";
-    }
-    if(channel.name == nil){
-        channel.name=self.groupId;
-    }
-    title=[NSString stringWithFormat:@"%@:\n%@",channel.name,dpName.userId];
-    _contactId=[NSString stringWithFormat:@"%@",self.groupId];
+        channel = [groupDb loadChannelByKey:self.groupId];
         
-    }
+        if(dpName.userId == nil){  // Avoids (null) to show up in Notificaition
+                dpName.userId=@"";
+        }
+        if(channel.name == nil){
+                channel.name=self.groupId;
+        }
+        
+        title=channel.name;
+        message = [NSString stringWithFormat:@"%@:%@",dpName.userId,message];
+        _contactId=[NSString stringWithFormat:@"%@",self.groupId];
+            
+        }
     else {
         title=dpName.getDisplayName;
     }
+    
+    message = (message.length > 20) ? [NSString stringWithFormat:@"%@...",[message substringToIndex:17]] : message;
     
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
    
@@ -116,17 +126,9 @@
     [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
     
     
-    NSString *myString = [NSString stringWithFormat:@"%@",self.text];
-    myString = (myString.length > 20) ? [NSString stringWithFormat:@"%@...",[myString substringToIndex:20]] : myString;
-    
-    if([myString isEqualToString:@""]){
-        myString=[NSString stringWithFormat:@"Attachment"];
-    }
-//    NSLog(@"Title <%@> and myString <%@>",title,myString);
-//    NSLog(@"CONTACT ID_GROUP %@",_contactId);
     [TSMessage showNotificationInViewController:top.topViewController
-                                          title:[ALApplozicSettings getNotificationTitle]
-                                       subtitle:[NSString stringWithFormat:@"%@ %@",title,myString]
+                                          title:title
+                                       subtitle:message
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75
@@ -158,6 +160,7 @@
              }
              else {
                  class1.channelKey=nil;
+                 self.groupId=nil;
              }
              class1.contactIds=self.contactId;
              [class1 reloadView];
