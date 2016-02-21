@@ -48,7 +48,7 @@ Features:
 
 **Create your Application**
 
-a )  [**Sign-up**](https://www.applozic.com/signup.html)  with applozic to get your applicationId.
+a )  [**Sign up**](https://www.applozic.com/signup.html?utm_source=ios&utm_medium=github) with applozic to get your applicationId.
 
 b ) Once you signed up create your Application with required details on admin dashboard. Upload your push-notification certificate to our portal to enable real time notification.         
 
