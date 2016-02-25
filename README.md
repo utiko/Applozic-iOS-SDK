@@ -38,7 +38,7 @@ Features:
  
  Customized chat bubble
  
- UI Customization
+ UI Customization Toolkit
  
  Cross Platform Support (iOS, Android & Web)
 
