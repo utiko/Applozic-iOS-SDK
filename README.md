@@ -48,7 +48,7 @@ Features:
 
 **Create your Application**
 
-a )  [**Sign up**](https://www.applozic.com/signup.html?utm_source=ios&utm_medium=github) with applozic to get your applicationId.
+a )  [**Sign up**](https://www.applozic.com/signup.html?utm_source=ios&utm_medium=github) with applozic to get your application key.
 
 b ) Once you signed up create your Application with required details on admin dashboard. Upload your push-notification certificate to our portal to enable real time notification.         
 
@@ -59,7 +59,7 @@ b ) Once you signed up create your Application with required details on admin da
 
 
 
-c) Once you create your application you can see your application-Id listed on admin dashboard. Please use same applicationId explained in further steps.          
+c) Once you create your application you can see your application key listed on admin dashboard. Please use same application key explained in further steps.          
 
 
 
@@ -101,7 +101,7 @@ Change applicationID in DemoChatManager and you are ready to launch your chat fr
 Launch your chat
 
 ```
-//Replace with your applicationId in DemoChatManager.h
+//Replace with your application key in DemoChatManager.h
 
 #define APPLICATION_ID @"applozic-sample-app" 
 
