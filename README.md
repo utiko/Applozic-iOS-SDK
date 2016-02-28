@@ -26,7 +26,7 @@ Features:
  
  Unread message count
  
- Tying indicator
+ Typing indicator
  
  Message sent, delivery report
  
