@@ -36,6 +36,7 @@
 @property (nonatomic, retain) UILabel *mediaTrackLength;
 @property (nonatomic, retain) UIButton * dowloadRetryButton;
 @property (nonatomic, retain) KAProgressLabel *progresLabel;
+@property (nonatomic, retain) UILabel *mediaName;
 
 @property (nonatomic, retain) AVAudioPlayer *audioPlayer;
 

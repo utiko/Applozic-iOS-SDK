@@ -15,6 +15,7 @@
 #define CONVERSATION_TITLE @"CONVERSATION_TITLE"
 #define BACK_BUTTON_TITLE @"BACK_BUTTON_TITLE"
 #define FONT_FACE @"FONT_FACE"
+#define NOTIFICATION_TITLE @"NOTIFICATION_TITLE"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -58,5 +59,9 @@
 +(void)setTitleForBackButton:(NSString *)backButtonTitle;
 
 +(NSString *)getBackButtonTitle;
+
++(void)setNotificationTitle:(NSString *)notificationTitle;
+
++(NSString *)getNotificationTitle;
 
 @end

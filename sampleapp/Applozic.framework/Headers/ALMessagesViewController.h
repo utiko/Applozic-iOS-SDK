@@ -26,5 +26,7 @@
 
 -(UIView *)setCustomBackButton:(NSString *)text;
 
+-(void) callLastSeenStatusUpdate;
+
 @end
 
