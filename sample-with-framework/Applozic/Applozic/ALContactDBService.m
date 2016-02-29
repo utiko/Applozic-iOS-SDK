@@ -69,7 +69,7 @@
     return success;
 }
 
-- (BOOL)purgeAllContact {
+- (BOOL)purgeAllContacts {
     BOOL success = NO;
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
 
@@ -109,7 +109,7 @@
     
     for (ALContact *contact in contacts) {
         
-        result = [self updateConatct:contact];
+        result = [self updateContact:contact];
         
         if (!result) {
             
@@ -121,7 +121,7 @@
     return result;
 }
 
-- (BOOL)updateConatct:(ALContact *)contact {
+- (BOOL)updateContact:(ALContact *)contact {
     
     BOOL success = NO;
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];

@@ -37,7 +37,8 @@
 #import "ALChannelService.h"
 #import "ALNotificationView.h"
 #import "ALPushAssist.h"
-
+#import "TSMessage.h"
+#import "TSMessageView.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -728,7 +729,7 @@
             if(error)
             {
                 NSLog(@"failure %@",error.description);
-                [ ALUtilityClass displayToastWithMessage:@"Delete failed" ];
+                [TSMessage showNotificationWithTitle:@"Delete failed" type:TSMessageNotificationTypeError];
                 return;
             }
             NSArray * theFilteredArray;
@@ -805,17 +806,13 @@
     
     [self.detailChatViewController setRefresh: YES];
     if ([self.detailChatViewController contactIds] != nil) {
-        // NSLog(@"executing if part...");
-        
-        //Todo: set value of updateUI and [self.detailChatViewController contactIds] with actual contactId of the message
         [self.detailChatViewController syncCall:alMessage.contactIds updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
     } else {
-        // NSLog(@"executing else part....");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:alMessage.contactIds withAlertMessage:alMessage.message];
         if (top.isMessageViewOnTop) {
-            [alnotification displayNotificationNew:self];
+            [alnotification nativeViewNotification:self];
         }
-        [dBService fetchAndRefreshQuickConversation]; // can be used also instead of syncCall/syncCall:blah blah
+        [dBService fetchAndRefreshQuickConversation];
     }
 }
 

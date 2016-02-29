@@ -10,6 +10,4 @@
 
 @interface ApplozicLoginViewController : UIViewController
 
-
-+(void)fun;
 @end
