@@ -20,11 +20,11 @@
 
 -(BOOL)purgeContact:(ALContact *)contact;
 
--(BOOL)purgeAllContact;
+-(BOOL)purgeAllContacts;
 
 -(BOOL)updateListOfContacts:(NSArray *)contacts;
 
--(BOOL)updateConatct:(ALContact *)contact;
+-(BOOL)updateContact:(ALContact *)contact;
 
 -(BOOL)addListOfContacts:(NSArray *)contacts;
 
@@ -32,6 +32,8 @@
 
 - (ALContact *)loadContactByKey:(NSString *) key value:(NSString*) value;
 
-- (void) insertInitialContacts;
+- (ALContact *)loadOrAddContactByKeyWithDisplayName:(NSString *) contactId value:(NSString*) displayName;
+
+-(void)insertInitialContactsService:(NSArray*)demoContactsArray;
 
 @end

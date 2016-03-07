@@ -35,51 +35,18 @@
     return self;
 }
 
-
--(void)displayNotification:(id)delegate
-{
-//    [[NSOperationQueue mainQueue] addOperationWithBlock:^ {
-
-    
-    
-        UITapGestureRecognizer *tapGesture =
-        [[UITapGestureRecognizer alloc] initWithTarget:delegate action:@selector(handleNotification:)];
-        [self addGestureRecognizer:tapGesture];
-    
-    
-    
-        UIWindow * keyWindow = [[UIApplication sharedApplication] keyWindow];
-        [keyWindow bringSubviewToFront:self];
-        self.frame = CGRectMake(0.0, -75.00, keyWindow.frame.size.width, 75.00);
-        [keyWindow addSubview:self];
-        //Action Event
-    
-        [UIView animateWithDuration:0.5 animations:^{
-            // set new position of label which it will animate to
-            self.frame = CGRectMake(0.0, 0.0, keyWindow.frame.size.width, 75.00);
-        }];
-    
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0  * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-          
-            [UIView animateWithDuration:0.5 animations:^{
-                self.frame = CGRectMake(0.0, -75.00, keyWindow.frame.size.width, 75.00);
-            }];
-//            [self removeFromSuperview];
-
-        });
-
-}
 - (void)customizeMessageView:(TSMessageView *)messageView
 {
     messageView.alpha = 0.4;
     messageView.backgroundColor=[UIColor blackColor];
 }
 
--(void)displayNotificationNew:(id)delegate{
-    
-    //<><><><><><><><><><><><><><><><><><><><><><>OUR VIEW is opned<><>><><><><><><><><><><><><><><><>//
+#pragma mark - Native notification view
+//======================================
+-(void)nativeViewNotification:(id)delegate{
+//<><><><><><><><><><><><><><><><><><><><><><><>OUR VIEW is opned<><>><><><><><><><><><><><><><><><>//
     ALPushAssist* top=[[ALPushAssist alloc] init];
-    ALContact* dpName=[[ALContact alloc] init];//WithDict:[delegate userInfo]];
+    ALContact* dpName=[[ALContact alloc] init];
     ALContactDBService * contactDb=[[ALContactDBService alloc] init];
     dpName=[contactDb loadContactByKey:@"userId" value:self.contactId];
     
@@ -96,7 +63,6 @@
     NSString *myString = [NSString stringWithFormat:@"%@",self.text];
     myString = (myString.length > 20) ? [NSString stringWithFormat:@"%@...",[myString substringToIndex:20]] : myString;
     
-    //    NSLog(@"myString:: %@",myString);
     if([myString isEqualToString:@""]){
         myString=[NSString stringWithFormat:@"Attachment"];
     }

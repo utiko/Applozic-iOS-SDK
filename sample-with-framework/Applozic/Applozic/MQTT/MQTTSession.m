@@ -1580,19 +1580,4 @@
         @throw exception;
     }
 }
-
-//-(void)handle{
-//
-//    @try{
-//        [self testException];
-//    }
-//    @catch(NSException *exception){
-//        NSLog(@"Exception:%@",exception);
-//    }
-//    
-//    @finally{
-//        NSLog(@"LOL");
-//    }
-//    
-//}
 @end

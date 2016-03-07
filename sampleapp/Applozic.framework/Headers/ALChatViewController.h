@@ -17,6 +17,7 @@
 #import "ALMessageArrayWrapper.h"
 #import "ALChannelDBService.h"
 #import "ALChannel.h"
+#import "ALChatCell_Media.h"
 
 @interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate,ALChatCellDelegate,ALImageWithTextControllerDelegate>
 
@@ -29,6 +30,8 @@
 @property (nonatomic, strong) NSString *channeLName;
 @property (nonatomic) BOOL refreshMainView;
 @property (nonatomic) BOOL refresh;
+@property (strong, nonatomic) NSString * displayName;
+
 @property (strong, nonatomic) NSString * text;
 
 -(void)fetchAndRefresh;

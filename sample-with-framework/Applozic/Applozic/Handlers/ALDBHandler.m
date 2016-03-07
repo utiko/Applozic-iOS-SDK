@@ -216,7 +216,7 @@
     return success;
 }
 
-- (BOOL)purgeAllContact {
+- (BOOL)purgeAllContacts {
     BOOL success = NO;
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -255,7 +255,7 @@
     
     for (ALContact *contact in contacts) {
         
-        result = [self updateConatct:contact];
+        result = [self updateContact:contact];
         
         if (!result) {
             
@@ -267,7 +267,7 @@
     return result;
 }
 
-- (BOOL)updateConatct:(ALContact *)contact {
+- (BOOL)updateContact:(ALContact *)contact {
     
     BOOL success = NO;
     

@@ -36,6 +36,9 @@
 -(void) launchContactList: (UIViewController *)uiViewController ;
 -(void)registerForNotification;
 
+-(void)launchIndividualChat:(NSString *)userId withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
+
+
 
 
 

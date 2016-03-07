@@ -17,6 +17,7 @@
 #import "ALMessageArrayWrapper.h"
 #import "ALChannelDBService.h"
 #import "ALChannel.h"
+#import "ALChatCell_Media.h"
 
 @interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate,ALChatCellDelegate,ALImageWithTextControllerDelegate>
 

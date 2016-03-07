@@ -27,9 +27,7 @@
 @property(strong,nonatomic) NSDictionary *dict ;
 @property(strong,nonatomic) NSString * contactId;
 @property(strong,nonatomic) NSMutableDictionary* dict2;
-
--(void)thirdPartyNotificationTap:(UIGestureRecognizer*)gestureRecognizer;
--(void)thirdPartyNotificationTap1:(NSString *) contactId;
+-(void)thirdPartyNotificationTap:(NSString *) contactId;
 
 
 
