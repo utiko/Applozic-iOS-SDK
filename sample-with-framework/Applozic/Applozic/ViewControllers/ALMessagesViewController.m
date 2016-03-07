@@ -176,8 +176,10 @@
     
     self.detailChatViewController.contactIds = nil;
     
-   [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
-    
+    if([ALUserDefaultsHandler isBottomTabBarHidden])
+    {
+        [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+    }
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier

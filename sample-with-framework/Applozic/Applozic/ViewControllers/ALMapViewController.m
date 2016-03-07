@@ -59,8 +59,12 @@
     [self.tabBarController.tabBar setHidden: YES];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [self.tabBarController.tabBar setHidden: YES];
+-(void)viewWillAppear:(BOOL)animated
+{
+    if([ALUserDefaultsHandler isBottomTabBarHidden])
+    {
+        [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+    }
 //    self.navigationController.navigationBar.translucent = NO;
     [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
     [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];

@@ -120,9 +120,12 @@
     }
 }
 
--(void) viewWillDisappear:(BOOL)animated{
-    
-    [self.tabBarController.tabBar setHidden: NO];
+-(void) viewWillDisappear:(BOOL)animated
+{
+    if([ALUserDefaultsHandler isBottomTabBarHidden])
+    {
+        [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
