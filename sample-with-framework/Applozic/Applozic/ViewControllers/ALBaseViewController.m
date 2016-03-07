@@ -101,7 +101,8 @@
         self.navColor = [self.navigationController.navigationBar barTintColor];
     }
     
-    if(![ALApplozicSettings isRefreshButtonHidden]){
+    if(![ALApplozicSettings isRefreshButtonHidden])
+    {
         // UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
         // self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:refreshButton ,nil];
@@ -157,13 +158,11 @@
     
     if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
     {
-        
-        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
-        //self.navigationController.navigationBar.translucent = NO;
-        //[self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColourForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+        self.navigationController.navigationBar.translucent = NO;
+        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColourForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
         [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
-       // [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColourForNavigation]];
+        [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColourForNavigation]];
 
         [self.label setTextColor:[ALApplozicSettings getColourForNavigationItem]];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white

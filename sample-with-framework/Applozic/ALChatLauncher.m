@@ -51,7 +51,8 @@
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     [ALApplozicSettings setUserProfileHidden:NO];
     [ALApplozicSettings hideRefreshButton:NO];
-    [ALApplozicSettings setTitleForConversationScreen:@"Chats"];
+    [ALApplozicSettings setTitleForConversationScreen:@"Recent Chats"];
+    [ALApplozicSettings setTitleFontFace:@"Helvetica"];
     
     [ALApplozicSettings setFontFace:@"Helvetica"];
     [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
@@ -72,7 +73,7 @@
     self.chatLauncherFLAG=[NSNumber numberWithInt:1];
 //    NSLog(self.chatLauncherFLAG ? @"ALCHAT Launcher is TRUE":@"ALCHAT Launcher is FALSE");
     
-    [self ALDefaultChatViewSettings];
+//    [self ALDefaultChatViewSettings];
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
@@ -91,7 +92,7 @@
 -(void)launchIndividualChat:(NSString *)userId withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
 
 {
-    [self ALDefaultChatViewSettings];
+//    [self ALDefaultChatViewSettings];
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];

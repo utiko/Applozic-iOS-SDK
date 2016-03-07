@@ -5,7 +5,8 @@
 //  Copyright (c) 2015 AppLozic. All rights reserved.
 //
 
-#define NAVIGATION_TEXT_SIZE 20
+//#define NAVIGATION_TEXT_SIZE 20
+#define NAVIGATION_TEXT_SIZE 18
 #define USER_NAME_LABEL_SIZE 18
 #define MESSAGE_LABEL_SIZE 12
 #define TIME_LABEL_SIZE 10
@@ -172,9 +173,9 @@
         [self.navBar setLeftBarButtonItems:nil];
     }
     
-//   SHIFTED TO ViewDidAppear     self.detailChatViewController.contactIds = nil;
+    self.detailChatViewController.contactIds = nil;
     
-//   SHIFTED TO ViewDidAppear    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+   [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
@@ -205,48 +206,29 @@
     }*/
 /////////////   SHIFTED TO ViewDidAppear /////////////   /////////////   /////////////   /////////////   /////////////   ////////////
     
-    //     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
     
     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
     
     if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
     {
-        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
-        
-       // self.navigationController.navigationBar.translucent = NO;
-        //[self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColourForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+        self.navigationController.navigationBar.translucent = NO;
+        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColourForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
-       // [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColourForNavigation]];
-
+      
     }
-    
-//    SHIFTED TO ViewDidAppear //
-//    [self.mTableView reloadData];
-//    if([self.mActivityIndicator isAnimating])
-//    {
-//        [self.emptyConversationText setHidden:YES];
-//    }
-//    else
-//    {
-//        [self emptyConversationAlertLabel];
-//    }
     
     [self.dataAvailablityLabel setHidden:YES];
     [self callLastSeenStatusUpdate];
-//    NSLog(@" = = = = = = = = = viewWIllAppear  COUNTXX  :%lu ==========",(unsigned long)self.mContactsMessageListArray.count);
-    
-    
-    
-    
+
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    self.detailChatViewController.contactIds = nil;
-    
-    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+//    self.detailChatViewController.contactIds = nil;
+//    
+//    [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
     if ([_detailChatViewController refreshMainView])
     {
@@ -278,9 +260,7 @@
     {
         [self.dataAvailablityLabel setHidden:YES];
     }
-    
-    
-    
+
 }
 
 -(void)emptyConversationAlertLabel
@@ -365,7 +345,7 @@
     }
     
     self.mContactsMessageListArray = messagesArray;
-//    NSLog(@" = = = = = = = = =getMessagesArray   COUNTXX  :%lu ==========",(unsigned long)self.mContactsMessageListArray.count);
+
     [self.mTableView reloadData];
 }
 
@@ -432,7 +412,6 @@
         [self.mTableView reloadData];
     }
     
-//    NSLog(@" = = = = = = = = =UPDATE MSG LIST   COUNTXX  :%lu ==========",(unsigned long)self.mContactsMessageListArray.count);
 }
 
 -(ALContactCell * ) getCell:(NSString *)key{
@@ -961,11 +940,10 @@
     [imageView setFrame:CGRectMake(-10, 0, 30, 30)];
     [imageView setTintColor:[UIColor whiteColor]];
     UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(imageView.frame.origin.x + imageView.frame.size.width - 5, imageView.frame.origin.y + 5 , @"back".length, 15)];
-//    [label setTextColor:[UIColor whiteColor]];
     [label setTextColor: [ALApplozicSettings getColourForNavigationItem]];
     [label setText:text];
     [label sizeToFit];
-    
+    [label setFont: [UIFont fontWithName: [ALApplozicSettings getTitleFontFace] size:15]];
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imageView.frame.size.width + label.frame.size.width, imageView.frame.size.height)];
     view.bounds=CGRectMake(view.bounds.origin.x+8, view.bounds.origin.y-1, view.bounds.size.width, view.bounds.size.height);
     [view addSubview:imageView];
@@ -973,7 +951,6 @@
     
     UIButton *button=[[UIButton alloc] initWithFrame:view.frame];
     [button addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
-    //    [button addSubview:view];
     [view addSubview:button];
     return view;
     

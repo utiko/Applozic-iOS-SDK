@@ -40,7 +40,6 @@
         [self.mediaName setBackgroundColor:[UIColor clearColor]];
         [self.mediaName setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:DATE_LABEL_SIZE]];
         [self.contentView addSubview:self.mediaName];
-//        [self.mediaName setText:@"XXXXXXXXX.mp3"];
         
         self.dateLabel = [[UILabel alloc] init];
         [self.dateLabel setTextColor:[UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5]];

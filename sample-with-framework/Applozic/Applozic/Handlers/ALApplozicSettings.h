@@ -16,6 +16,7 @@
 #define BACK_BUTTON_TITLE @"BACK_BUTTON_TITLE"
 #define FONT_FACE @"FONT_FACE"
 #define NOTIFICATION_TITLE @"NOTIFICATION_TITLE"
+#define TITLE_FONT_FACE @"TITLE_FONT_FACE"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -63,5 +64,9 @@
 +(void)setNotificationTitle:(NSString *)notificationTitle;
 
 +(NSString *)getNotificationTitle;
+
++(void)setTitleFontFace:(NSString *)fontFace;
+
++(NSString *)getTitleFontFace;
 
 @end

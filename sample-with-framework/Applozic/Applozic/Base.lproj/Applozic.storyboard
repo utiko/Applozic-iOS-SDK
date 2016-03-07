@@ -18,7 +18,7 @@
         <!--Messages View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="ALViewController" id="BYZ-38-t0r" customClass="ALMessagesViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ALViewController" extendedLayoutIncludesOpaqueBars="YES" id="BYZ-38-t0r" customClass="ALMessagesViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -187,7 +187,7 @@
                                 <action selector="backButtonAction:" destination="BYZ-38-t0r" id="vWD-0a-q4j"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Contacts" id="3pR-ud-INa">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="3pR-ud-INa">
                             <connections>
                                 <action selector="logout:" destination="BYZ-38-t0r" id="7Ka-oa-KIh"/>
                             </connections>
@@ -208,7 +208,7 @@
         <!--Contacts-->
         <scene sceneID="shv-uX-NUa">
             <objects>
-                <viewController storyboardIdentifier="ALNewContactsViewController" id="oZy-jo-Qf5" customClass="ALNewContactsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ALNewContactsViewController" extendedLayoutIncludesOpaqueBars="YES" id="oZy-jo-Qf5" customClass="ALNewContactsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kFS-Fg-cyZ"/>
                         <viewControllerLayoutGuide type="bottom" id="nYW-vk-iGf"/>
@@ -301,7 +301,7 @@
         <!--Map View Controller-->
         <scene sceneID="soh-3d-q0E">
             <objects>
-                <viewController storyboardIdentifier="shareLoactionViewTag" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Jcz-BB-dxz" customClass="ALMapViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="shareLoactionViewTag" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Jcz-BB-dxz" customClass="ALMapViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qF4-qu-V6r"/>
                         <viewControllerLayoutGuide type="bottom" id="nG5-eB-qSq"/>
@@ -348,7 +348,7 @@
         <!--Chat View Controller-->
         <scene sceneID="Qxl-dr-KMt">
             <objects>
-                <viewController storyboardIdentifier="ALChatViewController" automaticallyAdjustsScrollViewInsets="NO" id="gFB-TQ-g19" customClass="ALChatViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ALChatViewController" extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="gFB-TQ-g19" customClass="ALChatViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lnW-pa-sGH"/>
                         <viewControllerLayoutGuide type="bottom" id="onN-md-bNU"/>
@@ -453,7 +453,7 @@
         <!--Attachment Controller-->
         <scene sceneID="mJq-Dy-oId">
             <objects>
-                <viewController storyboardIdentifier="imageandtext" id="9Kc-h0-N6T" customClass="ALAttachmentController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="imageandtext" extendedLayoutIncludesOpaqueBars="YES" id="9Kc-h0-N6T" customClass="ALAttachmentController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="te2-S7-jhz"/>
                         <viewControllerLayoutGuide type="bottom" id="wTT-RG-3dD"/>

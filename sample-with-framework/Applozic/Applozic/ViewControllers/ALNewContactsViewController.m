@@ -381,7 +381,7 @@
     [label setTextColor: [ALApplozicSettings getColourForNavigationItem]];
     [label setText:text];
     [label sizeToFit];
-    
+    [label setFont: [UIFont fontWithName: [ALApplozicSettings getTitleFontFace] size:15]];
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imageView.frame.size.width + label.frame.size.width, imageView.frame.size.height)];
     view.bounds=CGRectMake(view.bounds.origin.x+8, view.bounds.origin.y-1, view.bounds.size.width, view.bounds.size.height);
     [view addSubview:imageView];
