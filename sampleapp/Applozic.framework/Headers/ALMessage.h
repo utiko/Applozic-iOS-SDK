@@ -79,4 +79,6 @@
 
 -(NSString *)getCreatedAtTimeChat:(BOOL)today;
 -(NSNumber *)getGroupId;
+
+@property (nonatomic,assign) BOOL deleted;
 @end

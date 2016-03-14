@@ -145,5 +145,15 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:NOTIFICATION_TITLE];
 }
 
++(void)setTitleFontFace:(NSString *)fontFace
+{
+    [[NSUserDefaults standardUserDefaults] setValue:fontFace forKey:TITLE_FONT_FACE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getTitleFontFace
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:TITLE_FONT_FACE];
+}
 
 @end

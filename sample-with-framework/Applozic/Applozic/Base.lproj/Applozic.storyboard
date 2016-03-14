@@ -18,7 +18,7 @@
         <!--Messages View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="ALViewController" id="BYZ-38-t0r" customClass="ALMessagesViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ALViewController" extendedLayoutIncludesOpaqueBars="YES" id="BYZ-38-t0r" customClass="ALMessagesViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -187,7 +187,7 @@
                                 <action selector="backButtonAction:" destination="BYZ-38-t0r" id="vWD-0a-q4j"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Contacts" id="3pR-ud-INa">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="3pR-ud-INa">
                             <connections>
                                 <action selector="logout:" destination="BYZ-38-t0r" id="7Ka-oa-KIh"/>
                             </connections>
@@ -208,7 +208,7 @@
         <!--Contacts-->
         <scene sceneID="shv-uX-NUa">
             <objects>
-                <viewController storyboardIdentifier="ALNewContactsViewController" id="oZy-jo-Qf5" customClass="ALNewContactsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ALNewContactsViewController" extendedLayoutIncludesOpaqueBars="YES" id="oZy-jo-Qf5" customClass="ALNewContactsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kFS-Fg-cyZ"/>
                         <viewControllerLayoutGuide type="bottom" id="nYW-vk-iGf"/>
@@ -217,14 +217,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Q6U-8n-Zjt">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="82" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="201-eK-m3i">
-                                <rect key="frame" x="4" y="49" width="592" height="487"/>
+                                <rect key="frame" x="0.0" y="104" width="600" height="447"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewContactCell" rowHeight="82" id="NOy-HJ-2YL" customClass="ALNewContactCell">
-                                        <rect key="frame" x="0.0" y="86" width="592" height="82"/>
+                                        <rect key="frame" x="0.0" y="22" width="600" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NOy-HJ-2YL" id="p0o-92-QNi">
-                                            <rect key="frame" x="0.0" y="0.0" width="592" height="81"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="81"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8h-Lp-4Jd">
@@ -273,19 +277,15 @@
                                     <outlet property="delegate" destination="oZy-jo-Qf5" id="vvf-qB-bh1"/>
                                 </connections>
                             </tableView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Q6U-8n-Zjt">
-                                <rect key="frame" x="290" y="290" width="20" height="20"/>
-                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="nYW-vk-iGf" firstAttribute="top" secondItem="201-eK-m3i" secondAttribute="bottom" constant="15" id="1m4-rs-U0E"/>
-                            <constraint firstItem="201-eK-m3i" firstAttribute="centerX" secondItem="8au-eI-HrA" secondAttribute="centerX" id="3y6-Vo-GZw"/>
+                            <constraint firstItem="201-eK-m3i" firstAttribute="leading" secondItem="8au-eI-HrA" secondAttribute="leading" id="MQH-W4-7jZ"/>
+                            <constraint firstItem="201-eK-m3i" firstAttribute="top" secondItem="kFS-Fg-cyZ" secondAttribute="bottom" constant="40" id="NNo-EB-42w"/>
+                            <constraint firstItem="201-eK-m3i" firstAttribute="bottom" secondItem="nYW-vk-iGf" secondAttribute="top" id="P6q-l1-vYP"/>
                             <constraint firstItem="Q6U-8n-Zjt" firstAttribute="centerY" secondItem="8au-eI-HrA" secondAttribute="centerY" id="SAL-13-lc1"/>
-                            <constraint firstItem="Q6U-8n-Zjt" firstAttribute="centerX" secondItem="201-eK-m3i" secondAttribute="centerX" id="cMZ-zj-YqA"/>
-                            <constraint firstItem="201-eK-m3i" firstAttribute="leading" secondItem="8au-eI-HrA" secondAttribute="leadingMargin" constant="-16" id="dM0-eB-0DR"/>
-                            <constraint firstItem="201-eK-m3i" firstAttribute="top" secondItem="8au-eI-HrA" secondAttribute="topMargin" constant="49" id="gt3-a2-hFQ"/>
+                            <constraint firstAttribute="trailing" secondItem="201-eK-m3i" secondAttribute="trailing" id="lhC-rz-tTL"/>
+                            <constraint firstItem="201-eK-m3i" firstAttribute="centerX" secondItem="Q6U-8n-Zjt" secondAttribute="centerX" id="mph-2g-0qK"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Contacts" id="d3b-NW-KSO"/>
@@ -301,7 +301,7 @@
         <!--Map View Controller-->
         <scene sceneID="soh-3d-q0E">
             <objects>
-                <viewController storyboardIdentifier="shareLoactionViewTag" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Jcz-BB-dxz" customClass="ALMapViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="shareLoactionViewTag" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Jcz-BB-dxz" customClass="ALMapViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qF4-qu-V6r"/>
                         <viewControllerLayoutGuide type="bottom" id="nG5-eB-qSq"/>
@@ -348,7 +348,7 @@
         <!--Chat View Controller-->
         <scene sceneID="Qxl-dr-KMt">
             <objects>
-                <viewController storyboardIdentifier="ALChatViewController" automaticallyAdjustsScrollViewInsets="NO" id="gFB-TQ-g19" customClass="ALChatViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ALChatViewController" extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="gFB-TQ-g19" customClass="ALChatViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lnW-pa-sGH"/>
                         <viewControllerLayoutGuide type="bottom" id="onN-md-bNU"/>
@@ -453,7 +453,7 @@
         <!--Attachment Controller-->
         <scene sceneID="mJq-Dy-oId">
             <objects>
-                <viewController storyboardIdentifier="imageandtext" id="9Kc-h0-N6T" customClass="ALAttachmentController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="imageandtext" extendedLayoutIncludesOpaqueBars="YES" id="9Kc-h0-N6T" customClass="ALAttachmentController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="te2-S7-jhz"/>
                         <viewControllerLayoutGuide type="bottom" id="wTT-RG-3dD"/>

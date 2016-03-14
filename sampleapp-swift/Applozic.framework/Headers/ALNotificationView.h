@@ -12,11 +12,7 @@
 
 
 @property (retain ,nonatomic) NSString * contactId;
-
 @property (retain ,nonatomic) NSString * checkContactId;
-
 -(instancetype)initWithContactId:(NSString*) contactId withAlertMessage: (NSString *) alertMessage;
-
--(void)displayNotification:(id)delegate;
--(void)displayNotificationNew:(id)delegate;
+-(void)nativeViewNotification:(id)delegate;
 @end

@@ -28,11 +28,11 @@
 
 -(BOOL)purgeContact:(ALContact *)contact;
 
--(BOOL)purgeAllContact;
+-(BOOL)purgeAllContacts;
 
 -(BOOL)updateListOfContacts:(NSArray *)contacts;
 
--(BOOL)updateConatct:(ALContact *)contact;
+-(BOOL)updateContact:(ALContact *)contact;
 
 -(BOOL)addListOfContacts:(NSArray *)contacts;
 

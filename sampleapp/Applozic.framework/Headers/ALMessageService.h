@@ -14,13 +14,15 @@
 #import "ALUserDetail.h"
 #import "ALChannelService.h"
 
+#define NEW_MESSAGE_NOTIFICATION @"newMessageNotification"
+
 @interface ALMessageService : NSObject
 
 +(void) processLatestMessagesGroupByContact;
 
 
 +(void) getMessageListForUser:(NSString *) userId startIndex:(NSString *) startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSNumber *) endTimeStamp  andChannelKey:(NSNumber *)channelKey withCompletion:(void(^)(NSMutableArray * messages, NSError * error, NSMutableArray *userDetailArray)) completion;
-
+    
 +(void) sendMessages:(ALMessage *)message withCompletion:(void(^)(NSString * message, NSError * error)) completion;
 
 

@@ -175,21 +175,6 @@
                                                           bundle:nil];
     UIViewController *launchChat = [storyboardM instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
     [self presentViewController:launchChat animated:YES completion:nil];
-    
-
-}
-
-
-+(void)fun{
-    NSLog(@"fun");
-//    ALMessagesViewController* obj=[[ALMessagesViewController alloc]init];
-//    [obj createDetailChatViewController:@"don"];
-
-    
-//    LaunchChatFromSimpleViewController* obj=[[LaunchChatFromSimpleViewController alloc] init];
-//    [obj.launchChatList sendActionsForControlEvents:UIControlEventTouchUpInside];
-//    [obj whenPush];
-    
 }
 //-------------------------------------------------------------------------------------------------------------------
 //     Textfield delegate methods

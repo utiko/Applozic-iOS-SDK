@@ -62,19 +62,9 @@
             }
         }
     }
-    
-
-    
     return YES;
 }
-//-(void)contextChanged:(NSNotification*)notif{
-//    NSLog(@"Context Changed");
-//    ALChatViewController* obj=[[ALChatViewController alloc] init];
-//    [obj individualNotificationhandler:notif];
-//    
-//    [ApplozicLoginViewController fun];
-//
-//}
+
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary
 {
     NSLog(@"Received notification: %@", dictionary);
