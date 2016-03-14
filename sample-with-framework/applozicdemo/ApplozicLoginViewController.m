@@ -163,19 +163,23 @@
     [user setUserId:[self.userIdField text]];
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
+    [user setImageLink:@""];
     [self.mActivityIndicator startAnimating];
     
     [ALUserDefaultsHandler setUserId:user.userId];
     [ALUserDefaultsHandler setEmailId:user.emailId];
     
-    DemoChatManager * demoChatManager = [[DemoChatManager alloc]init];
+    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
     [demoChatManager registerUser:user];
     
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Main"
                                                           bundle:nil];
     UIViewController *launchChat = [storyboardM instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
     [self presentViewController:launchChat animated:YES completion:nil];
+    
+
 }
+
 //-------------------------------------------------------------------------------------------------------------------
 //     Textfield delegate methods
 //-------------------------------------------------------------------------------------------------------------------

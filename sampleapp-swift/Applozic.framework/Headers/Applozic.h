@@ -50,14 +50,16 @@ FOUNDATION_EXPORT const unsigned char ApplozicVersionString[];
 #import <Applozic/ALFileMetaInfo.h>
 #import <Applozic/ALNotificationView.h>
 #import <Applozic/DB_CONTACT.h>
-#import <Applozic/ALChatCell_Image.h>
+#import <Applozic/ALImageCell.h>
 #import <Applozic/ALConnection.h>
 #import <Applozic/ALBaseViewController.h>
 #import <Applozic/ALConnectionQueueHandler.h>
 #import <Applozic/DB_Message.h>
-#import <Applozic/ALApplozicSettings.h>
 #import <Applozic/UIImage+Utility.h>
 #import <Applozic/ALUserDetail.h>
 #import <Applozic/ALDataNetworkConnection.h>
 #import <Applozic/ALAppLocalNotifications.h>
-
+#import <Applozic/DB_ConversationProxy.h>
+#import <Applozic/ALConversationProxy.h>
+#import <Applozic/ALConversationService.h>
+#import <Applozic/ALApplozicSettings.h>

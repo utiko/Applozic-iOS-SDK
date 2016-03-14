@@ -216,7 +216,7 @@
     return success;
 }
 
-- (BOOL)purgeAllContacts {
+- (BOOL)purgeAllContact {
     BOOL success = NO;
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -381,7 +381,6 @@
     
     DB_CONTACT* existingContact = [self getContactByKey:@"userId" value:[userContact userId]];
     if (existingContact) {
-        NSLog(@"Existing contact");
         return false;
     }
     

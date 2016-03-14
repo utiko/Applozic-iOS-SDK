@@ -16,5 +16,5 @@
 @dynamic type;
 @dynamic userCount;
 @dynamic unreadCount;
-
+@dynamic isLeft;
 @end

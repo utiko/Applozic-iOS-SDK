@@ -14,9 +14,27 @@
 #import "ALChannelUserX.h"
 #import "ALChannelDBService.h"
 #import "ALChannelFeed.h"
+#import "ALChannelCreateResponse.h"
+#import "ALChannelSyncResponse.h"
 
 @interface ALChannelClientService : NSObject
 
-+(void)getChannelInfo:(NSNumber *)channelKey withCompletion:(void(^)(NSMutableArray * arrayList, ALChannel *channel)) completion;
++(void)getChannelInfo:(NSNumber *)channelKey withCompletion:(void(^)(NSError *error, ALChannel *channel)) completion;
 
++(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSError *error, ALChannelCreateResponse *response))completion;
+
++(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion;
+
++(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion;
+
++(void)deleteChannel:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion;
+
++(void)leaveChannel:(NSNumber *)channelKey withUserId:(NSString *)userId andCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion;
+
+
++(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName andCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion;
+
++(void)syncCallForChannel:(NSNumber *)channelKey andCompletion:(void(^)(NSError *error, ALChannelSyncResponse *response))completion;
+
+-(void)markConversationAsRead:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion;
 @end

@@ -9,7 +9,11 @@
 #import <CoreData/NSManagedObject.h>
 #import "ALJson.h"
 #import "ALFileMetaInfo.h"
+
 #define ALMESSAGE_CONTENT_LOCATION 2
+#define ALMESSAGE_CONTENT_ATTACHMENT 1
+#define ALMESSAGE_CONTENT_CAMERA_RECORDING 9
+#define ALMESSAGE_CONTENT_AUDIO 8
 
 
 @interface ALMessage : ALJson
@@ -69,6 +73,8 @@
 @property(nonatomic) short contentType;
 
 @property (nonatomic, copy) NSNumber *groupId;
+
+@property(nonatomic,copy) NSNumber *conversationId;
 
 -(NSString *)getCreatedAtTime:(BOOL)today;
 

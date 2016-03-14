@@ -22,13 +22,13 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     
-    if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
+    if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
     {
-//        self.navigationController.navigationBar.translucent = NO;
+        self.navigationController.navigationBar.translucent = NO;
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
-        [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
-        [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColourForNavigation]];
+        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
+        [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
+        [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColorForNavigation]];
     }
     
     self.textMessageWithImage.layer.masksToBounds = YES;

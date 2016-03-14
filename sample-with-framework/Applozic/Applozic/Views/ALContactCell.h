@@ -23,8 +23,9 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageMarker;
 
-@property (weak, nonatomic) IBOutlet UIImageView *mCountImageView;
-
 @property (weak, nonatomic) IBOutlet UIImageView *onlineImageMarker;
 
+@property (weak, nonatomic) IBOutlet UILabel *L;
+
+@property (weak, nonatomic) IBOutlet UILabel *unreadCountLabel;
 @end

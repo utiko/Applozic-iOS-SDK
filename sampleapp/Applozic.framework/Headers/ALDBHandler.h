@@ -28,7 +28,7 @@
 
 -(BOOL)purgeContact:(ALContact *)contact;
 
--(BOOL)purgeAllContacts;
+-(BOOL)purgeAllContact;
 
 -(BOOL)updateListOfContacts:(NSArray *)contacts;
 

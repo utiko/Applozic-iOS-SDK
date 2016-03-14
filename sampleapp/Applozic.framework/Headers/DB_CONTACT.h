@@ -21,5 +21,6 @@
 @property (nonatomic, retain) NSString * localImageResourceName;
 @property (nonatomic, retain) NSNumber * lastSeenAt;
 @property (nonatomic) BOOL connected;
-
+@property (nonatomic,retain) NSNumber * unreadCount;
+@property (nonatomic) BOOL block;
 @end

@@ -25,11 +25,12 @@
 @property (strong, nonatomic) IBOutlet UIButton *sendButton;
 - (IBAction)sendAction:(id)sender;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *checkBottomConstraint;
+@property (weak, nonatomic) IBOutlet UIButton *attachmentOutlet;
 
 - (IBAction)attachmentActionMethod:(id)sender;
 @property (strong, nonatomic) UILabel *label;
 @property (strong, nonatomic) UILabel *typingLabel;
-@property (nonatomic) BOOL * individualLaunch;
+@property (nonatomic) BOOL  individualLaunch;
 -(UIView *)setCustomBackButton;
 
 @end

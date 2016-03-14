@@ -28,12 +28,12 @@
 
 +(void)displayToastWithMessage:(NSString *)toastMessage;
 
-+(void)foreignViewNotification:(NSString *)toastMessage andForContactId:(NSString *)contactId  delegate:(id)delegate;
 
-+(void)localNotification:(NSString *)toastMessage;
++(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId withGroupId:(NSNumber*) groupID delegate:(id)delegate;
 
+
++(NSString *)getNameAlphabets:(NSString *)actualName;
 +(NSString *)getFileNameWithCurrentTimeStamp;
-
 +(UIImage *)getImageFromFramworkBundle:(NSString *) UIImageName;
 
 

@@ -54,58 +54,66 @@
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
 }
 
-+(void)setColourForSendMessages:(UIColor *)sendMsgColour
++(void)setColorForSendMessages:(UIColor *)sendMsgColor
 {
-    NSData *sendColorData = [NSKeyedArchiver archivedDataWithRootObject:sendMsgColour];
+    NSData *sendColorData = [NSKeyedArchiver archivedDataWithRootObject:sendMsgColor];
     [[NSUserDefaults standardUserDefaults] setObject:sendColorData forKey:SEND_MSG_COLOUR];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(void)setColourForReceiveMessages:(UIColor *)receiveMsgColour
++(void)setColorForReceiveMessages:(UIColor *)receiveMsgColor
 {
-    NSData *receiveColorData = [NSKeyedArchiver archivedDataWithRootObject:receiveMsgColour];
+    NSData *receiveColorData = [NSKeyedArchiver archivedDataWithRootObject:receiveMsgColor];
     [[NSUserDefaults standardUserDefaults] setObject:receiveColorData forKey:RECEIVE_MSG_COLOUR];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(UIColor *)getSendMsgColour
++(UIColor *)getSendMsgColor
 {
     NSData *sendColorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"SEND_MSG_COLOUR"];
-    UIColor *sendColour = [NSKeyedUnarchiver unarchiveObjectWithData:sendColorData];
-    return sendColour;
+    UIColor *sendColor = [NSKeyedUnarchiver unarchiveObjectWithData:sendColorData];
+    if(sendColor)
+    {
+        return sendColor;
+    }
+    return [UIColor whiteColor];
 }
 
-+(UIColor *)getReceiveMsgColour
++(UIColor *)getReceiveMsgColor
 {
     NSData *receiveColorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"RECEIVE_MSG_COLOUR"];
-    UIColor *receiveColour = [NSKeyedUnarchiver unarchiveObjectWithData:receiveColorData];
-    return receiveColour;
+    UIColor *receiveColor = [NSKeyedUnarchiver unarchiveObjectWithData:receiveColorData];
+    if(receiveColor)
+    {
+        return receiveColor;
+    }
+    return [UIColor whiteColor];
 }
 
-+(void)setColourForNavigation:(UIColor *)barColour
++(void)setColorForNavigation:(UIColor *)barColor
 {
-    NSData *barColourData = [NSKeyedArchiver archivedDataWithRootObject:barColour];
-    [[NSUserDefaults standardUserDefaults] setObject:barColourData forKey:NAVIGATION_BAR_COLOUR];
+    NSData *barColorData = [NSKeyedArchiver archivedDataWithRootObject:barColor];
+    [[NSUserDefaults standardUserDefaults] setObject:barColorData forKey:NAVIGATION_BAR_COLOUR];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
 }
 
-+(UIColor *)getColourForNavigation
++(UIColor *)getColorForNavigation
 {
-    NSData *barColourData = [[NSUserDefaults standardUserDefaults] objectForKey:@"NAVIGATION_BAR_COLOUR"];
-    UIColor *barColour = [NSKeyedUnarchiver unarchiveObjectWithData:barColourData];
-    return barColour;
+    NSData *barColorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"NAVIGATION_BAR_COLOUR"];
+    UIColor *barColor = [NSKeyedUnarchiver unarchiveObjectWithData:barColorData];
+    return barColor;
 }
 
-+(void)setColourForNavigationItem:(UIColor *)barItemColour
++(void)setColorForNavigationItem:(UIColor *)barItemColor
 {
-    NSData *barItemColourData = [NSKeyedArchiver archivedDataWithRootObject:barItemColour];
-    [[NSUserDefaults standardUserDefaults] setObject:barItemColourData forKey:NAVIGATION_BAR_ITEM_COLOUR];
+    NSData *barItemColorData = [NSKeyedArchiver archivedDataWithRootObject:barItemColor];
+    [[NSUserDefaults standardUserDefaults] setObject:barItemColorData forKey:NAVIGATION_BAR_ITEM_COLOUR];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
 }
 
-+(UIColor *)getColourForNavigationItem
++(UIColor *)getColorForNavigationItem
 {
     NSData *barItemColourData = [[NSUserDefaults standardUserDefaults] objectForKey:@"NAVIGATION_BAR_ITEM_COLOUR"];
     UIColor *barItemColour = [NSKeyedUnarchiver unarchiveObjectWithData:barItemColourData];
@@ -145,15 +153,33 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:NOTIFICATION_TITLE];
 }
 
-+(void)setTitleFontFace:(NSString *)fontFace
-{
-    [[NSUserDefaults standardUserDefaults] setValue:fontFace forKey:TITLE_FONT_FACE];
++(void)setMaxImageSizeForUploadInMB:(NSInteger)maxFileSize{
+    [[NSUserDefaults standardUserDefaults] setInteger:maxFileSize forKey:IMAGE_UPLOAD_MAX_SIZE];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(NSString *)getTitleFontFace
-{
-    return [[NSUserDefaults standardUserDefaults] valueForKey:TITLE_FONT_FACE];
++( NSInteger)getMaxImageSizeForUploadInMB{
+    return [[NSUserDefaults standardUserDefaults] integerForKey:IMAGE_UPLOAD_MAX_SIZE];
+    
+}
+
++(void) setMaxCompressionFactor:(double)maxCompressionRatio{
+    [[NSUserDefaults standardUserDefaults] setDouble:maxCompressionRatio  forKey:IMAGE_COMPRESSION_FACTOR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(double) getMaxCompressionFactor{
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:IMAGE_COMPRESSION_FACTOR];
+    
+}
+
++(void)setGroupOption:(BOOL)option{
+    [[NSUserDefaults standardUserDefaults] setBool:option forKey:GROUP_ENABLE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getGroupOption{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_ENABLE];
 }
 
 @end

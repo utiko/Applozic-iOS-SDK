@@ -11,7 +11,6 @@
 
 @protocol ALMapViewControllerDelegate <NSObject, CLLocationManagerDelegate>
 
--(void) getUserCurrentLocation:(NSString *)googleMapUrl ;
 -(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl;
 @end
 @interface ALMapViewController : UIViewController

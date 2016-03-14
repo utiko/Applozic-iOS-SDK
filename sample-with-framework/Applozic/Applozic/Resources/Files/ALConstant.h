@@ -6,14 +6,22 @@
 //
 
 
-//#define KBASE_URL @"https://apps.applozic.com"
-#define KBASE_URL @"https://test.applozic.com"
+#define KBASE_URL @"https://apps.applozic.com"
 #define MQTT_URL @"apps.applozic.com"
-//#define MQTT_URL @"test.applozic.com"
+#define KBASE_FILE_URL @"https://applozic.appspot.com"
+
+
+//#define KBASE_URL @"https://test.applozic.com"
+//#define MQTT_URL @"staging.applozic.com"
+//#define KBASE_FILE_URL @"https://mobi-com-alpha.appspot.com"
+
+//#define KBASE_URL @"https://staging.applozic.com"
+//#define MQTT_URL @"staging.applozic.com"
+//#define KBASE_FILE_URL @"https://mobi-com-alpha.appspot.com"
 
 #define MQTT_PORT @"1883"
 
-#define KBASE_FILE_URL @"https://applozic.appspot.com"
+#define GREY_COLOR ([UIColor colorWithWhite:0.7 alpha:0.1])
 
 
 #define FORWARD_STATUS @"5"

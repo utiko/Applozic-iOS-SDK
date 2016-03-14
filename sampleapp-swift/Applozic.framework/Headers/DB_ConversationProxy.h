@@ -10,9 +10,15 @@
 
 @interface DB_ConversationProxy : NSManagedObject
 
-@property (nonatomic, strong) NSNumber *ID;
+@property (nonatomic, strong) NSNumber *iD;
 @property (nonatomic, strong) NSString *topicId;
 @property (nonatomic, strong) NSNumber *groupId;
-@property (nonatomic) BOOL *created;
+@property(nonatomic,strong) NSString * userId;
+@property (nonatomic,retain) NSNumber *created;
+@property(nonatomic,retain) NSNumber * closed;
+
+@property(nonatomic,strong) NSString * topicDetailJson;
+
+
 
 @end

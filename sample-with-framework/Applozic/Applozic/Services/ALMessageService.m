@@ -21,6 +21,8 @@
 #import "ALUserService.h"
 #import "ALUserDetail.h"
 #import "ALContactDBService.h"
+#import "ALContactService.h"
+#import "ALConversationService.h"
 
 
 @implementation ALMessageService
@@ -41,31 +43,31 @@ static ALMessageClientService *alMsgClientService;
             [ALUserDefaultsHandler setBoolForKey_isConversationDbSynced:YES];
         }
     }];
-
+    
 }
 
 
-+(void)getMessageListForUser:(NSString *)userId startIndex:(NSString *)startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSNumber *)endTimeStamp andChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion
-{
++(void)getMessageListForUser:(MessageListRequest*)messageListRequest withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion{
     
     ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
-    NSMutableArray * messageList = [almessageDBService getMessageListForContactWithCreatedAt:userId withCreatedAt:endTimeStamp andChannelKey:channelKey];
+    NSMutableArray * messageList = [almessageDBService getMessageListForContactWithCreatedAt:messageListRequest.userId withCreatedAt:messageListRequest.endTimeStamp andChannelKey:messageListRequest.channelKey conversationId:messageListRequest.conversationId];
+    
     //Found Record in DB itself ...if not make call to server
-    if(messageList.count > 0 && ![ALUserDefaultsHandler isServerCallDoneForMSGList:userId]){
-        NSLog(@"message list is coming from DB %ld", (unsigned long)messageList.count);
-            NSLog(@"the Message List::%@",messageList);
+    if(messageList.count > 0 && ![ALUserDefaultsHandler isServerCallDoneForMSGList:messageListRequest.userId]){
+       // NSLog(@"the Message List::%@",messageList);
         completion(messageList, nil, nil);
         return;
     }else {
         NSLog(@"message list is coming from DB %ld", (unsigned long)messageList.count);
     }
-    ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc ]init ];
+    ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc ]init];
     
-    [alMessageClientService getMessageListForUser:userId startIndex:startIndex pageSize:pageSize endTimeInTimeStamp:endTimeStamp andChannelKey:channelKey  withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
-
+    [alMessageClientService getMessageListForUser:messageListRequest withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
+        
         completion(messages, error,userDetailArray);
+        
     }];
-
+    
     
 }
 
@@ -125,40 +127,78 @@ static ALMessageClientService *alMsgClientService;
 
 
 +(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( NSMutableArray *, NSError *))completion{
-   
+    
     if(!alMsgClientService){
         alMsgClientService = [[ALMessageClientService alloc]init];
     }
     
     @synchronized(alMsgClientService) {
-
-    [ alMsgClientService getLatestMessageForUser:deviceKeyString withCompletion:^(ALSyncMessageFeed * syncResponse , NSError *error) {
-        NSMutableArray *messageArray = nil;
         
-        if(!error){
-            if (syncResponse.deliveredMessageKeys.count > 0) {
-                [ALMessageService updateDeliveredReport: syncResponse.deliveredMessageKeys];
+        [ alMsgClientService getLatestMessageForUser:deviceKeyString withCompletion:^(ALSyncMessageFeed * syncResponse , NSError *error) {
+            NSMutableArray *messageArray = nil;
+           
+            if(!error){
+                if (syncResponse.deliveredMessageKeys.count > 0) {
+                    [ALMessageService updateDeliveredReport: syncResponse.deliveredMessageKeys];
+                }
+                if(syncResponse.messagesList.count >0 ){
+                    messageArray = [[NSMutableArray alloc] init];
+                    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+                    messageArray = [dbService addMessageList:syncResponse.messagesList];
+                    [ALMessageService incrementContactUnreadCount:messageArray];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NEW_MESSAGE_NOTIFICATION object:messageArray userInfo:nil];
+                }
+                completion(messageArray,error);
+                
+                [ALUserDefaultsHandler setLastSyncTime:syncResponse.lastSyncTime];
+                ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
+                [messageClientService updateDeliveryReports:syncResponse.messagesList];
+                
+            }else{
+                completion(messageArray,error);
             }
-            if(syncResponse.messagesList.count >0 ){
-                messageArray = [[NSMutableArray alloc] init];
-                ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
-                messageArray = [dbService addMessageList:syncResponse.messagesList];
-                [[NSNotificationCenter defaultCenter] postNotificationName:NEW_MESSAGE_NOTIFICATION object:messageArray userInfo:nil];
-            }
-            completion(messageArray,error);
             
-            [ALUserDefaultsHandler setLastSyncTime:syncResponse.lastSyncTime];
-            ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
-            [messageClientService updateDeliveryReports:syncResponse.messagesList];
-        }else{
-            completion(messageArray,error);
+        }];
+    }
+    
+}
+
++(void)incrementContactUnreadCount:(NSArray*)messagesArray{
+    
+    for(ALMessage * message in messagesArray){
+        
+        if(message.read == YES){
+            return;
         }
         
-    }];
+        if(message.groupId){
+            NSNumber * groupId = message.groupId;
+            ALChannelDBService * channelDBService =[[ALChannelDBService alloc] init];
+            ALChannel * channel = [channelDBService loadChannelByKey:groupId];
+            channel.unreadCount = [NSNumber numberWithInt:channel.unreadCount.intValue+1];
+            [channelDBService updateUnreadCountChannel:message.groupId unreadCount:channel.unreadCount];
+        }
+        else{
+            NSString * contactId = message.contactIds;
+            ALContactService * contactService=[[ALContactService alloc] init];
+            ALContact * contact =[contactService loadContactByKey:@"userId" value:contactId];
+            contact.unreadCount=[NSNumber numberWithInt:[contact.unreadCount intValue]+1];
+            [contactService addContact:contact];
+            [contactService updateContact:contact];
+        }
+        if(message.conversationId)
+        [self fetchTopicDetails:message.conversationId];
+        
+    }
 }
 
++(void)fetchTopicDetails :(NSNumber *)conversationId{
+    
+    if(conversationId){
+        ALConversationService * alConversationService = [[ALConversationService alloc] init];
+        [alConversationService fetchTopicDetails:conversationId];
+    }
 }
-
 
 +(void) updateDeliveredReport: (NSArray *) deliveredMessageKeys {
     for (id key in deliveredMessageKeys) {
@@ -183,12 +223,12 @@ static ALMessageClientService *alMsgClientService;
     NSArray *keys = [[[dbMessage2 entity] attributesByName] allKeys];
     NSDictionary *dict = [dbMessage2 dictionaryWithValuesForKeys:keys];
     NSLog(@"DB Message In Del: %@",dict);
-
+    
     
     ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc]init];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-    
+        
         [alMessageClientService deleteMessage:keyString andContactId:contactId
                                withCompletion:^(NSString * response, NSError *error) {
                                    if(!error){
@@ -227,6 +267,7 @@ static ALMessageClientService *alMsgClientService;
     NSString * docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString * timestamp = message.imageFilePath;
     NSString * filePath = [docDirPath stringByAppendingPathComponent:timestamp];
+    
     NSMutableURLRequest * request = [ALRequestHandler createPOSTRequestWithUrlString:uploadURL paramString:nil];
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         //Create boundary, it can be anything
@@ -252,7 +293,8 @@ static ALMessageClientService *alMsgClientService;
         {
             [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
             [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", FileParamConstant,message.fileMeta.name] dataUsingEncoding:NSUTF8StringEncoding]];
-            [body appendData:[@"Content-Type:image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+            
+            [body appendData:[[NSString stringWithFormat:@"Content-Type:%@\r\n\r\n", message.fileMeta.contentType] dataUsingEncoding:NSUTF8StringEncoding]];
             [body appendData:imageData];
             [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
         }
@@ -270,7 +312,7 @@ static ALMessageClientService *alMsgClientService;
             return;
         }
         ALConnection * connection = [[ALConnection alloc] initWithRequest:request delegate:delegate startImmediately:YES];
-        connection.keystring =message.key;
+        connection.keystring = message.key;
         connection.connectionType = @"Image Posting";
         [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] addObject:connection];
         
@@ -305,30 +347,14 @@ static ALMessageClientService *alMsgClientService;
     return message;
 }
 
-+(void)markConversationAsRead: (NSString *) contactId orChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion{
-    
-    ALMessageDBService * dbService = [[ALMessageDBService alloc] init];
-    
-    NSUInteger count = [dbService markConversationAsRead:contactId orChannelKey:channelKey];
-    NSLog(@"Found %ld messages for marking as read.", (unsigned long)count);
 
-    if(count == 0)
-    {
-        return;
-    }
-    ALMessageClientService * alMessageClientService  = [[ALMessageClientService alloc] init];
-    [alMessageClientService markConversationAsRead:contactId andChannelKey:channelKey withCompletion:^(NSString *response, NSError * error) {
-        completion(response,error);
-    }];
-    
-}
 
 +(void)processPendingMessages{
-
+    
     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
     NSMutableArray * pendingMessageArray = [dbService getPendingMessages];
     NSLog(@"service called....%lu",pendingMessageArray.count);
-
+    
     for(ALMessage *msg  in pendingMessageArray ){
         
         if(!msg.fileMeta && !msg.pairedMessageKey){
@@ -345,7 +371,7 @@ static ALMessageClientService *alMsgClientService;
         }
         
     }
-
+    
 }
 
 +(ALMessage*)getMessagefromKeyValuePair:(NSString*)key andValue:(NSString*)value{

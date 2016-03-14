@@ -44,41 +44,48 @@
 
 
 -(void)ALDefaultChatViewSettings
-
 {
-    
     [ALUserDefaultsHandler setLogoutButtonHidden:NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     [ALApplozicSettings setUserProfileHidden:NO];
     [ALApplozicSettings hideRefreshButton:NO];
-    [ALApplozicSettings setTitleForConversationScreen:@"Recent Chats"];
-    [ALApplozicSettings setTitleFontFace:@"Helvetica"];
+    [ALApplozicSettings setTitleForConversationScreen:@"Chats"];
     
     [ALApplozicSettings setFontFace:@"Helvetica"];
-    [ALApplozicSettings setColourForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
-    [ALApplozicSettings setColourForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
-    [ALApplozicSettings setColourForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
-    [ALApplozicSettings setColourForNavigationItem: [UIColor whiteColor]];
+    [ALApplozicSettings setColorForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
+    [ALApplozicSettings setColorForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
+    [ALApplozicSettings setColorForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
+    [ALApplozicSettings setColorForNavigationItem: [UIColor whiteColor]];
     
-    NSString* appName=[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
+    NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     [ALApplozicSettings setNotificationTitle:appName];
-     //[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]];
+    [ALApplozicSettings setMaxCompressionFactor:0.1f];
+    [ALApplozicSettings setMaxImageSizeForUploadInMB:3];
+    
+    [ALApplozicSettings setGroupOption:YES];
+
 }
 
 
 
--(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
+-(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
 
 {
     self.chatLauncherFLAG=[NSNumber numberWithInt:1];
 //    NSLog(self.chatLauncherFLAG ? @"ALCHAT Launcher is TRUE":@"ALCHAT Launcher is FALSE");
     
-//    [self ALDefaultChatViewSettings];
+    [self ALDefaultChatViewSettings];
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
     ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+    
+    if(groupID){
+        chatView.channelKey=groupID;
+    }else{
+        chatView.channelKey=nil;
+    }
     chatView.contactIds = userId;
     chatView.text = text;
     chatView.individualLaunch = YES;
@@ -89,20 +96,23 @@
 }
 
 
--(void)launchIndividualChat:(NSString *)userId withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
+-(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
 
 {
-//    [self ALDefaultChatViewSettings];
+    [self ALDefaultChatViewSettings];
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
     ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     
+    
+    chatView.channelKey=groupID;
     chatView.contactIds = userId;
     chatView.text = text;
     chatView.individualLaunch = YES;
     chatView.displayName=displayName;
+    
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
     conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
@@ -152,6 +162,29 @@
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:contcatListView];
     [uiViewController presentViewController:conversationViewNavController animated:YES completion:nil];
 
+}
+
+
+-(void)launchIndividualContextChat:(ALConversationProxy *)alConversationProxy andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text{
+    
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                                         bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    
+    ALChatViewController *contextChatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+   
+    contextChatView.conversationId  = alConversationProxy.Id;
+    contextChatView.channelKey      = alConversationProxy.groupId;
+    contextChatView.contactIds      = alConversationProxy.userId;
+    contextChatView.text            = text;
+    contextChatView.individualLaunch= YES;
+    contextChatView.displayName     = [NSString stringWithFormat:@"%@",alConversationProxy.userId];
+    
+    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:contextChatView];
+    conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
+    [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
+    
+
+    
 }
 
 @end

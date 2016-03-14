@@ -18,9 +18,15 @@
 #import "ALMessagesViewController.h"
 #import "ALColorUtility.h"
 #import "UIImageView+WebCache.h"
+#import "ALGroupCreationViewController.h"
+#import "ALGroupDetailViewController.h"
+
 
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
 #define DEFAULT_TOP_PORTRAIT_CONSTANT -64
+
+#define SHOW_CONTACTS 101
+#define SHOW_GROUP 102
 
 @interface ALNewContactsViewController ()
 
@@ -36,13 +42,22 @@
 
 @property  NSUInteger lastSearchLength;
 
+@property (strong,nonatomic)NSMutableArray* groupMembers;
+@property (strong,nonatomic)ALChannelService * creatingChannel;
+
+@property (weak,nonatomic) NSNumber* groupOrContacts;
+@property (strong, nonatomic) NSMutableArray *alChannelsList;
+@property (nonatomic)NSInteger selectedSegment;
+@property (strong, nonatomic) UILabel *emptyConversationText;
 @end
 
 @implementation ALNewContactsViewController
-
+@synthesize delegate;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[self activityIndicator] startAnimating];
+    self.groupOrContacts = [NSNumber numberWithInt:SHOW_CONTACTS]; //default
+    self.selectedSegment = 0;
     UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
     
     if (!color) {
@@ -61,11 +76,11 @@
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Back"]];
     [self.navigationItem setLeftBarButtonItem: barButtonItem];
     
+    ALChannelDBService * alChannelDBService = [[ALChannelDBService alloc] init];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self fetchConversationsGroupByContactId];
+        self.alChannelsList = [NSMutableArray arrayWithArray:[alChannelDBService getAllChannelKeyAndName]];
     });
-    
-    
     
     self.filteredContactList = [NSMutableArray arrayWithArray:self.contactList];
     //    float y = self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height+ [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -87,6 +102,10 @@
      
      [self.view addGestureRecognizer:tap];*/
     self.colors = [[NSArray alloc] initWithObjects:@"#617D8A",@"#628B70",@"#8C8863",@"8B627D",@"8B6F62", nil];
+    
+    self.groupMembers=[[NSMutableArray alloc] init];
+    
+    [self emptyConversationAlertLabel];
 }
 
 - (void) dismissKeyboard
@@ -98,6 +117,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    self.navigationItem.leftBarButtonItem = nil;
     
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
@@ -109,98 +129,176 @@
     //        self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
     //    }
     
-    if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
+    if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
     {
         self.navigationController.navigationBar.translucent = NO;
-        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColourForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:18]}];
+        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:18]}];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
-        [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColourForNavigationItem]];
+        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
+        [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
         
     }
+   
+    BOOL groupRegular = [self.forGroup isEqualToNumber:[NSNumber numberWithInt:REGULAR_CONTACTS]];
+    if((!groupRegular && self.forGroup != NULL)){
+        [self updateView];
+    }
+    
+    if(![ALApplozicSettings getGroupOption]){
+        [self.navigationItem setTitle:@"Contacts"];
+        [self.segmentControl setSelectedSegmentIndex:0];
+        [self.segmentControl setHidden:YES];
+    }
+    
 }
 
--(void) viewWillDisappear:(BOOL)animated
-{
-    if([ALUserDefaultsHandler isBottomTabBarHidden])
+- (void)updateView{
+    
+    [self.tabBarController.tabBar setHidden:YES];
+    [self.segmentControl setSelectedSegmentIndex:0];
+    [self.segmentControl setHidden:YES];
+/*    [self.segmentControl removeSegmentAtIndex:1 animated:YES];
+    [self.segmentControl setTitle:@"Choose Contact" forSegmentAtIndex:0]; */
+
+    BOOL groupCreation = [self.forGroup isEqualToNumber:[NSNumber numberWithInt:GROUP_CREATION]];
+    if (groupCreation)
     {
-        [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
+        
+        self.contactsTableView.editing=YES;
+        self.contactsTableView.allowsMultipleSelectionDuringEditing = YES;
+        [ALUserDefaultsHandler setBottomTabBarHidden:YES];
+        self.done = [[UIBarButtonItem alloc]
+                         initWithTitle:@"Done"
+                         style:UIBarButtonItemStyleBordered
+                         target:self
+                         action:@selector(createNewGroup:)];
+            
+        self.navigationItem.rightBarButtonItem = self.done;
     }
 }
 
+-(void) viewWillDisappear:(BOOL)animated{
+    
+    [self.tabBarController.tabBar setHidden: NO];
+    self.forGroup = [NSNumber numberWithInt:0];
+}
+
+-(void)emptyConversationAlertLabel{
+    
+    self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 15 + self.view.frame.size.width/8, self.view.frame.origin.y + self.view.frame.size.height/2, 250, 30)];
+    [self.emptyConversationText setText:@"You have no group"];
+    [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
+    [self.view addSubview:self.emptyConversationText];
+    self.emptyConversationText.hidden =  YES;
+}
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.contactsTableView?1:0;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return self.filteredContactList.count;
+    NSUInteger count = self.filteredContactList.count;
+    if(self.selectedSegment == 1)
+        count = self.alChannelsList.count;
+    if(count == 0)
+        [self.emptyConversationText setHidden:NO];
+    return count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *cellIdentifier = @"NewContactCell";
-    
-    ALNewContactCell *newContactCell = (ALNewContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    static NSString *individualCellIdentifier = @"NewContactCell";
+    ALNewContactCell *newContactCell = (ALNewContactCell *)[tableView dequeueReusableCellWithIdentifier:individualCellIdentifier];
+    NSUInteger randomIndex = random()% [self.colors count];
     UILabel* nameIcon = (UILabel*)[newContactCell viewWithTag:101];
     nameIcon.layer.cornerRadius = nameIcon.frame.size.width/2;
-    NSUInteger randomIndex = random()% [self.colors count];
-    nameIcon.backgroundColor = [ALColorUtility colorWithHexString:self.colors[randomIndex]];
     [nameIcon setTextColor:[UIColor whiteColor]];
     nameIcon.layer.masksToBounds = YES;
-    ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
-    newContactCell.contactPersonName.text = [contact getDisplayName];
-    [nameIcon setHidden:NO];
-    [newContactCell.contactPersonImageView setHidden:YES];
+    [nameIcon setHidden:YES];
+    
+    [newContactCell.contactPersonImageView setHidden:NO];
     newContactCell.contactPersonImageView.layer.cornerRadius = newContactCell.contactPersonImageView.frame.size.width/2;
     newContactCell.contactPersonImageView.layer.masksToBounds = YES;
-    //Write the logic to get display name
-    if (contact)
-    {
-        if (contact.contactImageUrl)
-        {
-            [newContactCell.contactPersonImageView setHidden:NO];
-            [nameIcon setHidden:YES];
-            [newContactCell.contactPersonImageView sd_setImageWithURL:[NSURL URLWithString:contact.contactImageUrl]];
-        }
-        else if(contact.localImageResourceName)
-        {
-            [newContactCell.contactPersonImageView setHidden:NO];
-            [nameIcon setHidden:YES];
-            [newContactCell.contactPersonImageView setImage:[ALUtilityClass getImageFromFramworkBundle:contact.localImageResourceName]];
-        }
-        else
-        {
+    
+    [self.emptyConversationText setHidden:YES];
+    [self.contactsTableView setHidden:NO];
+    switch (self.groupOrContacts.intValue) {
+        case SHOW_CONTACTS:{
+            ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
+            newContactCell.contactPersonName.text = [contact getDisplayName];
+       
             
-            NSString *firstLetter = [newContactCell.contactPersonName.text substringToIndex:1];
-            //        nameIcon.text=firstLetter;
-            NSRange whiteSpaceRange = [newContactCell.contactPersonName.text rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
-            if (whiteSpaceRange.location != NSNotFound)
+            if (contact){
+            if (contact.contactImageUrl)
             {
-                NSArray *listNames = [newContactCell.contactPersonName.text componentsSeparatedByString:@" "];
-                NSString *firstLetter = [[listNames[0] substringToIndex:1] uppercaseString];
-                NSString *lastLetter = [[listNames[1] substringToIndex:1] uppercaseString];
-                nameIcon.text = [[firstLetter stringByAppendingString:lastLetter] uppercaseString];
+                [newContactCell.contactPersonImageView sd_setImageWithURL:[NSURL URLWithString:contact.contactImageUrl]];
             }
             else
             {
-                nameIcon.text = [firstLetter uppercaseString];
+                [nameIcon setHidden:NO];
+                [newContactCell.contactPersonImageView setImage:[ALColorUtility imageWithSize:CGRectMake(0, 0, 55, 55) WithHexString:self.colors[randomIndex]]];
+                [newContactCell.contactPersonImageView addSubview:nameIcon];
+                [nameIcon  setText:[ALColorUtility getAlphabetForProfileImage:newContactCell.contactPersonName.text]];
             }
         }
-        
-        
+    }break;
+    case SHOW_GROUP:
+        {
+            if(self.alChannelsList.count)
+            {
+                ALChannel * channel = [self.alChannelsList objectAtIndex:indexPath.row];
+                newContactCell.contactPersonName.text = [channel name];
+                [newContactCell.contactPersonImageView setImage:[UIImage imageNamed:@"applozic_group_icon.png"]];
+                [nameIcon setHidden:YES];
+            }
+            else
+            {
+                [self.contactsTableView setHidden:YES];
+                [self.emptyConversationText setHidden:NO];
+            }
+    }break;
+    default:
+        break;
     }
-    
+
     return newContactCell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    ALContact *selectedContact =  self.filteredContactList[indexPath.row];
-    [self launchChatForContact:selectedContact.userId];
-    
+    switch (self.forGroup.intValue){
+            
+    case GROUP_CREATION:{
+        ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
+        [self.groupMembers addObject:contact.userId];
+    }break;
+    case GROUP_ADDITION:{
+        [delegate addNewMembertoGroup:self.filteredContactList[indexPath.row]];
+        [self backToDetailView:nil];
+
+    }break;
+    default:{ //DEFAULT : Launch contact!
+        NSNumber * key = nil;
+        ALContact *selectedContact =  self.filteredContactList[indexPath.row];
+        if(self.selectedSegment == 1){
+            ALChannel *selectedChannel =  self.alChannelsList[indexPath.row];
+            key = selectedChannel.key;
+            NSLog(@"KEY %@",key);
+        }
+        [self launchChatForContact:selectedContact.userId withChannelKey:key];
+    }
+        
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([self.forGroup isEqualToNumber:[NSNumber numberWithInt:1]]){
+        ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
+        [self.groupMembers removeObject:contact.userId];
+    }
     
 }
+
 
 -(void) fetchConversationsGroupByContactId
 {
@@ -223,12 +321,12 @@
         contact.fullName = dbContact.fullName;
         contact.contactNumber = dbContact.contactNo;
         contact.displayName = dbContact.displayName;
-        NSLog(@"XX == DISPLAY NAME %@", dbContact.displayName);
+//        NSLog(@"XX == DISPLAY NAME %@", dbContact.displayName);
         contact.contactImageUrl = dbContact.contactImageUrl;
-        NSLog(@"XX == DISPLAY IMAGE URL  %@",  dbContact.contactImageUrl);
+//        NSLog(@"XX == DISPLAY IMAGE URL  %@",  dbContact.contactImageUrl);
         contact.email = dbContact.email;
         contact.localImageResourceName = dbContact.localImageResourceName;
-        NSLog(@"XX == DISPLAY IMAGE LOCAL  %@", dbContact.localImageResourceName);
+//        NSLog(@"XX == DISPLAY IMAGE LOCAL  %@", dbContact.localImageResourceName);
         [self.contactList addObject:contact];
     }
     
@@ -244,7 +342,7 @@
 }
 
 #pragma mark orientation method
-
+//=============================
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
@@ -280,7 +378,7 @@
 }
 
 #pragma mark - Search Bar Delegate Methods -
-
+//========================================
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
 }
@@ -319,10 +417,8 @@
 
 
 -(void)back:(id)sender {
-    NSLog(@"backbuttonClicked.....");
-    // UIViewController uiController = [self.navigationController pop];
     
-    UIViewController *    viewControllersFromStack = [self.navigationController popViewControllerAnimated:YES];
+    UIViewController * viewControllersFromStack = [self.navigationController popViewControllerAnimated:YES];
     if(!viewControllersFromStack){
         self.tabBarController.selectedIndex = 0;
         [self.navigationController popToRootViewControllerAnimated:YES];
@@ -330,19 +426,14 @@
     
 }
 
--(void)launchChatForContact:( NSString *)contactId{
-    
-    
+-(void)launchChatForContact:( NSString *)contactId  withChannelKey:(NSNumber*)channelKey {
+
     BOOL isFoundInBackStack =false;
-    
     NSMutableArray *viewControllersFromStack = [self.navigationController.viewControllers mutableCopy];
-    
-    for (UIViewController *currentVC in viewControllersFromStack)
-    {
-        if ([currentVC isKindOfClass:[ALMessagesViewController class]])
-        {
+    for (UIViewController *currentVC in viewControllersFromStack){
+        if ([currentVC isKindOfClass:[ALMessagesViewController class]]){
+            [(ALMessagesViewController*)currentVC setChannelKey:channelKey];
             NSLog(@"found in backStack .....launching from current vc");
-            
             [(ALMessagesViewController*) currentVC createDetailChatViewController:contactId];
             isFoundInBackStack = true;
         }
@@ -353,10 +444,9 @@
         UINavigationController * uicontroller =  self.tabBarController.selectedViewController;
         NSMutableArray *viewControllersFromStack = [uicontroller.childViewControllers mutableCopy];
         
-        for (UIViewController *currentVC in viewControllersFromStack)
-        {
-            if ([currentVC isKindOfClass:[ALMessagesViewController class]])
-            {
+        for (UIViewController *currentVC in viewControllersFromStack){
+            if ([currentVC isKindOfClass:[ALMessagesViewController class]]){
+                [(ALMessagesViewController*)currentVC setChannelKey:channelKey];
                 NSLog(@"f####ound in backStack .....launching from current vc");
                 [(ALMessagesViewController*) currentVC createDetailChatViewController:contactId];
                 isFoundInBackStack = true;
@@ -381,10 +471,10 @@
     [imageView setFrame:CGRectMake(-10, 0, 30, 30)];
     [imageView setTintColor:[UIColor whiteColor]];
     UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(imageView.frame.origin.x + imageView.frame.size.width - 5, imageView.frame.origin.y + 5 , @"back".length, 15)];
-    [label setTextColor: [ALApplozicSettings getColourForNavigationItem]];
+    [label setTextColor: [ALApplozicSettings getColorForNavigationItem]];
     [label setText:text];
     [label sizeToFit];
-    [label setFont: [UIFont fontWithName: [ALApplozicSettings getTitleFontFace] size:15]];
+    
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imageView.frame.size.width + label.frame.size.width, imageView.frame.size.height)];
     view.bounds=CGRectMake(view.bounds.origin.x+8, view.bounds.origin.y-1, view.bounds.size.width, view.bounds.size.height);
     [view addSubview:imageView];
@@ -397,4 +487,114 @@
     
 }
 
+#pragma mark- Segment Control
+//===========================
+- (IBAction)segmentControlAction:(id)sender {
+    
+    UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
+    self.selectedSegment = segmentedControl.selectedSegmentIndex;
+    
+    if (self.selectedSegment == 0) {
+        //toggle the Contacts view to be visible
+        self.groupOrContacts = [NSNumber numberWithInt:SHOW_CONTACTS];
+    }
+    else{
+        //toggle the Group view to be visible
+        self.groupOrContacts = [NSNumber numberWithInt:SHOW_GROUP];
+    }
+    [self.contactsTableView reloadData];
+}
+
+#pragma mark - Create group method
+//================================
+-(void)createNewGroup:(id)sender{
+    
+    //check whether at least two memebers selected
+    if(self.groupMembers.count < 2){
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"Group Members"
+                                              message:@"Please select atleast two members"
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       NSLog(@"OK action");
+                                   }];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+        return;
+        
+    }
+    
+    //Server Call
+    self.creatingChannel=[[ALChannelService alloc] init];
+    [self.creatingChannel createChannel:self.groupName andMembersList:self.groupMembers withCompletion:^(NSNumber *channelKey) {
+
+        if(channelKey){
+            [self addDummyMessage:channelKey];
+        }
+        else{
+            NSLog(@"null channel key");
+        }
+    }];
+    
+    
+    //Updating view, popping to MessageList View
+    NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
+    for (UIViewController *aViewController in allViewControllers) {
+        if ([aViewController isKindOfClass:[ALMessagesViewController class]]) {
+            [self.navigationController popToViewController:aViewController animated:YES];
+        }
+    }
+    
+}
+
+# pragma mark - Dummy group message method
+//========================================
+-(void) addDummyMessage:(NSNumber *)channelKey
+{
+    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
+    ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
+    
+    ALMessage * theMessage = [ALMessage new];
+    theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
+    theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
+    theMessage.sendToDevice = NO;
+    theMessage.sent = NO;
+    theMessage.shared = NO;
+    theMessage.fileMeta = nil;
+    theMessage.key = @"welcome-message-temp-key-string";
+    theMessage.fileMetaKey = @"";//4
+    theMessage.contentType = 0;
+    theMessage.type = @"101";
+    theMessage.message = @"You have created a new group, Say Hi to members :)";
+    theMessage.groupId = channelKey;
+    theMessage.read=YES;
+    theMessage.sentToServer = TRUE;
+    
+    //UI update...
+    NSMutableArray* updateArr=[[NSMutableArray alloc] initWithObjects:theMessage, nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTable" object:updateArr];
+    
+    //db insertion..
+    [messageDBService createMessageEntityForDBInsertionWithMessage:theMessage];
+    [theDBHandler.managedObjectContext save:nil];
+    
+}
+
+#pragma mar - Member Addition to group
+//====================================
+-(void)backToDetailView:(NSInteger)row{
+    
+    self.forGroup = [NSNumber numberWithInt:0];
+    NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
+    for (UIViewController *aViewController in allViewControllers) {
+        if ([aViewController isKindOfClass:[ALGroupDetailViewController class]]) {
+            [self.navigationController popToViewController:aViewController animated:YES];
+        }
+    }
+}
 @end

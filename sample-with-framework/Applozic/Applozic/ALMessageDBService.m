@@ -31,23 +31,26 @@
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     for (ALMessage * theMessage in messageList) {
         
-        //Duplicate check before inserting into DB...
         NSManagedObject *message =  [self getMessageByKey:@"key" value:theMessage.key];
-        if(message!=nil){
-            NSLog(@"Skipping duplicate message found with key %@", theMessage.key);
-            continue;
+        if(message==nil){
+            theMessage.sentToServer = YES;
+            
+            DB_Message * theMessageEntity= [self createMessageEntityForDBInsertionWithMessage:theMessage];
+            theMessage.msgDBObjectId = theMessageEntity.objectID;
+            
+            [messageArray addObject:theMessage];
+            
         }
-        theMessage.sentToServer = YES;
-        DB_Message * theMessageEntity= [self createMessageEntityForDBInsertionWithMessage:theMessage];
-        [theDBHandler.managedObjectContext save:nil];
-        theMessage.msgDBObjectId = theMessageEntity.objectID;
-        
-        [messageArray addObject:theMessage];
     }
-    
-    [theDBHandler.managedObjectContext save:nil];
+    NSError * error;
+    [theDBHandler.managedObjectContext save:&error];
+    if(![theDBHandler.managedObjectContext save:&error]){
+        NSLog(@"Unable to save error :%@",error);
+        
+    }
     return messageArray;
 }
+
 
 -(DB_Message*)addMessage:(ALMessage*) message{
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
@@ -151,7 +154,7 @@
     NSPredicate *predicate;
     if(key != nil)
     {
-     predicate = [NSPredicate predicateWithFormat:@"groupId = %@",key];
+        predicate = [NSPredicate predicateWithFormat:@"groupId = %@",key];
     }
     else
     {
@@ -253,52 +256,6 @@
     }
 }
 
--(NSUInteger)markConversationAsRead:(NSString *) contactId orChannelKey:(NSNumber *)key
-{
-    NSArray *messages  = [self getUnreadMessages:contactId];
-    
-    if(messages.count >0 ){
-        NSBatchUpdateRequest *req = [[NSBatchUpdateRequest alloc] initWithEntityName:@"DB_Message"];
-        req.predicate = [NSPredicate predicateWithFormat:@"contactId==%@",contactId];
-        if(key != nil)
-        {
-            req.predicate = [NSPredicate predicateWithFormat:@"groupId==%@",key];
-        }
-        
-        req.propertiesToUpdate = @{
-                                   @"isRead" : @(YES)
-                                   };
-        req.resultType = NSUpdatedObjectsCountResultType;
-        ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
-        NSBatchUpdateResult *res = (NSBatchUpdateResult *)[dbHandler.managedObjectContext executeRequest:req error:nil];
-        NSLog(@"%@ objects updated", res.result);
-    }
-    return messages.count;
-}
-
-- (NSArray *)getUnreadMessages:(NSString *) contactId
-{
-    //Runs at Opening AND Leaving ChatVC AND Opening MessageList..
-    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
-    NSPredicate *predicate;
-
-    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"isRead==%@ AND type==%@ ",@"0",@"4"];
-//    NSPredicate *predicate3 = [NSPredicate predicateWithFormat:@"deletedFlag == NO"];
-    if (contactId) {
-        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"%K=%@",@"contactId",contactId];
-        predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
-    } else {
-        predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate2]];
-    }
-    [fetchRequest setEntity:entity];
-    [fetchRequest setPredicate:predicate];
-    NSError *fetchError = nil;
-    NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
-    return result;
-}
-
 //------------------------------------------------------------------------------------------------------------------
     #pragma mark - ALMessagesViewController DB Operations.
 //------------------------------------------------------------------------------------------------------------------
@@ -351,12 +308,11 @@
     
     [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
         if (error) {
-            NSLog(@"%@",error);
+            NSLog(@"GetLatestMsg Error%@",error);
             return ;
         }
-        [self addMessageList:messageArray];
         [self.delegate updateMessageList:messageArray];
-        //[self fetchConversationsGroupByContactId];
+//        [self fetchConversationsGroupByContactId];
     }];
     
 }
@@ -393,7 +349,7 @@
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     [theRequest setResultType:NSDictionaryResultType];
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
-    [theRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"contactId", @"groupId", nil]];
+    [theRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"groupId", nil]];
     [theRequest setReturnsDistinctResults:YES];
     
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
@@ -401,17 +357,12 @@
     NSMutableArray *messagesArray = [NSMutableArray new];
     for (NSDictionary * theDictionary in theArray) {
         NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-        
-        if([theDictionary[@"groupId"] intValue])
-        {
-            [theRequest setPredicate:[NSPredicate predicateWithFormat:@"groupId = %@",theDictionary[@"groupId"]]];
-        }
-        else
-        {
-            [theRequest setPredicate:[NSPredicate predicateWithFormat:@"contactId = %@",theDictionary[@"contactId"]]];
+        if([theDictionary[@"groupId"] intValue]==0){
+            continue;
         }
         
         [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
+        [theRequest setPredicate:[NSPredicate predicateWithFormat:@" groupId==%d",[theDictionary[@"groupId"] intValue] ]];
         [theRequest setFetchLimit:1];
         
         NSArray * theArray1 =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
@@ -419,6 +370,25 @@
         
         ALMessage * theMessage = [self createMessageEntity:theMessageEntity];
         [messagesArray addObject:theMessage];
+    }
+    // Find all message only have contact ...
+    NSFetchRequest * theRequest1 = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
+    [theRequest1 setResultType:NSDictionaryResultType];
+    [theRequest1 setPredicate:[NSPredicate predicateWithFormat:@"groupId=%d OR groupId=nil",0]];
+    [theRequest1 setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
+    [theRequest1 setPropertiesToFetch:[NSArray arrayWithObjects:@"contactId", nil]];
+    [theRequest1 setReturnsDistinctResults:YES];
+    NSArray * theArray1 = [theDbHandler.managedObjectContext executeFetchRequest:theRequest1 error:nil];
+
+    for (NSDictionary * theDictionary in theArray1) {
+        NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
+        [theRequest setPredicate:[NSPredicate predicateWithFormat:@"contactId = %@ and groupId=nil",theDictionary[@"contactId"]]];
+        [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
+        NSArray * theArray1 =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
+        DB_Message * theMessageEntity = theArray1.firstObject;
+        ALMessage * theMessage = [self createMessageEntity:theMessageEntity];
+        [messagesArray addObject:theMessage];
+        
     }
     if(!self.delegate ){
         NSLog(@"delegate is not set.");
@@ -463,7 +433,7 @@
     theMessageEntity.isUploadFailed=[ NSNumber numberWithBool:theMessage.isUploadFailed];
     theMessageEntity.contentType = theMessage.contentType;
     theMessageEntity.deletedFlag=[NSNumber numberWithBool:theMessage.deleted];
-    
+    theMessageEntity.conversationId = theMessage.conversationId;
     
     if(theMessage.getGroupId)
     {
@@ -517,13 +487,11 @@
     theMessage.sentToServer = theEntity.sentToServer.boolValue;
     theMessage.isUploadFailed = theEntity.isUploadFailed.boolValue;
     theMessage.contentType = theEntity.contentType;
+   
     theMessage.deleted=theEntity.deletedFlag.boolValue;
-//    NSLog(@"theMessage Deleted flag setting %hhd",theMessage.deleted);
-    if(theEntity.groupId)
-    {
-        theMessage.groupId = theEntity.groupId;
-    }
-    
+    theMessage.groupId = theEntity.groupId;
+    theMessage.conversationId = theEntity.conversationId;
+
     // file meta info
     if(theEntity.fileMetaInfo){
         ALFileMetaInfo * theFileMeta = [ALFileMetaInfo new];
@@ -557,22 +525,24 @@
     
 }
 
--(NSMutableArray *)getMessageListForContactWithCreatedAt:(NSString *)contactId withCreatedAt:(NSNumber*)createdAt andChannelKey:(NSNumber *)channelKey
+-(NSMutableArray *)getMessageListForContactWithCreatedAt:(NSString *)contactId
+                                           withCreatedAt:(NSNumber*)createdAt
+                                        andChannelKey:(NSNumber *)channelKey
+                                          conversationId:(NSNumber*)conversationId
 {
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     NSPredicate *predicate1;
     if(channelKey != nil)
     {
-        predicate1 = [NSPredicate predicateWithFormat:@"groupId = %@",channelKey];
+        predicate1 = [NSPredicate predicateWithFormat:@"groupId = %@ && conversationId = %i",channelKey,conversationId];
     }
     else
     {
-        predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@",contactId];
+        predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@ && conversationId = %i",contactId,conversationId];
     }
     
     NSPredicate* predicateDeletedCheck=[NSPredicate predicateWithFormat:@"deletedFlag == NO"];
-    
     NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"createdAt < %lu",createdAt];
     theRequest.predicate =[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1, predicate2, predicateDeletedCheck]];
     

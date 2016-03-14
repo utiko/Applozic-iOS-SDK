@@ -12,8 +12,10 @@
 
 -(double) getImageSizeInMb;
 
--(BOOL) islandScape;
+//-(BOOL) islandScape;
 
 -(UIImage *) getCompressedImageLessThanSize:(double ) sizeInMb;
+-(NSData *) getCompressedImageData;
+
 
 @end

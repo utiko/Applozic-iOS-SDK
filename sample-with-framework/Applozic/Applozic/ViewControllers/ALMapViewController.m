@@ -59,16 +59,12 @@
     [self.tabBarController.tabBar setHidden: YES];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    if([ALUserDefaultsHandler isBottomTabBarHidden])
-    {
-        [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
-    }
+-(void)viewWillAppear:(BOOL)animated{
+    [self.tabBarController.tabBar setHidden: YES];
 //    self.navigationController.navigationBar.translucent = NO;
-    [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
-    [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
-    [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColourForNavigation]];
+    [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
+    [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
+    [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColorForNavigation]];
     
     if (![ALDataNetworkConnection checkDataNetworkAvailable])
     {
@@ -87,10 +83,11 @@
     NSLog(@"location sending .... ");
     
     region = self.mapKitView.region;
-    
-    
-    
-    NSLog(@"latitude: %.8f && longitude: %.8f", region.center.latitude, region.center.longitude);
+
+    NSString * lat = [NSString stringWithFormat:@"%.8f",region.center.latitude];
+    NSString * lon = [NSString stringWithFormat:@"%.8f",region.center.longitude];
+
+    NSDictionary * latLongDic = [[NSDictionary alloc] initWithObjectsAndKeys:lat,@"lat",lon,@"lon", nil];
     
     //static map location
     NSString * staticMapLocationURL=[NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/staticmap?center=%.8f,%.8f&zoom=17&size=290x179&maptype=roadmap&format=png&visual_refresh=true&markers=%.8f,%.8f",region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
@@ -98,27 +95,30 @@
     [self.mapView sd_setImageWithURL:staticImageURL];
     
     
-    
-    
-    //simpe location link       comgooglemaps://?q=Pizza&center=37.759748,-122.427135
-    
-    //    NSString * locationURL=[NSString stringWithFormat:@"http://maps.google.com/?ll=%.8f,%.8f,15z", region.center.latitude, region.center.longitude];
-    //   https://www.google.co.in/maps/@12.9328581,77.6274083,19z
-    
-    //     NSString * locationURL=[NSString stringWithFormat:@"https://www.google.co.in/maps/@%.8f,%.8f,15z&markers=%.8f,%.8f", region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
-    
-    NSString * locationURL=[NSString stringWithFormat:@"http://maps.google.com/?center=%.8f,%.8f,15z",[self.lattY doubleValue], [self.longX doubleValue]];
-    
     if([ALDataNetworkConnection checkDataNetworkAvailable])
     {
-        //        locationURL = [self.addressLabel stringByAppendingString:locationURL];
+//                locationURL = [self.addressLabel stringByAppendingString:locationURL];
     }
-    //    [self.controllerDelegate getUserCurrentLocation:locationURL];
     
-    [self.controllerDelegate googleImage:nil withURL:staticMapLocationURL];
+    [self createJson:latLongDic];
     
     [self.navigationController popViewControllerAnimated:YES];
     
+}
+
+-(void)createJson:(NSDictionary *)latLongDic{
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:latLongDic
+                                                       options:NSJSONWritingPrettyPrinted 
+                                                         error:&error];
+    
+    if (! jsonData) {
+        NSLog(@"Got an error: %@", error);
+    } else {
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        [self.controllerDelegate googleImage:nil withURL:jsonString];
+        NSLog(@"jsonString :%@",jsonString);
+    }
 }
 
 - (void)requestAlwaysAuthorization
@@ -154,11 +154,8 @@
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    //    NSLog(@"%@",[locations lastObject]);
-    
-//    _sendLocationButton.enabled=NO;
+
     CLLocation *newLocation = [locations lastObject];
-    
     
     self.lattY = [NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
     self.longX = [NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
@@ -167,7 +164,6 @@
         
         if (error == nil && [placemarks count] > 0)
         {
-//            _sendLocationButton.enabled=YES;
             self.placemark = [placemarks lastObject];
             self.addressLabel = [NSString stringWithFormat:@"Address: %@\n%@ %@, %@, %@\n",
                                  self.placemark.thoroughfare,

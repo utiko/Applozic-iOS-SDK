@@ -7,15 +7,18 @@
 //
 
 #import "ApplozicLoginViewController.h"
-#import  <Applozic/ALUser.h>
-#import  <Applozic/ALUserDefaultsHandler.h>
-#import  <Applozic/ALMessageClientService.h>
-#import  <Applozic/ALRegistrationResponse.h>
+#import <Applozic/ALUser.h>
+#import <Applozic/ALUserDefaultsHandler.h>
+#import <Applozic/ALMessageClientService.h>
+#import <Applozic/ALRegistrationResponse.h>
 #import <Applozic/ALRegisterUserClientService.h>
 #import <Applozic/ALMessagesViewController.h>
 #import <Applozic/ALApplozicSettings.h>
+#import <Applozic/ALDataNetworkConnection.h>
 #import <Applozic/ALChatLauncher.h>
+#import <Applozic/ALMessageDBService.h>
 #import "DemoChatManager.h"
+#import <LaunchChatFromSimpleViewController.h>
 
 @interface ApplozicLoginViewController ()
 
@@ -38,7 +41,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [ self registerForNotification];
+    //[ self registerForNotification];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
                                    action:@selector(dismissKeyboard)];
@@ -48,14 +51,17 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    if (![ALUserDefaultsHandler getApnDeviceToken]){
-        [ self registerForNotification];
-    }
-    [self setTitle:@"Login Screen"];
+    //    if (![ALUserDefaultsHandler getApnDeviceToken]){
+    //        [ self registerForNotification];
+    //    }
+    
     [super viewWillAppear:animated];
     
     [self registerForKeyboardNotifications];
     
+    [ALDataNetworkConnection checkDataNetworkAvailable];
+    [self.mActivityIndicator stopAnimating];
+    [self setTitle:@"Log Out"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -137,6 +143,9 @@
     
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService logout];
+    // Initial login view .....
+    
+    
     
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
@@ -151,14 +160,24 @@
     
     //
     ALUser *user = [[ALUser alloc] init];
-    [user setApplicationId:@"applozic-sample-app"];
     [user setUserId:[self.userIdField text]];
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
+    [user setImageLink:@""];
+    [self.mActivityIndicator startAnimating];
     
-    DemoChatManager * chatManager = [[DemoChatManager alloc]init];
-    [ chatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
-     
+    [ALUserDefaultsHandler setUserId:user.userId];
+    [ALUserDefaultsHandler setEmailId:user.emailId];
+    
+    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
+    [demoChatManager registerUser:user];
+    
+    UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Main"
+                                                          bundle:nil];
+    UIViewController *launchChat = [storyboardM instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
+    [self presentViewController:launchChat animated:YES completion:nil];
+    
+    
 }
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -177,20 +196,6 @@
         [textField resignFirstResponder];
     }
     return true;
-}
-
--(void)registerForNotification{
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-    {
-        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-    }
-    else
-    {
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-         (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
-    }
 }
 
 - (IBAction)getstarted:(id)sender {

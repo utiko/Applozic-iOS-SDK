@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D21" minimumToolsVersion="Xcode 4.3">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15C50" minimumToolsVersion="Xcode 4.3">
     <entity name="DB_CHANNEL" representedClassName="DB_CHANNEL" syncable="YES">
         <attribute name="adminId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="channelDisplayName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="channelKey" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="isLeft" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="unreadCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="userCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -15,6 +16,7 @@
         <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="DB_CONTACT" representedClassName="DB_CONTACT" syncable="YES">
+        <attribute name="block" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="connected" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="contactImageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contactNo" optional="YES" attributeType="String" syncable="YES"/>
@@ -23,13 +25,18 @@
         <attribute name="fullName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastSeenAt" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="localImageResourceName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="unreadCount" optional="YES" attributeType="Integer 32" minValueString="0" defaultValueString="0" syncable="YES"/>
         <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="DB_ConversationProxy" representedClassName="DB_ConversationProxy" syncable="YES">
+        <attribute name="closed" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="created" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="groupId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="iD" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="supportIds" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="topicDetailJson" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="topicId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="DB_FileMetaInfo" representedClassName="DB_FileMetaInfo" syncable="YES">
         <attribute name="blobKeyString" optional="YES" attributeType="String" syncable="YES"/>
@@ -44,12 +51,13 @@
     <entity name="DB_Message" representedClassName="DB_Message" syncable="YES">
         <attribute name="contactId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contentType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="conversationId" optional="YES" attributeType="Integer 64" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="deletedFlag" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="delivered" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="deviceKey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="filePath" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="groupId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="groupId" optional="YES" attributeType="Integer 32" syncable="YES"/>
         <attribute name="inProgress" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isRead" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isSent" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -66,11 +74,13 @@
         <relationship name="fileMetaInfo" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DB_FileMetaInfo" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DB_CHANNEL" positionX="27" positionY="171" width="128" height="135"/>
+        <element name="DB_CHANNEL" positionX="27" positionY="171" width="128" height="150"/>
         <element name="DB_CHANNEL_USER_X" positionX="-144" positionY="318" width="128" height="105"/>
-        <element name="DB_CONTACT" positionX="-144" positionY="-171" width="128" height="180"/>
-        <element name="DB_ConversationProxy" positionX="-171" positionY="90" width="128" height="105"/>
+
+        <element name="DB_CONTACT" positionX="-144" positionY="-171" width="128" height="195"/>
+        <element name="DB_ConversationProxy" positionX="-171" positionY="90" width="128" height="165"/>
+
         <element name="DB_FileMetaInfo" positionX="-270" positionY="-144" width="128" height="165"/>
-        <element name="DB_Message" positionX="-441" positionY="-153" width="128" height="375"/>
+        <element name="DB_Message" positionX="-441" positionY="-153" width="128" height="390"/>
     </elements>
 </model>

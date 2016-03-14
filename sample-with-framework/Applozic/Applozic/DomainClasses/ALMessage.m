@@ -109,6 +109,8 @@
     //contentType
     
     self.contentType = [self getShortFromJsonValue:messageJson[@"contentType"]];
+
+    self.conversationId = [self getNSNumberFromJsonValue:messageJson[@"conversationId"]];
     
     // file meta info
     

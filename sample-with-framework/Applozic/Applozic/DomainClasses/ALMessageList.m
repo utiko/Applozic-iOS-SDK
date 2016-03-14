@@ -21,10 +21,20 @@
     return self;
 }
 
+- (id)initWithJSONString:(NSString *)syncMessageResponse andWithUserId:(NSString*)userId andWithGroup:(NSNumber*)groupId{
+    
+    self.groupId =groupId;
+    self.userId=userId;
+    [self parseMessagseArray:syncMessageResponse];
+    return self;
+}
+
 -(void)parseMessagseArray:(id) messagejson
 {
     NSMutableArray * theMessagesArray = [NSMutableArray new];
     NSMutableArray * theUserDetailArray = [NSMutableArray new];
+    NSMutableArray * conversationProxyList = [NSMutableArray new];
+
     
     NSDictionary * theMessageDict = [messagejson valueForKey:@"message"];
 
@@ -41,6 +51,16 @@
         [theUserDetailArray addObject:alUserDetail];
     }
     
+    NSDictionary * theConversationProxyDict = [messagejson valueForKey:@"conversationPxys"];
+    for (NSDictionary * theDictionary in theConversationProxyDict) {
+        ALConversationProxy *conversationProxy = [[ALConversationProxy alloc] initWithDictonary:theDictionary];
+        
+        conversationProxy.userId =self.userId;
+        conversationProxy.groupId =self.groupId;
+        
+        [conversationProxyList addObject:conversationProxy];
+    }
+    self.conversationPxyList = conversationProxyList;
     self.userDetailsList = theUserDetailArray;
     
 }

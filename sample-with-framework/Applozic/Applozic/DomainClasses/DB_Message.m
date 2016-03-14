@@ -34,4 +34,6 @@
 @dynamic contentType;
 @dynamic groupId;
 @dynamic deletedFlag;
+@dynamic conversationId;
+
 @end

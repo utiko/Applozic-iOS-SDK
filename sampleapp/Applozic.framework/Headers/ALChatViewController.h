@@ -17,7 +17,8 @@
 #import "ALMessageArrayWrapper.h"
 #import "ALChannelDBService.h"
 #import "ALChannel.h"
-#import "ALChatCell_Media.h"
+#import "ALAudioCell.h"
+#import "ALAudioAttachmentViewController.h"
 
 @interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate,ALChatCellDelegate,ALImageWithTextControllerDelegate>
 
@@ -27,12 +28,15 @@
 @property (strong, nonatomic) NSMutableArray *mMessageListArrayKeyStrings;
 @property (strong, nonatomic) NSString * contactIds;
 @property (nonatomic, strong) NSNumber *channelKey;
-@property (nonatomic, strong) NSString *channeLName;
+@property (nonatomic, strong) NSString *channelName;
+@property (nonatomic,strong)  NSNumber *conversationId;
 @property (nonatomic) BOOL refreshMainView;
 @property (nonatomic) BOOL refresh;
 @property (strong, nonatomic) NSString * displayName;
 
 @property (strong, nonatomic) NSString * text;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewBottomToAttachment;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewTop2Constraint;
 
 -(void)fetchAndRefresh;
 -(void)fetchAndRefresh:(BOOL)flag;
@@ -45,7 +49,7 @@
 
 -(void)updateDeliveryStatus:(NSNotification *) notification;
 
--(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue;
+//-(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue;
 -(void) syncCall:(ALMessage *) alMessage;
 -(void)showTypingLabel:(BOOL)flag userId:(NSString *)userId;
 
@@ -56,8 +60,9 @@
 
 -(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer;
 
--(void) getUserCurrentLocation:(NSString *)googleMapUrl;
 -(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl;
 
+-(void) syncCall:(ALMessage*)AlMessage  updateUI:(NSNumber *)updateUI alertValue: (NSString *)alertValue;
 
+-(void)processLoadEarlierMessages:(BOOL)isScrollToBottom;
 @end

@@ -80,7 +80,7 @@
                     return;
                 }else {
                     reponseCompletion(responseString,nil);
-                    
+                    return;
                 }
                 
             }

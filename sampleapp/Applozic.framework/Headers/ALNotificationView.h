@@ -7,12 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ALMessage.h"
 
 @interface ALNotificationView : UILabel
 
 
 @property (retain ,nonatomic) NSString * contactId;
+
 @property (retain ,nonatomic) NSString * checkContactId;
--(instancetype)initWithContactId:(NSString*) contactId withAlertMessage: (NSString *) alertMessage;
--(void)nativeViewNotification:(id)delegate;
+
+@property (retain, nonatomic) NSNumber * groupId;
+
+@property (retain, nonatomic) NSNumber * conversationId;
+
+-(instancetype)initWithAlMessage:(ALMessage*)alMessage  withAlertMessage: (NSString *) alertMessage;
+
+-(void)nativeNotification:(id)delegate;
+
+-(void)showGroupLeftMessage;
 @end

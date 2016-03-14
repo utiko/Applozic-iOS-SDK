@@ -31,15 +31,20 @@
     
     //self.lastSeenAtTime = [self getNSNumberFromJsonValue:[JSONString valueForKey:@"lastSeenAtTime"]];
     
-    //self.unreadCount = [JSONString valueForKey:@"unreadCount"];
+    self.unreadCount = [JSONString valueForKey:@"unreadCount"];
+    
+    self.imageLink = [JSONString valueForKey:@"imageLink"];
 }
 
 -(void)userDetail
 {
+/*  
     NSLog(@"USER ID : %@",self.userId);
     NSLog(@"CONNECTED : %d",self.connected);
     NSLog(@"LAST SEEN : %@",self.lastSeenAtTime);
-    //NSLog(@"UNREAD COUNT : %@",self.unreadCount);
+    NSLog(@"UNREAD COUNT : %@",self.unreadCount);
+    NSLog(@"IMAGE LINK: %@",self.imageLink);
+ */
 }
 
 -(id)initWithDictonary:(NSDictionary *)messageDictonary{
@@ -53,7 +58,8 @@
     self.connected = [self getBoolFromJsonValue:json[@"connected"]];
     self.lastSeenAtTime = [self getNSNumberFromJsonValue:json[@"lastSeenAtTime"]];
     self.displayName = [self getStringFromJsonValue:json[@"displayName"]];
-   // self.self.unreadCount = [self getStringFromJsonValue:messageJson[@"self.unreadCount"]];
+    self.unreadCount = [self getNSNumberFromJsonValue:json[@"unreadCount"]];
+    self.imageLink  = [self getStringFromJsonValue:json[@"imageLink"]];
 }
 
 

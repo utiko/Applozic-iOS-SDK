@@ -13,6 +13,7 @@
 #import "DB_FileMetaInfo.h"
 #import "ALUserDetail.h"
 #import "ALChannelService.h"
+#import  "MessageListRequest.h"
 
 #define NEW_MESSAGE_NOTIFICATION @"newMessageNotification"
 
@@ -21,7 +22,7 @@
 +(void) processLatestMessagesGroupByContact;
 
 
-+(void) getMessageListForUser:(NSString *) userId startIndex:(NSString *) startIndex pageSize:(NSString *)pageSize endTimeInTimeStamp:(NSNumber *) endTimeStamp  andChannelKey:(NSNumber *)channelKey withCompletion:(void(^)(NSMutableArray * messages, NSError * error, NSMutableArray *userDetailArray)) completion;
++(void) getMessageListForUser:(MessageListRequest*)messageListRequest withCompletion:(void(^)(NSMutableArray * messages, NSError * error, NSMutableArray *userDetailArray)) completion;
     
 +(void) sendMessages:(ALMessage *)message withCompletion:(void(^)(NSString * message, NSError * error)) completion;
 
@@ -37,8 +38,6 @@
 +(void)deleteMessageThread:( NSString * ) contactId orChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion;
 
 +(void )deleteMessage:( NSString * ) keyString andContactId:( NSString * )contactId withCompletion:(void (^)(NSString *, NSError *))completion;
-
-+(void)markConversationAsRead: (NSString *) contactId orChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion;
 
 +(void)processPendingMessages;
 +(ALMessage*)getMessagefromKeyValuePair:(NSString*)key andValue:(NSString*)value;

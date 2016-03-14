@@ -19,7 +19,7 @@
 
 @property NSNumber *lastSeenAtTime;
 
-@property NSString *unreadCount;
+@property (nonatomic, strong)  NSNumber *unreadCount;
 
 @property NSString *displayName;
 
@@ -31,4 +31,5 @@
 
 -(id)initWithDictonary:(NSDictionary*)messageDictonary;
 
+@property NSString * imageLink;
 @end

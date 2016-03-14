@@ -28,5 +28,8 @@
 
 -(void) callLastSeenStatusUpdate;
 
+@property (strong, nonatomic) NSNumber *channelKey;
+@property (strong, nonatomic) NSNumber * conversationId;
+
 @end
 

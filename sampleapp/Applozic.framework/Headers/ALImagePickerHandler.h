@@ -12,6 +12,6 @@
 @interface ALImagePickerHandler : NSObject
 
 +(NSString *) saveImageToDocDirectory:(UIImage *) image;
-
++(NSString *) saveVideoToDocDirectory:(NSURL *)videoURL;
 
 @end

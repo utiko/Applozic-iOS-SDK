@@ -65,6 +65,7 @@
         }
         //TODO : check if notification is alreday received and processed...
         NSString *  notificationMsg = [theMessageDict valueForKey:@"message"];
+        NSLog(@"NOTIFICATION %@",notificationMsg);
 
         if ([type isEqualToString:MT_SYNC])
         {
@@ -109,6 +110,7 @@
             alUserDetail.lastSeenAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
             alUserDetail.connected = YES;
             [self.alSyncCallService updateConnectedStatus: alUserDetail];
+            
             //[self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
         } else if ([type isEqualToString:@"APPLOZIC_12"]) {
             
@@ -118,10 +120,18 @@
             alUserDetail.userId = parts[0];
             alUserDetail.lastSeenAtTime = [NSNumber numberWithDouble:[parts[1] doubleValue]];
             alUserDetail.connected = NO;
-            
             [self.alSyncCallService updateConnectedStatus: alUserDetail];
+            
             //[self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
             
+        } else if ([type isEqualToString:@"APPLOZIC_15"]) {
+            ALChannelService *channelService = [[ALChannelService alloc] init];
+            [channelService syncCallForChannel];
+            // TODO HANDLE
+        } else if ([type isEqualToString:@"APPLOZIC_06"]) {
+            // TODO HANDLE
+            // IF CONTACT ID THE DELETE USER
+            // IF CHANNEL KEY then DELETE CHANNEL
         }
 
         

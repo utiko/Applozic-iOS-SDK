@@ -17,7 +17,7 @@
 #import <UIKit/UIKit.h>
 
 #import <Foundation/Foundation.h>
-
+#import "ALConversationProxy.h"
 
 
 @interface ALChatLauncher : NSObject
@@ -30,16 +30,14 @@
 -(instancetype)initWithApplicationId:(NSString *) applicationId;
 -(void)ALDefaultChatViewSettings;
 
--(void)launchIndividualChat:(NSString *)userId andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
+-(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
+
 -(void)launchChatList:(NSString *)title andViewControllerObject:(UIViewController *)viewController;
 
 -(void) launchContactList: (UIViewController *)uiViewController ;
 -(void)registerForNotification;
 
--(void)launchIndividualChat:(NSString *)userId withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
+-(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
 
-
-
-
-
+-(void)launchIndividualContextChat:(ALConversationProxy *)alConversationProxy andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
 @end

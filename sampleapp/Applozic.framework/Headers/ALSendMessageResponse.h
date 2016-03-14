@@ -19,4 +19,5 @@
 
 @property (nonatomic, assign) NSNumber *createdAt;
 
+@property (nonatomic, copy) NSNumber * conversationId;
 @end

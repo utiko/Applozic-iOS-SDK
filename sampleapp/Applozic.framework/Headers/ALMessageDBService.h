@@ -22,7 +22,6 @@
 @end
 
 @interface ALMessageDBService : NSObject
-- (NSArray *)getUnreadMessages:(NSString *) contactId;
 //Add Message APIS
 -(NSMutableArray *)addMessageList:(NSMutableArray*) messageList;
 -(DB_Message*)addMessage:(ALMessage*) message;
@@ -34,13 +33,11 @@
 -(NSManagedObject *)getMeesageById:(NSManagedObjectID *)objectID
                              error:(NSError **)error;
 - (NSManagedObject *)getMessageByKey:(NSString *) key value:(NSString*) value;
--(NSMutableArray *)getMessageListForContactWithCreatedAt:(NSString *)contactId withCreatedAt:(NSNumber*)createdAt andChannelKey:(NSNumber *)channelKey;
+-(NSMutableArray *)getMessageListForContactWithCreatedAt:(NSString *)contactId
+                                           withCreatedAt:(NSNumber*)createdAt
+                                           andChannelKey:(NSNumber *)channelKey
+                                          conversationId:(NSNumber*)conversationId;
 -(NSMutableArray *)getPendingMessages;
-
-
--(NSUInteger)markConversationAsRead:(NSString *) contactId orChannelKey:(NSNumber *)key;
-
-
 
 //update Message APIS
 -(void)updateMessageDeliveryReport:(NSString*) messageKeyString;

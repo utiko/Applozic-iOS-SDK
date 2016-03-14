@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "ALJson.h"
 
+#define RESPONSE_SUCCESS @"success"
+
 @interface ALAPIResponse : ALJson
 
 @property (nonatomic, strong) NSString * status;

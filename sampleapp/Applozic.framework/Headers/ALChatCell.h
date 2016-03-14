@@ -32,12 +32,8 @@
 
 @property (nonatomic, assign) id<ALChatCellDelegate> delegate;
 
-@property (strong, nonatomic) NSString *status;
-
-@property (strong, nonatomic) NSString *string;
-
 @property (retain, nonatomic) UILabel *mChannelMemberName;
 
-@property (nonatomic,strong) NSArray* colors;
+@property (retain, nonatomic) UILabel *mNameLabel;
 
 @end

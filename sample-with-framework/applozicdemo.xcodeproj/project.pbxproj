@@ -58,6 +58,7 @@
 /* Begin PBXFileReference section */
 		6D44D9591BF60C990039B1A7 /* LaunchChatFromSimpleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchChatFromSimpleViewController.h; sourceTree = "<group>"; };
 		6D44D95A1BF60C990039B1A7 /* LaunchChatFromSimpleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchChatFromSimpleViewController.m; sourceTree = "<group>"; };
+		6D4C2B381C8220790031C677 /* applozicdemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = applozicdemo.entitlements; sourceTree = "<group>"; };
 		6D4F28B01BC554D8007E7B35 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		6D4F28CD1BC6429F007E7B35 /* ApplozicLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplozicLoginViewController.h; sourceTree = "<group>"; };
 		6D4F28CE1BC6429F007E7B35 /* ApplozicLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplozicLoginViewController.m; sourceTree = "<group>"; };
@@ -134,6 +135,7 @@
 		6D6DF1F31BC551FA00EBA00F /* applozicdemo */ = {
 			isa = PBXGroup;
 			children = (
+				6D4C2B381C8220790031C677 /* applozicdemo.entitlements */,
 				6D44D9581BF60C5B0039B1A7 /* chat */,
 				6D4F28B21BC55670007E7B35 /* useraccount */,
 				6D6DF1F71BC551FA00EBA00F /* AppDelegate.h */,
@@ -199,12 +201,19 @@
 				TargetAttributes = {
 					6D6DF1F01BC551FA00EBA00F = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = C25JNDCBM4;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.HealthKit = {
 								enabled = 0;
 							};
 							com.apple.Push = {
 								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 0;
 							};
 						};
 					};
@@ -315,8 +324,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -338,7 +347,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "64a8dda8-1462-49b9-a533-9e79449ba2f0";
+				PROVISIONING_PROFILE = "bad0e13f-3d5e-486f-9559-6eacc181b668";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -361,8 +370,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -377,7 +386,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "64a8dda8-1462-49b9-a533-9e79449ba2f0";
+				PROVISIONING_PROFILE = "bad0e13f-3d5e-486f-9559-6eacc181b668";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -397,7 +406,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = applozicdemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.customer.demo;
@@ -414,14 +423,14 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Adarsh Kumar (C25JNDCBM4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					/Users/devashish/framework/applozicdemo,
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = applozicdemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.customer.demo;

@@ -38,7 +38,7 @@
     
     self.sendMessageTextView.delegate = self;
     
-    self.tabBarController.tabBar.hidden = YES;
+  
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
         self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
@@ -101,8 +101,7 @@
         self.navColor = [self.navigationController.navigationBar barTintColor];
     }
     
-    if(![ALApplozicSettings isRefreshButtonHidden])
-    {
+    if(![ALApplozicSettings isRefreshButtonHidden]){
         // UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
         // self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:refreshButton ,nil];
@@ -156,25 +155,27 @@
     
     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
     
-    if([ALApplozicSettings getColourForNavigation] && [ALApplozicSettings getColourForNavigationItem])
+    if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
     {
-        self.navigationController.navigationBar.translucent = NO;
-        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColourForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
-        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColourForNavigation]];
-        [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColourForNavigationItem]];
-        [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColourForNavigation]];
+        
+        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+        //self.navigationController.navigationBar.translucent = NO;
+        //[self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
+        [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
+       // [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColorForNavigation]];
 
-        [self.label setTextColor:[ALApplozicSettings getColourForNavigationItem]];
+        [self.label setTextColor:[ALApplozicSettings getColorForNavigationItem]];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
     }
     
-    [self.tabBarController.tabBar setHidden: YES];
+   
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     
     self.navigationController.navigationBar.barTintColor = self.navColor;
-    self.tabBarController.tabBar.hidden = YES;
+    
 }
 
 // Setting up keyboard notifications.
@@ -238,11 +239,6 @@
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     
-    //    UITouch* touch=[[event allTouches] anyObject];
-    //    if([self.sendMessageTextView isFirstResponder]&&[touch view]!=self.sendMessageTextView){
-    //        [self.sendMessageTextView resignFirstResponder];
-    //
-    //    }
     [self.view endEditing:YES];
     [super touchesBegan:touches withEvent:event];
     [self.sendMessageTextView resignFirstResponder];
@@ -265,7 +261,6 @@
 
 - (IBAction)sendAction:(id)sender {
     
-    // [self.sendMessageTextView resignFirstResponder];
     self.sendMessageTextView.text = [self.sendMessageTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if(self.sendMessageTextView.text.length > 0){
         [self postMessage];

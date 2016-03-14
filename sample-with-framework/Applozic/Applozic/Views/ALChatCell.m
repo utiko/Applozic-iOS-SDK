@@ -36,8 +36,6 @@
         
         self.backgroundColor = [UIColor colorWithRed:224.0/255 green:224.0/255 blue:224.0/255 alpha:1];
         
-        self.colors = [[NSArray alloc] initWithObjects:@"#617D8A",@"#628B70",@"#8C8863",@"8B627D",@"8B6F62", nil];
-        
         self.mUserProfileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 45, 45)];
         
         self.mUserProfileImageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -47,15 +45,9 @@
         self.mUserProfileImageView.clipsToBounds = YES;
         
         [self.contentView addSubview:self.mUserProfileImageView];
-        
-        self.status = @"";
-        self.string = @"Delivered ";
+
         
         self.mBubleImageView = [[UIImageView alloc] init];
-        
-        //        self.mBubleImageView.frame = CGRectMake(5, 5, 100, 44);
-        
-        //    self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.origin.x+self.mUserProfileImageView.frame.size.width+5 , 5, self.frame.size.width-110, self.frame.size.width-110);
         
         self.mBubleImageView.contentMode = UIViewContentModeScaleToFill;
         
@@ -63,7 +55,16 @@
         
         [self.contentView addSubview:self.mBubleImageView];
         
-        self.mMessageLabel =[[ALUITextView alloc] init];
+        self.mNameLabel = [[UILabel alloc] init];
+        [self.mNameLabel setTextColor:[UIColor whiteColor]];
+        [self.mNameLabel setBackgroundColor:[UIColor clearColor]];
+        [self.mNameLabel setFont:[UIFont fontWithName:@"Helvetica" size:18]];
+        self.mNameLabel.textAlignment = NSTextAlignmentCenter;
+        self.mNameLabel.layer.cornerRadius = self.mNameLabel.frame.size.width/2;
+        self.mNameLabel.layer.masksToBounds = YES;
+        [self.contentView addSubview:self.mNameLabel];
+        
+        self.mMessageLabel = [[ALUITextView alloc] init];
         self.mMessageLabel.delegate = self.mMessageLabel;
         NSString *fontName = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_FONTNAME];
         
@@ -110,12 +111,10 @@
         self.mMessageStatusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20)];
         
         self.mMessageStatusImageView.contentMode = UIViewContentModeScaleToFill;
-        
         self.mMessageStatusImageView.backgroundColor = [UIColor clearColor];
+        [self.contentView addSubview:self.mMessageStatusImageView];
         
-        // [self.contentView addSubview:self.mMessageStatusImageView];
-        
-        self.contentView.userInteractionEnabled=YES;
+        self.contentView.userInteractionEnabled = YES;
         
     }
     
@@ -125,9 +124,10 @@
 }
 
 
--(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize {
+-(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize
+{
     
-    self.mUserProfileImageView.alpha=1;
+    self.mUserProfileImageView.alpha = 1;
     
     BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[alMessage.createdAtTime doubleValue]/1000]];
     
@@ -135,14 +135,19 @@
     
     self.mMessage = alMessage;
     
-    CGSize theTextSize = [self getSizeForText:alMessage.message maxWidth:viewSize.width-115 font:self.mMessageLabel.font.fontName fontSize:self.mMessageLabel.font.pointSize];
+    CGSize theTextSize = [ALUtilityClass getSizeForText:alMessage.message maxWidth:viewSize.width-115 font:self.mMessageLabel.font.fontName fontSize:self.mMessageLabel.font.pointSize];
     
-    CGSize theDateSize = [self getSizeForText:theDate maxWidth:150 font:self.mDateLabel.font.fontName fontSize:self.mDateLabel.font.pointSize];
+    CGSize theDateSize = [ALUtilityClass getSizeForText:theDate maxWidth:150 font:self.mDateLabel.font.fontName fontSize:self.mDateLabel.font.pointSize];
+    
+    CGSize receiverNameSize = [ALUtilityClass getSizeForText:alMessage.to maxWidth:viewSize.width-115 font:self.mChannelMemberName.font.fontName fontSize:self.mChannelMemberName.font.pointSize];
     
     [self.mBubleImageView setHidden:NO];
     [self.mDateLabel setHidden:NO];
     [self.mMessageLabel setTextAlignment:NSTextAlignmentLeft];
     [self.mChannelMemberName setHidden:YES];
+    [self.mNameLabel setHidden:YES];
+    self.mMessageStatusImageView.hidden = YES;
+    [self.contentView bringSubviewToFront:self.mMessageStatusImageView];
     //MT_INBOX(Short.valueOf("4")),
     // MT_OUTBOX(Short.valueOf("5")),
     if([alMessage.type isEqualToString:@"100"])
@@ -161,6 +166,7 @@
         
         
         [self.contentView bringSubviewToFront:self.mChannelMemberName];
+        
         if([ALApplozicSettings isUserProfileHidden])
         {
             self.mUserProfileImageView.frame = CGRectMake(8, 0, 0, 45);
@@ -170,20 +176,18 @@
             self.mUserProfileImageView.frame = CGRectMake(8, 0, 45, 45);
         }
         
-        if([ALApplozicSettings getReceiveMsgColour])
+        if([ALApplozicSettings getReceiveMsgColor])
         {
-            self.mBubleImageView.backgroundColor = [ALApplozicSettings getReceiveMsgColour];
-            self.mMessageLabel.backgroundColor = [ALApplozicSettings getReceiveMsgColour];
+            self.mBubleImageView.backgroundColor = [ALApplozicSettings getReceiveMsgColor];
+            self.mMessageLabel.backgroundColor = [ALApplozicSettings getReceiveMsgColor];
         }
         else
         {
             self.mBubleImageView.backgroundColor = [UIColor whiteColor];
         }
         
-        self.mUserProfileImageView.image = [ALUtilityClass
-                                            getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
-        
-        
+        self.mNameLabel.frame = self.mUserProfileImageView.frame;
+        [self.mNameLabel setText:[ALColorUtility getAlphabetForProfileImage:alMessage.to]];
         
         self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13,
                                                 0,
@@ -196,23 +200,28 @@
         self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
         self.mBubleImageView.layer.shadowRadius = 1;
         self.mBubleImageView.layer.masksToBounds = NO;
+
         
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 10 , 10, theTextSize.width, theTextSize.height);
-//        if([[alMessage groupId] intValue])
+
         if([alMessage getGroupId])
         {
             [self.mChannelMemberName setHidden:NO];
-            NSUInteger randomIndex = random()% [self.colors count];
-            [self.mChannelMemberName setTextColor: [ALColorUtility colorWithHexString: self.colors[randomIndex]]];
-            if(theTextSize.width < 120)
+          
+            [self.mChannelMemberName setTextColor: [ALColorUtility getColorForAlphabet:alMessage.to]];
+            
+            if(theTextSize.width < receiverNameSize.width)
             {
-                theTextSize.width = theTextSize.width + 40;
+                theTextSize.width = receiverNameSize.width;
             }
             
-            self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, theTextSize.width + 30, theTextSize.height + 20 + 15);
+            self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, theTextSize.width + 20, theTextSize.height + 20 + 15);
+            
             self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 10, self.mBubleImageView.frame.origin.y + 2, self.mBubleImageView.frame.size.width + 30, 20);
+            
             self.mMessageLabel.frame = CGRectMake(self.mChannelMemberName.frame.origin.x, self.mChannelMemberName.frame.origin.y + self.mChannelMemberName.frame.size.height + 5, theTextSize.width, theTextSize.height);
         }
+        
         self.mMessageLabel.textColor = [UIColor grayColor];
         
         self.mMessageLabel.linkTextAttributes = @{
@@ -241,35 +250,29 @@
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
-        
-        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
-        
-        self.mMessageStatusImageView.alpha = 0;
+
         
         ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
         ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
         
-        if (alContact.localImageResourceName)
-        {
-            self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:alContact.localImageResourceName];
-            
-        }
-        else  if(alContact.contactImageUrl)
+        
+        if(alContact.contactImageUrl)
         {
             NSURL * theUrl1 = [NSURL URLWithString:alContact.contactImageUrl];
             [self.mUserProfileImageView sd_setImageWithURL:theUrl1];
         }
         else
         {
-            self.mUserProfileImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"];
+            [self.mNameLabel setHidden:NO];
+            self.mUserProfileImageView.backgroundColor = [ALColorUtility getColorForAlphabet:alMessage.to];
         }
         
     }
     else    //Sent Message
     {
-        if([ALApplozicSettings getSendMsgColour])
+        if([ALApplozicSettings getSendMsgColor])
         {
-            self.mBubleImageView.backgroundColor = [ALApplozicSettings getSendMsgColour];
+            self.mBubleImageView.backgroundColor = [ALApplozicSettings getSendMsgColor];
         }
         else
         {
@@ -284,6 +287,8 @@
         //        int imgVwHeight = theTextSize.height+21>45?theTextSize.height+21+10:45;
         
         //       self.mBubleImageView.frame = CGRectMake(viewSize.width - imgVwWidth -10 , 0 ,imgVwWidth  ,imgVwHeight);
+        
+        self.mMessageStatusImageView.hidden = NO;
         
         self.mMessageLabel.text = alMessage.message;
         
@@ -304,50 +309,44 @@
                                                   NSUnderlineStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleThick]
                                                   };
         
-        //        self.mBubleImageView.backgroundColor = [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1];
+
         
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 10, 10, theTextSize.width, theTextSize.height);
         
-        //        self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 8, self.mMessageLabel.frame.origin.y + self.mMessageLabel.frame.size.height +3 , theDateSize.width, 21);
+        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - theDateSize.width - 20, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width, 21);
         
-        if(alMessage.delivered == YES){
-            self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - (self.string.length + theDateSize.width + 45) , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, self.string.length + theDateSize.width + 50, 21);
-        }
-        else{
-            self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) -theDateSize.width  , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width + 20, 21);
-        }
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         
-        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x+self.mDateLabel.frame.size.width+10, self.mDateLabel.frame.origin.y, 20, 20);
+        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
         
     }
     
-    self.status = @"";
+
     
     if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]/*[alMessage.type isEqualToString:@"5"]*/) {
-        self.mMessageStatusImageView.alpha =1;
-        if(alMessage.delivered == YES) {
+        
+        self.mMessageStatusImageView.hidden = NO;
+
+        if(alMessage.delivered == YES)
+        {
             self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_message_delivered.png"];
-            self.status = @"Delivered ";
+
         }
-        else if(alMessage.sent == YES){
+        else if(alMessage.sent == YES)
+        {
             self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_message_sent.png"];
-        }else{
+        }
+        else
+        {
             self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_about.png"];
         }
     }
     
-    
-    if(![self.status isEqualToString:@""]){
-        self.mDateLabel.text = [self.status stringByAppendingString:theDate];
-    }
-    else{
-        self.mDateLabel.text = theDate;
-    }
-    
+    self.mDateLabel.text = theDate;
+
     if ([alMessage.message rangeOfString:@"http://"].location != NSNotFound || [alMessage.message rangeOfString:@"www."].location != NSNotFound || [alMessage.message rangeOfString:@"https://"].location != NSNotFound)
     {
         self.mMessageLabel.userInteractionEnabled = YES;
@@ -373,36 +372,9 @@
     return YES;
 }
 
-
-- (CGSize)getSizeForText:(NSString *)text maxWidth:(CGFloat)width font:(NSString *)fontName fontSize:(float)fontSize {
-    
-    CGSize constraintSize;
-    
-    constraintSize.height = MAXFLOAT;
-    
-    constraintSize.width = width;
-    
-    NSDictionary *attributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          [UIFont fontWithName:fontName size:fontSize], NSFontAttributeName,
-                                          nil];
-    
-    CGRect frame = [text boundingRectWithSize:constraintSize
-                                      options:NSStringDrawingUsesLineFragmentOrigin
-                                   attributes:attributesDictionary
-                                      context:nil];
-    
-    CGSize stringSize = frame.size;
-    
-    return stringSize;
-}
-
-
 -(BOOL) canPerformAction:(SEL)action withSender:(id)sender {
     return (action == @selector(copy:) || action == @selector(delete:));
 }
-
-
-
 
 // Default copy method
 - (void)copy:(id)sender {

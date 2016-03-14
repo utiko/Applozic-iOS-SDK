@@ -182,53 +182,82 @@
     return stringSize;
 }
 
-#pragma mark - Third-Party-View notification display
-//==================================================
++(void)displayToastWithMessage:(NSString *)toastMessage
+{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^ {
+        UIWindow * keyWindow = [[UIApplication sharedApplication] keyWindow];
+        UILabel *toastView = [[UILabel alloc] init];
+        toastView.text = toastMessage;
+        //toastView.font = @"Helvetica-Bold";
+        //toastView.textColor = [MYUIStyles getToastTextColor];
+        toastView.backgroundColor = [UIColor whiteColor];
+        toastView.textAlignment = NSTextAlignmentCenter;
+        toastView.frame = CGRectMake(0.0, 0.0, keyWindow.frame.size.width/2.0, 75.00);
+        toastView.layer.cornerRadius = 10;
+        toastView.layer.masksToBounds = YES;
+        toastView.center = keyWindow.center;
+        
+        [keyWindow addSubview:toastView];
+        
+        [UIView animateWithDuration: 3.0f
+                              delay: 0.0
+                            options: UIViewAnimationOptionCurveEaseOut
+                         animations: ^{
+                             toastView.alpha = 0.0;
+                         }
+                         completion: ^(BOOL finished) {
+                             [toastView removeFromSuperview];
+                         }
+         ];
+    }];
+}
 
-+(void)foreignViewNotification:(NSString *)toastMessage andForContactId:(NSString *)contactId delegate:(id)delegate{
+
+
++(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId withGroupId:(NSNumber*) groupID delegate:(id)delegate{
     
     //3rd Party View is Opened.........
     ALContact* dpName=[[ALContact alloc] init];
     ALContactDBService * contactDb=[[ALContactDBService alloc] init];
     dpName=[contactDb loadContactByKey:@"userId" value:contactId];
     
-    ALPushAssist* top=[[ALPushAssist alloc] init];
     
+    ALChannel *channel=[[ALChannel alloc] init];
+    ALChannelDBService *groupDb= [[ALChannelDBService alloc] init];
+    
+    NSString* title;
+    if(groupID){
+        channel = [groupDb loadChannelByKey:groupID];
+        title=channel.name;
+        contactId=[NSString stringWithFormat:@"%@",groupID];
+    }
+    else {
+        title=dpName.getDisplayName;
+    }
+
+    ALPushAssist* top=[[ALPushAssist alloc] init];
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
     
     [[TSMessageView appearance] setTitleFont:[UIFont fontWithName:@"Helvetica Neue" size:18.0]];
     [[TSMessageView appearance] setContentFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
     [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
     [[TSMessageView appearance] setContentTextColor:[UIColor whiteColor]];
-
+   
     [TSMessage showNotificationInViewController:top.topViewController
-                                          title:[ALApplozicSettings getNotificationTitle]
-                                       subtitle:[NSString stringWithFormat:@"%@",dpName.getDisplayName]
+                                          title:toastMessage
+                                       subtitle:nil
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75
                                        callback:^(void){
         
                                            
-                                           [delegate thirdPartyNotificationTap:contactId];
+                                           [delegate thirdPartyNotificationTap1:contactId withGroupId:groupID];
 
         
     }buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionTop canBeDismissedByUser:YES];
     
 }
-
-
-+(void)localNotification:(NSString *)toastMessage{
-    UILocalNotification *notification = [[UILocalNotification alloc] init];
-    notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:7];
-    notification.alertBody = toastMessage;
-    notification.timeZone = [NSTimeZone defaultTimeZone];
-    notification.soundName = UILocalNotificationDefaultSoundName;
-    notification.applicationIconBadgeNumber =0;
-    
-    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-}
-
 
 +(NSString *)getFileNameWithCurrentTimeStamp{
    
@@ -244,5 +273,27 @@
     UIImage *image = [UIImage imageNamed:UIImageName inBundle:bundle compatibleWithTraitCollection:nil];
     return image;
 }
+
+
++(NSString *)getNameAlphabets:(NSString *)actualName
+{
+    NSString *alpha = @"";
+    
+    NSRange whiteSpaceRange = [actualName rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
+    if (whiteSpaceRange.location != NSNotFound)
+    {
+        NSArray *listNames = [actualName componentsSeparatedByString:@" "];
+        NSString *firstLetter = [[listNames[0] substringToIndex:1] uppercaseString];
+        NSString *lastLetter = [[listNames[1] substringToIndex:1] uppercaseString];
+        alpha = [[firstLetter stringByAppendingString: lastLetter] uppercaseString];
+    }
+    else
+    {
+        NSString *firstLetter = [actualName substringToIndex:1];
+        alpha = [firstLetter uppercaseString];
+    }
+    return alpha;
+}
+
 
 @end

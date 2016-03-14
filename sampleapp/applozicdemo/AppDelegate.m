@@ -12,6 +12,7 @@
 #import <Applozic/ALPushNotificationService.h>
 #import <Applozic/ALUtilityClass.h>
 #import "ApplozicLoginViewController.h"
+#import <Applozic/ALAppLocalNotifications.h>
 
 @interface AppDelegate ()
 
@@ -23,7 +24,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    
+    ALAppLocalNotifications *localNotification = [ALAppLocalNotifications appLocalNotificationHandler];
+    [localNotification dataConnectionNotificationHandler];
+
     
     if (![ALUserDefaultsHandler isLoggedIn])
     {

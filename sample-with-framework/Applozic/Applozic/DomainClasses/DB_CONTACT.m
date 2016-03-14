@@ -20,5 +20,6 @@
 @dynamic localImageResourceName;
 @dynamic lastSeenAt;
 @dynamic connected;
-
+@dynamic unreadCount;
+@dynamic block;
 @end

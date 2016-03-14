@@ -16,4 +16,5 @@
 @property (nonatomic) short type;
 @property (nonatomic, strong) NSNumber *userCount;
 @property (nonatomic, strong) NSNumber *unreadCount;
+@property (nonatomic) BOOL isLeft;
 @end

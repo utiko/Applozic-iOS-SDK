@@ -16,6 +16,9 @@
 #define BACK_BUTTON_TITLE @"BACK_BUTTON_TITLE"
 #define FONT_FACE @"FONT_FACE"
 #define NOTIFICATION_TITLE @"NOTIFICATION_TITLE"
+#define IMAGE_COMPRESSION_FACTOR @"IMAGE_COMPRESSION_FACTOR"
+#define IMAGE_UPLOAD_MAX_SIZE @"IMAGE_UPLOAD_MAX_SIZE"
+#define GROUP_ENABLE @"GROUP_ENABLE"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -30,21 +33,21 @@
 
 +(BOOL)isUserProfileHidden;
 
-+(void)setColourForSendMessages:(UIColor *)sendMsgColour ;
++(void)setColorForSendMessages:(UIColor *)sendMsgColor ;
 
-+(void)setColourForReceiveMessages:(UIColor *)receiveMsgColour;
++(void)setColorForReceiveMessages:(UIColor *)receiveMsgColor;
 
-+(UIColor *)getSendMsgColour;
++(UIColor *)getSendMsgColor;
 
-+(UIColor *)getReceiveMsgColour;
++(UIColor *)getReceiveMsgColor;
 
-+(void)setColourForNavigation:(UIColor *)barColour;
++(void)setColorForNavigation:(UIColor *)barColor;
 
-+(UIColor *)getColourForNavigation;
++(UIColor *)getColorForNavigation;
 
-+(void)setColourForNavigationItem:(UIColor *)barItemColour;
++(void)setColorForNavigationItem:(UIColor *)barItemColor;
 
-+(UIColor *)getColourForNavigationItem;
++(UIColor *)getColorForNavigationItem;
 
 +(void) clearAllSettings;
 
@@ -63,5 +66,17 @@
 +(void)setNotificationTitle:(NSString *)notificationTitle;
 
 +(NSString *)getNotificationTitle;
+
++(void)setMaxImageSizeForUploadInMB:(NSInteger)maxFileSize;
+
++(NSInteger)getMaxImageSizeForUploadInMB;
+
++(void) setMaxCompressionFactor:(double)maxCompressionRatio;
+
++(double) getMaxCompressionFactor;
+
++(void)setGroupOption:(BOOL)option;
+
++(BOOL)getGroupOption;
 
 @end

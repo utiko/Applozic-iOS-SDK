@@ -42,8 +42,8 @@
 
 //For delting all contacts at once
 
--(BOOL)purgeAllContacts{
-  return  [alContactDBService purgeAllContacts];
+-(BOOL)purgeAllContact{
+  return  [alContactDBService purgeAllContact];
     
 }
 
@@ -106,16 +106,62 @@
     contact.localImageResourceName = dbContact.localImageResourceName;
     contact.connected = dbContact.connected;
     contact.lastSeenAt = dbContact.lastSeenAt;
+    contact.unreadCount=dbContact.unreadCount;
     return contact;
 }
 
 
+//----------------------------------------------------------------------------------------------------------------------
+// Helper method for demo purpose. This method shows possible ways to insert contact and save it in local database.
+//----------------------------------------------------------------------------------------------------------------------
 
--(void)insertInitialContactsService:(NSArray*)demoContactsArray{
+- (void) insertInitialContacts{
 
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-    [theDBHandler addListOfContacts:demoContactsArray];
-
+    
+    //contact 1
+    ALContact *contact1 = [[ALContact alloc] init];
+    contact1.userId = @"adarshk";
+    contact1.fullName = @"Adarsh Kumar";
+    contact1.displayName = @"Adarsh";
+    contact1.email = @"github@applozic.com";
+    contact1.contactImageUrl = nil;
+    contact1.localImageResourceName = @"adarsh.jpg";
+    
+    // contact 2
+    ALContact *contact2 = [[ALContact alloc] init];
+    contact2.userId = @"marvel";
+    contact2.fullName = @"abhishek thapliyal";
+    contact2.displayName = @"abhishek";
+    contact2.email = @"abhishek@applozic.com";
+    contact2.contactImageUrl = nil;
+    contact2.localImageResourceName = @"abhishek.jpg";
+    
+    
+    //    Contact -------- Example with json
+    
+    
+    NSString *jsonString =@"{\"userId\": \"applozic\",\"fullName\": \"Applozic\",\"contactNumber\": \"9535008745\",\"displayName\": \"Applozic Support\",\"contactImageUrl\": \"https://cdn-images-1.medium.com/max/800/1*RVmHoMkhO3yoRtocCRHSdw.png\",\"email\": \"devashish@applozic.com\",\"localImageResourceName\":null}";
+    ALContact *contact3 = [[ALContact alloc] initWithJSONString:jsonString];
+    
+    
+    
+    //     Contact ------- Example with dictonary
+    
+    
+    NSMutableDictionary *demodictionary = [[NSMutableDictionary alloc] init];
+    [demodictionary setValue:@"aman999" forKey:@"userId"];
+    [demodictionary setValue:@"aman sharma" forKey:@"fullName"];
+    [demodictionary setValue:@"75760462" forKey:@"contactNumber"];
+    [demodictionary setValue:@"aman" forKey:@"displayName"];
+    [demodictionary setValue:@"aman@applozic.com" forKey:@"email"];
+    [demodictionary setValue:@"http://images.landofnod.com/is/image/LandOfNod/Letter_Giant_Enough_A_231533_LL/$web_zoom$&wid=550&hei=550&/1308310656/not-giant-enough-letter-a.jpg" forKey:@"contactImageUrl"];
+    [demodictionary setValue:nil forKey:@"localImageResourceName"];
+    [demodictionary setValue:[ALUserDefaultsHandler getApplicationKey] forKey:@"applicationId"];
+    
+    ALContact *contact4 = [[ALContact alloc] initWithDict:demodictionary];
+    [theDBHandler addListOfContacts:@[contact1, contact2, contact3, contact4]];
+   
 }
 
 @end

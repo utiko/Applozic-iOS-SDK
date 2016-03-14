@@ -27,7 +27,15 @@
 
 +(BOOL) isBottomTabBarHidden
 {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:BOTTOM_TAB_BAR_VISIBLITY];
+    BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:BOTTOM_TAB_BAR_VISIBLITY];
+    if(flag)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
 }
 
 +(void) setLogoutButtonHidden:(BOOL)flagValue
@@ -292,6 +300,19 @@
 
 +(NSString *)getNotificationTitle{
     return [[NSUserDefaults standardUserDefaults] valueForKey:NOTIFICATION_TITLE];
+}
+
++(void)setLastSyncChannelTime:(NSNumber *)lastSyncChannelTime
+{
+    lastSyncChannelTime = @([lastSyncChannelTime doubleValue] + 1);
+    
+    [[NSUserDefaults standardUserDefaults] setDouble:[lastSyncChannelTime doubleValue] forKey:LAST_SYNC_CHANNEL_TIME];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSNumber *)getLastSyncChannelTime
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:LAST_SYNC_CHANNEL_TIME];
 }
 
 @end

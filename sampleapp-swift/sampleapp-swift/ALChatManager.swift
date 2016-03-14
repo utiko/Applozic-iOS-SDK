@@ -26,7 +26,7 @@ class ALChatManager: NSObject {
         
        
         let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: applicationId )
-        alChatLauncher.ALDefaultChatViewSettings()
+        ALDefaultChatViewSettings()
 
         let registerUserClientService: ALRegisterUserClientService = ALRegisterUserClientService()
         registerUserClientService.initWithCompletion(alUser, withCompletion: { (response, error) in
@@ -96,7 +96,7 @@ class ALChatManager: NSObject {
                 let title  = ALChatManager.isNilOrEmpty(fromController.title) ?"< Back" : fromController.title;
                 alChatLauncher.launchChatList(title, andViewControllerObject:fromController);
             }else {
-                alChatLauncher.launchIndividualChat(forUser,andViewControllerObject: fromController,andWithText: nil)
+                alChatLauncher.launchIndividualChat(forUser, withGroupId: nil, andViewControllerObject: fromController, andWithText: nil)
             }
             return;
         }
@@ -130,7 +130,7 @@ class ALChatManager: NSObject {
                 let title  = ALChatManager.isNilOrEmpty(fromController.title) ?"< Back" : fromController.title;
                 alChatLauncher.launchChatList(title, andViewControllerObject:fromController);
             }else {
-                alChatLauncher.launchIndividualChat(forUser,andViewControllerObject: fromController,andWithText: nil)
+                alChatLauncher.launchIndividualChat(forUser, withGroupId: nil, andViewControllerObject: fromController, andWithText: nil)
             }
         })
         
@@ -169,4 +169,77 @@ class ALChatManager: NSObject {
         }
         
     }
+    
+// ----------------------  ------------------------------------------------------/
+// convenient method to directly launch individual context-based user chat screen. UserId parameter define users for which it intented to launch chat screen.
+//
+// This will automatically handle unregistered users provided getLoggedinUserInformation is implemented properly.
+// ----------------------  ------------------------------------------------------/
+    
+    func createAndLaunchChatWithSellerWithConversationProxy (alConversationProxy: ALConversationProxy?, fromViewController: UIViewController ) {
+        
+        let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: ALChatManager.applicationId)
+        
+        let alconversationService : ALConversationService = ALConversationService()
+        alconversationService.createConversation(alConversationProxy) { (error:NSError?, proxyObject: ALConversationProxy!) -> Void in
+            
+            if((error == nil)){
+                let finalProxy : ALConversationProxy = makeFinalProxyWithGeneratedProxy(alConversationProxy!, responseProxy: proxyObject)
+                alChatLauncher.launchIndividualContextChat(finalProxy, andViewControllerObject: fromViewController, andWithText: nil)
+            }
+        }
+        
+    }
+    
+    
 }
+
+
+
+
+//----------------------------------------------------------------------------------------------------
+// The below method combines the conversationID got from server's response with the details already set.
+//----------------------------------------------------------------------------------------------------
+
+func makeFinalProxyWithGeneratedProxy (generatedProxy:ALConversationProxy, responseProxy:ALConversationProxy)->ALConversationProxy{
+
+    let finalProxy : ALConversationProxy = ALConversationProxy()
+    finalProxy.userId = generatedProxy.userId;
+    finalProxy.topicDetailJson = generatedProxy.topicDetailJson;
+    finalProxy.Id = responseProxy.Id;
+    finalProxy.groupId = responseProxy.groupId;
+    
+    return finalProxy;
+
+
+}
+
+//--------------------------------------------------------------------------------------------------------------
+// This method helps you customise various settings
+//--------------------------------------------------------------------------------------------------------------
+
+func ALDefaultChatViewSettings (){
+    
+    
+    let flag : Bool = false
+    ALUserDefaultsHandler.setLogoutButtonHidden(flag)
+    ALUserDefaultsHandler.setBottomTabBarHidden(flag)
+    ALApplozicSettings.setUserProfileHidden(flag)
+    ALApplozicSettings.hideRefreshButton(flag)
+    ALApplozicSettings.setTitleForConversationScreen("Chats")
+    
+    ALApplozicSettings.setFontFace("Helvetica")
+    ALApplozicSettings.setColorForReceiveMessages(UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha:1))
+    ALApplozicSettings.setColorForSendMessages(UIColor(red: 66.0/255, green: 173.0/255, blue: 247.0/255, alpha:1))
+    ALApplozicSettings.setColorForNavigation(UIColor(red: 66.0/255, green: 173.0/255, blue: 247.0/255, alpha:1))
+    ALApplozicSettings.setColorForNavigationItem(UIColor.whiteColor())
+
+    let appName = NSBundle.mainBundle().infoDictionary!["CFBundleName"]
+    ALApplozicSettings.setNotificationTitle(appName?.string)
+    ALApplozicSettings.setMaxCompressionFactor(0.1)
+    ALApplozicSettings.setMaxImageSizeForUploadInMB(3)
+    
+    ALApplozicSettings.setGroupOption(true)
+
+}
+

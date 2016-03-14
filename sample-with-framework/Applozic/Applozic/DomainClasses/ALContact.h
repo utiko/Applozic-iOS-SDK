@@ -36,4 +36,9 @@
 -(void)populateDataFromDictonary:(NSDictionary *)dict;
 
 -(NSString *)getDisplayName;
+
+@property (nonatomic,strong) NSNumber * unreadCount;
+
+@property (nonatomic) BOOL block;
+
 @end

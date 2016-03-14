@@ -10,6 +10,7 @@
 #import "ALContact.h"
 #import "DB_CONTACT.h"
 #import "ALUserDetail.h"
+#import "ALUserBlocked.h"
 
 @interface ALContactDBService : NSObject
 
@@ -17,7 +18,7 @@
 
 -(BOOL)purgeContact:(ALContact *)contact;
 
--(BOOL)purgeAllContacts;
+-(BOOL)purgeAllContact;
 
 -(BOOL)updateListOfContacts:(NSArray *)contacts;
 
@@ -38,5 +39,12 @@
 -(DB_CONTACT*) createUserDetailEntityForDBInsertionWithUserDetail:(ALUserDetail *) userDetail;
 
 -(BOOL)updateUserDetail:(ALUserDetail *)userDetail;
+
+
+-(NSUInteger)markConversationAsRead:(NSString*)contactId;
+- (NSArray *)getUnreadMessagesForIndividual:(NSString *)contactId;
+-(void)createWithUnreadCountZeroForContact:(NSString*)userId;
+-(BOOL)setBlockUser:(NSString *)userId;
+-(void)blockAllUserInList:(NSMutableArray *)userList;
 
 @end

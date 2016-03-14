@@ -10,8 +10,12 @@
 
 @implementation DB_ConversationProxy
 
-@dynamic ID;
+@dynamic iD;
 @dynamic created;
 @dynamic groupId;
 @dynamic topicId;
+@dynamic topicDetailJson;
+@dynamic closed;
+@dynamic userId;
+
 @end

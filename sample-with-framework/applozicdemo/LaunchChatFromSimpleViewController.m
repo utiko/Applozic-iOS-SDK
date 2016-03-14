@@ -15,7 +15,8 @@
 #import  <Applozic/ALDBHandler.h>
 #import  <Applozic/ALContact.h>
 #import <Applozic/ALDataNetworkConnection.h>
-#import <Applozic/ALContactService.h>
+
+
 
 @interface LaunchChatFromSimpleViewController ()
 
@@ -85,7 +86,7 @@
     [user setPassword:@""];
     
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil];
+    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil withGroupId:nil];
 
     //Adding sample contacts...
     [self insertInitialContacts];
@@ -110,27 +111,59 @@
     [user setPassword:@""];
     
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    [demoChatManager launchChatForUserWithDisplayName:@"masterUser" andwithDisplayName:@"Master" andFromViewController:self];
+    [demoChatManager launchChatForUserWithDisplayName:@"masteruser" withGroupId:nil andwithDisplayName:@"Master" andFromViewController:self];
     
 }
 
+//===============================================================================
+// TO LAUNCH SELLER CHAT....
+//
+//===============================================================================
+- (IBAction)launchSeller:(id)sender {
+    
+    ALConversationProxy * newProxy = [[ALConversationProxy alloc] init];
+    newProxy = [self makeupConversationDetails];
+    
+    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
+    [demoChatManager createAndLaunchChatWithSellerWithConversationProxy:newProxy fromViewController:self];
+    
+}
+
+//===============================================================================
+// Creating Conversation Details
+//===============================================================================
+
+-(ALConversationProxy * )makeupConversationDetails{
+    
+    ALConversationProxy * alConversationProxy = [[ALConversationProxy alloc] init];
+    alConversationProxy.topicId = @"laptop01";
+    alConversationProxy.userId = @"adarshk";
+
+    ALTopicDetail * alTopicDetail = [[ALTopicDetail alloc] init];
+    alTopicDetail.title     = @"Mac Book Pro";
+    alTopicDetail.subtitle  = @"13' Retina";
+    alTopicDetail.link      = @"https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/macbookpro.jpg";
+    alTopicDetail.key1      = @"Product ID";
+    alTopicDetail.value1    = @"mac-pro-r-13";
+    alTopicDetail.key2      = @"Price";
+    alTopicDetail.value2    = @"Rs.1,04,999.00";
+    
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:alTopicDetail.dictionary options:NSJSONWritingPrettyPrinted error:&error];
+    NSString *resultTopicDetails = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    alConversationProxy.topicDetailJson = resultTopicDetails;
+
+    return alConversationProxy;
+
+}
 -(void)viewWillAppear:(BOOL)animated{
-//    [activityView stopAnimating];
-//    [_activityView removeFromSuperview];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userUpdate:) name:@"userUpdate" object:nil];
 }
 -(void)viewWillDisappear:(BOOL)animated {
     [_activityView stopAnimating];
     [_activityView removeFromSuperview];
 }
 
--(void)whenPush{
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                            bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-    UIViewController* theLauncg =[storyboard instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
-      UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
-    [self presentViewController:theLauncg animated:YES completion:nil];
-        [self presentViewController:theTabBar animated:YES completion:nil];
-}
 
 - (IBAction)logoutBtn:(id)sender {
     ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
@@ -143,36 +176,62 @@
 
 - (void) insertInitialContacts{
     
-    ALContactService * contactService = [[ALContactService alloc] init];
+    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     
-    // Contact 1
+    //contact 1
     ALContact *contact1 = [[ALContact alloc] init];
     contact1.userId = @"adarshk";
     contact1.fullName = @"Adarsh Kumar";
     contact1.displayName = @"Adarsh";
     contact1.email = @"github@applozic.com";
     contact1.contactImageUrl = nil;
-    contact1.localImageResourceName = @"";
+    contact1.localImageResourceName = @"adarsh.jpg";
+    
+    // contact 2
+    ALContact *contact2 = [[ALContact alloc] init];
+    contact2.userId = @"marvel";
+    contact2.fullName = @"abhishek thapliyal";
+    contact2.displayName = @"abhishek";
+    contact2.email = @"abhishek@applozic.com";
+    contact2.contactImageUrl = nil;
+    contact2.localImageResourceName = @"abhishek.jpg";
     
     
-    // Contact 2 -------- Example with json
-    NSString *jsonString =@"{\"userId\": \"applozic\",\"fullName\": \"Applozic\",\"contactNumber\": \"9535008745\",\"displayName\": \"Applozic Support\",\"contactImageUrl\": \"http://applozic.com/resources/images/aboutus/rathan.jpg\",\"email\": \"devashish@applozic.com\",\"localImageResourceName\":\"rathan.jpg\"}";
-    ALContact *contact2 = [[ALContact alloc] initWithJSONString:jsonString];
+//    Contact -------- Example with json
+
+    
+    NSString *jsonString =@"{\"userId\": \"applozic\",\"fullName\": \"Applozic\",\"contactNumber\": \"9535008745\",\"displayName\": \"Applozic Support\",\"contactImageUrl\": \"https://cdn-images-1.medium.com/max/800/1*RVmHoMkhO3yoRtocCRHSdw.png\",\"email\": \"devashish@applozic.com\",\"localImageResourceName\":\"sample.jpg\"}";
+    ALContact *contact3 = [[ALContact alloc] initWithJSONString:jsonString];
+
     
     
-    // Contact 3 ------- Example with dictonary
+//     Contact ------- Example with dictonary
+
+    
     NSMutableDictionary *demodictionary = [[NSMutableDictionary alloc] init];
-    [demodictionary setValue:@"abhishek" forKey:@"userId"];
-    [demodictionary setValue:@"Abhishek" forKey:@"fullName"];
-    [demodictionary setValue:@"1234567890" forKey:@"contactNumber"];
-    [demodictionary setValue:@"Abhishek" forKey:@"displayName"];
-    [demodictionary setValue:@"github@applozic.com" forKey:@"email"];
-    [demodictionary setValue:@"https://www.applozic.com/resources/images/applozic_logo.gif" forKey:@"contactImageUrl"];
+    [demodictionary setValue:@"aman999" forKey:@"userId"];
+    [demodictionary setValue:@"aman sharma" forKey:@"fullName"];
+    [demodictionary setValue:@"75760462" forKey:@"contactNumber"];
+    [demodictionary setValue:@"aman" forKey:@"displayName"];
+    [demodictionary setValue:@"aman@applozic.com" forKey:@"email"];
+    [demodictionary setValue:@"http://images.landofnod.com/is/image/LandOfNod/Letter_Giant_Enough_A_231533_LL/$web_zoom$&wid=550&hei=550&/1308310656/not-giant-enough-letter-a.jpg" forKey:@"contactImageUrl"];
     [demodictionary setValue:nil forKey:@"localImageResourceName"];
     [demodictionary setValue:[ALUserDefaultsHandler getApplicationKey] forKey:@"applicationId"];
-    ALContact *contact3 = [[ALContact alloc] initWithDict:demodictionary];
     
-    [contactService insertInitialContactsService:@[contact1,contact2,contact3]];
+    ALContact *contact4 = [[ALContact alloc] initWithDict:demodictionary];
+    [theDBHandler addListOfContacts:@[contact1, contact2, contact3, contact4]];
+    
 }
-
+-(void)userUpdate:(NSNotification*)userDetails{
+    ALUserDetail * user = userDetails.object;
+    if(user.connected){
+        //NSLog(@"USER_ONLINE:\nName%@\nID:%@",user.displayName,user.userId);
+    }
+    else{
+//        NSLog(@"USER_OFFLINE:\nName%@\nID:%@",user.displayName,user.userId);
+    }
+}
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:@"userUpdate"];
+}
 @end

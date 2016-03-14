@@ -33,7 +33,7 @@
         }
         else
         {
-            NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
+//            NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
             NSNumber * generatedAt =  [theJson  valueForKey:@"generatedAt"];
             [ALUserDefaultsHandler setLastSeenSyncTime:generatedAt];
             ALLastSeenSyncFeed  * responseFeed =  [[ALLastSeenSyncFeed alloc] initWithJSONString:(NSString*)theJson];
@@ -63,7 +63,7 @@
         {
             //NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
             ALUserDetail *userDetailObject = [[ALUserDetail alloc] initWithJSONString:theJson];
-            // [userDetailObject userDetail];
+             [userDetailObject userDetail];
             completionMark(userDetailObject);
             
         }
@@ -94,4 +94,76 @@
     }];
     
 }
+
+-(void)markConversationAsReadforContact:(NSString *)contactId withCompletion:(void (^)(NSString *, NSError *))completion{
+    
+    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/read/conversation",KBASE_URL];
+    NSString * theParamString;
+    theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"MARK_CONVERSATION_AS_READ" WithCompletionHandler:^(id theJson, NSError *theError) {
+        if (theError) {
+            completion(nil,theError);
+            NSLog(@"theError");
+            return ;
+        }else{
+            //read sucessfull
+            NSLog(@"sucessfully marked read !");
+        }
+        NSLog(@"Response: %@", (NSString *)theJson);
+        completion((NSString *)theJson,nil);
+    }];
+}
+
++(void)userBlockServerCall:(NSString *)userId withCompletion:(void (^)(NSString *json, NSError *error))completion
+{    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/block",KBASE_URL];
+    NSString * theParamString;
+    theParamString = [NSString stringWithFormat:@"userId=%@",userId];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"USER_BLOCKED" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        NSLog(@"USER_BLOCKED RESPONSE JSON: %@", (NSString *)theJson);
+        if (theError)
+        {
+            NSLog(@"theError");
+        }
+        else
+        {
+            NSLog(@" %@ SUCCESSFULLY BLOCKED", userId);
+            completion((NSString *)theJson, nil);
+        }
+        
+        
+    }];
+}
+
++(void)userBlockSyncServerCall:(NSNumber *)lastSyncTime withCompletion:(void (^)(NSString *json, NSError *error))completion
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/blocked/sync",KBASE_URL];
+    NSString * theParamString;
+    theParamString = [NSString stringWithFormat:@"lastSyncTime=%@",lastSyncTime];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"USER_BLOCK_SYNC" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        NSLog(@"USER_BLOCKED SYNC RESPONSE JSON: %@", (NSString *)theJson);
+        if (theError)
+        {
+            NSLog(@"theError");
+        }
+        else
+        {
+            completion((NSString *)theJson, nil);
+        }
+        
+    }];
+}
+
 @end

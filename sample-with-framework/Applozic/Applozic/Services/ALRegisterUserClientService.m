@@ -76,6 +76,7 @@
             NSLog(@"..");
         }
         [ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.currentTimeStamp];
+        [ALUserDefaultsHandler setLastSyncChannelTime:(NSNumber *)response.currentTimeStamp];
         [self connect];
         ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
         if(dbService.isMessageTableEmpty){

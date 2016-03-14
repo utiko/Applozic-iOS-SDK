@@ -16,7 +16,7 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageService.h"
 #import "ALMessagesViewController.h"
-
+#import "ALUserService.h"
 
 @implementation ALAppLocalNotifications
 
@@ -162,6 +162,9 @@
             
             //            [ALMessageService processLatestMessagesGroupByContact];
             [ALMessageService processPendingMessages];
+            // sync call for user block also call here
+//            ALUserService *userService = [ALUserService new];     USER BLOCK COMMENTED TILL NEXT RELEASE
+//            [userService blockUserSync:"INSERT VALUE NSNUMBER"];
         }
         else
         {
@@ -186,36 +189,42 @@
     }];
 }
 
-#pragma mark - Third Party Notificaiton Handlers
-//===================================================
-
+// To DISPLAY THE NOTIFICATION ONLY ...from 3rd Party View.
 -(void)thirdPartyNotificationHandler:(NSNotification*)notification{
     
+    NSNumber* groupId = nil;
+    NSArray *notificationComponents = [notification.object componentsSeparatedByString:@":"];
+
+    if(notificationComponents.count>1){
+        NSString *groupIdString = notificationComponents[1];
+        groupId=[NSNumber numberWithInt:groupIdString.intValue];
+    }
     self.contactId = notification.object;
     self.dict = notification.userInfo;
     NSNumber * updateUI = [self.dict valueForKey:@"updateUI"];
     NSString * alertValue = [self.dict valueForKey:@"alertValue"];
     
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
-    [ALMessageService getLatestMessageForUser:deviceKeyString
-                               withCompletion:^(NSMutableArray *messageArray, NSError *error) {
+    [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
         
         if (error) {
             NSLog(@"%@",error);
             return ;
         }
         
-//      Directly opening chat when app coming from background/inactive state
+        
         if(updateUI==[NSNumber numberWithBool:NO]){
-            [self thirdPartyNotificationTap:self.contactId];
+            NSLog(@"App launched from Background....Directly opening view from %@",self.dict);
+            [self thirdPartyNotificationTap1:self.contactId withGroupId:groupId]; // Directly launching Chat
             return;
         }
-
-//      Shows notfication view on third party views
+        
         if(updateUI==[NSNumber numberWithBool:YES]){
-
+            
             if(alertValue){
-                [ALUtilityClass foreignViewNotification:alertValue andForContactId:self.contactId delegate:self];
+                NSLog(@"App launched from 3rdParty for c");
+                NSLog(@"posting to notification....%@",notification.userInfo);
+                [ALUtilityClass thirdDisplayNotificationTS:alertValue andForContactId:self.contactId withGroupId:groupId delegate:self];
             }
             else{
                 NSLog(@"Nil Alert Value");
@@ -224,16 +233,18 @@
         
     }];
     
+    
+    //    [ALUtilityClass displayNotification:alertValue delegate:self];
 }
-
-//  Notification Tap Handler
--(void)thirdPartyNotificationTap:(NSString *) contactId{
+-(void)thirdPartyNotificationTap1:(NSString *) contactId withGroupId:(NSNumber*) groupID{ //:(UIGestureRecognizer*)gestureRecognizer
     
     ALPushAssist* object=[[ALPushAssist alloc] init];
     //for Individual Chat Conversation Opening...
+    NSLog(@"Chat Launch Contact ID: %@",self.contactId);
+    //Check if this view is there or not ..if there just call fetchAnd refresh...
     if(!object.isChatViewOnTop){
         self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_KEY];
-        [self.chatLauncher launchIndividualChat:contactId andViewControllerObject:object.topViewController andWithText:nil];
+        [self.chatLauncher launchIndividualChat:contactId withGroupId:groupID andViewControllerObject:object.topViewController andWithText:nil];
     }
     
 }

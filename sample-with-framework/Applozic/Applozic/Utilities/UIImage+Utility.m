@@ -8,6 +8,9 @@
 
 #import "UIImage+Utility.h"
 #import "ALChatViewController.h"
+#import "ALApplozicSettings.h"
+
+#define  DEFAULT_MAX_FILE_UPLOAD_SIZE 32
 
 @implementation UIImage (Utility)
 
@@ -18,14 +21,14 @@
     return (imageData.length/1024.0)/1024.0;
 }
 
--(BOOL)islandScape
-{
-    return self.size.width>self.size.height?YES:NO;
-}
+//-(BOOL)islandScape
+//{
+//    return self.size.width>self.size.height?YES:NO;
+//}
 
 -(UIImage *)getCompressedImageLessThanSize:(double)sizeInMb
 {
-   
+    
     UIImage * originalImage = self;
     
     NSData * theImageData = UIImageJPEGRepresentation(originalImage,1);
@@ -39,10 +42,29 @@
         theImageData = UIImageJPEGRepresentation(self,0.9);
         
         originalImage = [UIImage imageWithData:theImageData];
-
+        
     }
     
     return originalImage;
 }
+
+-(NSData *)getCompressedImageData
+{
+    
+    CGFloat compression = 1.0f;
+    CGFloat maxCompression = [ALApplozicSettings getMaxCompressionFactor];
+    NSInteger maxSize =( [ALApplozicSettings getMaxImageSizeForUploadInMB]==0 )? DEFAULT_MAX_FILE_UPLOAD_SIZE : [ALApplozicSettings getMaxImageSizeForUploadInMB];
+    NSData *imageData = UIImageJPEGRepresentation(self, compression);
+    
+    while (((imageData.length/1024.0)/1024.0) > maxSize & compression > maxCompression)
+    {
+        compression -= 0.1;
+        imageData = UIImageJPEGRepresentation(self, compression);
+        
+    }
+    return imageData;
+    
+}
+
 
 @end

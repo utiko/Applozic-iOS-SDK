@@ -17,6 +17,10 @@
 
 @interface ALChannelDBService : NSObject
 
+-(void)createChannel:(ALChannel *)channel;
+
+-(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
+
 -(void)insertChannel:(NSMutableArray *)channelList;
 
 -(DB_CHANNEL *) createChannelEntity:(ALChannel *)channel;
@@ -35,10 +39,22 @@
 
 -(ALChannel *)checkChannelEntity:(NSNumber *)channelKey;
 
--(void)insertConversationProxy:(NSMutableArray *)proxyArray;
+-(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
 
--(DB_ConversationProxy *)createConversationProxy:(ALConversationProxy *)conversationProxy;
+-(void)deleteChannel:(NSNumber *)channelKey;
 
--(DB_ConversationProxy *)getConversationProxyByKey:(NSNumber *)ID;
+-(NSMutableArray*)getAllChannelKeyAndName;
 
+-(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName;
+
+-(void)processArrayAfterSyncCall:(NSMutableArray *)channelArray;
+
+-(NSMutableArray *)getListOfAllUsersInChannel:(NSNumber *)key;
+//New Added...
+-(NSUInteger)markConversationAsRead:(NSNumber*)channelKey;
+- (NSArray *)getUnreadMessagesForGroup:(NSNumber*)groupId;
+-(void)updateUnreadCountChannel:(NSNumber *)channelKey
+         unreadCount:(NSNumber *)unreadCount;
+-(void)setLeaveFlagForChannel:(NSNumber*)groupId;
+-(BOOL)isChannelLeft:(NSNumber *)groupId;
 @end

@@ -94,7 +94,6 @@
     [tempArray addObjectsFromArray:paramMessageArray];
     
     int countX  =((int)self.messageArray.count);
-    NSLog(@"total idex count %d and total temparraycount : %lu", countX , tempArray.count);
     for(int i = (int)(tempArray.count-1); i >= countX; i--)
     {
         //Adding last message as comparision last message is missing
@@ -133,7 +132,6 @@
     [tempArray addObjectsFromArray:paramMessageArray];
     
     int countX  =((int)self.messageArray.count==0)?1:((int)self.messageArray.count);
-    //NSLog(@"total idex count %d and total temparraycount : %lu", countX , tempArray.count);
     for(int i = countX-1 ; i  < (tempArray.count-1) ; i++)
     {
         ALMessage * msg1 = tempArray[i];

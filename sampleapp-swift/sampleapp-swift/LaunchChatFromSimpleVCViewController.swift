@@ -32,8 +32,6 @@ class LaunchChatFromSimpleVCViewController: UIViewController {
     
     
     
-    
-    
     @IBAction func launchUserChat(sender: AnyObject) {
         let chatManager : ALChatManager =  ALChatManager()
         
@@ -42,6 +40,48 @@ class LaunchChatFromSimpleVCViewController: UIViewController {
     }
     
     
+    @IBAction func launchSellerChat(sender: AnyObject) {
+        
+        var alconversationProxy : ALConversationProxy =  ALConversationProxy()
+        alconversationProxy = self.makeupConversationDetails()
+        
+        let chatManager : ALChatManager =  ALChatManager()
+        chatManager.createAndLaunchChatWithSellerWithConversationProxy(alconversationProxy, fromViewController:self)
+    }
+
+    func makeupConversationDetails() -> ALConversationProxy{
+        let alConversationProxy : ALConversationProxy = ALConversationProxy()
+        alConversationProxy.topicId = "laptop01"
+        alConversationProxy.userId = "adarshk"
+        
+        let alTopicDetails : ALTopicDetail = ALTopicDetail()
+        alTopicDetails.title     = "Mac Book Pro"
+        alTopicDetails.subtitle  = "13' Retina"
+        alTopicDetails.link      = "https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/macbookpro.jpg"
+        alTopicDetails.key1      = "Product ID"
+        alTopicDetails.value1    = "mac-pro-r-13"
+        alTopicDetails.key2      = "Price"
+        alTopicDetails.value2    = "Rs.1,04,999.00"
+        
+        
+        let jsonData: NSData = jsonToNSData(alTopicDetails.dictionary())!
+        
+        let resultTopicDetails : NSString = NSString.init(data: jsonData, encoding: NSUTF8StringEncoding)!
+        alConversationProxy.topicDetailJson = resultTopicDetails as String
+        
+        return alConversationProxy
+    }
+    
+    
+    
+    func jsonToNSData(json: AnyObject) -> NSData?{
+        do {
+            return try NSJSONSerialization.dataWithJSONObject(json, options:NSJSONWritingOptions.PrettyPrinted)
+        } catch let Error {
+            print(Error)
+        }
+        return nil;
+    }
     
     @IBAction func logout(sender: AnyObject) {
         let registerUserClientService: ALRegisterUserClientService = ALRegisterUserClientService()
