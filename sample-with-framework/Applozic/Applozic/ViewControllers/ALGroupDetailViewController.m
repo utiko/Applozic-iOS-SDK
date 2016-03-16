@@ -81,7 +81,7 @@
         ALContact * contact = [[ALContact alloc] init];
         ALContactDBService * contactDb=[[ALContactDBService alloc] init];
         contact = [contactDb loadContactByKey:@"userId" value:userID];
-        if([contact.displayName isEqualToString:[ALUserDefaultsHandler getUserId]]){
+        if([contact.userId isEqualToString:[ALUserDefaultsHandler getUserId]]){
             contact.displayName = @"You";
         }
         [memberNames addObject:contact.displayName];
