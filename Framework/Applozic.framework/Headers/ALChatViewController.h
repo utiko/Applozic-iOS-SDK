@@ -65,4 +65,5 @@
 -(void) syncCall:(ALMessage*)AlMessage  updateUI:(NSNumber *)updateUI alertValue: (NSString *)alertValue;
 
 -(void)processLoadEarlierMessages:(BOOL)isScrollToBottom;
+-(NSString*)formatDateTime:(ALUserDetail*)alUserDetail  andValue:(double)value;
 @end
