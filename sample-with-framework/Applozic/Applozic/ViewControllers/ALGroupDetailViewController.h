@@ -14,5 +14,6 @@
 @property (strong, nonatomic) NSNumber * channelKeyID;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) NSString * memberIdToAdd;
-@property (strong,nonatomic) NSArray * lastSeenMembersArray;
+@property (strong,nonatomic) NSMutableArray * lastSeenMembersArray;
+@property (strong,nonatomic)UIViewController * alChatViewController;
 @end

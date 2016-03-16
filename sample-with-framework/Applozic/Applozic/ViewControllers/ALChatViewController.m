@@ -412,7 +412,8 @@ ALMessageDBService  * dbService;
                                                          bundle:[NSBundle bundleForClass:ALGroupDetailViewController.class]];
     ALGroupDetailViewController *groupDetailViewController = (ALGroupDetailViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ALGroupDetailViewController"];
     groupDetailViewController.channelKeyID=self.channelKey;
-    groupDetailViewController.lastSeenMembersArray = [NSArray arrayWithArray:[self getLastSeenForGroupDetails]];
+    groupDetailViewController.lastSeenMembersArray = [NSMutableArray arrayWithArray:[self getLastSeenForGroupDetails]];
+    groupDetailViewController.alChatViewController = self;
     [self.navigationController pushViewController:groupDetailViewController animated:YES];
     
     
@@ -2071,7 +2072,7 @@ ALMessageDBService  * dbService;
     return self.label.text;
     
 }
--(NSArray*)getLastSeenForGroupDetails{
+-(NSMutableArray*)getLastSeenForGroupDetails{
     
     NSMutableArray * userDetailsArray = [[NSMutableArray alloc] init];
     
@@ -2079,7 +2080,7 @@ ALMessageDBService  * dbService;
     
     ALChannelDBService * channelDBService = [[ALChannelDBService alloc] init];
     NSMutableArray *memberIdArray= [NSMutableArray arrayWithArray:[channelDBService getListOfAllUsersInChannel:self.channelKey]];
-    [memberIdArray removeObject:[ALUserDefaultsHandler getUserId]];
+    
     for (NSString * userID in memberIdArray) {
         ALContact * contact = [contactDBService loadContactByKey:@"userId" value:userID];
         ALUserDetail * userDetails = [[ALUserDetail alloc] init];
@@ -2089,7 +2090,7 @@ ALMessageDBService  * dbService;
         double value = contact.lastSeenAt.doubleValue;
         [userDetailsArray addObject:[self formatDateTime:userDetails andValue:value]];
     }
-    NSLog(@"Memeber LastSeen:%@",userDetailsArray);
+  
     return userDetailsArray;
 }
 //======================================================

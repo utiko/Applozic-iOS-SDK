@@ -81,11 +81,7 @@
     
     ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     
-    if(groupID){
-        chatView.channelKey=groupID;
-    }else{
-        chatView.channelKey=nil;
-    }
+    chatView.channelKey=groupID;
     chatView.contactIds = userId;
     chatView.text = text;
     chatView.individualLaunch = YES;

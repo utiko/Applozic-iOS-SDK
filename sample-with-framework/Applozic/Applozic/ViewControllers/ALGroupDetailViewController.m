@@ -55,7 +55,6 @@
     ALChannelDBService * channelDBService = [[ALChannelDBService alloc] init];
     NSArray *memberIdArray= [NSArray arrayWithArray:[channelDBService getListOfAllUsersInChannel:self.channelKeyID]];
     memberIds = [NSMutableArray arrayWithArray:memberIdArray];
-    [memberIds removeObject:[ALUserDefaultsHandler getUserId]];
     [self getDisplayNames:nil];
     
     
@@ -82,6 +81,9 @@
         ALContact * contact = [[ALContact alloc] init];
         ALContactDBService * contactDb=[[ALContactDBService alloc] init];
         contact = [contactDb loadContactByKey:@"userId" value:userID];
+        if([contact.displayName isEqualToString:[ALUserDefaultsHandler getUserId]]){
+            contact.displayName = @"You";
+        }
         [memberNames addObject:contact.displayName];
     }
     self.memberCount = memberNames.count;
@@ -172,8 +174,24 @@
     ALChannelService * channelService = [[ALChannelService alloc] init];
     [channelService addMemberToChannel:self.memberIdToAdd andChannelKey:self.channelKeyID];
     [memberIds addObject:self.memberIdToAdd];
+    [self.lastSeenMembersArray addObject:[self getLastSeenForNewMember:self.memberIdToAdd]];
     [self updateTableView];
     
+}
+
+-(NSString *)getLastSeenForNewMember:(NSString*)memberIdToAdd{
+    
+    ALContactDBService * contactDBService = [[ALContactDBService alloc] init];
+    ALContact * contact = [contactDBService loadContactByKey:@"userId" value:memberIdToAdd];
+    
+    ALUserDetail * userDetails = [[ALUserDetail alloc] init];
+    userDetails.userId = memberIdToAdd;
+    userDetails.lastSeenAtTime = contact.lastSeenAt;
+    
+    double value = contact.lastSeenAt.doubleValue;
+    
+    NSString * lastSeen = [(ALChatViewController*)self.alChatViewController formatDateTime:userDetails andValue:value];
+    return lastSeen;
 }
 
 #pragma mark - Check and confirm
@@ -212,8 +230,10 @@
 //=======================================
 -(void) removeMember:(NSInteger)row
 {
-    if(memberNames.count == 2){
-        [self checkAndconfirm:@"Remove Fail" withMessage:@"Group cannot have one member" otherButtonTitle:@"Ok"];
+    NSString* removeMemberID = [NSString stringWithFormat:@"%@",memberIds[row]];
+    
+    if([removeMemberID isEqualToString:[ALUserDefaultsHandler getUserId]]){
+        return;
     }
     else{
     UIAlertController * theController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -251,14 +271,15 @@
     
     [self.firstLetter setHidden:YES];
     [self.memberIconImageView setHidden:NO];
-    
-    
-    [self.lastSeenLabel setHidden:NO];
-    [self.lastSeenLabel setText:self.lastSeenMembersArray[row]];
 
     ALContact * alContact = [[ALContact alloc] init];
     ALContactDBService * alContactDBService = [[ALContactDBService alloc] init];
     alContact = [alContactDBService loadContactByKey:@"userId" value:memberIds[row]];
+   
+    if (![alContact.userId isEqualToString:[ALUserDefaultsHandler getUserId]]){
+        [self.lastSeenLabel setHidden:NO];
+        [self.lastSeenLabel setText:self.lastSeenMembersArray[row]];
+    }
     
     if (alContact.localImageResourceName){
         UIImage *someImage = [ALUtilityClass getImageFromFramworkBundle:alContact.localImageResourceName];
