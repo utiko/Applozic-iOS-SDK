@@ -150,7 +150,7 @@
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
 //    NSLog(@"%@",[locations lastObject]);
     
-    _sendLocationButton.enabled=NO;
+   // _sendLocationButton.enabled=NO;
     CLLocation *newLocation = [locations lastObject];
 
     
