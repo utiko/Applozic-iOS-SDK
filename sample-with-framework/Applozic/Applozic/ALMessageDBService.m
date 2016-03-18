@@ -316,7 +316,8 @@
 
 }
 
--(void)fetchAndRefreshQuickConversation{
+-(void)fetchAndRefreshQuickConversationWithCompletion:(void (^)( NSMutableArray *, NSError *))completion{
+
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     
     [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
@@ -328,6 +329,7 @@
         [self.delegate updateMessageList:messageArray];
         
         //[self fetchConversationsGroupByContactId];
+        completion(messageArray,error);
     }];
     
 }

@@ -80,7 +80,6 @@
     
     ALPushAssist* top=[[ALPushAssist alloc] init];
 
-    //////////    //////////    //////////    //////////    //////////    //////////    //////////
     ALContact* dpName=[[ALContact alloc] init];
     ALContactDBService * contactDb=[[ALContactDBService alloc] init];
     dpName=[contactDb loadContactByKey:@"userId" value:self.contactId];
@@ -90,20 +89,11 @@
     if([message isEqualToString:@""]){
         message=[NSString stringWithFormat:@"Attachment"];
     }
-    if(dpName.userId == nil){  // Avoids (null) to show up in Notificaition
-        dpName.userId=@"";
-    }
-    NSArray *notificationComponents = [dpName.getDisplayName componentsSeparatedByString:@":"];
-    if(notificationComponents.count>1){
-        dpName.userId = [notificationComponents lastObject];
-    }
-    else{
-        dpName.userId = dpName.getDisplayName;
-    }
-    message = [NSString stringWithFormat:@"%@:%@",dpName.userId,message];
+
+    message = [NSString stringWithFormat:@"%@:%@",dpName.displayName,message];
     message = (message.length > 20) ? [NSString stringWithFormat:@"%@...",[message substringToIndex:17]] : message;
-    //////////    //////////    //////////    //////////    //////////    //////////    //////////
     
+   
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
    
 

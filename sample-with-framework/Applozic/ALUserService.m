@@ -45,6 +45,7 @@
     }
     
     if ([contactIdsArr count] == 0) {
+         completionMark();
         return;
     };
     for(NSString* strr in contactIdsArr){

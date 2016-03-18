@@ -712,8 +712,10 @@
   //Simply Sync no notification
     if(alMessage==nil){
         NSLog(@"Called from self sync and messages are not present...");
-        [dBService fetchAndRefreshQuickConversation];
-        return;
+        [dBService fetchAndRefreshQuickConversationWithCompletion:^(NSMutableArray * array, NSError * error) {
+            return;
+        }];
+        
     }
     ALPushAssist* top=[[ALPushAssist alloc] init];
     ALChatViewController* refresh=[[ALChatViewController alloc] init];
@@ -728,9 +730,11 @@
        // NSLog(@"executing else part....");
         ALNotificationView * alnotification = [[ALNotificationView alloc]initWithContactId:alMessage.contactIds withAlertMessage:alMessage.message];
         if (top.isMessageViewOnTop) {
-            [alnotification displayNotificationNew:self];
-            [dBService fetchAndRefreshQuickConversation];
-            return;
+            [dBService fetchAndRefreshQuickConversationWithCompletion:^(NSMutableArray * array, NSError * error) {
+                [alnotification displayNotificationNew:self];
+                return ;
+            }];
+            
         }
        [refresh fetchAndRefresh:YES];
     }

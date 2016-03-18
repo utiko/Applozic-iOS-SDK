@@ -243,10 +243,10 @@ static ALMessageClientService * alMsgClientService;
                     messageArray = [dbService addMessageList:syncResponse.messagesList];
                     
                     [ALUserService processContactFromMessages:messageArray withCompletion:^{
-                        
                     [[NSNotificationCenter defaultCenter] postNotificationName:NEW_MESSAGE_NOTIFICATION object:messageArray userInfo:nil];
-                    }];
                     completion(messageArray,error);
+                    }];
+                    
                 }
                 [ALUserDefaultsHandler setLastSyncTime:syncResponse.lastSyncTime];
                 ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];

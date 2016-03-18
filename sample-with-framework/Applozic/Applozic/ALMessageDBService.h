@@ -29,7 +29,7 @@
 -(void)getMessages;
 -(void)fetchAndRefreshFromServer;
 -(void)fetchAndRefreshFromServerForPush;
--(void)fetchAndRefreshQuickConversation;
+-(void)fetchAndRefreshQuickConversationWithCompletion:(void (^)( NSMutableArray *, NSError *))completion;
 
 -(NSManagedObject *)getMeesageById:(NSManagedObjectID *)objectID
                              error:(NSError **)error;
