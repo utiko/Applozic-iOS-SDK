@@ -220,7 +220,7 @@ ALMessageDBService  * dbService;
         [self.pickerView reloadAllComponents];
     }    
     [self checkIfChannelLeft];
-//    [self checkUserBlockStatus]; USER BLOCK COMMENTED TILL NEXT RELEASE
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -270,41 +270,6 @@ ALMessageDBService  * dbService;
     }
     
 }
-
-//-(void)checkUserBlockStatus       USER BLOCK COMMENTED TILL NEXT RELEASE
-//{
-//    ALContactDBService *dbService = [ALContactDBService new];
-//    ALContact *contact = [dbService loadContactByKey:@"userId" value:self.contactIds];
-//    if(contact.block)
-//    {
-//        [self freezeView];
-//
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"OOPS !!!"
-//                                                        message: @"THIS USER IS BLOCKED BY YOU"
-//                                                       delegate: nil
-//                                              cancelButtonTitle: @"OK"
-//                                              otherButtonTitles: nil];
-//        alert.delegate = self;
-//        [alert show];
-//        
-//    }
-//}
-
-//-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//    if (buttonIndex == [alertView cancelButtonIndex])
-//    {
-//        NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
-//        for (UIViewController *aViewController in allViewControllers)
-//        {
-//            if ([aViewController isKindOfClass:[ALMessagesViewController class]])
-//            {
-//                [self.navigationController popToViewController:aViewController animated:YES];
-//            }
-//        }
-//    }
-//   
-//}
 
 -(void)checkIfChannelLeft{
     ALChannelService * alChannelService  = [[ALChannelService alloc] init];
