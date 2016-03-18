@@ -15,6 +15,7 @@
 #import "ALMessagesViewController.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALApplozicSettings.h"
+#import "ALContactDBService.h"
 @implementation ALNotificationView
 
 
@@ -74,13 +75,37 @@
 }
 
 -(void)displayNotificationNew:(id)delegate{
-    NSLog(@"OUR VIEW OPENED DISPLAY with Text %@ and contact ID: %@",self.text,_contactId);
+  
     //<><><><><><><><><><><><><><><><><><><><><><>OUR VIEW is opned<><>><><><><><><><><><><><><><><><>//
+    
     ALPushAssist* top=[[ALPushAssist alloc] init];
+
+    //////////    //////////    //////////    //////////    //////////    //////////    //////////
+    ALContact* dpName=[[ALContact alloc] init];
+    ALContactDBService * contactDb=[[ALContactDBService alloc] init];
+    dpName=[contactDb loadContactByKey:@"userId" value:self.contactId];
+    
+    NSString *message = [NSString stringWithFormat:@"%@",self.text]; //20 characters fixed
+    
+    if([message isEqualToString:@""]){
+        message=[NSString stringWithFormat:@"Attachment"];
+    }
+    if(dpName.userId == nil){  // Avoids (null) to show up in Notificaition
+        dpName.userId=@"";
+    }
+    NSArray *notificationComponents = [dpName.getDisplayName componentsSeparatedByString:@":"];
+    if(notificationComponents.count>1){
+        dpName.userId = [notificationComponents lastObject];
+    }
+    else{
+        dpName.userId = dpName.getDisplayName;
+    }
+    message = [NSString stringWithFormat:@"%@:%@",dpName.userId,message];
+    message = (message.length > 20) ? [NSString stringWithFormat:@"%@...",[message substringToIndex:17]] : message;
+    //////////    //////////    //////////    //////////    //////////    //////////    //////////
     
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
    
-    NSString *boldFace = [[ALApplozicSettings getFontFace] stringByAppendingString:@"-Bold"];
 
     [[TSMessageView appearance] setTitleFont:[UIFont boldSystemFontOfSize:17]];
     [[TSMessageView appearance] setContentFont:[UIFont systemFontOfSize:13]];
@@ -92,13 +117,13 @@
     NSString *myString = [NSString stringWithFormat:@"%@",self.text];
     myString = (myString.length > 20) ? [NSString stringWithFormat:@"%@...",[myString substringToIndex:20]] : myString;
     
-//    NSLog(@"myString:: %@",myString);
+
     if([myString isEqualToString:@""]){
         myString=[NSString stringWithFormat:@"Attachment"];
     }
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:[ALUserDefaultsHandler getNotificationTitle]
-                                       subtitle:[NSString stringWithFormat:@"%@: %@",_contactId,myString]
+                                       subtitle:message
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75
@@ -137,5 +162,34 @@
     
     
     
+}
+
+
+-(void)setupNotificaitionTitle{
+    //<><><><><><><><><><><><><><><><><><><><><><>OUR VIEW is opned<><>><><><><><><><><><><><><><><><>//
+    
+    ALContact* dpName=[[ALContact alloc] init];
+    ALContactDBService * contactDb=[[ALContactDBService alloc] init];
+    dpName=[contactDb loadContactByKey:@"userId" value:self.contactId];
+    NSString* title;
+    NSString *message = [NSString stringWithFormat:@"%@",self.text]; //20 characters fixed
+    
+    if([message isEqualToString:@""]){
+        message=[NSString stringWithFormat:@"Attachment"];
+    }
+    if(dpName.userId == nil){  // Avoids (null) to show up in Notificaition
+            dpName.userId=@"";
+    }
+    NSArray *notificationComponents = [dpName.getDisplayName componentsSeparatedByString:@":"];
+    if(notificationComponents.count>1){
+        dpName.userId = [notificationComponents lastObject];
+    }
+    else{
+        dpName.userId = dpName.getDisplayName;
+    }
+    message = [NSString stringWithFormat:@"%@:%@",dpName.userId,message];
+    message = (message.length > 20) ? [NSString stringWithFormat:@"%@...",[message substringToIndex:17]] : message;
+    
+
 }
 @end

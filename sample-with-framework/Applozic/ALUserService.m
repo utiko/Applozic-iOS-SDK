@@ -30,35 +30,29 @@
 
 //1. call this when each message comes
 
-+ (void)processContactFromMessages:(NSArray *) messagesArr{
++ (void)processContactFromMessages:(NSArray *) messagesArr withCompletion:(void(^)())completionMark
+{
     
     NSMutableOrderedSet* contactIdsArr=[[NSMutableOrderedSet alloc] init ];
-   
     NSMutableString * repString=[[NSMutableString alloc] init];
-    
     ALContactDBService* dbObj=[[ALContactDBService alloc] init];
-    
     for(ALMessage* msg in messagesArr) {
         if(![dbObj getContactByKey:@"userId" value:msg.contactIds]) {
             NSMutableString* appStr=[[NSMutableString alloc] initWithString:msg.contactIds];
             [appStr insertString:@"&userIds=" atIndex:0];
             [contactIdsArr addObject:appStr];
         }
-        NSLog(@"contact ID(s) %@",msg.contactIds);
     }
     
     if ([contactIdsArr count] == 0) {
         return;
     };
-    
-    
     for(NSString* strr in contactIdsArr){
         [repString appendString:strr];
     }
     
     NSLog(@"rep String %@",repString);
-
-//    [ALUserService getUserInfo:repString];
+        //    [ALUserService getUserInfo:repString];
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/v1/info",KBASE_URL];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:repString];
     
@@ -68,8 +62,7 @@
             return ;
         }
         NSDictionary* userIDs=[[NSDictionary alloc] initWithDictionary:theJson];
-        NSLog(@"userIDs theJSON %@",userIDs);
-   
+       
         for(id key in userIDs){
             ALContact * createNew=[[ALContact alloc] init];
             createNew.displayName=[userIDs objectForKey:key];
@@ -80,7 +73,7 @@
             [adding addContact:createNew];
             
         }
-
+        completionMark();
     }];
 }
 
@@ -88,7 +81,7 @@
 {
     
     [ALUserClientService userLastSeenDetail:lastSeenAt withCompletion:^(ALLastSeenSyncFeed * messageFeed) {
-         NSMutableArray* lastSeenUpdateArray=   messageFeed.lastSeenArray;
+    NSMutableArray* lastSeenUpdateArray=   messageFeed.lastSeenArray;
         ALContactDBService *contactDBService =  [[ALContactDBService alloc]init];
         for ( ALUserDetail * userDetail in lastSeenUpdateArray){
             [ contactDBService updateUserDetail:userDetail];
@@ -96,32 +89,26 @@
         completionMark(lastSeenUpdateArray);
     }];
     
-
 }
 
-+(void)updateUserDisplayName:(ALContact *)alContact
-{
-    if(alContact.userId && alContact.displayName)
-    {
++(void)updateUserDisplayName:(ALContact *)alContact{
+    if(alContact.userId && alContact.displayName){
         ALUserClientService * alUserClientService  = [[ALUserClientService alloc] init];
         [alUserClientService updateUserDisplayName:alContact withCompletion:^(id theJson, NSError *theError) {
             
-            if(theError)
-            {
+            if(theError){
                 NSLog(@"GETTING ERROR in SEVER CALL FOR DISPLAY NAME");
             }
-            else
-            {
+            else{
                 ALAPIResponse *apiResponse = [[ALAPIResponse alloc] initWithJSONString:theJson];
             }
-            
         }];
     }
-    else
-    {
+    
+    else{
         return;
     }
 }
 
-
 @end
+

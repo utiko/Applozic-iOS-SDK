@@ -233,7 +233,6 @@ static ALMessageClientService * alMsgClientService;
         
         [ alMsgClientService getLatestMessageForUser:deviceKeyString withCompletion:^(ALSyncMessageFeed * syncResponse , NSError *error) {
             NSMutableArray *messageArray = nil;
-            
             if(!error){
                 if (syncResponse.deliveredMessageKeys.count > 0) {
                     [ALMessageService updateDeliveredReport: syncResponse.deliveredMessageKeys];
@@ -243,15 +242,17 @@ static ALMessageClientService * alMsgClientService;
                     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
                     messageArray = [dbService addMessageList:syncResponse.messagesList];
                     
-                   [[NSNotificationCenter defaultCenter] postNotificationName:NEW_MESSAGE_NOTIFICATION object:messageArray userInfo:nil];
-
+                    [ALUserService processContactFromMessages:messageArray withCompletion:^{
+                        
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NEW_MESSAGE_NOTIFICATION object:messageArray userInfo:nil];
+                    }];
+                    completion(messageArray,error);
                 }
-                completion(messageArray,error);
-                
                 [ALUserDefaultsHandler setLastSyncTime:syncResponse.lastSyncTime];
                 ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
                 [messageClientService updateDeliveryReports:syncResponse.messagesList];
-            }else{
+            }
+            else{
                 completion(messageArray,error);
             }
             
