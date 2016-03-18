@@ -31,6 +31,7 @@
         NSManagedObject *message =  [self getMessageByKey:@"key" value:theMessage.key];
         if(message!=nil){
             NSLog(@"Skipping duplicate message found with key %@", theMessage.key);
+            theMessage.msgDBObjectId = message.objectID;
             continue;
         }
         theMessage.sentToServer = YES;
@@ -38,6 +39,8 @@
         
         [theDBHandler.managedObjectContext save:nil];
         theMessage.msgDBObjectId = theMessageEntity.objectID;
+        
+        NSLog(@"theMessage.msgDBObjectId%@ and id %@ ",theMessage.msgDBObjectId, theMessage.key);
         
         [messageArray addObject:theMessage];
     }
