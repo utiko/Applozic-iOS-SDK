@@ -82,6 +82,7 @@ ALMessageDBService  * dbService;
 //------------------------------------------------------------------------------------------------------------------
 
 - (void)viewDidLoad {
+
     [super viewDidLoad];
     [self initialSetUp];
     [self fetchMessageFromDB];
@@ -120,6 +121,11 @@ ALMessageDBService  * dbService;
     [self.loadEarlierAction setHidden:YES];
     self.showloadEarlierAction = TRUE;
     self.typingLabel.hidden = YES;
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self selector:@selector(newMessageHandler1:)
+     name:NEW_MESSAGE_NOTIFICATION  object:nil];
+    
 
     if(self.refresh || ([self.alMessageWrapper getUpdatedMessageArray] && [self.alMessageWrapper getUpdatedMessageArray].count == 0) ||
        !([self.alMessageWrapper getUpdatedMessageArray] && [[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds] isEqualToString:self.contactIds])
@@ -146,11 +152,9 @@ ALMessageDBService  * dbService;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDeliveryStatus:) name:@"deliveryReport" object:nil];
     self.mqttObject = [ALMQTTConversationService sharedInstance];
     
-    [[NSNotificationCenter defaultCenter]
-        addObserver:self selector:@selector(newMessageHandler:)
-     name:NEW_MESSAGE_NOTIFICATION  object:nil];
+
+    
     if(self.individualLaunch){
-        NSLog(@"individual launch ...unsubscribeToConversation to mqtt..");
         self.mqttObject.mqttConversationDelegate = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             if(self.mqttObject)
@@ -180,13 +184,14 @@ ALMessageDBService  * dbService;
     [self.tabBarController.tabBar setHidden: YES];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"deliveryReport" object:nil];
+    
+
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NEW_MESSAGE_NOTIFICATION object:nil];
 
     [self.sendMessageTextView resignFirstResponder];
     [self.label setHidden:YES];
     [self.typingLabel setHidden:YES];
     if( self.individualLaunch){
-        NSLog(@"individual launch ...unsubscribeToConversation to mqtt..");
         //        dispatch_async(dispatch_get_main_queue(), ^{
         if(self.mqttObject)
             [self.mqttObject unsubscribeToConversation];
@@ -1541,19 +1546,23 @@ ALMessageDBService  * dbService;
     NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
     NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
     NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
+    
     if(sortedArray.count==0){
         NSLog(@"No message for contact .....%@",self.contactIds);
         return;
     }
-    [self.alMessageWrapper addLatestObjectToArray:(NSMutableArray *)sortedArray];
-    //[ALUserService processContactFromMessages:messageList];
     [self setTitle];
-    //    [self fetchAndRefresh:true];
-    [self.mTableView reloadData];
-    [self scrollTableViewToBottomWithAnimation:YES];
-}
 
--(void)newMessageHandler:(NSNotification *) notification{
+    if([[self.alMessageWrapper getUpdatedMessageArray] count ]==0){
+        [self reloadView];
+    }else{
+        [self.alMessageWrapper addLatestObjectToArray:(NSMutableArray *)sortedArray];
+        [self.mTableView reloadData];
+    }
+    
+    }
+
+-(void)newMessageHandler1:(NSNotification *) notification{
     
     NSMutableArray * messageArray = notification.object;
     [self addMessageToList:messageArray];

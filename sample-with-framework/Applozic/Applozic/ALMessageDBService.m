@@ -30,7 +30,6 @@
         //Duplicate check before inserting into DB...
         NSManagedObject *message =  [self getMessageByKey:@"key" value:theMessage.key];
         if(message!=nil){
-            NSLog(@"Skipping duplicate message found with key %@", theMessage.key);
             theMessage.msgDBObjectId = message.objectID;
             continue;
         }
@@ -39,9 +38,6 @@
         
         [theDBHandler.managedObjectContext save:nil];
         theMessage.msgDBObjectId = theMessageEntity.objectID;
-        
-        NSLog(@"theMessage.msgDBObjectId%@ and id %@ ",theMessage.msgDBObjectId, theMessage.key);
-        
         [messageArray addObject:theMessage];
     }
     
@@ -555,8 +551,6 @@
         //}
         [msgArray addObject:theMessage];
     }
-    
-    NSLog(@" get pending messages ...getPendingMessages ..%lu",msgArray.count);
     
     return msgArray;
     

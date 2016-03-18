@@ -36,7 +36,6 @@
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"DEILVERY_REPORT" WithCompletionHandler:^(id theJson, NSError *theError) {
-        NSLog(@"server response received for delivery report %@", theJson);
         
         if (theError) {
             
@@ -102,7 +101,6 @@
         }
         ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
         completion(syncResponse,nil);
-        NSLog(@"theJson :: : %@", theJson);
     }];
     
     
