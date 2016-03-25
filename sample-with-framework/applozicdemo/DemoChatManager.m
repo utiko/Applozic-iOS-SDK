@@ -27,7 +27,6 @@
     
         self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
 
-        //[self.chatLauncher ALDefaultChatViewSettings];
         [self ALDefaultChatViewSettings];
         [alUser setApplicationId:APPLICATION_ID];
         ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
@@ -126,8 +125,8 @@
         NSLog(@"Not able to find user detail for registration...please register with applozic server first");
         return;
     }
-    [ alUser setApplicationId:APPLICATION_ID ];
-    [self.chatLauncher ALDefaultChatViewSettings];
+    [alUser setApplicationId:APPLICATION_ID ];
+    [self ALDefaultChatViewSettings];
     
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
@@ -183,7 +182,7 @@
         return;
     }
     
-    [self.chatLauncher ALDefaultChatViewSettings];
+    [self ALDefaultChatViewSettings];
     ALUser *alUser =  DemoChatManager.getLoggedinUserInformation;
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
