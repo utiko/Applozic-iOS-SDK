@@ -25,9 +25,9 @@
 
 -(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSNumber *channelKey))completion;
 
--(BOOL)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
+-(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion;
 
--(BOOL)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey;
+-(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, NSString *response))completion;
 
 -(BOOL)deleteChannel:(NSNumber *)channelKey;
 
@@ -42,4 +42,6 @@
 +(void)markConversationAsRead:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion;
 
 -(BOOL)isChannelLeft:(NSNumber*)groupID;
+
++(void)setUnreadCountZeroForGroupID:(NSNumber*)channelKey;
 @end

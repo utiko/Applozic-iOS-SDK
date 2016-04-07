@@ -15,13 +15,14 @@
 #import "ALChatViewController.h"
 #import "ALMessagesViewController.h"
 #import "ALAppLocalNotifications.h"
+#import "ALGroupDetailViewController.h"
 
 
 @implementation ALPushAssist
 
 -(void)assist:(NSString*)notiMsg and :(NSMutableDictionary*)dict ofUser:(NSString*)userId{
 
-    if (!self.isChatViewOnTop) {
+    if (!self.isOurViewOnTop) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"showNotificationAndLaunchChat"
                                                              object:notiMsg
                                                            userInfo:dict];
@@ -34,18 +35,21 @@
 }
 
 
--(BOOL) isChatViewOnTop{
-    return ( [self.topViewController isKindOfClass:[ALMessagesViewController class]]||[self.topViewController isKindOfClass:[ALChatViewController class]]);
+-(BOOL) isOurViewOnTop{
+    return ( [self.topViewController isKindOfClass:[ALMessagesViewController class]]||[self.topViewController isKindOfClass:[ALChatViewController class]] || [self.topViewController isKindOfClass:[ALGroupDetailViewController class]]);
 }
 
 -(BOOL)isMessageViewOnTop{
     return ([self.topViewController isKindOfClass:[ALMessagesViewController class]]);
 }
 
--(BOOL)isChatViewOnTop2{
+-(BOOL)isChatViewOnTop{
     return ([self.topViewController isKindOfClass:[ALChatViewController class]]);
 }
 
+-(BOOL)isGroupDetailViewOnTop{
+    return ([self.topViewController isKindOfClass:[ALGroupDetailViewController class]]);
+}
 - (UIViewController*)topViewController {
     return [self topViewControllerWithRootViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
 }

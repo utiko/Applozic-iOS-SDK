@@ -30,6 +30,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    // checks wheather app version is updated/changed then makes server call setting VERSION_CODE
+    [ALRegisterUserClientService isAppUpdated];
+    
     ALAppLocalNotifications *localNotification = [ALAppLocalNotifications appLocalNotificationHandler];
     [localNotification dataConnectionNotificationHandler];
     

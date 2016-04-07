@@ -35,5 +35,6 @@
 @property (nonatomic,strong) UIBarButtonItem *done;
 @property (nonatomic,strong) NSString* groupName;
 @property (nonatomic,strong) NSNumber * forGroupAddition;
+@property (nonatomic,strong) NSMutableArray * contactsInGroup;
 @property(nonatomic,assign)id delegate;
 @end

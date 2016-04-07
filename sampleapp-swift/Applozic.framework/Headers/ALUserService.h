@@ -15,10 +15,11 @@
 #import "ALLastSeenSyncFeed.h"
 #import "ALUserClientService.h"
 #import "ALAPIResponse.h"
+#import "ALUserBlockResponse.h"
 
 @interface ALUserService : NSObject
 
-+ (void)processContactFromMessages:(NSArray *) messagesArr;
++ (void)processContactFromMessages:(NSArray *) messagesArr withCompletion:(void(^)())completionMark;
 
 +(void)getLastSeenUpdateForUsers:(NSNumber *)lastSeenAt withCompletion:(void(^)(NSMutableArray *))completionMark;
 
@@ -28,10 +29,17 @@
 
 +(void)markConversationAsRead:(NSString *)contactId withCompletion:(void (^)(NSString *, NSError *))completion;
 
--(void)blockUser:(NSString *)userId;
++(void)markMessageAsRead:(NSString *)contactId withPairedkeyValue:(NSString *)pairedkeyValue withCompletion:(void (^)(NSString *, NSError *))completion;
+
+-(void)blockUser:(NSString *)userId withCompletionHandler:(void(^)(NSError *error, BOOL userBlock))completion;
 
 -(void)blockUserSync:(NSNumber *)lastSyncTime;
 
--(void)updateBlockUserStatusToLocalDB:(NSMutableArray *)userList;
+-(void)unblockUser:(NSString *)userId withCompletionHandler:(void(^)(NSError *error, BOOL userUnblock))completion;
 
+-(void)updateBlockUserStatusToLocalDB:(ALUserBlockResponse *)userblock;
+
+-(NSMutableArray *)getListOfBlockedUserByCurrentUser;
+
++(void)setUnreadCountZeroForContactId:(NSString*)contactId;
 @end

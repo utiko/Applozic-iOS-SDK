@@ -11,8 +11,10 @@
 
 @protocol ALMapViewControllerDelegate <NSObject, CLLocationManagerDelegate>
 
--(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl;
+-(void)sendGoogleMap:(NSString *)latLongString withCompletion:(void(^)(NSString *message, NSError *error))completion;
+-(void)sendGoogleMapOffline:(NSString*)latLongString;
 @end
+
 @interface ALMapViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIButton *sendLocationButton;

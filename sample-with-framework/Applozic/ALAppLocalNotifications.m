@@ -17,6 +17,7 @@
 #import "ALMessageService.h"
 #import "ALMessagesViewController.h"
 #import "ALUserService.h"
+#import "ALMQTTConversationService.h"
 
 @implementation ALAppLocalNotifications
 
@@ -159,12 +160,13 @@
         if([reach isReachable])
         {
             NSLog(@"========== IF internetConnectionReach ============");
-            
+            [self proactivelyConnectMQTT];
             //            [ALMessageService processLatestMessagesGroupByContact];
             [ALMessageService processPendingMessages];
-            // sync call for user block also call here
-//            ALUserService *userService = [ALUserService new];     USER BLOCK COMMENTED TILL NEXT RELEASE
-//            [userService blockUserSync:"INSERT VALUE NSNUMBER"];
+            
+            ALUserService *userService = [ALUserService new]; 
+            [userService blockUserSync: [ALUserDefaultsHandler getUserBlockLastTimeStamp]];
+
         }
         else
         {
@@ -173,7 +175,13 @@
     }
     
 }
-
+-(void)proactivelyConnectMQTT{
+    ALPushAssist * assitant  = [[ALPushAssist alloc] init];
+    if(assitant.isOurViewOnTop){
+        ALMQTTConversationService *alMqttConversationService = [ALMQTTConversationService sharedInstance];
+        [alMqttConversationService  subscribeToConversation];
+    }
+}
 
 //receiver
 - (void)appWillEnterForegroundBase:(NSNotification *)notification {
@@ -222,7 +230,6 @@
         if(updateUI==[NSNumber numberWithBool:YES]){
             
             if(alertValue){
-                NSLog(@"App launched from 3rdParty for c");
                 NSLog(@"posting to notification....%@",notification.userInfo);
                 [ALUtilityClass thirdDisplayNotificationTS:alertValue andForContactId:self.contactId withGroupId:groupId delegate:self];
             }
@@ -242,7 +249,7 @@
     //for Individual Chat Conversation Opening...
     NSLog(@"Chat Launch Contact ID: %@",self.contactId);
     //Check if this view is there or not ..if there just call fetchAnd refresh...
-    if(!object.isChatViewOnTop){
+    if(!object.isOurViewOnTop){
         self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_KEY];
         [self.chatLauncher launchIndividualChat:contactId withGroupId:groupID andViewControllerObject:object.topViewController andWithText:nil];
     }

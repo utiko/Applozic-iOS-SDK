@@ -12,9 +12,9 @@
 
 @interface ALSyncCallService : NSObject
 
--(void) updateMessageDeliveryReport: (NSString *) messageKey;
+-(void) updateMessageDeliveryReport:(NSString *)messageKey withStatus:(int)status;
 
--(void) updateDeliveryStatusForContact: (NSString *) contactId;
+-(void) updateDeliveryStatusForContact:(NSString *)contactId withStatus:(int)status;
 
 -(void) syncCall: (ALMessage *) alMessage;
 

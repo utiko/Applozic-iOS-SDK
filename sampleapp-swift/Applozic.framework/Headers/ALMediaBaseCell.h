@@ -23,8 +23,9 @@
 -(void) stopDownloadForIndex:(int)index andMessage:(ALMessage *)message;
 -(void) showFullScreen:(UIViewController *) fullView;
 -(void) deleteMessageFromView:(ALMessage *)message;
-
+-(void) loadView:(UIViewController *)launch;
 -(void) showVideoFullScreen:(MPMoviePlayerViewController *)fullView;
+-(void) showSuggestionView:(NSURL *)fileURL andFrame:(CGRect)frame;
 
 @end
 
@@ -41,8 +42,6 @@
 @property (nonatomic, retain) KAProgressLabel *progresLabel;
 @property (nonatomic, strong) UITextView *imageWithText;
 @property (retain, nonatomic) UILabel *mChannelMemberName;
-@property (strong, nonatomic) NSString *status;
-@property (strong, nonatomic) NSString *string;
 
 @property (nonatomic, assign) id <ALMediaBaseCellDelegate> delegate;     
 
@@ -50,5 +49,8 @@
 -(void)setupProgress;
 -(void)dowloadRetryButtonAction;
 -(void)hidePlayButtonOnUploading;
+
+@property (nonatomic, strong) UILabel *sizeLabel;
+@property (nonatomic, strong) UIView *downloadRetryView;
 
 @end

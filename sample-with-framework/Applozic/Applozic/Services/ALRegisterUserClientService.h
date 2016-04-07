@@ -24,4 +24,5 @@
 
 -(void) logout;
 
++(BOOL)isAppUpdated;
 @end

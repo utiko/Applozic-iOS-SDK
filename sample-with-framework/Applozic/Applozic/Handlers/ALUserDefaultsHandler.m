@@ -315,4 +315,22 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:LAST_SYNC_CHANNEL_TIME];
 }
 
++(void)setUserBlockLastTimeStamp:(NSNumber *)lastTimeStamp
+{
+    lastTimeStamp = @([lastTimeStamp doubleValue] + 1);
+    [[NSUserDefaults standardUserDefaults] setDouble:[lastTimeStamp doubleValue] forKey:USER_BLOCK_LAST_TIMESTAMP];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSNumber *)getUserBlockLastTimeStamp
+{
+    NSNumber * lastSyncTimeStamp = [[NSUserDefaults standardUserDefaults] valueForKey:USER_BLOCK_LAST_TIMESTAMP];
+    if(!lastSyncTimeStamp)                      //FOR FIRST TIME USER
+    {
+        lastSyncTimeStamp = [NSNumber numberWithInt:1000];
+    }
+    
+    return lastSyncTimeStamp;
+}
+
 @end

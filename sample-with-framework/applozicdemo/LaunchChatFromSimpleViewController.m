@@ -15,7 +15,7 @@
 #import  <Applozic/ALDBHandler.h>
 #import  <Applozic/ALContact.h>
 #import <Applozic/ALDataNetworkConnection.h>
-
+#import  <Applozic/ALMessageService.h>
 
 
 @interface LaunchChatFromSimpleViewController ()
@@ -115,6 +115,10 @@
     
 }
 
+-(void)broadCast{
+    NSMutableArray * contactIDsARRAY = [[NSMutableArray alloc] initWithObjects:@"iosdev1",@"iosdev2",@"iosdev3", nil];
+    [ALMessageService broadcastMessageWithText:@"Broadcasted Message" toContacts:contactIDsARRAY];
+}
 //===============================================================================
 // TO LAUNCH SELLER CHAT....
 //

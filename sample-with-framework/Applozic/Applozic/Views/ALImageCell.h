@@ -11,8 +11,6 @@
 #import "KAProgressLabel.h"
 #import "ALMediaBaseCell.h"
 
-
-
 @interface ALImageCell : ALMediaBaseCell
 
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize;

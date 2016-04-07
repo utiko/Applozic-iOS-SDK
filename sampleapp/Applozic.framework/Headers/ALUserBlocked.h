@@ -14,6 +14,9 @@
 @property (nonatomic, strong) NSString * blockedTo;
 @property (nonatomic, strong) NSString * blockedBy;
 @property (nonatomic, strong) NSString * applicationKey;
-@property (nonatomic, strong) NSNumber * blockedAtTime;
+@property (nonatomic, strong) NSNumber * createdAtTime;
+@property (nonatomic, strong) NSNumber * updatedAtTime;
+@property (nonatomic) BOOL userBlocked;
+@property (nonatomic) BOOL userblockedBy;
 
 @end

@@ -14,7 +14,7 @@
 #define ALMESSAGE_CONTENT_ATTACHMENT 1
 #define ALMESSAGE_CONTENT_CAMERA_RECORDING 9
 #define ALMESSAGE_CONTENT_AUDIO 8
-
+#define ALMESSAGE_CONTENT_VCARD 7
 
 @interface ALMessage : ALJson
 
@@ -30,7 +30,7 @@
 
 @property (nonatomic, copy) NSString * message;
 
-@property (nonatomic, assign) BOOL sent;
+//@property (nonatomic, assign) BOOL sent;
 
 @property (nonatomic, assign) BOOL sendToDevice;
 
@@ -48,7 +48,7 @@
 
 @property (nonatomic,retain) ALFileMetaInfo * fileMeta;
 
-@property (nonatomic,assign) BOOL read;
+//@property (nonatomic,assign) BOOL read;
 
 @property (nonatomic,retain) NSString * imageFilePath;
 
@@ -75,6 +75,8 @@
 @property (nonatomic, copy) NSNumber *groupId;
 
 @property(nonatomic,copy) NSNumber *conversationId;
+
+@property (nonatomic, copy) NSNumber * status;
 
 -(NSString *)getCreatedAtTime:(BOOL)today;
 

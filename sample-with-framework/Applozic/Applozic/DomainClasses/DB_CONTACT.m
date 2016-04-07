@@ -22,4 +22,5 @@
 @dynamic connected;
 @dynamic unreadCount;
 @dynamic block;
+@dynamic blockBy;
 @end

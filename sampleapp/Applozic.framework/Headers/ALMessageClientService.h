@@ -11,6 +11,7 @@
 #import "ALMessageList.h"
 #import "ALSyncMessageFeed.h"
 #import "MessageListRequest.h"
+#import "ALMessageInfoResponse.h"
 
 @interface ALMessageClientService : NSObject
 
@@ -39,5 +40,6 @@
 
 -(void)sendMessage: (NSDictionary *) userInfo WithCompletionHandler:(void(^)(id theJson, NSError *theError))completion;
 
+-(void)getCurrentMessageInformation:(NSString *)messageKey withCompletionHandler:(void(^)(ALMessageInfoResponse *msgInfo, NSError *theError))completion;
 
 @end

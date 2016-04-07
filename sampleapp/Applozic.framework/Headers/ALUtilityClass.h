@@ -36,5 +36,10 @@
 +(NSString *)getFileNameWithCurrentTimeStamp;
 +(UIImage *)getImageFromFramworkBundle:(NSString *) UIImageName;
 
+@property (nonatomic, strong) NSString *msgdate;
+@property (nonatomic, strong) NSString *msgtime;
+
+-(void)getExactDate:(NSNumber *)dateValue;
++(UIImage *)setVideoThumbnail:(NSString *)videoFilePATH;
 
 @end

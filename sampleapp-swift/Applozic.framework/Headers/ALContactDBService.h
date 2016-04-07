@@ -41,10 +41,13 @@
 -(BOOL)updateUserDetail:(ALUserDetail *)userDetail;
 
 
--(NSUInteger)markConversationAsRead:(NSString*)contactId;
+-(NSUInteger)markConversationAsDeliveredAndRead:(NSString*)contactId;
 - (NSArray *)getUnreadMessagesForIndividual:(NSString *)contactId;
 -(void)createWithUnreadCountZeroForContact:(NSString*)userId;
--(BOOL)setBlockUser:(NSString *)userId;
+-(BOOL)setBlockUser:(NSString *)userId andBlockedState:(BOOL)flag;
+-(BOOL)setBlockByUser:(NSString *)userId andBlockedByState:(BOOL)flag;
 -(void)blockAllUserInList:(NSMutableArray *)userList;
+-(void)blockByUserInList:(NSMutableArray *)userList;
+-(NSMutableArray *)getListOfBlockedUsers;
 
 @end

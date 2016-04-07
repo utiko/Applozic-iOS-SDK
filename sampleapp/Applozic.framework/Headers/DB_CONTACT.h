@@ -23,4 +23,5 @@
 @property (nonatomic) BOOL connected;
 @property (nonatomic,retain) NSNumber * unreadCount;
 @property (nonatomic) BOOL block;
+@property (nonatomic) BOOL blockBy;
 @end

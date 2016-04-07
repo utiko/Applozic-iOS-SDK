@@ -7,6 +7,11 @@
 //
 
 #import "ALChannelDBService.h"
+#import "ALConstant.h"
+#import "ALContactDBService.h"
+#import "ALContact.h"
+#import "ALContactDBService.h"
+#import "ALContact.h"
 
 @interface ALChannelDBService ()
 
@@ -241,13 +246,12 @@
     
     NSError *fetchError = nil;
     NSArray *resultArray = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
-    //    NSLog(@"ERROR (IF ANY) : %@", fetchError);
     
     if (resultArray.count)
     {
-        for(DB_CHANNEL_USER_X *dbChannelUserX in resultArray)
-        {
-            [memberList addObject:dbChannelUserX.userId];
+        for(DB_CHANNEL_USER_X *dbChannelUserX in resultArray){
+
+                [memberList addObject:dbChannelUserX.userId];
         }
         
         return memberList;
@@ -263,25 +267,42 @@
 {
     NSString *listString = @"";
     NSString *str = @"";
-    //NSMutableArray *listArray = [NSMutableArray array];
-   NSMutableArray * listArray = [NSMutableArray arrayWithArray:[self getListOfAllUsersInChannel:key]];
     
-    if(listArray.count)
+    NSMutableArray * tempArray = [NSMutableArray arrayWithArray:[self getListOfAllUsersInChannel:key]];
+    
+    if(tempArray.count == 0)
     {
-        listString = [listString stringByAppendingString:listArray[0]];
-        listString = [listString stringByAppendingString:@", "];
-        
-   
-        listString = [listString stringByAppendingString:listArray[1]];
-
-        if(listArray.count > 2)
-        {
-            int counter = (int)listArray.count - 2;
-            str = [NSString stringWithFormat:@" and %d Other",counter];
-            listString = [listString stringByAppendingString:str];
-        }
-        
+        return @"";
     }
+    NSMutableArray * listArray = [NSMutableArray new];
+    ALContactDBService *contactDB = [ALContactDBService new];
+    for(NSString *userID in tempArray)
+    {
+        ALContact *contact = [contactDB loadContactByKey:@"userId" value:userID];
+        if(contact.displayName)
+        {
+            [listArray addObject:contact.displayName];
+        }
+        else
+        {
+            [listArray addObject:userID];
+        }
+    }
+    if(listArray.count == 1)
+    {
+        listString = listArray[0];
+    }
+    else if(listArray.count == 2)
+    {
+        listString = [NSString stringWithFormat:@"%@, %@", listArray[0], listArray[1]];
+    }
+    else if(listArray.count > 2)
+    {
+        int counter = (int)listArray.count - 2;
+        str = [NSString stringWithFormat:@"+%d more", counter];
+        listString = [NSString stringWithFormat:@"%@, %@, %@", listArray[0], listArray[1], str];
+    }
+    
     return listString;
 }
 
@@ -437,8 +458,6 @@
         NSLog(@"NO CHANNEL FOUND");
     }
 
-   
-   ;
 }
 
 -(void)setLeaveFlagForChannel:(NSNumber*)groupId{
@@ -490,7 +509,7 @@
         NSBatchUpdateRequest *req= [[NSBatchUpdateRequest alloc] initWithEntityName:@"DB_Message"];
         req.predicate = [NSPredicate predicateWithFormat:@"groupId=%d",[channelKey intValue] ];
         req.propertiesToUpdate = @{
-                                   @"isRead" : @(YES)
+                                   @"status" : @(DELIVERED_AND_READ)
                                    };
         req.resultType = NSUpdatedObjectsCountResultType;
         ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
@@ -508,7 +527,7 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
     
     NSPredicate *predicate;
-    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"isRead==%@ AND type==%@ ",@"0",@"4"];
+    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"status != %i AND type==%@ ",DELIVERED_AND_READ,@"4"];
     
     if (groupId) {
         NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"%K=%d",@"groupId",groupId.intValue];

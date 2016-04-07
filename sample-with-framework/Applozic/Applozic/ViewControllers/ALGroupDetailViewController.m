@@ -13,10 +13,12 @@
 #import "ALApplozicSettings.h"
 #import "UIImageView+WebCache.h"
 #import "ALMessagesViewController.h"
+#import "ALNotificationView.h"
+#import "ALDataNetworkConnection.h"
 
 @interface ALGroupDetailViewController (){
-    NSMutableArray *memberIds;
-    NSMutableOrderedSet *memberNames;
+    NSMutableOrderedSet *memberIds;
+    NSMutableArray *memberNames;
     BOOL isAdmin;
     CGFloat screenWidth;
     NSArray * colors;
@@ -27,6 +29,7 @@
 @property (nonatomic,weak) NSString * groupName;
 @property (nonatomic,weak) UILabel * adminLabel;
 @property (nonatomic,weak) UILabel * lastSeenLabel;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -34,46 +37,53 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    [self setupView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadGroupDetails) name:@"GroupDetailTableReload" object:nil];
+    self.lastSeenMembersArray = [[NSMutableArray alloc] init];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [self.tabBarController.tabBar setHidden:YES];
+    [self setNavigationColor];
     [self setTitle:@"Group Details"];
     ALChannelService * channnelService =[[ALChannelService alloc] init];
     self.groupName = [channnelService getChannelName:self.channelKeyID];
     isAdmin = [channnelService checkAdmin:self.channelKeyID];
+    [self setupView];
 }
+
+-(void)setNavigationColor
+{
+    if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
+    {
+//        self.navigationController.navigationBar.translucent = NO;
+        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:18]}];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
+        [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
+    }
+}
+
 -(void)setupView{
 
-    memberNames = [[NSMutableOrderedSet alloc] init];
+    memberNames = [[NSMutableArray alloc] init];
     colors = [[NSArray alloc] initWithObjects:@"#617D8A",@"#628B70",@"#8C8863",@"8B627D",@"8B6F62", nil];
     
     screenWidth = [UIScreen mainScreen].bounds.size.width;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.tableFooterView.backgroundColor = [UIColor lightGrayColor];
     
+    [self getChannelMembers];
+    
+}
+
+-(void)getChannelMembers{
     ALChannelDBService * channelDBService = [[ALChannelDBService alloc] init];
     NSArray *memberIdArray= [NSArray arrayWithArray:[channelDBService getListOfAllUsersInChannel:self.channelKeyID]];
-    memberIds = [NSMutableArray arrayWithArray:memberIdArray];
+    memberIds = [NSMutableOrderedSet orderedSetWithArray:memberIdArray];
     [self getDisplayNames:nil];
-    
-    
+    [self getAllLastSeenOfMembers];
 }
 
--(void)setupCellItems:(ALContactCell*)memberCell{
-    self.memberNameLabel  = (UILabel*)[memberCell viewWithTag:101];
-
-    self.memberIconImageView = (UIImageView*)[memberCell viewWithTag:102];
-    self.memberIconImageView.clipsToBounds = YES;
-    self.memberIconImageView.layer.cornerRadius = self.memberIconImageView.frame.size.width/2;
-    
-    self.firstLetter = (UILabel*)[memberCell viewWithTag:103];
-    self.firstLetter.textColor = [UIColor whiteColor];
-    self.adminLabel = (UILabel*)[memberCell viewWithTag:104];
-    self.adminLabel.textColor = self.view.tintColor;
-    
-    self.lastSeenLabel = (UILabel *)[memberCell viewWithTag:105];
-}
 -(void)getDisplayNames:(id)sender{
     
     for(NSString * userID in memberIds){
@@ -81,13 +91,28 @@
         ALContact * contact = [[ALContact alloc] init];
         ALContactDBService * contactDb=[[ALContactDBService alloc] init];
         contact = [contactDb loadContactByKey:@"userId" value:userID];
-        if([contact.userId isEqualToString:[ALUserDefaultsHandler getUserId]]){
+        if([contact.userId isEqualToString:[ALUserDefaultsHandler getUserId]])
+        {
             contact.displayName = @"You";
         }
+        
         [memberNames addObject:contact.displayName];
     }
-    self.memberCount = memberNames.count;
+    self.memberCount = memberIds.count;
 }
+
+-(void)getAllLastSeenOfMembers{
+    [self.lastSeenMembersArray removeAllObjects];
+    for (NSString * memeberUserId in memberIds) {
+        [self.lastSeenMembersArray addObject:[self getLastSeenForNewMember:memeberUserId]];
+    }
+    
+}
+-(void)reloadGroupDetails{
+    [self setupView];
+    [self.tableView reloadData];
+}
+
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - Table View DataSource Methods
 //------------------------------------------------------------------------------------------------------------------
@@ -100,7 +125,7 @@
     
     switch (section) {
         case 0:{
-            if(isAdmin)
+            if(isAdmin && ![self isThisChannelLeft:self.channelKeyID])
                 return 2;
             else
                 return 1;
@@ -109,7 +134,12 @@
             return self.memberCount;
         }break;
         case 2:{
-            return 1;
+            if(![self isThisChannelLeft:self.channelKeyID]){
+                return 1;
+            }
+            else{
+                return 0;
+            }
         }break;
         default:{
             return 0;
@@ -132,9 +162,17 @@
 //================================
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
    
+    if(![ALDataNetworkConnection checkDataNetworkAvailable])
+    {
+        [self noDataNotificationView];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+    
     switch (indexPath.section) {
         case 0:{
             if(indexPath.row == 1){
+                
                 [self addNewMember];
             }
         }break;
@@ -162,6 +200,7 @@
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                                          bundle:[NSBundle bundleForClass:self.class]];
     UIViewController *contactsViewController = [storyboard instantiateViewControllerWithIdentifier:@"ALNewContactsViewController"];
+    ((ALNewContactsViewController*)contactsViewController).contactsInGroup =[NSMutableArray arrayWithArray:[memberIds array]];
     ((ALNewContactsViewController*)contactsViewController).forGroup = [NSNumber numberWithInt:GROUP_ADDITION];
     ((ALNewContactsViewController*)contactsViewController).delegate = self;    
     [self.navigationController pushViewController:contactsViewController animated:YES];
@@ -170,12 +209,21 @@
 }
 
 -(void)addNewMembertoGroup:(ALContact *)alcontact{
+    
+    [[self activityIndicator] startAnimating];
     self.memberIdToAdd = alcontact.userId;
     ALChannelService * channelService = [[ALChannelService alloc] init];
-    [channelService addMemberToChannel:self.memberIdToAdd andChannelKey:self.channelKeyID];
-    [memberIds addObject:self.memberIdToAdd];
-    [self.lastSeenMembersArray addObject:[self getLastSeenForNewMember:self.memberIdToAdd]];
-    [self updateTableView];
+     [channelService addMemberToChannel:self.memberIdToAdd andChannelKey:self.channelKeyID withComletion:^(NSError *error, ALAPIResponse *response) {
+         
+         if(!error){
+             [memberIds addObject:self.memberIdToAdd];
+             [self.lastSeenMembersArray addObject:[self getLastSeenForNewMember:self.memberIdToAdd]];
+             
+         }
+         [[self activityIndicator] stopAnimating];
+         [self updateTableView];
+    }];
+    
     
 }
 
@@ -189,8 +237,13 @@
     userDetails.lastSeenAtTime = contact.lastSeenAt;
     
     double value = contact.lastSeenAt.doubleValue;
-    
-    NSString * lastSeen = [(ALChatViewController*)self.alChatViewController formatDateTime:userDetails andValue:value];
+    NSString * lastSeen;
+    if(contact.lastSeenAt == NULL){
+        lastSeen = @" ";
+    }
+    else{
+        lastSeen = [(ALChatViewController*)self.alChatViewController formatDateTime:userDetails andValue:value];
+    }
     return lastSeen;
 }
 
@@ -206,7 +259,7 @@
     [alert show];
 }
 
-#pragma mark - AlertView Delegate Method (Leave Group)
+#pragma mark - AlertView Delegate Method (Exit Group)
 //====================================================
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     
@@ -226,10 +279,20 @@
     }
 }
 
+-(BOOL)isThisChannelLeft:(NSNumber *)channelKey{
+
+    ALChannelService * alChannelService  = [[ALChannelService alloc] init];
+    if([alChannelService isChannelLeft:channelKey]){
+        return YES;
+    }else{
+        return NO;
+    }
+
+}
 #pragma mark - Remove Memember (for admin)
 //=======================================
--(void) removeMember:(NSInteger)row
-{
+-(void) removeMember:(NSInteger)row {
+    
     NSString* removeMemberID = [NSString stringWithFormat:@"%@",memberIds[row]];
     
     if([removeMemberID isEqualToString:[ALUserDefaultsHandler getUserId]]){
@@ -242,12 +305,19 @@
                               actionWithTitle:[NSString stringWithFormat:@"Remove %@",memberNames[row]]
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
-    ALChannelService * alchannelService = [[ALChannelService alloc] init];
-    NSString* removeMemberID = [NSString stringWithFormat:@"%@",memberIds[row]];
-    [alchannelService removeMemberFromChannel:removeMemberID andChannelKey:self.channelKeyID];
-    [memberIds removeObjectAtIndex:row];
-    [memberNames removeObjectAtIndex:row];
-    [self updateTableView];
+                                            
+        [[self activityIndicator] startAnimating];
+        [[self view] setUserInteractionEnabled:NO];
+                                            
+        ALChannelService * alchannelService = [[ALChannelService alloc] init];
+        [alchannelService removeMemberFromChannel:removeMemberID andChannelKey:self.channelKeyID withComletion:^(NSError *error, NSString *response) {
+            if(!error){
+                [memberIds removeObjectAtIndex:row];
+                [self updateTableView];
+            }
+            [[self activityIndicator] stopAnimating];
+            [[self view] setUserInteractionEnabled:YES];
+        }];
                                             
     }]];
     
@@ -266,20 +336,25 @@
     if([channel.adminKey isEqualToString:memberIds[row]]){
         [self.adminLabel setHidden:NO];
     }
+    
+    
     [self.memberNameLabel setTextAlignment:NSTextAlignmentLeft];
     self.memberNameLabel.text = [NSString stringWithFormat:@"%@",memberNames[row]];
     
     [self.firstLetter setHidden:YES];
     [self.memberIconImageView setHidden:NO];
+    
+    
 
     ALContact * alContact = [[ALContact alloc] init];
     ALContactDBService * alContactDBService = [[ALContactDBService alloc] init];
     alContact = [alContactDBService loadContactByKey:@"userId" value:memberIds[row]];
-   
+    
     if (![alContact.userId isEqualToString:[ALUserDefaultsHandler getUserId]]){
         [self.lastSeenLabel setHidden:NO];
         [self.lastSeenLabel setText:self.lastSeenMembersArray[row]];
     }
+
     
     if (alContact.localImageResourceName){
         UIImage *someImage = [ALUtilityClass getImageFromFramworkBundle:alContact.localImageResourceName];
@@ -313,6 +388,8 @@
     [self.firstLetter setHidden:YES];
     [self.memberIconImageView setHidden:YES];
     [self.memberNameLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.memberNameLabel setTextColor:[UIColor blackColor]];
+    [self.memberNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:15]];
     [self.adminLabel setHidden:YES];
     [self.lastSeenLabel setHidden:YES];
     
@@ -338,7 +415,20 @@
     }
     return memberCell;
 }
-
+-(void)setupCellItems:(ALContactCell*)memberCell{
+    self.memberNameLabel  = (UILabel*)[memberCell viewWithTag:101];
+    
+    self.memberIconImageView = (UIImageView*)[memberCell viewWithTag:102];
+    self.memberIconImageView.clipsToBounds = YES;
+    self.memberIconImageView.layer.cornerRadius = self.memberIconImageView.frame.size.width/2;
+    
+    self.firstLetter = (UILabel*)[memberCell viewWithTag:103];
+    self.firstLetter.textColor = [UIColor whiteColor];
+    self.adminLabel = (UILabel*)[memberCell viewWithTag:104];
+    self.adminLabel.textColor = self.view.tintColor;
+    
+    self.lastSeenLabel = (UILabel *)[memberCell viewWithTag:105];
+}
 #pragma mark Row Height
 //===============================
 
@@ -398,13 +488,20 @@
                                                                 memberSectionHeaderTitle.frame.size.width,
                                                                 memberSectionHeaderTitle.frame.size.height)];
         [view addSubview:memberSectionHeaderTitle];
-        view.backgroundColor=GREY_COLOR;
+//        view.backgroundColor=[UIColor colorWithWhite:0.7 alpha:1];
+        view.backgroundColor = [UIColor colorWithRed:245.0/255 green:245.0/255 blue:245.0/255 alpha:1];
         return view;
         
     }
     else{
         return nil;
     }
+}
+
+-(void)noDataNotificationView
+{
+    ALNotificationView * notification = [ALNotificationView new];
+    [notification noDataConnectionNotificationView];
 }
 
 @end

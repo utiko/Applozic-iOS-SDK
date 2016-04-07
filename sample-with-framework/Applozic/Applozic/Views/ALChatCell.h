@@ -11,6 +11,7 @@
 @protocol ALChatCellDelegate <NSObject>
 
 -(void) deleteMessageFromView:(ALMessage *) message;
+-(void) loadView:(UIViewController *)launch;
 
 @end
 

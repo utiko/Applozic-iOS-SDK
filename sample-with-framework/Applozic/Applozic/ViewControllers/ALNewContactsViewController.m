@@ -20,6 +20,8 @@
 #import "UIImageView+WebCache.h"
 #import "ALGroupCreationViewController.h"
 #import "ALGroupDetailViewController.h"
+#import "ALContactDBService.h"
+#import "TSMessage.h"
 
 
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -83,8 +85,7 @@
     });
     
     self.filteredContactList = [NSMutableArray arrayWithArray:self.contactList];
-    //    float y = self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height+ [UIApplication sharedApplication].statusBarFrame.size.height;
-    //
+    
     
     float y = self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height;
     
@@ -92,15 +93,6 @@
     self.searchBar.delegate = self;
     self.searchBar.placeholder = @"Email, userid, number";
     [self.view addSubview:self.searchBar];
-    // self.navigationItem.titleView = self.searchBar;
-    
-    // Do any additional setup after loading the view.
-    
-    /*UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
-     initWithTarget:self
-     action:@selector(dismissKeyboard)];
-     
-     [self.view addGestureRecognizer:tap];*/
     self.colors = [[NSArray alloc] initWithObjects:@"#617D8A",@"#628B70",@"#8C8863",@"8B627D",@"8B6F62", nil];
     
     self.groupMembers=[[NSMutableArray alloc] init];
@@ -120,14 +112,6 @@
     self.navigationItem.leftBarButtonItem = nil;
     
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
-    
-    //    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
-    //        // iOS 6.1 or earlier
-    //        self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
-    //    } else {
-    //        // iOS 7.0 or later
-    //        self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
-    //    }
     
     if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
     {
@@ -157,8 +141,6 @@
     [self.tabBarController.tabBar setHidden:YES];
     [self.segmentControl setSelectedSegmentIndex:0];
     [self.segmentControl setHidden:YES];
-/*    [self.segmentControl removeSegmentAtIndex:1 animated:YES];
-    [self.segmentControl setTitle:@"Choose Contact" forSegmentAtIndex:0]; */
 
     BOOL groupCreation = [self.forGroup isEqualToNumber:[NSNumber numberWithInt:GROUP_CREATION]];
     if (groupCreation)
@@ -186,7 +168,7 @@
 -(void)emptyConversationAlertLabel{
     
     self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 15 + self.view.frame.size.width/8, self.view.frame.origin.y + self.view.frame.size.height/2, 250, 30)];
-    [self.emptyConversationText setText:@"You have no group"];
+    [self.emptyConversationText setText:@"No contact found"];
     [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:self.emptyConversationText];
     self.emptyConversationText.hidden =  YES;
@@ -228,10 +210,9 @@
        
             
             if (contact){
-            if (contact.contactImageUrl)
-            {
+                if (contact.contactImageUrl){
                 [newContactCell.contactPersonImageView sd_setImageWithURL:[NSURL URLWithString:contact.contactImageUrl]];
-            }
+                }
             else
             {
                 [nameIcon setHidden:NO];
@@ -239,7 +220,16 @@
                 [newContactCell.contactPersonImageView addSubview:nameIcon];
                 [nameIcon  setText:[ALColorUtility getAlphabetForProfileImage:newContactCell.contactPersonName.text]];
             }
-        }
+                
+            if(self.forGroup.intValue == GROUP_ADDITION && [self.contactsInGroup containsObject:contact.userId]){
+                newContactCell.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.3];
+                newContactCell.selectionStyle = UITableViewCellSelectionStyleNone ;
+            }
+            else{
+                newContactCell.backgroundColor = [UIColor whiteColor];
+                newContactCell.selectionStyle = UITableViewCellSelectionStyleGray ;
+            }
+    }
     }break;
     case SHOW_GROUP:
         {
@@ -272,7 +262,13 @@
         [self.groupMembers addObject:contact.userId];
     }break;
     case GROUP_ADDITION:{
-        [delegate addNewMembertoGroup:self.filteredContactList[indexPath.row]];
+        
+        ALContact * contact = self.filteredContactList[indexPath.row];
+        
+        if(self.forGroup.intValue == GROUP_ADDITION && [self.contactsInGroup containsObject:contact.userId]){
+            return;
+        }
+        [delegate addNewMembertoGroup:contact];
         [self backToDetailView:nil];
 
     }break;
@@ -321,16 +317,12 @@
         contact.fullName = dbContact.fullName;
         contact.contactNumber = dbContact.contactNo;
         contact.displayName = dbContact.displayName;
-//        NSLog(@"XX == DISPLAY NAME %@", dbContact.displayName);
         contact.contactImageUrl = dbContact.contactImageUrl;
-//        NSLog(@"XX == DISPLAY IMAGE URL  %@",  dbContact.contactImageUrl);
         contact.email = dbContact.email;
         contact.localImageResourceName = dbContact.localImageResourceName;
-//        NSLog(@"XX == DISPLAY IMAGE LOCAL  %@", dbContact.localImageResourceName);
         [self.contactList addObject:contact];
     }
     
-    //    self.filteredContactList = [NSMutableArray arrayWithArray:self.contactList];
     
     NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES selector:@selector(caseInsensitiveCompare:)];
     NSArray * descriptors = [NSArray arrayWithObject:valueDescriptor];
@@ -508,7 +500,7 @@
 #pragma mark - Create group method
 //================================
 -(void)createNewGroup:(id)sender{
-    
+    [[self activityIndicator] startAnimating];
     //check whether at least two memebers selected
     if(self.groupMembers.count < 2){
         UIAlertController *alertController = [UIAlertController
@@ -534,21 +526,24 @@
     [self.creatingChannel createChannel:self.groupName andMembersList:self.groupMembers withCompletion:^(NSNumber *channelKey) {
 
         if(channelKey){
-            [self addDummyMessage:channelKey];
+            //Updating view, popping to MessageList View
+            NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
+            
+            for (UIViewController *aViewController in allViewControllers) {
+                if ([aViewController isKindOfClass:[ALMessagesViewController class]]) {
+                    [self.navigationController popToViewController:aViewController animated:YES];
+                }
+            }
+
         }
         else{
-            NSLog(@"null channel key");
+            [TSMessage showNotificationWithTitle:@"Unable to create group. Please try again" type:TSMessageNotificationTypeError];
         }
+        
+        [[self activityIndicator] stopAnimating];
     }];
     
     
-    //Updating view, popping to MessageList View
-    NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
-    for (UIViewController *aViewController in allViewControllers) {
-        if ([aViewController isKindOfClass:[ALMessagesViewController class]]) {
-            [self.navigationController popToViewController:aViewController animated:YES];
-        }
-    }
     
 }
 
@@ -563,7 +558,6 @@
     theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
     theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
     theMessage.sendToDevice = NO;
-    theMessage.sent = NO;
     theMessage.shared = NO;
     theMessage.fileMeta = nil;
     theMessage.key = @"welcome-message-temp-key-string";
@@ -572,7 +566,7 @@
     theMessage.type = @"101";
     theMessage.message = @"You have created a new group, Say Hi to members :)";
     theMessage.groupId = channelKey;
-    theMessage.read=YES;
+    theMessage.status = [NSNumber numberWithInt:DELIVERED_AND_READ];
     theMessage.sentToServer = TRUE;
     
     //UI update...

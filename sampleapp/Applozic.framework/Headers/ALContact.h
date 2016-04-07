@@ -40,5 +40,6 @@
 @property (nonatomic,strong) NSNumber * unreadCount;
 
 @property (nonatomic) BOOL block;
+@property (nonatomic) BOOL blockBy;
 
 @end

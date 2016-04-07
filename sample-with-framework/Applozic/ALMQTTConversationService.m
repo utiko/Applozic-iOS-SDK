@@ -15,6 +15,7 @@
 #import "ALUserDetail.h"
 #import "ALPushAssist.h"
 #import "ALChannelService.h"
+#import "ALContactDBService.h"
 
 @implementation ALMQTTConversationService
 
@@ -85,8 +86,6 @@ static MQTTSession *session;
     
 }
 
-
-
 - (void)session:(MQTTSession*)session newMessage:(NSData*)data onTopic:(NSString*)topic {
     NSLog(@"MQTT got new message");
 }
@@ -94,7 +93,8 @@ static MQTTSession *session;
 - (void)newMessage:(MQTTSession *)session data:(NSData *)data onTopic:(NSString *)topic qos:(MQTTQosLevel)qos retained:(BOOL)retained mid:(unsigned int)mid
 {
     NSString *fullMessage = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"MQTT got new message: %@", fullMessage);
+    
+    NSLog(@"MQTT_GOT_NEW_MESSAGE : %@", fullMessage);
     
     NSError *error = nil;
     NSDictionary *theMessageDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
@@ -104,14 +104,14 @@ static MQTTSession *session;
     NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
     
     
-    ALPushAssist* top=[[ALPushAssist alloc] init];
-    if( [[UIApplication sharedApplication] applicationState] == UIApplicationStateBackground || !top.isChatViewOnTop){
+    ALPushAssist *top = [[ALPushAssist alloc] init];
+    if( [[UIApplication sharedApplication] applicationState] == UIApplicationStateBackground || !top.isOurViewOnTop){
         NSLog(@"Returing coz Application State is Background");
         return;
     }
     
     if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
-        NSLog(@"notificationId is already processed...MQTT%@",notificationId);
+        NSLog(@"NotificationId is already processed...MQTT : %@",notificationId);
         return;
     }
     
@@ -121,14 +121,44 @@ static MQTTSession *session;
         NSString *userId = typingParts[1];
         BOOL typingStatus = [typingParts[2] boolValue];
         [self.mqttConversationDelegate updateTypingStatus:applicationKey userId:userId status:typingStatus];
-    } else {
-        if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:@"APPLOZIC_04"]||[type isEqualToString:@"APPLOZIC_08"]) {
-            NSArray *deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
-           [self.alSyncCallService updateMessageDeliveryReport:deliveryParts[0]];
-            NSString * contactId = deliveryParts.count>1 ? deliveryParts[1]:nil;
-            [self.mqttConversationDelegate delivered: deliveryParts[0] contactId:contactId];
+    }
+    else
+    {
+        if ([type isEqualToString:@"MESSAGE_SENT"] || [type isEqualToString:@"APPLOZIC_02"]) {
 
-        } else if ([type isEqualToString: @"MESSAGE_RECEIVED"]||[type isEqualToString:@"APPLOZIC_01"]) {
+            NSDictionary * message = [theMessageDict objectForKey:@"message"];
+            ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:message];
+            
+            //Sync call for message
+            [self.alSyncCallService syncCall:alMessage];
+            [self.mqttConversationDelegate syncCall:alMessage];
+            
+            NSString * key = [message valueForKey:@"pairedMessageKey"];
+            NSString * contactID = [message valueForKey:@"contactIds"];
+            [self.alSyncCallService updateMessageDeliveryReport:key withStatus:SENT];
+            [self.mqttConversationDelegate delivered:key contactId:contactID withStatus:SENT];
+            
+        }
+        else if ([type isEqualToString:@"MESSAGE_DELIVERED"] || [type isEqualToString:@"APPLOZIC_04"]) {
+            
+            NSArray *deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
+            NSString * pairedKey = deliveryParts[0];
+            NSString * contactId = deliveryParts.count>1 ? deliveryParts[1]:nil;
+            
+            [self.alSyncCallService updateMessageDeliveryReport:pairedKey withStatus:DELIVERED];
+            [self.mqttConversationDelegate delivered:pairedKey contactId:contactId withStatus:DELIVERED];
+
+        } else if ([type isEqualToString:@"MESSAGE_DELIVERED_READ"] || [type isEqualToString:@"APPLOZIC_08"]){
+            
+            NSArray  * deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
+            NSString * pairedKey = deliveryParts[0];
+            NSString * contactId = deliveryParts.count>1 ? deliveryParts[1]:nil;
+            
+            [self.alSyncCallService updateMessageDeliveryReport:pairedKey withStatus:DELIVERED_AND_READ];
+            [self.mqttConversationDelegate delivered:pairedKey contactId:contactId withStatus:DELIVERED_AND_READ];
+
+        }
+        else if ([type isEqualToString: @"MESSAGE_RECEIVED"]||[type isEqualToString:@"APPLOZIC_01"]) {
             
             ALPushAssist* assistant=[[ALPushAssist alloc] init];
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
@@ -136,9 +166,7 @@ static MQTTSession *session;
             [dict setObject:alMessage.message forKey:@"alertValue"];
             [dict setObject:[NSNumber numberWithBool:NO] forKey:@"updateUI"];
             
-//          When app launches from backgound then set updateUI to 'No' so that double notification is not shown.
-            if(!assistant.isChatViewOnTop){
-                NSLog(@" ### our notification called for mqtt....");
+            if(!assistant.isOurViewOnTop){
                 [assistant assist:alMessage.contactIds and:dict ofUser:alMessage.contactIds];
                 [dict setObject:@"mqtt" forKey:@"Calledfrom"];
             }
@@ -148,11 +176,13 @@ static MQTTSession *session;
                 [self.mqttConversationDelegate syncCall: alMessage];
             }
 
-        } else if ([type isEqualToString:@"APPLOZIC_10"]) {
+        }
+        else if ([type isEqualToString:@"CONVERSATION_DELIVERED_AND_READ"] || [type isEqualToString:@"APPLOZIC_10"]) {
             NSString *contactId = [theMessageDict objectForKey:@"message"];
-            [self.alSyncCallService updateDeliveryStatusForContact: contactId];
-            [self.mqttConversationDelegate updateDeliveryStatusForContact: contactId];
-        } else if ([type isEqualToString: @"APPLOZIC_11"]) {
+            [self.alSyncCallService updateDeliveryStatusForContact: contactId withStatus:DELIVERED_AND_READ];
+            [self.mqttConversationDelegate updateStatusForContact:contactId withStatus:DELIVERED_AND_READ];
+        }
+        else if ([type isEqualToString:@"USER_CONNECTED"]||[type isEqualToString: @"APPLOZIC_11"]) {
             ALUserDetail *alUserDetail = [[ALUserDetail alloc] init];
             alUserDetail.userId = [theMessageDict objectForKey:@"message"];
             alUserDetail.lastSeenAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
@@ -160,7 +190,8 @@ static MQTTSession *session;
             [self.alSyncCallService updateConnectedStatus: alUserDetail];
             [self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
             
-        } else if ([type isEqualToString:@"APPLOZIC_12"]) {
+        }
+        else if ([type isEqualToString:@"APPLOZIC_12"]) {
             NSArray *parts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
             
             ALUserDetail *alUserDetail = [[ALUserDetail alloc] init];
@@ -170,16 +201,42 @@ static MQTTSession *session;
             [self.alSyncCallService updateConnectedStatus: alUserDetail];
             [self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
 
-        } else if ([type isEqualToString:@"APPLOZIC_15"]) {
+        }
+        else if ([type isEqualToString:@"APPLOZIC_15"]) { //Added or removed by admin
             ALChannelService *channelService = [[ALChannelService alloc] init];
             [channelService syncCallForChannel];
             // TODO HANDLE
-        } else if ([type isEqualToString:@"APPLOZIC_06"]) {
+            
+        }
+        else if ([type isEqualToString:@"APPLOZIC_06"]) {
             // TODO HANDLE
             // IF CONTACT ID THE DELETE USER
             // IF CHANNEL KEY then DELETE CHANNEL
         }
+        else if ([type isEqualToString:@"APPLOZIC_16"]) {
+            
+            [self processUserBlockNotification:theMessageDict andUserBlockFlag:YES];
+        }
+        else if ([type isEqualToString:@"APPLOZIC_17"]) {
+            
+            [self processUserBlockNotification:theMessageDict andUserBlockFlag:NO];
+        }
     }
+}
+
+-(void)processUserBlockNotification:(NSDictionary *)theMessageDict andUserBlockFlag:(BOOL)flag
+{
+    NSArray *mqttMSGArray = [[theMessageDict valueForKey:@"message"] componentsSeparatedByString:@":"];
+    NSString *BlockType = mqttMSGArray[0];
+    NSString *userId = mqttMSGArray[1];
+    if(![BlockType isEqualToString:@"BLOCKED_BY"] && ![BlockType isEqualToString:@"UNBLOCKED_BY"])
+    {
+        return;
+    }
+
+    ALContactDBService *dbService = [ALContactDBService new];
+    [dbService setBlockByUser:userId andBlockedByState:flag];
+    [self.mqttConversationDelegate reloadDataForUserBlockNotification];
 }
 
 - (void)subAckReceived:(MQTTSession *)session msgID:(UInt16)msgID grantedQoss:(NSArray *)qoss

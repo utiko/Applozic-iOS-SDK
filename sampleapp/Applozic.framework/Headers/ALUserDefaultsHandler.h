@@ -25,7 +25,7 @@
 #define LAST_SEEN_SYNC_TIME @"LAST_SEEN_SYNC_TIME"
 #define SHOW_LOAD_ERLIER_MESSAGE @":SHOW_LOAD_ERLIER_MESSAGE"
 #define LAST_SYNC_CHANNEL_TIME @"LAST_SYNC_CHANNEL_TIME"
-
+#define USER_BLOCK_LAST_TIMESTAMP @"USER_BLOCK_LAST_TIMESTAMP"
 
 #import <Foundation/Foundation.h>
 
@@ -106,9 +106,16 @@
 +(NSNumber *)getLastSyncChannelTime;
 
 +(NSNumber *)getLastSyncTime;
+
 +(NSString *)getUserKeyString;
+
 +(NSString *)getDisplayName;
+
++(void)setUserBlockLastTimeStamp:(NSNumber *)lastTimeStamp;
+
++(NSNumber *)getUserBlockLastTimeStamp;
 
 //+(NSString *)getNotificationTitle;
 //+(void)setNotificationTitle:(NSString *)notificationTitle;
+
 @end

@@ -70,15 +70,14 @@
     theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
     theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
     theMessage.sendToDevice = NO;
-    theMessage.sent = NO;
     theMessage.shared = NO;
     theMessage.fileMeta = nil;
-    theMessage.read = NO;
+    theMessage.status = [NSNumber numberWithInt:READ];
     theMessage.key = @"welcome-message-temp-key-string";
     theMessage.delivered=NO;
     theMessage.fileMetaKey = @"";//4
     theMessage.contentType = 0;
-    
+    theMessage.status = [NSNumber numberWithInt:DELIVERED_AND_READ];
     if(channelKey!=nil) //Group's Welcome
     {
         theMessage.type=@"101";
@@ -119,16 +118,14 @@
         ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
         completion(messageListResponse,nil); 
-//        NSLog(@"message list response THE JSON %@",theJson);
+        NSLog(@"message list response THE JSON %@",theJson);
         ALChannelService *channelService = [[ALChannelService alloc] init];
         [channelService callForChannelServiceForDBInsertion:theJson];
         //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
         
-        //  BLOCK JSON PARSING AND UPDATING LOCAL DB (IN PROGRESS...)
-        
-//        ALUserBlockResponse * block = [[ALUserBlockResponse alloc] initWithJSONString:(NSString *)theJson];
-//        ALUserService *userService = [ALUserService new];
-//        [userService updateBlockUserStatusToLocalDB: block.blockedUserList];
+        //USER BLOCK SYNC CALL
+        ALUserService *userService = [ALUserService new];
+        [userService blockUserSync: [ALUserDefaultsHandler getUserBlockLastTimeStamp]];
         
     }];
     
@@ -324,6 +321,29 @@
             return ;
         }
         completion(theJson,nil);
+    }];
+
+}
+
+-(void)getCurrentMessageInformation:(NSString *)messageKey withCompletionHandler:(void(^)(ALMessageInfoResponse *msgInfo, NSError *theError))completion
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/info", KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"key=%@", messageKey];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"MESSSAGE_INFORMATION" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if (theError)
+        {
+            NSLog(@"ERROR IN MESSAGE INFORMATION API RESPONSE : %@", theError);
+        }
+        else
+        {
+            NSLog(@"RESPONSE MESSSAGE_INFORMATION API JSON : %@", (NSString *)theJson);
+            ALMessageInfoResponse *msgInfoObject = [[ALMessageInfoResponse alloc] initWithJSONString:(NSString *)theJson];
+            completion(msgInfoObject, theError);
+        }
     }];
 
 }

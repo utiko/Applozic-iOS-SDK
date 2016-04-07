@@ -7,7 +7,7 @@
 //
 
 #define INVALID_APPLICATIONID = @"INVALID_APPLICATIONID"
-#define VERSION_CODE @"105"
+#define VERSION_CODE @"106"
 
 #import "ALRegisterUserClientService.h"
 #import "ALRequestHandler.h"
@@ -126,4 +126,45 @@
     [[ALMQTTConversationService sharedInstance] unsubscribeToConversation: userKey];
 }
 
++(BOOL)isAppUpdated{
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    NSString *currentAppVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString *previousVersion = [defaults objectForKey:@"appVersion"];
+    
+    if (!previousVersion) {
+        NSLog(@"First start after installing the app");
+        [defaults setObject:currentAppVersion forKey:@"appVersion"];
+        [defaults synchronize];
+        return NO;
+    }
+    else if ([previousVersion isEqualToString:currentAppVersion]) {
+        return NO;
+    }
+    else {
+        NSLog(@"App was updated since last run");
+        
+        [ALRegisterUserClientService sendServerRequestForAppUpdate];
+        [defaults setObject:currentAppVersion forKey:@"appVersion"];
+        [defaults synchronize];
+        return YES;
+    }
+    
+}
+
++(void)sendServerRequestForAppUpdate{
+    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/register/version/update",KBASE_URL];
+    NSString * paramString = [NSString stringWithFormat:@"?appVersionCode=%@&deviceKey%@",VERSION_CODE,DEVICE_KEY_STRING];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:paramString];
+    [ALResponseHandler processRequest:theRequest andTag:@"APP_UPDATED" WithCompletionHandler:^(id theJson, NSError *theError) {
+        if (theError) {
+            NSLog(@"error:%@",theError);
+        }
+        NSLog(@"Response: APP UPDATED:%@",theJson);
+    }];
+
+    
+}
 @end

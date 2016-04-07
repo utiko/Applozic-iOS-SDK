@@ -56,7 +56,7 @@
     
     // sent
     
-    self.sent = [self getBoolFromJsonValue:messageJson[@"sent"]];
+//    self.sent = [self getBoolFromJsonValue:messageJson[@"sent"]];
     
     
     // sendToDevice
@@ -97,7 +97,7 @@
     
     // read
     
-    self.read = [self getBoolFromJsonValue:messageJson[@"read"]];
+    //self.read = [self getBoolFromJsonValue:messageJson[@"read"]];
     
     //develired
     self.delivered = [self getBoolFromJsonValue:messageJson[@"delivered"]];
@@ -109,8 +109,12 @@
     //contentType
     
     self.contentType = [self getShortFromJsonValue:messageJson[@"contentType"]];
-
+    
+    //conversationID
     self.conversationId = [self getNSNumberFromJsonValue:messageJson[@"conversationId"]];
+    
+    //status
+    self.status = [self getNSNumberFromJsonValue:messageJson[@"status"]];
     
     // file meta info
     

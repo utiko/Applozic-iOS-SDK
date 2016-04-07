@@ -13,6 +13,7 @@
 #import "TSMessage.h"
 #import "UIImageView+WebCache.h"
 #import "ALMessage.h"
+#import "ALUtilityClass.h"
 
 @interface ALMapViewController ()
 
@@ -61,7 +62,6 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [self.tabBarController.tabBar setHidden: YES];
-//    self.navigationController.navigationBar.translucent = NO;
     [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
     [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
     [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColorForNavigation]];
@@ -78,35 +78,35 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark- Send Location Button Action
+//======================================
 - (IBAction)sendLocation:(id)sender {
+
     _sendLocationButton.enabled=YES;
-    NSLog(@"location sending .... ");
-    
     region = self.mapKitView.region;
 
     NSString * lat = [NSString stringWithFormat:@"%.8f",region.center.latitude];
     NSString * lon = [NSString stringWithFormat:@"%.8f",region.center.longitude];
-
     NSDictionary * latLongDic = [[NSDictionary alloc] initWithObjectsAndKeys:lat,@"lat",lon,@"lon", nil];
     
-    //static map location
-    NSString * staticMapLocationURL=[NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/staticmap?center=%.8f,%.8f&zoom=17&size=290x179&maptype=roadmap&format=png&visual_refresh=true&markers=%.8f,%.8f",region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
-    NSURL* staticImageURL=[NSURL URLWithString:staticMapLocationURL];
-    [self.mapView sd_setImageWithURL:staticImageURL];
+    NSString *jsonString = [self createJson:latLongDic];
     
-    
-    if([ALDataNetworkConnection checkDataNetworkAvailable])
-    {
-//                locationURL = [self.addressLabel stringByAppendingString:locationURL];
+    if([ALDataNetworkConnection checkDataNetworkAvailable]){
+        [self.controllerDelegate sendGoogleMap:jsonString withCompletion:^(NSString *message, NSError *error) {
+            if(!error){
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
     }
-    
-    [self createJson:latLongDic];
-    
-    [self.navigationController popViewControllerAnimated:YES];
+    else{
+        [self.controllerDelegate sendGoogleMapOffline:jsonString];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
     
 }
 
--(void)createJson:(NSDictionary *)latLongDic{
+-(NSString *)createJson:(NSDictionary *)latLongDic{
+    
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:latLongDic
                                                        options:NSJSONWritingPrettyPrinted 
@@ -114,10 +114,10 @@
     
     if (! jsonData) {
         NSLog(@"Got an error: %@", error);
+        return nil;
     } else {
         NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        [self.controllerDelegate googleImage:nil withURL:jsonString];
-        NSLog(@"jsonString :%@",jsonString);
+        return jsonString;
     }
 }
 
@@ -189,5 +189,22 @@
     
 }
 
+//~ Currently inactive ~//
+-(void)formMapURL{
+    
+    //static map location
+    NSString * staticMapLocationURL=[NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/staticmap?center=%.8f,%.8f&zoom=17&size=290x179&maptype=roadmap&format=png&visual_refresh=true&markers=%.8f,%.8f",region.center.latitude, region.center.longitude,region.center.latitude, region.center.longitude];
+    
+    if([ALDataNetworkConnection checkDataNetworkAvailable])
+    {
+        NSURL* staticImageURL=[NSURL URLWithString:staticMapLocationURL];
+        [self.mapView sd_setImageWithURL:staticImageURL];
+    }
+    else{
+        UIImage * offlineMapImage = [ALUtilityClass getImageFromFramworkBundle:@"ic_map_no_data.png"];
+        [self.mapView setImage:offlineMapImage];
+        
+    }
+}
 
 @end

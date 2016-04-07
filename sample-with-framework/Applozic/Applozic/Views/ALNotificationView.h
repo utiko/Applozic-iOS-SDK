@@ -25,4 +25,9 @@
 -(void)nativeNotification:(id)delegate;
 
 -(void)showGroupLeftMessage;
+
+@property (retain, nonatomic) ALMessage * alMessageObject;
+
+-(void)noDataConnectionNotificationView;
+
 @end

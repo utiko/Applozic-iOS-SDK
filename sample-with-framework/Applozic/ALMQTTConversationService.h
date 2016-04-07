@@ -13,12 +13,17 @@
 #import "ALSyncCallService.h"
 
 @protocol ALMQTTConversationDelegate <NSObject>
+
 -(void) syncCall:(ALMessage *) alMessage;
--(void) delivered:(NSString *) messageKey contactId: (NSString *) contactId;
--(void) updateDeliveryStatusForContact: (NSString *) contactId;
+-(void) delivered:(NSString *) messageKey contactId:(NSString *)contactId withStatus:(int)status;
+-(void) updateStatusForContact:(NSString *)contactId  withStatus:(int)status;
 -(void) updateTypingStatus: (NSString *) applicationKey userId: (NSString *) userId status: (BOOL) status;
 -(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail;
 -(void) mqttConnectionClosed;
+
+@optional
+-(void) reloadDataForUserBlockNotification;
+
 @end
 
 @interface ALMQTTConversationService : NSObject <MQTTSessionDelegate>

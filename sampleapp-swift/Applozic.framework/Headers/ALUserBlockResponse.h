@@ -14,8 +14,10 @@
 @interface ALUserBlockResponse : ALAPIResponse
 
 @property(nonatomic, strong) NSMutableArray * blockedToUserList;
+@property(nonatomic, strong) NSMutableArray * blockedByList;
 
 @property(nonatomic, strong) NSMutableArray <ALUserBlocked *> * blockedUserList;
+@property(nonatomic, strong) NSMutableArray <ALUserBlocked *> * blockByUserList;
 
 -(instancetype)initWithJSONString:(NSString *)JSONString;
 

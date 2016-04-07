@@ -23,14 +23,14 @@
 #import "ALUserDetail.h"
 #import "ALMessageDBService.h"
 #import "ALContactService.h"
-#import "ALUserBlockResponse.h"
+#import "ALUserDefaultsHandler.h"
 
 @implementation ALUserService
 
-
 //1. call this when each message comes
 
-+ (void)processContactFromMessages:(NSArray *) messagesArr{
++ (void)processContactFromMessages:(NSArray *) messagesArr withCompletion:(void(^)())completionMark
+{
     
     NSMutableOrderedSet* contactIdsArr=[[NSMutableOrderedSet alloc] init ];
    
@@ -44,10 +44,10 @@
             [appStr insertString:@"&userIds=" atIndex:0];
             [contactIdsArr addObject:appStr];
         }
-        NSLog(@"contact ID(s) %@",msg.contactIds);
     }
     
     if ([contactIdsArr count] == 0) {
+        completionMark();
         return;
     };
     
@@ -68,8 +68,7 @@
             return ;
         }
         NSDictionary* userIDs=[[NSDictionary alloc] initWithDictionary:theJson];
-        NSLog(@"userIDs theJSON %@",userIDs);
-   
+        
         for(id key in userIDs){
             ALContact * createNew=[[ALContact alloc] init];
             createNew.displayName=[userIDs objectForKey:key];
@@ -79,7 +78,7 @@
             [adding addContact:createNew];
             
         }
-
+        completionMark();
     }];
 }
 
@@ -135,13 +134,10 @@
 
 +(void)markConversationAsRead:(NSString *)contactId withCompletion:(void (^)(NSString *, NSError *))completion{
     
-    ALContactService * contactService=[[ALContactService alloc] init];
-    ALContact * contact =[contactService loadContactByKey:@"userId" value:contactId];
-    contact.unreadCount=[NSNumber numberWithInt:0];
-    [contactService updateContact:contact];
+    [ALUserService setUnreadCountZeroForContactId:contactId];
 
     ALContactDBService * userDBService =[[ALContactDBService alloc] init];
-    NSUInteger count = [userDBService markConversationAsRead:contactId];
+    NSUInteger count = [userDBService markConversationAsDeliveredAndRead:contactId];
     NSLog(@"Found %ld messages for marking as read.", (unsigned long)count);
     
     if(count == 0){
@@ -154,11 +150,39 @@
     
 }
 
++(void)setUnreadCountZeroForContactId:(NSString*)contactId{
+    
+    ALContactService * contactService=[[ALContactService alloc] init];
+    ALContact * contact =[contactService loadContactByKey:@"userId" value:contactId];
+    contact.unreadCount=[NSNumber numberWithInt:0];
+    [contactService updateContact:contact];
+    
+}
+#pragma mark- Mark message READ
+//===========================================
++(void)markMessageAsRead:(NSString *)contactId withPairedkeyValue:(NSString *)pairedkeyValue withCompletion:(void (^)(NSString *, NSError *))completion{
+    
+    [ALUserService setUnreadCountZeroForContactId:contactId];
+    
+    // DB Call
+    ALContactDBService * contactDBService=[[ALContactDBService alloc] init];
+    [contactDBService markConversationAsDeliveredAndRead:contactId];
+//  TODO: Mark message read&delivered in DB not whole conversation
+
+    //Server Call
+    ALUserClientService * clientService = [[ALUserClientService alloc] init];
+    [clientService markMessageAsReadforPairedMessageKey:pairedkeyValue withCompletion:^(NSString * response, NSError * error) {
+        NSLog(@"Response Marking Message :%@",response);
+        completion(response,error);
+    }];
+    
+}
+
 //===============================================================================================
 #pragma BLOCK USER API
 //===============================================================================================
 
--(void)blockUser:(NSString *)userId
+-(void)blockUser:(NSString *)userId withCompletionHandler:(void(^)(NSError *error, BOOL userBlock))completion
 {
     [ALUserClientService userBlockServerCall:userId withCompletion:^(NSString *json, NSError *error) {
         
@@ -168,12 +192,17 @@
             if([forBlockUserResponse.status isEqualToString:@"success"])
             {
                 ALContactDBService *contactDB = [[ALContactDBService alloc] init];
-                [contactDB setBlockUser:userId];
+                [contactDB setBlockUser:userId andBlockedState:YES];
+                completion(error, YES);
             }
         }
         
     }];
 }
+
+//===============================================================================================
+#pragma BLOCK/UNBLOCK USER SYNCHRONIZATION API
+//===============================================================================================
 
 -(void)blockUserSync:(NSNumber *)lastSyncTime
 {
@@ -182,16 +211,49 @@
         if(!error)
         {
             ALUserBlockResponse * block = [[ALUserBlockResponse alloc] initWithJSONString:(NSString *)json];
-            [self updateBlockUserStatusToLocalDB: block.blockedUserList];
+            [self updateBlockUserStatusToLocalDB:block];
+            [ALUserDefaultsHandler setUserBlockLastTimeStamp:block.generatedAt];
         }
         
     }];
 }
 
--(void)updateBlockUserStatusToLocalDB:(NSMutableArray *)userList
+-(void)updateBlockUserStatusToLocalDB:(ALUserBlockResponse *)userblock
 {
     ALContactDBService *dbService = [ALContactDBService new];
-    [dbService blockAllUserInList:userList];
+    [dbService blockAllUserInList:userblock.blockedUserList];
+    [dbService blockByUserInList:userblock.blockByUserList];
+}
+
+//===============================================================================================
+#pragma UNBLOCK USER API
+//===============================================================================================
+
+-(void)unblockUser:(NSString *)userId withCompletionHandler:(void(^)(NSError *error, BOOL userUnblock))completion
+{
+
+    [ALUserClientService userUnblockServerCall:userId withCompletion:^(NSString *json, NSError *error) {
+
+        if(!error)
+        {
+            ALAPIResponse *forBlockUserResponse = [[ALAPIResponse alloc] initWithJSONString:json];
+            if([forBlockUserResponse.status isEqualToString:@"success"])
+            {
+                ALContactDBService *contactDB = [[ALContactDBService alloc] init];
+                [contactDB setBlockUser:userId andBlockedState:NO];
+                completion(error, YES);
+            }
+        }
+    }];
+
+}
+
+-(NSMutableArray *)getListOfBlockedUserByCurrentUser
+{
+    ALContactDBService * dbService = [ALContactDBService new];
+    NSMutableArray * blockedUsersList = [dbService getListOfBlockedUsers];
+    
+    return blockedUsersList;
 }
 
 @end

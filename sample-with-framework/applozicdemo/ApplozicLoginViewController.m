@@ -163,7 +163,7 @@
     [user setUserId:[self.userIdField text]];
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
-    [user setImageLink:@""];
+    
     [self.mActivityIndicator startAnimating];
     
     [ALUserDefaultsHandler setUserId:user.userId];

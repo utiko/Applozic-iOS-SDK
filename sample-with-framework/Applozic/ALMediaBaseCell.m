@@ -7,6 +7,8 @@
 //
 
 #import "ALMediaBaseCell.h"
+#import "ALMessageInfoViewController.h"
+#import "ALChatViewController.h"
 
 @implementation ALMediaBaseCell
 {
@@ -36,9 +38,6 @@
         self.mNameLabel.layer.cornerRadius = self.mNameLabel.frame.size.width/2;
         self.mNameLabel.layer.masksToBounds = YES;
         [self.contentView addSubview:self.mNameLabel];
-        
-        self.status = @"";
-        self.string = @"Delivered ";
         
         self.mBubleImageView = [[UIImageView alloc] init];
         self.mBubleImageView.contentMode = UIViewContentModeScaleToFill;
@@ -82,13 +81,14 @@
         [self.contentView addSubview:self.mDowloadRetryButton];
 
         
+        
         self.imageWithText = [[UITextView alloc] init];
-        self.imageWithText.textContainerInset = UIEdgeInsetsZero;
-        self.imageWithText.textContainer.lineFragmentPadding = 0;
         [self.imageWithText setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_TEXT_SIZE]];
         self.imageWithText.editable = NO;
         self.imageWithText.scrollEnabled = NO;
-        self.imageWithText.dataDetectorTypes = UIDataDetectorTypeAll;
+        self.imageWithText.textContainerInset = UIEdgeInsetsZero;
+        self.imageWithText.textContainer.lineFragmentPadding = 0;
+        self.imageWithText.dataDetectorTypes = UIDataDetectorTypeLink;
         [self.contentView addSubview:self.imageWithText];
         
         
@@ -97,6 +97,10 @@
         self.mChannelMemberName.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:self.mChannelMemberName];
         
+        UIMenuItem *testMenuItem = [[UIMenuItem alloc] initWithTitle:@"Info" action:@selector(msgInfo:)];
+        [[UIMenuController sharedMenuController] setMenuItems: @[testMenuItem]];
+        [[UIMenuController sharedMenuController] update];
+
         
         if (IS_IPHONE_5)
         {
@@ -124,5 +128,7 @@
 {
     [self.delegate downloadRetryButtonActionDelegate:(int)self.tag andMessage:self.mMessage];
 }
+
+
 
 @end

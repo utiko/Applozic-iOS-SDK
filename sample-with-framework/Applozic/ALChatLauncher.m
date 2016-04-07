@@ -74,7 +74,7 @@
     self.chatLauncherFLAG=[NSNumber numberWithInt:1];
 //    NSLog(self.chatLauncherFLAG ? @"ALCHAT Launcher is TRUE":@"ALCHAT Launcher is FALSE");
     
-//    [self ALDefaultChatViewSettings];
+    [self ALDefaultChatViewSettings];
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
@@ -95,7 +95,7 @@
 -(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
 
 {
-//    [self ALDefaultChatViewSettings];
+    [self ALDefaultChatViewSettings];
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
@@ -167,13 +167,13 @@
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
     ALChatViewController *contextChatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
-   
+    
+    contextChatView.displayName     = @"Adarsh";
     contextChatView.conversationId  = alConversationProxy.Id;
     contextChatView.channelKey      = alConversationProxy.groupId;
     contextChatView.contactIds      = alConversationProxy.userId;
     contextChatView.text            = text;
     contextChatView.individualLaunch= YES;
-    contextChatView.displayName     = [NSString stringWithFormat:@"%@",alConversationProxy.userId];
     
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:contextChatView];
     conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;

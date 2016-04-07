@@ -21,13 +21,20 @@
 @implementation ALNotificationView
     
 
+/*********************
+ GROUP_NAME
+ CONTACT_NAME: MESSAGE
+*********************
+ 
+*********************
+ CONTACT_NAME
+ MESSAGE
+*********************/
 
 
 -(instancetype)initWithAlMessage:(ALMessage*)alMessage  withAlertMessage: (NSString *) alertMessage{
     self = [super init];
     self.text = alertMessage;
-    self.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"BlueNotify.png"]];
-//    self.backgroundColor=[UIColor grayColor];
     self.textColor = [UIColor whiteColor];
     self.textAlignment = NSTextAlignmentCenter;
     self.layer.cornerRadius = 0;
@@ -35,6 +42,7 @@
     self.contactId = alMessage.contactIds;
     self.groupId = alMessage.groupId;
     self.conversationId = alMessage.conversationId;
+    self.alMessageObject = alMessage;
     return self;
 }
 
@@ -45,49 +53,59 @@
     messageView.backgroundColor=[UIColor blackColor];
 }
 
+
+#pragma mark- Our SDK views notification
+//=======================================
 -(void)nativeNotification:(id)delegate{
+   
+    NSString * title; // Title of Notification Banner (Display Name or Group Name)
+    NSString * subtitle = self.text; //Message to be shown
     
-    //<><><><><><><><><><><><><><><><><><><><><><>OUR VIEW is opned<><>><><><><><><><><><><><><><><><>//
-    ALPushAssist* top=[[ALPushAssist alloc] init];
-    ALContact* dpName=[[ALContact alloc] init];
-    ALContactDBService * contactDb=[[ALContactDBService alloc] init];
-    dpName=[contactDb loadContactByKey:@"userId" value:self.contactId];
+    ALPushAssist * top=[[ALPushAssist alloc] init];
     
-    ALChannel *channel=[[ALChannel alloc] init];
-    ALChannelDBService *groupDb= [[ALChannelDBService alloc] init];
+    ALContactDBService * contactDbService = [[ALContactDBService alloc] init];
+    ALContact * alcontact = [contactDbService loadContactByKey:@"userId" value:self.contactId];
+   
+    ALChannel * alchannel=[[ALChannel alloc] init];
+    ALChannelDBService * channelDbService= [[ALChannelDBService alloc] init];
     
-    NSString* title;
-    NSString *message = [NSString stringWithFormat:@"%@",self.text]; //20 characters fixed
-    if([message isEqualToString:@""]){
-        message=[NSString stringWithFormat:@"Attachment"];
-    }
+
+    if(self.groupId && self.groupId.intValue != 0){
     
-    if(!self.groupId || [self.groupId intValue]==0){
-        title=dpName.getDisplayName;
-    }else {
-        channel = [groupDb loadChannelByKey:self.groupId];
-        if(dpName.userId == nil){  // Avoids (null) to show up in Notificaition
-            dpName.userId=@"";
-        }
-        if(channel.name == nil){
-            channel.name=self.groupId;
-        }
+
+        NSString * contactName;
+        NSString * groupName;
         
-        title=channel.name;
+        alchannel = [channelDbService loadChannelByKey:self.groupId];
+        alcontact.userId = (alcontact.userId != nil ? alcontact.userId:@"");
         
-        NSArray *notificationComponents = [dpName.getDisplayName componentsSeparatedByString:@":"];
+        groupName = [NSString stringWithFormat:@"%@",(alchannel.name != nil ? alchannel.name : self.groupId)];
+        
+        NSArray *notificationComponents = [alcontact.getDisplayName componentsSeparatedByString:@":"];
         if(notificationComponents.count>1){
-            dpName.userId = [notificationComponents lastObject];
+            contactName = [notificationComponents lastObject];
         }
         else{
-            dpName.userId = dpName.getDisplayName;
+            contactName = alcontact.getDisplayName;
         }
         
-        message = [NSString stringWithFormat:@"%@:%@",dpName.userId,message];
-        _contactId=[NSString stringWithFormat:@"%@",self.groupId];
+        title    = groupName;
+        subtitle = [NSString stringWithFormat:@"%@:%@",contactName,subtitle];
+
+    }
+    else{
+        
+        title    = alcontact.getDisplayName;
+        subtitle = self.text;
+
     }
     
-    message = (message.length > 20) ? [NSString stringWithFormat:@"%@...",[message substringToIndex:17]] : message;
+    // ** Attachment ** //
+    if(self.alMessageObject.contentType == ALMESSAGE_CONTENT_LOCATION){
+        subtitle = [NSString stringWithFormat:@"Shared location"];
+    }
+    
+    subtitle = (subtitle.length > 20) ? [NSString stringWithFormat:@"%@...",[subtitle substringToIndex:17]] : subtitle;
     
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
    
@@ -101,7 +119,7 @@
     
     [TSMessage showNotificationInViewController:top.topViewController
                                           title:title
-                                       subtitle:message
+                                       subtitle:subtitle
                                           image:appIcon
                                            type:TSMessageNotificationTypeMessage
                                        duration:1.75
@@ -124,7 +142,7 @@
              self.checkContactId=[NSString stringWithFormat:@"%@",self.contactId];
              
          }
-         else if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop2){
+         else if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop){
              // Chat View is Opened....
              ALChatViewController * class1= (ALChatViewController*)delegate;
              NSLog(@"onTopChatVC: ContactID %@ and ChannelID %@",self.contactId, self.groupId);
@@ -145,7 +163,7 @@
                  class1.conversationId = nil;
                  class1.contactIds=self.contactId;
                  [class1 reloadView];
-                 [class1 processMarkRead];
+                 [class1 markConversationRead];
                  [class1 fetchAndRefresh:YES];
                  [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
              }
@@ -158,14 +176,18 @@
                                  buttonCallback:nil
                                      atPosition:TSMessageNotificationPositionTop
                            canBeDismissedByUser:YES];
-    
-    
-    
-    
 }
 
--(void)showGroupLeftMessage{
+-(void)showGroupLeftMessage
+{
     [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
     [TSMessage showNotificationWithTitle:@"You have left this group" type:TSMessageNotificationTypeWarning];
 }
+
+-(void)noDataConnectionNotificationView
+{
+    [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
+    [TSMessage showNotificationWithTitle:@"You don't have any network access now" type:TSMessageNotificationTypeWarning];
+}
+
 @end

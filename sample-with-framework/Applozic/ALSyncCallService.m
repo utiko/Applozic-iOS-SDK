@@ -9,25 +9,30 @@
 #import "ALSyncCallService.h"
 #import "ALMessageDBService.h"
 #import "ALContactDBService.h"
+#import "ALChannelService.h"
 
 @implementation ALSyncCallService
 
 
--(void) updateMessageDeliveryReport:(NSString *)messageKey {
+-(void) updateMessageDeliveryReport:(NSString *)messageKey withStatus:(int)status{
     ALMessageDBService *alMessageDBService = [[ALMessageDBService alloc] init];
-    [alMessageDBService updateMessageDeliveryReport:messageKey];
+    [alMessageDBService updateMessageDeliveryReport:messageKey withStatus:status];
     NSLog(@"delivery report for %@", messageKey);
     //Todo: update ui
 }
 
--(void) updateDeliveryStatusForContact:(NSString *)contactId {
+-(void) updateDeliveryStatusForContact:(NSString *)contactId withStatus:(int)status {
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
-    [messageDBService updateDeliveryReportForContact:contactId];
+    [messageDBService updateDeliveryReportForContact:contactId withStatus:status];
     //Todo: update ui
 }
 
 -(void) syncCall: (ALMessage *) alMessage {
     
+    if (alMessage.groupId != nil && alMessage.contentType == 10) {
+        ALChannelService *channelService = [[ALChannelService alloc] init];
+        [channelService syncCallForChannel];
+    }
 }
 
 -(void) updateConnectedStatus: (ALUserDetail *) alUserDetail {

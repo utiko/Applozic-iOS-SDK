@@ -295,5 +295,53 @@
     return alpha;
 }
 
+-(void)getExactDate:(NSNumber *)dateValue
+{
+
+    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970: [dateValue doubleValue]/1000];
+    
+    NSDate *current = [[NSDate alloc] init];
+    NSDate *today = [NSDate date];
+    NSDate *yesterday = [today dateByAddingTimeInterval: -86400.0];
+    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"dd/MM/yyy"];
+    
+    NSString *todaydate = [format stringFromDate:current];
+    NSString *yesterdaydate = [format stringFromDate:yesterday];
+    NSString *serverdate = [format stringFromDate:date];
+    self.msgdate = serverdate;
+    
+    if([serverdate isEqualToString:todaydate])
+    {
+        self.msgdate = @"today";
+        
+    }
+    else if ([serverdate isEqualToString:yesterdaydate])
+    {
+        self.msgdate = @"yesterday";
+    }
+    
+    [format setDateFormat:@"hh:mm a"];
+    [format setAMSymbol:@"am"];
+    [format setPMSymbol:@"pm"];
+    
+    self.msgtime = [format stringFromDate:date];
+
+}
+
++(UIImage *)setVideoThumbnail:(NSString *)videoFilePATH
+{
+    NSURL *url = [NSURL fileURLWithPath:videoFilePATH];
+    AVAsset *asset = [AVAsset assetWithURL:url];
+    AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    CMTime time = [asset duration];
+    time.value = 0;
+    CGImageRef imageRef = [imageGenerator copyCGImageAtTime:time actualTime:NULL error:NULL];
+    UIImage *thumbnail = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    
+    return thumbnail;
+}
 
 @end

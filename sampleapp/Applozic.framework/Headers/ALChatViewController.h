@@ -29,7 +29,7 @@
 @property (strong, nonatomic) NSString * contactIds;
 @property (nonatomic, strong) NSNumber *channelKey;
 @property (nonatomic, strong) NSString *channelName;
-@property (nonatomic,strong)  NSNumber *conversationId;
+@property (nonatomic, strong) NSNumber *conversationId;
 @property (nonatomic) BOOL refreshMainView;
 @property (nonatomic) BOOL refresh;
 @property (strong, nonatomic) NSString * displayName;
@@ -41,10 +41,8 @@
 -(void)fetchAndRefresh;
 -(void)fetchAndRefresh:(BOOL)flag;
 
--(void)updateDeliveryReport:(NSString*)keyString;
-
--(void) updateDeliveryReportForConversation;
-
+-(void)updateDeliveryReport:(NSString*)key withStatus:(int)status;
+-(void)updateStatusReportForConversation:(int)status;
 -(void)individualNotificationhandler:(NSNotification *) notification;
 
 -(void)updateDeliveryStatus:(NSNotification *) notification;
@@ -56,14 +54,18 @@
 -(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail;
 -(void) reloadViewfor3rdParty;
 -(void) reloadView;
--(void)processMarkRead;
+
+-(void)markConversationRead;
+-(void)markSingleMessageRead:(ALMessage *)almessage;
 
 -(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer;
 
--(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl;
+-(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl withCompletion:(void(^)(NSString *message, NSError *error))completion;
 
 -(void) syncCall:(ALMessage*)AlMessage  updateUI:(NSNumber *)updateUI alertValue: (NSString *)alertValue;
 
 -(void)processLoadEarlierMessages:(BOOL)isScrollToBottom;
 -(NSString*)formatDateTime:(ALUserDetail*)alUserDetail  andValue:(double)value;
+-(void)checkUserBlockStatus;
+
 @end

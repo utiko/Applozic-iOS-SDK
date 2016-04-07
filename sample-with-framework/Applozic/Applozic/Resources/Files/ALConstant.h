@@ -10,7 +10,6 @@
 #define MQTT_URL @"apps.applozic.com"
 #define KBASE_FILE_URL @"https://applozic.appspot.com"
 
-
 //#define KBASE_URL @"https://test.applozic.com"
 //#define MQTT_URL @"staging.applozic.com"
 //#define KBASE_FILE_URL @"https://mobi-com-alpha.appspot.com"
@@ -44,3 +43,15 @@
 #define IS_ZOOMED_IPHONE_6_PLUS (IS_IPHONE && MAX([[UIScreen mainScreen] bounds].size.height, [[UIScreen mainScreen] bounds].size.width) == 375.0 && IS_OS_8_OR_LATER && [UIScreen mainScreen].nativeScale < [UIScreen mainScreen].scale)
 #define IS_IPHONE_6 (IS_STANDARD_IPHONE_6 || IS_ZOOMED_IPHONE_6)
 #define IS_IPHONE_6_PLUS (IS_STANDARD_IPHONE_6_PLUS || IS_ZOOMED_IPHONE_6_PLUS)
+
+typedef enum {
+    //outbox
+    SENT = 3,
+    DELIVERED = 4,
+    DELIVERED_AND_READ = 5,
+
+    //inbox
+    PENDING = 2,
+    UNREAD = 0,
+    READ = 1
+} MessageStatus;

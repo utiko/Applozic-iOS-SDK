@@ -18,8 +18,8 @@
 @property (nonatomic, retain) NSNumber * createdAt;
 @property (nonatomic, retain) NSString * deviceKey;
 @property (nonatomic, retain) NSString * filePath;
-@property (nonatomic, retain) NSNumber * isRead;
-@property (nonatomic, retain) NSNumber * isSent;
+//@property (nonatomic, retain) NSNumber * isRead;
+//@property (nonatomic, retain) NSNumber * isSent;
 @property (nonatomic, retain) NSNumber * deletedFlag;
 @property (nonatomic, retain) NSNumber * isSentToDevice;
 @property (nonatomic, retain) NSNumber * isShared;
@@ -36,5 +36,6 @@
 @property (nonatomic, retain) DB_FileMetaInfo *fileMetaInfo;
 @property (nonatomic, retain) NSNumber * groupId;
 @property (nonatomic, retain) NSNumber * conversationId;
+@property (nonatomic, retain) NSNumber * status;
 
 @end

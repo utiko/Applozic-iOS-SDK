@@ -118,6 +118,10 @@
     }];
 }
 
+//==============================================
+#pragma BLOCK USER SERVER CALL
+//==============================================
+
 +(void)userBlockServerCall:(NSString *)userId withCompletion:(void (^)(NSString *json, NSError *error))completion
 {    
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/block",KBASE_URL];
@@ -166,4 +170,92 @@
     }];
 }
 
+//==============================================
+#pragma UNBLOCK USER SERVER CALL
+//==============================================
+
++(void)userUnblockServerCall:(NSString *)userId withCompletion:(void (^)(NSString *json, NSError *error))completion
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/unblock",KBASE_URL];
+    NSString * theParamString;
+    theParamString = [NSString stringWithFormat:@"userId=%@",userId];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"USER_BLOCKED" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        NSLog(@"USER_UNBLOCKED RESPONSE JSON: %@", (NSString *)theJson);
+        if (theError)
+        {
+            NSLog(@"theError");
+        }
+        else
+        {
+            NSLog(@" %@ SUCCESSFULLY UNBLOCKED", userId);
+            completion((NSString *)theJson, nil);
+        }
+        
+    }];
+}
+
+#pragma mark - Mark Message Read
+//==============================
+
+-(void)markMessageAsReadforPairedMessageKey:(NSString *)pairedMessageKey withCompletion:(void (^)(NSString *, NSError *))completion{
+    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/read",KBASE_URL];
+    NSString * theParamString;
+    theParamString = [NSString stringWithFormat:@"key=%@",pairedMessageKey];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"MARK_MESSAGE_AS_READ" WithCompletionHandler:^(id theJson, NSError *theError) {
+        if (theError) {
+            completion(nil,theError);
+            NSLog(@"theError");
+            return ;
+        }
+        NSLog(@"markMessageAsRead %@",theJson);
+        completion((NSString *)theJson,nil);
+    }];
+}
+
+#pragma mark - Multi User Send Message
+//===================================
+
+-(void)multiUserSendMessage:(NSString*)TextMessage toContacts:(NSMutableArray*)contactIds toGroups:(NSMutableArray*)channelKeys withCompletion:(void (^)(NSString *json, NSError *error))completion{
+    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/sendall",KBASE_URL];
+    
+    NSMutableDictionary *channelDictionary = [NSMutableDictionary new];
+    
+    [channelDictionary setObject:contactIds forKey:@"userNames"];
+    [channelDictionary setObject:channelKeys forKey:@"groupIds"];
+    [channelDictionary setObject:TextMessage forKey:@"messageObject"];
+    
+    NSError *error;
+    NSData *postdata = [NSJSONSerialization dataWithJSONObject:channelDictionary options:0 error:&error];
+    NSString *theParamString = [[NSString alloc] initWithData:postdata encoding: NSUTF8StringEncoding];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
+    NSLog(@"PARAm STRINg %@", theParamString);
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"MULTI_USER_SEND" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+//        ALChannelCreateResponse *response = nil;
+//        
+//        if (theError)
+//        {
+//            NSLog(@"ERROR IN MULTI_USER_SEND %@", theError);
+//        }
+//        else
+//        {
+//            NSLog(@"SEVER RESPONSE FROM JSON MULTI_USER_SEND : %@", (NSString *)theJson);
+//            response = [[ALChannelCreateResponse alloc] initWithJSONString:theJson];
+//        }
+        
+        completion(theJson,theError);
+        
+    }];
+
+}
 @end

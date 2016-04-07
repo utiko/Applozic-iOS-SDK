@@ -8,6 +8,7 @@
 
 #import "ALContactDBService.h"
 #import "ALDBHandler.h"
+#import "ALConstant.h"
 
 @implementation ALContactDBService
 
@@ -206,7 +207,8 @@
     contact.connected = dbContact.connected;
     contact.lastSeenAt = dbContact.lastSeenAt;
     contact.unreadCount=dbContact.unreadCount;
-//    contact.block = dbContact.block;       USER BLOCK COMMENTED TILL NEXT RELEASE
+    contact.block = dbContact.block;
+    contact.blockBy = dbContact.blockBy;
     return contact;
 }
 
@@ -381,14 +383,14 @@
 
 }
 
--(NSUInteger)markConversationAsRead:(NSString*)contactId
+-(NSUInteger)markConversationAsDeliveredAndRead:(NSString*)contactId
 {
     NSArray *messages =  [self getUnreadMessagesForIndividual:contactId];
     if(messages.count >0 ){
         NSBatchUpdateRequest *req= [[NSBatchUpdateRequest alloc] initWithEntityName:@"DB_Message"];
         req.predicate = [NSPredicate predicateWithFormat:@"contactId==%@ and groupId=0",contactId];
         req.propertiesToUpdate = @{
-                                   @"isRead" : @(YES)
+                                   @"status" : @(DELIVERED_AND_READ)
                                    };
         req.resultType = NSUpdatedObjectsCountResultType;
         ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
@@ -406,7 +408,7 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
     
     NSPredicate *predicate;
-    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"isRead==%@ AND type==%@ ",@"0",@"4"];
+    NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"status != %i AND type==%@ ",DELIVERED_AND_READ,@"4"];
     
     if (contactId) {
         NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"%K=%@",@"contactId",contactId];
@@ -422,7 +424,7 @@
     return result;
 }
 
--(BOOL)setBlockUser:(NSString *)userId
+-(BOOL)setBlockUser:(NSString *)userId andBlockedState:(BOOL)flag
 {
     BOOL success = NO;
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
@@ -439,7 +441,7 @@
     if(result.count > 0)
     {
         DB_CONTACT *resultDBContact = [result objectAtIndex:0];
-        resultDBContact.block = YES;
+        resultDBContact.block = flag;
     }
 
     NSError *error = nil;
@@ -447,7 +449,7 @@
     
     if (!success)
     {
-        NSLog(@"DB ERROR FOR BLOCKING USER %@ :%@",userId, error);
+        NSLog(@"DB ERROR FOR BLOCKING/UNBLOCKING USER %@ :%@",userId, error);
     }
     return success;
 }
@@ -456,8 +458,75 @@
 {
     for(ALUserBlocked *userBlocked in userList)
     {
-        [self setBlockUser:userBlocked.blockedTo];
+        [self setBlockUser:userBlocked.blockedTo andBlockedState:userBlocked.userBlocked];
     }
+}
+
+-(void)blockByUserInList:(NSMutableArray *)userList
+{
+    for(ALUserBlocked *userBlocked in userList)
+    {
+        [self setBlockByUser:userBlocked.blockedBy andBlockedByState:userBlocked.userblockedBy];
+    }
+}
+
+-(BOOL)setBlockByUser:(NSString *)userId andBlockedByState:(BOOL)flag
+{
+    BOOL success = NO;
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CONTACT" inManagedObjectContext:dbHandler.managedObjectContext];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId = %@",userId];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *fetchError = nil;
+    NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    
+    if(result.count > 0)
+    {
+        DB_CONTACT *resultDBContact = [result objectAtIndex:0];
+        resultDBContact.blockBy = flag;
+    }
+    
+    NSError *error = nil;
+    success = [dbHandler.managedObjectContext save:&error];
+    
+    if (!success)
+    {
+        NSLog(@"DB ERROR FOR BLOCKED BY USER %@ :%@", userId, error);
+    }
+    return success;
+}
+
+-(NSMutableArray *)getListOfBlockedUsers
+{
+    ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CONTACT" inManagedObjectContext:theDBHandler.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSError *error = nil;
+    NSArray *array = [theDBHandler.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSMutableArray * userList = [[NSMutableArray alloc] init];
+    
+    if(array.count)
+    {
+        for(DB_CONTACT *contact in array)
+        {
+            if(contact.block)
+            {
+                [userList addObject:contact.userId];
+            }
+        }
+    }
+    else
+    {
+        NSLog(@"NO BLOCKED USER FOUND");
+    }
+    
+    return userList;
 }
 
 @end

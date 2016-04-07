@@ -14,6 +14,7 @@
 #import "ALUserDetail.h"
 #import "ALChannelService.h"
 #import  "MessageListRequest.h"
+#import "ALMessageInfoResponse.h"
 
 #define NEW_MESSAGE_NOTIFICATION @"newMessageNotification"
 
@@ -40,7 +41,10 @@
 +(void )deleteMessage:( NSString * ) keyString andContactId:( NSString * )contactId withCompletion:(void (^)(NSString *, NSError *))completion;
 
 +(void)processPendingMessages;
+
 +(ALMessage*)getMessagefromKeyValuePair:(NSString*)key andValue:(NSString*)value;
 
+-(void)getMessageInformationWithMessageKey:(NSString *)messageKey withCompletionHandler:(void(^)(ALMessageInfoResponse *msgInfo, NSError *theError))completion;
 
++(void)broadcastMessageWithText:(NSString *)message toContacts:(NSMutableArray*)contactIdsArray;
 @end

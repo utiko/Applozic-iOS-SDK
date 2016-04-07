@@ -14,21 +14,35 @@
 {
     self = [super initWithJSONString:JSONString];
     self.blockedUserList = [NSMutableArray new];
-    NSDictionary *JSONDictionary = [JSONString valueForKey:@"blockedUserList"];
+    NSDictionary *JSONDictionary = [JSONString valueForKey:@"response"];
     self.blockedToUserList = [[NSMutableArray alloc] initWithArray: [JSONDictionary valueForKey:@"blockedToUserList"]];
-
+    
     for (NSDictionary *dict in self.blockedToUserList)
     {
-        ALUserBlocked *userBlocked = [[ALUserBlocked alloc] init];
+        ALUserBlocked *userBlockedObject = [[ALUserBlocked alloc] init];
+        userBlockedObject.blockedTo = [dict valueForKey:@"blockedTo"];
+        userBlockedObject.applicationKey = [dict valueForKey:@"applicationKey"];
+        userBlockedObject.createdAtTime = [dict valueForKey:@"createdAtTime"];
+        userBlockedObject.updatedAtTime = [dict valueForKey:@"updatedAtTime"];
+        userBlockedObject.userBlocked = [[dict valueForKey:@"userBlocked"] boolValue];
+
+
         
-//            userBlocked.id = [dict valueForKey:@"id"];
-//            userBlocked.blockedBy = [dict valueForKey:@"blockedBy"];
+        [self.blockedUserList addObject:userBlockedObject];
+    }
+    
+    self.blockByUserList = [NSMutableArray new];
+    self.blockedByList = [[NSMutableArray alloc] initWithArray: [JSONDictionary valueForKey:@"blockedByUserList"]];
+    
+    for (NSDictionary *dict in self.blockedByList)
+    {
+        ALUserBlocked *userBlockedByObject = [[ALUserBlocked alloc] init];
+        userBlockedByObject.blockedBy = [dict valueForKey:@"blockedBy"];
+        userBlockedByObject.userblockedBy = [[dict valueForKey:@"userBlocked"] boolValue];
         
-        userBlocked.blockedTo = [dict valueForKey:@"blockedTo"];
-        userBlocked.applicationKey = [dict valueForKey:@"applicationKey"];
-        userBlocked.blockedAtTime = [dict valueForKey:@"blockedAtTime"];
+
         
-        [self.blockedUserList addObject:userBlocked];
+        [self.blockByUserList addObject: userBlockedByObject];
     }
     
     return self;

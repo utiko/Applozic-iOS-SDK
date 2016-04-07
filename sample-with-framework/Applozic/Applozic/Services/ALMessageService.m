@@ -32,7 +32,7 @@ static ALMessageClientService *alMsgClientService;
 
 +(void) processLatestMessagesGroupByContact {
     
-    ALMessageClientService * almessageClientService = [[ALMessageClientService alloc]init];
+    ALMessageClientService * almessageClientService = [[ALMessageClientService alloc] init];
     
     [ almessageClientService getLatestMessageGroupByContactWithCompletion:^( ALMessageList *alMessageList, NSError *error){
         if(alMessageList){
@@ -99,22 +99,20 @@ static ALMessageClientService *alMsgClientService;
             ALSendMessageResponse  *response = [[ALSendMessageResponse alloc] initWithJSONString:statusStr ];
             
             ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-            dbMessage.isSent = [NSNumber numberWithBool:YES];
+
             dbMessage.key = response.messageKey;
             dbMessage.inProgress = [NSNumber numberWithBool:NO];
             dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
-            
             dbMessage.createdAt =response.createdAt;
-            alMessage.key = dbMessage.key;
             dbMessage.sentToServer=[NSNumber numberWithBool:YES];
-            dbMessage.isRead=[NSNumber numberWithBool:YES];
+            dbMessage.status = [NSNumber numberWithInt:SENT];
             
             alMessage.key = dbMessage.key;
             alMessage.sentToServer= dbMessage.sentToServer.boolValue;
             alMessage.inProgress=dbMessage.inProgress.boolValue;
             alMessage.isUploadFailed=dbMessage.isUploadFailed.boolValue;
-            alMessage.sent = dbMessage.isSent.boolValue;
-            
+            alMessage.status = dbMessage.status;
+        
             [theDBHandler.managedObjectContext save:nil];
         }else{
             NSLog(@" got error while sending messages");
@@ -139,16 +137,19 @@ static ALMessageClientService *alMsgClientService;
            
             if(!error){
                 if (syncResponse.deliveredMessageKeys.count > 0) {
-                    [ALMessageService updateDeliveredReport: syncResponse.deliveredMessageKeys];
+                    [ALMessageService updateDeliveredReport: syncResponse.deliveredMessageKeys withStatus:DELIVERED];
                 }
                 if(syncResponse.messagesList.count >0 ){
                     messageArray = [[NSMutableArray alloc] init];
                     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
                     messageArray = [dbService addMessageList:syncResponse.messagesList];
                     [ALMessageService incrementContactUnreadCount:messageArray];
+                    [ALUserService processContactFromMessages:messageArray withCompletion:^{
                     [[NSNotificationCenter defaultCenter] postNotificationName:NEW_MESSAGE_NOTIFICATION object:messageArray userInfo:nil];
+                        completion(messageArray,error);
+                    }];
+                    
                 }
-                completion(messageArray,error);
                 
                 [ALUserDefaultsHandler setLastSyncTime:syncResponse.lastSyncTime];
                 ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
@@ -167,7 +168,7 @@ static ALMessageClientService *alMsgClientService;
     
     for(ALMessage * message in messagesArray){
         
-        if(message.read == YES){
+        if([message.status isEqualToNumber:[NSNumber numberWithInt:DELIVERED_AND_READ]] || (message.groupId && message.contentType == 10)){
             return;
         }
         
@@ -200,10 +201,10 @@ static ALMessageClientService *alMsgClientService;
     }
 }
 
-+(void) updateDeliveredReport: (NSArray *) deliveredMessageKeys {
++(void) updateDeliveredReport: (NSArray *) deliveredMessageKeys withStatus:(int)status {
     for (id key in deliveredMessageKeys) {
         ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
-        [messageDBService updateMessageDeliveryReport:key];
+        [messageDBService updateMessageDeliveryReport:key withStatus:status];
     }
 }
 
@@ -255,6 +256,13 @@ static ALMessageClientService *alMsgClientService;
                                          NSLog(@"sucessfully deleted !");
                                          ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
                                          [dbService deleteAllMessagesByContact:contactId orChannelKey:channelKey];
+                                         
+                                         if(channelKey){
+                                             [ALChannelService setUnreadCountZeroForGroupID:channelKey];
+                                         }else{
+                                             [ALUserService setUnreadCountZeroForContactId:contactId];
+                                         }
+                                         
                                      }
                                      completion(response,error);
                                  }];
@@ -351,7 +359,7 @@ static ALMessageClientService *alMsgClientService;
 
 +(void)processPendingMessages{
     
-    ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+    ALMessageDBService * dbService = [[ALMessageDBService alloc] init];
     NSMutableArray * pendingMessageArray = [dbService getPendingMessages];
     NSLog(@"service called....%lu",pendingMessageArray.count);
     
@@ -381,4 +389,78 @@ static ALMessageClientService *alMsgClientService;
     return [dbService createMessageEntity:dbMessage];
 }
 
+-(void)getMessageInformationWithMessageKey:(NSString *)messageKey withCompletionHandler:(void(^)(ALMessageInfoResponse *msgInfo, NSError *theError))completion
+{
+    ALMessageClientService *msgClient = [ALMessageClientService new];
+    [msgClient getCurrentMessageInformation:messageKey withCompletionHandler:^(ALMessageInfoResponse *msgInfo, NSError *theError) {
+        
+        if(theError)
+        {
+            NSLog(@"ERROR IN MSG INFO RESPONSE : %@", theError);
+        }
+        else
+        {
+            completion(msgInfo, theError);
+        }
+        
+    }];
+}
+
+#pragma mark - Multi Receiver API
+//================================
+
++(void)broadcastMessageWithText:(NSString *)message toContacts:(NSMutableArray*)contactIdsArray{
+    
+    NSMutableArray * alMessageArray = [[NSMutableArray alloc] init];
+    
+    for (NSString * contactID in contactIdsArray) {
+        ALMessage * alMessage = [ALMessage new];
+        alMessage = [ALMessageService createMessageArrayWithMessage:message];
+        alMessage.to = contactID;
+        [alMessageArray addObject:alMessage];
+        NSLog(@"Messages <%@>",alMessage.to);
+    }
+    
+    [ALMessageService sendMessagestoContactIds:alMessageArray];
+}
+
++(ALMessage*)createMessageArrayWithMessage:(NSString*)message{
+    
+    ALMessage * theMessage = [ALMessage new];
+    theMessage.type = @"5";
+    theMessage.contactIds = [ALUserDefaultsHandler getUserId];//1
+    theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
+    theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString ];
+    theMessage.message = message;//3
+    theMessage.sendToDevice = NO;
+    theMessage.shared = NO;
+    theMessage.fileMeta = nil;
+    theMessage.storeOnDevice = NO;
+    theMessage.key = [[NSUUID UUID] UUIDString];
+    theMessage.delivered = NO;
+    theMessage.fileMetaKey = nil;//4
+    theMessage.contentType = 0;
+
+    return theMessage;
+    
+}
++(void)sendMessagestoContactIds:(NSMutableArray*)alMessagesArray{
+    
+    if(alMessagesArray.count != 0){
+         
+        NSMutableArray * messagesArray = [NSMutableArray arrayWithArray:alMessagesArray];
+        [ALMessageService sendMessages:messagesArray[0] withCompletion:^(NSString *message, NSError *error) {
+            
+            if(error){
+                NSLog(@"Mutli receiver API error %@",error);
+            }
+            else{
+                [messagesArray removeObjectAtIndex:0];
+                NSLog(@"BroadCast Message Sent Resp:%@",message);
+                [ALMessageService sendMessagestoContactIds:messagesArray];
+            }
+        }];
+    }
+ 
+}
 @end

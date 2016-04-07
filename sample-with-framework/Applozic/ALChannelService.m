@@ -114,9 +114,11 @@
         [ALChannelClientService createChannel: channelName andMembersList: memberArray withCompletion:^(NSError *error, ALChannelCreateResponse *response) {
             if(!error)
             {
+                response.alChannel.adminKey = [ALUserDefaultsHandler getUserId];
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-                [channelDBService createChannel: response.alChannel];
+                [channelDBService createChannel:response.alChannel];
                 completion(response.alChannel.key);
+                
             }
         }];
     }
@@ -129,9 +131,9 @@
 #pragma mark ADD NEW MEMBER TO CHANNEL
 //====================================
 
--(BOOL)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey
+-(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion
 {
-    isChannelMemberAdded = NO;
+    
     if(channelKey != nil && userId != nil)
     {
         [ALChannelClientService addMemberToChannel:userId andChannelKey:channelKey withComletion:^(NSError *error, ALAPIResponse *response) {
@@ -139,20 +141,18 @@
             {
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
                 [channelDBService addMemberToChannel:userId andChannelKey:channelKey];
-                isChannelMemberAdded = YES;
+                completion(error,response);
             }
         }];
         
     }
-    return isChannelMemberAdded;
+    
 }
 
 #pragma mark REMOVE MEMBER FROM CHANNEL
 //=====================================
 
--(BOOL)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey
-{
-    isChannelMemberRemoved = NO;
+-(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, NSString *response))completion {
     if(channelKey != nil && userId != nil)
     {
         [ALChannelClientService removeMemberFromChannel:userId andChannelKey:channelKey withComletion:^(NSError *error, ALAPIResponse *response) {
@@ -162,10 +162,9 @@
                 [channelDBService removeMemberFromChannel:userId andChannelKey:channelKey];
                 isChannelMemberRemoved = YES;
             }
+            completion(error,response.status);
         }];
     }
-
-    return isChannelMemberRemoved;
 }
 
 #pragma mark DELETE CHANNEL
@@ -252,6 +251,7 @@
         {
             ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
             [channelDBService processArrayAfterSyncCall:response.alChannelArray];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"GroupDetailTableReload" object:nil];
         }
     }];
     
@@ -259,13 +259,12 @@
 
 #pragma mark MARK READ FOR GROUP
 //==============================
+
 +(void)markConversationAsRead:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion{
     
-    ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-    ALChannel * channel =[channelDBService loadChannelByKey:channelKey];
-    channel.unreadCount=[NSNumber numberWithInt:0];
-    [channelDBService updateUnreadCountChannel:channelKey unreadCount:channel.unreadCount];
+    [ALChannelService setUnreadCountZeroForGroupID:channelKey];
     
+    ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
     NSUInteger count = [channelDBService markConversationAsRead:channelKey];
     NSLog(@"Found %ld messages for marking as read.", (unsigned long)count);
     
@@ -279,4 +278,14 @@
     }];
 
 }
+
++(void)setUnreadCountZeroForGroupID:(NSNumber*)channelKey{
+    
+    ALChannelDBService *channelDBService = [ALChannelDBService new];
+    [channelDBService  updateUnreadCountChannel:channelKey unreadCount:[NSNumber numberWithInt:0]];
+    
+    ALChannel * channel = [channelDBService loadChannelByKey:channelKey];
+    channel.unreadCount=[NSNumber numberWithInt:0];
+}
+
 @end

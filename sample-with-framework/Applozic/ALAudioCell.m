@@ -9,6 +9,8 @@
 #import "ALAudioCell.h"
 #import "UIImageView+WebCache.h"
 #import "ALMediaPlayer.h"
+#import "ALMessageInfoViewController.h"
+#import "ALChatViewController.h"
 
 // Constants
 #define MT_INBOX_CONSTANT "4"
@@ -20,7 +22,10 @@
 @end
 
 @implementation ALAudioCell
-
+{
+    CGFloat msgFrameHeight;
+    CGFloat ORDINATE_CONSTANT;
+}
 -(instancetype) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     
@@ -34,6 +39,7 @@
         [self.mediaName setBackgroundColor:[UIColor clearColor]];
         [self.mediaName setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:DATE_LABEL_SIZE]];
         [self.contentView addSubview:self.mediaName];
+        [self.mediaName setNumberOfLines:2];
         [self.contentView sizeToFit];
         
         
@@ -98,28 +104,34 @@
     
     [self.playPauseStop setHidden:YES];
     [self.mNameLabel setHidden:YES];
-    
+    [self.mChannelMemberName setHidden:YES];
     self.mBubleImageView.backgroundColor = [UIColor whiteColor];
     
     CGSize theDateSize = [ALUtilityClass getSizeForText:theDate maxWidth:150 font:self.mDateLabel.font.fontName fontSize:self.mDateLabel.font.pointSize];
     
     [self.mMessageStatusImageView setHidden:YES];
     
+    ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
+    ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
+    NSString *receiverName = alContact.displayName? alContact.displayName: alMessage.to;
+    
     if([alMessage.type isEqualToString:@MT_INBOX_CONSTANT])
     {
         self.mBubleImageView.backgroundColor = [ALApplozicSettings getReceiveMsgColor];
         
         [self.mUserProfileImageView setFrame:CGRectMake(5, 5, 45, 45)];
+        
+        if([ALApplozicSettings isUserProfileHidden])
+        {
+            [self.mUserProfileImageView setFrame:CGRectMake(5, 5, 0, 45)];
+        }
+        
         self.mUserProfileImageView.layer.cornerRadius = self.mUserProfileImageView.frame.size.width/2;
         self.mUserProfileImageView.layer.masksToBounds = YES;
         
-        [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + 13, self.mUserProfileImageView.frame.origin.y, viewSize.width/2 + 50, 70)];
-        
-        [self.mDateLabel setFrame:CGRectMake(self.mBubleImageView.frame.origin.x, self.mBubleImageView.frame.size.height + 7, 80, 20)];
-        
-        ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
-        
-        ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
+        [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + 13,
+                                                  self.mUserProfileImageView.frame.origin.y,
+                                                  viewSize.width/2 + 50, 70)];
         
         self.mNameLabel.frame = self.mUserProfileImageView.frame;
         [self.mNameLabel setText:[ALColorUtility getAlphabetForProfileImage:alMessage.to]];
@@ -131,11 +143,34 @@
         }
         else
         {
+            [self.mUserProfileImageView sd_setImageWithURL:[NSURL URLWithString:@""]];
             [self.mNameLabel setHidden:NO];
             self.mUserProfileImageView.backgroundColor = [ALColorUtility getColorForAlphabet:alMessage.to];
         }
         
         [self.playPauseStop setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mBubleImageView.frame.origin.y + 5, 60, 60)];
+        
+        if(alMessage.groupId)
+        {
+            [self.mChannelMemberName setHidden:YES];
+            [self.mChannelMemberName setHidden:NO];
+            [self.mChannelMemberName setTextColor: [ALColorUtility getColorForAlphabet:receiverName]];
+            [self.mChannelMemberName setText:receiverName];
+            
+            [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + 13,
+                                                      self.mUserProfileImageView.frame.origin.y,
+                                                      viewSize.width/2 + 50, 95)];
+            
+            self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5,
+                                                       self.mBubleImageView.frame.origin.y + 2,
+                                                       self.mBubleImageView.frame.size.width - 5, 20);
+            
+            [self.playPauseStop setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mChannelMemberName.frame.origin.y + self.mChannelMemberName.frame.size.height + 5, 60, 60)];
+            
+        }
+        
+        CGFloat nameWidth = self.mBubleImageView.frame.size.width - self.playPauseStop.frame.size.width - 20;
+        [self.mediaName setFrame:CGRectMake(self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10, self.playPauseStop.frame.origin.y, nameWidth,40)];
         
         [self.mDowloadRetryButton setFrame:CGRectMake(self.playPauseStop.frame.origin.x , self.playPauseStop.frame.origin.y, 60, 60)];
         
@@ -143,9 +178,13 @@
         
         CGFloat progressBarWidth = self.mBubleImageView.frame.size.width - self.playPauseStop.frame.size.width - 30;
         
-        [self.mediaTrackProgress setFrame:CGRectMake(self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height/2 + 5, progressBarWidth, 30)];
+        [self.mediaTrackProgress setFrame:CGRectMake(self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10,
+                                                     self.mediaName.frame.origin.y + self.mediaName.frame.size.height,
+                                                     progressBarWidth, 30)];
         
-        [self.mediaTrackLength setFrame:CGRectMake(self.mediaTrackProgress.frame.origin.x, self.mediaTrackProgress.frame.origin.y + self.mediaTrackProgress.frame.size.height + 5, 80, 20)];
+        [self.mediaTrackLength setFrame:CGRectMake(self.mediaTrackProgress.frame.origin.x, self.mediaTrackProgress.frame.origin.y + self.mediaTrackProgress.frame.size.height, 80, 20)];
+        
+        [self.mDateLabel setFrame:CGRectMake(self.mBubleImageView.frame.origin.x, self.mBubleImageView.frame.size.height + 7, 80, 20)];
         
         if (alMessage.imageFilePath == nil)
         {
@@ -171,20 +210,12 @@
     
     else
     {
-        if([ALApplozicSettings isUserProfileHidden])
-        {
-            [self.mUserProfileImageView setFrame:CGRectMake(viewSize.width - 45 - 5 , 5, 45, 45)];
-        }
-        else
-        {
-            [self.mUserProfileImageView setFrame:CGRectMake(viewSize.width - 45 - 5 , 5, 0, 45)];
-        }
+
+        [self.mUserProfileImageView setFrame:CGRectMake(viewSize.width - 45 - 5 , 5, 0, 45)];
         
         self.mBubleImageView.backgroundColor = [ALApplozicSettings getSendMsgColor];
         
         [self.mBubleImageView setFrame:CGRectMake(viewSize.width - (viewSize.width/2 + 50) - 10, self.mUserProfileImageView.frame.origin.y, viewSize.width/2 + 50, 70)];
-        
-        [self.mDowloadRetryButton setHidden:YES];
         
         [self.mMessageStatusImageView setHidden:NO];
         
@@ -194,7 +225,7 @@
         
         [self setupProgressValueX: (self.playPauseStop.frame.origin.x) andY: (self.playPauseStop.frame.origin.y)];
         
-        self.progresLabel.alpha = 0;
+        msgFrameHeight = viewSize.width - 120;
         
         CGFloat progressBarWidth = self.mBubleImageView.frame.size.width - self.playPauseStop.frame.size.width - 30;
         
@@ -202,12 +233,12 @@
         
         [self.mediaTrackLength setFrame:CGRectMake(self.mediaTrackProgress.frame.origin.x, self.mediaTrackProgress.frame.origin.y + self.mediaTrackProgress.frame.size.height + 5, 80, 20)];
         
-        self.status = @"";
-        
         self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - theDateSize.width - 20, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width, 21);
         
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
         
+        self.progresLabel.alpha = 0;
+        self.mDowloadRetryButton.alpha = 0;
         
         if (alMessage.inProgress == YES)
         {
@@ -217,28 +248,29 @@
         
         else if(!alMessage.imageFilePath && alMessage.fileMeta.blobKey)
         {
-            [self.mDowloadRetryButton setHidden:NO];
+            self.mDowloadRetryButton.alpha = 1;
             [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"DownloadiOS.png"] forState:UIControlStateNormal];
         }
         
         else if (alMessage.imageFilePath && !alMessage.fileMeta.blobKey)
         {
-            [self.mDowloadRetryButton setHidden:NO];
+            self.mDowloadRetryButton.alpha = 1;
             [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"UploadiOS2.png"] forState:UIControlStateNormal];
         }
         
+        [self.mediaName setFrame:CGRectMake(self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10,
+                                            self.playPauseStop.frame.origin.y,
+                                            self.mediaTrackProgress.frame.size.width, 15)];
     }
     
-    if(alMessage.imageFilePath != nil)
+    if(alMessage.imageFilePath != nil && alMessage.fileMeta.blobKey)
     {
-        [self.playPauseStop setHidden:NO];
         NSString * docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSString * filePath = [docDir stringByAppendingPathComponent:alMessage.imageFilePath];
         NSURL *soundFileURL = [NSURL fileURLWithPath:filePath];
+        [self.playPauseStop setHidden:NO];
     }
-    
-    [self.mediaName setFrame:CGRectMake(self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10, self.playPauseStop.frame.origin.y, self.mediaTrackProgress.frame.size.width, 15)];
-    [self.mediaName setNumberOfLines:2];
+
     [self.mediaName sizeToFit];
     
     self.playPauseStop.layer.cornerRadius = self.playPauseStop.frame.size.width/2;
@@ -251,21 +283,26 @@
     
     self.mDateLabel.text = theDate;
     
-    if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]) { //@"5"
+    if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]) {
         
-        if(alMessage.delivered == YES)
-        {
-            self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_message_delivered.png"];
-        }
-        else if(alMessage.sent == YES)
-        {
-            self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_message_sent.png"];
-        }
-        else
-        {
-            self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"ic_action_about.png"];
-        }
+        self.mMessageStatusImageView.hidden = NO;
+        NSString * imageName;
         
+        switch (alMessage.status.intValue) {
+            case DELIVERED_AND_READ :{
+                imageName = @"ic_action_read.png";
+            }break;
+            case DELIVERED:{
+                imageName = @"ic_action_message_delivered.png";
+            }break;
+            case SENT:{
+                imageName = @"ic_action_message_sent.png";
+            }break;
+            default:{
+                imageName = @"ic_action_about.png";
+            }break;
+        }
+        self.mMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:imageName];
     }
 
     return self;
@@ -274,6 +311,11 @@
 
 -(BOOL) canPerformAction:(SEL)action withSender:(id)sender
 {
+    if([self.mMessage.type isEqualToString:@MT_OUTBOX_CONSTANT] && self.mMessage.groupId)
+    {
+        return (action == @selector(delete:)|| action == @selector(msgInfo:));
+    }
+    
     return (action == @selector(delete:));
 }
 
@@ -414,5 +456,18 @@
     [self.playPauseStop setHidden:YES];
 }
 
+- (void)msgInfo:(id)sender
+{
+    UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    ALMessageInfoViewController *launchChat = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
+    
+    [launchChat setMessage:self.mMessage andHeaderHeight:msgFrameHeight  withCompletionHandler:^(NSError *error) {
+        
+        if(!error)
+        {
+            [self.delegate loadView:launchChat];
+        }
+    }];
+}
 
 @end
