@@ -211,6 +211,14 @@ Once your app receive notification, pass it to applozic handler for applozic not
 ```
 
 ### Changelog
+__Version 2.1__
+ * Read Receipts for Messages
+ * Message Information details
+ * User Block/Unblock
+ * Offline Message Sending for types:
+   * Text
+   * Location
+
 __Version 2.0__
  * Context-based messaging
  * Group messaging
