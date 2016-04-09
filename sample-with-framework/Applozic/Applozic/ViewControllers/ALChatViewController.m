@@ -415,7 +415,7 @@ ALMessageDBService  * dbService;
     [self.sendMessageTextView setUserInteractionEnabled:!freeze];
     [self.sendButton setUserInteractionEnabled:!freeze];
     [self.attachmentOutlet setUserInteractionEnabled:!freeze];
-    [self.navigationItem.titleView setUserInteractionEnabled:!freeze];
+    [self.navigationController.navigationItem.titleView setUserInteractionEnabled:!freeze];
 }
 
 -(void)showNoDataNotification
