@@ -5,6 +5,10 @@
 
 Open source iOS Chat and Messaging SDK that lets you add real time messaging in your mobile (android, iOS) applications and website.
 
+Works for both Objective-C and Swift.
+
+It is a light weight Objective-C Chat SDK.
+
 Features:
 
 
