@@ -8,8 +8,8 @@ xcode_scheme: applozicdemo
 #before_script: travis/before_script.sh
 #script: travis/script.sh
 
-script: xcodebuild -project ~/Applozic/Applozic-iOS-SDK/sample-with-framework/applozicdemo.xcodeproj -scheme applozicdemo -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
-
+#script: xcodebuild -project ~/Applozic/Applozic-iOS-SDK/sample-with-framework/applozicdemo.xcodeproj -scheme applozicdemo -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+script: pwd 
 #notifications:
  # email:
   #  recipients:
