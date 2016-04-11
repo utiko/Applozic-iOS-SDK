@@ -4,7 +4,6 @@ xcode_project: applozicdemo.xcodeproj
 xcode_scheme: applozicdemo
 
 install: 
-         - travis_retry bundle install
          - travis_wait mvn install
 bundler_args: --retry 3         
 #before_install:
