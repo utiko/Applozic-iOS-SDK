@@ -6,7 +6,8 @@ xcode_scheme: applozicdemo
 install: 
          - travis_wait mvn install
 bundler_args: --retry 3         
-#before_install:
+before_install:
+  - sudo apt-get update
 #   -chmod +x travis/before_script.sh
 #before_script: travis/before_script.sh
 #script: travis/script.sh
