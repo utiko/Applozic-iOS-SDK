@@ -12,9 +12,10 @@ xcode_scheme: applozicdemo
 #before_script: travis/before_script.sh
 #script: travis/script.sh
 
-script:
-      xcodebuild -project ~/build/Applozic/Applozic-iOS-SDK/sample-with-framework/applozicdemo.xcodeproj -scheme applozicdemo -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO 
-      travis_wait 30 scan
+script: 
+        - xcodebuild -project ~/build/Applozic/Applozic-iOS-SDK/sample-with-framework/applozicdemo.xcodeproj -scheme applozicdemo -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO 
+        - travis_wait 30 scan
+
 #script: pwd 
 #notifications:
  # email:
