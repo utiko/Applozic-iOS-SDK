@@ -9,7 +9,7 @@ Signup at https://www.applozic.com/signup.html to get the application key.
 
 Works for both Objective-C and Swift.
 
-It is a light weight Objective-C Chat SDK.
+It is a light weight Objective-C Chat and Messenger SDK.
 
 Features:
 
