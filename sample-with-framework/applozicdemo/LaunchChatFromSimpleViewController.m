@@ -113,6 +113,8 @@
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
     [demoChatManager launchChatForUserWithDisplayName:@"masteruser" withGroupId:nil andwithDisplayName:@"Master" andFromViewController:self];
     
+//    [demoChatManager launchListWithUserORGroup:@"ranjeet" ORWithGroupID:nil andFromViewController:self];
+    
 }
 
 -(void)broadCast{

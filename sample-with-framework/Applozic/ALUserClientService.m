@@ -57,13 +57,20 @@
     [ALResponseHandler processRequest:theRequest andTag:@"USER_LAST_SEEN" WithCompletionHandler:^(id theJson, NSError *theError) {
         if (theError)
         {
-            NSLog(@"ERROR IN LAST SEEN %@", theError);
+            NSLog(@"ERROR_IN_LAST_SEEN %@", theError);
         }
         else
         {
-            ALUserDetail *userDetailObject = [[ALUserDetail alloc] initWithDictonary:[theJson objectAtIndex:0]];
-            [userDetailObject userDetail];
-            completionMark(userDetailObject);
+            if( ((NSArray*)theJson).count > 0)
+            {
+              ALUserDetail *userDetailObject = [[ALUserDetail alloc] initWithDictonary:[theJson objectAtIndex:0]];
+                [userDetailObject userDetail];
+                completionMark(userDetailObject);
+            }
+            else
+            {
+                completionMark(nil);
+            }
             
         }
         

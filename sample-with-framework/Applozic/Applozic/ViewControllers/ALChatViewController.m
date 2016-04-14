@@ -2239,12 +2239,8 @@ ALMessageDBService  * dbService;
 -(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
 {
     [self setRefreshMainView:TRUE];
-    
-    NSString *tempString = [NSString stringWithFormat:@"%@", alUserDetail.lastSeenAtTime];
-    NSCharacterSet *charsToTrim = [NSCharacterSet characterSetWithCharactersInString:@"()  \n\""];
-    tempString = [tempString stringByTrimmingCharactersInSet:charsToTrim];
-    
-    double value = [tempString doubleValue];
+
+    double value = [alUserDetail.lastSeenAtTime doubleValue];
 
     if(self.channelKey != nil)
     {
