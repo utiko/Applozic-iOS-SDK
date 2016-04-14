@@ -22,6 +22,7 @@
 #import "ALRegisterUserClientService.h"
 #import "ALMessageClientService.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALMessagesViewController.h"
 
 
 @interface ALChatLauncher ()
@@ -116,6 +117,24 @@
     
     
 }
+
+
+
+-(void)launchChatListWithUserOrGroup:(NSString *)userId withChannel:(NSNumber*)channelKey andViewControllerObject:(UIViewController *)viewController
+{
+    
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                
+                                                         bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    ALMessagesViewController *chatListView = (ALMessagesViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ALViewController"];
+    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatListView];
+    
+    chatListView.userIdToLaunch=userId;
+    chatListView.channelKey=channelKey;
+    
+    [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
+}
+
 
 -(void)launchChatList:(NSString *)title andViewControllerObject:(UIViewController *)viewController
 

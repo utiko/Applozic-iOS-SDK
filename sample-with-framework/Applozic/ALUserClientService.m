@@ -61,9 +61,8 @@
         }
         else
         {
-            //NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
-            ALUserDetail *userDetailObject = [[ALUserDetail alloc] initWithJSONString:theJson];
-             [userDetailObject userDetail];
+            ALUserDetail *userDetailObject = [[ALUserDetail alloc] initWithDictonary:[theJson objectAtIndex:0]];
+            [userDetailObject userDetail];
             completionMark(userDetailObject);
             
         }

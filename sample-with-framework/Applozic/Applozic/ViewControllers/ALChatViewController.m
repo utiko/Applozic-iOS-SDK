@@ -107,6 +107,7 @@
     CGFloat AUDIO_CELL_HEIGHT;
     CGFloat VIDEO_CELL_HEIGHT;
     CGFloat DATE_CELL_HEIGHT;
+    UIButton *titleLabelButton;
 }
 
 ALMessageDBService  * dbService;
@@ -247,7 +248,8 @@ ALMessageDBService  * dbService;
             else
                 NSLog(@"mqttObject is not found...");
         });
-        [self serverCallForLastSeen];
+        if(![self isGroup])
+            [self serverCallForLastSeen];
     }
     
     if(self.text){
@@ -478,6 +480,7 @@ ALMessageDBService  * dbService;
     
 }
 -(void) setTitle {
+    
     if(self.displayName){
         ALContactService * contactService = [[ALContactService alloc] init];
         self.alContact = [contactService loadOrAddContactByKeyWithDisplayName:self.contactIds value: self.displayName];
@@ -488,7 +491,7 @@ ALMessageDBService  * dbService;
         
     }
     
-    UIButton *titleLabelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    titleLabelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     titleLabelButton.frame = CGRectMake(0, 0, 70, 44);
     [titleLabelButton addTarget:self action:@selector(didTapTitleView:) forControlEvents:UIControlEventTouchUpInside];
     [titleLabelButton setTitle:[self.alContact displayName] forState:UIControlStateNormal];
@@ -2204,9 +2207,12 @@ ALMessageDBService  * dbService;
 {
     [ALUserService userDetailServerCall:self.contactIds withCompletion:^(ALUserDetail *alUserDetail){
         if(alUserDetail)
+            
         {
+            [alUserDetail userDetail];
             [[[ALContactDBService alloc] init] updateUserDetail:alUserDetail];
             [self updateLastSeenAtStatus:alUserDetail];
+            [titleLabelButton setTitle:alUserDetail.displayName forState:UIControlStateNormal];
         }
         else
         {
@@ -2253,7 +2259,6 @@ ALMessageDBService  * dbService;
     {
         [self.label setText:@""];
     }
-    
 }
 
 -(void)updateLastSeenAtStatusPUSH:(NSNotification*)notification

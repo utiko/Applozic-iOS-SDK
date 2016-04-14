@@ -52,6 +52,7 @@
 -(void)showTypingLabel:(BOOL)flag userId:(NSString *)userId;
 
 -(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail;
+-(void)serverCallForLastSeen;
 -(void) reloadViewfor3rdParty;
 -(void) reloadView;
 

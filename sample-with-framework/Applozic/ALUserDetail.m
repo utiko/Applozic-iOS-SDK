@@ -34,17 +34,21 @@
     self.unreadCount = [JSONString valueForKey:@"unreadCount"];
     
     self.imageLink = [JSONString valueForKey:@"imageLink"];
+    
+   // self.displayName = [JSONString V:@"displayName"];
 }
 
 -(void)userDetail
 {
-/*  
+  /*
     NSLog(@"USER ID : %@",self.userId);
     NSLog(@"CONNECTED : %d",self.connected);
     NSLog(@"LAST SEEN : %@",self.lastSeenAtTime);
     NSLog(@"UNREAD COUNT : %@",self.unreadCount);
     NSLog(@"IMAGE LINK: %@",self.imageLink);
- */
+    NSLog(@"Display Name: %@",self.displayName);
+   */
+
 }
 
 -(id)initWithDictonary:(NSDictionary *)messageDictonary{
@@ -62,5 +66,11 @@
     self.imageLink  = [self getStringFromJsonValue:json[@"imageLink"]];
 }
 
+-(NSString *) getDisplayName{
+    
+    return (!self.displayName || ![self.displayName isEqualToString:@" "])?
+    self.userId :self.displayName;
+    
+}
 
 @end

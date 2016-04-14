@@ -16,6 +16,8 @@
 
 -(void)createDetailChatViewController: (NSString *) contactIds;
 
+-(void)createAndLaunchChatView;
+
 -(void) syncCall: (ALMessage *) alMessage;
 
 -(void)pushNotificationhandler:(NSNotification *) notification;
@@ -30,6 +32,10 @@
 
 @property (strong, nonatomic) NSNumber *channelKey;
 @property (strong, nonatomic) NSNumber * conversationId;
+@property (strong, nonatomic) NSString * userIdToLaunch;
+
+
+
 
 @end
 

@@ -21,11 +21,13 @@
 
 @property (nonatomic, strong)  NSNumber *unreadCount;
 
-@property NSString *displayName;
+@property (nonatomic, strong) NSString *displayName;
 
 @property(nonatomic, copy) NSManagedObjectID *userDetailDBObjectId;
 
 -(void)setUserDetails:(NSString *)jsonString;
+
+-(NSString *)getDisplayName;
 
 -(void)userDetail;
 

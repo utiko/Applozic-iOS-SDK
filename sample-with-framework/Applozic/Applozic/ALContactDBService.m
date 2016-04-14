@@ -369,6 +369,14 @@
             [ob setValue:userDetail.displayName forKey:@"displayName"];
         }
         [ob setValue:userDetail.imageLink forKey:@"contactImageUrl"];
+    }else{
+        // Add contact in DB.
+        ALContact * contact = [[ALContact alloc]init];
+        contact.userId =userDetail.userId;
+        contact.unreadCount= userDetail.unreadCount;
+        contact.lastSeenAt = [NSNumber numberWithBool:userDetail.connected];
+        contact.displayName = userDetail.displayName;
+        [self addContact:contact];
     }
     NSError *error = nil;
     

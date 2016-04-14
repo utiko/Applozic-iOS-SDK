@@ -133,6 +133,11 @@
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Back"]];
     [self.navigationItem setLeftBarButtonItem: barButtonItem];
+    
+    if((self.channelKey || self.userIdToLaunch))
+    {
+        [self createAndLaunchChatView ];
+    }
 }
 
 
@@ -717,15 +722,6 @@
         
         
         ALMessage * message =  self.mContactsMessageListArray[indexPath.row];
- 
-//        if(message.conversationId){
-//             self.conversationId = message.conversationId;
-//        }
-//        
-//        if (message.groupId){
-//            self.channelKey = message.groupId;
-//        }
-        
         [self createDetailChatViewControllerWithMessage:message];
     }
 }
@@ -761,6 +757,20 @@
     
     [self.navigationController pushViewController:_detailChatViewController animated:YES];
 }
+
+
+-(void)createAndLaunchChatView
+{
+    if (!(self.detailChatViewController))
+    {
+        _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+    }
+    _detailChatViewController.contactIds = self.userIdToLaunch;
+    self.detailChatViewController.channelKey = self.channelKey;
+    [_detailChatViewController serverCallForLastSeen];
+    [self.navigationController pushViewController:_detailChatViewController animated:NO];
+}
+
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

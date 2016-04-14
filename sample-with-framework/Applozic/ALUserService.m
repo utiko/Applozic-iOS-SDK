@@ -103,7 +103,6 @@
     
     [userDetailService userDetailServerCall:contactId withCompletion:^(ALUserDetail * userDetail) {
         completionMark(userDetail);
-
     }];
 
 }

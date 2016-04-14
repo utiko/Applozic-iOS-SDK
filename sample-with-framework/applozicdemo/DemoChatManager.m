@@ -90,7 +90,6 @@
 }
 
 
-
 // ----------------------  ------------------------------------------------------/
 
 //      Method to register + lauch chats screen. If user is already registered, directly chats screen will be launched.
@@ -212,6 +211,85 @@
         NSLog(@"Registration response from server:%@", rResponse);
     }];
 }
+
+
+//============================= Launch chat list with specified User's chat screen open ===============================//
+
+
+
+-(void)launchListWithUserORGroup: (NSString *)userId ORWithGroupID: (NSNumber *)groupId andFromViewController:(UIViewController*)fromViewController{
+    
+    self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
+    
+    
+    //User is already registered ..directly launch the chat...
+    if([ALUserDefaultsHandler getDeviceKeyString]){
+        
+        LaunchChatFromSimpleViewController *lObj=[[LaunchChatFromSimpleViewController alloc] init];
+        [lObj.activityView removeFromSuperview];
+        
+        //Launch
+        if(userId || groupId){
+            [self.chatLauncher launchChatListWithUserOrGroup:userId withChannel:groupId andViewControllerObject:fromViewController];
+             
+             }else{
+                 
+             NSString * title = fromViewController.title? fromViewController.title: @"< Back";
+            [self.chatLauncher launchChatList:title andViewControllerObject:fromViewController ];
+        }
+        return;
+    }
+    
+    //Registartion Reuired....
+    ALUser *alUser = DemoChatManager.getLoggedinUserInformation;
+    
+    if(!alUser){
+        NSLog(@"Not able to find user detail for registration...please register with applozic server first");
+        return;
+    }
+    [ alUser setApplicationId:APPLICATION_ID ];
+    [self ALDefaultChatViewSettings];
+    
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+    [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
+        if (error) {
+            //Handle Registration error here ....
+            NSLog(@"%@",error);
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response: Cant Register User Client"
+                                      
+                                                                message:rResponse.message delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles: nil, nil];
+            
+            [alertView show];
+            
+            return ;
+            
+        }
+        if (rResponse && [rResponse.message containsString: @"REGISTERED"])
+        {
+            ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
+            [messageClientService addWelcomeMessage:nil];
+        }
+        
+        if(![ALUserDefaultsHandler getApnDeviceToken]){
+            [self.chatLauncher registerForNotification];
+        }
+        
+        //Launch
+        if(userId || groupId){
+            [self.chatLauncher launchChatListWithUserOrGroup:userId withChannel:groupId andViewControllerObject:fromViewController];
+            
+        }else{
+            
+            NSString * title = fromViewController.title? fromViewController.title: @"< Back";
+            [self.chatLauncher launchChatList:title andViewControllerObject:fromViewController ];
+        }
+
+    }];
+    
+    
+}
+
+//====================================================================================//
 
 // ----------------------  ------------------------------------------------------/
 
