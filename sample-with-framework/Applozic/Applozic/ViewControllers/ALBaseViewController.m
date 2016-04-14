@@ -122,6 +122,15 @@
     self.typingLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.typingLabel];
     
+    [self dropShadowInNavigationBar];
+}
+
+-(void)dropShadowInNavigationBar
+{
+    self.navigationController.navigationBar.layer.shadowOpacity = 0.5;
+    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0, 0);
+    self.navigationController.navigationBar.layer.shadowRadius = 10;
+    self.navigationController.navigationBar.layer.masksToBounds = NO;
 }
 
 
