@@ -235,6 +235,14 @@ __Version 2.0__
  
 For more details, visit: https://www.applozic.com/developers.html#ios-sdk
 
+###Sample code in Objective-C to build messenger and chat app
+
+https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sample-with-framework
+
+###Sample code in Swift to build messenger and chat app
+
+https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp-swift
+
 
 ##Help
 
