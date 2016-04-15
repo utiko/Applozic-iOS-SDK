@@ -494,7 +494,7 @@ ALMessageDBService  * dbService;
     titleLabelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     titleLabelButton.frame = CGRectMake(0, 0, 70, 44);
     [titleLabelButton addTarget:self action:@selector(didTapTitleView:) forControlEvents:UIControlEventTouchUpInside];
-    [titleLabelButton setTitle:[self.alContact displayName] forState:UIControlStateNormal];
+    [titleLabelButton setTitle:[self.alContact getDisplayName] forState:UIControlStateNormal];
     titleLabelButton.userInteractionEnabled=NO;
     if([self isGroup])
     {
@@ -2212,7 +2212,7 @@ ALMessageDBService  * dbService;
             [alUserDetail userDetail];
             [[[ALContactDBService alloc] init] updateUserDetail:alUserDetail];
             [self updateLastSeenAtStatus:alUserDetail];
-            [titleLabelButton setTitle:alUserDetail.displayName forState:UIControlStateNormal];
+            [titleLabelButton setTitle:[alUserDetail getDisplayName] forState:UIControlStateNormal];
         }
         else
         {

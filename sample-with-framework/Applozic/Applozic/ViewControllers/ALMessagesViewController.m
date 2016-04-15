@@ -590,7 +590,7 @@
         }
         else
         {
-            contactCell.mUserNameLabel.text = [alContact displayName];
+            contactCell.mUserNameLabel.text = [alContact getDisplayName];
         }
         
         contactCell.mMessageLabel.text = message.message;
