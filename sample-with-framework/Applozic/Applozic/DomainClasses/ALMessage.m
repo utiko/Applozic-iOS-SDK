@@ -209,4 +209,17 @@
     return NO;
 }
 
+-(NSString*)getNotificationText{
+    
+    if(self.message && ![self.message isEqualToString:@""]){
+        return self.message;
+    }else if(self.contentType==ALMESSAGE_CONTENT_LOCATION){
+       return @"Location";
+    }else if(self.contentType==ALMESSAGE_CONTENT_VCARD){
+        return @"Contact";
+    }else{
+       return @"Attachment";
+    }
+}
+
 @end

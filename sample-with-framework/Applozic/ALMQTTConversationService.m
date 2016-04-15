@@ -163,7 +163,8 @@ static MQTTSession *session;
             ALPushAssist* assistant=[[ALPushAssist alloc] init];
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
             NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-            [dict setObject:alMessage.message forKey:@"alertValue"];
+            
+            [dict setObject:alMessage.getNotificationText forKey:@"alertValue"];
             [dict setObject:[NSNumber numberWithBool:NO] forKey:@"updateUI"];
             
             if(!assistant.isOurViewOnTop){

@@ -84,6 +84,7 @@
 
 -(BOOL)isDownloadRequire;
 -(BOOL)isUploadRequire;
+-(NSString*)getNotificationText;
 
 -(NSString *)getCreatedAtTimeChat:(BOOL)today;
 -(NSNumber *)getGroupId;
