@@ -23,9 +23,10 @@
 -(void) stopDownloadForIndex:(int)index andMessage:(ALMessage *)message;
 -(void) showFullScreen:(UIViewController *) fullView;
 -(void) deleteMessageFromView:(ALMessage *)message;
--(void) loadView:(UIViewController *)launch;
+-(void) loadViewForMedia:(UIViewController *)launch;
 -(void) showVideoFullScreen:(MPMoviePlayerViewController *)fullView;
 -(void) showSuggestionView:(NSURL *)fileURL andFrame:(CGRect)frame;
+-(void) showAnimationForMsgInfo;
 
 @end
 

@@ -14,7 +14,7 @@
 
 @protocol ALMQTTConversationDelegate <NSObject>
 
--(void) syncCall:(ALMessage *) alMessage;
+-(void) syncCall:(ALMessage *) alMessage andMessageList:(NSMutableArray *)messageArray;
 -(void) delivered:(NSString *) messageKey contactId:(NSString *)contactId withStatus:(int)status;
 -(void) updateStatusForContact:(NSString *)contactId  withStatus:(int)status;
 -(void) updateTypingStatus: (NSString *) applicationKey userId: (NSString *) userId status: (BOOL) status;

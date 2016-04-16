@@ -49,7 +49,7 @@
     ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
     
     if([ALUserDefaultsHandler getDeviceKeyString]){
-        alUserClientService.logout;
+        [alUserClientService logout];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
     
@@ -113,13 +113,21 @@
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
     [demoChatManager launchChatForUserWithDisplayName:@"masteruser" withGroupId:nil andwithDisplayName:@"Master" andFromViewController:self];
     
-//    [demoChatManager launchListWithUserORGroup:@"ranjeet" ORWithGroupID:nil andFromViewController:self];
-    
 }
 
--(void)broadCast{
+-(void)sendMessageToMulti{
+    
+    ALMessage * multiSendMessage = [[ALMessage alloc] init];
+    multiSendMessage.message = @"Broadcasted Message";
+    multiSendMessage.contactIds = nil;
+    
     NSMutableArray * contactIDsARRAY = [[NSMutableArray alloc] initWithObjects:@"iosdev1",@"iosdev2",@"iosdev3", nil];
-    [ALMessageService broadcastMessageWithText:@"Broadcasted Message" toContacts:contactIDsARRAY];
+    NSMutableArray * groupIDsARRAY = [[NSMutableArray alloc] initWithObjects:@"",nil];
+    [ALMessageService multiUserSendMessage:multiSendMessage toContacts:contactIDsARRAY toGroups:groupIDsARRAY withCompletion:^(NSString *json, NSError *error) {
+        if(error){
+            NSLog(@"Multi User Error: %@", error);
+        }
+    }];
 }
 //===============================================================================
 // TO LAUNCH SELLER CHAT....
@@ -190,18 +198,17 @@
     contact1.fullName = @"Adarsh Kumar";
     contact1.displayName = @"Adarsh";
     contact1.email = @"github@applozic.com";
-    contact1.contactImageUrl = nil;
-    contact1.localImageResourceName = @"adarsh.jpg";
+    contact1.contactImageUrl = @"https://avatars0.githubusercontent.com/u/5002214?v=3&s=400";
     
     // contact 2
     ALContact *contact2 = [[ALContact alloc] init];
     contact2.userId = @"marvel";
     contact2.fullName = @"abhishek thapliyal";
-    contact2.displayName = @"abhishek";
+    contact2.displayName = @"Abhishek";
     contact2.email = @"abhishek@applozic.com";
     contact2.contactImageUrl = nil;
     contact2.localImageResourceName = @"abhishek.jpg";
-    
+    contact2.contactImageUrl = nil;
     
 //    Contact -------- Example with json
 
@@ -215,16 +222,17 @@
 
     
     NSMutableDictionary *demodictionary = [[NSMutableDictionary alloc] init];
-    [demodictionary setValue:@"aman999" forKey:@"userId"];
-    [demodictionary setValue:@"aman sharma" forKey:@"fullName"];
+    [demodictionary setValue:@"rachel" forKey:@"userId"];
+    [demodictionary setValue:@"Rachel Green" forKey:@"fullName"];
     [demodictionary setValue:@"75760462" forKey:@"contactNumber"];
-    [demodictionary setValue:@"aman" forKey:@"displayName"];
+    [demodictionary setValue:@"Rachel" forKey:@"displayName"];
     [demodictionary setValue:@"aman@applozic.com" forKey:@"email"];
-    [demodictionary setValue:@"http://images.landofnod.com/is/image/LandOfNod/Letter_Giant_Enough_A_231533_LL/$web_zoom$&wid=550&hei=550&/1308310656/not-giant-enough-letter-a.jpg" forKey:@"contactImageUrl"];
+    [demodictionary setValue:@"https://raw.githubusercontent.com/AppLozic/Applozic-Android-SDK/master/app/src/main/res/drawable-xxhdpi/girl.jpg" forKey:@"contactImageUrl"];
     [demodictionary setValue:nil forKey:@"localImageResourceName"];
     [demodictionary setValue:[ALUserDefaultsHandler getApplicationKey] forKey:@"applicationId"];
-    
     ALContact *contact4 = [[ALContact alloc] initWithDict:demodictionary];
+
+    
     [theDBHandler addListOfContacts:@[contact1, contact2, contact3, contact4]];
     
 }

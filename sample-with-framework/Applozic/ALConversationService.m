@@ -53,7 +53,10 @@
     ALConversationDBService * conversationDBService =  [[ALConversationDBService alloc]init];
     NSMutableArray * result = [[NSMutableArray alloc] init];
     NSArray * list = [conversationDBService getConversationProxyListFromDBForUserID:userId];
-    
+    if(!list.count)
+    {
+        return result;
+    }
     for (DB_ConversationProxy* object in list) {
         ALConversationProxy * conversation = [[ALConversationProxy alloc] init];
         conversation = [self convertAlConversationProxy:object];
@@ -68,7 +71,10 @@
     ALConversationDBService * conversationDBService =  [[ALConversationDBService alloc]init];
     NSMutableArray * result = [[NSMutableArray alloc] init];
     NSArray * list = [conversationDBService getConversationProxyListFromDBForUserID:userId andTopicId:topicId];
-    
+    if(!list.count)
+    {
+        return result;
+    }
     for (DB_ConversationProxy* object in list) {
         ALConversationProxy * conversation = [[ALConversationProxy alloc] init];
         conversation = [self convertAlConversationProxy:object];
@@ -94,8 +100,10 @@
 
 -(void)createConversation:(ALConversationProxy *)alConversationProxy withCompletion:(void(^)(NSError *error,ALConversationProxy * proxy ))completion{
     
+
     NSArray * conversationArray  = [[NSArray alloc] initWithArray:[self getConversationProxyListForUserID:alConversationProxy.userId andTopicId:alConversationProxy.topicId]];
 
+    
     if (conversationArray.count > 0) {
         ALConversationProxy * conversationProxy = conversationArray[0];
         completion(nil,conversationProxy);

@@ -53,13 +53,17 @@
 #import "ALMultipleAttachmentView.h"
 #import "ALPushAssist.h"
 #import "ALLocationCell.h"
+#import "ALVCFClass.h"
+#import "ALContactMessageCell.h"
+
+@import AddressBookUI;
 
 #define MQTT_MAX_RETRY 3
 #define NEW_MESSAGE_NOTIFICATION @"newMessageNotification"
 
 
 
-@interface ALChatViewController ()<ALMediaBaseCellDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate,ALMQTTConversationDelegate,MPMediaPickerControllerDelegate, ALAudioAttachmentDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIAlertViewDelegate, ALMUltipleAttachmentDelegate,UIDocumentInteractionControllerDelegate>
+@interface ALChatViewController ()<ALMediaBaseCellDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate,ALMQTTConversationDelegate,MPMediaPickerControllerDelegate, ALAudioAttachmentDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIAlertViewDelegate, ALMUltipleAttachmentDelegate,UIDocumentInteractionControllerDelegate, ABPeoplePickerNavigationControllerDelegate>
 
 @property (nonatomic, assign) NSInteger startIndex;
 @property (nonatomic,assign) int rp;
@@ -107,6 +111,7 @@
     CGFloat AUDIO_CELL_HEIGHT;
     CGFloat VIDEO_CELL_HEIGHT;
     CGFloat DATE_CELL_HEIGHT;
+    CGFloat CONTACT_CELL_HEIGHT;
     UIButton *titleLabelButton;
 }
 
@@ -145,16 +150,28 @@ ALMessageDBService  * dbService;
 
 -(void)markSingleMessageRead:(ALMessage *)almessage{
 
-    if(![self.contactIds isEqualToString:almessage.contactIds]){
-        return;
-    }
-    
-    [ALUserService markMessageAsRead:almessage.contactIds withPairedkeyValue:almessage.pairedMessageKeyString withCompletion:^(NSString * completion, NSError * error) {
-        if (error) {
-            NSLog(@"Marking message read error:%@",error);
+    if(almessage.groupId != NULL){
+        
+        if([self.channelKey isEqualToNumber:almessage.groupId]){
+            
+            [ALUserService markMessageAsRead:almessage withPairedkeyValue:almessage.pairedMessageKey withCompletion:^(NSString * completion, NSError * error) {
+                if (error) {
+                    NSLog(@"GROUP: Marking message read error:%@",error);
+                }
+            }];
         }
-    }];
-
+    }
+    else{
+        
+        if([self.contactIds isEqualToString:almessage.contactIds]){
+            
+            [ALUserService markMessageAsRead:almessage withPairedkeyValue:almessage.pairedMessageKey withCompletion:^(NSString * completion, NSError * error) {
+                if (error) {
+                    NSLog(@"Individual: Marking message read error:%@",error);
+                }
+            }];
+        }
+    }
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -237,6 +254,9 @@ ALMessageDBService  * dbService;
     [[NSNotificationCenter defaultCenter]
      addObserver:self selector:@selector(checkUserBlockStatus) name:@"USER_UNBLOCK_NOTIFICATION" object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMessageSendStatus:)
+                                                 name:@"UPDATE_MESSAGE_SEND_STATUS" object:nil];
+    
     self.mqttObject = [ALMQTTConversationService sharedInstance];
     
     if(self.individualLaunch){
@@ -248,8 +268,11 @@ ALMessageDBService  * dbService;
             else
                 NSLog(@"mqttObject is not found...");
         });
-        if(![self isGroup])
+        
+        if(![self isGroup]){
             [self serverCallForLastSeen];
+        }
+        
     }
     
     if(self.text){
@@ -269,7 +292,29 @@ ALMessageDBService  * dbService;
 
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+-(void)updateMessageSendStatus:(NSNotification *)notification
+{
+    ALMessage *nfALmessage = (ALMessage *)notification.object;
+
+    if(!nfALmessage ||
+       (![self.contactIds isEqualToString:nfALmessage.contactIds] && !self.channelKey)
+       || ![self.channelKey isEqualToNumber:nfALmessage.groupId])
+    {
+        return;
+    }
+    
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"key=%@",nfALmessage.key];
+    NSArray *proccessfilterArray = [[self.alMessageWrapper getUpdatedMessageArray] filteredArrayUsingPredicate:predicate];
+    if(proccessfilterArray.count)
+    { 
+        ALMessage *msg = [proccessfilterArray objectAtIndex:0];
+        msg.sentToServer = YES;
+    }
+    [self reloadView];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
     
     [super viewWillDisappear:animated];
     [self.tabBarController.tabBar setHidden: YES];
@@ -281,7 +326,7 @@ ALMessageDBService  * dbService;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NEW_MESSAGE_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"USER_BLOCK_NOTIFICATION" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"USER_UNBLOCK_NOTIFICATION" object:nil];
-
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UPDATE_MESSAGE_SEND_STATUS" object:nil];
     
     [self.sendMessageTextView resignFirstResponder];
     [self.label setHidden:YES];
@@ -442,6 +487,7 @@ ALMessageDBService  * dbService;
     [self.mTableView registerClass:[ALAudioCell class] forCellReuseIdentifier:@"AudioCell"];
     [self.mTableView registerClass:[ALVideoCell class] forCellReuseIdentifier:@"VideoCell"];
     [self.mTableView registerClass:[ALDocumentsCell class] forCellReuseIdentifier:@"DocumentsCell"];
+    [self.mTableView registerClass:[ALContactMessageCell class] forCellReuseIdentifier:@"ContactMessageCell"];
     [self.mTableView registerClass:[ALLocationCell class] forCellReuseIdentifier:@"LocationCell"];
     
     self.pickerView.delegate = self;
@@ -467,6 +513,10 @@ ALMessageDBService  * dbService;
     }
    
     self.conversationTitleList = [[NSMutableArray alloc] init];
+    if(!conversationList.count)
+    {
+        return;
+    }
     for(ALConversationProxy * conversation in conversationList){
         ALTopicDetail * topicDetail  = conversation.getTopicDetail;
         if(conversation.getTopicDetail){
@@ -480,7 +530,6 @@ ALMessageDBService  * dbService;
     
 }
 -(void) setTitle {
-    
     if(self.displayName){
         ALContactService * contactService = [[ALContactService alloc] init];
         self.alContact = [contactService loadOrAddContactByKeyWithDisplayName:self.contactIds value: self.displayName];
@@ -494,6 +543,7 @@ ALMessageDBService  * dbService;
     titleLabelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     titleLabelButton.frame = CGRectMake(0, 0, 70, 44);
     [titleLabelButton addTarget:self action:@selector(didTapTitleView:) forControlEvents:UIControlEventTouchUpInside];
+
     [titleLabelButton setTitle:[self.alContact getDisplayName] forState:UIControlStateNormal];
     titleLabelButton.userInteractionEnabled=NO;
     if([self isGroup])
@@ -510,16 +560,14 @@ ALMessageDBService  * dbService;
     [self updateLastSeenAtStatus:userDetail];
 }
 
--(void)didTapTitleView:(id)sender{
-    
+-(void)didTapTitleView:(id)sender
+{
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                                          bundle:[NSBundle bundleForClass:ALGroupDetailViewController.class]];
     ALGroupDetailViewController *groupDetailViewController = (ALGroupDetailViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ALGroupDetailViewController"];
     groupDetailViewController.channelKeyID=self.channelKey;
     groupDetailViewController.alChatViewController = self;
     [self.navigationController pushViewController:groupDetailViewController animated:YES];
-    
-    
 }
 -(void)fetchMessageFromDB {
     
@@ -772,6 +820,14 @@ ALMessageDBService  * dbService;
         return theCell;
         
     }
+    else if (theMessage.contentType == ALMESSAGE_CONTENT_VCARD)
+    {
+        ALContactMessageCell *theCell = (ALContactMessageCell *)[tableView dequeueReusableCellWithIdentifier:@"ContactMessageCell"];
+        theCell.tag = indexPath.row;
+        theCell.delegate = self;
+        [theCell populateCell:theMessage viewSize:self.view.frame.size];
+        return theCell;
+    }
     else
     {
         ALDocumentsCell *theCell = (ALDocumentsCell *)[tableView dequeueReusableCellWithIdentifier:@"DocumentsCell"];
@@ -846,6 +902,11 @@ ALMessageDBService  * dbService;
     {
         IMAGE_CELL_HEIGHT = self.view.frame.size.width - 110 + 40;
         return IMAGE_CELL_HEIGHT;
+    }
+    else if (theMessage.contentType == ALMESSAGE_CONTENT_VCARD)
+    {
+        CONTACT_CELL_HEIGHT = 250;
+        return CONTACT_CELL_HEIGHT;
     }
     else
     {
@@ -1300,7 +1361,7 @@ ALMessageDBService  * dbService;
 
 -(void)downloadRetryButtonActionDelegate:(int)index andMessage:(ALMessage *)message
 {
-     ALMediaBaseCell *imageCell = (ALMediaBaseCell *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    ALMediaBaseCell *imageCell = (ALMediaBaseCell *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     imageCell.progresLabel.alpha = 1;
     imageCell.mMessage.fileMeta.progressValue = 0;
     imageCell.mDowloadRetryButton.alpha = 0;
@@ -1310,25 +1371,30 @@ ALMessageDBService  * dbService;
     
     NSMutableArray * theCurrentConnectionsArray = [[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue];
     NSArray * theFiletredArray = [theCurrentConnectionsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keystring == %@", message.key]];
-    if (theFiletredArray.count == 0){
+    
+    if (theFiletredArray.count == 0)
+    {
         message.isUploadFailed = NO;
         message.inProgress=YES;
         
-        NSError *error =nil;
+        NSError *error = nil;
         DB_Message *dbMessage = (DB_Message*)[dbService getMeesageById:message.msgDBObjectId error:&error];
         dbMessage.inProgress = [NSNumber numberWithBool:YES];
         dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
         
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
-        if ([message.type isEqualToString:@"5"]&& !message.fileMeta.key) { // upload
+        if ([message.type isEqualToString:@"5"]&& !message.fileMeta.key) // upload
+        {
             [self uploadImage:message];
-            
-        }else { //download
+        }
+        else    //download
+        {
             [ALMessageService processImageDownloadforMessage:message withdelegate:self];
-            
         }
         NSLog(@"starting thread for..%@", message.key);
-    }else{
+    }
+    else
+    {
         NSLog(@"connection already present do nothing###");
     }
     
@@ -1380,14 +1446,14 @@ ALMessageDBService  * dbService;
 -(void)connectionDidFinishLoading:(ALConnection *)connection {
     
     [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
-    dbService = [[ALMessageDBService alloc]init];
+    dbService = [[ALMessageDBService alloc] init];
     
     if ([connection.connectionType isEqualToString:@"Image Posting"]) {
         ALMessage * message = [self getMessageFromViewList:@"key" withValue:connection.keystring];
         //get it fromDB ...we can move it to thread as nothing to show to user
         if(!message){
             DB_Message * dbMessage = (DB_Message*)[dbService getMessageByKey:@"key" value:connection.keystring];
-            message = [ dbService createMessageEntity:dbMessage];
+            message = [dbService createMessageEntity:dbMessage];
         }
         NSError * theJsonError = nil;
         NSDictionary *theJson = [NSJSONSerialization JSONObjectWithData:connection.mData options:NSJSONReadingMutableLeaves error:&theJsonError];
@@ -1511,6 +1577,10 @@ ALMessageDBService  * dbService;
     NSString *mimeType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(type, kUTTagClassMIMEType);
     
     theMessage.fileMeta.contentType = mimeType;
+    if( theMessage.contentType == ALMESSAGE_CONTENT_VCARD)
+    {
+        theMessage.fileMeta.contentType = @"text/x-vcard";
+    }
     
     NSData *imageSize = [NSData dataWithContentsOfFile:filePath];
     theMessage.fileMeta.size = [NSString stringWithFormat:@"%lu",(unsigned long)imageSize.length];
@@ -1692,7 +1762,7 @@ ALMessageDBService  * dbService;
     }]];
     
 
-    if(!self.channelKey)
+    if(!self.channelKey && !self.conversationId)
     {
         [theController addAction:[UIAlertAction actionWithTitle:@"Block User" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             
@@ -1724,6 +1794,16 @@ ALMessageDBService  * dbService;
         }]];
     }
     
+    [theController addAction:[UIAlertAction actionWithTitle:@"Share Contact" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        ABPeoplePickerNavigationController *contactPicker = [[ABPeoplePickerNavigationController alloc] init];
+        contactPicker.peoplePickerDelegate = self;
+        [self presentViewController:contactPicker animated:YES completion:nil];
+        
+    }]];
+    
+    
+    
 //    [theController addAction:[UIAlertAction actionWithTitle:@"Attach Multiple" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
 //        
 //        UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
@@ -1734,6 +1814,13 @@ ALMessageDBService  * dbService;
 //    }]];      // COMMENTED TILL NEXT RELEASE
     
     [self presentViewController:theController animated:YES completion:nil];
+}
+
+-(void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person
+{
+    ALVCFClass *objectVCF = [[ALVCFClass alloc] init];
+    NSString *contactFilePath = [objectVCF saveContactToDocumentDirectory:person];
+    [self processAttachment:contactFilePath andMessageText:@"" andContentType:ALMESSAGE_CONTENT_VCARD];
 }
 
 -(void)mediaPicker:(MPMediaPickerController *)mediaPicker didPickMediaItems:(MPMediaItemCollection *)mediaItemCollection
@@ -1894,20 +1981,29 @@ ALMessageDBService  * dbService;
 }
 
 -(void)updateStatusReportForConversation:(int)status {
-    NSArray * filteredArray = [[self.alMessageWrapper getUpdatedMessageArray] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"status != %i",DELIVERED_AND_READ]];
-    NSLog(@"Found NOT_DELIVERED_AND_READ :%lu",(unsigned long)filteredArray.count);
+    
+    NSMutableArray * predicateArray = [[NSMutableArray alloc] init];
+    
+    NSPredicate * statusPred = [NSPredicate predicateWithFormat:@"status!=%i AND status!=%i",DELIVERED_AND_READ,SENT];
+    [predicateArray addObject:statusPred];
+        
+    NSCompoundPredicate * compoundPred = [NSCompoundPredicate andPredicateWithSubpredicates:predicateArray];
+    
+    NSArray * filteredArray = [[self.alMessageWrapper getUpdatedMessageArray] filteredArrayUsingPredicate:compoundPred];
+    
+    NSLog(@"Found Messages to update to DELIVERED_AND_READ in ChatView :%lu",(unsigned long)filteredArray.count);
     for(ALMessage * message  in  filteredArray){
         message.status = [NSNumber numberWithInt:status];
         
     }
     [self.mTableView reloadData];
-    //Todo: update all delivery report in all messages
+
 }
 
 -(void)updateDeliveryReport:(NSString*)key withStatus:(int)status{
 
     NSNumber * statusValue = [NSNumber numberWithInt:status];
-    NSLog(@"StatusValue:%@",statusValue);
+
     ALMessage * alMessage =  [self getMessageFromViewList:@"key" withValue:key];
     if (alMessage)
     {
@@ -1936,22 +2032,29 @@ ALMessageDBService  * dbService;
     NSLog(@" OUR Individual Notificationhandler ");
     [self setRefreshMainView:TRUE];
     // see if this view is visible or not...
+
     NSString * contactId = notification.object;
+    alMessage.contactIds = contactId;
+    
     NSDictionary *dict = notification.userInfo;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
     NSString *alertValue = [dict valueForKey:@"alertValue"];
     NSLog(@"Notification received by Individual chat list: %@", contactId);
     
-    NSArray *com=[contactId componentsSeparatedByString:@":"];
-    NSString* appendToGroupId;
-    if(com.count > 1)
-    {
-        appendToGroupId=[NSString stringWithFormat:@"%@",com[1]];
-        //        appendToGroupId=[appendToGroupId componentsSeparatedByString:@":"][0];
-        contactId=appendToGroupId;
-        alMessage.groupId = [NSNumber numberWithInt:appendToGroupId.intValue] ;
-    }    
-    alMessage.contactIds = contactId;
+    NSArray *componentsContactId=[contactId componentsSeparatedByString:@":"];
+    
+    if(componentsContactId.count > 1){
+        
+        NSNumber * appendedGroupId   = [NSNumber numberWithInt:[componentsContactId[1] intValue]];
+        alMessage.groupId = appendedGroupId;
+        
+        NSString * appendedContactId = [NSString stringWithFormat:@"%@",componentsContactId[2]];
+        alMessage.contactIds =appendedContactId;
+        
+        NSArray * componentsAlertValue = [alertValue componentsSeparatedByString:@":"];
+        alertValue = [NSString stringWithFormat:@"%@",componentsAlertValue[1]];
+        
+    }
     
     [self syncCall:alMessage updateUI:updateUI alertValue:alertValue];
 }
@@ -1965,8 +2068,7 @@ ALMessageDBService  * dbService;
         (self.conversationId.intValue == alMessage.conversationId.intValue)){
             self.conversationId = alMessage.conversationId;
             self.contactIds=alMessage.contactIds;
-            [self markConversationRead]; // Mark Single Message Read.
-            [self fetchAndRefresh:YES];
+            self.channelKey = alMessage.groupId;
         
         ALPushAssist * pushAssitant = [ALPushAssist new];
         if(pushAssitant.isGroupDetailViewOnTop){
@@ -1979,14 +2081,14 @@ ALMessageDBService  * dbService;
         self.conversationId = alMessage.conversationId;
         self.channelKey=nil;
         self.contactIds=alMessage.contactIds;
-        [self fetchAndRefresh:YES];
+        //[self fetchAndRefresh:YES];
     }
     else if (![updateUI boolValue]) {
         NSLog(@"it was in background, updateUI is false");
         self.conversationId = alMessage.conversationId;
         self.channelKey=alMessage.groupId;
         self.contactIds=alMessage.contactIds;
-        [self fetchAndRefresh:YES];
+       // [self fetchAndRefresh:YES];
         [self reloadView];
         
     }
@@ -2002,11 +2104,11 @@ ALMessageDBService  * dbService;
     ALNotificationView * alnotification;
     alnotification =[[ALNotificationView alloc]
                      initWithAlMessage:alMessage
-                     withAlertMessage:alertValue];
+                     withAlertMessage:alertValue]; 
     [alnotification nativeNotification:self];
-    if (alMessage.conversationId == self.conversationId || alMessage.conversationId == nil){
-        [self fetchAndRefresh:YES];
-    }
+//    if (alMessage.conversationId == self.conversationId || alMessage.conversationId == nil){
+//        [self fetchAndRefresh:YES];
+//    }
 
     
 }
@@ -2068,15 +2170,11 @@ ALMessageDBService  * dbService;
 -(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer{
     
     ALNotificationView * notificationView = (ALNotificationView*)gestureRecognizer.view;
-    //    ALChatViewController * ob=[[ALChatViewController alloc] init];
-    
-    NSLog(@" got the UI label::%@" , notificationView.contactId);
     self.contactIds = notificationView.contactId;
     [UIView animateWithDuration:0.5 animations:^{
         [self reloadView];
         
     }];
-    // [self fetchAndRefresh:YES];
     [self markConversationRead];
     [UIView animateWithDuration:0.5 animations:^{
         [notificationView removeFromSuperview];
@@ -2207,12 +2305,11 @@ ALMessageDBService  * dbService;
 {
     [ALUserService userDetailServerCall:self.contactIds withCompletion:^(ALUserDetail *alUserDetail){
         if(alUserDetail)
-            
         {
             [alUserDetail userDetail];
             [[[ALContactDBService alloc] init] updateUserDetail:alUserDetail];
             [self updateLastSeenAtStatus:alUserDetail];
-            [titleLabelButton setTitle:[alUserDetail getDisplayName] forState:UIControlStateNormal];
+            [titleLabelButton setTitle:[self.alContact getDisplayName] forState:UIControlStateNormal];
         }
         else
         {
@@ -2239,9 +2336,9 @@ ALMessageDBService  * dbService;
 -(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
 {
     [self setRefreshMainView:TRUE];
-
+    
     double value = [alUserDetail.lastSeenAtTime doubleValue];
-
+    
     if(self.channelKey != nil)
     {
         ALChannelService *ob = [[ALChannelService alloc] init];
@@ -2255,6 +2352,7 @@ ALMessageDBService  * dbService;
     {
         [self.label setText:@""];
     }
+    
 }
 
 -(void)updateLastSeenAtStatusPUSH:(NSNotification*)notification
@@ -2437,7 +2535,7 @@ ALMessageDBService  * dbService;
 #pragma mark - MQTT Service delegate methods
 //------------------------------------------------------------------------------------------------------------------
 
--(void) syncCall:(ALMessage *) alMessage
+-(void) syncCall:(ALMessage *) alMessage andMessageList:(NSMutableArray*)messageArray
 {    
     [self syncCall:alMessage updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
 }
@@ -2547,6 +2645,17 @@ ALMessageDBService  * dbService;
 
 -(void)loadView:(UIViewController *)launch
 {
+    [self commonCodeForMsgInfo:launch];
+}
+
+-(void)loadViewForMedia:(UIViewController *)launch
+{
+    [self commonCodeForMsgInfo:launch];
+}
+
+-(void)commonCodeForMsgInfo:(UIViewController *)launch
+{
+    [self.mActivityIndicator stopAnimating];
     [self.navigationController pushViewController:launch animated:YES];
 }
 
@@ -2572,6 +2681,23 @@ ALMessageDBService  * dbService;
 -(void)documentInteractionControllerDidEndPreview:(UIDocumentInteractionController *)controller
 {
     interaction = nil;
+}
+
+-(void)showAnimationForMsgInfo
+{
+    [self startActivityAnimation];
+}
+
+-(void)showAnimation
+{
+   [self startActivityAnimation];
+}
+
+-(void)startActivityAnimation
+{
+    if([ALDataNetworkConnection checkDataNetworkAvailable]){
+        [self.mActivityIndicator startAnimating];
+    }
 }
 
 

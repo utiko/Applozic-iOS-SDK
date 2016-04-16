@@ -39,6 +39,7 @@
 -(DB_CONTACT*) createUserDetailEntityForDBInsertionWithUserDetail:(ALUserDetail *) userDetail;
 
 -(BOOL)updateUserDetail:(ALUserDetail *)userDetail;
+-(BOOL)updateLastSeenDBUpdate:(ALUserDetail *)userDetail;
 
 
 -(NSUInteger)markConversationAsDeliveredAndRead:(NSString*)contactId;

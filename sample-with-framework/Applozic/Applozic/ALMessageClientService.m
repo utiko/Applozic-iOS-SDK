@@ -28,7 +28,7 @@
 {
     for (ALMessage * theMessage in messages) {
         if ([theMessage.type isEqualToString: @"4"]) {
-            [self updateDeliveryReport:theMessage.pairedMessageKeyString];
+            [self updateDeliveryReport:theMessage.pairedMessageKey];
         }
     }
 }
@@ -272,7 +272,8 @@
 }
 
 
--(void)deleteMessageThread:( NSString * ) contactId orChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion{
+-(void)deleteMessageThread:( NSString * ) contactId orChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion
+{
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delete/conversation",KBASE_URL];
     NSString * theParamString;
     if(channelKey != nil)

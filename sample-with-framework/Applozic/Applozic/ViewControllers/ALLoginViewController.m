@@ -13,6 +13,8 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALMessageClientService.h"
 #import "ALUtilityClass.h"
+#define APPLICATION_ID @"applozic-sample-app"
+//#define APPLICATION_ID @"26f0af2e3a50c8d0c4f08a9f1dbe684a6"
 
 
 @interface ALLoginViewController ()<UITextFieldDelegate>
@@ -171,7 +173,7 @@
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     
     ALUser *user = [[ALUser alloc] init];
-    [user setApplicationId:@"applozic-sample-app"];
+    [user setApplicationId:APPLICATION_ID];
     [user setUserId:[self.userIdField text]];
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];

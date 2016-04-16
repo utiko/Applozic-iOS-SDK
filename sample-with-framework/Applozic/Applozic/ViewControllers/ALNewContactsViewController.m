@@ -22,6 +22,8 @@
 #import "ALGroupDetailViewController.h"
 #import "ALContactDBService.h"
 #import "TSMessage.h"
+#import "ALDataNetworkConnection.h"
+#import "ALNotificationView.h"
 
 
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -255,6 +257,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+   
     switch (self.forGroup.intValue){
             
     case GROUP_CREATION:{
@@ -262,15 +265,25 @@
         [self.groupMembers addObject:contact.userId];
     }break;
     case GROUP_ADDITION:{
+        [self checkInternetConnectivity:tableView andIndexPath:indexPath];
         
         ALContact * contact = self.filteredContactList[indexPath.row];
         
         if(self.forGroup.intValue == GROUP_ADDITION && [self.contactsInGroup containsObject:contact.userId]){
             return;
         }
-        [delegate addNewMembertoGroup:contact];
-        [self backToDetailView:nil];
-
+        [self.activityIndicator startAnimating];
+        [delegate addNewMembertoGroup:contact withComletion:^(NSError *error, ALAPIResponse *response) {
+           
+            if(error){
+                [TSMessage showNotificationWithTitle:@"Unable to add new member" type:TSMessageNotificationTypeError];
+            }else{
+                [self backToDetailView];
+            }
+            [[self activityIndicator] stopAnimating];
+        }];
+        
+        
     }break;
     default:{ //DEFAULT : Launch contact!
         NSNumber * key = nil;
@@ -295,6 +308,18 @@
     
 }
 
+-(void)checkInternetConnectivity:(UITableView*)tableView andIndexPath:(NSIndexPath *)indexPath{
+    
+    if(![ALDataNetworkConnection checkDataNetworkAvailable]){
+        [[self activityIndicator] stopAnimating];
+        ALNotificationView * notification = [ALNotificationView new];
+        [notification noDataConnectionNotificationView];
+        if(tableView){
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
+    }
+
+}
 
 -(void) fetchConversationsGroupByContactId
 {
@@ -500,7 +525,10 @@
 #pragma mark - Create group method
 //================================
 -(void)createNewGroup:(id)sender{
+
     [[self activityIndicator] startAnimating];
+    [self checkInternetConnectivity:nil andIndexPath:nil];
+    
     //check whether at least two memebers selected
     if(self.groupMembers.count < 2){
         UIAlertController *alertController = [UIAlertController
@@ -540,10 +568,10 @@
             [TSMessage showNotificationWithTitle:@"Unable to create group. Please try again" type:TSMessageNotificationTypeError];
         }
         
-        [[self activityIndicator] stopAnimating];
+        
     }];
     
-    
+    [[self activityIndicator] stopAnimating];
     
 }
 
@@ -581,7 +609,7 @@
 
 #pragma mar - Member Addition to group
 //====================================
--(void)backToDetailView:(NSInteger)row{
+-(void)backToDetailView{
     
     self.forGroup = [NSNumber numberWithInt:0];
     NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];

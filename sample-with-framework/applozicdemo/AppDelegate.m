@@ -22,9 +22,7 @@
 
 @end
 
-@implementation AppDelegate{
-    BOOL toSync;
-}
+@implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -56,7 +54,7 @@
         NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (dictionary != nil)
         {
-            toSync=NO;
+           
             NSLog(@"Launched from push notification: %@", dictionary);
             ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
             BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:NO];
@@ -70,21 +68,20 @@
     return YES;
 }
 
-- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary
-{
-    NSLog(@"Received notification: %@", dictionary);
-    ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
-    BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:[[UIApplication sharedApplication] applicationState] == UIApplicationStateActive];
-    if (!applozicProcessed) {
-        //Note: notification for app
-    }
-    
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-//    UITabBarController *obj=[storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
-//    obj.navigationController.navigationBarHidden=YES;
-//    [obj.navigationController pushViewController:obj animated:YES];
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary{
+    NSLog(@"Received notification WithoutCompletion: %@", dictionary);
 }
 
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
+   
+    NSLog(@"Received notification Completion: %@", userInfo);
+    ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
+    [pushNotificationService notificationArrivedToApplication:application withDictionary:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
+    
+    
+    
+}
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -105,30 +102,6 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    
-    //Check if notificaition came BUT applicaiton is Launched Manually i.e. Becomes Active not Lauched
-    if (toSync==NO) {
-        //Dont Sync...
-        NSLog(@"DONT SYNC..");
-        return;
-    }
-    
-   
-        
-//        if (/*Notificaiton came but not interacted with*/) {
-        // Sync the Latest Messages....in DB.
-         NSString *deviceKeyString =[ALUserDefaultsHandler getDeviceKeyString ] ;
-        [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *message, NSError *error) {
-            NSLog(@"SYNC....");
-            if (error) {
-                NSLog(@"Error!!");
-                return ;
-            }
-        }];
-        
-//        }
-        
-    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

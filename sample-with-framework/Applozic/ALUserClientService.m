@@ -57,13 +57,14 @@
     [ALResponseHandler processRequest:theRequest andTag:@"USER_LAST_SEEN" WithCompletionHandler:^(id theJson, NSError *theError) {
         if (theError)
         {
-            NSLog(@"ERROR_IN_LAST_SEEN %@", theError);
+            NSLog(@"ERROR IN LAST SEEN %@", theError);
         }
         else
         {
-            if( ((NSArray*)theJson).count > 0)
+            if(((NSArray*)theJson).count > 0)
             {
-              ALUserDetail *userDetailObject = [[ALUserDetail alloc] initWithDictonary:[theJson objectAtIndex:0]];
+                //NSLog(@"SEVER RESPONSE FROM JSON : %@", (NSString *)theJson);
+                ALUserDetail *userDetailObject = [[ALUserDetail alloc] initWithDictonary:[theJson objectAtIndex:0]];
                 [userDetailObject userDetail];
                 completionMark(userDetailObject);
             }
@@ -71,7 +72,6 @@
             {
                 completionMark(nil);
             }
-            
         }
         
     }];
@@ -229,38 +229,25 @@
 #pragma mark - Multi User Send Message
 //===================================
 
--(void)multiUserSendMessage:(NSString*)TextMessage toContacts:(NSMutableArray*)contactIds toGroups:(NSMutableArray*)channelKeys withCompletion:(void (^)(NSString *json, NSError *error))completion{
++(void)multiUserSendMessage:(NSDictionary *)messageDictionary
+                 toContacts:(NSMutableArray*)contactIdsArray
+                   toGroups:(NSMutableArray*)channelKeysArray
+             withCompletion:(void (^)(NSString *json, NSError *error))completion{
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/sendall",KBASE_URL];
     
     NSMutableDictionary *channelDictionary = [NSMutableDictionary new];
-    
-    [channelDictionary setObject:contactIds forKey:@"userNames"];
-    [channelDictionary setObject:channelKeys forKey:@"groupIds"];
-    [channelDictionary setObject:TextMessage forKey:@"messageObject"];
+    [channelDictionary setObject:contactIdsArray forKey:@"userNames"];
+    [channelDictionary setObject:channelKeysArray forKey:@"groupIds"];
+    [channelDictionary setObject:messageDictionary forKey:@"messageObject"];
     
     NSError *error;
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:channelDictionary options:0 error:&error];
     NSString *theParamString = [[NSString alloc] initWithData:postdata encoding: NSUTF8StringEncoding];
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
-    NSLog(@"PARAm STRINg %@", theParamString);
     
     [ALResponseHandler processRequest:theRequest andTag:@"MULTI_USER_SEND" WithCompletionHandler:^(id theJson, NSError *theError) {
-        
-//        ALChannelCreateResponse *response = nil;
-//        
-//        if (theError)
-//        {
-//            NSLog(@"ERROR IN MULTI_USER_SEND %@", theError);
-//        }
-//        else
-//        {
-//            NSLog(@"SEVER RESPONSE FROM JSON MULTI_USER_SEND : %@", (NSString *)theJson);
-//            response = [[ALChannelCreateResponse alloc] initWithJSONString:theJson];
-//        }
-        
         completion(theJson,theError);
-        
     }];
 
 }

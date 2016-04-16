@@ -19,6 +19,7 @@
 #define IMAGE_COMPRESSION_FACTOR @"IMAGE_COMPRESSION_FACTOR"
 #define IMAGE_UPLOAD_MAX_SIZE @"IMAGE_UPLOAD_MAX_SIZE"
 #define GROUP_ENABLE @"GROUP_ENABLE"
+#define MAX_SEND_ATTACHMENT @"MAX_SEND_ATTACHMENT"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -78,5 +79,9 @@
 +(void)setGroupOption:(BOOL)option;
 
 +(BOOL)getGroupOption;
+
++(void)setMultipleAttachmentMaxLimit:(NSInteger)limit;
+
++(NSInteger)getMultipleAttachmentMaxLimit;
 
 @end

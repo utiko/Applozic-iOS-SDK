@@ -12,6 +12,7 @@
 
 -(void) deleteMessageFromView:(ALMessage *) message;
 -(void) loadView:(UIViewController *)launch;
+-(void) showAnimation;
 
 @end
 

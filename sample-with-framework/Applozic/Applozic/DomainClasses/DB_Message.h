@@ -37,5 +37,5 @@
 @property (nonatomic, retain) NSNumber * groupId;
 @property (nonatomic, retain) NSNumber * conversationId;
 @property (nonatomic, retain) NSNumber * status;
-
+@property (nonatomic, retain) NSString * pairedMessageKey;
 @end

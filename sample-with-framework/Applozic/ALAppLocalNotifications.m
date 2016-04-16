@@ -43,7 +43,7 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:AL_kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thirdPartyNotificationHandler:) name:@"showNotificationAndLaunchChat" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForegroundBase:) name:UIApplicationWillEnterForegroundNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForegroundBase:) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     
     if([ALUserDefaultsHandler isLoggedIn]){
@@ -161,7 +161,6 @@
         {
             NSLog(@"========== IF internetConnectionReach ============");
             [self proactivelyConnectMQTT];
-            //            [ALMessageService processLatestMessagesGroupByContact];
             [ALMessageService processPendingMessages];
             
             ALUserService *userService = [ALUserService new]; 
@@ -212,15 +211,6 @@
     NSNumber * updateUI = [self.dict valueForKey:@"updateUI"];
     NSString * alertValue = [self.dict valueForKey:@"alertValue"];
     
-    NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
-    [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
-        
-        if (error) {
-            NSLog(@"%@",error);
-            return ;
-        }
-        
-        
         if(updateUI==[NSNumber numberWithBool:NO]){
             NSLog(@"App launched from Background....Directly opening view from %@",self.dict);
             [self thirdPartyNotificationTap1:self.contactId withGroupId:groupId]; // Directly launching Chat
@@ -237,18 +227,14 @@
                 NSLog(@"Nil Alert Value");
             }
         }
-        
-    }];
-    
-    
-    //    [ALUtilityClass displayNotification:alertValue delegate:self];
 }
--(void)thirdPartyNotificationTap1:(NSString *) contactId withGroupId:(NSNumber*) groupID{ //:(UIGestureRecognizer*)gestureRecognizer
+
+-(void)thirdPartyNotificationTap1:(NSString *) contactId withGroupId:(NSNumber*)groupID {
     
     ALPushAssist* object=[[ALPushAssist alloc] init];
-    //for Individual Chat Conversation Opening...
+    
     NSLog(@"Chat Launch Contact ID: %@",self.contactId);
-    //Check if this view is there or not ..if there just call fetchAnd refresh...
+    
     if(!object.isOurViewOnTop){
         self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_KEY];
         [self.chatLauncher launchIndividualChat:contactId withGroupId:groupID andViewControllerObject:object.topViewController andWithText:nil];

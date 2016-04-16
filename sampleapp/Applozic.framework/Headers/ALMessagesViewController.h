@@ -16,7 +16,7 @@
 
 -(void)createDetailChatViewController: (NSString *) contactIds;
 
--(void) syncCall: (ALMessage *) alMessage;
+-(void) syncCall:(ALMessage *) alMessage andMessageList:(NSMutableArray *)messageArray;
 
 -(void)pushNotificationhandler:(NSNotification *) notification;
 
@@ -26,8 +26,11 @@
 
 -(UIView *)setCustomBackButton:(NSString *)text;
 
+-(void)createAndLaunchChatView;
+
 -(void) callLastSeenStatusUpdate;
 
+@property (strong, nonatomic) NSString * userIdToLaunch;
 @property (strong, nonatomic) NSNumber *channelKey;
 @property (strong, nonatomic) NSNumber * conversationId;
 

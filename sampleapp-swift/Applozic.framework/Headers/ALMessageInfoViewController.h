@@ -14,6 +14,7 @@
 #import "ALContactDBService.h"
 #import "ALUtilityClass.h"
 #import "ALColorUtility.h"
+#import "ALVCFClass.h"
 
 @interface ALMessageInfoViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
@@ -25,7 +26,8 @@
 @property (nonatomic, strong) UILabel * dateLabel;
 @property (nonatomic, strong) UILabel * timeLabel;
 
-@property (strong, nonatomic) IBOutlet UITableView *alTableView;
+@property (strong, nonatomic) IBOutlet UITableView * alTableView;
+@property (strong, nonatomic) ALVCFClass * VCFObject;
 
 @property (nonatomic, weak) ALMessage *almessage;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -42,5 +44,6 @@
 @property (nonatomic, strong) UIImageView * tickImageView;
 @property (nonatomic, strong) UILabel * headerTitle;
 @property (nonatomic) CGFloat msgHeaderHeight;
+
 
 @end

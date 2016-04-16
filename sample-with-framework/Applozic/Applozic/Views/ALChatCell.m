@@ -355,17 +355,18 @@
     self.mUserProfileImageView.frame = CGRectMake(8, 0, 0, 45);
 
 }
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
-    
 }
 
--(BOOL)canBecomeFirstResponder {
+-(BOOL)canBecomeFirstResponder
+{
     return YES;
 }
 
--(BOOL) canPerformAction:(SEL)action withSender:(id)sender {
+-(BOOL) canPerformAction:(SEL)action withSender:(id)sender
+{
     if([self.mMessage.type isEqualToString:@MT_OUTBOX_CONSTANT] && self.mMessage.groupId)
     {
          return (action == @selector(copy:) || action == @selector(delete:)||action == @selector(msgInfo:));
@@ -411,13 +412,14 @@
 
 - (void)msgInfo:(id)sender
 {
+    [self.delegate showAnimation];
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     ALMessageInfoViewController *launchChat = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
     
     [launchChat setMessage:self.mMessage andHeaderHeight:msgFrameHeight  withCompletionHandler:^(NSError *error) {
         
-        if(!error){
-            
+        if(!error)
+        {
             [self.delegate loadView:launchChat];
         }
     }];

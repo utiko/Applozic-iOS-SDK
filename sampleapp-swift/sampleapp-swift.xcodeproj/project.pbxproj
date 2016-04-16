@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6D1BCD851C6B6AAF00241798 /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1BCD841C6B6AAF00241798 /* Applozic.framework */; };
-		6D1BCD861C6B6AAF00241798 /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1BCD841C6B6AAF00241798 /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		29A5114D1CC0C14900E1D2D8 /* DVChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A5114C1CC0C14900E1D2D8 /* DVChatViewController.swift */; };
+		6D6BBB321CC2361600949351 /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6BBB311CC2361600949351 /* Applozic.framework */; };
+		6D6BBB331CC2361600949351 /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6BBB311CC2361600949351 /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6DB2153E1C69FD00007CA71B /* LaunchChatFromSimpleVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB2153D1C69FCFF007CA71B /* LaunchChatFromSimpleVCViewController.swift */; };
 		6DB75B551C35221700077658 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB75B541C35221700077658 /* AppDelegate.swift */; };
 		6DB75B5D1C35221700077658 /* sampleapp_swift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6DB75B5B1C35221700077658 /* sampleapp_swift.xcdatamodeld */; };
@@ -27,7 +28,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6D1BCD861C6B6AAF00241798 /* Applozic.framework in Embed Frameworks */,
+				6D6BBB331CC2361600949351 /* Applozic.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -35,7 +36,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6D1BCD841C6B6AAF00241798 /* Applozic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Applozic.framework; sourceTree = "<group>"; };
+		29A5114C1CC0C14900E1D2D8 /* DVChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DVChatViewController.swift; sourceTree = "<group>"; };
+		6D6BBB311CC2361600949351 /* Applozic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Applozic.framework; sourceTree = "<group>"; };
 		6DB2153D1C69FCFF007CA71B /* LaunchChatFromSimpleVCViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchChatFromSimpleVCViewController.swift; sourceTree = "<group>"; };
 		6DB75B511C35221700077658 /* sampleapp-swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sampleapp-swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DB75B541C35221700077658 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -56,7 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D1BCD851C6B6AAF00241798 /* Applozic.framework in Frameworks */,
+				6D6BBB321CC2361600949351 /* Applozic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,7 +68,7 @@
 		6DB75B481C35221700077658 = {
 			isa = PBXGroup;
 			children = (
-				6D1BCD841C6B6AAF00241798 /* Applozic.framework */,
+				6D6BBB311CC2361600949351 /* Applozic.framework */,
 				6DB75B781C35250800077658 /* NSObject+ApplozicBridge.h */,
 				6DB75B791C35250800077658 /* NSObject+ApplozicBridge.m */,
 				6DB75B531C35221700077658 /* sampleapp-swift */,
@@ -103,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				6DB75B6F1C35245400077658 /* ALChatManager.swift */,
+				29A5114C1CC0C14900E1D2D8 /* DVChatViewController.swift */,
 			);
 			name = chat;
 			sourceTree = "<group>";
@@ -191,6 +194,7 @@
 				6DB75B701C35245400077658 /* ALChatManager.swift in Sources */,
 				6DB2153E1C69FD00007CA71B /* LaunchChatFromSimpleVCViewController.swift in Sources */,
 				6DB75B551C35221700077658 /* AppDelegate.swift in Sources */,
+				29A5114D1CC0C14900E1D2D8 /* DVChatViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

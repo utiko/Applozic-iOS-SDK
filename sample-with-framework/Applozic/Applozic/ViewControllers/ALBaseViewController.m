@@ -121,7 +121,7 @@
     [self.typingLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TYPING_LABEL_SIZE]];
     self.typingLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.typingLabel];
-    
+ 
     [self dropShadowInNavigationBar];
 }
 
@@ -132,7 +132,6 @@
     self.navigationController.navigationBar.layer.shadowRadius = 10;
     self.navigationController.navigationBar.layer.masksToBounds = NO;
 }
-
 
 -(void)loadChatView {
     

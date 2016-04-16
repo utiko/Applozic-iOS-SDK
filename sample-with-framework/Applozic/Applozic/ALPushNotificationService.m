@@ -39,13 +39,14 @@
 -(BOOL) processPushNotification:(NSDictionary *)dictionary updateUI:(BOOL)updateUI
 {
     NSLog(@"update ui: %@", updateUI ? @"Yes": @"No");
-    //[dictionary setObject:@"Yes" forKey:@"updateUI"]; // adds @"Bar"
+
+    
     
     if ([self isApplozicNotification:dictionary]) {
-        //Todo: process it
+        
         NSString *alertValue = [[dictionary valueForKey:@"aps"] valueForKey:@"alert"];
         
-        //NSLog(@"Alert: %@", alertValue);
+        
         self.alSyncCallService =  [[ALSyncCallService alloc]init];
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
         [dict setObject:[NSNumber numberWithBool:updateUI] forKey:@"updateUI"];
@@ -68,7 +69,9 @@
         
         if ([type isEqualToString:MT_SYNC])
         {
-            
+            [ALMessageService getLatestMessageForUser:[ALUserDefaultsHandler getDeviceKeyString] withCompletion:^(NSMutableArray *message, NSError *error) {
+                 }];
+                NSLog(@"ALPushNotificationService's SYNC CALL");
             [dict setObject:alertValue forKey:@"alertValue"];
             
             ALPushAssist* assistant=[[ALPushAssist alloc] init];
@@ -77,13 +80,20 @@
                 [dict setObject:@"apple push notification.." forKey:@"Calledfrom"];
                 [assistant assist:notificationMsg and:dict ofUser:notificationMsg];
                 
-            }else {
-                [dict setObject:alertValue forKey:@"alertValue"];
-                
-                [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification" object:notificationMsg
-                                                                   userInfo:dict];
-                [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat" object:notificationMsg userInfo:dict];
             }
+            else
+            {   [dict setObject:alertValue forKey:@"alertValue"];
+                [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification"
+                                                                     object:notificationMsg
+                                                                   userInfo:dict];
+                NSLog(@"DICT:");
+                [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat"
+                                                                     object:notificationMsg
+                                                                   userInfo:dict];
+            }
+
+           
+            
         }
         else if ([type isEqualToString:@"MESSAGE_SENT"] || [type isEqualToString:@"APPLOZIC_02"]) {
             
@@ -172,7 +182,7 @@
 
 -(BOOL)processUserBlockNotification:(NSDictionary *)theMessageDict andUserBlockFlag:(BOOL)flag
 {
-//    NSLog(@"VALUE_MSG : %@",[theMessageDict valueForKey:@"message"]);
+
     NSArray *mqttMSGArray = [[theMessageDict valueForKey:@"message"] componentsSeparatedByString:@":"];
     NSString *BlockType = mqttMSGArray[0];
     NSString *userId = mqttMSGArray[1];
@@ -185,5 +195,25 @@
     return  YES;
 }
 
+-(void)notificationArrivedToApplication:(UIApplication*)application withDictionary:(NSDictionary *)userInfo{
+    
+    if(application.applicationState == UIApplicationStateInactive ||
+       application.applicationState == UIApplicationStateBackground) {
+        
+        NSLog(@"Inactive or Background");
+        
+        //Show the view with the content of the push
+        [self processPushNotification:userInfo updateUI:NO];
+ 
+    } else {
+        
+        NSLog(@"Active");
+        
+        //Show an in-app banner
+        [self processPushNotification:userInfo updateUI:YES];
+        
+        
+    }
 
+}
 @end

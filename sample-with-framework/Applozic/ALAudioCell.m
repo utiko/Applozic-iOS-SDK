@@ -458,6 +458,7 @@
 
 - (void)msgInfo:(id)sender
 {
+    [self.delegate showAnimationForMsgInfo];
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     ALMessageInfoViewController *launchChat = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
     
@@ -465,7 +466,7 @@
         
         if(!error)
         {
-            [self.delegate loadView:launchChat];
+            [self.delegate loadViewForMedia:launchChat];
         }
     }];
 }

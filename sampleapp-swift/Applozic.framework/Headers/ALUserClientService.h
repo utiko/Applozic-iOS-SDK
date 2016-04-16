@@ -28,4 +28,8 @@
 
 -(void)markMessageAsReadforPairedMessageKey:(NSString *)pairedMessageKey withCompletion:(void (^)(NSString *, NSError *))completion;
 
++(void)multiUserSendMessage:(NSDictionary *)messageDictionary
+                 toContacts:(NSMutableArray*)contactIdsArray
+                   toGroups:(NSMutableArray*)channelKeysArray
+             withCompletion:(void (^)(NSString *json, NSError *error))completion;
 @end

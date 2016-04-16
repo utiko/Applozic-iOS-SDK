@@ -27,7 +27,6 @@
 -(DB_Message*)addMessage:(ALMessage*) message;
 -(void)getMessages;
 -(void)fetchAndRefreshFromServer;
--(void)fetchAndRefreshFromServerForPush;
 -(void)fetchAndRefreshQuickConversationWithCompletion:(void (^)( NSMutableArray *, NSError *))completion;
 
 -(NSManagedObject *)getMeesageById:(NSManagedObjectID *)objectID

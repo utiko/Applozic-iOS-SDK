@@ -74,12 +74,15 @@
     
 }
 
--(BOOL)isChannelLeft:(NSNumber*)groupID{
+-(BOOL)isChannelLeft:(NSNumber*)groupID
+{
     ALChannelDBService *dbSerivce = [[ALChannelDBService alloc] init];
-    if([dbSerivce isChannelLeft:groupID]){
+    if([dbSerivce isChannelLeft:groupID])
+    {
         return YES;
     }
-    else{
+    else
+    {
         return NO;
     }
 }
@@ -199,9 +202,8 @@
 #pragma mark LEAVE CHANNEL
 //=========================
 
--(BOOL)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId
+-(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId withCompletion:(void(^)(NSError *error))completion
 {
-    isChannelLeaved = NO;
     if(channelKey != nil && userId != nil)
     {
         [ALChannelClientService leaveChannel:channelKey withUserId:(NSString *)userId andCompletion:^(NSError *error, ALAPIResponse *response) {
@@ -209,12 +211,11 @@
             {
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
                 [channelDBService removeMemberFromChannel:userId andChannelKey:channelKey];
-                isChannelLeaved = YES;
                 [channelDBService setLeaveFlagForChannel:channelKey];
+                completion(error);
             }
         }];
     }
-    return isChannelLeaved;
 }
 
 #pragma mark RENAME CHANNEL (FROM DEVICE SIDE)
@@ -285,7 +286,7 @@
     [channelDBService  updateUnreadCountChannel:channelKey unreadCount:[NSNumber numberWithInt:0]];
     
     ALChannel * channel = [channelDBService loadChannelByKey:channelKey];
-    channel.unreadCount=[NSNumber numberWithInt:0];
+    channel.unreadCount = [NSNumber numberWithInt:0];
 }
 
 @end

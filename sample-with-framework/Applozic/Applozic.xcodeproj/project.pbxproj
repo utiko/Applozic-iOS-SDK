@@ -46,8 +46,6 @@
 		6D28D3C41C1AA9AA003817C3 /* ALReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D28D3C21C1AA9AA003817C3 /* ALReachability.m */; };
 		6D3260EA1C4E29F2003991EB /* ALAPIResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D3260E81C4E29F2003991EB /* ALAPIResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D3260EB1C4E29F2003991EB /* ALAPIResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3260E91C4E29F2003991EB /* ALAPIResponse.m */; };
-		6D34AEB41CA4420B005FA8D4 /* ALVCardClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D34AEB21CA4420B005FA8D4 /* ALVCardClass.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6D34AEB51CA4420B005FA8D4 /* ALVCardClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D34AEB31CA4420B005FA8D4 /* ALVCardClass.m */; };
 		6D36F2081BFF3EE3003D46D3 /* ALApplozicSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D36F2061BFF3EE3003D46D3 /* ALApplozicSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D36F2091BFF3EE3003D46D3 /* ALApplozicSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D36F2071BFF3EE3003D46D3 /* ALApplozicSettings.m */; };
 		6D3A4DF71C75ED330067A4C8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D3A4DF61C75ED330067A4C8 /* AVFoundation.framework */; };
@@ -239,7 +237,6 @@
 		6D89042A1C3E7A9500B59381 /* ALAppLocalNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8904281C3E7A9500B59381 /* ALAppLocalNotifications.m */; };
 		6D9342251CAE7509002AC9BE /* ALLocationCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9342231CAE7509002AC9BE /* ALLocationCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D9342261CAE7509002AC9BE /* ALLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9342241CAE7509002AC9BE /* ALLocationCell.m */; };
-		6D9495561CA2883F00C8FF58 /* ContactsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D9495551CA2883F00C8FF58 /* ContactsUI.framework */; };
 		6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547631BE38DFF00776652 /* ALContactDBService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D95476A1BE38DFF00776652 /* ALContactDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547641BE38DFF00776652 /* ALContactDBService.m */; };
 		6D95476B1BE38DFF00776652 /* ALContactService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547651BE38DFF00776652 /* ALContactService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -285,6 +282,10 @@
 		6DCC30261C31826A00F17D0E /* ALChannelUserX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC30241C31826A00F17D0E /* ALChannelUserX.m */; };
 		6DD2E20A1C46A97100134EFB /* DB_ConversationProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DD2E2081C46A97100134EFB /* DB_ConversationProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DD2E20B1C46A97100134EFB /* DB_ConversationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD2E2091C46A97100134EFB /* DB_ConversationProxy.m */; };
+		6DDB07421CB9069B00B99F33 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DDB07411CB9069B00B99F33 /* AddressBookUI.framework */; };
+		6DDB07451CB90E1A00B99F33 /* ALVCFClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DDB07431CB90E1A00B99F33 /* ALVCFClass.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6DDB07461CB90E1A00B99F33 /* ALVCFClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDB07441CB90E1A00B99F33 /* ALVCFClass.m */; };
+		6DDB074A1CB9162A00B99F33 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DDB07491CB9162A00B99F33 /* AddressBook.framework */; };
 		6DDE81861C27D8EC009B8CF9 /* ALUserClientService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */; };
 		6DEFEA3F1C9ACF0900F7E168 /* ALMessageInfoViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DEFEA3D1C9ACF0900F7E168 /* ALMessageInfoViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -351,8 +352,6 @@
 		6D28D3C21C1AA9AA003817C3 /* ALReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALReachability.m; sourceTree = "<group>"; };
 		6D3260E81C4E29F2003991EB /* ALAPIResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAPIResponse.h; sourceTree = "<group>"; };
 		6D3260E91C4E29F2003991EB /* ALAPIResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALAPIResponse.m; sourceTree = "<group>"; };
-		6D34AEB21CA4420B005FA8D4 /* ALVCardClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALVCardClass.h; sourceTree = "<group>"; };
-		6D34AEB31CA4420B005FA8D4 /* ALVCardClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALVCardClass.m; sourceTree = "<group>"; };
 		6D36F2061BFF3EE3003D46D3 /* ALApplozicSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALApplozicSettings.h; path = Applozic/Handlers/ALApplozicSettings.h; sourceTree = "<group>"; };
 		6D36F2071BFF3EE3003D46D3 /* ALApplozicSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALApplozicSettings.m; path = Applozic/Handlers/ALApplozicSettings.m; sourceTree = "<group>"; };
 		6D3A4DF61C75ED330067A4C8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -545,7 +544,6 @@
 		6D8904281C3E7A9500B59381 /* ALAppLocalNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALAppLocalNotifications.m; sourceTree = "<group>"; };
 		6D9342231CAE7509002AC9BE /* ALLocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALLocationCell.h; sourceTree = "<group>"; };
 		6D9342241CAE7509002AC9BE /* ALLocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALLocationCell.m; sourceTree = "<group>"; };
-		6D9495551CA2883F00C8FF58 /* ContactsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ContactsUI.framework; path = System/Library/Frameworks/ContactsUI.framework; sourceTree = SDKROOT; };
 		6D9547631BE38DFF00776652 /* ALContactDBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALContactDBService.h; path = Applozic/ALContactDBService.h; sourceTree = "<group>"; };
 		6D9547641BE38DFF00776652 /* ALContactDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALContactDBService.m; path = Applozic/ALContactDBService.m; sourceTree = "<group>"; };
 		6D9547651BE38DFF00776652 /* ALContactService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALContactService.h; path = Applozic/ALContactService.h; sourceTree = "<group>"; };
@@ -591,6 +589,10 @@
 		6DCC30241C31826A00F17D0E /* ALChannelUserX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChannelUserX.m; sourceTree = "<group>"; };
 		6DD2E2081C46A97100134EFB /* DB_ConversationProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DB_ConversationProxy.h; sourceTree = "<group>"; };
 		6DD2E2091C46A97100134EFB /* DB_ConversationProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DB_ConversationProxy.m; sourceTree = "<group>"; };
+		6DDB07411CB9069B00B99F33 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		6DDB07431CB90E1A00B99F33 /* ALVCFClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALVCFClass.h; sourceTree = "<group>"; };
+		6DDB07441CB90E1A00B99F33 /* ALVCFClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALVCFClass.m; sourceTree = "<group>"; };
+		6DDB07491CB9162A00B99F33 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserClientService.h; sourceTree = "<group>"; };
 		6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserClientService.m; sourceTree = "<group>"; };
 		6DEFEA3D1C9ACF0900F7E168 /* ALMessageInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALMessageInfoViewController.h; path = ../../ALMessageInfoViewController.h; sourceTree = "<group>"; };
@@ -622,7 +624,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D9495561CA2883F00C8FF58 /* ContactsUI.framework in Frameworks */,
+				6DDB074A1CB9162A00B99F33 /* AddressBook.framework in Frameworks */,
+				6DDB07421CB9069B00B99F33 /* AddressBookUI.framework in Frameworks */,
 				6DC729661C7854E100A8A268 /* MediaPlayer.framework in Frameworks */,
 				6D3A4DF71C75ED330067A4C8 /* AVFoundation.framework in Frameworks */,
 				6D5439DC1C19B8D600C686BC /* SystemConfiguration.framework in Frameworks */,
@@ -636,8 +639,8 @@
 		6D34AEB11CA441D7005FA8D4 /* contact */ = {
 			isa = PBXGroup;
 			children = (
-				6D34AEB21CA4420B005FA8D4 /* ALVCardClass.h */,
-				6D34AEB31CA4420B005FA8D4 /* ALVCardClass.m */,
+				6DDB07431CB90E1A00B99F33 /* ALVCFClass.h */,
+				6DDB07441CB90E1A00B99F33 /* ALVCFClass.m */,
 			);
 			name = contact;
 			sourceTree = "<group>";
@@ -675,7 +678,8 @@
 		6D6DF0731BC535C800EBA00F = {
 			isa = PBXGroup;
 			children = (
-				6D9495551CA2883F00C8FF58 /* ContactsUI.framework */,
+				6DDB07491CB9162A00B99F33 /* AddressBook.framework */,
+				6DDB07411CB9069B00B99F33 /* AddressBookUI.framework */,
 				6DC729651C7854E100A8A268 /* MediaPlayer.framework */,
 				6D3A4DF61C75ED330067A4C8 /* AVFoundation.framework */,
 				6D9C69391C28380100C78219 /* MBChatSettings */,
@@ -1301,8 +1305,8 @@
 				6D1385741CA9B80D009E6F50 /* ALMultipleAttachmentView.h in Headers */,
 				6D153D2A1C9B1EB800CD8F55 /* ALMessageInfoResponse.h in Headers */,
 				29B4ED681C899B38003C266F /* ALConversationClientService.h in Headers */,
-				6D34AEB41CA4420B005FA8D4 /* ALVCardClass.h in Headers */,
 				6D5737991CAAFB3B00284F83 /* ALDocumentsCell.h in Headers */,
+				6DDB07451CB90E1A00B99F33 /* ALVCFClass.h in Headers */,
 				6D52A4291C7CA8EA008CBA3A /* ALMediaPlayer.h in Headers */,
 				6D9342251CAE7509002AC9BE /* ALLocationCell.h in Headers */,
 				6D4C2B221C8183CB0031C677 /* ALTopicDetail.h in Headers */,
@@ -1451,7 +1455,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		6DAA09DB1BE4AD8800CBF133 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -1459,9 +1463,9 @@
 			name = "Run Script";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "";
+			shellScript = "set -e\nset +u\n\n# Avoid recursively calling this script.\n\nif [[ $SF_MASTER_SCRIPT_RUNNING ]]\nthen\nexit 0\nfi\nset -u\nexport SF_MASTER_SCRIPT_RUNNING=1\n\n# Constants\n\nSF_TARGET_NAME=${PROJECT_NAME}\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Take build target\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nSF_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n#if [[ \"$SF_SDK_PLATFORM\" = \"iphoneos\" ]]\n#then\n#echo \"Please choose iPhone simulator as the build target.\"\n#exit 1\n#fi\n\nIPHONE_DEVICE_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos\n\n#simulator\n\nxcodebuild -target \"${PROJECT_NAME}\" -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build\n\n# Build the other (non-simulator) platform\n\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" CONFIGURATION_BUILD_DIR=\"${IPHONE_DEVICE_BUILD_DIR}/arm64\" SYMROOT=\"${SYMROOT}\" ARCHS='arm64' VALID_ARCHS='arm64' $ACTION\n\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\"  CONFIGURATION_BUILD_DIR=\"${IPHONE_DEVICE_BUILD_DIR}/armv7\" SYMROOT=\"${SYMROOT}\" ARCHS='armv7 armv7s' VALID_ARCHS='armv7 armv7s' $ACTION\n\n# Copy the framework structure to the universal folder (clean it first)\n\nrm -rf \"${UNIVERSAL_OUTPUTFOLDER}\"\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\"\n\n# Smash them together to combine all architectures\n\nlipo -create  \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/arm64/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/armv7/${PROJECT_NAME}.framework/${PROJECT_NAME}\" -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1491,7 +1495,6 @@
 				6D6DF1711BC5364C00EBA00F /* ALContact.m in Sources */,
 				6D28D3C41C1AA9AA003817C3 /* ALReachability.m in Sources */,
 				6D6DF1631BC5364C00EBA00F /* ALContactCell.m in Sources */,
-				6D34AEB51CA4420B005FA8D4 /* ALVCardClass.m in Sources */,
 				6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */,
 				6D6DF15D1BC5364C00EBA00F /* ALNewContactsViewController.m in Sources */,
 				6D4763F61C3A79A7005BD5EC /* ALChannelService.m in Sources */,
@@ -1560,6 +1563,7 @@
 				6D3A4E061C76ED6C0067A4C8 /* ALAudioAttachmentViewController.m in Sources */,
 				6D6DF1D61BC5364C00EBA00F /* TPPropertyAnimation.m in Sources */,
 				6D9342261CAE7509002AC9BE /* ALLocationCell.m in Sources */,
+				6DDB07461CB90E1A00B99F33 /* ALVCFClass.m in Sources */,
 				6D6DF17F1BC5364C00EBA00F /* ALUser.m in Sources */,
 				6D1BFD131C7CE84F00B5D8AD /* ALVideoCell.m in Sources */,
 				982F130B1C05D6050024678E /* MQTTMessage.m in Sources */,

@@ -158,7 +158,7 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+( NSInteger)getMaxImageSizeForUploadInMB{
++(NSInteger)getMaxImageSizeForUploadInMB{
     return [[NSUserDefaults standardUserDefaults] integerForKey:IMAGE_UPLOAD_MAX_SIZE];
     
 }
@@ -180,6 +180,18 @@
 
 +(BOOL)getGroupOption{
     return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_ENABLE];
+}
+
++(void)setMultipleAttachmentMaxLimit:(NSInteger)limit
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:limit forKey:MAX_SEND_ATTACHMENT];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSInteger)getMultipleAttachmentMaxLimit
+{
+    NSInteger maxLimit = [[NSUserDefaults standardUserDefaults] integerForKey:MAX_SEND_ATTACHMENT];
+    return maxLimit ? maxLimit : 5;
 }
 
 @end

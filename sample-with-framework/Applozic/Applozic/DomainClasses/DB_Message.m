@@ -36,5 +36,6 @@
 @dynamic deletedFlag;
 @dynamic conversationId;
 @dynamic status;
+@dynamic pairedMessageKey;
 
 @end

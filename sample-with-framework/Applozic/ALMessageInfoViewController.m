@@ -194,7 +194,8 @@
     self.userImage = (UIImageView *)[contactCell viewWithTag:504];
     self.userName = (UILabel *)[contactCell viewWithTag:503];
     self.dateLabel = (UILabel *)[contactCell viewWithTag:502];
-    self.timeLabel = (UILabel *)[contactCell viewWithTag:501];
+    [self.dateLabel setTextColor:[UIColor grayColor]];
+//    self.timeLabel = (UILabel *)[contactCell viewWithTag:501];
     
     [self.firstAlphabet setTextColor:[UIColor whiteColor]];
     self.userImage.layer.cornerRadius = self.userImage.frame.size.width/2;
@@ -258,8 +259,7 @@
         [utility getExactDate:msgInfo.deliveredAtTime];
     }
     
-    [self.dateLabel setText:utility.msgdate];
-    [self.timeLabel setText:utility.msgtime];
+    [self.dateLabel setText:[NSString stringWithFormat:@"%@ %@", utility.msgdate, utility.msgtime]];
 }
 
 
@@ -294,7 +294,6 @@
     textView.scrollEnabled = NO;
     textView.textContainerInset = UIEdgeInsetsZero;
     textView.textContainer.lineFragmentPadding = 0;
-    textView.dataDetectorTypes = UIDataDetectorTypeLink;
     [textView setTextColor:[UIColor whiteColor]];;
     [textView setBackgroundColor:[UIColor clearColor]];
     [textView setText:self.almessage.message];
@@ -335,9 +334,37 @@
     {
         bubbleView.frame = CGRectMake(cellSize.width - 265, 10, maxWidth, self.msgHeaderHeight);
         imageView.frame = CGRectMake(bubbleView.frame.origin.x + 5, bubbleView.frame.origin.y + 5, self.msgHeaderHeight - 10, self.msgHeaderHeight - 10);
-        textView.frame = CGRectMake(imageView.frame.origin.x + imageView.frame.size.width + 5, imageView.frame.origin.y + 5, bubbleView.frame.size.width - imageView.frame.size.width - 10, imageView.frame.size.height);
+        
         [imageView setImage:[ALUtilityClass getImageFromFramworkBundle:@"documentSend.png"]];
         [textView setText:self.almessage.fileMeta.name];
+        
+        textView.frame = CGRectMake(imageView.frame.origin.x + imageView.frame.size.width + 5,
+                                    imageView.frame.origin.y + 5,
+                                    bubbleView.frame.size.width - imageView.frame.size.width - 10,
+                                    imageView.frame.size.height);
+        
+        if(self.almessage.contentType == ALMESSAGE_CONTENT_VCARD)
+        {
+            imageView.frame = CGRectMake(bubbleView.frame.origin.x + 10, bubbleView.frame.origin.y + 5, 50, 50);
+            imageView.layer.cornerRadius = imageView.frame.size.width/2;
+
+            [imageView setImage: [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"]];
+            if(self.VCFObject.retrievedImage)
+            {
+                [imageView setImage:self.VCFObject.retrievedImage];
+            }
+            [textView setText:[NSString stringWithFormat:@"%@\n\n%@",self.VCFObject.fullName,self.VCFObject.phoneNumber]];
+            if(self.VCFObject.emailID)
+            {
+                [textView setText:[NSString stringWithFormat:@"%@\n\n%@\n\n%@",self.VCFObject.fullName,self.VCFObject.phoneNumber,self.VCFObject.emailID]];
+            }
+            textView.frame = CGRectMake(imageView.frame.origin.x + imageView.frame.size.width + 10,
+                                        bubbleView.frame.origin.y + 5,
+                                        bubbleView.frame.size.width - imageView.frame.size.width - 10,
+                                        bubbleView.frame.size.height - 10);
+        }
+
+        
         [view addSubview:textView];
         [view addSubview:imageView];
         [imageView setBackgroundColor:[UIColor clearColor]];

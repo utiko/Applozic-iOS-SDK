@@ -15,7 +15,7 @@
 
 
 @protocol ALContactDelegate <NSObject>
--(void)addNewMembertoGroup:(ALContact *)alcontact;
+-(void)addNewMembertoGroup:(ALContact *)alcontact withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion;
 @end
 
 

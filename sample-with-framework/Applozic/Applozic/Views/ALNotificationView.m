@@ -83,7 +83,8 @@
         
         NSArray *notificationComponents = [alcontact.getDisplayName componentsSeparatedByString:@":"];
         if(notificationComponents.count>1){
-            contactName = [notificationComponents lastObject];
+            contactName =[[contactDbService loadContactByKey:@"userId" value:[notificationComponents lastObject]] getDisplayName];
+            ;
         }
         else{
             contactName = alcontact.getDisplayName;
@@ -164,7 +165,6 @@
                  class1.contactIds=self.contactId;
                  [class1 reloadView];
                  [class1 markConversationRead];
-                 [class1 fetchAndRefresh:YES];
                  [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
              }
          }
@@ -187,7 +187,8 @@
 -(void)noDataConnectionNotificationView
 {
     [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
-    [TSMessage showNotificationWithTitle:@"You don't have any network access now" type:TSMessageNotificationTypeWarning];
+    [TSMessage showNotificationWithTitle:@"No Internet Connectivity" type:TSMessageNotificationTypeWarning];
+    
 }
 
 @end

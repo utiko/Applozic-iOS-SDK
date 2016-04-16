@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "ALMessage.h"
 #import "ALMediaBaseCell.h"
-#import "ALVCardClass.h"
 
 @interface ALContactMessageCell : ALMediaBaseCell
 

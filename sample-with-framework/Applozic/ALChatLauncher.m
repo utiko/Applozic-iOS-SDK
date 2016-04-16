@@ -24,16 +24,14 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALMessagesViewController.h"
 
-
 @interface ALChatLauncher ()
 
 @end
+
 @implementation ALChatLauncher
 
 
-
 - (instancetype)initWithApplicationId:(NSString *) applicationId;
-
 {
     self = [super init];
     if (self) {
@@ -41,8 +39,6 @@
     }
     return self;
 }
-
-
 
 -(void)ALDefaultChatViewSettings
 {
@@ -66,8 +62,6 @@
     [ALApplozicSettings setGroupOption:YES];
 
 }
-
-
 
 -(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
 
@@ -94,7 +88,6 @@
 
 
 -(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
-
 {
     [self ALDefaultChatViewSettings];
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
@@ -103,41 +96,19 @@
     
     ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     
-    
-    chatView.channelKey=groupID;
+    chatView.channelKey = groupID;
     chatView.contactIds = userId;
     chatView.text = text;
     chatView.individualLaunch = YES;
-    chatView.displayName=displayName;
+    chatView.displayName = displayName;
     
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
     conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
-    
-    
-    
+
 }
-
-
-
--(void)launchChatListWithUserOrGroup:(NSString *)userId withChannel:(NSNumber*)channelKey andViewControllerObject:(UIViewController *)viewController
-{
-    
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                
-                                                         bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-    ALMessagesViewController *chatListView = (ALMessagesViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ALViewController"];
-    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatListView];
-    
-    chatListView.userIdToLaunch=userId;
-    chatListView.channelKey=channelKey;
-    
-    [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
-}
-
 
 -(void)launchChatList:(NSString *)title andViewControllerObject:(UIViewController *)viewController
-
 {
     
     [ALApplozicSettings setTitleForBackButton:title];
@@ -152,15 +123,17 @@
     
 }
 
-
--(void)registerForNotification{
+-(void)registerForNotification
+{
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-
     {
-        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:
+                                                                             (UIUserNotificationTypeSound | UIUserNotificationTypeAlert
+                                                                              | UIUserNotificationTypeBadge) categories:nil]];
         
         [[UIApplication sharedApplication] registerForRemoteNotifications];
-    }else
+    }
+    else
     {
         
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
@@ -168,20 +141,19 @@
     }
 }
 
--(void)launchContactList:(UIViewController *)uiViewController {
+-(void)launchContactList:(UIViewController *)uiViewController
+{
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                
-                                                         bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     UIViewController *contcatListView = [storyboard instantiateViewControllerWithIdentifier:@"ALNewContactsViewController"];
+    
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:contcatListView];
     [uiViewController presentViewController:conversationViewNavController animated:YES completion:nil];
 
 }
 
-
--(void)launchIndividualContextChat:(ALConversationProxy *)alConversationProxy andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text{
-    
+-(void)launchIndividualContextChat:(ALConversationProxy *)alConversationProxy andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
+{
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
@@ -198,9 +170,22 @@
     conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
     
+}
 
+-(void)launchChatListWithUserOrGroup:(NSString *)userId withChannel:(NSNumber*)channelKey andViewControllerObject:(UIViewController *)viewController
+{
+    
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    ALMessagesViewController *chatListView = (ALMessagesViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ALViewController"];
+    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatListView];
+
+    chatListView.userIdToLaunch = userId;
+    chatListView.channelKey = channelKey;
+
+    [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
     
 }
+
 
 @end
 

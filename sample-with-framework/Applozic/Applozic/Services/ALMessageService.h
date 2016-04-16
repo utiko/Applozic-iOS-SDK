@@ -18,7 +18,7 @@
 
 #define NEW_MESSAGE_NOTIFICATION @"newMessageNotification"
 
-@interface ALMessageService : NSObject
+@interface ALMessageService : NSObject <NSURLConnectionDataDelegate>
 
 +(void) processLatestMessagesGroupByContact;
 
@@ -46,5 +46,10 @@
 
 -(void)getMessageInformationWithMessageKey:(NSString *)messageKey withCompletionHandler:(void(^)(ALMessageInfoResponse *msgInfo, NSError *theError))completion;
 
-+(void)broadcastMessageWithText:(NSString *)message toContacts:(NSMutableArray*)contactIdsArray;
++(void)multiUserSendMessage:(ALMessage *)alMessage
+                 toContacts:(NSMutableArray*)contactIdsArray
+                   toGroups:(NSMutableArray*)channelKeysArray
+             withCompletion:(void(^)(NSString * json, NSError * error)) completion;
+
++(void)getMessageSENT:(ALMessage*)alMessage  withCompletion:(void (^)( NSMutableArray *, NSError *))completion;
 @end

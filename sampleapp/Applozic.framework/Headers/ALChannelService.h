@@ -33,7 +33,7 @@
 
 -(BOOL)checkAdmin:(NSNumber *)channelKey;
 
--(BOOL)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId;
+-(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId withCompletion:(void(^)(NSError *error))completion;
 
 -(void)syncCallForChannel;
 

@@ -138,6 +138,7 @@
     {
         [self createAndLaunchChatView ];
     }
+    
 }
 
 
@@ -716,11 +717,10 @@
 #pragma mark - Table View Delegate Methods                 //method to enter achat/ select aparticular cell in table
 //------------------------------------------------------------------------------------------------------------------
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if(indexPath.section!=0){
-        
-        
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{    
+    if(indexPath.section != 0)
+    {
         ALMessage * message =  self.mContactsMessageListArray[indexPath.row];
         [self createDetailChatViewControllerWithMessage:message];
     }
@@ -753,24 +753,11 @@
     }
     else{
         self.detailChatViewController.contactIds = message.contactIds;
+        
     }
     
     [self.navigationController pushViewController:_detailChatViewController animated:YES];
 }
-
-
--(void)createAndLaunchChatView
-{
-    if (!(self.detailChatViewController))
-    {
-        _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
-    }
-    _detailChatViewController.contactIds = self.userIdToLaunch;
-    self.detailChatViewController.channelKey = self.channelKey;
-    [_detailChatViewController serverCallForLastSeen];
-    [self.navigationController pushViewController:_detailChatViewController animated:NO];
-}
-
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -809,12 +796,16 @@
         {
             NSArray * filteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:
                                        [NSPredicate predicateWithFormat:@"groupId = %@",[alMessageobj getGroupId]]];
-//             NSLog(@"DELETE_CHANNEL_CONVERSATION_IF_LEFT");
+            
+            ALMessageDBService * dbService = [[ALMessageDBService alloc] init];
+            [dbService deleteAllMessagesByContact:nil orChannelKey:[alMessageobj getGroupId]];
+            [ALChannelService setUnreadCountZeroForGroupID:[alMessageobj getGroupId]];
             [self subProcessDeleteMessageThread:filteredArray];
+            
             return;
         }
         
-        [ALMessageService deleteMessageThread:alMessageobj.contactIds orChannelKey:alMessageobj.getGroupId withCompletion:^(NSString *string, NSError *error) {
+        [ALMessageService deleteMessageThread:alMessageobj.contactIds orChannelKey:[alMessageobj getGroupId] withCompletion:^(NSString *string, NSError *error) {
             
             if(error)
             {
@@ -825,7 +816,7 @@
             NSArray * theFilteredArray;
             if([alMessageobj getGroupId])
             {
-//                NSLog(@"DELETE_CHANNEL_CONVERSATION");
+
                 theFilteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:
                                     [NSPredicate predicateWithFormat:@"groupId = %@",[alMessageobj getGroupId]]];
             }
@@ -899,18 +890,11 @@
     }
 }
 
--(void) syncCall:(ALMessage *) alMessage
+-(void) syncCall:(ALMessage *) alMessage andMessageList:(NSMutableArray *)messageArray
 {
     ALMessageDBService *dBService = [ALMessageDBService new];
     dBService.delegate = self;
     
-    if(alMessage==nil){
-        NSLog(@"Called from self sync and messages are not present...");
-        [dBService fetchAndRefreshQuickConversationWithCompletion:^(NSMutableArray * messageArray, NSError *error) {
-            return;
-        }];
-        
-    }
     ALPushAssist* top=[[ALPushAssist alloc] init];
     [self.detailChatViewController setRefresh: YES];
     
@@ -918,15 +902,13 @@
         
         [self.detailChatViewController syncCall:alMessage updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
     }
-    else if (top.isMessageViewOnTop) {
+    else if (top.isMessageViewOnTop && (![alMessage.type isEqualToString:@"5"])) {
 
-        [dBService fetchAndRefreshQuickConversationWithCompletion:^(NSMutableArray * messageArray, NSError * error) {
-            
-            ALNotificationView * alnotification = [[ALNotificationView alloc] initWithAlMessage:alMessage
-                                                               withAlertMessage:alMessage.message];
-            [alnotification nativeNotification:self];
-        }];
-        
+        [self updateMessageList:messageArray];
+        ALNotificationView * alnotification = [[ALNotificationView alloc]
+                                               initWithAlMessage:alMessage
+                                               withAlertMessage:alMessage.message];
+        [alnotification nativeNotification:self];
     }
 }
 
@@ -1038,25 +1020,27 @@
     
     NSDictionary *dict = notification.userInfo;
     NSNumber *updateUI = [dict valueForKey:@"updateUI"];
-    NSString * alretValue =  [dict valueForKey:@"alertValue" ];
+    NSString * alertValue =  [dict valueForKey:@"alertValue" ];
     if (self.isViewLoaded && self.view.window && [updateUI boolValue])
     {
         ALMessage *msg = [[ALMessage alloc]init];
-        msg.message=alretValue;
+        msg.message=alertValue;
         NSArray *myArray = [msg.message
                             componentsSeparatedByCharactersInSet:
                             [NSCharacterSet characterSetWithCharactersInString:@":"]];
         
         if(myArray.count>1){
-            alretValue=[NSString stringWithFormat:@"%@",myArray[1]];
+            alertValue=[NSString stringWithFormat:@"%@",myArray[1]];
         }
         else{
-            alretValue=myArray[0];
+            alertValue=myArray[0];
         }
-        msg.message=alretValue;
+        msg.message=alertValue;
         msg.contactIds = contactId;
-        msg.groupId = self.channelKey; /////////////???????/////////
-        [self syncCall:msg];
+        msg.groupId = self.channelKey;
+
+        [self syncCall:msg andMessageList:nil];
+
     }
     else if(![updateUI boolValue])
     {
@@ -1166,6 +1150,18 @@
 {
     ALNotificationView * notification = [ALNotificationView new];
     [notification noDataConnectionNotificationView];
+}
+
+-(void)createAndLaunchChatView
+{
+    if (!(self.detailChatViewController))
+    {
+        self.detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+    }
+    self.detailChatViewController.contactIds = self.userIdToLaunch;
+    self.detailChatViewController.channelKey = self.channelKey;
+    [self.detailChatViewController serverCallForLastSeen];
+    [self.navigationController pushViewController:_detailChatViewController animated:NO];
 }
 
 @end

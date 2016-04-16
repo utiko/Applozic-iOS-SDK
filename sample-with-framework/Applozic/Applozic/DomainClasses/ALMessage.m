@@ -13,10 +13,14 @@
 
 -(NSNumber *)getGroupId
 {
-    if(self.groupId == [NSNumber numberWithInt:0])
+    if([self.groupId isEqualToNumber:[NSNumber numberWithInt:0]])
+    {
         return nil;
+    }
     else
+    {
         return self.groupId;
+    }
 }
 
 -(id)initWithDictonary:(NSDictionary*)messageDictonary{
@@ -31,7 +35,7 @@
     
     self.key =  [super getStringFromJsonValue:messageJson[@"key"]];
     
-    self.pairedMessageKeyString = [super getStringFromJsonValue:messageJson[@"pairedMessageKey"]];
+    self.pairedMessageKey = [super getStringFromJsonValue:messageJson[@"pairedMessageKey"]];
     
     
     // device keyString
@@ -209,16 +213,23 @@
     return NO;
 }
 
--(NSString*)getNotificationText{
-    
-    if(self.message && ![self.message isEqualToString:@""]){
+-(NSString*)getNotificationText
+{
+    if(self.message && ![self.message isEqualToString:@""])
+    {
         return self.message;
-    }else if(self.contentType==ALMESSAGE_CONTENT_LOCATION){
-       return @"Location";
-    }else if(self.contentType==ALMESSAGE_CONTENT_VCARD){
+    }
+    else if(self.contentType == ALMESSAGE_CONTENT_LOCATION)
+    {
+        return @"Location";
+    }
+    else if(self.contentType == ALMESSAGE_CONTENT_VCARD)
+    {
         return @"Contact";
-    }else{
-       return @"Attachment";
+    }
+    else
+    {
+        return @"Attachment";
     }
 }
 

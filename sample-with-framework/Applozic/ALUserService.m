@@ -103,6 +103,7 @@
     
     [userDetailService userDetailServerCall:contactId withCompletion:^(ALUserDetail * userDetail) {
         completionMark(userDetail);
+
     }];
 
 }
@@ -159,14 +160,22 @@
 }
 #pragma mark- Mark message READ
 //===========================================
-+(void)markMessageAsRead:(NSString *)contactId withPairedkeyValue:(NSString *)pairedkeyValue withCompletion:(void (^)(NSString *, NSError *))completion{
++(void)markMessageAsRead:(ALMessage *)alMessage withPairedkeyValue:(NSString *)pairedkeyValue withCompletion:(void (^)(NSString *, NSError *))completion{
     
-    [ALUserService setUnreadCountZeroForContactId:contactId];
     
-    // DB Call
-    ALContactDBService * contactDBService=[[ALContactDBService alloc] init];
-    [contactDBService markConversationAsDeliveredAndRead:contactId];
-//  TODO: Mark message read&delivered in DB not whole conversation
+    if(alMessage.groupId != NULL){
+        [ALChannelService setUnreadCountZeroForGroupID:alMessage.groupId];
+        ALChannelDBService * channelDBService = [[ALChannelDBService alloc] init];
+        [channelDBService markConversationAsRead:alMessage.groupId];
+    }
+    else{
+        [ALUserService setUnreadCountZeroForContactId:alMessage.contactIds];
+        ALContactDBService * contactDBService=[[ALContactDBService alloc] init];
+        [contactDBService markConversationAsDeliveredAndRead:alMessage.contactIds];
+        //  TODO: Mark message read&delivered in DB not whole conversation
+    }
+    
+
 
     //Server Call
     ALUserClientService * clientService = [[ALUserClientService alloc] init];

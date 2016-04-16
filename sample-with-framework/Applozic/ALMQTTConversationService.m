@@ -16,6 +16,7 @@
 #import "ALPushAssist.h"
 #import "ALChannelService.h"
 #import "ALContactDBService.h"
+#import "ALMessageService.h"
 
 @implementation ALMQTTConversationService
 
@@ -99,14 +100,12 @@ static MQTTSession *session;
     NSError *error = nil;
     NSDictionary *theMessageDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     NSString *type = [theMessageDict objectForKey:@"type"];
-    //  NSString *instantMessageJson = [theMessageDict objectForKey:@"message"];
-    
     NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
     
     
     ALPushAssist *top = [[ALPushAssist alloc] init];
     if( [[UIApplication sharedApplication] applicationState] == UIApplicationStateBackground || !top.isOurViewOnTop){
-        NSLog(@"Returing coz Application State is Background");
+        NSLog(@"Returing coz Application State is Background OR Our View is NOT on Top");
         return;
     }
     
@@ -122,16 +121,44 @@ static MQTTSession *session;
         BOOL typingStatus = [typingParts[2] boolValue];
         [self.mqttConversationDelegate updateTypingStatus:applicationKey userId:userId status:typingStatus];
     }
-    else
-    {
-        if ([type isEqualToString:@"MESSAGE_SENT"] || [type isEqualToString:@"APPLOZIC_02"]) {
+    else{
+        
+        if ([type isEqualToString: @"MESSAGE_RECEIVED"] || [type isEqualToString:@"APPLOZIC_01"])
+        {
+            
+            ALPushAssist* assistant=[[ALPushAssist alloc] init];
+            ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [dict setObject:[alMessage getNotificationText] forKey:@"alertValue"];
+            [dict setObject:[NSNumber numberWithBool:NO] forKey:@"updateUI"];
+            
+            [ALMessageService getLatestMessageForUser:[ALUserDefaultsHandler getDeviceKeyString] withCompletion:^(NSMutableArray *message, NSError *error) {
+
+                NSLog(@"ALMQTTConversationService SYNC CALL");
+                if(!assistant.isOurViewOnTop){
+                    [assistant assist:alMessage.contactIds and:dict ofUser:alMessage.contactIds];
+                    [dict setObject:@"mqtt" forKey:@"Calledfrom"];
+                }
+                else{
+                    [self.alSyncCallService syncCall:alMessage];
+                    [self.mqttConversationDelegate syncCall:alMessage andMessageList:nil];
+                }
+
+            }];
+            
+        }
+        else if ([type isEqualToString:@"MESSAGE_SENT"] || [type isEqualToString:@"APPLOZIC_02"]) {
 
             NSDictionary * message = [theMessageDict objectForKey:@"message"];
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:message];
             
-            //Sync call for message
-            [self.alSyncCallService syncCall:alMessage];
-            [self.mqttConversationDelegate syncCall:alMessage];
+            [ALMessageService getMessageSENT:alMessage withCompletion:^(NSMutableArray * messageArray, NSError *error) {
+                if(messageArray.count > 0){
+                    [self.alSyncCallService syncCall:alMessage];
+                    [self.mqttConversationDelegate syncCall:alMessage andMessageList:nil];
+                }
+
+            }];
             
             NSString * key = [message valueForKey:@"pairedMessageKey"];
             NSString * contactID = [message valueForKey:@"contactIds"];
@@ -156,26 +183,6 @@ static MQTTSession *session;
             
             [self.alSyncCallService updateMessageDeliveryReport:pairedKey withStatus:DELIVERED_AND_READ];
             [self.mqttConversationDelegate delivered:pairedKey contactId:contactId withStatus:DELIVERED_AND_READ];
-
-        }
-        else if ([type isEqualToString: @"MESSAGE_RECEIVED"]||[type isEqualToString:@"APPLOZIC_01"]) {
-            
-            ALPushAssist* assistant=[[ALPushAssist alloc] init];
-            ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
-            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-            
-            [dict setObject:alMessage.getNotificationText forKey:@"alertValue"];
-            [dict setObject:[NSNumber numberWithBool:NO] forKey:@"updateUI"];
-            
-            if(!assistant.isOurViewOnTop){
-                [assistant assist:alMessage.contactIds and:dict ofUser:alMessage.contactIds];
-                [dict setObject:@"mqtt" forKey:@"Calledfrom"];
-            }
-            else{
-                [self.alSyncCallService syncCall: alMessage];
-                //Todo: split backend logic and ui logic between synccallservice and delegate
-                [self.mqttConversationDelegate syncCall: alMessage];
-            }
 
         }
         else if ([type isEqualToString:@"CONVERSATION_DELIVERED_AND_READ"] || [type isEqualToString:@"APPLOZIC_10"]) {

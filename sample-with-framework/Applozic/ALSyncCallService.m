@@ -38,7 +38,7 @@
 -(void) updateConnectedStatus: (ALUserDetail *) alUserDetail {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"userUpdate" object:alUserDetail];
     ALContactDBService* contactDBService = [[ALContactDBService alloc] init];
-    [contactDBService updateUserDetail: alUserDetail];
+    [contactDBService updateLastSeenDBUpdate:alUserDetail];
 }
 
 @end

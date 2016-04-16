@@ -357,7 +357,7 @@
     
     NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
     
-    if(result.count>0)
+    if(result.count > 0)
     {
 
         NSManagedObject *ob = [result objectAtIndex:0];
@@ -365,21 +365,25 @@
         [ob setValue: userDetail.lastSeenAtTime forKey:@"lastSeenAt"];
         [ob setValue:[NSNumber numberWithBool:userDetail.connected] forKey:@"connected"];
         [ob setValue:userDetail.unreadCount forKey:@"unreadCount"];
-        if(userDetail.displayName){
+        if(userDetail.displayName)
+        {
             [ob setValue:userDetail.displayName forKey:@"displayName"];
         }
         [ob setValue:userDetail.imageLink forKey:@"contactImageUrl"];
-    }else{
-        // Add contact in DB.
-        ALContact * contact = [[ALContact alloc]init];
-        contact.userId =userDetail.userId;
-        contact.unreadCount= userDetail.unreadCount;
-        contact.lastSeenAt = [NSNumber numberWithBool:userDetail.connected];
-        contact.displayName = userDetail.displayName;
+        
+    }
+    else
+    {
+         // Add contact in DB.
+         ALContact * contact = [[ALContact alloc] init];
+         contact.userId =userDetail.userId;
+         contact.unreadCount= userDetail.unreadCount;
+         contact.lastSeenAt = [NSNumber numberWithBool:userDetail.connected];
+         contact.displayName = userDetail.displayName;
         [self addContact:contact];
     }
-    NSError *error = nil;
     
+    NSError *error = nil;
     success = [dbHandler.managedObjectContext save:&error];
     
     if (!success) {
@@ -390,7 +394,44 @@
     return success;
 
 }
-
+-(BOOL)updateLastSeenDBUpdate:(ALUserDetail *)userDetail{
+    BOOL success = NO;
+    
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CONTACT" inManagedObjectContext:dbHandler.managedObjectContext];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId = %@",userDetail.userId];
+    
+    [fetchRequest setEntity:entity];
+    
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *fetchError = nil;
+    
+    NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    
+    if(result.count > 0)
+    {
+        
+        NSManagedObject *ob = [result objectAtIndex:0];
+        
+        [ob setValue: userDetail.lastSeenAtTime forKey:@"lastSeenAt"];
+        
+    }
+    
+    NSError *error = nil;
+    success = [dbHandler.managedObjectContext save:&error];
+    
+    if (!success) {
+        
+        NSLog(@"DB ERROR :%@",error);
+    }
+    
+    return success;
+}
 -(NSUInteger)markConversationAsDeliveredAndRead:(NSString*)contactId
 {
     NSArray *messages =  [self getUnreadMessagesForIndividual:contactId];

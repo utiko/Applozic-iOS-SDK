@@ -48,7 +48,7 @@
 -(void)updateDeliveryStatus:(NSNotification *) notification;
 
 //-(void) syncCall:(NSString *) contactId updateUI:(NSNumber *) updateUI alertValue: (NSString *) alertValue;
--(void) syncCall:(ALMessage *) alMessage;
+-(void) syncCall:(ALMessage *) alMessage andMessageList:(NSMutableArray*)messageArray;
 -(void)showTypingLabel:(BOOL)flag userId:(NSString *)userId;
 
 -(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail;
@@ -63,7 +63,7 @@
 -(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl withCompletion:(void(^)(NSString *message, NSError *error))completion;
 
 -(void) syncCall:(ALMessage*)AlMessage  updateUI:(NSNumber *)updateUI alertValue: (NSString *)alertValue;
-
+-(void)serverCallForLastSeen;
 -(void)processLoadEarlierMessages:(BOOL)isScrollToBottom;
 -(NSString*)formatDateTime:(ALUserDetail*)alUserDetail  andValue:(double)value;
 -(void)checkUserBlockStatus;

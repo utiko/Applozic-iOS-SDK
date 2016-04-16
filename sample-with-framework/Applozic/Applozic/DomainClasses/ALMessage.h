@@ -20,7 +20,6 @@
 
 @property (nonatomic, copy) NSString * key;
 
-@property (nonatomic, copy) NSString * pairedMessageKeyString;
 
 @property (nonatomic, copy) NSString * deviceKey;
 
@@ -64,7 +63,7 @@
 
 @property(nonatomic,copy) NSManagedObjectID * msgDBObjectId;
 
-@property(nonatomic,assign) NSString *pairedMessageKey;
+@property(nonatomic,copy) NSString *pairedMessageKey;
 
 @property(nonatomic,assign) long messageId;
 
@@ -84,10 +83,11 @@
 
 -(BOOL)isDownloadRequire;
 -(BOOL)isUploadRequire;
--(NSString*)getNotificationText;
 
 -(NSString *)getCreatedAtTimeChat:(BOOL)today;
 -(NSNumber *)getGroupId;
+-(NSString *)getNotificationText;
 
 @property (nonatomic,assign) BOOL deleted;
+
 @end

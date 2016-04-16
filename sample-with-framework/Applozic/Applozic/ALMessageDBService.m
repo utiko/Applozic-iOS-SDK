@@ -72,18 +72,45 @@
    return obj;
 }
 
--(void) updateDeliveryReportForContact:(NSString *)contactId withStatus:(int)status{
+
+-(void)updateDeliveryReportForContact:(NSString *)contactId withStatus:(int)status{
     
-    NSBatchUpdateRequest *req = [[NSBatchUpdateRequest alloc] initWithEntityName:@"DB_Message"];
-        req.predicate = [NSPredicate predicateWithFormat:@"contactId==%@",contactId];
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_Message" inManagedObjectContext:dbHandler.managedObjectContext];
     
-        req.propertiesToUpdate = @{
-                                   @"status" : @(status)
-                                   };
-        req.resultType = NSUpdatedObjectsCountResultType;
-        ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
-        NSBatchUpdateResult *res = (NSBatchUpdateResult *)[dbHandler.managedObjectContext executeRequest:req error:nil];
-        NSLog(@"%@ objects updated", res.result);
+    NSMutableArray * predicateArray = [[NSMutableArray alloc] init];
+    
+    NSPredicate * predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@",contactId];
+    [predicateArray addObject:predicate1];
+
+    
+    NSPredicate * predicate3 = [NSPredicate predicateWithFormat:@"status != %i AND status != %i",DELIVERED_AND_READ,SENT];
+    [predicateArray addObject:predicate3];
+    
+    
+    NSCompoundPredicate * resultantPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:predicateArray];
+    
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:resultantPredicate];
+    
+    NSError *fetchError = nil;
+    
+    NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    NSLog(@"Found Messages to update to DELIVERED_AND_READ in DB :%lu",(unsigned long)result.count);
+    for (DB_Message *message in result) {
+        [message setStatus:[NSNumber numberWithInt:status]];
+    }
+    
+    NSError *Error = nil;
+    
+    BOOL success = [dbHandler.managedObjectContext save:&Error];
+    
+    if (!success) {
+        NSLog(@"Unable to save STATUS OF managed objects.");
+        NSLog(@"%@, %@", Error, Error.localizedDescription);
+    }
+    
 }
 
 
@@ -289,20 +316,6 @@
     }];
 }
 
--(void)fetchAndRefreshFromServerForPush{
-    NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
-    
-    [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
-        if (error) {
-            NSLog(@"%@",error);
-            return ;
-        }
-      //  [self addMessageList:messageArray];
-       [self fetchConversationsGroupByContactId];
-    }];
-
-}
-
 -(void)fetchAndRefreshQuickConversationWithCompletion:(void (^)( NSMutableArray *, NSError *))completion{
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     
@@ -312,7 +325,7 @@
             return ;
         }
         [self.delegate updateMessageList:messageArray];
-//        [self fetchConversationsGroupByContactId];
+
         completion (messageArray,error);
     }];
     
@@ -441,7 +454,7 @@
     theMessageEntity.contentType = theMessage.contentType;
     theMessageEntity.deletedFlag=[NSNumber numberWithBool:theMessage.deleted];
     theMessageEntity.conversationId = theMessage.conversationId;
-    
+    theMessageEntity.pairedMessageKey = theMessage.pairedMessageKey;
     if(theMessage.getGroupId)
     {
         theMessageEntity.groupId = theMessage.groupId;
@@ -498,7 +511,8 @@
     theMessage.deleted=theEntity.deletedFlag.boolValue;
     theMessage.groupId = theEntity.groupId;
     theMessage.conversationId = theEntity.conversationId;
-
+    theMessage.pairedMessageKey = theEntity.pairedMessageKey;
+    
     // file meta info
     if(theEntity.fileMetaInfo){
         ALFileMetaInfo * theFileMeta = [ALFileMetaInfo new];
@@ -573,11 +587,13 @@
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
     NSMutableArray * msgArray = [[NSMutableArray alloc]init];
     
-    for (DB_Message * theEntity in theArray) {
+    for (DB_Message * theEntity in theArray)
+    {
         ALMessage * theMessage = [self createMessageEntity:theEntity];
-        if(theMessage.groupId==[NSNumber numberWithInt:0]){
+        if([theMessage.groupId isEqualToNumber:[NSNumber numberWithInt:0]])
+        {
             NSLog(@"groupId is coming as 0..setting it null" );
-            theMessage.groupId=NULL;
+            theMessage.groupId = NULL;
         }
         [msgArray addObject:theMessage];
     }
