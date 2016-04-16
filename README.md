@@ -226,7 +226,7 @@ __Version 2.2__
  * Unread count bug fix.
  * Multi-Receiver APIs.
  * Group UI and API changes
- * Handle operation on no network
+ * Handle operations on no network
 
 __Version 2.1__
  * Read Receipts for Messages
