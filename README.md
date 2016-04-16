@@ -217,6 +217,17 @@ Once your app receive notification, pass it to applozic handler for applozic not
 ```
 
 ### Changelog
+__Version 2.2__
+ * Contact sharing. 
+ * Offline message sync.
+ * User block/unblock background sync.
+ * Background message sync on APNs notification.
+ * Delivery reports on background mode.
+ * Unread count bug fix.
+ * Multi-Receiver APIs.
+ * Group UI and API changes
+ * Handle operation on no network
+
 __Version 2.1__
  * Read Receipts for Messages
  * Message Information details
