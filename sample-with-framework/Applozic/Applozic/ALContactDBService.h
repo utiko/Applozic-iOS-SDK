@@ -51,4 +51,6 @@
 -(void)blockByUserInList:(NSMutableArray *)userList;
 -(NSMutableArray *)getListOfBlockedUsers;
 
+-(BOOL)setUnreadCountDB:(ALContact*)contact;
+
 @end

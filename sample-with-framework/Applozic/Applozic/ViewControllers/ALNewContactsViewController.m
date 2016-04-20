@@ -49,7 +49,7 @@
 @property (strong,nonatomic)NSMutableArray* groupMembers;
 @property (strong,nonatomic)ALChannelService * creatingChannel;
 
-@property (weak,nonatomic) NSNumber* groupOrContacts;
+@property (strong,nonatomic) NSNumber* groupOrContacts;
 @property (strong, nonatomic) NSMutableArray *alChannelsList;
 @property (nonatomic)NSInteger selectedSegment;
 @property (strong, nonatomic) UILabel *emptyConversationText;
@@ -60,7 +60,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[self activityIndicator] startAnimating];
-    self.groupOrContacts = [NSNumber numberWithInt:SHOW_CONTACTS]; //default
+    
     self.selectedSegment = 0;
     UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
     
@@ -112,6 +112,8 @@
     
     [super viewWillAppear:animated];
     self.navigationItem.leftBarButtonItem = nil;
+    
+    self.groupOrContacts = [NSNumber numberWithInt:SHOW_CONTACTS]; //default
     
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
@@ -227,6 +229,10 @@
                 newContactCell.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.3];
                 newContactCell.selectionStyle = UITableViewCellSelectionStyleNone ;
             }
+            else if(self.forGroup.intValue == GROUP_CREATION && [contact.userId isEqualToString:[ALUserDefaultsHandler getUserId]]){
+                newContactCell.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.3];
+                [newContactCell setUserInteractionEnabled:NO];
+            }
             else{
                 newContactCell.backgroundColor = [UIColor whiteColor];
                 newContactCell.selectionStyle = UITableViewCellSelectionStyleGray ;
@@ -265,7 +271,9 @@
         [self.groupMembers addObject:contact.userId];
     }break;
     case GROUP_ADDITION:{
-        [self checkInternetConnectivity:tableView andIndexPath:indexPath];
+        if(![self checkInternetConnectivity:tableView andIndexPath:indexPath]){
+            return;
+        }
         
         ALContact * contact = self.filteredContactList[indexPath.row];
         
@@ -308,7 +316,7 @@
     
 }
 
--(void)checkInternetConnectivity:(UITableView*)tableView andIndexPath:(NSIndexPath *)indexPath{
+-(BOOL)checkInternetConnectivity:(UITableView*)tableView andIndexPath:(NSIndexPath *)indexPath{
     
     if(![ALDataNetworkConnection checkDataNetworkAvailable]){
         [[self activityIndicator] stopAnimating];
@@ -317,8 +325,9 @@
         if(tableView){
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
         }
+        return NO;
     }
-
+    return YES;
 }
 
 -(void) fetchConversationsGroupByContactId

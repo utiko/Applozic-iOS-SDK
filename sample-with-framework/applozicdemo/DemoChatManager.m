@@ -30,6 +30,8 @@
     
     [self ALDefaultChatViewSettings];
     [alUser setApplicationId:APPLICATION_ID];
+    //    [alUser setAppModuleName:APP_MODULE_NAME];        // 1. APP_MODULE_NAME setter
+    
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         if (error) {
@@ -127,6 +129,8 @@
         return;
     }
     [ alUser setApplicationId:APPLICATION_ID ];
+//    [alUser setAppModuleName: APP_MODULE_NAME];     // 2. APP_MODULE_NAME setter
+
     [self ALDefaultChatViewSettings];
     
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
@@ -266,7 +270,8 @@
     
     ALUser *user = [[ALUser alloc] init];
     [user setApplicationId:APPLICATION_ID];
-    
+//    [user setAppModuleName:APP_MODULE_NAME];      // 3. APP_MODULE_NAME setter
+
     //random userId. Write your logic to get user information here.
     [user setUserId:@"demo-test"];
     
@@ -337,6 +342,8 @@
         return;
     }
     [ alUser setApplicationId:APPLICATION_ID ];
+//    [alUser setAppModuleName:APP_MODULE_NAME];  // 4. APP_MODULE_NAME  setter
+
     [self ALDefaultChatViewSettings];
     
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];

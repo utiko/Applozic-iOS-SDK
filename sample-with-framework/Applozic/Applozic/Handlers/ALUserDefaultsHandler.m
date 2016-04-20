@@ -333,4 +333,20 @@
     return lastSyncTimeStamp;
 }
 
+//App Module Name
++(void )setAppModuleName:(NSString *)appModuleName
+{
+    [[NSUserDefaults standardUserDefaults] setValue:appModuleName forKey:APP_MODULE_NAME_ID];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+
++(NSString *)getAppModuleName
+{
+    return [[NSUserDefaults standardUserDefaults]
+            valueForKey:APP_MODULE_NAME_ID];
+}
+
+
 @end
