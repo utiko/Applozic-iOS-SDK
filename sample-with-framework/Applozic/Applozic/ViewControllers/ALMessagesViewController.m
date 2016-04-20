@@ -78,7 +78,6 @@
 @property (nonatomic, strong) NSNumber *unreadCount;
 @property (nonatomic,strong) NSArray* colors;
 @property (strong, nonatomic) UILabel *emptyConversationText;
-@property (strong, nonatomic) UILabel *dataAvailablityLabel;
 //@property (strong, nonatomic) NSNumber *channelKey;
 @property(strong, nonatomic) ALMQTTConversationService *alMqttConversationService;
 @end
@@ -125,7 +124,10 @@
         [_alMqttConversationService subscribeToConversation];
     });
     
-    self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x + 15 + self.view.frame.size.width/8, self.view.frame.origin.y + self.view.frame.size.height/2, 250, 30)];
+    self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x,
+                                                                           self.view.frame.origin.y + self.view.frame.size.height/2,
+                                                                           self.view.frame.size.width, 30)];
+    
     [self.emptyConversationText setText:@"You have no conversations yet"];
     [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:self.emptyConversationText];
@@ -159,16 +161,6 @@
     self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0, 0);
     self.navigationController.navigationBar.layer.shadowRadius = 10;
     self.navigationController.navigationBar.layer.masksToBounds = NO;
-}
-
--(void)dataConnectionLabel
-{
-    self.dataAvailablityLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tabBarController.tabBar.frame.origin.x, self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 30)];
-    [self.dataAvailablityLabel setText:@"NO INTERNET CONNECTION"];
-    [self.dataAvailablityLabel setBackgroundColor:[UIColor colorWithRed:179.0/255 green:32.0/255 blue:35.0/255 alpha:1]];
-    [self.dataAvailablityLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.dataAvailablityLabel setTextColor:[UIColor whiteColor]];
-    [self.view addSubview:self.dataAvailablityLabel];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -232,13 +224,12 @@
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
     }
 
-    [self.dataAvailablityLabel setHidden:YES];
     [self callLastSeenStatusUpdate];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [self dataConnectionLabel];
+
     self.detailChatViewController.contactIds = nil;
     self.detailChatViewController.channelKey = nil;
     self.detailChatViewController.conversationId = nil;
@@ -254,14 +245,7 @@
     
     if (![ALDataNetworkConnection checkDataNetworkAvailable])
     {
-        [self.dataAvailablityLabel setHidden:NO];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5  * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-            [self.dataAvailablityLabel setHidden:YES];
-        });
-    }
-    else
-    {
-        [self.dataAvailablityLabel setHidden:YES];
+        [self noDataNotificationView];
     }
     
 }

@@ -40,36 +40,12 @@
     return self;
 }
 
--(void)ALDefaultChatViewSettings
-{
-    [ALUserDefaultsHandler setLogoutButtonHidden:NO];
-    [ALUserDefaultsHandler setBottomTabBarHidden:NO];
-    [ALApplozicSettings setUserProfileHidden:NO];
-    [ALApplozicSettings hideRefreshButton:NO];
-    [ALApplozicSettings setTitleForConversationScreen:@"Chats"];
-    
-    [ALApplozicSettings setFontFace:@"Helvetica"];
-    [ALApplozicSettings setColorForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
-    [ALApplozicSettings setColorForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
-    [ALApplozicSettings setColorForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
-    [ALApplozicSettings setColorForNavigationItem: [UIColor whiteColor]];
-    
-    NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
-    [ALApplozicSettings setNotificationTitle:appName];
-    [ALApplozicSettings setMaxCompressionFactor:0.1f];
-    [ALApplozicSettings setMaxImageSizeForUploadInMB:3];
-    
-    [ALApplozicSettings setGroupOption:YES];
-
-}
-
 -(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
 
 {
     self.chatLauncherFLAG=[NSNumber numberWithInt:1];
 //    NSLog(self.chatLauncherFLAG ? @"ALCHAT Launcher is TRUE":@"ALCHAT Launcher is FALSE");
     
-    [self ALDefaultChatViewSettings];
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
@@ -89,7 +65,7 @@
 
 -(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
 {
-    [self ALDefaultChatViewSettings];
+ 
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];

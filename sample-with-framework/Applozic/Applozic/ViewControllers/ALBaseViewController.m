@@ -106,8 +106,7 @@
         // self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:refreshButton ,nil];
     }
-    self.label = [[UILabel alloc] initWithFrame: CGRectMake(70,26,223,21)];
-    self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.label = [[UILabel alloc] init];
     self.label.backgroundColor = [UIColor clearColor];
     [self.label setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:LAST_SEEN_LABEL_SIZE]];
     self.label.textAlignment = NSTextAlignmentCenter;
@@ -267,12 +266,14 @@
 }
 
 
-- (IBAction)sendAction:(id)sender {
+- (IBAction)sendAction:(id)sender
+{
+    NSCharacterSet *charsToTrim = [NSCharacterSet characterSetWithCharactersInString:@"  \n\""];
+    self.sendMessageTextView.text = [self.sendMessageTextView.text stringByTrimmingCharactersInSet:charsToTrim];
     
-    self.sendMessageTextView.text = [self.sendMessageTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if(self.sendMessageTextView.text.length > 0){
+    if(self.sendMessageTextView.text.length > 0)
+    {
         [self postMessage];
-        
     }
     
 }

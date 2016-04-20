@@ -176,7 +176,7 @@
                 {
                     [readList addObject:info];
                 }
-
+                
                 if(info.messageStatus == (short)DELIVERED)
                 {
                     [deliveredList addObject:info];
@@ -195,7 +195,7 @@
     self.userName = (UILabel *)[contactCell viewWithTag:503];
     self.dateLabel = (UILabel *)[contactCell viewWithTag:502];
     [self.dateLabel setTextColor:[UIColor grayColor]];
-//    self.timeLabel = (UILabel *)[contactCell viewWithTag:501];
+    //    self.timeLabel = (UILabel *)[contactCell viewWithTag:501];
     
     [self.firstAlphabet setTextColor:[UIColor whiteColor]];
     self.userImage.layer.cornerRadius = self.userImage.frame.size.width/2;
@@ -347,7 +347,7 @@
         {
             imageView.frame = CGRectMake(bubbleView.frame.origin.x + 10, bubbleView.frame.origin.y + 5, 50, 50);
             imageView.layer.cornerRadius = imageView.frame.size.width/2;
-
+            
             [imageView setImage: [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"]];
             if(self.VCFObject.retrievedImage)
             {
@@ -363,7 +363,7 @@
                                         bubbleView.frame.size.width - imageView.frame.size.width - 10,
                                         bubbleView.frame.size.height - 10);
         }
-
+        
         
         [view addSubview:textView];
         [view addSubview:imageView];

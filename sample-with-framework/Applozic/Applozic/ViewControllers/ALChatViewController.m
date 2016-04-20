@@ -425,7 +425,7 @@ ALMessageDBService  * dbService;
                                          [self.label setHidden:self.isUserBlocked];
                                          UIAlertView *alert = [[UIAlertView alloc]
                                                                initWithTitle: @"USER UNBLOCK"
-                                                               message: [NSString stringWithFormat:@"%@ is unblocked successfully", self.alContact.displayName ? self.alContact.displayName : self.contactIds]
+                                                               message: [NSString stringWithFormat:@"%@ is unblocked successfully", [self.alContact getDisplayName]]
                                                                     delegate: nil
                                                            cancelButtonTitle: @"OK"
                                                            otherButtonTitles: nil];
@@ -553,6 +553,10 @@ ALMessageDBService  * dbService;
         titleLabelButton.userInteractionEnabled=YES;
     }
     self.navigationItem.titleView = titleLabelButton;
+    
+    CGFloat COORDINATE_POINT_Y = titleLabelButton.frame.size.height - 17;
+    [self.label setFrame: CGRectMake(0, COORDINATE_POINT_Y ,self.navigationController.navigationBar.frame.size.width, 20)];
+    
     ALUserDetail *userDetail = [[ALUserDetail alloc] init];
     userDetail.connected = self.alContact.connected;
     userDetail.userId = self.alContact.userId;
@@ -1781,7 +1785,7 @@ ALMessageDBService  * dbService;
                     [self.label setHidden:self.isUserBlocked];
                     UIAlertView *alert = [[UIAlertView alloc]
                                           initWithTitle: @"USER BLOCK"
-                                                message: [NSString stringWithFormat:@"%@ is blocked successfully", self.alContact.displayName ? self.alContact.displayName : self.contactIds]
+                                                message: [NSString stringWithFormat:@"%@ is blocked successfully", [self.alContact getDisplayName]]
                                                delegate: nil
                                       cancelButtonTitle: @"OK"
                                       otherButtonTitles: nil];
