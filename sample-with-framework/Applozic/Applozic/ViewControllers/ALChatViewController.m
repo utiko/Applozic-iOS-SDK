@@ -295,14 +295,6 @@ ALMessageDBService  * dbService;
 -(void)updateMessageSendStatus:(NSNotification *)notification
 {
     ALMessage *nfALmessage = (ALMessage *)notification.object;
-
-    if(!nfALmessage ||
-       (![self.contactIds isEqualToString:nfALmessage.contactIds] && !self.channelKey)
-       || ![self.channelKey isEqualToNumber:nfALmessage.groupId])
-    {
-        return;
-    }
-    
     NSPredicate * predicate = [NSPredicate predicateWithFormat:@"key=%@",nfALmessage.key];
     NSArray *proccessfilterArray = [[self.alMessageWrapper getUpdatedMessageArray] filteredArrayUsingPredicate:predicate];
     if(proccessfilterArray.count)
