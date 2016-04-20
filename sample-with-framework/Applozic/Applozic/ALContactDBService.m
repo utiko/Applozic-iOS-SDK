@@ -169,6 +169,37 @@
     return success;
 }
 
+-(BOOL)setUnreadCountDB:(ALContact*)contact{
+    
+    BOOL success = NO;
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CONTACT" inManagedObjectContext:dbHandler.managedObjectContext];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId = %@",contact.userId];
+    
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:predicate];
+    NSError *fetchError = nil;
+    
+    NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    
+    for (DB_CONTACT *userContact in result) {
+        userContact.unreadCount=contact.unreadCount;
+    }
+    
+    NSError *error = nil;
+    
+    success = [dbHandler.managedObjectContext save:&error];
+    
+    if (!success) {
+        
+        NSLog(@"DB ERROR :%@",error);
+    }
+    
+    return success;
+    
+}
+
 #pragma mark - Add Contacts API -
 
 - (BOOL)addListOfContacts:(NSArray *)contacts {

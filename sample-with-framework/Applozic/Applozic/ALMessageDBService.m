@@ -85,7 +85,7 @@
     [predicateArray addObject:predicate1];
 
     
-    NSPredicate * predicate3 = [NSPredicate predicateWithFormat:@"status != %i AND status != %i",DELIVERED_AND_READ,SENT];
+    NSPredicate * predicate3 = [NSPredicate predicateWithFormat:@"status != %i",DELIVERED_AND_READ];
     [predicateArray addObject:predicate3];
     
     

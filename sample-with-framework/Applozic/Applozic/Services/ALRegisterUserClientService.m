@@ -26,6 +26,7 @@
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/register/client",KBASE_URL];
     [ALUserDefaultsHandler setApplicationKey: user.applicationId];
+    [ALUserDefaultsHandler setAppModuleName:  user.appModuleName];
     [user setDeviceType:1];
     [user setPrefContactAPI:2];
     [user setEmailVerified:true];

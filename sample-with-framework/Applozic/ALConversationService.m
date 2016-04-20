@@ -115,12 +115,12 @@
         if(!error){
             NSMutableArray * proxyArr = [[NSMutableArray alloc] initWithObjects:response.alConversationProxy, nil];
             [self addConversations:proxyArr]; 
-            completion(error,response.alConversationProxy);
+           
         }
         else{
             NSLog(@"ALConversationService : Error creatingConversation ");
         }
-        
+         completion(error,response.alConversationProxy);
     }];
 
 }

@@ -55,6 +55,10 @@
     
 }
 
+-(BOOL)setUnreadCountInDB:(ALContact*)contact{
+    return [alContactDBService setUnreadCountDB:contact];
+}
+
 
 -(BOOL)updateListOfContacts:(NSArray *)contacts{
     return [alContactDBService updateListOfContacts:contacts];

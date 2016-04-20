@@ -67,6 +67,7 @@
     [request addValue:@"true" forHTTPHeaderField:@"UserId-Enabled"];
     [request addValue:[ALUserDefaultsHandler getDeviceKeyString] forHTTPHeaderField:@"Device-Key"];
     [request addValue:@"1" forHTTPHeaderField:@"Source"];
+    [request addValue:[ALUserDefaultsHandler getAppModuleName] forHTTPHeaderField:@"App-Module-Name"];
 
     
     NSString *authStr = [NSString stringWithFormat:@"%@:%@",[ALUserDefaultsHandler getUserId] , [ALUserDefaultsHandler getDeviceKeyString]];

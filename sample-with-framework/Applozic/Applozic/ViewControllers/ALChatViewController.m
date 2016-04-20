@@ -1988,7 +1988,7 @@ ALMessageDBService  * dbService;
     
     NSMutableArray * predicateArray = [[NSMutableArray alloc] init];
     
-    NSPredicate * statusPred = [NSPredicate predicateWithFormat:@"status!=%i AND status!=%i",DELIVERED_AND_READ,SENT];
+    NSPredicate * statusPred = [NSPredicate predicateWithFormat:@"status!=%i",DELIVERED_AND_READ];
     [predicateArray addObject:statusPred];
         
     NSCompoundPredicate * compoundPred = [NSCompoundPredicate andPredicateWithSubpredicates:predicateArray];

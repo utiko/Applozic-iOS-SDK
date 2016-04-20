@@ -155,7 +155,7 @@
     ALContactService * contactService=[[ALContactService alloc] init];
     ALContact * contact =[contactService loadContactByKey:@"userId" value:contactId];
     contact.unreadCount=[NSNumber numberWithInt:0];
-    [contactService updateContact:contact];
+    [contactService setUnreadCountInDB:contact];
     
 }
 #pragma mark- Mark message READ

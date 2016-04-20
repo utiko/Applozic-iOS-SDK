@@ -14,6 +14,12 @@
 //#define APPLICATION_ID @"APPLOZIC"
 #define APPLICATION_ID @"applozic-sample-app"
 
+/* Note: Please uncomment the following two lines and respective four APP_MODULE_NAME setters in DemoChatManager.m  */
+
+//#define APPLICATION_ID @"cb0b5733c34afeb2bbda42d3653f9f57"
+//#define APP_MODULE_NAME @"<MODULE_NAME>"
+
+
 @interface DemoChatManager : NSObject
 
 @property(nonatomic,strong) ALChatLauncher * chatLauncher;
