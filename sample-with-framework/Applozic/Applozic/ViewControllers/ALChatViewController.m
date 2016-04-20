@@ -296,20 +296,21 @@ ALMessageDBService  * dbService;
 {
     ALMessage *nfALmessage = (ALMessage *)notification.object;
 
-    BOOL userIdCheck = ([self.contactIds isEqualToString:nfALmessage.contactIds]);
-    BOOL groupIDCheck = ([self.channelKey isEqualToNumber:nfALmessage.groupId]);
-    
-    if((userIdCheck && !groupIDCheck) || (!userIdCheck && groupIDCheck))
+    if(!nfALmessage.key)
     {
-        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"key=%@",nfALmessage.key];
-        NSArray *proccessfilterArray = [[self.alMessageWrapper getUpdatedMessageArray] filteredArrayUsingPredicate:predicate];
-        if(proccessfilterArray.count)
-        { 
-            ALMessage *msg = [proccessfilterArray objectAtIndex:0];
-            msg.sentToServer = YES;
-        }
-            [self reloadView];
+        return;
     }
+    
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"key=%@",nfALmessage.key];
+    NSArray *proccessfilterArray = [[self.alMessageWrapper getUpdatedMessageArray] filteredArrayUsingPredicate:predicate];
+    
+    if(proccessfilterArray.count)
+    {
+        ALMessage *msg = [proccessfilterArray objectAtIndex:0];
+        msg.sentToServer = YES;
+    }
+    
+    [self reloadView];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
