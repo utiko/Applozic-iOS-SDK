@@ -311,6 +311,7 @@ ALMessageDBService  * dbService;
         msg.sentToServer = YES;
     }
     [self reloadView];
+//    [self updateReportOfkeyString:notification.object reportStatus:SENT];
 }
 
 -(void)viewWillDisappear:(BOOL)animated

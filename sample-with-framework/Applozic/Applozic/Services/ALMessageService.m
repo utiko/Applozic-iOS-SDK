@@ -393,7 +393,7 @@ static ALMessageClientService *alMsgClientService;
                     return ;
                 }
                 NSLog(@"SENT_SUCCESSFULLY....MARKED_AS_DELIVERED : %@", message);
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"UPDATE_MESSAGE_SEND_STATUS" object:msg];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"UPDATE_MESSAGE_SEND_STATUS" object:message];
             }];
         }
         else if(msg.contentType == ALMESSAGE_CONTENT_VCARD)

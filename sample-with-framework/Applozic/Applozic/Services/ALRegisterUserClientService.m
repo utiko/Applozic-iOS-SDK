@@ -26,14 +26,15 @@
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/register/client",KBASE_URL];
     [ALUserDefaultsHandler setApplicationKey: user.applicationId];
-    [ALUserDefaultsHandler setAppModuleName:  user.appModuleName];
     [user setDeviceType:1];
     [user setPrefContactAPI:2];
     [user setEmailVerified:true];
     [user setDeviceType:4];
     [user setAppVersionCode: VERSION_CODE];
     [user setRegistrationId: [ALUserDefaultsHandler getApnDeviceToken]];
-    
+    if([ALUserDefaultsHandler getAppModuleName] != NULL){
+    [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];
+    }
     //NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
     NSError *error;
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:user.dictionary options:0 error:&error];

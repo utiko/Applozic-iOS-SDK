@@ -539,6 +539,9 @@
 -(void)createNewGroup:(id)sender{
 
     [[self activityIndicator] startAnimating];
+    [self.contactsTableView setUserInteractionEnabled:NO];
+    [[[self navigationController] navigationBar] setUserInteractionEnabled:NO];
+
     [self checkInternetConnectivity:nil andIndexPath:nil];
     
     //check whether at least two memebers selected
@@ -578,12 +581,19 @@
         }
         else{
             [TSMessage showNotificationWithTitle:@"Unable to create group. Please try again" type:TSMessageNotificationTypeError];
+            [self.contactsTableView setUserInteractionEnabled:YES];
+            [[[self navigationController] navigationBar] setUserInteractionEnabled:YES];
         }
         
-        
+        [[self activityIndicator] stopAnimating];
+       
     }];
     
-    [[self activityIndicator] stopAnimating];
+    if(![ALDataNetworkConnection checkDataNetworkAvailable]){
+        [self.contactsTableView setUserInteractionEnabled:YES];
+        [[[self navigationController] navigationBar] setUserInteractionEnabled:YES];
+        [[self activityIndicator] stopAnimating];
+    }
     
 }
 

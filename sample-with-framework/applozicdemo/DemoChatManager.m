@@ -30,7 +30,6 @@
     
     [self ALDefaultChatViewSettings];
     [alUser setApplicationId:APPLICATION_ID];
-    //    [alUser setAppModuleName:APP_MODULE_NAME];        // 1. APP_MODULE_NAME setter
     
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
@@ -128,11 +127,11 @@
         NSLog(@"Not able to find user detail for registration...please register with applozic server first");
         return;
     }
-    [ alUser setApplicationId:APPLICATION_ID ];
-//    [alUser setAppModuleName: APP_MODULE_NAME];     // 2. APP_MODULE_NAME setter
 
     [self ALDefaultChatViewSettings];
-    
+    [ alUser setApplicationId:APPLICATION_ID ];
+    [alUser setAppModuleName: [ALUserDefaultsHandler getAppModuleName]];     // 2. APP_MODULE_NAME setter
+
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         if (error) {
@@ -270,7 +269,7 @@
     
     ALUser *user = [[ALUser alloc] init];
     [user setApplicationId:APPLICATION_ID];
-//    [user setAppModuleName:APP_MODULE_NAME];      // 3. APP_MODULE_NAME setter
+    [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];      // 3. APP_MODULE_NAME setter
 
     //random userId. Write your logic to get user information here.
     [user setUserId:@"demo-test"];
@@ -306,6 +305,8 @@
     [ALApplozicSettings setMultipleAttachmentMaxLimit:10];  //NSInteger
     
     [ALApplozicSettings setGroupOption:YES];
+    
+//    [ALUserDefaultsHandler setAppModuleName:APP_MODULE_NAME];
 }
 
 
@@ -341,10 +342,11 @@
         NSLog(@"Not able to find user detail for registration...please register with applozic server first");
         return;
     }
-    [ alUser setApplicationId:APPLICATION_ID ];
-//    [alUser setAppModuleName:APP_MODULE_NAME];  // 4. APP_MODULE_NAME  setter
 
     [self ALDefaultChatViewSettings];
+    
+    [alUser setApplicationId:APPLICATION_ID ];
+    [alUser setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];  // 4. APP_MODULE_NAME  setter
     
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {

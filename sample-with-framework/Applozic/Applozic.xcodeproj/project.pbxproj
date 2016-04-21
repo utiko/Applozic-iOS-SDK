@@ -224,8 +224,6 @@
 		6D6DF1D91BC5364C00EBA00F /* AppLozic.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF1371BC5364C00EBA00F /* AppLozic.xcdatamodeld */; };
 		6D6E4BF11C76F56400B2FB31 /* ALMediaBaseCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6E4BEF1C76F56400B2FB31 /* ALMediaBaseCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6E4BF21C76F56400B2FB31 /* ALMediaBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E4BF01C76F56400B2FB31 /* ALMediaBaseCell.m */; };
-		6D7AFD181BE9FDF5009DDC1D /* ALLoginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D7AFD161BE9FDF5009DDC1D /* ALLoginViewController.h */; };
-		6D7AFD191BE9FDF5009DDC1D /* ALLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D7AFD171BE9FDF5009DDC1D /* ALLoginViewController.m */; };
 		6D7AFD251BECF061009DDC1D /* ALSendMessageResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D7AFD231BECF061009DDC1D /* ALSendMessageResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D7AFD261BECF061009DDC1D /* ALSendMessageResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D7AFD241BECF061009DDC1D /* ALSendMessageResponse.m */; };
 		6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D7B95B31C06E09300374346 /* ALUserDetail.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -531,8 +529,6 @@
 		6D6DF1381BC5364C00EBA00F /* AppLozic.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppLozic.xcdatamodel; sourceTree = "<group>"; };
 		6D6E4BEF1C76F56400B2FB31 /* ALMediaBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMediaBaseCell.h; sourceTree = "<group>"; };
 		6D6E4BF01C76F56400B2FB31 /* ALMediaBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMediaBaseCell.m; sourceTree = "<group>"; };
-		6D7AFD161BE9FDF5009DDC1D /* ALLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALLoginViewController.h; sourceTree = "<group>"; };
-		6D7AFD171BE9FDF5009DDC1D /* ALLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALLoginViewController.m; sourceTree = "<group>"; };
 		6D7AFD231BECF061009DDC1D /* ALSendMessageResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSendMessageResponse.h; sourceTree = "<group>"; };
 		6D7AFD241BECF061009DDC1D /* ALSendMessageResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALSendMessageResponse.m; sourceTree = "<group>"; };
 		6D7B95B31C06E09300374346 /* ALUserDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserDetail.h; sourceTree = "<group>"; };
@@ -732,8 +728,6 @@
 			children = (
 				6D15F2441BEB6AE00069BE1A /* ALAttachmentController.h */,
 				6D15F2451BEB6AE00069BE1A /* ALAttachmentController.m */,
-				6D7AFD161BE9FDF5009DDC1D /* ALLoginViewController.h */,
-				6D7AFD171BE9FDF5009DDC1D /* ALLoginViewController.m */,
 				6D6DF0A81BC5364C00EBA00F /* ALBaseViewController.h */,
 				6D6DF0A91BC5364C00EBA00F /* ALBaseViewController.m */,
 				6D6DF0AA1BC5364C00EBA00F /* ALChatViewController.h */,
@@ -1322,7 +1316,6 @@
 				6D95476D1BE38DFF00776652 /* ALUITextView.h in Headers */,
 				6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */,
 				6D6DF1541BC5364C00EBA00F /* UIImage+Utility.h in Headers */,
-				6D7AFD181BE9FDF5009DDC1D /* ALLoginViewController.h in Headers */,
 				6D6DF1CF1BC5364C00EBA00F /* UIImageView+WebCache.h in Headers */,
 				6D6DF1B21BC5364C00EBA00F /* MKAnnotationView+WebCache.h in Headers */,
 				6D6DF1BC1BC5364C00EBA00F /* SDWebImageDownloader.h in Headers */,
@@ -1559,7 +1552,6 @@
 				6D6DF1451BC5364C00EBA00F /* ALImagePickerHandler.m in Sources */,
 				6D6A074A1C2299C60002388F /* ALMessageArrayWrapper.m in Sources */,
 				6D6DF1CE1BC5364C00EBA00F /* UIImageView+HighlightedWebCache.m in Sources */,
-				6D7AFD191BE9FDF5009DDC1D /* ALLoginViewController.m in Sources */,
 				6D3A4E061C76ED6C0067A4C8 /* ALAudioAttachmentViewController.m in Sources */,
 				6D6DF1D61BC5364C00EBA00F /* TPPropertyAnimation.m in Sources */,
 				6D9342261CAE7509002AC9BE /* ALLocationCell.m in Sources */,

@@ -34,7 +34,7 @@
 
 -(instancetype)initWithAlMessage:(ALMessage*)alMessage  withAlertMessage: (NSString *) alertMessage{
     self = [super init];
-    self.text = alertMessage;
+    self.text = [self getNotificationText:alMessage];
     self.textColor = [UIColor whiteColor];
     self.textAlignment = NSTextAlignmentCenter;
     self.layer.cornerRadius = 0;
@@ -44,6 +44,26 @@
     self.conversationId = alMessage.conversationId;
     self.alMessageObject = alMessage;
     return self;
+}
+
+-(NSString*)getNotificationText:(ALMessage *)alMessage
+{
+    if(alMessage && ![alMessage.message isEqualToString:@""])
+    {
+        return alMessage.message;
+    }
+    else if(alMessage.contentType == ALMESSAGE_CONTENT_LOCATION)
+    {
+        return @"Shared Location";
+    }
+    else if(alMessage.contentType == ALMESSAGE_CONTENT_VCARD)
+    {
+        return @"Shared Contact";
+    }
+    else
+    {
+        return @"Shared Attachment";
+    }
 }
 
 
