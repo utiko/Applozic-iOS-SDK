@@ -110,15 +110,20 @@
             contactName = alcontact.getDisplayName;
         }
         
-        title    = groupName;
-        subtitle = [NSString stringWithFormat:@"%@:%@",contactName,subtitle];
+        if(_alMessageObject.contentType == 10){
+            title = self.text;
+            subtitle = @"";
+        }
+        else{
+            title    = groupName;
+            subtitle = [NSString stringWithFormat:@"%@:%@",contactName,subtitle];
+        }
 
     }
     else{
         
         title    = alcontact.getDisplayName;
         subtitle = self.text;
-
     }
     
     // ** Attachment ** //

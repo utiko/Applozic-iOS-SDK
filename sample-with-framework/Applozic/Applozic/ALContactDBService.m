@@ -181,9 +181,10 @@
     
     
     NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
-    
-    NSManagedObject* userCon = [result objectAtIndex:0];
-    [userCon setValue:0 forKey:@"unreadCount"];
+    if(result.count>0){
+        NSManagedObject* userCon = [result objectAtIndex:0];
+        [userCon setValue:0 forKey:@"unreadCount"];
+    }
     
     NSError *error = nil;
     if (![dbHandler.managedObjectContext save:&error]) {

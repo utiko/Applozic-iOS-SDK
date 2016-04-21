@@ -538,26 +538,25 @@
 //================================
 -(void)createNewGroup:(id)sender{
 
-    [[self activityIndicator] startAnimating];
-    [self.contactsTableView setUserInteractionEnabled:NO];
-    [[[self navigationController] navigationBar] setUserInteractionEnabled:NO];
+    [self turnUserInteractivityForNavigationAndTableView:NO];
 
     [self checkInternetConnectivity:nil andIndexPath:nil];
     
     //check whether at least two memebers selected
     if(self.groupMembers.count < 2){
+        [self turnUserInteractivityForNavigationAndTableView:YES];
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"Group Members"
-                                              message:@"Please select atleast two members"
+                                              message:@"Please select minimum two members"
                                               preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *okAction = [UIAlertAction
                                    actionWithTitle:NSLocalizedString(@"OK", @"OK action")
                                    style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction *action)
-                                   {
+                                   handler:^(UIAlertAction *action){
                                        NSLog(@"OK action");
                                    }];
+        
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];
         return;
@@ -581,8 +580,7 @@
         }
         else{
             [TSMessage showNotificationWithTitle:@"Unable to create group. Please try again" type:TSMessageNotificationTypeError];
-            [self.contactsTableView setUserInteractionEnabled:YES];
-            [[[self navigationController] navigationBar] setUserInteractionEnabled:YES];
+            [self turnUserInteractivityForNavigationAndTableView:YES];
         }
         
         [[self activityIndicator] stopAnimating];
@@ -590,13 +588,25 @@
     }];
     
     if(![ALDataNetworkConnection checkDataNetworkAvailable]){
-        [self.contactsTableView setUserInteractionEnabled:YES];
-        [[[self navigationController] navigationBar] setUserInteractionEnabled:YES];
-        [[self activityIndicator] stopAnimating];
+        [self turnUserInteractivityForNavigationAndTableView:YES];
     }
     
 }
 
+
+-(void)turnUserInteractivityForNavigationAndTableView:(BOOL)option{
+    
+    [self.contactsTableView setUserInteractionEnabled:option];
+    [[[self navigationController] navigationBar] setUserInteractionEnabled:option];
+    
+    if(option == YES){
+        [[self activityIndicator] stopAnimating];
+    }
+    else{
+        [[self activityIndicator] startAnimating];
+    }
+    
+}
 # pragma mark - Dummy group message method
 //========================================
 -(void) addDummyMessage:(NSNumber *)channelKey

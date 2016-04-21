@@ -87,7 +87,6 @@
 -(void)groupIconViewTap:(UIImageView*)groupIconView{
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openGallery)];
     singleTap.numberOfTapsRequired = 1;
-    [groupIconView setUserInteractionEnabled:YES];
     [groupIconView addGestureRecognizer:singleTap];
 }
 -(void)openGallery{
