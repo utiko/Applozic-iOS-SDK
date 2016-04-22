@@ -39,4 +39,15 @@
     return canReach;
 }
 
++(BOOL)isInternetConnectedOrShowNotification{
+    if(![ALDataNetworkConnection checkDataNetworkAvailable]){
+        [TSMessage showNotificationWithTitle:@"Unable to connect to Internet" type:TSMessageNotificationTypeError];
+        return NO;
+    }
+    else{
+        return YES;
+    }
+}
+
+
 @end

@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TSMessage.h"
 
 @interface ALDataNetworkConnection : UIViewController
 
 +(BOOL)checkDataNetworkAvailable;
-
++(BOOL)isInternetConnectedOrShowNotification;
 @end

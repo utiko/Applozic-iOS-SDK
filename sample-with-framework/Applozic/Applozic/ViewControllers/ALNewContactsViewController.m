@@ -60,7 +60,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[self activityIndicator] startAnimating];
-    
     self.selectedSegment = 0;
     UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
     
@@ -111,9 +110,8 @@
 -(void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    self.navigationItem.leftBarButtonItem = nil;
-    
     self.groupOrContacts = [NSNumber numberWithInt:SHOW_CONTACTS]; //default
+    self.navigationItem.leftBarButtonItem = nil;
     
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
@@ -126,7 +124,7 @@
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
         
     }
-   
+    
     BOOL groupRegular = [self.forGroup isEqualToNumber:[NSNumber numberWithInt:REGULAR_CONTACTS]];
     if((!groupRegular && self.forGroup != NULL)){
         [self updateView];
@@ -145,7 +143,7 @@
     [self.tabBarController.tabBar setHidden:YES];
     [self.segmentControl setSelectedSegmentIndex:0];
     [self.segmentControl setHidden:YES];
-
+    
     BOOL groupCreation = [self.forGroup isEqualToNumber:[NSNumber numberWithInt:GROUP_CREATION]];
     if (groupCreation)
     {
@@ -154,11 +152,11 @@
         self.contactsTableView.allowsMultipleSelectionDuringEditing = YES;
         [ALUserDefaultsHandler setBottomTabBarHidden:YES];
         self.done = [[UIBarButtonItem alloc]
-                         initWithTitle:@"Done"
-                         style:UIBarButtonItemStyleBordered
-                         target:self
-                         action:@selector(createNewGroup:)];
-            
+                     initWithTitle:@"Done"
+                     style:UIBarButtonItemStyleBordered
+                     target:self
+                     action:@selector(createNewGroup:)];
+        
         self.navigationItem.rightBarButtonItem = self.done;
     }
 }
@@ -169,8 +167,8 @@
     self.forGroup = [NSNumber numberWithInt:0];
 }
 
--(void)emptyConversationAlertLabel{
-    
+-(void)emptyConversationAlertLabel
+{
     self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x,
                                                                            self.view.frame.origin.y + self.view.frame.size.height/2,
                                                                            self.view.frame.size.width, 30)];
@@ -214,35 +212,42 @@
         case SHOW_CONTACTS:{
             ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
             newContactCell.contactPersonName.text = [contact getDisplayName];
-       
+            
             
             if (contact){
                 if (contact.contactImageUrl){
-                [newContactCell.contactPersonImageView sd_setImageWithURL:[NSURL URLWithString:contact.contactImageUrl]];
+                    [newContactCell.contactPersonImageView sd_setImageWithURL:[NSURL URLWithString:contact.contactImageUrl]];
                 }
-            else
-            {
-                [nameIcon setHidden:NO];
-                [newContactCell.contactPersonImageView setImage:[ALColorUtility imageWithSize:CGRectMake(0, 0, 55, 55) WithHexString:self.colors[randomIndex]]];
-                [newContactCell.contactPersonImageView addSubview:nameIcon];
-                [nameIcon  setText:[ALColorUtility getAlphabetForProfileImage:newContactCell.contactPersonName.text]];
-            }
+                else
+                {
+                    [nameIcon setHidden:NO];
+                    [newContactCell.contactPersonImageView setImage:[ALColorUtility imageWithSize:CGRectMake(0, 0, 55, 55) WithHexString:self.colors[randomIndex]]];
+                    [newContactCell.contactPersonImageView addSubview:nameIcon];
+                    [nameIcon  setText:[ALColorUtility getAlphabetForProfileImage:newContactCell.contactPersonName.text]];
+                }
                 
-            if(self.forGroup.intValue == GROUP_ADDITION && [self.contactsInGroup containsObject:contact.userId]){
-                newContactCell.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.3];
-                newContactCell.selectionStyle = UITableViewCellSelectionStyleNone ;
+                if(self.forGroup.intValue == GROUP_ADDITION && [self.contactsInGroup containsObject:contact.userId])
+                {
+                    newContactCell.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.3];
+                    newContactCell.selectionStyle = UITableViewCellSelectionStyleNone ;
+                }
+                else if(self.forGroup.intValue == GROUP_CREATION && [contact.userId isEqualToString:[ALUserDefaultsHandler getUserId]]){
+                    [self disableOrRemoveCell:newContactCell];
+                }
+                else
+                {
+                    newContactCell.backgroundColor = [UIColor whiteColor];
+                    newContactCell.selectionStyle = UITableViewCellSelectionStyleGray ;
+                }
+                
+                ////<>><>><><><><>Remove the below call before release<><><><><><><><////
+                if([contact.userId isEqualToString:@"applozic"]){
+                    [self maskOutCell:newContactCell];
+                }
+                ////<>><>><><><><>Remove the below call before release<><><><><><><><////
             }
-            else if(self.forGroup.intValue == GROUP_CREATION && [contact.userId isEqualToString:[ALUserDefaultsHandler getUserId]]){
-                newContactCell.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.3];
-                [newContactCell setUserInteractionEnabled:NO];
-            }
-            else{
-                newContactCell.backgroundColor = [UIColor whiteColor];
-                newContactCell.selectionStyle = UITableViewCellSelectionStyleGray ;
-            }
-    }
-    }break;
-    case SHOW_GROUP:
+        }break;
+        case SHOW_GROUP:
         {
             if(self.alChannelsList.count)
             {
@@ -256,72 +261,92 @@
                 [self.contactsTableView setHidden:YES];
                 [self.emptyConversationText setHidden:NO];
             }
-    }break;
-    default:
-        break;
+        }break;
+        default:
+            break;
     }
-
+    
     return newContactCell;
+}
+-(void)disableOrRemoveCell:(ALNewContactCell*)contactCell{
+    contactCell.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.3];
+    [contactCell setUserInteractionEnabled:NO];
+    
+}
+
+-(void)maskOutCell:(ALNewContactCell*)contactCell{
+    contactCell.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.3];
+    contactCell.selectionStyle = UITableViewCellSelectionStyleNone ;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-   
+    
     switch (self.forGroup.intValue){
             
-    case GROUP_CREATION:{
-        ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
-        [self.groupMembers addObject:contact.userId];
-    }break;
-    case GROUP_ADDITION:{
-        if(![self checkInternetConnectivity:tableView andIndexPath:indexPath]){
-            return;
-        }
-        
-        ALContact * contact = self.filteredContactList[indexPath.row];
-        
-        if(self.forGroup.intValue == GROUP_ADDITION && [self.contactsInGroup containsObject:contact.userId]){
-            return;
-        }
-        [self setUserInteraction:NO];
-        [self.activityIndicator startAnimating];
-        [delegate addNewMembertoGroup:contact withComletion:^(NSError *error, ALAPIResponse *response) {
-           
-            if(error)
-            {
-                [self setUserInteraction:YES];
-                [TSMessage showNotificationWithTitle:@"Unable to add new member" type:TSMessageNotificationTypeError];
-            }else
-            {
-                [self setUserInteraction:YES];
-                [self backToDetailView];
+        case GROUP_CREATION:{
+            ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
+            [self.groupMembers addObject:contact.userId];
+        }break;
+        case GROUP_ADDITION:
+        {
+            if(![self checkInternetConnectivity:tableView andIndexPath:indexPath]){
+                return;
             }
-            [[self activityIndicator] stopAnimating];
-        }];
-        
-        
-    }break;
-    default:{ //DEFAULT : Launch contact!
-        NSNumber * key = nil;
-        ALContact *selectedContact =  self.filteredContactList[indexPath.row];
-        if(self.selectedSegment == 1){
-            ALChannel *selectedChannel =  self.alChannelsList[indexPath.row];
-            key = selectedChannel.key;
-            NSLog(@"KEY %@",key);
+            
+            ALContact * contact = self.filteredContactList[indexPath.row];
+            
+            if([self.contactsInGroup containsObject:contact.userId]){
+                return;
+            }
+            
+            [self turnUserInteractivityForNavigationAndTableView:NO];
+            [delegate addNewMembertoGroup:contact withComletion:^(NSError *error, ALAPIResponse *response) {
+                
+                if(error)
+                {
+                    [TSMessage showNotificationWithTitle:@"Unable to add new member" type:TSMessageNotificationTypeError];
+                    [self setUserInteraction:YES];
+                }
+                else
+                {
+                    
+                    [self backToDetailView];
+                    [self turnUserInteractivityForNavigationAndTableView:YES];
+                    [self setUserInteraction:YES];
+                }
+                
+            }];
         }
-        [self launchChatForContact:selectedContact.userId withChannelKey:key];
+            break;
+        default:
+        { //DEFAULT : Launch contact!
+            NSNumber * key = nil;
+            ALContact *selectedContact =  self.filteredContactList[indexPath.row];
+            if(self.selectedSegment == 1)
+            {
+                ALChannel *selectedChannel =  self.alChannelsList[indexPath.row];
+                key = selectedChannel.key;
+                NSLog(@"KEY %@",key);
+            }
+            [self launchChatForContact:selectedContact.userId withChannelKey:key];
+        }
+            
     }
-        
-    }
+}
+
+-(void)setUserInteraction:(BOOL)flag
+{
+    [self.contactsTableView setUserInteractionEnabled:flag];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([self.forGroup isEqualToNumber:[NSNumber numberWithInt:1]]){
+    if([self.forGroup isEqualToNumber:[NSNumber numberWithInt:1]])
+    {
         ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
         [self.groupMembers removeObject:contact.userId];
     }
-    
 }
 
 -(BOOL)checkInternetConnectivity:(UITableView*)tableView andIndexPath:(NSIndexPath *)indexPath{
@@ -461,7 +486,7 @@
 }
 
 -(void)launchChatForContact:( NSString *)contactId  withChannelKey:(NSNumber*)channelKey {
-
+    
     BOOL isFoundInBackStack =false;
     NSMutableArray *viewControllersFromStack = [self.navigationController.viewControllers mutableCopy];
     for (UIViewController *currentVC in viewControllersFromStack){
@@ -500,7 +525,7 @@
 
 -(UIView *)setCustomBackButton:(NSString *)text
 {
-//    UIImageView *imageView = [[UIImageView alloc] initWithImage: [ALUtilityClass getImageFromFramworkBundle:@"DTDT.png"]];
+    //    UIImageView *imageView = [[UIImageView alloc] initWithImage: [ALUtilityClass getImageFromFramworkBundle:@"DTDT.png"]];
     UIImageView *imageView = [[UIImageView alloc] initWithImage: [ALUtilityClass getImageFromFramworkBundle:@"bbb.png"]];
     [imageView setFrame:CGRectMake(-10, 0, 30, 30)];
     [imageView setTintColor:[UIColor whiteColor]];
@@ -542,10 +567,12 @@
 #pragma mark - Create group method
 //================================
 -(void)createNewGroup:(id)sender{
-
+    
     [self turnUserInteractivityForNavigationAndTableView:NO];
-
-    [self checkInternetConnectivity:nil andIndexPath:nil];
+    
+    if(![self checkInternetConnectivity:nil andIndexPath:nil]){
+        return;
+    }
     
     //check whether at least two memebers selected
     if(self.groupMembers.count < 2){
@@ -558,10 +585,10 @@
         UIAlertAction *okAction = [UIAlertAction
                                    actionWithTitle:NSLocalizedString(@"OK", @"OK action")
                                    style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction *action){
+                                   handler:^(UIAlertAction *action)
+                                   {
                                        NSLog(@"OK action");
                                    }];
-        
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];
         return;
@@ -571,7 +598,7 @@
     //Server Call
     self.creatingChannel=[[ALChannelService alloc] init];
     [self.creatingChannel createChannel:self.groupName andMembersList:self.groupMembers withCompletion:^(NSNumber *channelKey) {
-
+        
         if(channelKey){
             //Updating view, popping to MessageList View
             NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
@@ -581,29 +608,30 @@
                     [self.navigationController popToViewController:aViewController animated:YES];
                 }
             }
-
+            
         }
         else{
             [TSMessage showNotificationWithTitle:@"Unable to create group. Please try again" type:TSMessageNotificationTypeError];
             [self turnUserInteractivityForNavigationAndTableView:YES];
         }
-        
         [[self activityIndicator] stopAnimating];
-       
+        
+        
     }];
     
     if(![ALDataNetworkConnection checkDataNetworkAvailable]){
         [self turnUserInteractivityForNavigationAndTableView:YES];
     }
     
+    
 }
-
 
 -(void)turnUserInteractivityForNavigationAndTableView:(BOOL)option{
     
     [self.contactsTableView setUserInteractionEnabled:option];
     [[[self navigationController] navigationBar] setUserInteractionEnabled:option];
-    
+    [[self searchBar] setUserInteractionEnabled:option];
+    [[self searchBar] resignFirstResponder];
     if(option == YES){
         [[self activityIndicator] stopAnimating];
     }
@@ -612,6 +640,8 @@
     }
     
 }
+
+
 # pragma mark - Dummy group message method
 //========================================
 -(void) addDummyMessage:(NSNumber *)channelKey
@@ -655,10 +685,5 @@
             [self.navigationController popToViewController:aViewController animated:YES];
         }
     }
-}
-
--(void)setUserInteraction:(BOOL)flag
-{
-    [self.contactsTableView setUserInteractionEnabled:flag];
 }
 @end
