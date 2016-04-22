@@ -2057,10 +2057,11 @@ ALMessageDBService  * dbService;
         alMessage.contactIds =appendedContactId;
         
         NSArray * componentsAlertValue = [alertValue componentsSeparatedByString:@":"];
-        alertValue = [NSString stringWithFormat:@"%@",componentsAlertValue[1]];
-        
+        if(componentsAlertValue.count>1){
+            alertValue = [NSString stringWithFormat:@"%@",componentsAlertValue[1]];
+        }
     }
-    
+    alMessage.message=alertValue;
     [self syncCall:alMessage updateUI:updateUI alertValue:alertValue];
 }
 
