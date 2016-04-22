@@ -1,4 +1,5 @@
 # Applozic-iOS-SDK
+iOS Chat SDK
 
 
 ### Overview         
