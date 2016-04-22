@@ -240,11 +240,6 @@
                     newContactCell.selectionStyle = UITableViewCellSelectionStyleGray ;
                 }
                 
-                ////<>><>><><><><>Remove the below call before release<><><><><><><><////
-                if([contact.userId isEqualToString:@"applozic"]){
-                    [self maskOutCell:newContactCell];
-                }
-                ////<>><>><><><><>Remove the below call before release<><><><><><><><////
             }
         }break;
         case SHOW_GROUP:
@@ -567,12 +562,13 @@
 #pragma mark - Create group method
 //================================
 -(void)createNewGroup:(id)sender{
-    
-    [self turnUserInteractivityForNavigationAndTableView:NO];
+
     
     if(![self checkInternetConnectivity:nil andIndexPath:nil]){
         return;
     }
+    
+    [self turnUserInteractivityForNavigationAndTableView:NO];
     
     //check whether at least two memebers selected
     if(self.groupMembers.count < 2){

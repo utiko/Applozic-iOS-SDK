@@ -48,21 +48,29 @@
 
 -(NSString*)getNotificationText:(ALMessage *)alMessage
 {
-    if(alMessage && ![alMessage.message isEqualToString:@""])
+    if(alMessage.contentType == ALMESSAGE_CONTENT_LOCATION)
     {
-        return alMessage.message;
-    }
-    else if(alMessage.contentType == ALMESSAGE_CONTENT_LOCATION)
-    {
-        return @"Shared Location";
+        return @"Shared a Location";
     }
     else if(alMessage.contentType == ALMESSAGE_CONTENT_VCARD)
     {
-        return @"Shared Contact";
+        return @"Shared a Contact";
     }
-    else
+    else if (alMessage.contentType == ALMESSAGE_CONTENT_CAMERA_RECORDING)
     {
-        return @"Shared Attachment";
+        return @"Shared a Video";
+    }
+    else if (alMessage.contentType == ALMESSAGE_CONTENT_AUDIO)
+    {
+        return @"Shared an Audio";
+    }
+    else if (alMessage.contentType == ALMESSAGE_CONTENT_ATTACHMENT ||
+             [alMessage.message isEqualToString:@""] || alMessage.fileMeta != NULL)
+    {
+        return @"Shared an Attachment";
+    }
+    else{
+        return alMessage.message;
     }
 }
 
@@ -126,12 +134,8 @@
         subtitle = self.text;
     }
     
-    // ** Attachment ** //
-    if(self.alMessageObject.contentType == ALMESSAGE_CONTENT_LOCATION){
-        subtitle = [NSString stringWithFormat:@"Shared location"];
-    }
     
-    subtitle = (subtitle.length > 20) ? [NSString stringWithFormat:@"%@...",[subtitle substringToIndex:17]] : subtitle;
+    subtitle = (subtitle.length > 30) ? [NSString stringWithFormat:@"%@...",[subtitle substringToIndex:27]] : subtitle;
     
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
    
