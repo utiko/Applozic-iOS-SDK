@@ -283,12 +283,17 @@
         if(self.forGroup.intValue == GROUP_ADDITION && [self.contactsInGroup containsObject:contact.userId]){
             return;
         }
+        [self setUserInteraction:NO];
         [self.activityIndicator startAnimating];
         [delegate addNewMembertoGroup:contact withComletion:^(NSError *error, ALAPIResponse *response) {
            
-            if(error){
+            if(error)
+            {
+                [self setUserInteraction:YES];
                 [TSMessage showNotificationWithTitle:@"Unable to add new member" type:TSMessageNotificationTypeError];
-            }else{
+            }else
+            {
+                [self setUserInteraction:YES];
                 [self backToDetailView];
             }
             [[self activityIndicator] stopAnimating];
@@ -650,5 +655,10 @@
             [self.navigationController popToViewController:aViewController animated:YES];
         }
     }
+}
+
+-(void)setUserInteraction:(BOOL)flag
+{
+    [self.contactsTableView setUserInteractionEnabled:flag];
 }
 @end
