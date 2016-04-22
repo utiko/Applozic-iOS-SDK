@@ -177,8 +177,9 @@
         [self.label setTextColor:[ALApplozicSettings getColorForNavigationItem]];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
     }
-//    self.mTableView.contentInset = UIEdgeInsetsMake(30.0, 0.0, 0.0, 0.0);
-   
+    
+    CGFloat paddingConstant = self.navigationController.navigationBar.frame.size.height - 14;
+    self.mTableView.contentInset = UIEdgeInsetsMake(paddingConstant, 0.0, 0.0, 0.0);
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
