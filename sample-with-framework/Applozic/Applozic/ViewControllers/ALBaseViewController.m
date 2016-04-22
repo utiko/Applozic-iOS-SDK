@@ -113,10 +113,12 @@
     
     [self.navigationController.navigationBar addSubview:self.label];
     
-    self.typingLabel = [[UILabel alloc] initWithFrame: CGRectMake(10,self.tabBarController.tabBar.frame.origin.y - 40, self.view.frame.size.width, 30)];
+    self.typingLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, self.tabBarController.tabBar.frame.origin.y - 35,
+                                                                  self.view.frame.size.width, 30)];
+    
+    self.typingLabel.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0 alpha:1];
+    self.typingLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:0.5];
     self.typingLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.typingLabel.backgroundColor = [UIColor clearColor];
-    self.typingLabel.textColor = [UIColor grayColor];
     [self.typingLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TYPING_LABEL_SIZE]];
     self.typingLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.typingLabel];
@@ -175,7 +177,7 @@
         [self.label setTextColor:[ALApplozicSettings getColorForNavigationItem]];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
     }
-    
+//    self.mTableView.contentInset = UIEdgeInsetsMake(30.0, 0.0, 0.0, 0.0);
    
 }
 
@@ -206,7 +208,7 @@
     NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     self.checkBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y;
-    self.typingLabel.frame = CGRectMake(10,keyboardEndFrame.origin.y - 90, self.view.frame.size.width, 30);
+    self.typingLabel.frame = CGRectMake(0, keyboardEndFrame.origin.y - 85, self.view.frame.size.width, 30);
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         [self scrollTableViewToBottomWithAnimation:YES];
@@ -224,7 +226,7 @@
     NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     self.checkBottomConstraint.constant = 0;
     CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    self.typingLabel.frame = CGRectMake(10,keyboardEndFrame.origin.y - 90, self.view.frame.size.width, 30);
+    self.typingLabel.frame = CGRectMake(0, keyboardEndFrame.origin.y - 85, self.view.frame.size.width, 30);
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         

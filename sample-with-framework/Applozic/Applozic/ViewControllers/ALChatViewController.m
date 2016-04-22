@@ -2328,8 +2328,10 @@ ALMessageDBService  * dbService;
     
     if(flag && [self.alContact.userId isEqualToString: userId])
     {
-        NSString *msg = self.alContact.displayName;
-        [self.typingLabel setText:[msg stringByAppendingString:@" is typing..."]];
+        NSString * space = @"    ";
+        NSString * msg = [self.alContact getDisplayName];
+        NSString * typingText = [NSString stringWithFormat:@"%@%@ is typing...", space,msg];
+        [self.typingLabel setText:typingText];
         [self.typingLabel setHidden:NO];
     }
     else
