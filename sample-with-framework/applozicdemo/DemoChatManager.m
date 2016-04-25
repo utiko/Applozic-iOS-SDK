@@ -306,7 +306,8 @@
     
     [ALApplozicSettings setGroupOption:YES];
     
-//    [ALUserDefaultsHandler setAppModuleName:APP_MODULE_NAME];
+// Note: Please uncomment below setter to use app_module_name
+//    [ALUserDefaultsHandler setAppModuleName:@"<APP_MODULE_NAME>"];
 }
 
 

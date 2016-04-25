@@ -13,12 +13,6 @@
 
 //#define APPLICATION_ID @"APPLOZIC"
 #define APPLICATION_ID @"applozic-sample-app"
-//#define APPLICATION_ID @"66970d99efa63c4adaeb65b51316ed2c"
-
-/* Note: Please uncomment the following two lines and respective four APP_MODULE_NAME setters in DemoChatManager.m  */
-
-//#define APPLICATION_ID @"cb0b5733c34afeb2bbda42d3653f9f57"
-#define APP_MODULE_NAME @"SELLER"
 
 
 @interface DemoChatManager : NSObject

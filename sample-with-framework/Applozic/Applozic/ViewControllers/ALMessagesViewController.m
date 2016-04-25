@@ -379,7 +379,9 @@
                 [contactCell.onlineImageMarker setHidden:YES];
             }
             
+            if(![msg.type isEqualToString:@"5"]){
             [contactCell.unreadCountLabel setHidden:NO];
+            }
             
             if ([msg.type integerValue] == [FORWARD_STATUS integerValue])
                 contactCell.mLastMessageStatusImageView.image = [ALUtilityClass getImageFromFramworkBundle:@"mobicom_social_forward.png"];
