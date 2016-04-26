@@ -126,6 +126,9 @@
     if ( ![dbHandler.managedObjectContext save:&error] && message){
         NSLog(@"Error in updating Message Delivery Report");
     }
+    else{
+        NSLog(@"updateMessageDeliveryReport DB update Success %@", messageKeyString);
+    }
     
 }
 

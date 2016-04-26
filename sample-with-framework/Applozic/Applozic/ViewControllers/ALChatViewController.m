@@ -2013,6 +2013,7 @@ ALMessageDBService  * dbService;
     ALMessage * alMessage =  [self getMessageFromViewList:@"key" withValue:key];
     if (alMessage)
     {
+        NSLog(@"Updating DR= Message(key) found FROM ViewList:-\nMessage:%@\nkey:%@\n",alMessage.message,alMessage.key);
         alMessage.status= statusValue;
         [self.mTableView reloadData];
     }
@@ -2021,13 +2022,17 @@ ALMessageDBService  * dbService;
         ALMessage* fetchMsg = [ALMessage new];
         fetchMsg=[ALMessageService getMessagefromKeyValuePair:@"key" andValue:key];
         
-        //now find in list ...
+        NSLog(@"Updating DR= Message not found from View, Fetching Message's key FROM DB:-\nFetched Message:%@\nnFetched Key:%@\n",fetchMsg.message,fetchMsg.key);
         ALMessage * alMessage2 =  [self getMessageFromViewList:@"msgDBObjectId" withValue:fetchMsg.msgDBObjectId];
         
         if (alMessage2)
         {
+            NSLog(@"Updating DR= Message2 found from View using key fetched FROM DB:-\nMessage:%@\nkey:%@\n",alMessage2.message,alMessage2.key);
             alMessage2.status = statusValue;
             [self.mTableView reloadData];
+        }
+        else{
+            NSLog(@"Updating DR= Message2 not found EVEN from DB !!");
         }
     }
 }
