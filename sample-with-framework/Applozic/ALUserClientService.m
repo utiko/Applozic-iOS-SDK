@@ -251,4 +251,35 @@
     }];
 
 }
+
+-(void)getListOfRegisteredUsers:(NSNumber *)startTime andPageSize:(NSUInteger)pageSize
+                 withCompletion:(void(^)(ALContactsResponse * response, NSError * error))completion
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/filter",KBASE_URL];
+    NSString * pageSizeString = [NSString stringWithFormat:@"%lu", (unsigned long)pageSize];
+    
+    NSString * theParamString = @"";
+    theParamString = [NSString stringWithFormat:@"pageSize=%@", pageSizeString];
+    if(startTime)
+    {
+        theParamString = [NSString stringWithFormat:@"pageSize=%@&startTime=%@", pageSizeString, startTime];
+    }
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    [ALResponseHandler processRequest:theRequest andTag:@"FETCH_CONTACT_WITH_PAGE_SIZE" WithCompletionHandler:^(id theJson, NSError * theError) {
+        
+        if (theError)
+        {
+            completion(nil, theError);
+            NSLog(@"ERROR_IN_FETCH_CONTACT_WITH_PAGE_SIZE : %@", theError);
+            return ;
+        }
+        
+        NSLog(@"RESPONSE_FETCH_CONTACT_WITH_PAGE_SIZE_JSON %@",theJson);
+        ALContactsResponse * contactResponse = [[ALContactsResponse alloc] initWithJSONString:(NSString *)theJson];
+        completion(contactResponse, nil);
+        [ALUserDefaultsHandler setContactViewLoadStatus:YES];
+    }];
+}
+
 @end

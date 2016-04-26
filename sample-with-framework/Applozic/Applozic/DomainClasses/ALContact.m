@@ -35,17 +35,20 @@
 }
 
 
-
--(NSString *)getDisplayName{
-    
-    if(self.displayName){
-        return _displayName;
-    }else if (self.fullName){
-        return _fullName;
-    }else{
+-(NSString *)getDisplayName
+{
+    if(self.displayName && ![self.displayName isEqualToString:@""])
+    {
+        return self.displayName;
+    }
+    else if (self.fullName && ![self.fullName isEqualToString:@""])
+    {
+        return self.fullName;
+    }
+    else
+    {
         return self.userId;
     }
-    
 }
 
 @end

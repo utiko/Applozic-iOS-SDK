@@ -606,4 +606,15 @@
     return userList;
 }
 
+-(void)updateFilteredContacts:(ALContactsResponse *)contactsResponse
+{
+    NSMutableArray * contactArray = [NSMutableArray new];
+    for(ALUserDetail * userDetail in contactsResponse.userDetailList)
+    {
+        [self updateUserDetail:userDetail];
+        ALContact * contact = [self loadContactByKey:@"userId" value: userDetail.userId];
+        [contactArray addObject:contact];
+    }
+}
+
 @end

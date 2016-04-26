@@ -348,5 +348,16 @@
             valueForKey:APP_MODULE_NAME_ID];
 }
 
++(void) setContactViewLoadStatus:(BOOL)status
+{
+    [[NSUserDefaults standardUserDefaults] setBool:status forKey:CONTACT_VIEW_LOADED];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL) getContactViewLoaded
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:CONTACT_VIEW_LOADED];
+}
+
 
 @end
