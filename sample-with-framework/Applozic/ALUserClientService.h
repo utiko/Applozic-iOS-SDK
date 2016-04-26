@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ALLastSeenSyncFeed.h"
 #import "ALContact.h"
+#import "ALContactsResponse.h"
 
 @interface ALUserClientService : NSObject
 
@@ -32,4 +33,8 @@
                  toContacts:(NSMutableArray*)contactIdsArray
                    toGroups:(NSMutableArray*)channelKeysArray
              withCompletion:(void (^)(NSString *json, NSError *error))completion;
+
+-(void)getListOfRegisteredUsers:(NSNumber *)startTime andPageSize:(NSUInteger)pageSize
+                 withCompletion:(void(^)(ALContactsResponse * response, NSError * error))completion;
+
 @end

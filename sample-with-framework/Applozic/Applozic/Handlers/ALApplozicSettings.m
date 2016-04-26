@@ -194,4 +194,27 @@
     return maxLimit ? maxLimit : 5;
 }
 
++(void)setFilterContactsStatus:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:FILTER_CONTACT];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getFilterContactsStatus
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:FILTER_CONTACT];
+}
+
++(void)setStartTime:(NSNumber *)startTime
+{
+    startTime = @([startTime doubleValue] + 1);
+    [[NSUserDefaults standardUserDefaults] setDouble:[startTime doubleValue] forKey:FILTER_CONTACT_START_TIME];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSNumber *)getStartTime
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:FILTER_CONTACT_START_TIME];
+}
+
 @end

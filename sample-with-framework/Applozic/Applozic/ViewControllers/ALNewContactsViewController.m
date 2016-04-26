@@ -24,6 +24,7 @@
 #import "TSMessage.h"
 #import "ALDataNetworkConnection.h"
 #import "ALNotificationView.h"
+#import "ALUserService.h"
 
 
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -74,23 +75,39 @@
     self.navigationItem.title = @"Contacts";
     self.contactList = [NSMutableArray new];
     [self handleFrameForOrientation];
+    
+    
+//    if(![ALUserDefaultsHandler getContactViewLoaded] && [ALApplozicSettings getFilterContactsStatus])     COMMENTED AS PER THE GUIDELINES : PLEASE DO NOT DELETE
+//    {
+        ALUserService * userService = [ALUserService new];
+        [userService getListOfRegisteredUsersWithCompletion:^(NSError *error) {
+    
+        if(error)
+        {
+            [self.activityIndicator stopAnimating];
+            [self.emptyConversationText setHidden:NO];
+            [self.emptyConversationText setText:@"Unable to fetch contacts"];
+            return;
+        }
+        [self subProcessContactFetch];
+            
+        }];
+//    }                         COMMENTED AS PER THE GUIDELINES : PLEASE DO NOT DELETE
+//    else
+//    {
+//        [self subProcessContactFetch];
+//    }
+    
+    
     //    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"< Back" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
     //    [self.navigationItem setLeftBarButtonItem:barButtonItem];
+    
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Back"]];
     [self.navigationItem setLeftBarButtonItem: barButtonItem];
     
-    ALChannelDBService * alChannelDBService = [[ALChannelDBService alloc] init];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self fetchConversationsGroupByContactId];
-        self.alChannelsList = [NSMutableArray arrayWithArray:[alChannelDBService getAllChannelKeyAndName]];
-    });
+    float y = self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
     
-    self.filteredContactList = [NSMutableArray arrayWithArray:self.contactList];
-    
-    
-    float y = self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height;
-    
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,y, self.view.frame.size.width, 40)];
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, y, self.view.frame.size.width, 40)];
     self.searchBar.delegate = self;
     self.searchBar.placeholder = @"Email, userid, number";
     [self.view addSubview:self.searchBar];
@@ -99,6 +116,15 @@
     self.groupMembers=[[NSMutableArray alloc] init];
     
     [self emptyConversationAlertLabel];
+}
+
+-(void)subProcessContactFetch
+{
+    ALChannelDBService * alChannelDBService = [[ALChannelDBService alloc] init];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self fetchConversationsGroupByContactId];
+        self.alChannelsList = [NSMutableArray arrayWithArray:[alChannelDBService getAllChannelKeyAndName]];
+    });
 }
 
 - (void) dismissKeyboard
@@ -169,6 +195,10 @@
 
 -(void)emptyConversationAlertLabel
 {
+    if(self.filteredContactList.count)
+    {
+        return;
+    }
     self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x,
                                                                            self.view.frame.origin.y + self.view.frame.size.height/2,
                                                                            self.view.frame.size.width, 30)];
@@ -176,18 +206,26 @@
     [self.emptyConversationText setText:@"No contact found"];
     [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:self.emptyConversationText];
-    self.emptyConversationText.hidden =  YES;
+    [self.emptyConversationText setHidden:YES];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.contactsTableView?1:0;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     NSUInteger count = self.filteredContactList.count;
     if(self.selectedSegment == 1)
+    {
         count = self.alChannelsList.count;
+    }
     if(count == 0)
-        [self.emptyConversationText setHidden:NO];
+    {
+        if(![self.activityIndicator isAnimating])
+        {
+            [self.emptyConversationText setHidden:NO];
+        }
+    }
     return count;
 }
 
@@ -197,10 +235,9 @@
     ALNewContactCell *newContactCell = (ALNewContactCell *)[tableView dequeueReusableCellWithIdentifier:individualCellIdentifier];
     NSUInteger randomIndex = random()% [self.colors count];
     UILabel* nameIcon = (UILabel*)[newContactCell viewWithTag:101];
-    nameIcon.layer.cornerRadius = nameIcon.frame.size.width/2;
     [nameIcon setTextColor:[UIColor whiteColor]];
-    nameIcon.layer.masksToBounds = YES;
     [nameIcon setHidden:YES];
+    [newContactCell.contactPersonImageView sd_setImageWithURL:[NSURL URLWithString:@""]];
     
     [newContactCell.contactPersonImageView setHidden:NO];
     newContactCell.contactPersonImageView.layer.cornerRadius = newContactCell.contactPersonImageView.frame.size.width/2;
@@ -215,7 +252,8 @@
             
             
             if (contact){
-                if (contact.contactImageUrl){
+                if (contact.contactImageUrl)
+                {
                     [newContactCell.contactPersonImageView sd_setImageWithURL:[NSURL URLWithString:contact.contactImageUrl]];
                 }
                 else
@@ -562,7 +600,7 @@
 #pragma mark - Create group method
 //================================
 -(void)createNewGroup:(id)sender{
-
+    
     
     if(![self checkInternetConnectivity:nil andIndexPath:nil]){
         return;

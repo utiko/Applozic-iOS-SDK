@@ -27,6 +27,9 @@
 #define LAST_SYNC_CHANNEL_TIME @"LAST_SYNC_CHANNEL_TIME"
 #define USER_BLOCK_LAST_TIMESTAMP @"USER_BLOCK_LAST_TIMESTAMP"
 #define APP_MODULE_NAME_ID @"APP_MODULE_NAME_ID"
+#define CONTACT_VIEW_LOADED @"CONTACT_VIEW_LOADED"
+
+
 #import <Foundation/Foundation.h>
 
 @interface ALUserDefaultsHandler : NSObject
@@ -119,6 +122,11 @@
 //+(void)setNotificationTitle:(NSString *)notificationTitle;
 
 +(void)setAppModuleName:(NSString*)appModuleName;
+
 +(NSString*)getAppModuleName;
+
++(BOOL) getContactViewLoaded;
+
++(void) setContactViewLoadStatus:(BOOL)status;
 
 @end

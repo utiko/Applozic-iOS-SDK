@@ -11,6 +11,7 @@
 #import "DB_CONTACT.h"
 #import "ALUserDetail.h"
 #import "ALUserBlocked.h"
+#import "ALContactsResponse.h"
 
 @interface ALContactDBService : NSObject
 
@@ -52,5 +53,7 @@
 -(NSMutableArray *)getListOfBlockedUsers;
 
 -(BOOL)setUnreadCountDB:(ALContact*)contact;
+
+-(void)updateFilteredContacts:(ALContactsResponse *)contactsResponse;
 
 @end

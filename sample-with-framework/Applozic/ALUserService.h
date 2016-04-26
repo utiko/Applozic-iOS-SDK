@@ -42,4 +42,7 @@
 -(NSMutableArray *)getListOfBlockedUserByCurrentUser;
 
 +(void)setUnreadCountZeroForContactId:(NSString*)contactId;
+
+-(void)getListOfRegisteredUsersWithCompletion:(void(^)(NSError * error))completion;
+
 @end

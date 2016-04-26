@@ -303,7 +303,7 @@
     [ALApplozicSettings setMaxCompressionFactor:0.1f];
     [ALApplozicSettings setMaxImageSizeForUploadInMB:3];
     [ALApplozicSettings setMultipleAttachmentMaxLimit:10];  //NSInteger
-    
+    [ALApplozicSettings setFilterContactsStatus:NO];
     [ALApplozicSettings setGroupOption:YES];
     
 //    [ALUserDefaultsHandler setAppModuleName:APP_MODULE_NAME];

@@ -6,6 +6,8 @@
 //  Copyright © 2015 applozic Inc. All rights reserved.
 //
 
+#define CONTACT_PAGE_SIZE 500
+
 #import "ALUserService.h"
 #import "ALRequestHandler.h"
 #import "ALResponseHandler.h"
@@ -262,6 +264,28 @@
     NSMutableArray * blockedUsersList = [dbService getListOfBlockedUsers];
     
     return blockedUsersList;
+}
+
+-(void)getListOfRegisteredUsersWithCompletion:(void(^)(NSError * error))completion
+{
+    ALUserClientService * clientService = [ALUserClientService new];
+    NSNumber * startTime = [ALApplozicSettings getStartTime];
+    NSUInteger pageSize = (NSUInteger)CONTACT_PAGE_SIZE;
+    
+    [clientService getListOfRegisteredUsers:startTime andPageSize:pageSize withCompletion:^(ALContactsResponse * response, NSError * error) {
+        
+        if(error)
+        {
+            completion(error);
+            return;
+        }
+        
+        ALContactDBService * dbServie = [ALContactDBService new];
+        [dbServie updateFilteredContacts:response];
+        completion(error);
+        
+    }];
+    
 }
 
 @end

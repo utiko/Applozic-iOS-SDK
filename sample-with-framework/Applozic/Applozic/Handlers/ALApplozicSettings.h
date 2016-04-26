@@ -20,6 +20,9 @@
 #define IMAGE_UPLOAD_MAX_SIZE @"IMAGE_UPLOAD_MAX_SIZE"
 #define GROUP_ENABLE @"GROUP_ENABLE"
 #define MAX_SEND_ATTACHMENT @"MAX_SEND_ATTACHMENT"
+#define FILTER_CONTACT @"FILTER_CONTACT"
+#define FILTER_CONTACT_START_TIME @"FILTER_CONTACT_START_TIME"
+
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -83,5 +86,13 @@
 +(void)setMultipleAttachmentMaxLimit:(NSInteger)limit;
 
 +(NSInteger)getMultipleAttachmentMaxLimit;
+
++(void)setFilterContactsStatus:(BOOL)flag;
+
++(BOOL)getFilterContactsStatus;
+
++(void)setStartTime:(NSNumber *)startTime;
+
++(NSNumber *)getStartTime;
 
 @end
