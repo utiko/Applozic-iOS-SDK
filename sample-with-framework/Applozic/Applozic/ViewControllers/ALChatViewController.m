@@ -262,8 +262,9 @@ ALMessageDBService  * dbService;
         NSLog(@"individual launch ...subscribeToConversation to mqtt..");
         self.mqttObject.mqttConversationDelegate = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            if(self.mqttObject)
+            if(self.mqttObject){
                 [self.mqttObject subscribeToConversation];
+            }
             else
                 NSLog(@"mqttObject is not found...");
         });
