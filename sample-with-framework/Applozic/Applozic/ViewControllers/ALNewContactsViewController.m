@@ -87,6 +87,7 @@
             [self.activityIndicator stopAnimating];
             [self.emptyConversationText setHidden:NO];
             [self.emptyConversationText setText:@"Unable to fetch contacts"];
+            [self onlyGroupFetch];
             return;
         }
         [self subProcessContactFetch];
@@ -123,6 +124,14 @@
     ALChannelDBService * alChannelDBService = [[ALChannelDBService alloc] init];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self fetchConversationsGroupByContactId];
+        self.alChannelsList = [NSMutableArray arrayWithArray:[alChannelDBService getAllChannelKeyAndName]];
+    });
+}
+
+-(void)onlyGroupFetch
+{
+    ALChannelDBService * alChannelDBService = [[ALChannelDBService alloc] init];
+    dispatch_async(dispatch_get_main_queue(), ^{
         self.alChannelsList = [NSMutableArray arrayWithArray:[alChannelDBService getAllChannelKeyAndName]];
     });
 }
