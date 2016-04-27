@@ -2626,6 +2626,7 @@ ALMessageDBService  * dbService;
     {
         [self.alMessageWrapper addLatestObjectToArray:(NSMutableArray *)sortedArray];
         [self.mTableView reloadData];
+        [self scrollTableViewToBottomWithAnimation:YES];
     }
     
 }
