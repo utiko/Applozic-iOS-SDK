@@ -112,8 +112,8 @@
     [self.mMessageStatusImageView setHidden:YES];
     
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
-    ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
-    NSString *receiverName = alContact.displayName? alContact.displayName: alMessage.to;
+    ALContact * alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
+    NSString * receiverName = [alContact getDisplayName];
     
     if([alMessage.type isEqualToString:@MT_INBOX_CONSTANT])
     {

@@ -84,8 +84,8 @@
     [self.mChannelMemberName setHidden:YES];
     
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
-    ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
-    NSString *receiverName = alContact.displayName? alContact.displayName: alMessage.to;
+    ALContact * alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
+    NSString * receiverName = [alContact getDisplayName];
     
     CGSize theDateSize = [ALUtilityClass getSizeForText:theDate maxWidth:150 font:self.mDateLabel.font.fontName fontSize:self.mDateLabel.font.pointSize];
     

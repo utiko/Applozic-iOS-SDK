@@ -70,9 +70,9 @@ UIViewController * modalCon;
     NSString * theDate = [NSString stringWithFormat:@"%@",[alMessage getCreatedAtTimeChat:today]];
     
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
-    ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
+    ALContact * alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
     
-    NSString *receiverName = alContact.displayName? alContact.displayName: alMessage.to;
+    NSString * receiverName = [alContact getDisplayName];
     
     self.mMessage = alMessage;
     
