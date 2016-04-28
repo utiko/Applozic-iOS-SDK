@@ -359,10 +359,10 @@ ALMessageDBService  * dbService;
         return YES;
     
     BOOL noContactIdMatch = !([[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds]  isEqualToString:self.contactIds]);
-    BOOL noGroupIdMatch   = !([[[self.alMessageWrapper getUpdatedMessageArray][0]    groupId]  isEqualToNumber:self.channelKey]);
+    NSNumber * ChannelNumber = self.channelKey ? self.channelKey : [NSNumber numberWithInt:0];
+    BOOL noGroupIdMatch   = !([[[self.alMessageWrapper getUpdatedMessageArray][0]    groupId]  isEqualToNumber:ChannelNumber]);
     
-    
-    if(noGroupIdMatch){  // No group match return YES without doubt!
+    if(self.channelKey && noGroupIdMatch){  // No group match return YES without doubt!
         return YES;
     }
     else if (self.channelKey==nil && noContactIdMatch){  // key is nil and incoming Contact don't match!

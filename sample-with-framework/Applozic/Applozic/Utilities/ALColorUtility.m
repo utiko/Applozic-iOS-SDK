@@ -74,12 +74,24 @@
     NSString *firstLetter = [[alphabet substringToIndex:1] uppercaseString];
     UIColor *colour = [self colorWithHexString:[colourDictionary valueForKey:firstLetter]];
     
+    if([alphabet isEqualToString:@""] || !colour)
+    {
+        NSArray * keyArray = [colourDictionary allKeys];
+        NSUInteger randomIndex = random()% [keyArray count];
+        NSString * colorKey = [keyArray objectAtIndex:randomIndex];
+        colour = [self colorWithHexString:[colourDictionary valueForKey:colorKey]];
+    }
+    
     return colour;
 }
 
 +(NSString *)getAlphabetForProfileImage:(NSString *)actualName
 {
-    NSString *iconAlphabet = @"";
+    NSString * iconAlphabet = @"";
+    if([actualName isEqualToString:iconAlphabet])
+    {
+        return actualName;
+    }
     NSString *trimmed = [actualName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *firstLetter = [trimmed substringToIndex:1];
     NSRange whiteSpaceRange = [trimmed rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];

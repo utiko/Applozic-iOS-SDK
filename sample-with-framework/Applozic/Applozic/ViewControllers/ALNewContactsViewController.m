@@ -185,10 +185,9 @@
         
         self.contactsTableView.editing=YES;
         self.contactsTableView.allowsMultipleSelectionDuringEditing = YES;
-        [ALUserDefaultsHandler setBottomTabBarHidden:YES];
         self.done = [[UIBarButtonItem alloc]
                      initWithTitle:@"Done"
-                     style:UIBarButtonItemStyleBordered
+                     style:UIBarButtonItemStylePlain
                      target:self
                      action:@selector(createNewGroup:)];
         
