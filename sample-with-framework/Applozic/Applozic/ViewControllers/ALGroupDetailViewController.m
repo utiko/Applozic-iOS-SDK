@@ -116,7 +116,7 @@
             contact.displayName = @"You";
         }
         [self.lastSeenMembersArray addObject:[self getLastSeenForMember:userID]];
-        [memberNames addObject:contact.displayName];
+        [memberNames addObject:[contact getDisplayName]];
     }
     self.memberCount = memberIds.count;
     NSLog(@"Member Count :%ld",(long)self.memberCount);
@@ -457,7 +457,7 @@
     }
     else{
         [self.firstLetterLabel setHidden:NO];
-        self.firstLetterLabel.text = [[alContact displayName] substringToIndex:1];
+        self.firstLetterLabel.text = [[alContact getDisplayName] substringToIndex:1];
         NSUInteger randomIndex = random()% [colors count];
         self.memberIconImageView.image = [ALColorUtility imageWithSize:CGRectMake(0,0,55,55)
                                                          WithHexString:colors[randomIndex] ];

@@ -242,13 +242,13 @@
     NSURL * theUrl = [NSURL URLWithString:alContact.contactImageUrl];
     [self.userImage sd_setImageWithURL:theUrl];
     [self.firstAlphabet setHidden:YES];
-    [self.userName setText:alContact.displayName];
+    [self.userName setText:[alContact getDisplayName]];
     
     if(!alContact.contactImageUrl)
     {
         [self.firstAlphabet setHidden:NO];
-        [self.userImage setBackgroundColor:[ALColorUtility getColorForAlphabet:alContact.displayName]];
-        [self.firstAlphabet setText:[ALColorUtility getAlphabetForProfileImage:alContact.displayName]];
+        [self.userImage setBackgroundColor:[ALColorUtility getColorForAlphabet:[alContact getDisplayName]]];
+        [self.firstAlphabet setText:[ALColorUtility getAlphabetForProfileImage:[alContact getDisplayName]]];
     }
     
     ALUtilityClass *utility = [ALUtilityClass new];

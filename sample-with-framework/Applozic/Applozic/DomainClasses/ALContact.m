@@ -37,11 +37,14 @@
 
 -(NSString *)getDisplayName
 {
-    if(self.displayName && ![self.displayName isEqualToString:@""])
+    NSString * trimDisplayName = [self.displayName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSString * trimFullName = [self.fullName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    if(self.displayName && trimDisplayName.length)
     {
         return self.displayName;
     }
-    else if (self.fullName && ![self.fullName isEqualToString:@""])
+    else if (self.fullName && trimFullName.length)
     {
         return self.fullName;
     }

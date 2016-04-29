@@ -156,7 +156,7 @@
     dateLabel.message = messageText;
     dateLabel.type = @"100";
     dateLabel.contactIds = almessage.contactIds;
-    dateLabel.groupId = almessage.groupId;
+//    dateLabel.groupId = almessage.groupId;
     dateLabel.fileMeta.thumbnailUrl = nil;
     
     return  dateLabel;
