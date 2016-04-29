@@ -1919,7 +1919,9 @@ ALMessageDBService  * dbService;
             [self handleErrorStatus:theMessage];
             return;
         }
+        [[self.alMessageWrapper getUpdatedMessageArray] addObject:theMessage];
         [self.mTableView reloadData];
+        [self scrollTableViewToBottomWithAnimation:YES];
         [self setRefreshMainView:TRUE];
     }];
     
