@@ -631,8 +631,8 @@ ALMessageDBService  * dbService;
         [self sendLocationMessage:locationMessage withCompletion:^(NSString *message, NSError *error) {
             if(!error){
                 [self.alMessageWrapper addALMessageToMessageArray:locationMessage];
-                [super scrollTableViewToBottomWithAnimation:YES];
                 [self.mTableView reloadData];
+                [super scrollTableViewToBottomWithAnimation:YES];
                 completion(message,error);
             }
         }];
