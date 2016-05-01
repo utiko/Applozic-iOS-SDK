@@ -11,5 +11,6 @@
 @interface ALDataNetworkConnection : UIViewController
 
 +(BOOL)checkDataNetworkAvailable;
++(BOOL)noInternetConnectionNotification;
 
 @end

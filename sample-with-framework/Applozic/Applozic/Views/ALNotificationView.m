@@ -34,7 +34,7 @@
 
 -(instancetype)initWithAlMessage:(ALMessage*)alMessage  withAlertMessage: (NSString *) alertMessage{
     self = [super init];
-    self.text = [self getNotificationText:alMessage];
+    self.text =[self getNotificationText:alMessage];
     self.textColor = [UIColor whiteColor];
     self.textAlignment = NSTextAlignmentCenter;
     self.layer.cornerRadius = 0;
@@ -69,11 +69,11 @@
     {
         return @"Shared an Attachment";
     }
+
     else{
         return alMessage.message;
     }
 }
-
 
 - (void)customizeMessageView:(TSMessageView *)messageView
 {
@@ -112,7 +112,7 @@
         NSArray *notificationComponents = [alcontact.getDisplayName componentsSeparatedByString:@":"];
         if(notificationComponents.count>1){
             contactName =[[contactDbService loadContactByKey:@"userId" value:[notificationComponents lastObject]] getDisplayName];
-            ;
+            
         }
         else{
             contactName = alcontact.getDisplayName;
@@ -127,15 +127,21 @@
             subtitle = [NSString stringWithFormat:@"%@:%@",contactName,subtitle];
         }
 
+
     }
     else{
         
         title    = alcontact.getDisplayName;
         subtitle = self.text;
+
     }
     
+    // ** Attachment ** //
+    if(self.alMessageObject.contentType == ALMESSAGE_CONTENT_LOCATION){
+        subtitle = [NSString stringWithFormat:@"Shared location"];
+    }
     
-    subtitle = (subtitle.length > 30) ? [NSString stringWithFormat:@"%@...",[subtitle substringToIndex:27]] : subtitle;
+    subtitle = (subtitle.length > 20) ? [NSString stringWithFormat:@"%@...",[subtitle substringToIndex:17]] : subtitle;
     
     UIImage *appIcon = [UIImage imageNamed: [[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0]];
    

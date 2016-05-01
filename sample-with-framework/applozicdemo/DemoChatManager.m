@@ -30,7 +30,7 @@
     
     [self ALDefaultChatViewSettings];
     [alUser setApplicationId:APPLICATION_ID];
-    
+
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         if (error) {
@@ -127,11 +127,11 @@
         NSLog(@"Not able to find user detail for registration...please register with applozic server first");
         return;
     }
-
+    
     [self ALDefaultChatViewSettings];
     [ alUser setApplicationId:APPLICATION_ID ];
     [alUser setAppModuleName: [ALUserDefaultsHandler getAppModuleName]];     // 2. APP_MODULE_NAME setter
-
+    
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         if (error) {
@@ -270,7 +270,7 @@
     ALUser *user = [[ALUser alloc] init];
     [user setApplicationId:APPLICATION_ID];
     [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];      // 3. APP_MODULE_NAME setter
-
+    
     //random userId. Write your logic to get user information here.
     [user setUserId:@"demo-test"];
     
@@ -302,12 +302,14 @@
     [ALApplozicSettings setNotificationTitle:appName];
     [ALApplozicSettings setMaxCompressionFactor:0.1f];
     [ALApplozicSettings setMaxImageSizeForUploadInMB:3];
-    [ALApplozicSettings setMultipleAttachmentMaxLimit:10];  //NSInteger
+    [ALApplozicSettings setMultipleAttachmentMaxLimit:5];  //NSInteger
     [ALApplozicSettings setFilterContactsStatus:NO];
     [ALApplozicSettings setGroupOption:YES];
     
-// Note: Please uncomment below setter to use app_module_name
-//    [ALUserDefaultsHandler setAppModuleName:@"<APP_MODULE_NAME>"];
+//   Note: Please uncomment below setter to use app_module_name
+//   [ALUserDefaultsHandler setAppModuleName:@"<APP_MODULE_NAME>"];
+//    [ALUserDefaultsHandler setAppModuleName:@"SELLER"];
+
 }
 
 
@@ -343,7 +345,7 @@
         NSLog(@"Not able to find user detail for registration...please register with applozic server first");
         return;
     }
-
+    
     [self ALDefaultChatViewSettings];
     
     [alUser setApplicationId:APPLICATION_ID ];

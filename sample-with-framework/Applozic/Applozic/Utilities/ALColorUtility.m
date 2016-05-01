@@ -42,6 +42,7 @@
 
 + (UIColor *)getColorForAlphabet:(NSString *)alphabet
 {
+    
     NSMutableDictionary *colourDictionary = [[NSMutableDictionary alloc] init];
     
     [colourDictionary setObject:@"#4FC3F7" forKey:@"A"];
@@ -71,8 +72,8 @@
     [colourDictionary setObject:@"#BCAAA4" forKey:@"Y"];
     [colourDictionary setObject:@"#AED581" forKey:@"Z"];
     
-    NSString *firstLetter = [[alphabet substringToIndex:1] uppercaseString];
-    UIColor *colour = [self colorWithHexString:[colourDictionary valueForKey:firstLetter]];
+    NSString * firstLetter = [[alphabet substringToIndex:1] uppercaseString];
+    UIColor * colour = [self colorWithHexString:[colourDictionary valueForKey:firstLetter]];
     
     if([alphabet isEqualToString:@""] || !colour)
     {
@@ -88,11 +89,11 @@
 +(NSString *)getAlphabetForProfileImage:(NSString *)actualName
 {
     NSString * iconAlphabet = @"";
-    if([actualName isEqualToString:iconAlphabet])
+    NSString * trimmed = [actualName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if(trimmed.length == 0)
     {
         return actualName;
     }
-    NSString *trimmed = [actualName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *firstLetter = [trimmed substringToIndex:1];
     NSRange whiteSpaceRange = [trimmed rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
     NSArray *listNames = [trimmed componentsSeparatedByString:@" "];

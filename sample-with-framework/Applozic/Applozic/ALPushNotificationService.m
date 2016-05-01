@@ -32,7 +32,7 @@
 -(BOOL) isApplozicNotification:(NSDictionary *)dictionary
 {
     NSString *type = (NSString *)[dictionary valueForKey:@"AL_KEY"];
-    NSLog(@"notification type %@", type);
+    NSLog(@"APNs got new message: Notification type %@", type);
     return type != nil && [ALPushNotificationService.ApplozicNotificationTypes containsObject:type];
 }
 
@@ -61,7 +61,7 @@
         NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
         
         if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
-            NSLog(@"notificationId is already processed...ALPUSH %@",notificationId);
+            NSLog(@"Returning from ALPUSH because notificationId is already processed... %@",notificationId);
             return true;
         }
         //TODO : check if notification is alreday received and processed...
@@ -215,5 +215,9 @@
         
     }
 
+}
+
++(void)applicationEntersForeground{
+   [[NSNotificationCenter defaultCenter] postNotificationName:@"appCameInForeground" object:nil];
 }
 @end

@@ -28,5 +28,6 @@
 @property NSString *roleName;
 @property short deviceType;
 @property NSString *imageLink;
+@property NSString * appModuleName;
 @end
 

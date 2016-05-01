@@ -19,9 +19,9 @@
     
 }
 
--(void)populateDataFromDictonary:(NSDictionary *)dict{
-    
-    self.userId = [dict objectForKey:@"userId"] ;
+-(void)populateDataFromDictonary:(NSDictionary *)dict
+{
+    self.userId = [dict objectForKey:@"userId"];
     self.fullName = [dict objectForKey:@"fullName"];
     self.contactNumber = [dict objectForKey:@"contactNumber"];
     self.displayName = [dict objectForKey:@"displayName"];
@@ -31,9 +31,8 @@
     self.applicationId = [dict objectForKey:@"applicationId"];
     self.lastSeenAt = [dict objectForKey:@"lastSeenAtTime"];
     self.connected = [dict objectForKey:@"connected"];
-    self.unreadCount=[dict objectForKey:@"unreadCount"];
+    self.unreadCount = [dict objectForKey:@"unreadCount"];
 }
-
 
 -(NSString *)getDisplayName
 {
@@ -52,6 +51,7 @@
     {
         return self.userId;
     }
+    
 }
 
 @end

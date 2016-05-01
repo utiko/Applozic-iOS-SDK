@@ -148,13 +148,14 @@
         userContact.fullName = contact.fullName;
         userContact.contactNo = contact.contactNumber;
         userContact.contactImageUrl = contact.contactImageUrl;
-        userContact.unreadCount=contact.unreadCount;
+        if(contact.unreadCount != NULL){
+            userContact.unreadCount=contact.unreadCount;
+        }
         if(contact.displayName)
         {
             userContact.displayName = contact.displayName;
         }
         userContact.localImageResourceName = contact.localImageResourceName;
-        
     }
     
     NSError *error = nil;
@@ -163,7 +164,7 @@
     
     if (!success) {
         
-        NSLog(@"DB ERROR :%@",error);
+        NSLog(@"updateContact DB ERROR :%@",error);
     }
     
     return success;
@@ -181,6 +182,7 @@
     
     
     NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    
     if(result.count>0){
         NSManagedObject* userCon = [result objectAtIndex:0];
         [userCon setValue:0 forKey:@"unreadCount"];
@@ -302,7 +304,7 @@
     result = [dbHandler.managedObjectContext save:&error];
     
     if (!result) {
-        NSLog(@"DB ERROR :%@",error);
+        NSLog(@"addContact DB ERROR :%@",error);
     }
     
     return result;
@@ -606,7 +608,7 @@
     return userList;
 }
 
--(void)updateFilteredContacts:(ALContactsResponse *)contactsResponse
+-(void)updateFilteredContacts:(ALContactsResponse *)contactsResponse 
 {
     NSMutableArray * contactArray = [NSMutableArray new];
     for(ALUserDetail * userDetail in contactsResponse.userDetailList)

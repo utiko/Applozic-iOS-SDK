@@ -85,7 +85,8 @@
     [predicateArray addObject:predicate1];
 
     
-    NSPredicate * predicate3 = [NSPredicate predicateWithFormat:@"status != %i",DELIVERED_AND_READ];
+    NSPredicate * predicate3 = [NSPredicate predicateWithFormat:@"status != %i and sentToServer ==%@",
+                                DELIVERED_AND_READ,[NSNumber numberWithBool:YES]];
     [predicateArray addObject:predicate3];
     
     
@@ -125,6 +126,9 @@
     NSError *error = nil;
     if ( ![dbHandler.managedObjectContext save:&error] && message){
         NSLog(@"Error in updating Message Delivery Report");
+    }
+    else{
+        NSLog(@"updateMessageDeliveryReport DB update Success %@", messageKeyString);
     }
     
 }
@@ -595,7 +599,7 @@
             NSLog(@"groupId is coming as 0..setting it null" );
             theMessage.groupId = NULL;
         }
-        [msgArray addObject:theMessage];
+        [msgArray addObject:theMessage]; NSLog(@"Pending Message status:%@",theMessage.status);
     }
     
     NSLog(@" get pending messages ...getPendingMessages ..%lu",msgArray.count);

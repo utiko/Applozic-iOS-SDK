@@ -36,4 +36,6 @@
 
 - (void) insertInitialContacts;
 
+-(BOOL)setUnreadCountInDB:(ALContact*)contact;
+
 @end

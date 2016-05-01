@@ -8,6 +8,7 @@
 #import "ALRequestHandler.h"
 #import "ALUtilityClass.h"
 #import "ALUserDefaultsHandler.h"
+#import "NSString+Encode.h"
 
 @implementation ALRequestHandler
 
@@ -19,7 +20,7 @@
     
     if (paramString != nil) {
         
-        theUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@",urlString,[paramString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+        theUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@",urlString,paramString]];
     }
     else
     {
@@ -67,8 +68,8 @@
     [request addValue:@"true" forHTTPHeaderField:@"UserId-Enabled"];
     [request addValue:[ALUserDefaultsHandler getDeviceKeyString] forHTTPHeaderField:@"Device-Key"];
     [request addValue:@"1" forHTTPHeaderField:@"Source"];
-    [request addValue:[ALUserDefaultsHandler getAppModuleName] forHTTPHeaderField:@"App-Module-Name"];
-
+    [request addValue:[ALUserDefaultsHandler getAppModuleName]
+        forHTTPHeaderField:@"App-Module-Name"];
     
     NSString *authStr = [NSString stringWithFormat:@"%@:%@",[ALUserDefaultsHandler getUserId] , [ALUserDefaultsHandler getDeviceKeyString]];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];

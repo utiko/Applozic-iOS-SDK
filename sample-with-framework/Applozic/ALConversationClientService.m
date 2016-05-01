@@ -41,10 +41,9 @@
         }
         else
         {
-            //NSLog(@"SEVER RESPONSE FROM JSON CREATE_CONVERSATION : %@", (NSString *)theJson);
             response = [[ALConversationCreateResponse alloc] initWithJSONString:theJson];
         }
-        
+        NSLog(@"SEVER RESPONSE FROM JSON CREATE_CONVERSATION : %@", response);
         completion(theError, response);
         
     }];

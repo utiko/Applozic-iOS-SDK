@@ -26,7 +26,7 @@
 -(void) loadViewForMedia:(UIViewController *)launch;
 -(void) showVideoFullScreen:(MPMoviePlayerViewController *)fullView;
 -(void) showSuggestionView:(NSURL *)fileURL andFrame:(CGRect)frame;
--(void) showAnimationForMsgInfo;
+-(void) showAnimationForMsgInfo:(BOOL)flag;
 
 @end
 

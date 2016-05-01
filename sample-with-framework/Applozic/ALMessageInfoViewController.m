@@ -148,12 +148,14 @@
     {
         ALNotificationView * notification = [ALNotificationView new];
         [notification noDataConnectionNotificationView];
+        completion([self customError]);
         return;
     }
     if(!alMessage.sentToServer)
     {
         [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
         [TSMessage showNotificationWithTitle:@"Message is in processing" type:TSMessageNotificationTypeWarning];
+        completion([self customError]);
         return;
     }
     
@@ -176,7 +178,7 @@
                 {
                     [readList addObject:info];
                 }
-                
+
                 if(info.messageStatus == (short)DELIVERED)
                 {
                     [deliveredList addObject:info];
@@ -195,7 +197,7 @@
     self.userName = (UILabel *)[contactCell viewWithTag:503];
     self.dateLabel = (UILabel *)[contactCell viewWithTag:502];
     [self.dateLabel setTextColor:[UIColor grayColor]];
-    //    self.timeLabel = (UILabel *)[contactCell viewWithTag:501];
+//    self.timeLabel = (UILabel *)[contactCell viewWithTag:501];
     
     [self.firstAlphabet setTextColor:[UIColor whiteColor]];
     self.userImage.layer.cornerRadius = self.userImage.frame.size.width/2;
@@ -315,6 +317,20 @@
     {
         [imageView setImage:[ALUtilityClass getImageFromFramworkBundle:@"VIDEO.png"]];
         [view addSubview:imageView];
+        if(self.almessage.message.length)
+        {
+            CGSize textSize = [ALUtilityClass getSizeForText:self.almessage.message
+                                                    maxWidth:imageView.frame.size.width
+                                                        font:textView.font.fontName
+                                                    fontSize:textView.font.pointSize];
+            
+            bubbleView.frame = CGRectMake(cellSize.width - 265, 10, maxWidth, self.msgHeaderHeight);
+            imageView.frame = CGRectMake(bubbleView.frame.origin.x + 5, bubbleView.frame.origin.y + 5, bubbleView.frame.size.width - 10, maxWidth - 40);
+            textView.frame = CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y + imageView.frame.size.height + 5,
+                                        imageView.frame.size.width, textSize.height + 20);
+            [view addSubview:textView];
+            [textView setText:self.almessage.message];
+        }
     }
     else if ([self.almessage.fileMeta.contentType hasPrefix:@"image"] || self.almessage.contentType == ALMESSAGE_CONTENT_LOCATION)
     {
@@ -347,7 +363,7 @@
         {
             imageView.frame = CGRectMake(bubbleView.frame.origin.x + 10, bubbleView.frame.origin.y + 5, 50, 50);
             imageView.layer.cornerRadius = imageView.frame.size.width/2;
-            
+
             [imageView setImage: [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"]];
             if(self.VCFObject.retrievedImage)
             {
@@ -363,7 +379,7 @@
                                         bubbleView.frame.size.width - imageView.frame.size.width - 10,
                                         bubbleView.frame.size.height - 10);
         }
-        
+
         
         [view addSubview:textView];
         [view addSubview:imageView];
@@ -384,6 +400,15 @@
     [view bringSubviewToFront:imageView];
     
     return view;
+}
+
+-(NSError *)customError
+{
+    NSString * domain = @"com.applozic.domain";
+    NSString * desc = NSLocalizedString(@"EITHER 'NO NETWORK' OR 'MSG YET TO SENT'", @"");
+    NSDictionary * userInfo = @{ NSLocalizedDescriptionKey : desc };
+    NSError * error = [NSError errorWithDomain:domain code:0 userInfo:userInfo];
+    return error;
 }
 
 @end

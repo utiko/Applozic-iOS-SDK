@@ -109,7 +109,7 @@ class ALChatManager: NSObject {
             user = alUser!;
 
         }
-        alChatLauncher.ALDefaultChatViewSettings();
+        ALDefaultChatViewSettings();
 
         // register and launch...
         let registerUserClientService: ALRegisterUserClientService = ALRegisterUserClientService()
@@ -238,7 +238,7 @@ func ALDefaultChatViewSettings (){
     ALApplozicSettings.setNotificationTitle(appName?.string)
     ALApplozicSettings.setMaxCompressionFactor(0.1)
     ALApplozicSettings.setMaxImageSizeForUploadInMB(3)
-    
+    ALApplozicSettings.setFilterContactsStatus(flag)
     ALApplozicSettings.setGroupOption(true)
 
 }

@@ -37,11 +37,10 @@
     NSMutableOrderedSet* contactIdsArr=[[NSMutableOrderedSet alloc] init ];
    
     NSMutableString * repString=[[NSMutableString alloc] init];
-    
-    ALContactDBService* dbObj=[[ALContactDBService alloc] init];
-    
+
     for(ALMessage* msg in messagesArr) {
-        if(![dbObj getContactByKey:@"userId" value:msg.contactIds]) {
+        
+        if(![ALUserDefaultsHandler isServerCallDoneForUserInfoForContact:msg.contactIds]) {
             NSMutableString* appStr=[[NSMutableString alloc] initWithString:msg.contactIds];
             [appStr insertString:@"&userIds=" atIndex:0];
             [contactIdsArr addObject:appStr];
@@ -60,11 +59,10 @@
     
     NSLog(@"rep String %@",repString);
 
-//    [ALUserService getUserInfo:repString];
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/v1/info",KBASE_URL];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:repString];
     
-    [ALResponseHandler processRequest:theRequest andTag:@"GET ALl DISPLAY NAMES" WithCompletionHandler:^(id theJson, NSError *theError) {
+    [ALResponseHandler processRequest:theRequest andTag:@"GET_ALL_DISPLAY_NAMES" WithCompletionHandler:^(id theJson, NSError *theError) {
         
         if (theError) {
             return ;
@@ -72,13 +70,12 @@
         NSDictionary* userIDs=[[NSDictionary alloc] initWithDictionary:theJson];
         
         for(id key in userIDs){
-            ALContact * createNew=[[ALContact alloc] init];
-            createNew.displayName=[userIDs objectForKey:key];
-            createNew.userId=key;
-            
-            ALContactDBService * adding=[[ALContactDBService alloc] init];
-            [adding addContact:createNew];
-            
+            ALContact * alContactUpdated=[[ALContact alloc] init];
+            alContactUpdated.displayName=[userIDs objectForKey:key];
+            alContactUpdated.userId=key;
+            ALContactDBService * alContactDbServie=[[ALContactDBService alloc] init];
+            [alContactDbServie updateContact:alContactUpdated];
+            [ALUserDefaultsHandler setServerCallDoneForUserInfo:YES ForContact:alContactUpdated.userId];
         }
         completionMark();
     }];

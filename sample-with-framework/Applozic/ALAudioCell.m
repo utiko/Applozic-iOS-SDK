@@ -112,8 +112,8 @@
     [self.mMessageStatusImageView setHidden:YES];
     
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
-    ALContact * alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
-    NSString * receiverName = [alContact getDisplayName];
+    ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
+    NSString *receiverName = [alContact getDisplayName];
     
     if([alMessage.type isEqualToString:@MT_INBOX_CONSTANT])
     {
@@ -458,7 +458,7 @@
 
 - (void)msgInfo:(id)sender
 {
-    [self.delegate showAnimationForMsgInfo];
+    [self.delegate showAnimationForMsgInfo:YES];
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     ALMessageInfoViewController *launchChat = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
     
@@ -467,6 +467,10 @@
         if(!error)
         {
             [self.delegate loadViewForMedia:launchChat];
+        }
+        else
+        {
+            [self.delegate showAnimationForMsgInfo:NO];
         }
     }];
 }

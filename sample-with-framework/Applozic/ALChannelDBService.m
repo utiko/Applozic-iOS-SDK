@@ -279,7 +279,7 @@
     for(NSString *userID in tempArray)
     {
         ALContact *contact = [contactDB loadContactByKey:@"userId" value:userID];
-        [listArray addObject:[contact getDisplayName]];
+        [listArray addObject: [contact getDisplayName]];
     }
     if(listArray.count == 1)
     {

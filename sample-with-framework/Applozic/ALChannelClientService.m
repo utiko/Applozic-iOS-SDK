@@ -16,6 +16,7 @@
 #define RENAME_CHANNEL_URL @"/rest/ws/group/change/name"
 
 #import "ALChannelClientService.h"
+#import "NSString+Encode.h"
 
 @interface ALChannelClientService ()
 
@@ -84,7 +85,10 @@
 +(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, ADD_MEMBER_TO_CHANNEL_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey, userId];
+    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@",
+                                 channelKey,
+                                 [userId urlEncodeUsingNSUTF8StringEncoding]];
+    
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"ADD_NEW_MEMBER_TO_CHANNEL" WithCompletionHandler:^(id theJson, NSError *error) {
@@ -97,7 +101,7 @@
         {
             response = [[ALAPIResponse alloc] initWithJSONString:theJson];
         }
-        
+        NSLog(@"Response ADD_NEW_MEMBER_TO_CHANNEL :%@",response);
         completion(error, response);
     }];
 }
@@ -106,7 +110,8 @@
 {
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, REMOVE_MEMBER_FROM_CHANNEL_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey, userId];
+    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey,
+                                 [userId urlEncodeUsingNSUTF8StringEncoding]];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"REMOVE_MEMBER_FROM_CHANNEL_URL" WithCompletionHandler:^(id theJson, NSError *error) {
@@ -117,7 +122,7 @@
         }
         else
         {
-            NSLog(@"Remove Member Response %@",theJson);
+            NSLog(@"Response REMOVE_MEMBER_FROM_CHANNEL %@",theJson);
             response = [[ALAPIResponse alloc] initWithJSONString:theJson];
         }
         
@@ -149,7 +154,8 @@
 +(void)leaveChannel:(NSNumber *)channelKey withUserId:(NSString *)userId andCompletion:(void (^)(NSError *, ALAPIResponse *))completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, LEFT_CHANNEL_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey, userId];
+    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey,
+                                 [userId urlEncodeUsingNSUTF8StringEncoding]];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"LEAVE_FROM_CHANNEL" WithCompletionHandler:^(id theJson, NSError *error) {
@@ -162,7 +168,7 @@
         {
             response = [[ALAPIResponse alloc] initWithJSONString:theJson];
         }
-        
+        NSLog(@"Response: LEAVE_FROM_CHANNEL %@",response.status);
         completion(error, response);
     }];
 }

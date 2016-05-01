@@ -13,19 +13,15 @@
 
 -(void)insertConversationProxy:(NSMutableArray *)proxyArray
 {
-    NSMutableArray *conversationProxyArray = [[NSMutableArray alloc] init];
     ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
     
-    for(ALConversationProxy *proxy in proxyArray)
-    {
+    for(ALConversationProxy *proxy in proxyArray){
+        
         [self createConversationProxy:proxy];
-        [theDBHandler.managedObjectContext save:nil];
-        [conversationProxyArray addObject:proxy];
     }
     
     NSError *error = nil;
-    [theDBHandler.managedObjectContext save:&error];
-    if(error)
+    if(![theDBHandler.managedObjectContext save:&error])
     {
         NSLog(@"ERROR: InsertConversationProxy METHOD %@",error);
     }
@@ -72,8 +68,6 @@
     dbConversationProxy.closed = [NSNumber numberWithBool:conversationProxy.closed];
     dbConversationProxy.userId = conversationProxy.userId;
     dbConversationProxy.topicDetailJson = conversationProxy.topicDetailJson;
-    
-    ALTopicDetail * topicDetails = conversationProxy.getTopicDetail;
     return dbConversationProxy;
 }
 

@@ -12,7 +12,6 @@
 #import "DB_CONTACT.h"
 #import "ALContact.h"
 #import "ALChatCell.h"
-#import "ALAttachmentController.h"
 #import "ALUserDetail.h"
 #import "ALMessageArrayWrapper.h"
 #import "ALChannelDBService.h"
@@ -20,7 +19,7 @@
 #import "ALAudioCell.h"
 #import "ALAudioAttachmentViewController.h"
 
-@interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate,ALChatCellDelegate,ALImageWithTextControllerDelegate>
+@interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate,ALChatCellDelegate>
 
 @property (strong, nonatomic) ALContact *alContact;
 @property (nonatomic, strong) ALChannel *alChannel;

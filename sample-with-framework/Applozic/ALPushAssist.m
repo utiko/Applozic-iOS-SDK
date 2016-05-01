@@ -16,6 +16,7 @@
 #import "ALMessagesViewController.h"
 #import "ALAppLocalNotifications.h"
 #import "ALGroupDetailViewController.h"
+#import "ALNewContactsViewController.h"
 
 
 @implementation ALPushAssist
@@ -36,7 +37,10 @@
 
 
 -(BOOL) isOurViewOnTop{
-    return ( [self.topViewController isKindOfClass:[ALMessagesViewController class]]||[self.topViewController isKindOfClass:[ALChatViewController class]] || [self.topViewController isKindOfClass:[ALGroupDetailViewController class]]);
+    return ( [self.topViewController isKindOfClass:[ALMessagesViewController class]]
+            ||[self.topViewController isKindOfClass:[ALChatViewController class]]
+            ||[self.topViewController isKindOfClass:[ALGroupDetailViewController class]]
+            ||[self.topViewController isKindOfClass:[ALNewContactsViewController class]]);
 }
 
 -(BOOL)isMessageViewOnTop{

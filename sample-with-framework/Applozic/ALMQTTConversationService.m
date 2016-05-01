@@ -152,6 +152,11 @@ static MQTTSession *session;
             NSDictionary * message = [theMessageDict objectForKey:@"message"];
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:message];
             
+            if(alMessage.deviceKey && [alMessage.deviceKey isEqualToString:[ALUserDefaultsHandler getDeviceKeyString]]){
+                NSLog(@"Sent by self-device");
+                return;
+            }
+            
             [ALMessageService getMessageSENT:alMessage withCompletion:^(NSMutableArray * messageArray, NSError *error) {
                 if(messageArray.count > 0){
                     [self.alSyncCallService syncCall:alMessage];

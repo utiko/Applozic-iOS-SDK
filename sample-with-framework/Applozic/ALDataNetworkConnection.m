@@ -8,6 +8,7 @@
 
 #import "ALDataNetworkConnection.h"
 #import <SystemConfiguration/SCNetworkReachability.h>
+#import "TSMessage.h"
 
 @interface ALDataNetworkConnection ()
 
@@ -39,15 +40,14 @@
     return canReach;
 }
 
-+(BOOL)isInternetConnectedOrShowNotification{
++(BOOL)noInternetConnectionNotification{
     if(![ALDataNetworkConnection checkDataNetworkAvailable]){
         [TSMessage showNotificationWithTitle:@"Unable to connect to Internet" type:TSMessageNotificationTypeError];
-        return NO;
-    }
-    else{
         return YES;
     }
+    else{
+        return NO;
+    }
 }
-
 
 @end
