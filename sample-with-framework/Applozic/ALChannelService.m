@@ -112,7 +112,7 @@
 
 -(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSNumber *channelKey))completion{
     
-    if(channelName != nil && memberArray.count >= 2)
+    if(channelName != nil)
     {
         [ALChannelClientService createChannel: channelName andMembersList: memberArray withCompletion:^(NSError *error, ALChannelCreateResponse *response) {
             if(!error)
@@ -127,6 +127,7 @@
     }
     else
     {
+        completion(nil);
         return;
     }
 }
