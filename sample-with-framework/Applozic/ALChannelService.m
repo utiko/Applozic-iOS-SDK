@@ -115,19 +115,23 @@
     if(channelName != nil)
     {
         [ALChannelClientService createChannel: channelName andMembersList: memberArray withCompletion:^(NSError *error, ALChannelCreateResponse *response) {
+            
             if(!error)
             {
                 response.alChannel.adminKey = [ALUserDefaultsHandler getUserId];
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
                 [channelDBService createChannel:response.alChannel];
                 completion(response.alChannel.key);
-                
+            }
+            else
+            {
+                NSLog(@"ERROR_IN_CHANNEL_CREATING :: %@",error);
+                completion(nil);
             }
         }];
     }
     else
     {
-        completion(nil);
         return;
     }
 }
@@ -137,7 +141,6 @@
 
 -(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion
 {
-    
     if(channelKey != nil && userId != nil)
     {
         [ALChannelClientService addMemberToChannel:userId andChannelKey:channelKey withComletion:^(NSError *error, ALAPIResponse *response) {
