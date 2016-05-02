@@ -23,6 +23,7 @@
 #import "ALMessageInfoViewController.h"
 #import "ALChatViewController.h"
 #import "ALDataNetworkConnection.h"
+#import "UIImage+MultiFormat.h"
 
 // Constants
 #define MT_INBOX_CONSTANT "4"
@@ -72,7 +73,7 @@ UIViewController * modalCon;
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
     ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
     
-    NSString *receiverName = alContact.displayName? alContact.displayName: alMessage.to;
+    NSString *receiverName = [alContact getDisplayName];
     
     self.mMessage = alMessage;
     
@@ -312,6 +313,7 @@ UIViewController * modalCon;
     }
     
     [self.mImageView sd_setImageWithURL:theUrl];
+    
     return self;
     
 }
@@ -441,16 +443,20 @@ UIViewController * modalCon;
 
 - (void)msgInfo:(id)sender
 {
-    [self.delegate showAnimationForMsgInfo];
+    [self.delegate showAnimationForMsgInfo:YES];
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     ALMessageInfoViewController *launchChat = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
     
     launchChat.contentURL = theUrl;
-    [launchChat setMessage:self.mMessage andHeaderHeight:msgFrameHeight  withCompletionHandler:^(NSError *error) {
+    [launchChat setMessage:self.mMessage andHeaderHeight:msgFrameHeight withCompletionHandler:^(NSError *error) {
         
         if(!error)
         {
             [self.delegate loadViewForMedia:launchChat];
+        }
+        else
+        {
+            [self.delegate showAnimationForMsgInfo:NO];
         }
     }];
 }

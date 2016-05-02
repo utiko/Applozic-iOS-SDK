@@ -216,4 +216,8 @@
     }
 
 }
+
++(void)applicationEntersForeground{
+   [[NSNotificationCenter defaultCenter] postNotificationName:@"appCameInForeground" object:nil];
+}
 @end

@@ -127,7 +127,7 @@
         return;
     }
     [ alUser setApplicationId:APPLICATION_ID ];
-    [self.chatLauncher ALDefaultChatViewSettings];
+    [self ALDefaultChatViewSettings];
     
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
@@ -183,7 +183,7 @@
         return;
     }
     
-    [self.chatLauncher ALDefaultChatViewSettings];
+    [self ALDefaultChatViewSettings];
     ALUser *alUser =  DemoChatManager.getLoggedinUserInformation;
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
@@ -298,6 +298,7 @@
     [ALApplozicSettings setNotificationTitle:appName];
     [ALApplozicSettings setMaxCompressionFactor:0.1f];
     [ALApplozicSettings setMaxImageSizeForUploadInMB:3];
+    [ALApplozicSettings setFilterContactsStatus:NO];
     
     [ALApplozicSettings setGroupOption:NO];
 }

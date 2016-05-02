@@ -21,7 +21,7 @@
 #import "MessageListRequest.h"
 #import "ALUserBlockResponse.h"
 #import "ALUserService.h"
-
+#import "NSString+Encode.h"
 @implementation ALMessageClientService
 
 -(void) updateDeliveryReports:(NSMutableArray *) messages
@@ -37,7 +37,7 @@
 {
     NSLog(@"updating delivery report for: %@", key);
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delivered",KBASE_URL];
-    NSString *theParamString=[NSString stringWithFormat:@"userId=%@&key=%@",[ALUserDefaultsHandler getUserId],key];
+    NSString *theParamString=[NSString stringWithFormat:@"userId=%@&key=%@",[[ALUserDefaultsHandler getUserId] urlEncodeUsingNSUTF8StringEncoding],key];
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
@@ -252,7 +252,7 @@
 
 -(void )deleteMessage:( NSString * ) keyString andContactId:( NSString * )contactId withCompletion:(void (^)(NSString *, NSError *))completion{
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/delete",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"key=%@&userId=%@",keyString,contactId];
+    NSString * theParamString = [NSString stringWithFormat:@"key=%@&userId=%@",keyString,[contactId urlEncodeUsingNSUTF8StringEncoding]];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
@@ -264,10 +264,9 @@
             return ;
         }
         else{
-            //delete sucessfull/reponse
-            NSLog(@"Response of delete: %@", (NSString *)theJson);
             completion((NSString *)theJson,nil);
         }
+      NSLog(@"Response DELETE_MESSAGE: %@", (NSString *)theJson);
     }];
 }
 
@@ -282,29 +281,19 @@
     }
     else
     {
-        theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
+        theParamString = [NSString stringWithFormat:@"userId=%@",[contactId urlEncodeUsingNSUTF8StringEncoding]];
     }
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
-    [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
+    [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE_THREAD" WithCompletionHandler:^(id theJson, NSError *theError) {
         
-        if (theError)
-        {
-            completion(nil,theError);
-            NSLog(@"theError");
-            return ;
-        }
-        else
-        {
-            //delete sucessfull
-            NSLog(@"sucessfully deleted !");
+        if (!theError){
             ALMessageDBService * dbService = [[ALMessageDBService alloc] init];
             [dbService deleteAllMessagesByContact:contactId orChannelKey:channelKey];
             
         }
-        
-        NSLog(@"Response of delete: %@", (NSString *)theJson);
-        completion((NSString *)theJson,nil);
+        NSLog(@"Response DELETE_MESSAGE_THREAD: %@", (NSString *)theJson);
+        completion((NSString *)theJson,theError);
     }];
 }
 

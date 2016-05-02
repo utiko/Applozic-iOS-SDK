@@ -16,13 +16,13 @@
 
 -(ALConversationProxy *) getConversationByKey:(NSNumber*)conversationKey{
     
-    ALConversationDBService * conversationDBService =  [[ALConversationDBService alloc]init];
+    ALConversationProxy *alConversationProxy =  [[ALConversationProxy alloc]init];
+    ALConversationDBService * conversationDBService =  [[ALConversationDBService alloc]init];    
     DB_ConversationProxy * dbConversation =    [conversationDBService getConversationProxyByKey:conversationKey];
     if(dbConversation){
-        return [self convertAlConversationProxy:dbConversation];
+        alConversationProxy = [self convertAlConversationProxy:dbConversation];
     }
-    return nil;    
-    
+    return alConversationProxy;
 }
 
 -(void)addConversations:(NSMutableArray *)conversations{
@@ -104,24 +104,25 @@
     NSArray * conversationArray  = [[NSArray alloc] initWithArray:[self getConversationProxyListForUserID:alConversationProxy.userId andTopicId:alConversationProxy.topicId]];
 
     
-    if (conversationArray.count > 0) {
+    if (conversationArray.count != 0) {
         ALConversationProxy * conversationProxy = conversationArray[0];
+        NSLog(@"Conversation Proxy List Found In DB :%@",conversationProxy.topicDetailJson);
         completion(nil,conversationProxy);
-        return;
     }
-    
-    [ALConversationClientService createConversation:alConversationProxy withCompletion:^(NSError *error, ALConversationCreateResponse *response) {
+    else{
         
-        if(!error){
-            NSMutableArray * proxyArr = [[NSMutableArray alloc] initWithObjects:response.alConversationProxy, nil];
-            [self addConversations:proxyArr]; 
-           
-        }
-        else{
-            NSLog(@"ALConversationService : Error creatingConversation ");
-        }
-         completion(error,response.alConversationProxy);
-    }];
+        [ALConversationClientService createConversation:alConversationProxy withCompletion:^(NSError *error, ALConversationCreateResponse *response) {
+            
+            if(!error){
+                NSMutableArray * proxyArr = [[NSMutableArray alloc] initWithObjects:response.alConversationProxy, nil];
+                [self addConversations:proxyArr];
+            }
+            else{
+                NSLog(@"ALConversationService : Error creatingConversation ");
+            }
+            completion(error,response.alConversationProxy);
+        }];
+    }
 
 }
 

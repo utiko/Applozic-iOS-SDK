@@ -116,7 +116,7 @@
             contact.displayName = @"You";
         }
         [self.lastSeenMembersArray addObject:[self getLastSeenForMember:userID]];
-        [memberNames addObject:contact.displayName];
+        [memberNames addObject:[contact getDisplayName]];
     }
     self.memberCount = memberIds.count;
     NSLog(@"Member Count :%ld",(long)self.memberCount);
@@ -159,7 +159,7 @@
             return 0;
         }
     }
-    
+
 }
 
 #pragma mark - Table Row Height
@@ -175,7 +175,7 @@
 #pragma mark - Table Row Select
 //================================
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+   
     if(![ALDataNetworkConnection checkDataNetworkAvailable])
     {
         [self noDataNotificationView];
@@ -221,26 +221,26 @@
     UIViewController *contactsViewController = [storyboard instantiateViewControllerWithIdentifier:@"ALNewContactsViewController"];
     ((ALNewContactsViewController*)contactsViewController).contactsInGroup =[NSMutableArray arrayWithArray:[memberIds array]];
     ((ALNewContactsViewController*)contactsViewController).forGroup = [NSNumber numberWithInt:GROUP_ADDITION];
-    ((ALNewContactsViewController*)contactsViewController).delegate = self;
+    ((ALNewContactsViewController*)contactsViewController).delegate = self;    
     [self.navigationController pushViewController:contactsViewController animated:YES];
-    
-    
+
+   
 }
 
 -(void)addNewMembertoGroup:(ALContact *)alcontact withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion
-{
+{    
     [[self activityIndicator] startAnimating];
     self.memberIdToAdd = alcontact.userId;
     ALChannelService * channelService = [[ALChannelService alloc] init];
-    [channelService addMemberToChannel:self.memberIdToAdd andChannelKey:self.channelKeyID withComletion:^(NSError *error, ALAPIResponse *response) {
-        
-        if(!error){
-            [memberIds addObject:self.memberIdToAdd];
-            [self.tableView reloadData];
-            
-        }
-        [[self activityIndicator] stopAnimating];
-        completion(error,response);
+     [channelService addMemberToChannel:self.memberIdToAdd andChannelKey:self.channelKeyID withComletion:^(NSError *error, ALAPIResponse *response) {
+         
+         if(!error){
+             [memberIds addObject:self.memberIdToAdd];
+             [self.tableView reloadData];
+             
+         }
+         [[self activityIndicator] stopAnimating];
+         completion(error,response);
     }];
     
     
@@ -282,7 +282,7 @@
 //====================================================
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     
-    // Index 0 : Cancel
+     // Index 0 : Cancel
     
     if(buttonIndex == 1){
         // Index 1 : Yes
@@ -304,19 +304,19 @@
             }
             [self turnUserInteractivityForNavigationAndTableView:YES];
         }];
-        
+       
     }
 }
 
 -(BOOL)isThisChannelLeft:(NSNumber *)channelKey{
-    
+
     ALChannelService * alChannelService  = [[ALChannelService alloc] init];
     if([alChannelService isChannelLeft:channelKey]){
         return YES;
     }else{
         return NO;
     }
-    
+
 }
 #pragma mark - Remove Memember (for admin)
 //=======================================
@@ -334,25 +334,25 @@
         [theController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
         [theController addAction:[UIAlertAction
                                   actionWithTitle:[NSString stringWithFormat:@"Remove %@",memberNames[row]]
-                                  style:UIAlertActionStyleDefault
-                                  handler:^(UIAlertAction *action) {
-                                      
-                                      
-                                      [self turnUserInteractivityForNavigationAndTableView:NO];
-                                      ALChannelService * alchannelService = [[ALChannelService alloc] init];
-                                      [alchannelService removeMemberFromChannel:removeMemberID andChannelKey:self.channelKeyID withComletion:^(NSError *error, NSString *response) {
-                                          
-                                          if(!error)
-                                          {
-                                              [memberIds removeObjectAtIndex:row];
-                                              [self setupView];
-                                              [self.tableView reloadData];
-                                          }
-                                          
-                                          [self turnUserInteractivityForNavigationAndTableView:YES];
-                                      }];
-                                      
-                                  }]];
+                                            style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                
+
+            [self turnUserInteractivityForNavigationAndTableView:NO];
+            ALChannelService * alchannelService = [[ALChannelService alloc] init];
+            [alchannelService removeMemberFromChannel:removeMemberID andChannelKey:self.channelKeyID withComletion:^(NSError *error, NSString *response) {
+                
+                if(!error)
+                {
+                    [memberIds removeObjectAtIndex:row];
+                    [self setupView];
+                    [self.tableView reloadData];
+                }
+
+                [self turnUserInteractivityForNavigationAndTableView:YES];
+            }];
+                  
+        }]];
         
         [self presentViewController:theController animated:YES completion:nil];
     }
@@ -380,11 +380,11 @@
 #pragma mark - Table View Data Source
 //========================
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+
     ALContactCell * memberCell = (ALContactCell*)[tableView dequeueReusableCellWithIdentifier:@"memberCell"
                                                                                  forIndexPath:indexPath];
     [memberCell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
-    
+   
     [self setupCellItems:memberCell];
     [self.firstLetterLabel setHidden:YES];
     [self.memberIconImageView setHidden:YES];
@@ -428,7 +428,7 @@
     }
     
     
-    //    Member Name Label
+//    Member Name Label
     [self.memberNameLabel setTextAlignment:NSTextAlignmentLeft];
     self.memberNameLabel.text = [NSString stringWithFormat:@"%@",memberNames[row]];
     
@@ -457,7 +457,7 @@
     }
     else{
         [self.firstLetterLabel setHidden:NO];
-        self.firstLetterLabel.text = [[alContact displayName] substringToIndex:1];
+        self.firstLetterLabel.text = [[alContact getDisplayName] substringToIndex:1];
         NSUInteger randomIndex = random()% [colors count];
         self.memberIconImageView.image = [ALColorUtility imageWithSize:CGRectMake(0,0,55,55)
                                                          WithHexString:colors[randomIndex] ];
@@ -483,7 +483,7 @@
 //===============================
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+
     return 45;
 }
 
@@ -491,12 +491,12 @@
 //======================================
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
-    // For Header's Text View
+// For Header's Text View
     
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    
+
     UITableViewHeaderFooterView *footer = (UITableViewHeaderFooterView *)view;
     footer.contentView.backgroundColor = [UIColor lightGrayColor];
     
@@ -538,7 +538,7 @@
                                                                 memberSectionHeaderTitle.frame.size.width,
                                                                 memberSectionHeaderTitle.frame.size.height)];
         [view addSubview:memberSectionHeaderTitle];
-        //        view.backgroundColor=[UIColor colorWithWhite:0.7 alpha:1];
+//        view.backgroundColor=[UIColor colorWithWhite:0.7 alpha:1];
         view.backgroundColor = [UIColor colorWithRed:245.0/255 green:245.0/255 blue:245.0/255 alpha:1];
         return view;
         

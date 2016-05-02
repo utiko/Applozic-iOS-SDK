@@ -41,7 +41,6 @@
     if(self.conversationId){
         
         paramString = [paramString stringByAppendingFormat:@"&conversationId=%@",self.conversationId];
-        NSLog(@"adding conversationRequired true :theParamString :%@",paramString );
     }
     
     

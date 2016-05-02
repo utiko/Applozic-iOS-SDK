@@ -124,7 +124,7 @@
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
     ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
     
-    NSString *receiverName = alContact.displayName? alContact.displayName: alMessage.to;
+    NSString * receiverName = [alContact getDisplayName];
     
     CGSize theTextSize = [ALUtilityClass getSizeForText:alMessage.message maxWidth:viewSize.width-115 font:self.mMessageLabel.font.fontName fontSize:self.mMessageLabel.font.pointSize];
     
@@ -412,7 +412,7 @@
 
 - (void)msgInfo:(id)sender
 {
-    [self.delegate showAnimation];
+    [self.delegate showAnimation:YES];
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     ALMessageInfoViewController *launchChat = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
     
@@ -421,6 +421,10 @@
         if(!error)
         {
             [self.delegate loadView:launchChat];
+        }
+        else
+        {
+            [self.delegate showAnimation:NO];
         }
     }];
 }

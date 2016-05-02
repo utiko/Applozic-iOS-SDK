@@ -27,5 +27,5 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *L;
 
-@property (weak, nonatomic) IBOutlet UILabel *unreadCountLabel;
+@property (strong, nonatomic) IBOutlet UILabel *unreadCountLabel;
 @end

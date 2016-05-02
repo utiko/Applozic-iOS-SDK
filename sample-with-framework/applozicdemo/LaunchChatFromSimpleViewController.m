@@ -14,7 +14,7 @@
 #import  <Applozic/ALRegisterUserClientService.h>
 #import  <Applozic/ALDBHandler.h>
 #import  <Applozic/ALContact.h>
-#import <Applozic/ALDataNetworkConnection.h>
+#import  <Applozic/ALDataNetworkConnection.h>
 #import  <Applozic/ALMessageService.h>
 
 
@@ -115,6 +115,9 @@
     
 }
 
+//===============================================================================
+// Multi-Reciever API
+//===============================================================================
 -(void)sendMessageToMulti{
     
     ALMessage * multiSendMessage = [[ALMessage alloc] init];
@@ -129,17 +132,25 @@
         }
     }];
 }
+
 //===============================================================================
 // TO LAUNCH SELLER CHAT....
 //
 //===============================================================================
 - (IBAction)launchSeller:(id)sender {
     
-    ALConversationProxy * newProxy = [[ALConversationProxy alloc] init];
-    newProxy = [self makeupConversationDetails];
-    
-    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    [demoChatManager createAndLaunchChatWithSellerWithConversationProxy:newProxy fromViewController:self];
+    if(![ALDataNetworkConnection noInternetConnectionNotification]){
+        
+        [self.activityView startAnimating];
+        ALConversationProxy * newProxy = [[ALConversationProxy alloc] init];
+        newProxy = [self makeupConversationDetails];
+        
+        DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
+        [demoChatManager createAndLaunchChatWithSellerWithConversationProxy:newProxy fromViewController:self];
+    }else{
+        [ALDataNetworkConnection checkDataNetworkAvailable];
+    }
+
     
 }
 

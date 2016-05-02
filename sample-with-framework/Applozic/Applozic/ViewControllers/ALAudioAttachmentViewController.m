@@ -48,10 +48,11 @@
     recorder.delegate = self;
     recorder.meteringEnabled = YES;
     [recorder prepareToRecord];
-    
+
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -100,18 +101,22 @@
         [session setActive:YES error:nil];
         [self.recordButton setTitle:@"PAUSE RECORD" forState:UIControlStateNormal];
         
-        // Start recording
+        // START RECORDING
         [recorder record];
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(recordSessionTimer) userInfo:nil repeats:YES];;
-        
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(recordSessionTimer) userInfo:nil repeats:YES];
     }
     else
     {
-        // Pause recording
+        // PAUSE RECORDING
         [recorder pause];
         [self.recordButton setTitle:@"RECORD" forState:UIControlStateNormal];
     }
     
+    [self subProcess];
+}
+
+-(void)subProcess
+{
     [self.stopButton setEnabled:YES];
     [self.playButton setEnabled:NO];
     [self.pauseButton setEnabled:NO];
@@ -131,6 +136,54 @@
     [self.mediaProgressLabel setText: time];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleAudioSessionInterruption:)
+                                                 name:AVAudioSessionInterruptionNotification
+                                               object:[AVAudioSession sharedInstance]];
+
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification
+                                                  object:[AVAudioSession sharedInstance]];
+    
+}
+
+-(void)handleAudioSessionInterruption:(NSNotification *)notification
+{
+    AVAudioSessionInterruptionType interruptionType = [notification.userInfo[AVAudioSessionInterruptionTypeKey] unsignedIntegerValue];
+    
+    switch (interruptionType)
+    {
+        case AVAudioSessionInterruptionTypeBegan:
+        {
+            NSLog(@"AUDIO_INTERRUPTION_START");
+            if (recorder.recording)
+            {
+                [recorder pause];
+                [self.recordButton setTitle:@"RECORD" forState:UIControlStateNormal];
+                [self subProcess];
+            }
+            else if (player.isPlaying)
+            {
+                [player pause];
+            }
+            
+            break;
+        }
+        case AVAudioSessionInterruptionTypeEnded:
+        {
+            NSLog(@"AUDIO_INTERRUPTION_ENEDED");
+            break;
+        }
+        default:
+        break;
+    }
+}
+
 //=====================================================
 #pragma AUDIO DELEGATE
 //=====================================================
@@ -148,8 +201,8 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"DONE"
                                                     message: @"FINISH PLAYING !!!"
                                                    delegate: nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
+                                          cancelButtonTitle: @"OK"
+                                          otherButtonTitles: nil];
     [alert show];
 }
 

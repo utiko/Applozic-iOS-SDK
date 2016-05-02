@@ -19,9 +19,9 @@
     
 }
 
--(void)populateDataFromDictonary:(NSDictionary *)dict{
-    
-    self.userId = [dict objectForKey:@"userId"] ;
+-(void)populateDataFromDictonary:(NSDictionary *)dict
+{
+    self.userId = [dict objectForKey:@"userId"];
     self.fullName = [dict objectForKey:@"fullName"];
     self.contactNumber = [dict objectForKey:@"contactNumber"];
     self.displayName = [dict objectForKey:@"displayName"];
@@ -31,17 +31,19 @@
     self.applicationId = [dict objectForKey:@"applicationId"];
     self.lastSeenAt = [dict objectForKey:@"lastSeenAtTime"];
     self.connected = [dict objectForKey:@"connected"];
-    self.unreadCount=[dict objectForKey:@"unreadCount"];
+    self.unreadCount = [dict objectForKey:@"unreadCount"];
 }
-
 
 -(NSString *)getDisplayName
 {
-    if(self.displayName && ![self.displayName isEqualToString:@""])
+    NSString * trimDisplayName = [self.displayName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSString * trimFullName = [self.fullName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    if(self.displayName && trimDisplayName.length)
     {
         return self.displayName;
     }
-    else if (self.fullName && ![self.fullName isEqualToString:@""])
+    else if (self.fullName && trimFullName.length)
     {
         return self.fullName;
     }
@@ -49,6 +51,7 @@
     {
         return self.userId;
     }
+    
 }
 
 @end

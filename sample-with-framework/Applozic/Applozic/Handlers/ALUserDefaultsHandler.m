@@ -337,15 +337,12 @@
 +(void )setAppModuleName:(NSString *)appModuleName
 {
     [[NSUserDefaults standardUserDefaults] setValue:appModuleName forKey:APP_MODULE_NAME_ID];
-    
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-
 +(NSString *)getAppModuleName
 {
-    return [[NSUserDefaults standardUserDefaults]
-            valueForKey:APP_MODULE_NAME_ID];
+    return [[NSUserDefaults standardUserDefaults] valueForKey:APP_MODULE_NAME_ID];
 }
 
 +(void) setContactViewLoadStatus:(BOOL)status
@@ -357,6 +354,27 @@
 +(BOOL) getContactViewLoaded
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:CONTACT_VIEW_LOADED];
+   
+}
+
++(void)setServerCallDoneForUserInfo:(BOOL)value ForContact:(NSString*)contactId{
+  
+    if(!contactId){
+        return;
+    }
+    NSString *key = [contactId stringByAppendingString:USER_INFO_API_CALLED_SUFFIX];
+    [[NSUserDefaults standardUserDefaults] setBool:value forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)isServerCallDoneForUserInfoForContact:(NSString*)contactId{
+    
+    
+    if(!contactId){
+        return true;
+    }
+    NSString *key = [ contactId stringByAppendingString:USER_INFO_API_CALLED_SUFFIX];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:key];
 }
 
 

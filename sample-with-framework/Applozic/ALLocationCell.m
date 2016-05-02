@@ -71,7 +71,7 @@
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
     ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
     
-    NSString *receiverName = alContact.displayName? alContact.displayName: alMessage.to;
+    NSString * receiverName = [alContact getDisplayName];
     
     self.mMessage = alMessage;
     
@@ -240,18 +240,31 @@
     [super setSelected:selected animated:animated];
 }
 
--(NSString*)formatLocationJson:(ALMessage*)locationAlMessage
+-(NSString*)formatLocationJson:(ALMessage *)locationAlMessage
 {
     NSError *error;
     NSData *objectData = [locationAlMessage.message dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *jsonStringDic = [NSJSONSerialization JSONObjectWithData:objectData
                                                                   options:NSJSONReadingMutableContainers
                                                                     error:&error];
-    
+  
     NSArray* latLog = [[NSArray alloc] initWithObjects:[jsonStringDic valueForKey:@"lat"],[jsonStringDic valueForKey:@"lon"], nil];
+    
+    if(!latLog.count)
+    {
+        return [self processMapUrl:locationAlMessage];
+    }
+    
     NSString *latLongArgument = [NSString stringWithFormat:@"%@,%@", latLog[0], latLog[1]];
     
     return latLongArgument;
+}
+
+-(NSString *)processMapUrl:(ALMessage *)message
+{
+    NSArray * URL_ARRAY = [message.message componentsSeparatedByString:@"="];
+    NSString * coordinate = (NSString *)[URL_ARRAY lastObject];
+    return coordinate;
 }
 
 -(void)showMaps:(UITapGestureRecognizer *)sender
@@ -289,7 +302,7 @@
 
 - (void)msgInfo:(id)sender
 {
-    [self.delegate showAnimationForMsgInfo];
+    [self.delegate showAnimationForMsgInfo:YES];
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     ALMessageInfoViewController *launchChat = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
     
@@ -299,6 +312,10 @@
         if(!error)
         {
             [self.delegate loadViewForMedia:launchChat];
+        }
+        else
+        {
+            [self.delegate showAnimationForMsgInfo:NO];
         }
     }];
 }

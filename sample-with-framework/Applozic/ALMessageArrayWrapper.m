@@ -7,6 +7,7 @@
 //
 
 #import "ALMessageArrayWrapper.h"
+#import "ALUserDefaultsHandler.h"
 
 @interface ALMessageArrayWrapper ()
 
@@ -127,17 +128,17 @@
 {
     
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-    
+    paramMessageArray = [self filterOutDuplicateMessage:paramMessageArray];
+    if(!paramMessageArray.count){
+        return;
+    }
     tempArray = [NSMutableArray arrayWithArray:self.messageArray];
     [tempArray addObjectsFromArray:paramMessageArray];
-    
     int countX  =((int)self.messageArray.count==0)?1:((int)self.messageArray.count);
     for(int i = countX-1 ; i  < (tempArray.count-1) ; i++)
     {
         ALMessage * msg1 = tempArray[i];
         ALMessage * msg2 = tempArray[i+1];
-        
-        
         if([self checkDateOlder:msg1.createdAtTime andNewer:msg2.createdAtTime])
         {
             ALMessage *dateLabel = [self getDatePrototype:self.dateCellText andAlMessageObject:tempArray[i]];
@@ -157,7 +158,7 @@
     dateLabel.type = @"100";
     dateLabel.contactIds = almessage.contactIds;
     dateLabel.fileMeta.thumbnailUrl = nil;
-    
+//    dateLabel.groupId = almessage.groupId;
     return  dateLabel;
 }
 
@@ -246,6 +247,37 @@
     
     return actualDate;
     
+}
+
+-(NSMutableArray*)filterOutDuplicateMessage:(NSMutableArray*)newMessageArray {
+
+    ALMessage * firstInNewMessage = [newMessageArray objectAtIndex:0];
+    ALMessage * lastInOldMessage = [self.messageArray lastObject];
+    
+
+    if(self.messageArray.count <=0){
+        return newMessageArray;
+    }
+    if( firstInNewMessage.createdAtTime > [ALUserDefaultsHandler getLastSyncTime]){
+        return newMessageArray;
+    }
+    NSMutableArray * tempArray = [NSMutableArray arrayWithArray:newMessageArray];
+
+    int count = self.messageArray.count;
+    for (  ALMessage* meaage in tempArray ) {
+        
+        for(int i = count-1 ; i  > 0 ; i--){
+            ALMessage * oldMessage = [self.messageArray objectAtIndex:i];
+            if ( [oldMessage.key isEqualToString:meaage.key] ){
+                NSLog(@"removing duplicate object found....");
+                [ newMessageArray removeObject:meaage];
+            }else if ( meaage.createdAtTime  > oldMessage.createdAtTime  ) {
+                return newMessageArray;
+            }
+        }
+        
+    }
+    return newMessageArray;
 }
 
 @end

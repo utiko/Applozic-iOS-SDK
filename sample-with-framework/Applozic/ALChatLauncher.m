@@ -34,17 +34,17 @@
 - (instancetype)initWithApplicationId:(NSString *) applicationId;
 {
     self = [super init];
-    if (self) {
+    if (self)
+    {
         self.applicationId = applicationId;
     }
     return self;
 }
 
--(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
-
+-(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID
+    andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
 {
     self.chatLauncherFLAG=[NSNumber numberWithInt:1];
-//    NSLog(self.chatLauncherFLAG ? @"ALCHAT Launcher is TRUE":@"ALCHAT Launcher is FALSE");
     
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
@@ -52,7 +52,7 @@
     
     ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     
-    chatView.channelKey=groupID;
+    chatView.channelKey = groupID;
     chatView.contactIds = userId;
     chatView.text = text;
     chatView.individualLaunch = YES;
@@ -63,9 +63,10 @@
 }
 
 
--(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
+-(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID
+            withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
 {
- 
+
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];

@@ -217,4 +217,5 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:FILTER_CONTACT_START_TIME];
 }
 
+
 @end

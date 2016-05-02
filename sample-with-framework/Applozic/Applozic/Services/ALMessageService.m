@@ -390,7 +390,7 @@ static ALMessageClientService *alMsgClientService;
                 if(error)
                 {
                     NSLog(@"PENDING_MESSAGES_NO_SENT : %@", error);
-                    return ;
+                    return;
                 }
                 NSLog(@"SENT_SUCCESSFULLY....MARKED_AS_DELIVERED : %@", message);
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UPDATE_MESSAGE_SEND_STATUS" object:msg];

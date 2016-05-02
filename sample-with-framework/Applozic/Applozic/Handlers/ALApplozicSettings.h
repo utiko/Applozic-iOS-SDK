@@ -23,7 +23,6 @@
 #define FILTER_CONTACT @"FILTER_CONTACT"
 #define FILTER_CONTACT_START_TIME @"FILTER_CONTACT_START_TIME"
 
-
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 

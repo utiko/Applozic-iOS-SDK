@@ -56,14 +56,14 @@
         [self.userContact setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:14]];
         [self.userContact setNumberOfLines:2];
         [self.contentView addSubview:self.userContact];
-        
+
         self.emailId = [[UILabel alloc] init];
         [self.emailId setBackgroundColor:[UIColor clearColor]];
         [self.emailId setTextColor:[UIColor blackColor]];
         [self.emailId setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:14]];
         [self.emailId setNumberOfLines:2];
         [self.contentView addSubview:self.emailId];
-        
+
         self.contactPerson = [[UILabel alloc] init];
         [self.contactPerson setBackgroundColor:[UIColor clearColor]];
         [self.contactPerson setTextColor:[UIColor blackColor]];
@@ -77,7 +77,7 @@
         [self.addContactButton addTarget:self action:@selector(addButtonAction) forControlEvents:UIControlEventTouchUpInside];
         [self.addContactButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
         [self.contentView addSubview:self.addContactButton];
-        
+
     }
     return self;
 }
@@ -87,7 +87,7 @@
     self.mUserProfileImageView.alpha = 1;
     self.progresLabel.alpha = 0;
     self.mDowloadRetryButton.alpha = 0;
-    
+
     [self.addContactButton setEnabled:NO];
     
     BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[alMessage.createdAtTime doubleValue]/1000]];
@@ -95,7 +95,7 @@
     NSString * theDate = [NSString stringWithFormat:@"%@",[alMessage getCreatedAtTimeChat:today]];
     
     CGSize theDateSize = [ALUtilityClass getSizeForText:theDate maxWidth:150 font:self.mDateLabel.font.fontName fontSize:self.mDateLabel.font.pointSize];
-    
+
     self.mMessage = alMessage;
     
     [self.mChannelMemberName setHidden:YES];
@@ -145,7 +145,7 @@
                                                    self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 50,
                                                    self.mBubleImageView.frame.size.width - 20, 40)];
         
-        
+     
         self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x ,
                                            self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height,
                                            theDateSize.width , 21);
@@ -201,7 +201,7 @@
                                                    self.mBubleImageView.frame.size.width - 20, 40)];
         
         [self.mMessageStatusImageView setHidden:NO];
-        
+
         msgFrameHeight = self.mBubleImageView.frame.size.height - (self.addContactButton.frame.size.height + self.addContactButton.frame.size.height/2);
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
@@ -210,9 +210,9 @@
         self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - theDateSize.width - 20, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width, 21);
         
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
-        
+     
         [self.addContactButton setBackgroundColor:[UIColor whiteColor]];
-        
+
     }
     
     if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]) {
@@ -240,7 +240,7 @@
     self.mDateLabel.text = theDate;
     
     theUrl = nil;
-    
+
     if (alMessage.imageFilePath != NULL)
     {
         NSString * docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -249,7 +249,7 @@
         
         vcfClass = [[ALVCFClass alloc] init];
         [vcfClass parseVCFData:filePath];
-        
+
         [self.contactPerson setText:vcfClass.fullName];
         if(vcfClass.retrievedImage)
         {
@@ -258,7 +258,7 @@
         [self.emailId setText:vcfClass.emailID];
         [self.userContact setText:vcfClass.phoneNumber];
         [self.addContactButton setEnabled:YES];
-        
+
     }
     else if((!alMessage.imageFilePath && alMessage.fileMeta.blobKey) || (alMessage.imageFilePath && !alMessage.fileMeta.blobKey))
     {
@@ -286,7 +286,7 @@
 }
 
 //==================================================================================================
-#pragma mark - KAProgressLabel Delegate Methods
+#pragma mark - KAProgressLabel Delegate Methods 
 //==================================================================================================
 
 -(void)cancelAction
@@ -350,7 +350,7 @@
 
 - (void)msgInfo:(id)sender
 {
-    [self.delegate showAnimationForMsgInfo];
+    [self.delegate showAnimationForMsgInfo:YES];
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     ALMessageInfoViewController *launchChat = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
     launchChat.VCFObject = vcfClass;
@@ -359,6 +359,10 @@
         if(!error)
         {
             [self.delegate loadViewForMedia:launchChat];
+        }
+        else
+        {
+            [self.delegate showAnimationForMsgInfo:NO];
         }
     }];
 }

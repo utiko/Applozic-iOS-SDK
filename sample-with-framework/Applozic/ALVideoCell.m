@@ -73,11 +73,14 @@
     [self.mMessageStatusImageView setHidden:YES];
     [self.mChannelMemberName setHidden:YES];
     
+    [self.imageWithText setHidden:YES];
     CGSize theDateSize = [ALUtilityClass getSizeForText:theDate maxWidth:150 font:self.mDateLabel.font.fontName fontSize:self.mDateLabel.font.pointSize];
+    
+    CGSize theTextSize = [ALUtilityClass getSizeForText:alMessage.message maxWidth:viewSize.width - 130 font:self.imageWithText.font.fontName fontSize:self.imageWithText.font.pointSize];
     
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
     ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
-    NSString *receiverName = alContact.displayName? alContact.displayName: alMessage.to;
+    NSString *receiverName = [alContact getDisplayName];
     
     if([alMessage.type isEqualToString:@MT_INBOX_CONSTANT])
     {
@@ -119,7 +122,18 @@
             
         }
         
-        [self.mDateLabel setFrame:CGRectMake(self.mBubleImageView.frame.origin.x, self.mBubleImageView.frame.size.height + 7, 80, 20)];
+        if(alMessage.message.length > 0)
+        {
+           [self.imageWithText setHidden:NO];
+            self.imageWithText.textColor = [UIColor grayColor];
+            self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, viewSize.width - 120, (viewSize.width - 160) + theTextSize.height + 20);
+            
+            self.imageWithText.frame = CGRectMake(self.mImageView.frame.origin.x, self.mBubleImageView.frame.origin.y + self.mImageView.frame.size.height + 10, self.mImageView.frame.size.width, theTextSize.height);
+        }
+        
+        [self.mDateLabel setFrame:CGRectMake(self.mBubleImageView.frame.origin.x,
+                                             self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height,
+                                             80, 20)];
         
         self.mNameLabel.frame = self.mUserProfileImageView.frame;
         [self.mNameLabel setText:[ALColorUtility getAlphabetForProfileImage:receiverName]];
@@ -136,9 +150,9 @@
             self.mUserProfileImageView.backgroundColor = [ALColorUtility getColorForAlphabet:receiverName];
         }
         
-        [self.mDowloadRetryButton setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width/2.0 - 45 , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height/2.0 - 20 , 90, 40)];
+        [self.mDowloadRetryButton setFrame:CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0 - 45 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2.0 - 20 , 90, 40)];
         
-        [self setupProgressValueX: (self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width/2 - 30) andY: (self.mBubleImageView.frame.origin.y +self.mBubleImageView.frame.size.height/2 - 30)];
+        [self setupProgressValueX: (self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2 - 30) andY: (self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2 - 30)];
         
         if (alMessage.imageFilePath == nil)
         {
@@ -176,11 +190,28 @@
         
         [self.mDowloadRetryButton setFrame:CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0 - 45 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2.0 - 20 , 90, 40)];
         
-        msgFrameHeight = viewSize.width - 120;
         
-        [self setupProgressValueX: (self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width/2 - 30) andY: (self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height/2 - 30)];
         
-        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - theDateSize.width - 20, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width, 21);
+        [self setupProgressValueX: (self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2 - 30) andY: (self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2 - 30)];
+        
+        if(alMessage.message.length > 0)
+        {
+            [self.imageWithText setHidden:NO];
+            self.imageWithText.backgroundColor = [UIColor clearColor];
+            self.imageWithText.textColor = [UIColor whiteColor];
+            
+            self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60), 0,
+                                                    viewSize.width - 120, (viewSize.width - 160) + theTextSize.height + 20);
+            
+            self.imageWithText.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5,
+                                                  self.mBubleImageView.frame.origin.y + self.mImageView.frame.size.height + 10,
+                                                  self.mImageView.frame.size.width, theTextSize.height);
+            
+        }
+        
+        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - theDateSize.width - 20,
+                                           self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height,
+                                           theDateSize.width, 21);
         
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
         
@@ -206,6 +237,7 @@
             [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"uploadI1.png"] forState:UIControlStateNormal];
         }
         
+        msgFrameHeight = self.mBubleImageView.frame.size.height;
     }
     
     [self.contentView bringSubviewToFront:self.videoPlayFrontView];
@@ -227,6 +259,7 @@
     
     [self addShadowEffects];
     
+    self.imageWithText.text = alMessage.message;
     self.mDateLabel.text = theDate;
     
     if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]) {
@@ -335,7 +368,7 @@
 
 - (void)msgInfo:(id)sender
 {
-    [self.delegate showAnimationForMsgInfo];
+    [self.delegate showAnimationForMsgInfo:YES];
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     ALMessageInfoViewController *launchChat = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
     
@@ -344,6 +377,10 @@
         if(!error)
         {
             [self.delegate loadViewForMedia:launchChat];
+        }
+        else
+        {
+            [self.delegate showAnimationForMsgInfo:NO];
         }
     }];
 }

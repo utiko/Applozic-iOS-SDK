@@ -216,8 +216,19 @@ Once your app receive notification, pass it to applozic handler for applozic not
   }                             
 
 ```
-
 ### Changelog
+__Version 2.5__
+ * Typing indicator UI fixes
+ * Block user UI bug fixes
+ * First time messages to new user bug fixes
+ * Location bug fixes
+ * Chat list user profile view fixes
+ * Contact list enhancement
+ * App module
+ * Display name & group name bug fixes
+ * Notification bug fixes
+ * Multiple attachment with configurable limit
+
 __Version 2.2__
  * Contact sharing. 
  * Offline message sync.

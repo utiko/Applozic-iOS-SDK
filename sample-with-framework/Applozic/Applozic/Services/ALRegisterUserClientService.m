@@ -32,8 +32,9 @@
     [user setAppVersionCode: VERSION_CODE];
     [user setRegistrationId: [ALUserDefaultsHandler getApnDeviceToken]];
     if([ALUserDefaultsHandler getAppModuleName] != NULL){
-    [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];
+        [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];
     }
+
     //NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
     NSError *error;
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:user.dictionary options:0 error:&error];

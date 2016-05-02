@@ -333,12 +333,18 @@
 +(UIImage *)setVideoThumbnail:(NSString *)videoFilePATH
 {
     NSURL *url = [NSURL fileURLWithPath:videoFilePATH];
+    UIImage * processThumbnail = [self subProcessThumbnail:url];
+    return processThumbnail;
+}
+
++(UIImage *)subProcessThumbnail:(NSURL *)url
+{
     AVAsset *asset = [AVAsset assetWithURL:url];
     AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
     CMTime time = [asset duration];
     time.value = 0;
     CGImageRef imageRef = [imageGenerator copyCGImageAtTime:time actualTime:NULL error:NULL];
-    UIImage *thumbnail = [UIImage imageWithCGImage:imageRef];
+    UIImage * thumbnail = [UIImage imageWithCGImage:imageRef];
     CGImageRelease(imageRef);
     
     return thumbnail;

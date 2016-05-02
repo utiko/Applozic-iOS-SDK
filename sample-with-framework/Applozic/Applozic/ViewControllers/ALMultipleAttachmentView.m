@@ -12,20 +12,24 @@
 #import "ALChatViewController.h"
 #import "ALImagePickerHandler.h"
 
-@interface ALMultipleAttachmentView ()
+#define NAVIGATION_TEXT_SIZE 20
 
-@property (nonatomic, strong) UITapGestureRecognizer *tapper;
+@interface ALMultipleAttachmentView () <UITextFieldDelegate>
+
 @property (nonatomic, retain) UIImagePickerController * mImagePicker;
 
 @end
 
 @implementation ALMultipleAttachmentView
 {
-    CGFloat SQUARE_DIMENSION;
+    CGFloat DIMENSION_WIDTH;
+    CGFloat DIMENSION_HEIGHT;
     CGFloat SEND_BUTTON_X;
     CGFloat ADD_BUTTON_X;
     CGFloat ADJUST_Y;
+    CGFloat ADJUST_X;
     CGFloat ADJUST_VIEW_CONSTANT;
+    ALCollectionReusableView * headerView;
 }
 
 static NSString * const reuseIdentifier = @"collectionCell";
@@ -34,28 +38,32 @@ static NSString * const reuseIdentifier = @"collectionCell";
 {
     [super viewDidLoad];
     
-    //    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    
     self.mImagePicker = [UIImagePickerController new];
     self.mImagePicker.delegate = self;
     
     self.imageArray = [NSMutableArray new];
-    self.imageFilePathArray = [NSMutableArray new];
-    //    NSLog(@"VIEW_DID_LOAD CALLED");
+    self.mediaFileArray = [NSMutableArray new];
+    
+    UIImage * addButtonImage = [ALUtilityClass getImageFromFramworkBundle:@"Plus_PNG.png"];
+    [self.imageArray addObject: addButtonImage];
+    
+    //    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    SQUARE_DIMENSION = 60;
+    DIMENSION_WIDTH = 120;
+    DIMENSION_HEIGHT = 40;
     ADJUST_Y = 10;
     ADJUST_VIEW_CONSTANT = 90;
+    ADJUST_X = 20;
     
-    UIColor *buttonColor = [UIColor colorWithRed:231.0/255 green:90.0/255 blue:77.0/255 alpha:1.0];
     UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - ADJUST_VIEW_CONSTANT,
                                                                   self.view.frame.size.width,
                                                                   ADJUST_VIEW_CONSTANT)];
@@ -63,36 +71,52 @@ static NSString * const reuseIdentifier = @"collectionCell";
     [bottomView setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview: bottomView];
     
-    ADD_BUTTON_X = bottomView.frame.origin.x + 20;
+    ADD_BUTTON_X = bottomView.frame.origin.x + ADJUST_X;
     
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(ADD_BUTTON_X,
                                                                   bottomView.frame.origin.y + ADJUST_Y,
-                                                                  SQUARE_DIMENSION, SQUARE_DIMENSION)];
+                                                                  DIMENSION_WIDTH, DIMENSION_HEIGHT)];
     
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button setContentMode:UIViewContentModeScaleAspectFit];
-    [button setImage:[ALUtilityClass getImageFromFramworkBundle:@"Plus_PNG.png"] forState:UIControlStateNormal];
-    [button setBackgroundColor: buttonColor];
-    [button addTarget:self action:@selector(gestureAction) forControlEvents:UIControlEventTouchUpInside];
-    button.layer.cornerRadius = button.frame.size.width/2;
+    [button setTitle:@"CANCEL" forState:UIControlStateNormal];
+    [button setBackgroundColor: self.navigationController.navigationBar.barTintColor];
+    button.layer.cornerRadius = 5;
     button.layer.masksToBounds = YES;
+    [button addTarget:self action:@selector(cancelButtonAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
     
-    SEND_BUTTON_X = bottomView.frame.size.width - 80;
+    SEND_BUTTON_X = bottomView.frame.size.width - (DIMENSION_WIDTH + ADJUST_X);
     
     UIButton *sendbutton = [[UIButton alloc] initWithFrame:CGRectMake(SEND_BUTTON_X,
                                                                       bottomView.frame.origin.y + ADJUST_Y,
-                                                                      SQUARE_DIMENSION, SQUARE_DIMENSION)];
+                                                                      DIMENSION_WIDTH, DIMENSION_HEIGHT)];
     
     [sendbutton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [sendbutton setContentMode:UIViewContentModeScaleAspectFit];
-    [sendbutton setImage:[ALUtilityClass getImageFromFramworkBundle:@"send_PNG2.png"] forState:UIControlStateNormal];
-    [sendbutton setBackgroundColor: buttonColor];
-    [sendbutton addTarget:self action:@selector(sendButtonAction) forControlEvents:UIControlEventTouchUpInside];
-    sendbutton.layer.cornerRadius = sendbutton.frame.size.width/2;
+    [sendbutton setTitle:@"SEND" forState:UIControlStateNormal];
+    [sendbutton setBackgroundColor: self.navigationController.navigationBar.barTintColor];
+    sendbutton.layer.cornerRadius = 5;
     sendbutton.layer.masksToBounds = YES;
+    [sendbutton addTarget:self action:@selector(sendButtonAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:sendbutton];
-    
+    [self navigationBarColor];
+}
+
+-(void)navigationBarColor
+{
+    if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
+    {
+        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
+        [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
+    }
+}
+
+-(void)cancelButtonAction
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 //====================================================================================================================================
@@ -102,8 +126,8 @@ static NSString * const reuseIdentifier = @"collectionCell";
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     [navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:
-                                                                [ALApplozicSettings getColorForNavigationItem],
-                                                                NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:18]}];
+                                                                      [ALApplozicSettings getColorForNavigationItem],
+                                                                  NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:18]}];
     
     [navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
     [navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
@@ -113,14 +137,16 @@ static NSString * const reuseIdentifier = @"collectionCell";
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
     UIImage * image = [info valueForKey:UIImagePickerControllerOriginalImage];
-    image = [image getCompressedImageLessThanSize:1];
     UIImage * globalThumbnail = [UIImage new];
-    NSString * attachmentFilePath = @"";
+    
+    ALMultipleAttachmentView * object = [ALMultipleAttachmentView new];
+    object.classVideoPath = nil;
+    object.classImage = nil;
+    
     if(image)
     {
-        NSString * filePath = [ALImagePickerHandler saveImageToDocDirectory:image];
+        object.classImage = image;
         globalThumbnail = image;
-        attachmentFilePath = filePath;
     }
     
     NSString *mediaType = info[UIImagePickerControllerMediaType];
@@ -128,16 +154,14 @@ static NSString * const reuseIdentifier = @"collectionCell";
     if(isMovie)
     {
         NSURL *videoURL = info[UIImagePickerControllerMediaURL];
-        NSString *videoFilePath = [ALImagePickerHandler saveVideoToDocDirectory:videoURL];
-        globalThumbnail = [ALUtilityClass setVideoThumbnail:videoFilePath];
-        attachmentFilePath = videoFilePath;
+        object.classVideoPath = [videoURL path];
+        globalThumbnail = [ALUtilityClass subProcessThumbnail:videoURL];
     }
     
-    [self.imageArray addObject:globalThumbnail];
-    [self.imageFilePathArray addObject:attachmentFilePath];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.imageArray insertObject:globalThumbnail atIndex:0];
+    [self.mediaFileArray insertObject:object atIndex:0];
     
-    //    NSLog(@"ADD_ACTION_CALLED ARRAY_COUNT %lu", (unsigned long)self.imageArray.count);
+    [self dismissViewControllerAnimated:YES completion:nil];
     [self.collectionView reloadData];
 }
 
@@ -157,13 +181,17 @@ static NSString * const reuseIdentifier = @"collectionCell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    AlMultipleAttachmentCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    AlMultipleAttachmentCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    [self setColorBorder:cell andColor:[UIColor lightGrayColor]];
     
-    cell.layer.masksToBounds = YES;
-    cell.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    cell.layer.borderWidth = 2.0f;
+    UIImage * image = (UIImage *)[self.imageArray objectAtIndex:indexPath.row];
+    [cell.imageView setImage: image];
+    [cell.imageView setBackgroundColor: [UIColor clearColor]];
     
-    [cell.imageView setImage: (UIImage *)[self.imageArray objectAtIndex:indexPath.row]];
+    if(indexPath.row == self.imageArray.count - 1)
+    {
+        [cell.imageView setBackgroundColor: self.navigationController.navigationBar.barTintColor];
+    }
     
     return cell;
 }
@@ -171,10 +199,11 @@ static NSString * const reuseIdentifier = @"collectionCell";
 -(void)gestureAction
 {
     int MAX_VALUE = (int)[ALApplozicSettings getMultipleAttachmentMaxLimit];
-    if(self.imageArray.count >= MAX_VALUE)
+    int max = MAX_VALUE + 1;
+    if(self.imageArray.count >= max)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"OOPS!!!"
-                                                        message: [NSString stringWithFormat:@"MAXIMUM %d ITEMS PLEASE", MAX_VALUE]
+                                                        message: @"Maximum attachment limit reached"
                                                        delegate: nil
                                               cancelButtonTitle: @"OK"
                                               otherButtonTitles: nil];
@@ -182,60 +211,98 @@ static NSString * const reuseIdentifier = @"collectionCell";
         return;
     }
     
-    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"MEDIA TYPE" message:@"CHOOSE ATTACHMENT TYPE"
-                                                             preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* image = [UIAlertAction actionWithTitle:@"IMAGE" style:UIAlertActionStyleDefault
-                                                  handler:^(UIAlertAction * action)
-                            {
-                                [self pickImageFromGallery];
-                                [alert dismissViewControllerAnimated:YES completion:nil];
-                            }];
-    
-    UIAlertAction* video = [UIAlertAction actionWithTitle:@"VIDEO" style:UIAlertActionStyleDefault
-                                                  handler:^(UIAlertAction * action)
-                            {
-                                [self pickVideoFromGallery];
-                                [alert dismissViewControllerAnimated:YES completion:nil];
-                            }];
-    
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"CANCEL" style:UIAlertActionStyleDefault
-                                                   handler:^(UIAlertAction * action)
-                             {
-                                 [alert dismissViewControllerAnimated:YES completion:nil];
-                             }];
-    
-    [alert addAction:image];
-    [alert addAction:video];
-    [alert addAction:cancel];
-    [self presentViewController:alert animated:YES completion:nil];
+    [self pickImageFromGallery];
     
 }
 
 -(void)sendButtonAction
 {
-    NSLog(@"SEND_ACTION_CALLED");   // either call by object ot call by delgate to send array
-    [self.multipleAttachmentDelegate multipleAttachmentProcess:self.imageFilePathArray];
+    if(!self.mediaFileArray.count)
+    {
+        [self emptySendView];
+        return;
+    }
+    [self.multipleAttachmentDelegate multipleAttachmentProcess:self.mediaFileArray andText:headerView.msgTextField.text];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)pickImageFromGallery
 {
     self.mImagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    self.mImagePicker.mediaTypes = [NSArray arrayWithObject:(NSString *)kUTTypeImage];
+    self.mImagePicker.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
     [self presentViewController:self.mImagePicker animated:YES completion:nil];
 }
 
--(void)pickVideoFromGallery
+-(void)emptySendView
 {
-    self.mImagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    self.mImagePicker.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
-    [self presentViewController:self.mImagePicker animated:YES completion:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Attachment"
+                                                    message: @"Select at least one attachment"
+                                                   delegate: nil
+                                          cancelButtonTitle: @"OK"
+                                          otherButtonTitles: nil];
+    [alert show];
 }
 
 //====================================================================================================================================
 #pragma mark UICollectionView Delegate
 //====================================================================================================================================
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    if(indexPath.row == self.imageArray.count - 1)
+    {
+        [self gestureAction];
+        return;
+    }
+    
+    AlMultipleAttachmentCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    [self setColorBorder:cell andColor:[UIColor blueColor]];
+    
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.row == self.imageArray.count - 1)
+    {
+        [self gestureAction];
+        return;
+    }
+    AlMultipleAttachmentCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    [self setColorBorder:cell andColor:[UIColor lightGrayColor]];
+    
+}
+
+-(void)setColorBorder:(AlMultipleAttachmentCell *)cell andColor:(UIColor *)color
+{
+    cell.layer.masksToBounds = YES;
+    cell.layer.borderColor = [color CGColor];
+    cell.layer.borderWidth = 2.0f;
+}
+
+-(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
+          viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if (kind == UICollectionElementKindSectionHeader)
+    {
+        headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"collectionHeaderView" forIndexPath:indexPath];
+        
+        headerView.msgTextField.delegate = self;
+        headerView.msgTextField.layer.masksToBounds = YES;
+        headerView.msgTextField.layer.borderColor = [[UIColor brownColor] CGColor];
+        headerView.msgTextField.layer.borderWidth = 1.0f;
+        
+        [headerView setBackgroundColor:[UIColor whiteColor]];
+    }
+    
+    return headerView;
+}
+
+-(BOOL) textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return  YES;
+}
 
 /*
  // Uncomment this method to specify if the specified item should be highlighted during tracking
@@ -257,8 +324,8 @@ static NSString * const reuseIdentifier = @"collectionCell";
 	return NO;
  }
  
- - (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
+ - (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
+ return NO;
  }
  
  - (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {

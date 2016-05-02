@@ -28,7 +28,7 @@
 #define USER_BLOCK_LAST_TIMESTAMP @"USER_BLOCK_LAST_TIMESTAMP"
 #define APP_MODULE_NAME_ID @"APP_MODULE_NAME_ID"
 #define CONTACT_VIEW_LOADED @"CONTACT_VIEW_LOADED"
-
+#define USER_INFO_API_CALLED_SUFFIX @":USER_INFO_API_CALLED"
 
 #import <Foundation/Foundation.h>
 
@@ -122,11 +122,12 @@
 //+(void)setNotificationTitle:(NSString *)notificationTitle;
 
 +(void)setAppModuleName:(NSString*)appModuleName;
-
 +(NSString*)getAppModuleName;
 
 +(BOOL) getContactViewLoaded;
-
 +(void) setContactViewLoadStatus:(BOOL)status;
+
++(void)setServerCallDoneForUserInfo:(BOOL)value ForContact:(NSString*)contactId;
++(BOOL)isServerCallDoneForUserInfoForContact:(NSString*)contactId;
 
 @end

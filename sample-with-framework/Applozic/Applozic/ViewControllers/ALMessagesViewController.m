@@ -15,7 +15,6 @@
 #import "ALConstant.h"
 #import "ALMessageService.h"
 #import "ALMessage.h"
-#import "ALChatViewController.h"
 #import "ALUtilityClass.h"
 #import "ALContact.h"
 #import "ALMessageDBService.h"
@@ -25,7 +24,6 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALContactDBService.h"
 #import "UIImageView+WebCache.h"
-#import "ALLoginViewController.h"
 #import "ALColorUtility.h"
 #import "ALMQTTConversationService.h"
 #import "ALApplozicSettings.h"
@@ -76,7 +74,6 @@
 @property (nonatomic, strong) NSMutableArray * mContactsMessageListArray;
 @property (nonatomic, strong) UIColor *navColor;
 @property (nonatomic, strong) NSNumber *unreadCount;
-@property (nonatomic,strong) NSArray* colors;
 @property (strong, nonatomic) UILabel *emptyConversationText;
 //@property (strong, nonatomic) NSNumber *channelKey;
 @property(strong, nonatomic) ALMQTTConversationService *alMqttConversationService;
@@ -214,6 +211,9 @@
     [[NSNotificationCenter defaultCenter]
      addObserver:self selector:@selector(updateLastSeenAtStatusPUSH:) name:@"update_USER_STATUS"  object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEntersForegroundIntoListView:)
+                                                 name:@"appCameInForeground" object:nil];
+
     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
     
     if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
@@ -229,7 +229,6 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-
     self.detailChatViewController.contactIds = nil;
     self.detailChatViewController.channelKey = nil;
     self.detailChatViewController.conversationId = nil;
@@ -247,9 +246,11 @@
     {
         [self noDataNotificationView];
     }
-    
 }
 
+-(void)appEntersForegroundIntoListView:(id)sender{
+    [self callLastSeenStatusUpdate];
+}
 -(void)emptyConversationAlertLabel
 {
     if(self.mContactsMessageListArray.count == 0)
@@ -305,7 +306,7 @@
     } else {
         self.navColor = [self.navigationController.navigationBar barTintColor];
     }
-    self.colors = [[NSArray alloc] initWithObjects:@"#617D8A",@"#628B70",@"#8C8863",@"8B627D",@"8B6F62", nil];
+    
 }
 
 -(void)setUpTableView {
@@ -380,7 +381,7 @@
             }
             
             if(![msg.type isEqualToString:@"5"]){
-            [contactCell.unreadCountLabel setHidden:NO];
+                [contactCell.unreadCountLabel setHidden:NO];
             }
             
             if ([msg.type integerValue] == [FORWARD_STATUS integerValue])
@@ -629,10 +630,7 @@
             contactCell.unreadCountLabel.text = [NSString stringWithFormat:@"%i",alChannel.unreadCount.intValue];
         }
     
-        
-        NSUInteger randomIndex = random()% [self.colors count];
-        contactCell.mUserImageView.image= [ALColorUtility imageWithSize:CGRectMake(0, 0, 55, 55) WithHexString:self.colors[randomIndex]];
-        
+        contactCell.mUserImageView.backgroundColor = [UIColor whiteColor];
         if([message.groupId intValue])
         {
             [contactCell.mUserImageView setImage:[ALUtilityClass getImageFromFramworkBundle:@"applozic_group_icon.png"]];
@@ -647,6 +645,8 @@
         else
         {
             nameIcon.hidden = NO;
+            [contactCell.mUserImageView sd_setImageWithURL:[NSURL URLWithString:@""]];
+            contactCell.mUserImageView.backgroundColor = [ALColorUtility getColorForAlphabet:[alContact getDisplayName]];
         }
     
     }break;
@@ -737,9 +737,9 @@
     if (message.groupId){
         self.detailChatViewController.channelKey = message.groupId;
     }
-    else{
+    else
+    {
         self.detailChatViewController.contactIds = message.contactIds;
-        
     }
     
     [self.navigationController pushViewController:_detailChatViewController animated:YES];
@@ -769,6 +769,7 @@
     else{
         return YES;
     }
+
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {

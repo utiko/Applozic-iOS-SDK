@@ -12,6 +12,8 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALRequestHandler.h"
 #import "ALResponseHandler.h"
+#import "NSString+Encode.h"
+
 
 @implementation ALUserClientService
 
@@ -49,7 +51,7 @@
 -(void)userDetailServerCall:(NSString *)contactId withCompletion:(void(^)(ALUserDetail *))completionMark
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/detail",KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"userIds=%@",contactId];
+    NSString * theParamString = [NSString stringWithFormat:@"userIds=%@",[contactId urlEncodeUsingNSUTF8StringEncoding]];
     
     NSLog(@"calling last seen at api for userIds: %@", contactId);
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
@@ -58,6 +60,7 @@
         if (theError)
         {
             NSLog(@"ERROR IN LAST SEEN %@", theError);
+            completionMark(nil);
         }
         else
         {
@@ -81,7 +84,8 @@
 -(void)updateUserDisplayName:(ALContact *)alContact withCompletion:(void(^)(id theJson, NSError *theError))completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/name", KBASE_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"userId=%@&displayName=%@", alContact.userId, alContact.displayName];
+    NSString * theParamString = [NSString stringWithFormat:@"userId=%@&displayName=%@",
+                                 [alContact.userId urlEncodeUsingNSUTF8StringEncoding],alContact.displayName];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"USER_DISPLAY_NAME_UPDATE" WithCompletionHandler:^(id theJson, NSError *theError) {
@@ -106,8 +110,7 @@
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/read/conversation",KBASE_URL];
     NSString * theParamString;
-    theParamString = [NSString stringWithFormat:@"userId=%@",contactId];
-    
+    theParamString = [NSString stringWithFormat:@"userId=%@",[contactId urlEncodeUsingEncoding:NSUTF8StringEncoding]];
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"MARK_CONVERSATION_AS_READ" WithCompletionHandler:^(id theJson, NSError *theError) {
@@ -132,24 +135,22 @@
 {    
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/block",KBASE_URL];
     NSString * theParamString;
-    theParamString = [NSString stringWithFormat:@"userId=%@",userId];
+    theParamString = [NSString stringWithFormat:@"userId=%@",[userId urlEncodeUsingNSUTF8StringEncoding]];
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"USER_BLOCKED" WithCompletionHandler:^(id theJson, NSError *theError) {
         
         NSLog(@"USER_BLOCKED RESPONSE JSON: %@", (NSString *)theJson);
-        if (theError)
-        {
-            NSLog(@"theError");
+        if (theError){
+            NSLog(@"theError %@",theError);
         }
-        else
-        {
-            NSLog(@" %@ SUCCESSFULLY BLOCKED", userId);
+        else{
+        
             completion((NSString *)theJson, nil);
         }
         
-        
+        NSLog(@"Response USER_BLOCKED:%@",theJson);
     }];
 }
 
@@ -184,23 +185,21 @@
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/unblock",KBASE_URL];
     NSString * theParamString;
-    theParamString = [NSString stringWithFormat:@"userId=%@",userId];
+    theParamString = [NSString stringWithFormat:@"userId=%@",[userId urlEncodeUsingNSUTF8StringEncoding]];
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
-    [ALResponseHandler processRequest:theRequest andTag:@"USER_BLOCKED" WithCompletionHandler:^(id theJson, NSError *theError) {
+    [ALResponseHandler processRequest:theRequest andTag:@"USER_UNBLOCKED" WithCompletionHandler:^(id theJson, NSError *theError) {
         
         NSLog(@"USER_UNBLOCKED RESPONSE JSON: %@", (NSString *)theJson);
         if (theError)
         {
-            NSLog(@"theError");
+            NSLog(@"theError,%@",theError);
         }
-        else
-        {
-            NSLog(@" %@ SUCCESSFULLY UNBLOCKED", userId);
+        else{
             completion((NSString *)theJson, nil);
         }
-        
+        NSLog(@"Response USER_UNBLOCKED:%@",(NSString *)theJson);
     }];
 }
 
@@ -248,12 +247,11 @@
     
     [ALResponseHandler processRequest:theRequest andTag:@"MULTI_USER_SEND" WithCompletionHandler:^(id theJson, NSError *theError) {
         completion(theJson,theError);
+        
     }];
-
 }
 
--(void)getListOfRegisteredUsers:(NSNumber *)startTime andPageSize:(NSUInteger)pageSize
-                 withCompletion:(void(^)(ALContactsResponse * response, NSError * error))completion
+-(void)getListOfRegisteredUsers:(NSNumber *)startTime andPageSize:(NSUInteger)pageSize withCompletion:(void(^)(ALContactsResponse * response, NSError * error))completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/filter",KBASE_URL];
     NSString * pageSizeString = [NSString stringWithFormat:@"%lu", (unsigned long)pageSize];

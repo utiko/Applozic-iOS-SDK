@@ -106,16 +106,14 @@
         // self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:refreshButton ,nil];
     }
+
     self.label = [[UILabel alloc] init];
     self.label.backgroundColor = [UIColor clearColor];
     [self.label setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:LAST_SEEN_LABEL_SIZE]];
     self.label.textAlignment = NSTextAlignmentCenter;
-    
     [self.navigationController.navigationBar addSubview:self.label];
     
-    self.typingLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, self.tabBarController.tabBar.frame.origin.y - 35,
-                                                                  self.view.frame.size.width, 30)];
-    
+    self.typingLabel = [[UILabel alloc] initWithFrame: CGRectMake(0,self.tabBarController.tabBar.frame.origin.y - 35, self.view.frame.size.width, 30)];
     self.typingLabel.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0 alpha:1];
     self.typingLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:0.5];
     self.typingLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -178,8 +176,8 @@
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
     }
     
-    CGFloat paddingConstant = self.navigationController.navigationBar.frame.size.height - 14;
-    self.mTableView.contentInset = UIEdgeInsetsMake(paddingConstant, 0.0, 0.0, 0.0);
+   CGFloat paddingConstant = self.navigationController.navigationBar.frame.size.height - 14;
+   self.mTableView.contentInset = UIEdgeInsetsMake(paddingConstant, 0.0, 0.0, 0.0);
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -273,7 +271,7 @@
 {
     NSCharacterSet *charsToTrim = [NSCharacterSet characterSetWithCharactersInString:@"  \n\""];
     self.sendMessageTextView.text = [self.sendMessageTextView.text stringByTrimmingCharactersInSet:charsToTrim];
-    
+  
     if(self.sendMessageTextView.text.length > 0)
     {
         [self postMessage];
