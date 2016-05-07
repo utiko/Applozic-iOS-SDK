@@ -29,6 +29,7 @@
 #define APP_MODULE_NAME_ID @"APP_MODULE_NAME_ID"
 #define CONTACT_VIEW_LOADED @"CONTACT_VIEW_LOADED"
 #define USER_INFO_API_CALLED_SUFFIX @":USER_INFO_API_CALLED"
+#define USER_TYPE_ID @"USER_TYPE_ID"
 
 #import <Foundation/Foundation.h>
 
@@ -130,4 +131,6 @@
 +(void)setServerCallDoneForUserInfo:(BOOL)value ForContact:(NSString*)contactId;
 +(BOOL)isServerCallDoneForUserInfoForContact:(NSString*)contactId;
 
++(void)setUserTypeId:(short)type;
++(short)getUserTypeId;
 @end

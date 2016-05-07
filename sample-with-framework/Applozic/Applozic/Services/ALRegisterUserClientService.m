@@ -34,6 +34,7 @@
     if([ALUserDefaultsHandler getAppModuleName] != NULL){
         [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];
     }
+    [user setUserTypeId:[ALUserDefaultsHandler getUserTypeId]];
 
     //NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
     NSError *error;

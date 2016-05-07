@@ -377,5 +377,13 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:key];
 }
 
++(void)setUserTypeId:(short)type{
+    [[NSUserDefaults standardUserDefaults] setInteger:type forKey:USER_TYPE_ID];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(short)getUserTypeId{
+    return [[NSUserDefaults standardUserDefaults] integerForKey:USER_TYPE_ID];
+}
 
 @end

@@ -306,6 +306,8 @@
     [ALApplozicSettings setFilterContactsStatus:NO];
     [ALApplozicSettings setGroupOption:YES];
     [ALApplozicSettings setGroupExitOption:YES];
+   
+    [ALUserDefaultsHandler setUserTypeId:1];
     
 //   Note: Please uncomment below setter to use app_module_name
 //   [ALUserDefaultsHandler setAppModuleName:@"<APP_MODULE_NAME>"];
