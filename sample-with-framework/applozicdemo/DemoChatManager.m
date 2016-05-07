@@ -305,8 +305,11 @@
     [ALApplozicSettings setMultipleAttachmentMaxLimit:5];  //NSInteger
     [ALApplozicSettings setFilterContactsStatus:NO];
     [ALApplozicSettings setGroupOption:YES];
+    
+    [ALApplozicSettings setGroupMemeberAddOption:YES];
+    [ALApplozicSettings setGroupMemeberRemoveOption:YES];
     [ALApplozicSettings setGroupExitOption:YES];
-   
+    
     [ALUserDefaultsHandler setUserTypeId:1];
     
 //   Note: Please uncomment below setter to use app_module_name

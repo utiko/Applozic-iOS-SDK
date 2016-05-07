@@ -139,7 +139,7 @@
     
     switch (section) {
         case 0:{
-            if(isAdmin && ![self isThisChannelLeft:self.channelKeyID])
+            if(isAdmin && ![self isThisChannelLeft:self.channelKeyID] && [ALApplozicSettings getGroupMemeberAddOption])
                 return 2;
             else
                 return 1;
@@ -195,8 +195,12 @@
             break;
         case 1:
         {
-            if(isAdmin && ![self isThisChannelLeft:self.channelKeyID])
+            if(isAdmin
+               && ![self isThisChannelLeft:self.channelKeyID]
+               && [ALApplozicSettings getGroupMemeberRemoveOption]){
                 [self removeMember:indexPath.row];
+            }
+            
         }break;
         case 2:{
             //Exit group

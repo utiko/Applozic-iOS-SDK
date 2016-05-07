@@ -24,6 +24,8 @@
 #define FILTER_CONTACT_START_TIME @"FILTER_CONTACT_START_TIME"
 #define WALLPAPER_IMAGE @"WALLPAPER_IMAGE"
 #define GROUP_EXIT_BUTTON @"GROUP_EXIT_BUTTON"
+#define GROUP_MEMBER_ADD_OPTION @"GROUP_MEMBER_ADD_OPTION"
+#define GROUP_MEMBER_REMOVE_OPTION @"GROUP_MEMBER_REMOVE_OPTION"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -85,4 +87,10 @@
 
 +(void)setGroupExitOption:(BOOL)option;
 +(BOOL)getGroupExitOption;
+
++(void)setGroupMemeberAddOption:(BOOL)option;
++(BOOL)getGroupMemeberAddOption;
+
++(void)setGroupMemeberRemoveOption:(BOOL)option;
++(BOOL)getGroupMemeberRemoveOption;
 @end

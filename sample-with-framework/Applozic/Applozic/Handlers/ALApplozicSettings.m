@@ -234,4 +234,23 @@
 +(BOOL)getGroupExitOption{
     return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_EXIT_BUTTON];
 }
+
++(void)setGroupMemeberAddOption:(BOOL)option{
+    [[NSUserDefaults standardUserDefaults] setBool:option forKey:GROUP_MEMBER_ADD_OPTION];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getGroupMemeberAddOption{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_MEMBER_ADD_OPTION];
+}
+
++(void)setGroupMemeberRemoveOption:(BOOL)option{
+    [[NSUserDefaults standardUserDefaults] setBool:option forKey:GROUP_MEMBER_REMOVE_OPTION];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getGroupMemeberRemoveOption{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_MEMBER_REMOVE_OPTION];
+}
+
 @end
