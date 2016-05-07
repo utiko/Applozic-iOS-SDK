@@ -217,5 +217,12 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:FILTER_CONTACT_START_TIME];
 }
 
++(void)setChatWallpaperImageName:(NSString*)imageName{
+    [[NSUserDefaults standardUserDefaults] setValue:imageName forKey:WALLPAPER_IMAGE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 
++(NSString *)getChatWallpaperImageName{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:WALLPAPER_IMAGE];
+}
 @end

@@ -22,7 +22,7 @@
     if(self)
     {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0  alpha:1];
+        self.backgroundColor = [UIColor clearColor];
         
         self.mUserProfileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 45, 45)];
         self.mUserProfileImageView.contentMode = UIViewContentModeScaleAspectFill;

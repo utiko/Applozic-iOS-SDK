@@ -365,8 +365,9 @@ ALMessageDBService  * dbService;
         
     }
     
-    if(isPickerOpen)
-    [self donePicking:nil];
+    if(isPickerOpen){
+        [self donePicking:nil];
+    }
     [[[self navigationController] interactivePopGestureRecognizer] setEnabled:YES];
     self.label.alpha = 0;
 }
@@ -538,15 +539,18 @@ ALMessageDBService  * dbService;
     }
    
     self.conversationTitleList = [[NSMutableArray alloc] init];
-    if(!conversationList.count)
-    {
+    NSLog(@"Conversation List count = %@",conversationList.count);
+    if(conversationList.count == 0 ){
         return;
     }
     for(ALConversationProxy * conversation in conversationList){
-        ALTopicDetail * topicDetail  = conversation.getTopicDetail;
-        if(conversation.getTopicDetail){
-        [self.conversationTitleList addObject:topicDetail.title];
-        [self.pickerConvIdsArray addObject:conversation.Id];
+        ALTopicDetail * topicDetail  = [[ALTopicDetail alloc] init];         topicDetail = conversation.getTopicDetail;
+
+        if(topicDetail.title != nil){
+            [self.conversationTitleList addObject:topicDetail.title];
+            [self.pickerConvIdsArray addObject:conversation.Id];
+        }else{
+            NSLog(@"<< ERROR:Topic Detail NILL >>");
         }
     }
    
@@ -1039,7 +1043,8 @@ ALMessageDBService  * dbService;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 84)];
     ALConversationService * alconversationService = [[ALConversationService alloc]init];
     ALConversationProxy *alConversationProxy = [alconversationService getConversationByKey:self.conversationId];
-    ALTopicDetail * topicDetail  = alConversationProxy.getTopicDetail;
+   
+    ALTopicDetail * topicDetail  = [[ALTopicDetail alloc] initWithJSONString:alConversationProxy.topicDetailJson];
     
     // Image View ....
     UIImageView *imageView = [[UIImageView alloc] init];
@@ -1084,11 +1089,12 @@ ALMessageDBService  * dbService;
     
    [self setLabelViews:@[topLeft,bottomLeft,topRight,bottomRight] onView:view];
     
-    UITapGestureRecognizer *singleFingerTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(showConversationPicker:)];
-    [view addGestureRecognizer:singleFingerTap];
-
+    if(topicDetail.title != nil){
+        UITapGestureRecognizer *singleFingerTap =
+        [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                action:@selector(showConversationPicker:)];
+        [view addGestureRecognizer:singleFingerTap];
+    }
     return view;
 }
 
@@ -1158,6 +1164,7 @@ ALMessageDBService  * dbService;
     }
     if(NSNotFound == anIndex) {
         NSLog(@"PickerView Index not found %ld",(long)anIndex);
+        return;
     }
     
     [self.pickerView selectRow:anIndex inComponent:0 animated:NO];
@@ -1380,8 +1387,15 @@ ALMessageDBService  * dbService;
     }
     
     self.refresh = YES;
+    [self.mTableView setBackgroundView:[self getChatWallpaperImageView]];
 }
 
+-(UIImageView *)getChatWallpaperImageView {
+    
+    UIImage * backgoundWallpaperImage = [UIImage imageNamed:[ALApplozicSettings getChatWallpaperImageName]];
+    UIImageView *backgoundWallpaperImageView = [[UIImageView alloc] initWithImage:backgoundWallpaperImage];
+    return backgoundWallpaperImageView;
+}
 #pragma mark IBActions
 
 -(void) attachmentAction

@@ -22,6 +22,7 @@
 #define MAX_SEND_ATTACHMENT @"MAX_SEND_ATTACHMENT"
 #define FILTER_CONTACT @"FILTER_CONTACT"
 #define FILTER_CONTACT_START_TIME @"FILTER_CONTACT_START_TIME"
+#define WALLPAPER_IMAGE @"WALLPAPER_IMAGE"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -93,5 +94,8 @@
 +(void)setStartTime:(NSNumber *)startTime;
 
 +(NSNumber *)getStartTime;
+
++(void)setChatWallpaperImageName:(NSString*)imageName;
++(NSString *)getChatWallpaperImageName;
 
 @end

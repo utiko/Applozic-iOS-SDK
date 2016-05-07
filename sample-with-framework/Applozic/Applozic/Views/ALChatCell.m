@@ -38,7 +38,7 @@
     
     if (self) {
         
-        self.backgroundColor = [UIColor colorWithRed:224.0/255 green:224.0/255 blue:224.0/255 alpha:1];
+        self.backgroundColor = [UIColor clearColor];
         
         self.mUserProfileImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 45, 45)];
         self.mUserProfileImageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -98,7 +98,6 @@
         [self.contentView addSubview:self.mMessageStatusImageView];
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0  alpha:1];
         
         self.contentView.userInteractionEnabled = YES;
         
