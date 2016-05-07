@@ -148,7 +148,7 @@
             return memberIds.count;
         }break;
         case 2:{
-            if(![self isThisChannelLeft:self.channelKeyID]){
+            if(![self isThisChannelLeft:self.channelKeyID] && [ALApplozicSettings getGroupExitOption]){
                 return 1;
             }
             else{

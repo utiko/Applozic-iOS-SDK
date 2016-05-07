@@ -23,6 +23,7 @@
 #define FILTER_CONTACT @"FILTER_CONTACT"
 #define FILTER_CONTACT_START_TIME @"FILTER_CONTACT_START_TIME"
 #define WALLPAPER_IMAGE @"WALLPAPER_IMAGE"
+#define GROUP_EXIT_BUTTON @"GROUP_EXIT_BUTTON"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -30,72 +31,58 @@
 @interface ALApplozicSettings : NSObject
 
 +(void)setFontFace:(NSString *)fontFace;
-
 +(NSString *)getFontFace;
 
 +(void)setUserProfileHidden: (BOOL)flag;
-
 +(BOOL)isUserProfileHidden;
 
 +(void)setColorForSendMessages:(UIColor *)sendMsgColor ;
-
-+(void)setColorForReceiveMessages:(UIColor *)receiveMsgColor;
-
 +(UIColor *)getSendMsgColor;
 
++(void)setColorForReceiveMessages:(UIColor *)receiveMsgColor;
 +(UIColor *)getReceiveMsgColor;
 
 +(void)setColorForNavigation:(UIColor *)barColor;
-
 +(UIColor *)getColorForNavigation;
 
 +(void)setColorForNavigationItem:(UIColor *)barItemColor;
-
 +(UIColor *)getColorForNavigationItem;
 
 +(void) clearAllSettings;
 
 +(void)hideRefreshButton:(BOOL)state;
-
 +(BOOL)isRefreshButtonHidden;
 
 +(void)setTitleForConversationScreen:(NSString *)titleText;
-
 +(NSString *)getTitleForConversationScreen;
 
 +(void)setTitleForBackButton:(NSString *)backButtonTitle;
-
 +(NSString *)getBackButtonTitle;
 
 +(void)setNotificationTitle:(NSString *)notificationTitle;
-
 +(NSString *)getNotificationTitle;
 
 +(void)setMaxImageSizeForUploadInMB:(NSInteger)maxFileSize;
-
 +(NSInteger)getMaxImageSizeForUploadInMB;
 
 +(void) setMaxCompressionFactor:(double)maxCompressionRatio;
-
 +(double) getMaxCompressionFactor;
 
 +(void)setGroupOption:(BOOL)option;
-
 +(BOOL)getGroupOption;
 
 +(void)setMultipleAttachmentMaxLimit:(NSInteger)limit;
-
 +(NSInteger)getMultipleAttachmentMaxLimit;
 
 +(void)setFilterContactsStatus:(BOOL)flag;
-
 +(BOOL)getFilterContactsStatus;
 
 +(void)setStartTime:(NSNumber *)startTime;
-
 +(NSNumber *)getStartTime;
 
 +(void)setChatWallpaperImageName:(NSString*)imageName;
 +(NSString *)getChatWallpaperImageName;
 
++(void)setGroupExitOption:(BOOL)option;
++(BOOL)getGroupExitOption;
 @end

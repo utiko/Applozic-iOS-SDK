@@ -225,4 +225,13 @@
 +(NSString *)getChatWallpaperImageName{
     return [[NSUserDefaults standardUserDefaults] valueForKey:WALLPAPER_IMAGE];
 }
+
++(void)setGroupExitOption:(BOOL)option{
+    [[NSUserDefaults standardUserDefaults] setBool:option forKey:GROUP_EXIT_BUTTON];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getGroupExitOption{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_EXIT_BUTTON];
+}
 @end
