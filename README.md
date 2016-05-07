@@ -219,6 +219,12 @@ Once your app receive notification, pass it to applozic handler for applozic not
 
 ```
 ### Changelog
+__Version 2.6__
+ * Settings to toggle buttons:
+    * Group-Exit Button
+    * Group-Member-Add Button
+    * Group-Member-Remove Button
+
 __Version 2.5__
  * Typing indicator UI fixes
  * Block user UI bug fixes
