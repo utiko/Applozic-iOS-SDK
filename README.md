@@ -12,6 +12,8 @@ Works for both Objective-C and Swift.
 
 It is a light weight Objective-C Chat and Messenger SDK.
 
+Applozic One to One and Group Chat SDK
+
 Features:
 
 
