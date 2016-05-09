@@ -410,6 +410,8 @@
          contact.unreadCount= userDetail.unreadCount;
          contact.lastSeenAt = [NSNumber numberWithBool:userDetail.connected];
          contact.displayName = userDetail.displayName;
+         contact.contactImageUrl = userDetail.imageLink;
+        
         [self addContact:contact];
     }
     
