@@ -29,5 +29,6 @@
 @property short deviceType;
 @property NSString *imageLink;
 @property NSString * appModuleName;
+@property short userTypeId;
 @end
 
