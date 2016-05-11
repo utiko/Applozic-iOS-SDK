@@ -68,4 +68,22 @@
     return (!self.displayName || ![self.displayName isEqualToString:@" "]) ? self.userId : self.displayName;
 }
 
+-(void)parsingDictionaryFromJSON:(NSDictionary *)JSONDictionary
+{
+    self.userIdString = nil;
+    NSString * tempString = @"";
+    self.keyArray = [NSArray arrayWithArray:[JSONDictionary allKeys]];
+    self.valueArray = [NSArray arrayWithArray:[JSONDictionary allValues]];
+    
+    for(NSString *str in self.keyArray)
+    {
+        tempString = [tempString stringByAppendingString:[NSString stringWithFormat:@"&userIds=%@",str]];
+    }
+    
+    if(self.keyArray.count)
+    {
+        self.userIdString = [tempString substringFromIndex:1];
+    }
+}
+
 @end

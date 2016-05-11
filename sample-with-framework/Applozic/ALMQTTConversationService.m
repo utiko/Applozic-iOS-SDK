@@ -128,23 +128,32 @@ static MQTTSession *session;
             
             ALPushAssist* assistant=[[ALPushAssist alloc] init];
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:[theMessageDict objectForKey:@"message"]];
-            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-            [dict setObject:[alMessage getNotificationText] forKey:@"alertValue"];
-            [dict setObject:[NSNumber numberWithBool:NO] forKey:@"updateUI"];
             
-            [ALMessageService getLatestMessageForUser:[ALUserDefaultsHandler getDeviceKeyString] withCompletion:^(NSMutableArray *message, NSError *error) {
+            if([alMessage isHiddenMessage]){
+                NSLog(@"< HIDDEN MESSAGE RECEIVED >");
+                [ALMessageService getLatestMessageForUser:[ALUserDefaultsHandler getDeviceKeyString] withCompletion:^(NSMutableArray *message, NSError *error) {
+                }];
+                
+            }
+            else{
+                NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+                [dict setObject:[alMessage getNotificationText] forKey:@"alertValue"];
+                [dict setObject:[NSNumber numberWithBool:NO] forKey:@"updateUI"];
+                
+                [ALMessageService getLatestMessageForUser:[ALUserDefaultsHandler getDeviceKeyString] withCompletion:^(NSMutableArray *message, NSError *error) {
 
-                NSLog(@"ALMQTTConversationService SYNC CALL");
-                if(!assistant.isOurViewOnTop){
-                    [assistant assist:alMessage.contactIds and:dict ofUser:alMessage.contactIds];
-                    [dict setObject:@"mqtt" forKey:@"Calledfrom"];
-                }
-                else{
-                    [self.alSyncCallService syncCall:alMessage];
-                    [self.mqttConversationDelegate syncCall:alMessage andMessageList:nil];
-                }
+                    NSLog(@"ALMQTTConversationService SYNC CALL");
+                    if(!assistant.isOurViewOnTop){
+                        [assistant assist:alMessage.contactIds and:dict ofUser:alMessage.contactIds];
+                        [dict setObject:@"mqtt" forKey:@"Calledfrom"];
+                    }
+                    else{
+                        [self.alSyncCallService syncCall:alMessage];
+                        [self.mqttConversationDelegate syncCall:alMessage andMessageList:nil];
+                    }
 
-            }];
+                }];
+            }
             
         }
         else if ([type isEqualToString:@"MESSAGE_SENT"] || [type isEqualToString:@"APPLOZIC_02"]) {
@@ -249,7 +258,7 @@ static MQTTSession *session;
 
     ALContactDBService *dbService = [ALContactDBService new];
     [dbService setBlockByUser:userId andBlockedByState:flag];
-    [self.mqttConversationDelegate reloadDataForUserBlockNotification];
+    [self.mqttConversationDelegate reloadDataForUserBlockNotification:userId andBlockFlag:flag];
 }
 
 - (void)subAckReceived:(MQTTSession *)session msgID:(UInt16)msgID grantedQoss:(NSArray *)qoss

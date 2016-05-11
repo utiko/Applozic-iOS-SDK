@@ -134,6 +134,26 @@
 }
 
 //===============================================================================
+// Custom Message Sending API
+//===============================================================================
+
+-(void)sendCustomMessageTo:(NSString*)to WithText:(NSString*)text andBackgroundColor:(UIColor *)color{
+  
+    
+    ALMessage * customMessage = [ALMessageService createCustomTextMessageEntitySendTo:to withText:text];
+    
+    [ALApplozicSettings setCustomMessageBackgroundColor:color];
+    
+    [ALMessageService sendMessages:customMessage withCompletion:^(NSString *message, NSError *error) {
+        if(error){
+             NSLog(@"Custom Message Send Error: %@", error);
+        }
+    }];
+
+}
+
+
+//===============================================================================
 // TO LAUNCH SELLER CHAT....
 //
 //===============================================================================

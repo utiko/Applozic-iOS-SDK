@@ -52,4 +52,11 @@
              withCompletion:(void(^)(NSString * json, NSError * error)) completion;
 
 +(void)getMessageSENT:(ALMessage*)alMessage  withCompletion:(void (^)( NSMutableArray *, NSError *))completion;
++(ALMessage *) createCustomTextMessageEntitySendTo:(NSString *)to withText:(NSString*)text;
+
++(void)getMessageListForUserIfLastIsHiddenMessageinMessageList:(ALMessageList*)alMessageList withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion;
+
++(void)getMessagesListGroupByContactswithCompletionService:(void(^)(NSMutableArray * messages, NSError * error))completion;
+
++(ALMessage *)createHiddenMessageEntitySentTo:(NSString*)to withText:(NSString*)text;
 @end

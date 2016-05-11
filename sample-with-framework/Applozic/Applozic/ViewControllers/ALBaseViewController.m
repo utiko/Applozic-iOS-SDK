@@ -20,6 +20,8 @@
 #import "ALChatLauncher.h"
 #import "ALMessagesViewController.h"
 
+#define KEYBOARD_PADDING 85
+
 @interface ALBaseViewController ()<UITextViewDelegate>
 
 
@@ -175,9 +177,7 @@
         [self.label setTextColor:[ALApplozicSettings getColorForNavigationItem]];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
     }
-    
-   CGFloat paddingConstant = self.navigationController.navigationBar.frame.size.height - 14;
-   self.mTableView.contentInset = UIEdgeInsetsMake(paddingConstant, 0.0, 0.0, 0.0);
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -206,8 +206,12 @@
     NSDictionary * theDictionary = notification.userInfo;
     NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    self.checkBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y;
-    self.typingLabel.frame = CGRectMake(0, keyboardEndFrame.origin.y - 85, self.view.frame.size.width, 30);
+    
+    CGFloat navigationWidth = self.navigationController.navigationBar.frame.size.height +
+                                [UIApplication sharedApplication].statusBarFrame.size.height;
+    
+    self.checkBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y + navigationWidth;
+    self.typingLabel.frame = CGRectMake(0, keyboardEndFrame.origin.y - (KEYBOARD_PADDING + navigationWidth), self.view.frame.size.width, 30);
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         [self scrollTableViewToBottomWithAnimation:YES];
@@ -225,7 +229,11 @@
     NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
     self.checkBottomConstraint.constant = 0;
     CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    self.typingLabel.frame = CGRectMake(0, keyboardEndFrame.origin.y - 85, self.view.frame.size.width, 30);
+    
+    CGFloat navigationWidth = self.navigationController.navigationBar.frame.size.height +
+                                [UIApplication sharedApplication].statusBarFrame.size.height;
+    
+    self.typingLabel.frame = CGRectMake(0, keyboardEndFrame.origin.y - (KEYBOARD_PADDING + navigationWidth), self.view.frame.size.width, 30);
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         

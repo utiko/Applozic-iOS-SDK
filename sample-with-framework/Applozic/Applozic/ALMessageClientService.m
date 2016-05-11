@@ -97,8 +97,7 @@
 
 
 -(void) getLatestMessageGroupByContactWithCompletion:(void(^)(ALMessageList * alMessageList, NSError * error)) completion{
-    
-    NSLog(@"calling new contact groupcode ....");
+    NSLog(@"\nGet Latest Messages \t State:- User Login ");
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
     
@@ -117,11 +116,11 @@
         
         ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
-        completion(messageListResponse,nil); 
+        completion(messageListResponse,nil);
         NSLog(@"message list response THE JSON %@",theJson);
+        
         ALChannelService *channelService = [[ALChannelService alloc] init];
         [channelService callForChannelServiceForDBInsertion:theJson];
-        //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
         
         //USER BLOCK SYNC CALL
         ALUserService *userService = [ALUserService new];
@@ -132,7 +131,7 @@
 }
 
 -(void) getMessagesListGroupByContactswithCompletion:(void(^)(NSMutableArray * messages, NSError * error)) completion {
-    
+    NSLog(@"\nGet Latest Messages \t State:- User Opens Message List View");
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
     
     NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@",@"0"];
@@ -148,9 +147,11 @@
             return ;
         }
         
-        ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
+        ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson];
         
-        completion(messageListResponse.messageList,nil);
+        [ALMessageService getMessageListForUserIfLastIsHiddenMessageinMessageList:messageListResponse withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray) {
+            completion(messages,error);
+        }];
 //        NSLog(@"getMessagesListGroupByContactswithCompletion message list response THE JSON %@",theJson);
         //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
         

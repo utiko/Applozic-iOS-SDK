@@ -8,9 +8,9 @@
 #import <UIKit/UIKit.h>
 #import "ALChatViewController.h"
 #import "ALContactCell.h"
+#import "ALNewContactsViewController.h"
 
-
-@interface ALMessagesViewController : UIViewController
+@interface ALMessagesViewController : UIViewController 
 
 @property(nonatomic,strong) ALChatViewController * detailChatViewController;
 
@@ -33,6 +33,8 @@
 @property (strong, nonatomic) NSString * userIdToLaunch;
 @property (strong, nonatomic) NSNumber *channelKey;
 @property (strong, nonatomic) NSNumber * conversationId;
+
+-(void)insertChannelMessage:(NSNumber *)channelKey;
 
 @end
 

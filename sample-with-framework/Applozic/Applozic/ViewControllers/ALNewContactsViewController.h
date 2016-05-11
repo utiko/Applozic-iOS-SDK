@@ -15,7 +15,9 @@
 
 
 @protocol ALContactDelegate <NSObject>
+
 -(void)addNewMembertoGroup:(ALContact *)alcontact withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion;
+
 @end
 
 
@@ -36,5 +38,5 @@
 @property (nonatomic,strong) NSString* groupName;
 @property (nonatomic,strong) NSNumber * forGroupAddition;
 @property (nonatomic,strong) NSMutableArray * contactsInGroup;
-@property(nonatomic,assign)id delegate;
+@property (nonatomic,assign) id <ALContactDelegate> delegate;
 @end

@@ -15,6 +15,8 @@
 #define ALMESSAGE_CONTENT_CAMERA_RECORDING 9
 #define ALMESSAGE_CONTENT_AUDIO 8
 #define ALMESSAGE_CONTENT_VCARD 7
+#define ALMESSAGE_CONTENT_CUSTOM 101
+#define ALMESSAGE_CONTENT_HIDDEN 11
 
 @interface ALMessage : ALJson
 
@@ -83,6 +85,7 @@
 
 -(BOOL)isDownloadRequire;
 -(BOOL)isUploadRequire;
+-(BOOL)isHiddenMessage;
 
 -(NSString *)getCreatedAtTimeChat:(BOOL)today;
 -(NSNumber *)getGroupId;

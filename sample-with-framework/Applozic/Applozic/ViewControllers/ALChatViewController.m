@@ -55,6 +55,8 @@
 #import "ALLocationCell.h"
 #import "ALVCFClass.h"
 #import "ALContactMessageCell.h"
+#import "ALCustomCell.h"
+#import "ALUIConstant.h"
 
 @import AddressBookUI;
 
@@ -515,6 +517,7 @@ ALMessageDBService  * dbService;
     [self.mTableView registerClass:[ALDocumentsCell class] forCellReuseIdentifier:@"DocumentsCell"];
     [self.mTableView registerClass:[ALContactMessageCell class] forCellReuseIdentifier:@"ContactMessageCell"];
     [self.mTableView registerClass:[ALLocationCell class] forCellReuseIdentifier:@"LocationCell"];
+    [self.mTableView registerClass:[ALCustomCell class] forCellReuseIdentifier:@"CustomCell"];
     
     self.pickerView.delegate = self;
     self.pickerView.dataSource = self;
@@ -539,18 +542,22 @@ ALMessageDBService  * dbService;
     }
    
     self.conversationTitleList = [[NSMutableArray alloc] init];
-    NSLog(@"Conversation List count = %@",conversationList.count);
-    if(conversationList.count == 0 ){
+    if(conversationList.count == 0 )
+    {
+        NSLog(@"No conversation list ");
         return;
     }
     for(ALConversationProxy * conversation in conversationList){
-        ALTopicDetail * topicDetail  = [[ALTopicDetail alloc] init];         topicDetail = conversation.getTopicDetail;
-
+        NSLog(@"topicDetailJson : %@",conversation.topicDetailJson);
+        
+        ALTopicDetail * topicDetail  = [[ALTopicDetail alloc] init];   //WithDictonary:conversation.topicDetailJson];
+        topicDetail = conversation.getTopicDetail;
+        
         if(topicDetail.title != nil){
             [self.conversationTitleList addObject:topicDetail.title];
             [self.pickerConvIdsArray addObject:conversation.Id];
         }else{
-            NSLog(@"<< ERROR:Topic Detail NILL >>");
+            NSLog(@"<< ERROR: Topic Detail NILL >>");
         }
     }
    
@@ -630,8 +637,8 @@ ALMessageDBService  * dbService;
     }else{
         predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@ && groupId = nil", self.contactIds];
     }
-    
-    NSPredicate* compoundPredicate=[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1]];
+    NSPredicate* predicate2= [NSPredicate predicateWithFormat:@"contentType != %i",ALMESSAGE_CONTENT_HIDDEN];
+    NSPredicate* compoundPredicate=[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
     [theRequest setPredicate:compoundPredicate];
     
     self.mTotalCount = [theDbHandler.managedObjectContext countForFetchRequest:theRequest error:nil];
@@ -861,12 +868,22 @@ ALMessageDBService  * dbService;
         [self.view layoutIfNeeded];
         return theCell;
     }
+    else if (theMessage.contentType == ALMESSAGE_CONTENT_CUSTOM){
+        
+        ALCustomCell * theCell = (ALCustomCell *)[tableView dequeueReusableCellWithIdentifier:@"CustomCell"];
+        theCell.tag = indexPath.row;
+        theCell.delegate = self;
+        [theCell populateCell:theMessage viewSize:self.view.frame.size];
+        [self.view layoutIfNeeded];
+        return theCell;
+    }
     else if (theMessage.fileMeta.thumbnailUrl == nil && !theMessage.fileMeta.contentType)       // textCell
     {
         ALChatCell *theCell = (ALChatCell *)[tableView dequeueReusableCellWithIdentifier:@"ChatCell"];
         theCell.tag = indexPath.row;
         theCell.delegate = self;
         [theCell populateCell:theMessage viewSize:self.view.frame.size];
+        [self.view layoutIfNeeded];
         return theCell;
         
     }
@@ -876,6 +893,7 @@ ALMessageDBService  * dbService;
         theCell.tag = indexPath.row;
         theCell.delegate = self;
         [theCell populateCell:theMessage viewSize:self.view.frame.size];
+        [self.view layoutIfNeeded];
         return theCell;
     }
     else
@@ -914,65 +932,9 @@ ALMessageDBService  * dbService;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ALMessage * theMessage = [self.alMessageWrapper getUpdatedMessageArray][indexPath.row];
-    
-    if((theMessage.message.length > 0) && (theMessage.fileMeta.thumbnailUrl != nil))
-    {
-        CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width - 115 font:@"Helvetica-Bold" fontSize:15];
-        IMAGE_AND_TEXT_CELL_HEIGHT = theTextSize.height + self.view.frame.size.width - 30;
-        return IMAGE_AND_TEXT_CELL_HEIGHT;
-    }
-    else if(theMessage.contentType == (short)ALMESSAGE_CONTENT_LOCATION)
-    {
-        LOCATION_CELL_HEIGHT = self.view.frame.size.width - 140;
-        return LOCATION_CELL_HEIGHT;
-    }
-    else if([theMessage.type isEqualToString:@"100"])
-    {
-        DATE_CELL_HEIGHT = 30;
-        return DATE_CELL_HEIGHT;
-    }
-    else if ([theMessage.fileMeta.contentType hasPrefix:@"video"])
-    {
-        VIDEO_CELL_HEIGHT = self.view.frame.size.width - 110 + 50;
-        
-        if(theMessage.message.length > 0)
-        {
-            CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message
-                                                       maxWidth:self.view.frame.size.width - 115
-                                                           font:@"Helvetica-Bold"
-                                                       fontSize:15];
-            
-            VIDEO_CELL_HEIGHT = theTextSize.height + VIDEO_CELL_HEIGHT;
-        }
-        return VIDEO_CELL_HEIGHT;
-    }
-    else if ([theMessage.fileMeta.contentType hasPrefix:@"audio"])
-    {
-        AUDIO_CELL_HEIGHT = 130;
-        return AUDIO_CELL_HEIGHT;
-    }
-    else if (theMessage.fileMeta.thumbnailUrl == nil && !theMessage.fileMeta.contentType)
-    {
-        CGSize theTextSize = [ALUtilityClass getSizeForText:theMessage.message maxWidth:self.view.frame.size.width - 115 font:@"Helvetica-Bold" fontSize:15];
-        int extraSpace = 50 ;
-        TEXT_CELL_HEIGHT = theTextSize.height + 21 + extraSpace;
-        return TEXT_CELL_HEIGHT;
-    }
-    else if ([theMessage.fileMeta.contentType hasPrefix:@"image"])
-    {
-        IMAGE_CELL_HEIGHT = self.view.frame.size.width - 110 + 40;
-        return IMAGE_CELL_HEIGHT;
-    }
-    else if (theMessage.contentType == ALMESSAGE_CONTENT_VCARD)
-    {
-        CONTACT_CELL_HEIGHT = 265;
-        return CONTACT_CELL_HEIGHT;
-    }
-    else
-    {
-        DOCUMENT_CELL_HEIGHT = 130;
-        return DOCUMENT_CELL_HEIGHT;
-    }
+
+    CGFloat cellHeight = [ALUIConstant getCellHeight:theMessage andCellFrame:self.view.frame];
+    return cellHeight;
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1043,8 +1005,10 @@ ALMessageDBService  * dbService;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 84)];
     ALConversationService * alconversationService = [[ALConversationService alloc]init];
     ALConversationProxy *alConversationProxy = [alconversationService getConversationByKey:self.conversationId];
-   
-    ALTopicDetail * topicDetail  = [[ALTopicDetail alloc] initWithJSONString:alConversationProxy.topicDetailJson];
+    
+    ALTopicDetail * topicDetail = [[ALTopicDetail alloc] init];//WithJSONString:alConversationProxy.topicDetailJson];
+    topicDetail = alConversationProxy.getTopicDetail;
+    NSLog(@"Topic Deatils getHeaderView:%@",topicDetail.title);
     
     // Image View ....
     UIImageView *imageView = [[UIImageView alloc] init];
@@ -1333,7 +1297,8 @@ ALMessageDBService  * dbService;
     self.mTotalCount = [theDbHandler.managedObjectContext countForFetchRequest:theRequest error:nil];
     
     NSPredicate* predicate2=[NSPredicate predicateWithFormat:@"deletedFlag == NO"];
-    NSPredicate* compoundPredicate=[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
+    NSPredicate* predicate3= [NSPredicate predicateWithFormat:@"contentType != %i",ALMESSAGE_CONTENT_HIDDEN];
+    NSPredicate* compoundPredicate=[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2,predicate3]];
     [theRequest setPredicate:compoundPredicate];
     [theRequest setFetchOffset:self.startIndex];
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
@@ -1387,6 +1352,7 @@ ALMessageDBService  * dbService;
     }
     
     self.refresh = YES;
+    
     [self.mTableView setBackgroundView:[self getChatWallpaperImageView]];
 }
 
@@ -1396,6 +1362,7 @@ ALMessageDBService  * dbService;
     UIImageView *backgoundWallpaperImageView = [[UIImageView alloc] initWithImage:backgoundWallpaperImage];
     return backgoundWallpaperImageView;
 }
+
 #pragma mark IBActions
 
 -(void) attachmentAction
@@ -2056,7 +2023,6 @@ ALMessageDBService  * dbService;
     ALMessage * alMessage =  [self getMessageFromViewList:@"key" withValue:key];
     if (alMessage)
     {
-        NSLog(@"Updating DR= Message(key) found FROM ViewList:-\nMessage:%@\nkey:%@\n",alMessage.message,alMessage.key);
         alMessage.status= statusValue;
         [self.mTableView reloadData];
     }
@@ -2065,17 +2031,13 @@ ALMessageDBService  * dbService;
         ALMessage* fetchMsg = [ALMessage new];
         fetchMsg=[ALMessageService getMessagefromKeyValuePair:@"key" andValue:key];
         
-        NSLog(@"Updating DR= Message not found from View, Fetching Message's key FROM DB:-\nFetched Message:%@\nnFetched Key:%@\n",fetchMsg.message,fetchMsg.key);
+        //now find in list ...
         ALMessage * alMessage2 =  [self getMessageFromViewList:@"msgDBObjectId" withValue:fetchMsg.msgDBObjectId];
         
         if (alMessage2)
         {
-            NSLog(@"Updating DR= Message2 found from View using key fetched FROM DB:-\nMessage:%@\nkey:%@\n",alMessage2.message,alMessage2.key);
             alMessage2.status = statusValue;
             [self.mTableView reloadData];
-        }
-        else{
-            NSLog(@"Updating DR= Message2 not found EVEN from DB !!");
         }
     }
 }
@@ -2329,7 +2291,10 @@ ALMessageDBService  * dbService;
                         
                     }
                 }
-                [[self.alMessageWrapper getUpdatedMessageArray] insertObject:msg atIndex:0];
+        
+                if(![msg isHiddenMessage]){ // Filters Hidden Messages
+                    [[self.alMessageWrapper getUpdatedMessageArray] insertObject:msg atIndex:0];
+                }
             }
             ALMessage * message = [array firstObject];
             if(message){

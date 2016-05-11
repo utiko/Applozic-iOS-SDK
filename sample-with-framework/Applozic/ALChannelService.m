@@ -110,8 +110,8 @@
 #pragma mark CREATE CHANNEL
 //=========================
 
--(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSNumber *channelKey))completion{
-    
+-(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSNumber *channelKey))completion
+{
     if(channelName != nil)
     {
         [ALChannelClientService createChannel: channelName andMembersList: memberArray withCompletion:^(NSError *error, ALChannelCreateResponse *response) {
@@ -141,6 +141,7 @@
 
 -(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion
 {
+    
     if(channelKey != nil && userId != nil)
     {
         [ALChannelClientService addMemberToChannel:userId andChannelKey:channelKey withComletion:^(NSError *error, ALAPIResponse *response) {

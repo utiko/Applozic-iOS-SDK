@@ -354,7 +354,6 @@
 +(BOOL) getContactViewLoaded
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:CONTACT_VIEW_LOADED];
-   
 }
 
 +(void)setServerCallDoneForUserInfo:(BOOL)value ForContact:(NSString*)contactId{
@@ -375,6 +374,55 @@
     }
     NSString *key = [ contactId stringByAppendingString:USER_INFO_API_CALLED_SUFFIX];
     return [[NSUserDefaults standardUserDefaults] boolForKey:key];
+}
+
+
++(void)setBASEURL:(NSString *)baseURL
+{
+    [[NSUserDefaults standardUserDefaults] setValue:baseURL forKey:APPLOZIC_BASE_URL];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getBASEURL
+{
+    NSString * kBaseUrl = [[NSUserDefaults standardUserDefaults] valueForKey:APPLOZIC_BASE_URL];
+    return (kBaseUrl && ![kBaseUrl isEqualToString:@""]) ? kBaseUrl : @"https://apps.applozic.com";
+}
+
++(void)setMQTTURL:(NSString *)mqttURL
+{
+    [[NSUserDefaults standardUserDefaults] setValue:mqttURL forKey:APPLOZIC_MQTT_URL];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getMQTTURL
+{
+    NSString * kMqttUrl = [[NSUserDefaults standardUserDefaults] valueForKey:APPLOZIC_MQTT_URL];
+    return (kMqttUrl && ![kMqttUrl isEqualToString:@""]) ? kMqttUrl : @"apps.applozic.com";
+}
+
++(void)setFILEURL:(NSString *)fileURL
+{
+    [[NSUserDefaults standardUserDefaults] setValue:fileURL forKey:APPLOZIC_FILE_URL];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getFILEURL
+{
+    NSString * kFileUrl = [[NSUserDefaults standardUserDefaults] valueForKey:APPLOZIC_FILE_URL];
+    return (kFileUrl && ![kFileUrl isEqualToString:@""] ) ? kFileUrl : @"https://applozic.appspot.com";
+}
+
++(void)setMQTTPort:(NSString *)portNumber
+{
+    [[NSUserDefaults standardUserDefaults] setValue:portNumber forKey:APPLOZIC_MQTT_PORT];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getMQTTPort
+{
+    NSString * kPortNumber = [[NSUserDefaults standardUserDefaults] valueForKey:APPLOZIC_MQTT_PORT];
+    return (kPortNumber && ![kPortNumber isEqualToString:@""]) ? kPortNumber : @"1883";
 }
 
 +(void)setUserTypeId:(short)type{

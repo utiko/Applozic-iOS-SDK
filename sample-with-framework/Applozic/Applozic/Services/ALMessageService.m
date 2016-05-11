@@ -43,14 +43,67 @@ static ALMessageClientService *alMsgClientService;
             ALContactDBService *alContactDBService = [[ALContactDBService alloc] init];
             [alContactDBService addUserDetails:alMessageList.userDetailsList];
             [ALUserDefaultsHandler setBoolForKey_isConversationDbSynced:YES];
+            
+            [self getMessageListForUserIfLastIsHiddenMessageinMessageList:alMessageList withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray) {
+            }];
         }
+        else{
+            NSLog(@"Message List Response Nil");
+        }
+        
     }];
     
 }
 
++(void)getMessagesListGroupByContactswithCompletionService:(void(^)(NSMutableArray * messages, NSError * error))completion{
+    
+    ALMessageClientService * almessageClientService = [[ALMessageClientService alloc] init];
+    
+    [almessageClientService getLatestMessageGroupByContactWithCompletion:^( ALMessageList *alMessageList, NSError *responseError) {
+        
+        [self getMessageListForUserIfLastIsHiddenMessageinMessageList:alMessageList withCompletion:^(NSMutableArray *responseMessages, NSError *responseErrorH, NSMutableArray *userDetailArray) {
+       
+            completion(responseMessages,responseErrorH);
+            
+        }];
+        
+        
+    }];
+    
+}
++(void)getMessageListForUserIfLastIsHiddenMessageinMessageList:(ALMessageList*)alMessageList withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion{
+    
+/*____If latest_message of a contact is Hidden Message then get MessageList of that user from server___*/
+    
+    for(ALMessage * alMessage in alMessageList.messageList){
+    
+        if([alMessage isHiddenMessage]){
+
+            NSLog(@"Last Message Hidden of User:%@",alMessage.contactIds);
+            NSNumber * time = alMessage.createdAtTime;
+
+            MessageListRequest *messageListRequest = [[MessageListRequest alloc]init];
+            messageListRequest.userId=alMessage.contactIds;
+            messageListRequest.channelKey=alMessage.groupId;
+            messageListRequest.endTimeStamp=time;
+            messageListRequest.conversationId=alMessage.conversationId;
+
+            [self getMessageListForUser:messageListRequest withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray) {
+                
+                completion (messages,error,userDetailArray);
+            }];
+
+        }
+        else{
+            completion(alMessageList.messageList,nil,nil);
+        }
+    }
+
+    
+}
 
 +(void)getMessageListForUser:(MessageListRequest*)messageListRequest withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion{
-    
+    //On Message List Cell Tap
     ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
     NSMutableArray * messageList = [almessageDBService getMessageListForContactWithCreatedAt:messageListRequest.userId withCreatedAt:messageListRequest.endTimeStamp andChannelKey:messageListRequest.channelKey conversationId:messageListRequest.conversationId];
     
@@ -148,11 +201,25 @@ static ALMessageClientService *alMsgClientService;
                     messageArray = [[NSMutableArray alloc] init];
                     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
                     messageArray = [dbService addMessageList:syncResponse.messagesList];
-                    [ALMessageService incrementContactUnreadCount:messageArray];
-                    [ALUserService processContactFromMessages:messageArray withCompletion:^{
-                    [[NSNotificationCenter defaultCenter] postNotificationName:NEW_MESSAGE_NOTIFICATION object:messageArray userInfo:nil];
-                        completion(messageArray,error);
-                    }];
+                    
+                    BOOL flag = NO;
+                    for(ALMessage * message in messageArray){
+                        flag  = [ALMessageService incrementContactUnreadCount:message];
+                    }
+                    
+                    if(flag){
+                        [ALUserService processContactFromMessages:messageArray withCompletion:^{
+                            [[NSNotificationCenter defaultCenter] postNotificationName:NEW_MESSAGE_NOTIFICATION object:messageArray userInfo:nil];
+                            completion(messageArray,error);
+                        }];
+                    }
+                    else{
+                        [ALUserService processContactFromMessages:messageArray withCompletion:^{
+                            NSLog(@"PROCESSED: Hidden Message");
+                            completion(messageArray,error);
+                        }];
+   
+                    }
                     
                 }
                 
@@ -169,40 +236,50 @@ static ALMessageClientService *alMsgClientService;
     
 }
 
-+(void)incrementContactUnreadCount:(NSArray*)messagesArray
-{
++(BOOL)incrementContactUnreadCount:(ALMessage*)message{
     
-    for(ALMessage * message in messagesArray)
-    {
-        if([message.status isEqualToNumber:[NSNumber numberWithInt:DELIVERED_AND_READ]] ||
-           (message.groupId && message.contentType == 10) || [message.type isEqualToString:@"5"])
-        {
-            return;
-        }
-        
-        if(message.groupId)
-        {
-            NSNumber * groupId = message.groupId;
-            ALChannelDBService * channelDBService =[[ALChannelDBService alloc] init];
-            ALChannel * channel = [channelDBService loadChannelByKey:groupId];
-            channel.unreadCount = [NSNumber numberWithInt:channel.unreadCount.intValue+1];
-            [channelDBService updateUnreadCountChannel:message.groupId unreadCount:channel.unreadCount];
-        }
-        else
-        {
-            NSString * contactId = message.contactIds;
-            ALContactService * contactService=[[ALContactService alloc] init];
-            ALContact * contact =[contactService loadContactByKey:@"userId" value:contactId];
-            contact.unreadCount=[NSNumber numberWithInt:[contact.unreadCount intValue]+1];
-            [contactService addContact:contact];
-            [contactService updateContact:contact];
-        }
-        if(message.conversationId)
-        [self fetchTopicDetails:message.conversationId];
-        
+    if(![ALMessageService isIncrementRequired:message]){
+        return NO;
     }
+    
+    if(message.groupId){
+        
+        NSNumber * groupId = message.groupId;
+        ALChannelDBService * channelDBService =[[ALChannelDBService alloc] init];
+        ALChannel * channel = [channelDBService loadChannelByKey:groupId];
+        channel.unreadCount = [NSNumber numberWithInt:channel.unreadCount.intValue+1];
+        [channelDBService updateUnreadCountChannel:message.groupId unreadCount:channel.unreadCount];
+    }
+    else{
+        
+        NSString * contactId = message.contactIds;
+        ALContactService * contactService=[[ALContactService alloc] init];
+        ALContact * contact =[contactService loadContactByKey:@"userId" value:contactId];
+        contact.unreadCount=[NSNumber numberWithInt:[contact.unreadCount intValue]+1];
+        [contactService addContact:contact];
+        [contactService updateContact:contact];
+    }
+    
+    if(message.conversationId){
+        [self fetchTopicDetails:message.conversationId];
+    }
+        
+    return YES;
 }
 
++(BOOL)isIncrementRequired:(ALMessage *)message{
+    
+    if([message.status isEqualToNumber:[NSNumber numberWithInt:DELIVERED_AND_READ]]
+       || (message.groupId && message.contentType == 10)
+       || [message.type isEqualToString:@"5"]
+       || [message isHiddenMessage]){
+        
+        return NO;
+        
+    }else{
+        return YES;
+    }
+}
 +(void)fetchTopicDetails :(NSNumber *)conversationId
 {
     if(conversationId)
@@ -520,4 +597,36 @@ totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInte
     NSLog(@"OFFLINE_FAILED_TO_UPLOAD : %@", error);
 }
 
++(ALMessage *)createCustomTextMessageEntitySendTo:(NSString *)to withText:(NSString*)text{
+    return [self createMessageEntityOfContentType:ALMESSAGE_CONTENT_CUSTOM toSendTo:to withText:text];;
+}
+
++(ALMessage *)createHiddenMessageEntitySentTo:(NSString*)to withText:(NSString*)text{
+    return [self createMessageEntityOfContentType:ALMESSAGE_CONTENT_HIDDEN toSendTo:to withText:text];
+}
+
++(ALMessage *)createMessageEntityOfContentType:(int)contentType
+                                      toSendTo:(NSString*)to
+                                      withText:(NSString*)text{
+    
+    ALMessage * theMessage = [ALMessage new];
+    
+    theMessage.contactIds = to;//1
+    theMessage.to = to;//2
+    theMessage.message = text;//3
+    theMessage.contentType = contentType;//4
+    
+    theMessage.type = @"5";
+    theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
+    theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString ];
+    theMessage.sendToDevice = NO;
+    theMessage.shared = NO;
+    theMessage.fileMeta = nil;
+    theMessage.storeOnDevice = NO;
+    theMessage.key = [[NSUUID UUID] UUIDString];
+    theMessage.delivered = NO;
+    theMessage.fileMetaKey = nil;
+    
+    return theMessage;
+}
 @end

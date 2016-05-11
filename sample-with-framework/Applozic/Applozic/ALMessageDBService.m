@@ -340,17 +340,13 @@
 
 -(void)syncConverstionDBWithCompletion:(void(^)(BOOL success , NSMutableArray * theArray)) completion
 {
-    //[self.mActivityIndicator startAnimating];
-    ALMessageClientService * messageClientService  = [[ALMessageClientService alloc]init];
-    [messageClientService getMessagesListGroupByContactswithCompletion:^(NSMutableArray *messageArray, NSError *error) {
-      //  [self.mActivityIndicator stopAnimating];
+    [ALMessageService getMessagesListGroupByContactswithCompletionService:^(NSMutableArray *messages, NSError *error) {
         if (error) {
             NSLog(@"%@",error);
             completion(NO,nil);
             return ;
         }
-        //NSMutableArray * dataArray = [NSMutableArray arrayWithArray:messageArray];
-        completion(YES, messageArray);
+        completion(YES, messages);
     }];
 }
 
@@ -380,7 +376,8 @@
         }
         
         [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
-        [theRequest setPredicate:[NSPredicate predicateWithFormat:@"groupId==%d AND deletedFlag == %@",[theDictionary[@"groupId"] intValue],@(NO)]];
+        [theRequest setPredicate:[NSPredicate predicateWithFormat:@"groupId==%d AND deletedFlag == %@ AND contentType != %i",
+                                  [theDictionary[@"groupId"] intValue],@(NO),ALMESSAGE_CONTENT_HIDDEN]];
         [theRequest setFetchLimit:1];
         
         NSArray * theArray1 =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
@@ -401,7 +398,8 @@
     for (NSDictionary * theDictionary in theArray1) {
         
         NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-        [theRequest setPredicate:[NSPredicate predicateWithFormat:@"contactId = %@ and groupId=nil and deletedFlag == %@",theDictionary[@"contactId"],@(NO)]];
+        [theRequest setPredicate:[NSPredicate predicateWithFormat:@"contactId = %@ and groupId=nil and deletedFlag == %@ AND contentType != %i",
+                                  theDictionary[@"contactId"],@(NO),ALMESSAGE_CONTENT_HIDDEN]];
         [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
         [theRequest setFetchLimit:1];
         
@@ -569,7 +567,8 @@
     
     NSPredicate* predicateDeletedCheck=[NSPredicate predicateWithFormat:@"deletedFlag == NO"];
     NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"createdAt < %lu",createdAt];
-    theRequest.predicate =[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1, predicate2, predicateDeletedCheck]];
+    NSPredicate *predicateForHiddenMessages = [NSPredicate predicateWithFormat:@"contentType != %i",ALMESSAGE_CONTENT_HIDDEN];
+    theRequest.predicate =[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1, predicate2, predicateDeletedCheck,predicateForHiddenMessages]];
     
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];

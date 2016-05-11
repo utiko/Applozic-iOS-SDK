@@ -118,10 +118,12 @@
             [self.mChannelMemberName setTextColor: [ALColorUtility getColorForAlphabet:receiverName]];
             self.mBubleImageView.frame = CGRectMake(BUBBLE_ABSCISSA, ZERO, CELL_WIDTH, CELL_HEIGHT);
             
-            self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mBubleImageView.frame.origin.y + 2, self.mBubleImageView.frame.size.width + 30, 20);
+            self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5,
+                                                       self.mBubleImageView.frame.origin.y + 2,
+                                                       self.mBubleImageView.frame.size.width + 30, 20);
             
             self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + FLOAT_CONSTANT,
-                                               self.mChannelMemberName.frame.origin.y + self.mChannelMemberName.frame.size.height + FLOAT_CONSTANT,
+                                               self.mChannelMemberName.frame.origin.y + self.mChannelMemberName.frame.size.height + 3,
                                                self.mBubleImageView.frame.size.width - ADJUST_WIDTH,
                                                self.mBubleImageView.frame.size.height - ADJUST_HEIGHT - self.mChannelMemberName.frame.size.height);
         }

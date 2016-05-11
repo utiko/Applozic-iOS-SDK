@@ -81,8 +81,10 @@
     //    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"< Back" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
     //    [self.navigationItem setLeftBarButtonItem:barButtonItem];
     
-    if(![ALUserDefaultsHandler getContactViewLoaded] && [ALApplozicSettings getFilterContactsStatus])
-    {                                                                                     //COMMENTED AS PER THE GUIDELINES : PLEASE DO NOT DELETE
+//    if(![ALUserDefaultsHandler getContactViewLoaded] && [ALApplozicSettings getFilterContactsStatus]) // COMMENTED for INTERNAL PURPOSE
+//    {
+    if([ALApplozicSettings getFilterContactsStatus])
+    {
         ALUserService * userService = [ALUserService new];
         [userService getListOfRegisteredUsersWithCompletion:^(NSError *error) {
 
@@ -96,7 +98,12 @@
             }
             [self subProcessContactFetch];
         }];
-    }                      //COMMENTED AS PER THE GUIDELINES : PLEASE DO NOT DELETE
+    }
+    else if([ALApplozicSettings getOnlineContactLimit])
+    {
+        [self processFilterListWithLastSeen];
+        [self onlyGroupFetch];
+    }
     else
     {
         [self subProcessContactFetch];
@@ -151,7 +158,7 @@
     
     if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
     {
-        self.navigationController.navigationBar.translucent = NO;
+//        self.navigationController.navigationBar.translucent = NO;
         [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:18]}];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
@@ -614,7 +621,8 @@
     
     [self turnUserInteractivityForNavigationAndTableView:NO];
     //check whether at least two memebers selected
-    if(self.groupMembers.count < 2){
+    if(self.groupMembers.count < 2)
+    {
         [self turnUserInteractivityForNavigationAndTableView:YES];
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"Group Members"
@@ -635,7 +643,7 @@
     }
     
     //Server Call
-    self.creatingChannel=[[ALChannelService alloc] init];
+    self.creatingChannel = [[ALChannelService alloc] init];
     [self.creatingChannel createChannel:self.groupName andMembersList:self.groupMembers withCompletion:^(NSNumber *channelKey) {
 
         if(channelKey){
@@ -643,8 +651,12 @@
             NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
             
             for (UIViewController *aViewController in allViewControllers) {
-                if ([aViewController isKindOfClass:[ALMessagesViewController class]]) {
+                if ([aViewController isKindOfClass:[ALMessagesViewController class]])
+                {
+                    ALMessagesViewController * messageVC = (ALMessagesViewController *)aViewController;
+                    [messageVC insertChannelMessage:channelKey];
                     [self.navigationController popToViewController:aViewController animated:YES];
+                    
                 }
             }
 
@@ -658,7 +670,10 @@
         
     }];
     
-    if(![ALDataNetworkConnection checkDataNetworkAvailable]){
+
+    
+    if(![ALDataNetworkConnection checkDataNetworkAvailable])
+    {
         [self turnUserInteractivityForNavigationAndTableView:YES];
     }
 
@@ -725,4 +740,29 @@
         }
     }
 }
+
+-(void)processFilterListWithLastSeen
+{
+    ALUserService * userService = [ALUserService new];
+    [userService fetchOnlineContactFromServer:^(NSMutableArray * array, NSError * error) {
+        
+        if(error)
+        {
+            [self.activityIndicator stopAnimating];
+            [self.emptyConversationText setHidden:NO];
+            [self.emptyConversationText setText:@"Unable to fetch contacts"];
+            return;
+        }
+        
+        NSSortDescriptor * sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"lastSeenAt" ascending:NO];
+        NSArray * descriptors = [NSArray arrayWithObject:sortDescriptor];
+        self.filteredContactList = [NSMutableArray arrayWithArray:[array sortedArrayUsingDescriptors:descriptors]];
+        NSLog(@"ARRAY_COUNT : %lu",(unsigned long)self.filteredContactList.count);
+        [[self activityIndicator] stopAnimating];
+        [self.contactsTableView reloadData];
+        [self emptyConversationAlertLabel];
+        
+    }];
+}
+
 @end

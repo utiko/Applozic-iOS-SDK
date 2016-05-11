@@ -35,7 +35,6 @@
 #import "ALChannelService.h"
 #import "ALNotificationView.h"
 #import "ALPushAssist.h"
-#import "ALNewContactsViewController.h"
 #import "ALUserDetail.h"
 #import "ALContactService.h"
 #import "ALConversationClientService.h"
@@ -346,11 +345,13 @@
 //------------------------------------------------------------------------------------------------------------------
 -(void)updateMessageList:(NSMutableArray *)messagesArray {
     NSUInteger index = 0;
-    if(messagesArray.count){
+    if(messagesArray.count)
+    {
         [self.emptyConversationText setHidden:YES];
     }
     BOOL isreloadRequire = false;
-    for (ALMessage *msg  in  messagesArray){
+    for (ALMessage *msg  in  messagesArray)
+    {
         ALContactCell *contactCell;
        
         if(msg.groupId){
@@ -361,7 +362,8 @@
             contactCell = [self getCell:msg.contactIds];
         }
 
-        if(contactCell){
+        if(contactCell)
+        {
             contactCell.mMessageLabel.text = msg.message;
             ALContactDBService * contactDBService = [[ALContactDBService alloc] init];
             ALContact *alContact = [contactDBService loadContactByKey:@"userId" value:msg.contactIds];
@@ -396,6 +398,8 @@
             }else if (msg.contentType==ALMESSAGE_CONTENT_LOCATION){
                   // location..
                     contactCell.mMessageLabel.hidden = YES;
+                    contactCell.imageNameLabel.hidden = NO;
+                    contactCell.imageMarker.hidden = NO;
                     contactCell.imageNameLabel.text = NSLocalizedString(@"Location", nil);
                     contactCell.imageMarker.image = [ALUtilityClass getImageFromFramworkBundle:@"location_filled.png"];
             }else{
@@ -872,13 +876,20 @@
 #pragma mark - MQTT Service delegate methods
 //------------------------------------------------------------------------------------------------------------------
 
--(void)reloadDataForUserBlockNotification
+-(void)reloadDataForUserBlockNotification:(NSString *)userId andBlockFlag:(BOOL)flag
 {
     [self.detailChatViewController checkUserBlockStatus];
     
     if([[ALPushAssist new] isMessageViewOnTop])
     {
         [self.detailChatViewController.label setHidden:YES];
+        
+        ALContactCell * contactCell = [self getCell:userId];
+        if(contactCell)
+        {
+            [contactCell.onlineImageMarker setHidden:flag];
+        }
+        
     }
 }
 
@@ -1154,6 +1165,14 @@
     self.detailChatViewController.channelKey = self.channelKey;
     [self.detailChatViewController serverCallForLastSeen];
     [self.navigationController pushViewController:_detailChatViewController animated:NO];
+}
+
+-(void)insertChannelMessage:(NSNumber *)channelKey
+{
+    ALMessage * channelMessage = [ALMessage new];
+    channelMessage.groupId = channelKey;
+    NSMutableArray * grpMesgArray = [[NSMutableArray alloc] initWithObjects:channelMessage, nil];
+    [self updateMessageList:grpMesgArray];
 }
 
 @end

@@ -36,8 +36,10 @@
     
     if ([ALUserDefaultsHandler isLoggedIn])
     {
-        // Get login screen from storyboard and present it
         
+        [ALPushNotificationService userSync];
+        
+        // Get login screen from storyboard and present it
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         ApplozicLoginViewController *viewController = (ApplozicLoginViewController *)[storyboard instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
         [self.window makeKeyAndVisible];
@@ -45,6 +47,7 @@
                                                      animated:nil
                                                    completion:nil];
        // [ALUserDefaultsHandler setNoti]
+        
     }
     
     NSLog(@"launchOptions: %@", launchOptions);
@@ -92,6 +95,10 @@
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService disconnect];
+    
+    NSLog(@"APP_ENTER_IN_BACKGROUND");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"APP_ENTER_IN_BACKGROUND" object:nil];
+
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

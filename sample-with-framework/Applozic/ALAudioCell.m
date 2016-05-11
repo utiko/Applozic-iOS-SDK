@@ -17,6 +17,51 @@
 #define MT_OUTBOX_CONSTANT "5"
 #define DATE_LABEL_SIZE 12
 
+
+#define DOWNLOAD_RETRY_PADDING_X 45
+#define DOWNLOAD_RETRY_PADDING_Y 20
+#define DOWNLOAD_RETRY_WIDTH 60
+#define DOWNLOAD_RETRY_HEIGHT 60
+
+#define MAX_WIDTH 150
+#define MAX_WIDTH2 130
+
+
+#define IMAGE_VIEW_PADDING_X 5
+#define IMAGE_VIEW_PADDING_Y 5
+#define IMAGE_VIEW_PADDING_WIDTH 10
+#define IMAGE_VIEW_PADDING_HEIGHT 10
+
+#define DATE_HEIGHT 20
+#define DATE_WIDTH 80
+#define DATE_PADDING_X 20
+
+#define MSG_STATUS_WIDTH 20
+#define MSG_STATUS_HEIGHT 20
+
+#define IMAGE_VIEW_WITHTEXT_PADDING_Y 10
+
+#define BUBBLE_PADDING_X 13
+#define BUBBLE_PADDING_WIDTH 50
+#define BUBBLE_PADDING_HEIGHT 70
+
+
+#define CHANNEL_PADDING_X 5
+#define CHANNEL_PADDING_Y 2
+#define CHANNEL_PADDING_WIDTH 5
+#define CHANNEL_HEIGHT 20
+
+#define BUTTON_PADDING_X 5
+#define BUTTON_PADDING_Y 5
+#define BUTTON_PADDING_WIDTH 60
+#define BUTTON_PADDING_HEIGHT 60
+
+#define MEDIA_NAME_HEIGHT 40
+
+#define PROGRESS_HEIGHT 30
+#define MEDIATRACKLENGTH_HEIGHT 20
+#define MEDIATRACKLENGTH_WIDTH 80
+
 @interface ALAudioCell()
 
 @end
@@ -59,27 +104,9 @@
         
         [self.mDowloadRetryButton addTarget:self action:@selector(dowloadRetryAction) forControlEvents:UIControlEventTouchUpInside];
         
-       // [self createSession];
-        
     }
     
     return self;
-}
-
--(void)createSession
-{
-    NSError * error;
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
-    
-    if(error == nil)
-        
-    {
-        NSLog(@"AUDIO SESSION CREATED SUCCESSFULLY");
-    }
-    else
-    {
-        NSLog(@"AUDIO SESSION FAIL TO CREATE : %@", [error description]);
-    }
 }
 
 -(void) addShadowEffects
@@ -119,19 +146,19 @@
     {
         self.mBubleImageView.backgroundColor = [ALApplozicSettings getReceiveMsgColor];
         
-        [self.mUserProfileImageView setFrame:CGRectMake(5, 5, 45, 45)];
+        [self.mUserProfileImageView setFrame:CGRectMake(USER_PROFILE_PADDING_X, 0, USER_PROFILE_WIDTH, USER_PROFILE_HEIGHT)];
         
         if([ALApplozicSettings isUserProfileHidden])
         {
-            [self.mUserProfileImageView setFrame:CGRectMake(5, 5, 0, 45)];
+            [self.mUserProfileImageView setFrame:CGRectMake(USER_PROFILE_PADDING_X, 0, 0, USER_PROFILE_HEIGHT)];
         }
         
         self.mUserProfileImageView.layer.cornerRadius = self.mUserProfileImageView.frame.size.width/2;
         self.mUserProfileImageView.layer.masksToBounds = YES;
         
-        [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + 13,
+        [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
                                                   self.mUserProfileImageView.frame.origin.y,
-                                                  viewSize.width/2 + 50, 70)];
+                                                  viewSize.width/2 + BUBBLE_PADDING_WIDTH, BUBBLE_PADDING_HEIGHT)];
         
         self.mNameLabel.frame = self.mUserProfileImageView.frame;
         [self.mNameLabel setText:[ALColorUtility getAlphabetForProfileImage:alMessage.to]];
@@ -148,7 +175,9 @@
             self.mUserProfileImageView.backgroundColor = [ALColorUtility getColorForAlphabet:alMessage.to];
         }
         
-        [self.playPauseStop setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mBubleImageView.frame.origin.y + 5, 60, 60)];
+        [self.playPauseStop setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + BUTTON_PADDING_X,
+                                                self.mBubleImageView.frame.origin.y + BUTTON_PADDING_Y,
+                                                BUTTON_PADDING_WIDTH, BUTTON_PADDING_HEIGHT)];
         
         if(alMessage.groupId)
         {
@@ -157,34 +186,44 @@
             [self.mChannelMemberName setTextColor: [ALColorUtility getColorForAlphabet:receiverName]];
             [self.mChannelMemberName setText:receiverName];
             
-            [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + 13,
+            [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
                                                       self.mUserProfileImageView.frame.origin.y,
-                                                      viewSize.width/2 + 50, 95)];
+                                                      viewSize.width/2 + BUBBLE_PADDING_WIDTH, 95)];
             
-            self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5,
-                                                       self.mBubleImageView.frame.origin.y + 2,
-                                                       self.mBubleImageView.frame.size.width - 5, 20);
+            self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x + CHANNEL_PADDING_X,
+                                                       self.mBubleImageView.frame.origin.y + CHANNEL_PADDING_Y,
+                                                       self.mBubleImageView.frame.size.width - CHANNEL_PADDING_WIDTH, CHANNEL_HEIGHT);
             
-            [self.playPauseStop setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mChannelMemberName.frame.origin.y + self.mChannelMemberName.frame.size.height + 5, 60, 60)];
+            [self.playPauseStop setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + BUTTON_PADDING_X,
+                                                    self.mChannelMemberName.frame.origin.y
+                                                    + self.mChannelMemberName.frame.size.height + BUTTON_PADDING_Y,
+                                                    BUTTON_PADDING_WIDTH, BUTTON_PADDING_HEIGHT)];
             
         }
         
         CGFloat nameWidth = self.mBubleImageView.frame.size.width - self.playPauseStop.frame.size.width - 20;
-        [self.mediaName setFrame:CGRectMake(self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10, self.playPauseStop.frame.origin.y, nameWidth,40)];
+        CGFloat nameX = self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10;
+        [self.mediaName setFrame:CGRectMake(nameX, self.playPauseStop.frame.origin.y, nameWidth, MEDIA_NAME_HEIGHT)];
         
-        [self.mDowloadRetryButton setFrame:CGRectMake(self.playPauseStop.frame.origin.x , self.playPauseStop.frame.origin.y, 60, 60)];
+        [self.mDowloadRetryButton setFrame:CGRectMake(self.playPauseStop.frame.origin.x ,
+                                                      self.playPauseStop.frame.origin.y,
+                                                      DOWNLOAD_RETRY_WIDTH, DOWNLOAD_RETRY_HEIGHT)];
         
         [self setupProgressValueX: (self.playPauseStop.frame.origin.x) andY: (self.playPauseStop.frame.origin.y)];
         
         CGFloat progressBarWidth = self.mBubleImageView.frame.size.width - self.playPauseStop.frame.size.width - 30;
         
-        [self.mediaTrackProgress setFrame:CGRectMake(self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10,
-                                                     self.mediaName.frame.origin.y + self.mediaName.frame.size.height,
-                                                     progressBarWidth, 30)];
+        CGFloat progressX = self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10;
+        [self.mediaTrackProgress setFrame:CGRectMake(progressX, self.mediaName.frame.origin.y + self.mediaName.frame.size.height,
+                                                     progressBarWidth, PROGRESS_HEIGHT)];
         
-        [self.mediaTrackLength setFrame:CGRectMake(self.mediaTrackProgress.frame.origin.x, self.mediaTrackProgress.frame.origin.y + self.mediaTrackProgress.frame.size.height, 80, 20)];
+        [self.mediaTrackLength setFrame:CGRectMake(self.mediaTrackProgress.frame.origin.x,
+                                                   self.mediaTrackProgress.frame.origin.y + self.mediaTrackProgress.frame.size.height,
+                                                   MEDIATRACKLENGTH_WIDTH, MEDIATRACKLENGTH_HEIGHT)];
         
-        [self.mDateLabel setFrame:CGRectMake(self.mBubleImageView.frame.origin.x, self.mBubleImageView.frame.size.height + 7, 80, 20)];
+        [self.mDateLabel setFrame:CGRectMake(self.mBubleImageView.frame.origin.x,
+                                             self.mBubleImageView.frame.size.height + 7,
+                                             DATE_WIDTH, DATE_HEIGHT)];
         
         if (alMessage.imageFilePath == nil)
         {
@@ -211,17 +250,23 @@
     else
     {
 
-        [self.mUserProfileImageView setFrame:CGRectMake(viewSize.width - 45 - 5 , 5, 0, 45)];
+        [self.mUserProfileImageView setFrame:CGRectMake(viewSize.width - USER_PROFILE_PADDING_X_OUTBOX, 0, 0, USER_PROFILE_HEIGHT)];
         
         self.mBubleImageView.backgroundColor = [ALApplozicSettings getSendMsgColor];
         
-        [self.mBubleImageView setFrame:CGRectMake(viewSize.width - (viewSize.width/2 + 50) - 10, self.mUserProfileImageView.frame.origin.y, viewSize.width/2 + 50, 70)];
+        [self.mBubleImageView setFrame:CGRectMake(viewSize.width - (viewSize.width/2 + 50) - 10,
+                                                  self.mUserProfileImageView.frame.origin.y,
+                                                  viewSize.width/2 + BUBBLE_PADDING_WIDTH, BUBBLE_PADDING_HEIGHT)];
         
         [self.mMessageStatusImageView setHidden:NO];
         
-        [self.playPauseStop setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mBubleImageView.frame.origin.y + 5, 60, 60)];
+        [self.playPauseStop setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + BUTTON_PADDING_X,
+                                                self.mBubleImageView.frame.origin.y + BUTTON_PADDING_Y,
+                                                BUTTON_PADDING_WIDTH, BUTTON_PADDING_HEIGHT)];
         
-        [self.mDowloadRetryButton setFrame:CGRectMake(self.playPauseStop.frame.origin.x , self.playPauseStop.frame.origin.y, 60, 60)];
+        [self.mDowloadRetryButton setFrame:CGRectMake(self.playPauseStop.frame.origin.x ,
+                                                      self.playPauseStop.frame.origin.y,
+                                                      DOWNLOAD_RETRY_WIDTH, DOWNLOAD_RETRY_WIDTH)];
         
         [self setupProgressValueX: (self.playPauseStop.frame.origin.x) andY: (self.playPauseStop.frame.origin.y)];
         
@@ -229,13 +274,23 @@
         
         CGFloat progressBarWidth = self.mBubleImageView.frame.size.width - self.playPauseStop.frame.size.width - 30;
         
-        [self.mediaTrackProgress setFrame:CGRectMake(self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height/2 + 5, progressBarWidth, 30)];
+        CGFloat progressX = self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10;
+        [self.mediaTrackProgress setFrame:CGRectMake(progressX,
+                                                     self.mediaName.frame.origin.y + self.mediaName.frame.size.height
+                                                     ,progressBarWidth, PROGRESS_HEIGHT)];
         
-        [self.mediaTrackLength setFrame:CGRectMake(self.mediaTrackProgress.frame.origin.x, self.mediaTrackProgress.frame.origin.y + self.mediaTrackProgress.frame.size.height + 5, 80, 20)];
+        [self.mediaTrackLength setFrame:CGRectMake(self.mediaTrackProgress.frame.origin.x,
+                                                   self.mediaTrackProgress.frame.origin.y + self.mediaTrackProgress.frame.size.height,
+                                                   MEDIATRACKLENGTH_WIDTH, MEDIATRACKLENGTH_HEIGHT)];
         
-        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - theDateSize.width - 20, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width, 21);
+        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) -
+                                           theDateSize.width - DATE_PADDING_X,
+                                           self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height,
+                                           theDateSize.width, DATE_HEIGHT);
         
-        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
+        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width,
+                                                        self.mDateLabel.frame.origin.y,
+                                                        MSG_STATUS_WIDTH, MSG_STATUS_HEIGHT);
         
         self.progresLabel.alpha = 0;
         self.mDowloadRetryButton.alpha = 0;
@@ -267,7 +322,7 @@
     {
         NSString * docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSString * filePath = [docDir stringByAppendingPathComponent:alMessage.imageFilePath];
-        NSURL *soundFileURL = [NSURL fileURLWithPath:filePath];
+        NSURL * soundFileURL = [NSURL fileURLWithPath:filePath];
         [self.playPauseStop setHidden:NO];
     }
 
@@ -322,7 +377,7 @@
 -(void) delete:(id)sender
 {
     [self.delegate deleteMessageFromView:self.mMessage];
-    [ALMessageService deleteMessage:self.mMessage.key andContactId:self.mMessage.contactIds withCompletion:^(NSString* string,NSError* error) {
+    [ALMessageService deleteMessage:self.mMessage.key andContactId:self.mMessage.contactIds withCompletion:^(NSString* string, NSError* error) {
         
         if(!error)
         {
@@ -332,9 +387,7 @@
         {
             NSLog(@"ERROR IN DELETING MEDIA");
         }
-        
     }];
-    
 }
 
 -(void) cancelAction

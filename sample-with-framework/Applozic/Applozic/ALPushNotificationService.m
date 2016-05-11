@@ -14,6 +14,7 @@
 //#import "LaunchChatFromSimpleViewController.h"
 #import "ALMessagesViewController.h"
 #import "ALPushAssist.h"
+#import "ALUserService.h"
 
 
 
@@ -219,5 +220,11 @@
 
 +(void)applicationEntersForeground{
    [[NSNotificationCenter defaultCenter] postNotificationName:@"appCameInForeground" object:nil];
+}
+
++(void)userSync{
+
+    ALUserService *userService = [ALUserService new];
+    [userService blockUserSync: [ALUserDefaultsHandler getUserBlockLastTimeStamp]];
 }
 @end

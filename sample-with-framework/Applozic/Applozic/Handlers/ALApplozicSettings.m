@@ -226,6 +226,22 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:WALLPAPER_IMAGE];
 }
 
++(void)setCustomMessageBackgroundColor:(UIColor *)color{
+    
+    NSData * recievedCustomBackgroundColorData = [NSKeyedArchiver archivedDataWithRootObject:color];
+    [[NSUserDefaults standardUserDefaults] setValue:recievedCustomBackgroundColorData
+                                             forKey:CUSTOM_MSG_BACKGROUND_COLOR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getCustomMessageBackgroundColor
+{
+    NSData *customMessageBackGroundColorData = [[NSUserDefaults standardUserDefaults]
+                                                objectForKey:CUSTOM_MSG_BACKGROUND_COLOR];
+    UIColor *customMessageBackGroundColor = [NSKeyedUnarchiver unarchiveObjectWithData:customMessageBackGroundColorData];
+    return customMessageBackGroundColor;
+}
+
 +(void)setGroupExitOption:(BOOL)option{
     [[NSUserDefaults standardUserDefaults] setBool:option forKey:GROUP_EXIT_BUTTON];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -235,22 +251,35 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_EXIT_BUTTON];
 }
 
-+(void)setGroupMemeberAddOption:(BOOL)option{
++(void)setGroupMemberAddOption:(BOOL)option{
     [[NSUserDefaults standardUserDefaults] setBool:option forKey:GROUP_MEMBER_ADD_OPTION];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(BOOL)getGroupMemeberAddOption{
++(BOOL)getGroupMemberAddOption{
     return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_MEMBER_ADD_OPTION];
 }
 
-+(void)setGroupMemeberRemoveOption:(BOOL)option{
++(void)setGroupMemberRemoveOption:(BOOL)option{
     [[NSUserDefaults standardUserDefaults] setBool:option forKey:GROUP_MEMBER_REMOVE_OPTION];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(BOOL)getGroupMemeberRemoveOption{
++(BOOL)getGroupMemberRemoveOption{
     return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_MEMBER_REMOVE_OPTION];
 }
+
++(void)setOnlineContactLimit:(NSInteger)limit
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:limit forKey:ONLINE_CONTACT_LIMIT];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSInteger)getOnlineContactLimit
+{
+    NSInteger maxLimit = [[NSUserDefaults standardUserDefaults] integerForKey:ONLINE_CONTACT_LIMIT];
+    return maxLimit ? maxLimit : 0;
+}
+
 
 @end

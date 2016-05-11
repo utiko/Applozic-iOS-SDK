@@ -12,25 +12,21 @@
 
 @property (nonatomic, retain) UIColor *navColor;
 @property (nonatomic,retain) UIView * mTableHeaderView;
-
 @property (weak, nonatomic) IBOutlet UITableView *mTableView;
-
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *mTapGesture;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mActivityIndicator;
-
--(void) scrollTableViewToBottomWithAnimation:(BOOL) animated;
-
 @property (weak, nonatomic) IBOutlet UITextView *sendMessageTextView;
-
 @property (strong, nonatomic) IBOutlet UIButton *sendButton;
-- (IBAction)sendAction:(id)sender;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *checkBottomConstraint;
 @property (weak, nonatomic) IBOutlet UIButton *attachmentOutlet;
-
-- (IBAction)attachmentActionMethod:(id)sender;
-@property (strong, nonatomic) UILabel *label;
-@property (strong, nonatomic) UILabel *typingLabel;
+@property (strong, nonatomic) UILabel * label;
+@property (strong, nonatomic) UILabel * typingLabel;
 @property (nonatomic) BOOL  individualLaunch;
+@property (weak, nonatomic) IBOutlet UIView * typingMessageView;
+
+- (IBAction)sendAction:(id)sender;
+-(void) scrollTableViewToBottomWithAnimation:(BOOL) animated;
+- (IBAction)attachmentActionMethod:(id)sender;
 -(UIView *)setCustomBackButton;
 
 @end

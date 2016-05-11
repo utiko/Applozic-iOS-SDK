@@ -5,6 +5,12 @@
 //  Copyright (c) 2015 AppLozic. All rights reserved.
 //
 
+//#import "ALUserDefaultsHandler.h"     COMENTED TILL VERFIED
+
+//#define KBASE_URL ([ALUserDefaultsHandler getBASEURL])
+//#define MQTT_URL ([ALUserDefaultsHandler getMQTTURL])
+//#define KBASE_FILE_URL ([ALUserDefaultsHandler getFILEURL])
+//#define MQTT_PORT ([ALUserDefaultsHandler getMQTTPort])
 
 #define KBASE_URL @"https://apps.applozic.com"
 #define MQTT_URL @"apps.applozic.com"

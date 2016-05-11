@@ -2,6 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>APPLOZIC_PRODUCTION</key>
+	<dict>
+		<key>AL_MQTT_PORT</key>
+		<string>1883</string>
+		<key>AL_KBASE_URL</key>
+		<string>https://apps.applozic.com</string>
+		<key>AL_MQTT_URL</key>
+		<string>apps.applozic.com</string>
+		<key>AL_FILE_URL</key>
+		<string>https://applozic.appspot.com</string>
+	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>

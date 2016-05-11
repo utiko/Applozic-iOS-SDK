@@ -37,4 +37,8 @@
 -(void)getListOfRegisteredUsers:(NSNumber *)startTime
                     andPageSize:(NSUInteger)pageSize withCompletion:(void(^)(ALContactsResponse * response, NSError * error))completion;
 
+-(void)fetchOnlineContactFromServer:(NSUInteger)limit withCompletion:(void (^)(id json, NSError * error))completion;
+
+-(void)subProcessUserDetailServerCall:(NSString *)paramString withCompletion:(void(^)(NSMutableArray * userDetailArray, NSError * error))completionMark;
+
 @end

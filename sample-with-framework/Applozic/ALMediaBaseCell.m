@@ -10,6 +10,7 @@
 #import "ALMessageInfoViewController.h"
 #import "ALChatViewController.h"
 
+
 @implementation ALMediaBaseCell
 {
     float heightLocation;
@@ -45,7 +46,6 @@
         self.mBubleImageView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:self.mBubleImageView];
         
-        
         self.mImageView = [[UIImageView alloc] init];
         
         self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 15 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 40 );self.
@@ -56,8 +56,9 @@
         self.mImageView.userInteractionEnabled = YES;
         self.mImageView.layer.cornerRadius = 5;
         
-        
-        self.mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5, 100, 20)];
+        self.mDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.mBubleImageView.frame.origin.x + 5,
+                                                                    self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5,
+                                                                    100, 20)];
         
         self.mDateLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:DATE_LABEL_SIZE];
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
@@ -80,8 +81,6 @@
         [self.mDowloadRetryButton.titleLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:14]];
         [self.contentView addSubview:self.mDowloadRetryButton];
 
-        
-        
         self.imageWithText = [[UITextView alloc] init];
         [self.imageWithText setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_TEXT_SIZE]];
         self.imageWithText.editable = NO;
@@ -91,17 +90,15 @@
         self.imageWithText.dataDetectorTypes = UIDataDetectorTypeLink;
         [self.contentView addSubview:self.imageWithText];
         
-        
         self.mChannelMemberName = [[UILabel alloc] init];
         self.mChannelMemberName.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
         self.mChannelMemberName.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:self.mChannelMemberName];
         
-        UIMenuItem *testMenuItem = [[UIMenuItem alloc] initWithTitle:@"Info" action:@selector(msgInfo:)];
+        UIMenuItem * testMenuItem = [[UIMenuItem alloc] initWithTitle:@"Info" action:@selector(msgInfo:)];
         [[UIMenuController sharedMenuController] setMenuItems: @[testMenuItem]];
         [[UIMenuController sharedMenuController] update];
 
-        
         if (IS_IPHONE_5)
         {
             heightLocation = 180.0;

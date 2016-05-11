@@ -9,6 +9,11 @@
 #define DATE_LABEL_SIZE 12
 #define MESSAGE_TEXT_SIZE 14
 
+#define USER_PROFILE_PADDING_X 5
+#define USER_PROFILE_PADDING_X_OUTBOX 50
+#define USER_PROFILE_WIDTH 45
+#define USER_PROFILE_HEIGHT 45
+
 #import <UIKit/UIKit.h>
 #import "KAProgressLabel.h"
 #import "ALMessage.h"
@@ -16,6 +21,7 @@
 #import "ALConstant.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "ALUIConstant.h"
 
 @protocol ALMediaBaseCellDelegate <NSObject>
 

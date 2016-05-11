@@ -22,7 +22,8 @@
 -(void) mqttConnectionClosed;
 
 @optional
--(void) reloadDataForUserBlockNotification;
+
+-(void) reloadDataForUserBlockNotification:(NSString *)userId andBlockFlag:(BOOL)flag;
 
 @end
 

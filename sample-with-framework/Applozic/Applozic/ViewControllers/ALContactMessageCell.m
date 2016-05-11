@@ -26,6 +26,38 @@
 #import "ALChatViewController.h"
 #import "ALVCFClass.h"
 
+#define BUBBLE_PADDING_X 13
+#define BUBBLE_PADDING_X_OUTBOX 60
+#define BUBBLE_PADDING_WIDTH 120
+#define BUBBLE_PADDING_HEIGHT 160
+#define BUBBLE_PADDING_HEIGHT_OUTBOX 180
+
+#define DATE_PADDING_X 20
+#define DATE_PADDING_WIDTH 20
+#define DATE_HEIGHT 20
+#define DATE_WIDTH 80
+
+#define MSG_STATUS_WIDTH 20
+#define MSG_STATUS_HEIGHT 20
+
+#define CNT_PROFILE_X 10
+#define CNT_PROFILE_Y 10
+#define CNT_PROFILE_HEIGHT 50
+#define CNT_PROFILE_WIDTH 50
+
+#define CNT_PERSON_X 10
+#define CNT_PERSON_HEIGHT 20
+
+#define USER_CNT_Y 5
+#define USER_CNT_HEIGHT 50
+
+#define EMAIL_Y 5
+#define EMAIL_HEIGHT 50
+
+#define BUTTON_Y 50
+#define BUTTON_WIDTH 20
+#define BUTTON_HEIGHT 40
+
 @interface ALContactMessageCell ()
 
 @end
@@ -111,11 +143,12 @@
     {
         if([ALApplozicSettings isUserProfileHidden])
         {
-            self.mUserProfileImageView.frame = CGRectMake(8, 0, 0, 45);
+            self.mUserProfileImageView.frame = CGRectMake(USER_PROFILE_PADDING_X, 0, 0, USER_PROFILE_HEIGHT);
         }
         else
         {
-            self.mUserProfileImageView.frame = CGRectMake(8, 0, 45, 45);
+            self.mUserProfileImageView.frame = CGRectMake(USER_PROFILE_PADDING_X, 0,
+                                                          USER_PROFILE_WIDTH, USER_PROFILE_HEIGHT);
         }
         
         self.mBubleImageView.backgroundColor = [ALApplozicSettings getReceiveMsgColor];
@@ -124,31 +157,33 @@
         
         [self.mNameLabel setText:[ALColorUtility getAlphabetForProfileImage:alMessage.to]];
         
-        [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0,
-                                                  viewSize.width - 120, viewSize.width - 180)];
+        [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X , 0,
+                                                  viewSize.width - BUBBLE_PADDING_WIDTH, viewSize.width - BUBBLE_PADDING_HEIGHT)];
         
-        [self.contactProfileImage setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + 10,
-                                                      self.mBubleImageView.frame.origin.y + 10, 50, 50)];
+        [self.contactProfileImage setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + CNT_PROFILE_X,
+                                                      self.mBubleImageView.frame.origin.y + CNT_PROFILE_Y,
+                                                      CNT_PROFILE_WIDTH, CNT_PROFILE_HEIGHT)];
         
         CGFloat widthName = self.mBubleImageView.frame.size.width - (self.contactProfileImage.frame.size.width + 25);
         
-        [self.contactPerson setFrame:CGRectMake(self.contactProfileImage.frame.origin.x + self.contactProfileImage.frame.size.width + 10,
-                                                self.contactProfileImage.frame.origin.y, widthName, 20)];
+        [self.contactPerson setFrame:CGRectMake(self.contactProfileImage.frame.origin.x + self.contactProfileImage.frame.size.width + CNT_PERSON_X,
+                                                self.contactProfileImage.frame.origin.y, widthName, CNT_PERSON_HEIGHT)];
         
         [self.userContact setFrame:CGRectMake(self.contactPerson.frame.origin.x,
-                                              self.contactPerson.frame.origin.y + self.contactPerson.frame.size.height + 5, widthName, 50)];
+                                              self.contactPerson.frame.origin.y + self.contactPerson.frame.size.height + USER_CNT_Y,
+                                              widthName, USER_CNT_HEIGHT)];
         
         [self.emailId setFrame:CGRectMake(self.userContact.frame.origin.x,
-                                          self.userContact.frame.origin.y + self.userContact.frame.size.height + 5, widthName, 50)];
+                                          self.userContact.frame.origin.y + self.userContact.frame.size.height + EMAIL_Y,
+                                          widthName, EMAIL_HEIGHT)];
         
         [self.addContactButton setFrame:CGRectMake(self.contactProfileImage.frame.origin.x,
-                                                   self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 50,
-                                                   self.mBubleImageView.frame.size.width - 20, 40)];
+                                                   self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - BUTTON_Y,
+                                                   self.mBubleImageView.frame.size.width - BUTTON_WIDTH, BUTTON_HEIGHT)];
         
-     
         self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x ,
                                            self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height,
-                                           theDateSize.width , 21);
+                                           theDateSize.width , DATE_HEIGHT);
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
@@ -176,29 +211,34 @@
     }
     else
     {
-        self.mUserProfileImageView.frame = CGRectMake(viewSize.width - 50, 5, 0, 45);
+        self.mUserProfileImageView.frame = CGRectMake(viewSize.width - USER_PROFILE_PADDING_X_OUTBOX, 0, 0, USER_PROFILE_HEIGHT);
         
         self.mBubleImageView.backgroundColor = [ALApplozicSettings getSendMsgColor];
-        self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60), 0,
-                                                viewSize.width - 120, viewSize.width - 180);
         
-        [self.contactProfileImage setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + 10,
-                                                      self.mBubleImageView.frame.origin.y + 10, 50, 50)];
+        self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + BUBBLE_PADDING_X_OUTBOX), 0,
+                                                viewSize.width - BUBBLE_PADDING_WIDTH, viewSize.width - BUBBLE_PADDING_HEIGHT_OUTBOX);
+        
+        [self.contactProfileImage setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + CNT_PROFILE_X,
+                                                      self.mBubleImageView.frame.origin.y + CNT_PROFILE_Y,
+                                                      CNT_PROFILE_WIDTH, CNT_PROFILE_HEIGHT)];
         
         CGFloat widthName = self.mBubleImageView.frame.size.width - (self.contactProfileImage.frame.size.width + 25);
         
-        [self.contactPerson setFrame:CGRectMake(self.contactProfileImage.frame.origin.x + self.contactProfileImage.frame.size.width + 10,
-                                                self.contactProfileImage.frame.origin.y, widthName, 20)];
+        [self.contactPerson setFrame:CGRectMake(self.contactProfileImage.frame.origin.x +
+                                                self.contactProfileImage.frame.size.width + CNT_PERSON_X,
+                                                self.contactProfileImage.frame.origin.y, widthName, CNT_PERSON_HEIGHT)];
         
         [self.userContact setFrame:CGRectMake(self.contactPerson.frame.origin.x,
-                                              self.contactPerson.frame.origin.y + self.contactPerson.frame.size.height + 5,
-                                              widthName, 50)];
+                                              self.contactPerson.frame.origin.y + self.contactPerson.frame.size.height + USER_CNT_Y,
+                                              widthName, USER_CNT_HEIGHT)];
         
-        [self.emailId setFrame:CGRectMake(self.userContact.frame.origin.x, self.userContact.frame.origin.y + self.userContact.frame.size.height + 5, widthName, 50)];
+        [self.emailId setFrame:CGRectMake(self.userContact.frame.origin.x, self.userContact.frame.origin.y +
+                                          self.userContact.frame.size.height + EMAIL_Y,
+                                          widthName, EMAIL_HEIGHT)];
         
         [self.addContactButton setFrame:CGRectMake(self.contactProfileImage.frame.origin.x,
-                                                   self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - 50,
-                                                   self.mBubleImageView.frame.size.width - 20, 40)];
+                                                   self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height - BUTTON_Y,
+                                                   self.mBubleImageView.frame.size.width - BUTTON_WIDTH, BUTTON_HEIGHT)];
         
         [self.mMessageStatusImageView setHidden:NO];
 
@@ -207,9 +247,14 @@
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         
-        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - theDateSize.width - 20, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width, 21);
+        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width)
+                                           - theDateSize.width - DATE_PADDING_X,
+                                           self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height,
+                                           theDateSize.width, DATE_HEIGHT);
         
-        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
+        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width,
+                                                        self.mDateLabel.frame.origin.y,
+                                                        MSG_STATUS_WIDTH, MSG_STATUS_HEIGHT);
      
         [self.addContactButton setBackgroundColor:[UIColor whiteColor]];
 

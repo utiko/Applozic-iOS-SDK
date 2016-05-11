@@ -29,6 +29,10 @@
 #define APP_MODULE_NAME_ID @"APP_MODULE_NAME_ID"
 #define CONTACT_VIEW_LOADED @"CONTACT_VIEW_LOADED"
 #define USER_INFO_API_CALLED_SUFFIX @":USER_INFO_API_CALLED"
+#define APPLOZIC_BASE_URL @"APPLOZIC_BASE_URL"
+#define APPLOZIC_MQTT_URL @"APPLOZIC_MQTT_URL"
+#define APPLOZIC_FILE_URL @"APPLOZIC_FILE_URL"
+#define APPLOZIC_MQTT_PORT @"APPLOZIC_MQTT_PORT"
 #define USER_TYPE_ID @"USER_TYPE_ID"
 
 #import <Foundation/Foundation.h>
@@ -131,6 +135,19 @@
 +(void)setServerCallDoneForUserInfo:(BOOL)value ForContact:(NSString*)contactId;
 +(BOOL)isServerCallDoneForUserInfoForContact:(NSString*)contactId;
 
++(void)setBASEURL:(NSString *)baseURL;
++(NSString *)getBASEURL;
+
++(void)setMQTTURL:(NSString *)mqttURL;
++(NSString *)getMQTTURL;
+
++(void)setFILEURL:(NSString *)fileURL;
++(NSString *)getFILEURL;
+
++(void)setMQTTPort:(NSString *)portNumber;
++(NSString *)getMQTTPort;
+
 +(void)setUserTypeId:(short)type;
 +(short)getUserTypeId;
+
 @end

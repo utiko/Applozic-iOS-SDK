@@ -22,6 +22,54 @@
 #import "ALMessageInfoViewController.h"
 #import "ALChatViewController.h"
 
+
+#define BUBBLE_PADDING_X 13
+#define BUBBLE_PADDING_X_OUTBOX 60
+#define BUBBLE_PADDING_Y 27
+#define BUBBLE_HEIGHT 80
+#define BUBBLE_HEIGHT_GRP 110
+#define BUBBLE_PADDING_WIDTH 120
+
+#define MESSAGE_PADDING_X 10
+#define MESSAGE_PADDING_Y 10
+#define MESSAGE_PADDING_WIDTH 20
+#define MESSAGE_PADDING_HEIGHT 20
+
+#define CHANNEL_PADDING_X 5
+#define CHANNEL_PADDING_Y 2
+#define CHANNEL_PADDING_WIDTH 30
+#define CHANNEL_PADDING_HEIGHT 20
+
+#define IMAGE_VIEW_PADDING_X 00
+#define IMAGE_VIEW_PADDING_Y 10
+#define IMAGE_VIEW_WIDTH 60
+#define IMAGE_VIEW_HEIGHT 60
+
+#define DATE_PADDING_X 20
+#define DATE_PADDING_WIDTH 20
+#define DATE_HEIGHT 20
+#define DATE_WIDTH 80
+
+#define MSG_STATUS_WIDTH 20
+#define MSG_STATUS_HEIGHT 20
+#define SIZE_HEIGHT 20
+
+#define DOC_NAME_PADDING_X 5
+#define DOC_NAME_PADDING_Y 0
+#define DOC_NAME_PADDING_WIDTH 20
+#define DOC_NAME_HEIGHT 60
+
+//VIEW
+#define DOWNLOAD_RETRY_PADDING_X 5
+#define DOWNLOAD_RETRY_PADDING_Y 5
+#define DOWNLOAD_RETRY_PADDING_WIDTH 70
+#define DOWNLOAD_RETRY_PADDING_HEIGHT 70
+//BUTTON
+#define DOWNLOAD_RETRY_BUTTON_PADDING_X 15
+#define DOWNLOAD_RETRY_BUTTON_PADDING_Y 5
+#define DOWNLOAD_RETRY_BUTTON_PADDING_WIDTH 40
+#define DOWNLOAD_RETRY_BUTTON_PADDING_HEIGHT 40
+
 @implementation ALDocumentsCell
 {
     CGFloat msgFrameHeight;
@@ -91,11 +139,11 @@
     
     if([alMessage.type isEqualToString:@MT_INBOX_CONSTANT])
     {
-        [self.mUserProfileImageView setFrame:CGRectMake(5, 0, 45, 45)];
+        [self.mUserProfileImageView setFrame:CGRectMake(USER_PROFILE_PADDING_X, 0, USER_PROFILE_WIDTH, USER_PROFILE_HEIGHT)];
         
         if([ALApplozicSettings isUserProfileHidden])
         {
-            [self.mUserProfileImageView setFrame:CGRectMake(5, 0, 0, 45)];
+            [self.mUserProfileImageView setFrame:CGRectMake(USER_PROFILE_PADDING_X, 0, 0, USER_PROFILE_HEIGHT)];
         }
         
         self.mBubleImageView.backgroundColor = [ALApplozicSettings getReceiveMsgColor];
@@ -105,13 +153,17 @@
         
         [self.documentName setTextColor:[UIColor grayColor]];
         
-        [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + 13,
+        [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
                                                   self.mUserProfileImageView.frame.origin.y,
-                                                  viewSize.width - 120, 80)];
+                                                  viewSize.width - BUBBLE_PADDING_WIDTH, BUBBLE_HEIGHT)];
         
-        [self.mImageView setFrame:CGRectMake(self.mBubleImageView.frame.origin.x, self.mBubleImageView.frame.origin.y + 10, 60, 60)];
+        [self.mImageView setFrame:CGRectMake(self.mBubleImageView.frame.origin.x,
+                                             self.mBubleImageView.frame.origin.y + IMAGE_VIEW_PADDING_Y,
+                                             IMAGE_VIEW_WIDTH, IMAGE_VIEW_HEIGHT)];
         
-        [self.downloadRetryView setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mBubleImageView.frame.origin.y + 5, 70, 70)];
+        [self.downloadRetryView setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + DOWNLOAD_RETRY_PADDING_X,
+                                                    self.mBubleImageView.frame.origin.y + DOWNLOAD_RETRY_PADDING_Y,
+                                                    DOWNLOAD_RETRY_PADDING_WIDTH, DOWNLOAD_RETRY_PADDING_HEIGHT)];
         
         if(alMessage.groupId)
         {
@@ -119,36 +171,44 @@
             [self.mChannelMemberName setHidden:NO];
             [self.mChannelMemberName setTextColor: [ALColorUtility getColorForAlphabet:receiverName]];
             
-            [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + 13,
+            [self.mBubleImageView setFrame:CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
                                                       self.mUserProfileImageView.frame.origin.y,
-                                                      viewSize.width - 120, 110)];
+                                                      viewSize.width - BUBBLE_PADDING_WIDTH, BUBBLE_HEIGHT_GRP)];
             
-            self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5,
-                                                       self.mBubleImageView.frame.origin.y + 2,
-                                                       self.mBubleImageView.frame.size.width + 30, 20);
+            self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x + CHANNEL_PADDING_X,
+                                                       self.mBubleImageView.frame.origin.y + CHANNEL_PADDING_Y,
+                                                       self.mBubleImageView.frame.size.width +
+                                                       CHANNEL_PADDING_WIDTH, CHANNEL_PADDING_HEIGHT);
 
             [self.mImageView setFrame:CGRectMake(self.mBubleImageView.frame.origin.x,
                                                  self.mChannelMemberName.frame.origin.y + 5 +
-                                                 self.mChannelMemberName.frame.size.height, 60, 60)];
+                                                 self.mChannelMemberName.frame.size.height,
+                                                 IMAGE_VIEW_WIDTH, IMAGE_VIEW_HEIGHT)];
             
-            [self.downloadRetryView setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mImageView.frame.origin.y + 5, 70, 70)];
+            [self.downloadRetryView setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + 5,
+                                                        self.mImageView.frame.origin.y + 5,
+                                                        DOWNLOAD_RETRY_PADDING_WIDTH, DOWNLOAD_RETRY_PADDING_HEIGHT)];
         }
         
-        [self.mDateLabel setFrame:CGRectMake(self.mBubleImageView.frame.origin.x, self.mBubleImageView.frame.size.height, 80, 20)];
+        [self.mDateLabel setFrame:CGRectMake(self.mBubleImageView.frame.origin.x,
+                                             self.mBubleImageView.frame.size.height,
+                                             DATE_WIDTH, DATE_HEIGHT)];
         
         self.mNameLabel.frame = self.mUserProfileImageView.frame;
         [self.mNameLabel setText:[ALColorUtility getAlphabetForProfileImage:receiverName]];
         
-        [self.mDowloadRetryButton setFrame:CGRectMake(self.downloadRetryView.frame.origin.x + 15,
-                                                      self.downloadRetryView.frame.origin.y + 5, 40, 40)];
+        [self.mDowloadRetryButton setFrame:CGRectMake(self.downloadRetryView.frame.origin.x + DOWNLOAD_RETRY_BUTTON_PADDING_X,
+                                                      self.downloadRetryView.frame.origin.y + DOWNLOAD_RETRY_BUTTON_PADDING_Y,
+                                                      DOWNLOAD_RETRY_BUTTON_PADDING_WIDTH, DOWNLOAD_RETRY_BUTTON_PADDING_HEIGHT)];
         
         [self.sizeLabel setFrame:CGRectMake(self.downloadRetryView.frame.origin.x,
                                             self.mDowloadRetryButton.frame.origin.y + self.mDowloadRetryButton.frame.size.height,
-                                            self.downloadRetryView.frame.size.width, 20)];
+                                            self.downloadRetryView.frame.size.width, SIZE_HEIGHT)];
         
-        [self.documentName setFrame:CGRectMake(self.downloadRetryView.frame.origin.x + self.downloadRetryView.frame.size.width + 5,
-                                               self.downloadRetryView.frame.origin.y,
-                                               self.mBubleImageView.frame.size.width - self.mImageView.frame.size.width - 20, 60)];
+        [self.documentName setFrame:CGRectMake(self.downloadRetryView.frame.origin.x + self.downloadRetryView.frame.size.width
+                                               + 5, self.downloadRetryView.frame.origin.y,
+                                               self.mBubleImageView.frame.size.width - self.mImageView.frame.size.width - DOC_NAME_PADDING_WIDTH,
+                                               DOC_NAME_HEIGHT)];
         
         [self setupProgressValueX: (self.downloadRetryView.frame.origin.x + self.downloadRetryView.frame.size.width/2 - 30)
                              andY: (self.downloadRetryView.frame.origin.y + self.downloadRetryView.frame.size.height/2 - 30)];
@@ -197,7 +257,7 @@
     }
     else
     {
-        [self.mUserProfileImageView setFrame:CGRectMake(viewSize.width - 50, 0, 0, 45)];
+        [self.mUserProfileImageView setFrame:CGRectMake(viewSize.width - USER_PROFILE_PADDING_X_OUTBOX, 0, 0, USER_PROFILE_HEIGHT)];
         
         self.mBubleImageView.backgroundColor = [ALApplozicSettings getSendMsgColor];
         
@@ -205,35 +265,45 @@
         
         [self.documentName setTextColor:[UIColor whiteColor]];
         
-        [self.mBubleImageView setFrame:CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60), self.mUserProfileImageView.frame.origin.y,
-                                                  viewSize.width - 120, 80)];
+        [self.mBubleImageView setFrame:CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + BUBBLE_PADDING_X_OUTBOX),
+                                                  self.mUserProfileImageView.frame.origin.y,
+                                                  viewSize.width - BUBBLE_PADDING_WIDTH, 80)];
         
         
-        [self.mImageView setFrame:CGRectMake(self.mBubleImageView.frame.origin.x, self.mBubleImageView.frame.origin.y + 10, 60, 60)];
+        [self.mImageView setFrame:CGRectMake(self.mBubleImageView.frame.origin.x,
+                                             self.mBubleImageView.frame.origin.y + IMAGE_VIEW_PADDING_Y,
+                                             IMAGE_VIEW_WIDTH, IMAGE_VIEW_HEIGHT)];
         
-        [self.downloadRetryView setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mBubleImageView.frame.origin.y + 5, 70, 70)];
+        [self.downloadRetryView setFrame:CGRectMake(self.mBubleImageView.frame.origin.x + DOWNLOAD_RETRY_PADDING_X,
+                                                    self.mBubleImageView.frame.origin.y + DOWNLOAD_RETRY_PADDING_Y,
+                                                    DOWNLOAD_RETRY_PADDING_WIDTH, DOWNLOAD_RETRY_PADDING_HEIGHT)];
         
-        [self.mDowloadRetryButton setFrame:CGRectMake(self.downloadRetryView.frame.origin.x + 15,
-                                                      self.downloadRetryView.frame.origin.y + 5, 40, 40)];
+        [self.mDowloadRetryButton setFrame:CGRectMake(self.downloadRetryView.frame.origin.x + DOWNLOAD_RETRY_BUTTON_PADDING_X,
+                                                      self.downloadRetryView.frame.origin.y + DOWNLOAD_RETRY_BUTTON_PADDING_Y,
+                                                      DOWNLOAD_RETRY_BUTTON_PADDING_WIDTH, DOWNLOAD_RETRY_BUTTON_PADDING_HEIGHT)];
         
         [self.sizeLabel setFrame:CGRectMake(self.downloadRetryView.frame.origin.x,
                                             self.mDowloadRetryButton.frame.origin.y + self.mDowloadRetryButton.frame.size.height,
-                                            self.downloadRetryView.frame.size.width, 20)];
+                                            self.downloadRetryView.frame.size.width, SIZE_HEIGHT)];
         
         [self.documentName setFrame:CGRectMake(self.downloadRetryView.frame.origin.x + self.downloadRetryView.frame.size.width + 5,
                                                self.mBubleImageView.frame.origin.y + 5,
-                                               self.mBubleImageView.frame.size.width - self.mImageView.frame.size.width - 20, 60)];
+                                               self.mBubleImageView.frame.size.width - self.mImageView.frame.size.width - DOC_NAME_PADDING_WIDTH,
+                                               DOC_NAME_HEIGHT)];
 
         [self setupProgressValueX: (self.downloadRetryView.frame.origin.x + self.downloadRetryView.frame.size.width/2 - 30)
                              andY: (self.downloadRetryView.frame.origin.y + self.downloadRetryView.frame.size.height/2 - 30)];
         
 
         
-        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - theDateSize.width - 20,
-                                           self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width, 21);
+        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x +
+                                            self.mBubleImageView.frame.size.width) - theDateSize.width - DATE_PADDING_WIDTH,
+                                           self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height,
+                                           theDateSize.width, DATE_HEIGHT);
         
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width,
-                                                        self.mDateLabel.frame.origin.y, 20, 20);
+                                                        self.mDateLabel.frame.origin.y,
+                                                        MSG_STATUS_WIDTH, MSG_STATUS_HEIGHT);
         
         [self.mImageView setImage:[ALUtilityClass getImageFromFramworkBundle:@"documentSend.png"]];
         

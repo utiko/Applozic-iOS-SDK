@@ -49,6 +49,7 @@
 +(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSError *error, ALChannelCreateResponse *response))completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, CREATE_CHANNEL_URL];
+//    NSString * theUrlString = [NSString stringWithFormat:@"https://staging.applozic.com%@", CREATE_CHANNEL_URL];
 
     NSMutableDictionary *channelDictionary = [NSMutableDictionary new];
     
@@ -59,7 +60,7 @@
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:channelDictionary options:0 error:&error];
     NSString *theParamString = [[NSString alloc] initWithData:postdata encoding: NSUTF8StringEncoding];
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
-    NSLog(@"PARAM_STRING : %@", theParamString);
+    NSLog(@"PARAm STRINg %@", theParamString);
 
     [ALResponseHandler processRequest:theRequest andTag:@"CREATE_CHANNEL" WithCompletionHandler:^(id theJson, NSError *theError) {
 
@@ -100,7 +101,7 @@
         {
             response = [[ALAPIResponse alloc] initWithJSONString:theJson];
         }
-        NSLog(@"RESPONSE_ADD_NEW_MEMBER_TO_CHANNEL :%@",response);
+        NSLog(@"Response ADD_NEW_MEMBER_TO_CHANNEL :%@",response);
         completion(error, response);
     }];
 }

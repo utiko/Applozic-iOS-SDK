@@ -45,4 +45,6 @@
 
 -(void)getListOfRegisteredUsersWithCompletion:(void(^)(NSError * error))completion;
 
+-(void)fetchOnlineContactFromServer:(void(^)(NSMutableArray * array, NSError * error))completion;
+
 @end

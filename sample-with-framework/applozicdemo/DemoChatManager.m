@@ -303,21 +303,49 @@
     [ALApplozicSettings setMaxCompressionFactor:0.1f];
     [ALApplozicSettings setMaxImageSizeForUploadInMB:3];
     [ALApplozicSettings setMultipleAttachmentMaxLimit:5];  //NSInteger
-    [ALApplozicSettings setFilterContactsStatus:NO];
     [ALApplozicSettings setGroupOption:YES];
+    [ALApplozicSettings setChatWallpaperImageName:@"<IMAGE_NAME>"];
     
-    [ALApplozicSettings setGroupMemeberAddOption:YES];
-    [ALApplozicSettings setGroupMemeberRemoveOption:YES];
     [ALApplozicSettings setGroupExitOption:YES];
+    [ALApplozicSettings setGroupMemberAddOption:YES];
+    [ALApplozicSettings setGroupMemberRemoveOption:YES];
     
-    [ALUserDefaultsHandler setUserTypeId:1];
     
-//   Note: Please uncomment below setter to use app_module_name
+/*   Note: Please uncomment below setter to use app_module_name */
+    
 //   [ALUserDefaultsHandler setAppModuleName:@"<APP_MODULE_NAME>"];
 //    [ALUserDefaultsHandler setAppModuleName:@"SELLER"];
 
+//    [self getApplicationBaseURL];
+    
+//////////////   IF NEEDED ALL REGISTERED CONTACTS    //////////////
+    
+    [ALApplozicSettings setFilterContactsStatus:YES];
+/*   PLEASE SET IT TO 'NO' IF NOT REQUIRED */
+    
+//////////////   IF NEEDED ONLINE USERS WITH LIMIT   //////////////
+    
+    [ALApplozicSettings setOnlineContactLimit:0];
+/*   PLEASE SET LIMIT TO ZERO IF NOT REQUIRED */
+    
+    
 }
 
+-(void)getApplicationBaseURL
+{
+    NSDictionary * URLDictionary = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"APPLOZIC_PRODUCTION"];
+
+    NSString * alKBASE_URL = [URLDictionary valueForKey:@"AL_KBASE_URL"];
+    NSString * alMQTT_URL = [URLDictionary valueForKey:@"AL_MQTT_URL"];
+    NSString * alFILE_URL = [URLDictionary valueForKey:@"AL_FILE_URL"];
+    NSString * alMQTT_PORT = [URLDictionary valueForKey:@"AL_MQTT_PORT"];
+    
+    [ALUserDefaultsHandler setBASEURL:alKBASE_URL];
+    [ALUserDefaultsHandler setMQTTURL:alMQTT_URL];
+    [ALUserDefaultsHandler setFILEURL:alFILE_URL];
+    [ALUserDefaultsHandler setMQTTPort:alMQTT_PORT];
+
+}
 
 //============================= Launch chat list with specified User's chat screen open ===============================//
 

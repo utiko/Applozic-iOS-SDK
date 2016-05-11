@@ -10,13 +10,15 @@
 
 @interface ALAudioAttachmentViewController ()
 {
-    AVAudioRecorder *recorder;
-    AVAudioPlayer *player;
+    AVAudioRecorder * recorder;
+    AVAudioPlayer * player;
 }
 @end
 
 @implementation ALAudioAttachmentViewController
-
+{
+    AVAudioSession * session;
+}
 -(void)viewDidLoad
 {
     [super viewDidLoad];
@@ -27,18 +29,18 @@
     [self.sendButton setEnabled:NO];
     
     // Set the audio file
-    NSString *fileName = [NSString stringWithFormat:@"AUD-%f.m4a",[[NSDate date] timeIntervalSince1970] * 1000];
-    NSArray *pathComponents = [NSArray arrayWithObjects:
+    NSString * fileName = [NSString stringWithFormat:@"AUD-%f.m4a",[[NSDate date] timeIntervalSince1970] * 1000];
+    NSArray * pathComponents = [NSArray arrayWithObjects:
                                [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
                                fileName, nil];
     
-    NSURL *outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
+    NSURL * outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
     
     // Setup audio session
-    AVAudioSession *session = [AVAudioSession sharedInstance];
+    session = [AVAudioSession sharedInstance];
     [session setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:nil];
     
-    NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary * recordSetting = [[NSMutableDictionary alloc] init];
     
     [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
     [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
@@ -48,7 +50,7 @@
     recorder.delegate = self;
     recorder.meteringEnabled = YES;
     [recorder prepareToRecord];
-
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -74,11 +76,31 @@
 
 -(IBAction)stopButtonAction:(id)sender
 {
+    [self stopAction];
+}
+
+-(void)actionWhenAppInBackground
+{
+    if([recorder isRecording])
+    {
+        [self stopAction];
+        [self alertDialog:@"Recording stopped"];
+    }
+    if([player isPlaying])
+    {
+        [player stop];
+        [self alertDialog:@"Player stopped"];
+    }
+    
+}
+
+-(void)stopAction
+{
     [recorder stop];
     [self.timer invalidate];
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    [audioSession setActive:NO error:nil];
+    [session setActive:NO error:nil];
     [self.sendButton setEnabled:YES];
+    [self.recordButton setEnabled:NO];
 }
 
 -(IBAction)sendButtonAction:(id)sender
@@ -97,7 +119,6 @@
     
     if (!recorder.recording)
     {
-        AVAudioSession *session = [AVAudioSession sharedInstance];
         [session setActive:YES error:nil];
         [self.recordButton setTitle:@"PAUSE RECORD" forState:UIControlStateNormal];
         
@@ -138,50 +159,61 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleAudioSessionInterruption:)
-                                                 name:AVAudioSessionInterruptionNotification
-                                               object:[AVAudioSession sharedInstance]];
-
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(actionWhenAppInBackground)
+                                                 name: @"APP_ENTER_IN_BACKGROUND"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleAudioSessionInterruption:)
+                                                 name: AVAudioSessionInterruptionNotification
+                                               object: session];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification
-                                                  object:[AVAudioSession sharedInstance]];
+    [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                    name: @"APP_ENTER_IN_BACKGROUND"
+                                                  object: nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                    name: AVAudioSessionInterruptionNotification
+                                                  object: session];
     
 }
 
 -(void)handleAudioSessionInterruption:(NSNotification *)notification
 {
     AVAudioSessionInterruptionType interruptionType = [notification.userInfo[AVAudioSessionInterruptionTypeKey] unsignedIntegerValue];
-    
     switch (interruptionType)
     {
         case AVAudioSessionInterruptionTypeBegan:
         {
-            NSLog(@"AUDIO_INTERRUPTION_START");
-            if (recorder.recording)
-            {
-                [recorder pause];
-                [self.recordButton setTitle:@"RECORD" forState:UIControlStateNormal];
-                [self subProcess];
-            }
-            else if (player.isPlaying)
-            {
-                [player pause];
-            }
-            
+            NSLog(@"AUDIO_INTERRUPTION_START : RECORDING_STOPPED");
+            [self stopAction];
             break;
         }
         case AVAudioSessionInterruptionTypeEnded:
         {
-            NSLog(@"AUDIO_INTERRUPTION_ENEDED");
+            NSLog(@"AUDIO_INTERRUPTION_END");
+            [self alertDialog: @"Recording stopped !!!"];
             break;
         }
         default:
-        break;
+            break;
     }
+}
+
+-(void)alertDialog:(NSString *)msg
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Message"
+                                                    message: msg
+                                                   delegate: nil
+                                          cancelButtonTitle: @"OK"
+                                          otherButtonTitles: nil];
+    [alert show];
 }
 
 //=====================================================
@@ -207,4 +239,3 @@
 }
 
 @end
-

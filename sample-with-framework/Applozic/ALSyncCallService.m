@@ -17,11 +17,14 @@
 -(void) updateMessageDeliveryReport:(NSString *)messageKey withStatus:(int)status{
     ALMessageDBService *alMessageDBService = [[ALMessageDBService alloc] init];
     [alMessageDBService updateMessageDeliveryReport:messageKey withStatus:status];
+    NSLog(@"delivery report for %@", messageKey);
+    //Todo: update ui
 }
 
 -(void) updateDeliveryStatusForContact:(NSString *)contactId withStatus:(int)status {
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
     [messageDBService updateDeliveryReportForContact:contactId withStatus:status];
+    //Todo: update ui
 }
 
 -(void) syncCall: (ALMessage *) alMessage {

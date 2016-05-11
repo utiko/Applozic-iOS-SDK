@@ -29,6 +29,40 @@
 #define MT_INBOX_CONSTANT "4"
 #define MT_OUTBOX_CONSTANT "5"
 
+#define DOWNLOAD_RETRY_PADDING_X 45
+#define DOWNLOAD_RETRY_PADDING_Y 20
+
+#define MAX_WIDTH 150
+#define MAX_WIDTH_DATE 130
+
+#define IMAGE_VIEW_PADDING_X 5
+#define IMAGE_VIEW_PADDING_Y 5
+#define IMAGE_VIEW_PADDING_WIDTH 10
+#define IMAGE_VIEW_PADDING_HEIGHT 10
+#define IMAGE_VIEW_PADDING_HEIGHT_GRP 15
+
+#define DATE_HEIGHT 20
+#define DATE_PADDING_X 20
+
+#define MSG_STATUS_WIDTH 20
+#define MSG_STATUS_HEIGHT 20
+
+#define IMAGE_VIEW_WITHTEXT_PADDING_Y 10
+
+#define BUBBLE_PADDING_X 13
+#define BUBBLE_PADDING_Y 120
+#define BUBBLE_PADDING_WIDTH 120
+#define BUBBLE_PADDING_HEIGHT 120
+#define BUBBLE_PADDING_HEIGHT_GRP 100
+#define BUBBLE_PADDING_X_OUTBOX 60
+#define BUBBLE_PADDING_HEIGHT_TEXT 20
+
+#define CHANNEL_PADDING_X 5
+#define CHANNEL_PADDING_Y 5
+#define CHANNEL_PADDING_WIDTH 30
+#define CHANNEL_PADDING_HEIGHT 20
+#define CHANNEL_PADDING_GRP 3
+
 @implementation ALImageCell
 {
     CGFloat msgFrameHeight;
@@ -44,17 +78,21 @@ UIViewController * modalCon;
     if(self)
     {
         
-        self.mDowloadRetryButton.frame = CGRectMake(self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width/2.0 - 50 , self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height/2.0 - 20 , 100, 40);
+        self.mDowloadRetryButton.frame = CGRectMake(self.mBubleImageView.frame.origin.x
+                                                    + self.mBubleImageView.frame.size.width/2.0 - 50,
+                                                    self.mBubleImageView.frame.origin.y +
+                                                    self.mBubleImageView.frame.size.height/2.0 - 50 ,
+                                                    100, 40);
         
-        UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageFullScreen:)];
+        UITapGestureRecognizer * tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageFullScreen:)];
         tapper.numberOfTapsRequired = 1;
         [self.mImageView addGestureRecognizer:tapper];
         [self.contentView addSubview:self.mImageView];
         
         [self.mDowloadRetryButton addTarget:self action:@selector(dowloadRetryButtonAction) forControlEvents:UIControlEventTouchUpInside];
     }
-    return self;
     
+    return self;
 }
 
 -(instancetype)populateCell:(ALMessage *)alMessage viewSize:(CGSize)viewSize
@@ -77,8 +115,14 @@ UIViewController * modalCon;
     
     self.mMessage = alMessage;
     
-    CGSize theDateSize = [ALUtilityClass getSizeForText:theDate maxWidth:150 font:self.mDateLabel.font.fontName fontSize:self.mDateLabel.font.pointSize];
-    CGSize theTextSize = [ALUtilityClass getSizeForText:alMessage.message maxWidth:viewSize.width - 130 font:self.imageWithText.font.fontName fontSize:self.imageWithText.font.pointSize];
+    CGSize theDateSize = [ALUtilityClass getSizeForText:theDate maxWidth:MAX_WIDTH
+                                                   font:self.mDateLabel.font.fontName
+                                               fontSize:self.mDateLabel.font.pointSize];
+    
+    CGSize theTextSize = [ALUtilityClass getSizeForText:alMessage.message
+                                               maxWidth:viewSize.width - MAX_WIDTH_DATE
+                                                   font:self.imageWithText.font.fontName
+                                               fontSize:self.imageWithText.font.pointSize];
     
     [self.mChannelMemberName setHidden:YES];
     [self.mNameLabel setHidden:YES];
@@ -91,11 +135,13 @@ UIViewController * modalCon;
         
         if([ALApplozicSettings isUserProfileHidden])
         {
-            self.mUserProfileImageView.frame = CGRectMake(8, 0, 0, 45);
+            self.mUserProfileImageView.frame = CGRectMake(USER_PROFILE_PADDING_X, 0, 0,
+                                                          45);
         }
         else
         {
-            self.mUserProfileImageView.frame = CGRectMake(8, 0, 45, 45);
+            self.mUserProfileImageView.frame = CGRectMake(USER_PROFILE_PADDING_X, 0,
+                                                          45,45);
         }
         
         self.mBubleImageView.backgroundColor = [ALApplozicSettings getReceiveMsgColor];
@@ -104,32 +150,38 @@ UIViewController * modalCon;
         
         [self.mNameLabel setText:[ALColorUtility getAlphabetForProfileImage:receiverName]];
         
-        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width - 120, viewSize.width - 120);
+        self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
+                                                0, viewSize.width - BUBBLE_PADDING_WIDTH, viewSize.width - BUBBLE_PADDING_HEIGHT);
         
         self.mBubleImageView.layer.shadowOpacity = 0.3;
         self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
         self.mBubleImageView.layer.shadowRadius = 1;
         self.mBubleImageView.layer.masksToBounds = NO;
         
-        
-        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 , self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10 );
-        
+        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + IMAGE_VIEW_PADDING_X,
+                                           self.mBubleImageView.frame.origin.y + IMAGE_VIEW_PADDING_Y,
+                                           self.mBubleImageView.frame.size.width - IMAGE_VIEW_PADDING_WIDTH ,
+                                           self.mBubleImageView.frame.size.height - IMAGE_VIEW_PADDING_HEIGHT);
         
         if(alMessage.getGroupId)
         {
             [self.mChannelMemberName setText:receiverName];
             [self.mChannelMemberName setHidden:NO];
             [self.mChannelMemberName setTextColor: [ALColorUtility getColorForAlphabet:receiverName]];
-            self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13 , 0, viewSize.width - 120, viewSize.width - 100);
             
-            self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5,
-                                                       self.mBubleImageView.frame.origin.y + 5,
-                                                       self.mBubleImageView.frame.size.width + 30, 20);
+            self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
+                                                    0, viewSize.width - BUBBLE_PADDING_Y,
+                                                    viewSize.width - BUBBLE_PADDING_HEIGHT_GRP);
             
-            self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5,
-                                               self.mChannelMemberName.frame.origin.y + self.mChannelMemberName.frame.size.height + 5,
-                                               self.mBubleImageView.frame.size.width - 10 ,
-                                               self.mBubleImageView.frame.size.height - self.mChannelMemberName.frame.size.height - 15);
+            self.mChannelMemberName.frame = CGRectMake(self.mBubleImageView.frame.origin.x + CHANNEL_PADDING_X,
+                                                       self.mBubleImageView.frame.origin.y + CHANNEL_PADDING_Y,
+                                                       self.mBubleImageView.frame.size.width + CHANNEL_PADDING_WIDTH, CHANNEL_PADDING_HEIGHT);
+            
+            self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + IMAGE_VIEW_PADDING_X,
+                                               self.mChannelMemberName.frame.origin.y +
+                                               self.mChannelMemberName.frame.size.height + CHANNEL_PADDING_GRP,
+                                               self.mBubleImageView.frame.size.width - IMAGE_VIEW_PADDING_WIDTH ,
+                                               self.mBubleImageView.frame.size.height - self.mChannelMemberName.frame.size.height - IMAGE_VIEW_PADDING_HEIGHT_GRP);
             
         }
         
@@ -141,9 +193,15 @@ UIViewController * modalCon;
         if(alMessage.message.length > 0)
         {
             self.imageWithText.textColor = [UIColor grayColor];
-            self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + 13, 0, viewSize.width - 120, (viewSize.width - 120) + theTextSize.height + 20);
             
-            self.imageWithText.frame = CGRectMake(self.mImageView.frame.origin.x, self.mBubleImageView.frame.origin.y + self.mImageView.frame.size.height + 10, self.mImageView.frame.size.width, theTextSize.height);
+            self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
+                                                    0, viewSize.width - BUBBLE_PADDING_Y,
+                                                    (viewSize.width - BUBBLE_PADDING_HEIGHT)
+                                                    + theTextSize.height + BUBBLE_PADDING_HEIGHT_TEXT);
+            
+            self.imageWithText.frame = CGRectMake(self.mImageView.frame.origin.x,
+                                                  self.mImageView.frame.origin.y + self.mImageView.frame.size.height + 5,
+                                                  self.mImageView.frame.size.width, theTextSize.height);
             
             [self.imageWithText setHidden:NO];
             
@@ -160,14 +218,15 @@ UIViewController * modalCon;
                                            self.mBubleImageView.frame.origin.y +
                                            self.mBubleImageView.frame.size.height,
                                            theDateSize.width,
-                                           21);
+                                           DATE_HEIGHT);
         
-        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
+        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width,
+                                                        self.mDateLabel.frame.origin.y,
+                                                        MSG_STATUS_WIDTH, MSG_STATUS_HEIGHT);
         
         if (alMessage.imageFilePath == NULL)
         {
             NSLog(@" file path not found making download button visible ....ALImageCell");
-            
             self.mDowloadRetryButton.alpha = 1;
             [self.mDowloadRetryButton setTitle:[alMessage.fileMeta getTheSize] forState:UIControlStateNormal];
             [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"downloadI6.png"] forState:UIControlStateNormal];
@@ -206,16 +265,21 @@ UIViewController * modalCon;
         
         self.mBubleImageView.backgroundColor = [ALApplozicSettings getSendMsgColor];
         
-        self.mUserProfileImageView.frame = CGRectMake(viewSize.width - 50, 5, 0, 45);
+        self.mUserProfileImageView.frame = CGRectMake(viewSize.width - USER_PROFILE_PADDING_X_OUTBOX,
+                                                      0, 0, USER_PROFILE_HEIGHT);
         
-        self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60), 0, viewSize.width - 120, viewSize.width - 120);
+        self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + BUBBLE_PADDING_X_OUTBOX),
+                                                0, viewSize.width - BUBBLE_PADDING_WIDTH, viewSize.width - BUBBLE_PADDING_HEIGHT);
         
         self.mBubleImageView.layer.shadowOpacity = 0.3;
         self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
         self.mBubleImageView.layer.shadowRadius = 1;
         self.mBubleImageView.layer.masksToBounds = NO;
         
-        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5 , self.mBubleImageView.frame.origin.y + 5 ,self.mBubleImageView.frame.size.width - 10 , self.mBubleImageView.frame.size.height - 10);
+        self.mImageView.frame = CGRectMake(self.mBubleImageView.frame.origin.x + IMAGE_VIEW_PADDING_X,
+                                           self.mBubleImageView.frame.origin.y + IMAGE_VIEW_PADDING_Y,
+                                           self.mBubleImageView.frame.size.width - IMAGE_VIEW_PADDING_WIDTH,
+                                           self.mBubleImageView.frame.size.height - IMAGE_VIEW_PADDING_HEIGHT);
         
         [self.mMessageStatusImageView setHidden:NO];
         
@@ -224,9 +288,14 @@ UIViewController * modalCon;
             [self.imageWithText setHidden:NO];
             self.imageWithText.backgroundColor = [UIColor clearColor];
             self.imageWithText.textColor = [UIColor whiteColor];
-            self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60), 0, viewSize.width - 120, (viewSize.width - 120) + theTextSize.height + 20);
+            self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + BUBBLE_PADDING_X_OUTBOX),
+                                                    0, viewSize.width - BUBBLE_PADDING_WIDTH,
+                                                    viewSize.width - BUBBLE_PADDING_HEIGHT
+                                                    + theTextSize.height + BUBBLE_PADDING_HEIGHT_TEXT);
             
-            self.imageWithText.frame = CGRectMake(self.mBubleImageView.frame.origin.x + 5, self.mBubleImageView.frame.origin.y + self.mImageView.frame.size.height + 10, self.mImageView.frame.size.width, theTextSize.height);
+            self.imageWithText.frame = CGRectMake(self.mBubleImageView.frame.origin.x + IMAGE_VIEW_PADDING_X,
+                                                  self.mImageView.frame.origin.y + self.mImageView.frame.size.height + IMAGE_VIEW_WITHTEXT_PADDING_Y,
+                                                  self.mImageView.frame.size.width, theTextSize.height);
             
             [self.contentView bringSubviewToFront:self.mDateLabel];
             [self.contentView bringSubviewToFront:self.mMessageStatusImageView];
@@ -235,7 +304,6 @@ UIViewController * modalCon;
         else
         {
             [self.imageWithText setHidden:YES];
-            
         }
         
         msgFrameHeight = self.mBubleImageView.frame.size.height;
@@ -243,9 +311,15 @@ UIViewController * modalCon;
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
         
-        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x + self.mBubleImageView.frame.size.width) - theDateSize.width - 20, self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height, theDateSize.width, 21);
+        self.mDateLabel.frame = CGRectMake((self.mBubleImageView.frame.origin.x +
+                                            self.mBubleImageView.frame.size.width) - theDateSize.width - DATE_PADDING_X,
+                                           self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height,
+                                           theDateSize.width, DATE_HEIGHT);
         
-        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width, self.mDateLabel.frame.origin.y, 20, 20);
+        self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width,
+                                                        self.mDateLabel.frame.origin.y,
+                                                        MSG_STATUS_WIDTH, MSG_STATUS_HEIGHT);
+        
         [self setupProgress];
         
         self.progresLabel.alpha = 0;
@@ -272,9 +346,12 @@ UIViewController * modalCon;
         
     }
     
-    self.mDowloadRetryButton.frame = CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0 - 45 , self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2.0 - 20 , 90, 40);
+    self.mDowloadRetryButton.frame = CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0 - DOWNLOAD_RETRY_PADDING_X,
+                                                self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2.0 - DOWNLOAD_RETRY_PADDING_Y,
+                                                90, 40);
     
-    if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT]) {
+    if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT])
+    {
         
         self.mMessageStatusImageView.hidden = NO;
         NSString * imageName;
@@ -313,7 +390,6 @@ UIViewController * modalCon;
     }
     
     [self.mImageView sd_setImageWithURL:theUrl];
-    
     return self;
     
 }

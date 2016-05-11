@@ -199,20 +199,19 @@
 -(BOOL)isDownloadRequire{
     
     //TODO:check for SD card
-    if ( self.fileMeta && !self.imageFilePath){
-        return YES;
-    }
-    return NO;
+    return (self.fileMeta && !self.imageFilePath);
 }
 
 -(BOOL)isUploadRequire{
     //TODO:check for SD card
-    if ( (self.imageFilePath && !self.fileMeta && [ self.type  isEqualToString:@"5"]) || self.isUploadFailed==YES){
-        return YES;
-    }
-    return NO;
+    return ( (self.imageFilePath && !self.fileMeta && [self.type  isEqualToString:@"5"])
+            || self.isUploadFailed==YES );
 }
 
+-(BOOL)isHiddenMessage{
+    return (self.contentType == ALMESSAGE_CONTENT_HIDDEN);
+
+}
 -(NSString*)getNotificationText
 {
     if(self.message && ![self.message isEqualToString:@""])

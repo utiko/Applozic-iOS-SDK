@@ -6,7 +6,7 @@
 //  Copyright © 2015 applozic Inc. All rights reserved.
 //
 
-#define CONTACT_PAGE_SIZE 500
+#define CONTACT_PAGE_SIZE 100
 
 #import "ALUserService.h"
 #import "ALRequestHandler.h"
@@ -26,9 +26,12 @@
 #import "ALMessageDBService.h"
 #import "ALContactService.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALApplozicSettings.h"
 
 @implementation ALUserService
-
+{
+    NSString * paramString;
+}
 //1. call this when each message comes
 
 + (void)processContactFromMessages:(NSArray *) messagesArr withCompletion:(void(^)())completionMark
@@ -283,6 +286,49 @@
         
     }];
     
+}
+
+//===============================================================================================
+#pragma ONLINE FETCH CONTACT API
+//===============================================================================================
+
+-(void)fetchOnlineContactFromServer:(void(^)(NSMutableArray * array, NSError * error))completion
+{
+    ALUserClientService * client = [ALUserClientService new];
+    [client fetchOnlineContactFromServer:[ALApplozicSettings getOnlineContactLimit] withCompletion:^(id json, NSError * error) {
+        
+        if(error)
+        {
+            completion(nil, error);
+            return;
+        }
+        
+        NSDictionary * JSONDictionary = (NSDictionary *)json;
+        if(JSONDictionary.count)
+        {
+            NSMutableArray * contactArray = [NSMutableArray new];
+            ALUserDetail * userDetail = [ALUserDetail new];
+            [userDetail parsingDictionaryFromJSON:JSONDictionary];
+            paramString = userDetail.userIdString;
+            
+            [client subProcessUserDetailServerCall:paramString withCompletion:^(NSMutableArray * userDetailArray, NSError * error) {
+                
+                if(error)
+                {
+                    completion(nil, error);
+                    return;
+                }
+                ALContactDBService * contactDB = [ALContactDBService new];
+                for(ALUserDetail * userDetail in userDetailArray)
+                {
+                    [contactDB updateUserDetail: userDetail];
+                    ALContact * contact = [contactDB loadContactByKey:@"userId" value:userDetail.userId];
+                    [contactArray addObject:contact];
+                }
+                completion(contactArray, error);
+            }];
+        }
+    }];
 }
 
 @end

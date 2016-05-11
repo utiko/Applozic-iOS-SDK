@@ -60,4 +60,5 @@
 
 -(void)notificationArrivedToApplication:(UIApplication*)application withDictionary:(NSDictionary *)userInfo;
 +(void)applicationEntersForeground;
++(void)userSync;
 @end

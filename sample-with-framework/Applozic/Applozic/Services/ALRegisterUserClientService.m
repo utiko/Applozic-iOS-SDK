@@ -35,7 +35,7 @@
         [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];
     }
     [user setUserTypeId:[ALUserDefaultsHandler getUserTypeId]];
-
+    
     //NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
     NSError *error;
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:user.dictionary options:0 error:&error];

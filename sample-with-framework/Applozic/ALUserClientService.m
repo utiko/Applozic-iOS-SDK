@@ -251,7 +251,8 @@
     }];
 }
 
--(void)getListOfRegisteredUsers:(NSNumber *)startTime andPageSize:(NSUInteger)pageSize withCompletion:(void(^)(ALContactsResponse * response, NSError * error))completion
+-(void)getListOfRegisteredUsers:(NSNumber *)startTime andPageSize:(NSUInteger)pageSize
+                 withCompletion:(void(^)(ALContactsResponse * response, NSError * error))completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/filter",KBASE_URL];
     NSString * pageSizeString = [NSString stringWithFormat:@"%lu", (unsigned long)pageSize];
@@ -264,19 +265,71 @@
     }
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
-    [ALResponseHandler processRequest:theRequest andTag:@"FETCH_CONTACT_WITH_PAGE_SIZE" WithCompletionHandler:^(id theJson, NSError * theError) {
+    [ALResponseHandler processRequest:theRequest andTag:@"FETCH_REGISTERED_CONTACT_WITH_PAGE_SIZE" WithCompletionHandler:^(id theJson, NSError * theError) {
         
         if (theError)
         {
             completion(nil, theError);
             NSLog(@"ERROR_IN_FETCH_CONTACT_WITH_PAGE_SIZE : %@", theError);
-            return ;
+            return;
         }
         
-        NSLog(@"RESPONSE_FETCH_CONTACT_WITH_PAGE_SIZE_JSON %@",theJson);
+        NSLog(@"RESPONSE_REGISTERED_CONTACT_WITH_PAGE_SIZE_JSON : %@",(NSString *)theJson);
         ALContactsResponse * contactResponse = [[ALContactsResponse alloc] initWithJSONString:(NSString *)theJson];
         completion(contactResponse, nil);
         [ALUserDefaultsHandler setContactViewLoadStatus:YES];
+    }];
+}
+
+-(void)fetchOnlineContactFromServer:(NSUInteger)limit withCompletion:(void (^)(id json, NSError * error))completion
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/ol/list",KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"startIndex=0&pageSize=%lu",(unsigned long)limit];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"CONTACT_FETCH_WITH_LIMIT" WithCompletionHandler:^(id theJson, NSError * theError) {
+        
+        if (theError)
+        {
+            completion(nil, theError);
+            NSLog(@"ERROR_IN_CONTACT_FETCH_WITH_LIMIT : %@",theError);
+            return ;
+        }
+        
+        NSString * JSONString = (NSString *)theJson;
+        NSLog(@"SEVER_RESPONSE_CONTACT_FETCH_WITH_LIMIT_JSON : %@", JSONString);
+        completion(theJson, theError);
+    }];
+}
+
+-(void)subProcessUserDetailServerCall:(NSString *)paramString withCompletion:(void(^)(NSMutableArray * userDetailArray, NSError * theError))completionMark
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/detail",KBASE_URL];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:paramString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"USERS_DETAILS_FOR_ONLINE_CONTACT_LIMIT" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if (theError)
+        {
+            completionMark(nil, theError);
+            NSLog(@"ERROR_IN_USERS_DETAILS_FOR_ONLINE_CONTACT_LIMIT : %@", theError);
+            return;
+        }
+        
+        NSLog(@"SEVER_RESPONSE_FOR_ONLINE_CONTACT_LIMIT_JSON : %@", (NSString *)theJson);
+        NSArray * jsonArray = [NSArray arrayWithArray:(NSArray *)theJson];
+        if(jsonArray.count)
+        {
+            NSMutableArray * ALLUserDetailArray = [NSMutableArray new];
+            NSDictionary * JSONDictionary = (NSDictionary *)theJson;
+            for (NSDictionary * theDictionary in JSONDictionary)
+            {
+                ALUserDetail * userDetail = [[ALUserDetail alloc] initWithDictonary:theDictionary];
+                [ALLUserDetailArray addObject:userDetail];
+            }
+            completionMark(ALLUserDetailArray, theError);
+        }
     }];
 }
 
