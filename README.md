@@ -219,6 +219,22 @@ Once your app receive notification, pass it to applozic handler for applozic not
 
 ```
 ### Changelog
+
+__Version 2.7__
+
+Group-Exit, Add-Member UI updates
+UserTypeId parameters added for registration
+Group sync call bug fixes
+Block user handled even if other’s app is killed
+Online/Offline UI updates for block user
+User’s display name updating
+Chat Background wallpaper
+Hidden Messages
+Custom Messsages (Custom Layout)
+Contact List with Online Users with configurable limit
+New Group Addition bug fixes
+Contact Image bug fixes
+
 __Version 2.6__
  * Settings to toggle buttons:
     * Group-Exit Button
