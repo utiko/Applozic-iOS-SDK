@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString * displayName;
 @property (nonatomic, copy) NSManagedObjectID * userDetailDBObjectId;
 @property (nonatomic, strong) NSString * imageLink;
+@property (nonatomic, strong) NSString * contactNumber;
 
 @property (nonatomic, strong)  NSArray * keyArray;
 @property (nonatomic, strong)  NSArray * valueArray;

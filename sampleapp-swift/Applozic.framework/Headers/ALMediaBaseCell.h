@@ -33,6 +33,7 @@
 -(void) showVideoFullScreen:(MPMoviePlayerViewController *)fullView;
 -(void) showSuggestionView:(NSURL *)fileURL andFrame:(CGRect)frame;
 -(void) showAnimationForMsgInfo:(BOOL)flag;
+-(void) processTapGesture:(ALMessage *)alMessage;
 
 @end
 

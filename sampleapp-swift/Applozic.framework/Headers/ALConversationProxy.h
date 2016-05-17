@@ -20,7 +20,9 @@
 @property (nonatomic, strong) NSNumber *groupId;
 @property (nonatomic, strong) NSString *userId;
 @property (nonatomic, strong) NSArray  *supportIds;
-
+@property (nonatomic, strong) NSMutableArray *fallBackTemplatesListArray;
+@property (nonatomic,strong) NSMutableDictionary * fallBackTemplateForSENDER;
+@property (nonatomic,strong) NSMutableDictionary * fallBackTemplateForRECEIVER;
 @property (nonatomic) BOOL created;
 @property(nonatomic ) BOOL closed;
 
@@ -28,6 +30,8 @@
 -(void)parseMessage:(id) messageJson;
 -(id)initWithDictonary:(NSDictionary *)messageDictonary;
 -(ALTopicDetail*)getTopicDetail;
--(NSMutableDictionary *)getDictionaryForCreate:(ALConversationProxy *)alConversationProxy;
++(NSMutableDictionary *)getDictionaryForCreate:(ALConversationProxy *)alConversationProxy;
 
+-(void)setSenderSMSFormat:(NSString*)senderFormatString;
+-(void)setReceiverSMSFormat:(NSString*)recieverFormatString;
 @end

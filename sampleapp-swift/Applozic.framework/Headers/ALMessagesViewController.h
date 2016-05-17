@@ -10,7 +10,15 @@
 #import "ALContactCell.h"
 #import "ALNewContactsViewController.h"
 
-@interface ALMessagesViewController : UIViewController 
+@protocol ALMessagesViewDelegate <NSObject>
+
+-(void)handleCustomActionFromMsgVC:(UIViewController *)chatView andWithMessage:(ALMessage *)alMessage;
+
+@end
+
+@interface ALMessagesViewController : UIViewController <ALChatViewControllerDelegate>
+
+@property (nonatomic, strong) id <ALMessagesViewDelegate> messagesViewDelegate;
 
 @property(nonatomic,strong) ALChatViewController * detailChatViewController;
 
