@@ -14,7 +14,7 @@
 
 @property (nonatomic, retain) NSString * userId;
 @property (nonatomic, retain) NSString * fullName;
-@property (nonatomic, retain) NSString * contactNo;
+@property (nonatomic, retain) NSString * contactNumber;
 @property (nonatomic, retain) NSString * displayName;
 @property (nonatomic, retain) NSString * contactImageUrl;
 @property (nonatomic, retain) NSString * email;

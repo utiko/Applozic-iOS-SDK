@@ -1,31 +1,27 @@
 //
-
-//  MBChatManager.h
-
+//  ALChatLauncher.h
 //  Applozic
-
 //
-
 //  Created by devashish on 21/12/2015.
-
 //  Copyright © 2015 applozic Inc. All rights reserved.
-
 //
-
-
 
 #import <UIKit/UIKit.h>
-
 #import <Foundation/Foundation.h>
 #import "ALConversationProxy.h"
+#import "ALMessage.h"
 
+@protocol ALChatLauncherDelegate <NSObject>
+
++(void)handleCustomAction:(UIViewController *)chatView andWithMessage:(ALMessage *)alMessage;
+
+@end
 
 @interface ALChatLauncher : NSObject
 
-
-
-@property(nonatomic,assign) NSString* applicationId;
-@property (nonatomic,strong) NSNumber* chatLauncherFLAG;
+@property (nonatomic, strong) id <ALChatLauncherDelegate> chatLauncherDelegate;
+@property (nonatomic, assign) NSString * applicationId;
+@property (nonatomic, strong) NSNumber * chatLauncherFLAG;
 
 -(instancetype)initWithApplicationId:(NSString *) applicationId;
 -(void)ALDefaultChatViewSettings;
