@@ -281,5 +281,37 @@
     return maxLimit ? maxLimit : 0;
 }
 
++(void)setContextualChat:(BOOL)option
+{
+    [[NSUserDefaults standardUserDefaults] setBool:option forKey:CONTEXTUAL_CHAT_OPTION];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getContextualChatOption
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:CONTEXTUAL_CHAT_OPTION];
+}
+
++(NSString *)getCustomClassName
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:THIRD_PARTY_VC_NAME];
+}
+
++(void)setCustomClassName:(NSString *)className
+{
+    [[NSUserDefaults standardUserDefaults] setValue:className forKey:THIRD_PARTY_VC_NAME];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(void)setCallOption:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:USER_CALL_OPTION];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getCallOption
+{
+     return [[NSUserDefaults standardUserDefaults] boolForKey:USER_CALL_OPTION];
+}
 
 @end

@@ -18,6 +18,7 @@
 #define ALMESSAGE_CONTENT_CUSTOM 101
 #define ALMESSAGE_CONTENT_HIDDEN 11
 
+
 @interface ALMessage : ALJson
 
 @property (nonatomic, copy) NSString * key;
@@ -90,6 +91,8 @@
 -(NSString *)getCreatedAtTimeChat:(BOOL)today;
 -(NSNumber *)getGroupId;
 -(NSString *)getNotificationText;
+
+-(BOOL)checkCustomContentType;
 
 @property (nonatomic,assign) BOOL deleted;
 

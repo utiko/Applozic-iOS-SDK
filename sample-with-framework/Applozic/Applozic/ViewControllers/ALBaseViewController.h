@@ -24,9 +24,13 @@
 @property (nonatomic) BOOL  individualLaunch;
 @property (weak, nonatomic) IBOutlet UIView * typingMessageView;
 
+@property (strong, nonatomic) UIBarButtonItem * callButton;
+@property (strong, nonatomic) NSMutableArray <UIBarButtonItem *> * navRightBarButtonItems;
+
 - (IBAction)sendAction:(id)sender;
 -(void) scrollTableViewToBottomWithAnimation:(BOOL) animated;
 - (IBAction)attachmentActionMethod:(id)sender;
 -(UIView *)setCustomBackButton;
+-(void)makeCallContact;
 
 @end

@@ -28,6 +28,9 @@
 #define GROUP_EXIT_BUTTON @"GROUP_EXIT_BUTTON"
 #define GROUP_MEMBER_ADD_OPTION @"GROUP_MEMBER_ADD_OPTION"
 #define GROUP_MEMBER_REMOVE_OPTION @"GROUP_MEMBER_REMOVE_OPTION"
+#define THIRD_PARTY_VC_NAME @"THIRD_PARTY_VC_NAME"
+#define CONTEXTUAL_CHAT_OPTION @"CONTEXTUAL_CHAT_OPTION"
+#define USER_CALL_OPTION @"USER_CALL_OPTION"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -119,4 +122,14 @@
 
 +(void)setOnlineContactLimit:(NSInteger)limit;
 +(NSInteger)getOnlineContactLimit;
+
++(NSString *)getCustomClassName;
++(void)setCustomClassName:(NSString *)className;
+
++(void)setContextualChat:(BOOL)option;
++(BOOL)getContextualChatOption;
+
++(void)setCallOption:(BOOL)flag;
++(BOOL)getCallOption;
+
 @end

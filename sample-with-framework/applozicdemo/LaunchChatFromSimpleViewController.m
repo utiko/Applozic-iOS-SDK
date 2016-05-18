@@ -183,7 +183,12 @@
     ALConversationProxy * alConversationProxy = [[ALConversationProxy alloc] init];
     alConversationProxy.topicId = @"laptop01";
     alConversationProxy.userId = @"adarshk";
-
+    
+    // Note : Uncomment following two lines to set SMS fallback's format.
+/*
+    [alConversationProxy setSenderSMSFormat:@"SENDER SMS FORMAT"];
+    [alConversationProxy setReceiverSMSFormat:@"RECEIVER SMS FORMAT"];
+*/
     ALTopicDetail * alTopicDetail = [[ALTopicDetail alloc] init];
     alTopicDetail.title     = @"Mac Book Pro";
     alTopicDetail.subtitle  = @"13' Retina";

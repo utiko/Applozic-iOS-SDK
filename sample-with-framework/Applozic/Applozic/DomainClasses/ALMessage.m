@@ -232,4 +232,10 @@
     }
 }
 
+//-(BOOL)checkCustomContentType
+//{
+//        CONDITION IS : IF it has (FILE DATA and CUSTOM CLASS PRESENT)
+//    return NO;
+//}
+
 @end

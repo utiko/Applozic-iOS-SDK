@@ -12,6 +12,8 @@
 #import <Applozic/ALMessageClientService.h>
 #import "LaunchChatFromSimpleViewController.h"
 #import <Applozic/ALApplozicSettings.h>
+#import <Applozic/ALChatViewController.h>
+#import <Applozic/ALMessage.h>
 
 @implementation DemoChatManager
 
@@ -101,10 +103,10 @@
 //-----------------------  ------------------------------------------------------/
 
 
--(void)registerUserAndLaunchChat:(ALUser *)alUser andFromController:(UIViewController*)viewController forUser:(NSString*)userId withGroupId:(NSNumber*)groupID{
-    
-    self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
-    
+-(void)registerUserAndLaunchChat:(ALUser *)alUser andFromController:(UIViewController*)viewController forUser:(NSString*)userId withGroupId:(NSNumber*)groupID
+{
+    self.chatLauncher = [[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
+    self.chatLauncher.chatLauncherDelegate = self;
     
     //User is already registered ..directly launch the chat...
     if([ALUserDefaultsHandler getDeviceKeyString]){
@@ -178,8 +180,10 @@
 
 // ----------------------  ------------------------------------------------------/
 
--(void)launchChatForUserWithDisplayName:(NSString * )userId withGroupId:(NSNumber*)groupID andwithDisplayName:(NSString*)displayName andFromViewController:(UIViewController*)fromViewController{
-    self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
+-(void)launchChatForUserWithDisplayName:(NSString * )userId withGroupId:(NSNumber*)groupID andwithDisplayName:(NSString*)displayName andFromViewController:(UIViewController*)fromViewController
+{
+    self.chatLauncher = [[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
+    self.chatLauncher.chatLauncherDelegate = self;
     
     if([ALUserDefaultsHandler getDeviceKeyString]){
         [self.chatLauncher launchIndividualChat:userId withGroupId:groupID withDisplayName:displayName andViewControllerObject:fromViewController andWithText:nil];
@@ -230,7 +234,7 @@
     ALConversationService * alconversationService = [[ALConversationService alloc] init];
     [alconversationService  createConversation:alConversationProxy withCompletion:^(NSError *error,ALConversationProxy * proxyObject) {
         if(!error){
-            self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
+            self.chatLauncher =[[ALChatLauncher alloc] initWithApplicationId:APPLICATION_ID];
             if([ALUserDefaultsHandler getDeviceKeyString]){
                 ALConversationProxy * finalProxy = [self makeFinalProxyWithGeneratedProxy:alConversationProxy andFinalProxy:proxyObject];
                 [self.chatLauncher launchIndividualContextChat:finalProxy andViewControllerObject:fromViewController andWithText:nil];
@@ -304,12 +308,13 @@
     [ALApplozicSettings setMaxImageSizeForUploadInMB:3];
     [ALApplozicSettings setMultipleAttachmentMaxLimit:5];  //NSInteger
     [ALApplozicSettings setGroupOption:YES];
-    [ALApplozicSettings setChatWallpaperImageName:@"<IMAGE_NAME>"];
+    [ALApplozicSettings setChatWallpaperImageName:@"NULL"];
     
     [ALApplozicSettings setGroupExitOption:YES];
     [ALApplozicSettings setGroupMemberAddOption:YES];
     [ALApplozicSettings setGroupMemberRemoveOption:YES];
     
+    [ALApplozicSettings setContextualChat:YES];
     
 /*   Note: Please uncomment below setter to use app_module_name */
     
@@ -327,7 +332,16 @@
     
     [ALApplozicSettings setOnlineContactLimit:0];
 /*   PLEASE SET LIMIT TO ZERO IF NOT REQUIRED */
+
+//////////////   IF CALL OPTION NEEDED   //////////////
     
+    [ALApplozicSettings setCallOption:YES];
+/*    PLEASE SET IT TO 'NO' IF NOT REQUIRED      */
+    
+    
+//////////////   SET 3rd Party Class Name OR DemoChatManager   //////////////
+    
+    [ALApplozicSettings setCustomClassName:@"DemoChatManager"]; // EXAMPLE
     
 }
 
@@ -420,11 +434,19 @@
         }
         
     }];
-    
-    
 }
+
 
 //====================================================================================//
 
+// DELEGATE FOR THIRD PARTY ACTION ON TAP GESTURE
++(void)handleCustomAction:(UIViewController *)chatView andWithMessage:(ALMessage *)alMessage
+{
+//    NSLog(@"DELEGATE FOR THIRD PARTY ACTION ON TAP GESTURE");
+//    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+//    UIViewController * customView = [storyboard instantiateViewControllerWithIdentifier:@"CustomVC"];
+//    ALChatViewController * chatVC = (ALChatViewController *)chatView;
+//    [chatVC presentViewController:customView animated:YES completion:nil];
+}
 
 @end

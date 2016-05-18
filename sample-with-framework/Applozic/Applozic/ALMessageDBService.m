@@ -16,6 +16,7 @@
 #import "ALMessageService.h"
 #import "ALContactService.h"
 #import "ALMessageClientService.h"
+#import "ALApplozicSettings.h"
 
 @implementation ALMessageDBService{
     ALMessageDBService  * dbService;
@@ -556,13 +557,20 @@
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     NSPredicate *predicate1;
-    if(channelKey != nil)
-    {
-        predicate1 = [NSPredicate predicateWithFormat:@"groupId = %@ && conversationId = %i",channelKey,conversationId];
+    
+    if([ALApplozicSettings getContextualChatOption]){
+        if(channelKey){
+            predicate1 = [NSPredicate predicateWithFormat:@"groupId = %@ && conversationId = %i",channelKey,conversationId];
+        }
+        else{
+            predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@ && conversationId = %i",contactId,conversationId];
+        }
     }
-    else
-    {
-        predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@ && conversationId = %i",contactId,conversationId];
+    else if(channelKey){
+        predicate1 = [NSPredicate predicateWithFormat:@"groupId = %@",channelKey];
+    }
+    else{
+        predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@",contactId];
     }
     
     NSPredicate* predicateDeletedCheck=[NSPredicate predicateWithFormat:@"deletedFlag == NO"];

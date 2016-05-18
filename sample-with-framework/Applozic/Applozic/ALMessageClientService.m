@@ -123,7 +123,7 @@
         [channelService callForChannelServiceForDBInsertion:theJson];
         
         //USER BLOCK SYNC CALL
-        ALUserService *userService = [ALUserService new];
+        ALUserService * userService = [ALUserService new];
         [userService blockUserSync: [ALUserDefaultsHandler getUserBlockLastTimeStamp]];
         
     }];

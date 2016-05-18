@@ -58,6 +58,7 @@
 @implementation ALChatCell
 {
     CGFloat msgFrameHeight;
+    UITapGestureRecognizer * tapForCustomView;
 }
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -129,6 +130,9 @@
         
         self.contentView.userInteractionEnabled = YES;
         
+        tapForCustomView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(processTapGesture)];
+        tapForCustomView.numberOfTapsRequired = 1;
+
     }
     
     
@@ -380,7 +384,14 @@
     }
     
     self.mDateLabel.text = theDate;
-
+    
+    /*    =========================== FOR PUSH VC ON TAP =============================  */
+    
+//    [self.mBubleImageView setUserInteractionEnabled:YES];
+//    [self.mBubleImageView addGestureRecognizer:tapForCustomView];
+    
+    /*    ====================================== END =================================  */
+    
     if ([alMessage.message rangeOfString:@"http://"].location != NSNotFound || [alMessage.message rangeOfString:@"www."].location != NSNotFound
         || [alMessage.message rangeOfString:@"https://"].location != NSNotFound)
     {
@@ -484,5 +495,9 @@
     }];
 }
 
+-(void)processTapGesture
+{
+    [self.delegate processALMessage:self.mMessage];
+}
 
 @end

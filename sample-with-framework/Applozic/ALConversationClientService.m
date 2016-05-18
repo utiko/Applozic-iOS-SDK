@@ -22,9 +22,7 @@
 
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, CREATE_CONVERSATION_URL];
     
-    ALConversationProxy * newAlConversationPxy = [[ALConversationProxy alloc] init];
-    NSDictionary * dictionaryToSend = [NSDictionary dictionaryWithDictionary:
-                                        [newAlConversationPxy getDictionaryForCreate:alConversationProxy]];
+    NSDictionary * dictionaryToSend = [NSDictionary dictionaryWithDictionary:[ALConversationProxy getDictionaryForCreate:alConversationProxy]];
                                        
     NSError *error;
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:dictionaryToSend options:0 error:&error];
@@ -43,7 +41,7 @@
         {
             response = [[ALConversationCreateResponse alloc] initWithJSONString:theJson];
         }
-        NSLog(@"SEVER RESPONSE FROM JSON CREATE_CONVERSATION : %@", response);
+        NSLog(@"SEVER RESPONSE FROM JSON CREATE_CONVERSATION : %@", theJson);
         completion(theError, response);
         
     }];

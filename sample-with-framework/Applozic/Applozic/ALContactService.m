@@ -102,7 +102,7 @@
     }
     contact.userId = dbContact.userId;
     contact.fullName = dbContact.fullName;
-    contact.contactNumber = dbContact.contactNo;
+    contact.contactNumber = dbContact.contactNumber;
     contact.displayName = dbContact.displayName;
     contact.contactImageUrl = dbContact.contactImageUrl;
     contact.email = dbContact.email;

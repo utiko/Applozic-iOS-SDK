@@ -296,6 +296,10 @@
 		6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */; };
 		6DEFEA3F1C9ACF0900F7E168 /* ALMessageInfoViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DEFEA3D1C9ACF0900F7E168 /* ALMessageInfoViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DEFEA401C9ACF0900F7E168 /* ALMessageInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEFEA3E1C9ACF0900F7E168 /* ALMessageInfoViewController.m */; };
+		6DFB40AC1CEA2B54006C1AD1 /* ALUserInformationViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DFB40AA1CEA2B54006C1AD1 /* ALUserInformationViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6DFB40AD1CEA2B54006C1AD1 /* ALUserInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFB40AB1CEA2B54006C1AD1 /* ALUserInformationViewController.m */; };
+		6DFB40B41CEA45D5006C1AD1 /* ALUserInfoTableCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DFB40B21CEA45D5006C1AD1 /* ALUserInfoTableCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6DFB40B51CEA45D5006C1AD1 /* ALUserInfoTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFB40B31CEA45D5006C1AD1 /* ALUserInfoTableCell.m */; };
 		982F13041C05D6050024678E /* MQTTClient-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */; };
 		982F13051C05D6050024678E /* MQTTClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F51C05D6040024678E /* MQTTClient.h */; };
 		982F13061C05D6050024678E /* MQTTDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F61C05D6040024678E /* MQTTDecoder.h */; };
@@ -609,6 +613,10 @@
 		6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserClientService.m; sourceTree = "<group>"; };
 		6DEFEA3D1C9ACF0900F7E168 /* ALMessageInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALMessageInfoViewController.h; path = ../../ALMessageInfoViewController.h; sourceTree = "<group>"; };
 		6DEFEA3E1C9ACF0900F7E168 /* ALMessageInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMessageInfoViewController.m; path = ../../ALMessageInfoViewController.m; sourceTree = "<group>"; };
+		6DFB40AA1CEA2B54006C1AD1 /* ALUserInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserInformationViewController.h; sourceTree = "<group>"; };
+		6DFB40AB1CEA2B54006C1AD1 /* ALUserInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserInformationViewController.m; sourceTree = "<group>"; };
+		6DFB40B21CEA45D5006C1AD1 /* ALUserInfoTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserInfoTableCell.h; sourceTree = "<group>"; };
+		6DFB40B31CEA45D5006C1AD1 /* ALUserInfoTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserInfoTableCell.m; sourceTree = "<group>"; };
 		982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MQTTClient-Prefix.pch"; path = "Applozic/MQTT/MQTTClient-Prefix.pch"; sourceTree = "<group>"; };
 		982F12F51C05D6040024678E /* MQTTClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTClient.h; path = Applozic/MQTT/MQTTClient.h; sourceTree = "<group>"; };
 		982F12F61C05D6040024678E /* MQTTDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTDecoder.h; path = Applozic/MQTT/MQTTDecoder.h; sourceTree = "<group>"; };
@@ -726,7 +734,7 @@
 				6DDB07411CB9069B00B99F33 /* AddressBookUI.framework */,
 				6DC729651C7854E100A8A268 /* MediaPlayer.framework */,
 				6D3A4DF61C75ED330067A4C8 /* AVFoundation.framework */,
-				6D9C69391C28380100C78219 /* MBChatSettings */,
+				6D9C69391C28380100C78219 /* ALChatSettings */,
 				6D5439DB1C19B8D600C686BC /* SystemConfiguration.framework */,
 				982F12F31C05D5620024678E /* MQTT */,
 				6D88E1D91BC8046500364C5B /* CoreLocation.framework */,
@@ -800,6 +808,10 @@
 				6D1385771CA9B83C009E6F50 /* AlMultipleAttachmentCell.m */,
 				6D8197981CC55B5700E53EC3 /* ALCollectionReusableView.h */,
 				6D8197991CC55B5700E53EC3 /* ALCollectionReusableView.m */,
+				6DFB40AA1CEA2B54006C1AD1 /* ALUserInformationViewController.h */,
+				6DFB40AB1CEA2B54006C1AD1 /* ALUserInformationViewController.m */,
+				6DFB40B21CEA45D5006C1AD1 /* ALUserInfoTableCell.h */,
+				6DFB40B31CEA45D5006C1AD1 /* ALUserInfoTableCell.m */,
 			);
 			name = ViewControllers;
 			path = Applozic/ViewControllers;
@@ -1135,13 +1147,13 @@
 			name = networkcommunication;
 			sourceTree = "<group>";
 		};
-		6D9C69391C28380100C78219 /* MBChatSettings */ = {
+		6D9C69391C28380100C78219 /* ALChatSettings */ = {
 			isa = PBXGroup;
 			children = (
 				6D9C693A1C28383B00C78219 /* ALChatLauncher.h */,
 				6D9C693B1C28383B00C78219 /* ALChatLauncher.m */,
 			);
-			name = MBChatSettings;
+			name = ALChatSettings;
 			sourceTree = "<group>";
 		};
 		6DCC30061C315A3D00F17D0E /* ALChannel */ = {
@@ -1346,7 +1358,9 @@
 				6DDB07451CB90E1A00B99F33 /* ALVCFClass.h in Headers */,
 				6D1B07291CD8F76F003D14D8 /* ALUIConstant.h in Headers */,
 				6D52A4291C7CA8EA008CBA3A /* ALMediaPlayer.h in Headers */,
+				6DFB40AC1CEA2B54006C1AD1 /* ALUserInformationViewController.h in Headers */,
 				2932B9F31C7C875F0017911D /* ALGroupDetailViewController.h in Headers */,
+				6DFB40B41CEA45D5006C1AD1 /* ALUserInfoTableCell.h in Headers */,
 				6D9342251CAE7509002AC9BE /* ALLocationCell.h in Headers */,
 				6D4C2B221C8183CB0031C677 /* ALTopicDetail.h in Headers */,
 				294637B61C6F16050025ED76 /* ALGroupCreationViewController.h in Headers */,
@@ -1492,7 +1506,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		6DAA09DB1BE4AD8800CBF133 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -1500,7 +1514,7 @@
 			name = "Run Script";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\nset +u\n\n# Avoid recursively calling this script.\n\nif [[ $SF_MASTER_SCRIPT_RUNNING ]]\nthen\nexit 0\nfi\nset -u\nexport SF_MASTER_SCRIPT_RUNNING=1\n\n# Constants\n\nSF_TARGET_NAME=${PROJECT_NAME}\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Take build target\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nSF_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n#if [[ \"$SF_SDK_PLATFORM\" = \"iphoneos\" ]]\n#then\n#echo \"Please choose iPhone simulator as the build target.\"\n#exit 1\n#fi\n\nIPHONE_DEVICE_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos\n\n#simulator\n\nxcodebuild -target \"${PROJECT_NAME}\" -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build\n\n# Build the other (non-simulator) platform\n\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" CONFIGURATION_BUILD_DIR=\"${IPHONE_DEVICE_BUILD_DIR}/arm64\" SYMROOT=\"${SYMROOT}\" ARCHS='arm64' VALID_ARCHS='arm64' $ACTION\n\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\"  CONFIGURATION_BUILD_DIR=\"${IPHONE_DEVICE_BUILD_DIR}/armv7\" SYMROOT=\"${SYMROOT}\" ARCHS='armv7 armv7s' VALID_ARCHS='armv7 armv7s' $ACTION\n\n# Copy the framework structure to the universal folder (clean it first)\n\nrm -rf \"${UNIVERSAL_OUTPUTFOLDER}\"\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\"\n\n# Smash them together to combine all architectures\n\nlipo -create  \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/arm64/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/armv7/${PROJECT_NAME}.framework/${PROJECT_NAME}\" -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}\"\n";
 		};
@@ -1518,6 +1532,7 @@
 				6D153D2B1C9B1EB800CD8F55 /* ALMessageInfoResponse.m in Sources */,
 				6D6DF17D1BC5364C00EBA00F /* ALSyncMessageFeed.m in Sources */,
 				6D153D2F1C9B1F3D00CD8F55 /* ALMessageInfo.m in Sources */,
+				6DFB40AD1CEA2B54006C1AD1 /* ALUserInformationViewController.m in Sources */,
 				6D9C693D1C28383B00C78219 /* ALChatLauncher.m in Sources */,
 				6D6DF1651BC5364C00EBA00F /* ALNewContactCell.m in Sources */,
 				297DE0A71C4627ED00C9D87E /* TSBlurView.m in Sources */,
@@ -1613,6 +1628,7 @@
 				982F13091C05D6050024678E /* MQTTEncoder.m in Sources */,
 				6DCC301A1C31645700F17D0E /* ALChannelInfo.m in Sources */,
 				6D6DF1791BC5364C00EBA00F /* ALMessageList.m in Sources */,
+				6DFB40B51CEA45D5006C1AD1 /* ALUserInfoTableCell.m in Sources */,
 				29AD70A61C3E8955003C7DB8 /* ALPushAssist.m in Sources */,
 				6D6DF1D01BC5364C00EBA00F /* UIImageView+WebCache.m in Sources */,
 				6D1385791CA9B83C009E6F50 /* AlMultipleAttachmentCell.m in Sources */,

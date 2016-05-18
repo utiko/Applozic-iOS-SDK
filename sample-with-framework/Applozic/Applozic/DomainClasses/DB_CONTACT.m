@@ -13,7 +13,7 @@
 
 @dynamic userId;
 @dynamic fullName;
-@dynamic contactNo;
+@dynamic contactNumber;
 @dynamic displayName;
 @dynamic contactImageUrl;
 @dynamic email;

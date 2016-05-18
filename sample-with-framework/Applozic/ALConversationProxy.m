@@ -8,6 +8,7 @@
 
 #import "ALConversationProxy.h"
 #import "DB_ConversationProxy.h"
+#import "ALUserDefaultsHandler.h"
 
 @implementation ALConversationProxy
 
@@ -48,14 +49,47 @@
     return (self.topicDetailJson)?[[ALTopicDetail alloc] initWithJSONString:self.topicDetailJson]: nil;
 }
 
--(NSMutableDictionary *)getDictionaryForCreate:(ALConversationProxy *)alConversationProxy{
++(NSMutableDictionary *)getDictionaryForCreate:(ALConversationProxy *)alConversationProxy{
     
     NSMutableDictionary * requestDict = [[NSMutableDictionary alloc] init];
     [requestDict setValue:alConversationProxy.topicId forKey:@"topicId"];
     [requestDict setValue:alConversationProxy.userId forKey:@"userId"];
     [requestDict setValue:alConversationProxy.topicDetailJson forKey:@"topicDetail"];
+    
+    alConversationProxy.fallBackTemplatesListArray = [[NSMutableArray alloc]
+                                                      initWithObjects:alConversationProxy.fallBackTemplateForRECEIVER,alConversationProxy.fallBackTemplateForSENDER, nil];
+    
+    [requestDict setValue:alConversationProxy.fallBackTemplatesListArray forKey:@"fallBackTemplatesList"];
     return requestDict;
  
 }
+
+
+
+-(void)setSenderSMSFormat:(NSString*)senderFormatString{
+    
+    self.fallBackTemplateForSENDER = [[NSMutableDictionary alloc] init];
+    self.fallBackTemplateForSENDER = [self SMSFormatWithUserID:[ALUserDefaultsHandler getUserId]
+                                                     andString:senderFormatString];
+}
+
+-(void)setReceiverSMSFormat:(NSString*)recieverFormatString{
+    self.fallBackTemplateForRECEIVER = [[NSMutableDictionary alloc] init];
+    self.fallBackTemplateForRECEIVER = [self SMSFormatWithUserID:self.userId
+                                                       andString:recieverFormatString];
+}
+
+-(NSMutableDictionary *)SMSFormatWithUserID:(NSString*)userID andString:(NSString*)string{
+    
+    NSMutableDictionary * fallBackTemplatesListDictionary = [[NSMutableDictionary alloc] init];
+    [fallBackTemplatesListDictionary setValue:string forKey:@"fallBackTemplate"];
+    [fallBackTemplatesListDictionary setValue:userID forKey:@"userId"];
+    
+    return fallBackTemplatesListDictionary;
+}
+
+
+
+
 
 @end

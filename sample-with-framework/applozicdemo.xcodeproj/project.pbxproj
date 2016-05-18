@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29B643C91CE9F24800FE8A73 /* ALSettingsForDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B643C81CE9F24800FE8A73 /* ALSettingsForDebug.m */; };
 		6D44D95B1BF60C990039B1A7 /* LaunchChatFromSimpleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44D95A1BF60C990039B1A7 /* LaunchChatFromSimpleViewController.m */; };
 		6D4F28CB1BC58F6C007E7B35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D4F28B01BC554D8007E7B35 /* Main.storyboard */; };
 		6D4F28CF1BC6429F007E7B35 /* ApplozicLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4F28CE1BC6429F007E7B35 /* ApplozicLoginViewController.m */; };
@@ -56,6 +57,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		29B643C71CE9F24800FE8A73 /* ALSettingsForDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSettingsForDebug.h; sourceTree = "<group>"; };
+		29B643C81CE9F24800FE8A73 /* ALSettingsForDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALSettingsForDebug.m; sourceTree = "<group>"; };
 		6D44D9591BF60C990039B1A7 /* LaunchChatFromSimpleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchChatFromSimpleViewController.h; sourceTree = "<group>"; };
 		6D44D95A1BF60C990039B1A7 /* LaunchChatFromSimpleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchChatFromSimpleViewController.m; sourceTree = "<group>"; };
 		6D4C2B381C8220790031C677 /* applozicdemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = applozicdemo.entitlements; sourceTree = "<group>"; };
@@ -99,6 +102,8 @@
 				6D44D95A1BF60C990039B1A7 /* LaunchChatFromSimpleViewController.m */,
 				6D7F4C6E1C314EBD00AE04CF /* DemoChatManager.h */,
 				6D7F4C6F1C314EBD00AE04CF /* DemoChatManager.m */,
+				29B643C71CE9F24800FE8A73 /* ALSettingsForDebug.h */,
+				29B643C81CE9F24800FE8A73 /* ALSettingsForDebug.m */,
 			);
 			name = chat;
 			sourceTree = "<group>";
@@ -278,6 +283,7 @@
 				6D6DF2021BC551FA00EBA00F /* applozicdemo.xcdatamodeld in Sources */,
 				6D44D95B1BF60C990039B1A7 /* LaunchChatFromSimpleViewController.m in Sources */,
 				6D6DF1FC1BC551FA00EBA00F /* ViewController.m in Sources */,
+				29B643C91CE9F24800FE8A73 /* ALSettingsForDebug.m in Sources */,
 				6D6DF1F91BC551FA00EBA00F /* AppDelegate.m in Sources */,
 				6D7F4C701C314EBD00AE04CF /* DemoChatManager.m in Sources */,
 				6D4F28CF1BC6429F007E7B35 /* ApplozicLoginViewController.m in Sources */,

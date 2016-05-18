@@ -19,16 +19,22 @@
 #import "ALAudioCell.h"
 #import "ALAudioAttachmentViewController.h"
 
+@protocol ALChatViewControllerDelegate <NSObject>
+
+-(void)handleCustomActionFromChatVC:(UIViewController *)chatViewController andWithMessage:(ALMessage *)alMessage;
+
+@end
+
 @interface ALChatViewController : ALBaseViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ALMapViewControllerDelegate,ALChatCellDelegate>
 
-@property (strong, nonatomic) ALContact *alContact;
-@property (nonatomic, strong) ALChannel *alChannel;
-@property (strong, nonatomic) ALMessageArrayWrapper *alMessageWrapper;
-@property (strong, nonatomic) NSMutableArray *mMessageListArrayKeyStrings;
+@property (strong, nonatomic) ALContact * alContact;
+@property (nonatomic, strong) ALChannel * alChannel;
+@property (strong, nonatomic) ALMessageArrayWrapper * alMessageWrapper;
+@property (strong, nonatomic) NSMutableArray * mMessageListArrayKeyStrings;
 @property (strong, nonatomic) NSString * contactIds;
-@property (nonatomic, strong) NSNumber *channelKey;
-@property (nonatomic, strong) NSString *channelName;
-@property (nonatomic, strong) NSNumber *conversationId;
+@property (nonatomic, strong) NSNumber * channelKey;
+@property (nonatomic, strong) NSString * channelName;
+@property (nonatomic, strong) NSNumber * conversationId;
 @property (nonatomic) BOOL refreshMainView;
 @property (nonatomic) BOOL refresh;
 @property (strong, nonatomic) NSString * displayName;
@@ -36,6 +42,8 @@
 @property (strong, nonatomic) NSString * text;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewBottomToAttachment;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewTop2Constraint;
+
+@property (strong, nonatomic) id <ALChatViewControllerDelegate> chatViewDelegate;
 
 -(void)fetchAndRefresh;
 -(void)fetchAndRefresh:(BOOL)flag;

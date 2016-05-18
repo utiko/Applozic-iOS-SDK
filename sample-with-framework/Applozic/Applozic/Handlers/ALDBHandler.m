@@ -290,7 +290,7 @@
         userContact.userId = contact.userId;
         userContact.email = contact.email;
         userContact.fullName = contact.fullName;
-        userContact.contactNo = contact.contactNumber;
+        userContact.contactNumber = contact.contactNumber;
         userContact.contactImageUrl = contact.contactImageUrl;
         userContact.displayName = contact.displayName;
         userContact.localImageResourceName = contact.localImageResourceName;
@@ -338,7 +338,7 @@
     }
      contact.userId = dbContact.userId;
      contact.fullName = dbContact.fullName;
-     contact.contactNumber = dbContact.contactNo;
+     contact.contactNumber = dbContact.contactNumber;
      contact.displayName = dbContact.displayName;
      contact.contactImageUrl = dbContact.contactImageUrl;
      contact.email = dbContact.email;
@@ -364,7 +364,7 @@
        /* ALContact *contact = [[ALContact alloc]init];
         contact.userId = dbContact.userId;
         contact.fullName = dbContact.fullName;
-        contact.contactNumber = dbContact.contactNo;
+        contact.contactNumber = dbContact.contactNumber];
         contact.displayName = dbContact.displayName;
         contact.contactImageUrl = dbContact.contactImageUrl;
         contact.email = dbContact.email;
@@ -392,7 +392,7 @@
     
     contact.fullName = userContact.fullName;
     
-    contact.contactNo = userContact.contactNumber;
+    contact.contactNumber = userContact.contactNumber;
     
     contact.displayName = userContact.displayName;
     

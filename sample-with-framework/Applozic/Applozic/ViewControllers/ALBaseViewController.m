@@ -77,19 +77,27 @@
     [self.view addSubview:self.sendButton];
 }
 
--(void)setUpTheming {
+-(void)setUpTheming
+{
     UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
-    if (!color) {
+    
+    if (!color)
+    {
         color = [UIColor blackColor];
         //        color = [UIColor whiteColor];
     }
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                     color,NSForegroundColorAttributeName,nil];
+    
     self.navigationController.navigationBar.titleTextAttributes = textAttributes;
 //    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"< My Chats" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
     
-     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton]];
-    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshTable:)];
+    UIBarButtonItem * barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton]];
+    UIBarButtonItem * refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshTable:)];
+    
+    self.callButton = [[UIBarButtonItem alloc] initWithImage:[ALUtilityClass getImageFromFramworkBundle:@"PhoneCallFilledXXS.png"]
+                                                                    style:UIBarButtonItemStylePlain target:self action:@selector(phoneCallMethod)];
+
     
     if(self.individualLaunch)
     {
@@ -103,12 +111,15 @@
         self.navColor = [self.navigationController.navigationBar barTintColor];
     }
     
-    if(![ALApplozicSettings isRefreshButtonHidden]){
-        // UIBarButtonItem * theAttachmentButton = [[UIBarButtonItem alloc] initWithImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_action_attachment2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(attachmentAction)];
-        // self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:theAttachmentButton,refreshButton ,nil];
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:refreshButton ,nil];
+    self.navRightBarButtonItems = [NSMutableArray new];
+
+    if(![ALApplozicSettings isRefreshButtonHidden])
+    {
+        [self.navRightBarButtonItems addObject:refreshButton];
     }
 
+    self.navigationItem.rightBarButtonItems = [self.navRightBarButtonItems mutableCopy];
+    
     self.label = [[UILabel alloc] init];
     self.label.backgroundColor = [UIColor clearColor];
     [self.label setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:LAST_SEEN_LABEL_SIZE]];

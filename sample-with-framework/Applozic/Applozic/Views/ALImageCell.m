@@ -450,6 +450,15 @@ UIViewController * modalCon;
 
 -(void)imageFullScreen:(UITapGestureRecognizer*)sender
 {
+    NSLog(@"TAPPED_IMAGE_CNT_TYP :: %hd",self.mMessage.contentType);
+
+//   COMMENTED TILL API Updates (FOR CUSTOM MESSAGE CONTENT TYPE = 13)
+//    if([self.mMessage checkCustomContentType])
+//    {
+//        [self.delegate processTapGesture:self.mMessage];
+//        return;
+//    }
+
     modalCon = [[UIViewController alloc] init];
     modalCon.view.backgroundColor=[UIColor blackColor];
     modalCon.view.userInteractionEnabled=YES;
@@ -462,7 +471,6 @@ UIViewController * modalCon;
     UITapGestureRecognizer *modalTap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissModalView:)];
     [modalCon.view addGestureRecognizer:modalTap];
     [self.delegate showFullScreen:modalCon];
-
     return;
 }
 

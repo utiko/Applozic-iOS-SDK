@@ -9,6 +9,7 @@
 #import "ViewController.h"
 
 @interface ViewController ()
+- (IBAction)buttonAction:(id)sender;
 
 @end
 
@@ -22,6 +23,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)buttonAction:(id)sender {
+
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 @end

@@ -704,14 +704,14 @@
 }
 
 //------------------------------------------------------------------------------------------------------------------
-#pragma mark - Table View Delegate Methods                 //method to enter achat/ select aparticular cell in table
+#pragma mark - Table View Delegate Methods                 //method to enter a chat/ select aparticular cell in table
 //------------------------------------------------------------------------------------------------------------------
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    
     if(indexPath.section != 0)
     {
-        ALMessage * message =  self.mContactsMessageListArray[indexPath.row];
+        ALMessage * message = self.mContactsMessageListArray[indexPath.row];
         [self createDetailChatViewControllerWithMessage:message];
     }
 }
@@ -720,9 +720,10 @@
 {
     if (!(self.detailChatViewController))
     {
-        _detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+        self.detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     }
-    _detailChatViewController.contactIds = contactIds;
+    self.detailChatViewController.contactIds = contactIds;
+    self.detailChatViewController.chatViewDelegate = self;
     self.detailChatViewController.channelKey = self.channelKey;
     [self.navigationController pushViewController:_detailChatViewController animated:YES];
 }
@@ -735,7 +736,7 @@
     }
     
     if(message.conversationId){
-        self.detailChatViewController.conversationId= message.conversationId;
+        self.detailChatViewController.conversationId = message.conversationId;
     }
     
     if (message.groupId){
@@ -746,6 +747,7 @@
         self.detailChatViewController.contactIds = message.contactIds;
     }
     
+    self.detailChatViewController.chatViewDelegate = self;
     [self.navigationController pushViewController:_detailChatViewController animated:YES];
 }
 
@@ -1049,7 +1051,7 @@
     {
         NSLog(@"#################It should never come here");
         [self createDetailChatViewController: contactId];
-        [self.detailChatViewController fetchAndRefresh];
+//        [self.detailChatViewController fetchAndRefresh];
         [self.detailChatViewController setRefresh: YES];
     }
     
@@ -1139,9 +1141,8 @@
         [self noDataNotificationView];
         return;
     }
-    ALNewContactsViewController* contactsVC = [[ALNewContactsViewController alloc] init];
-    
-    contactsVC.delegate=self;
+    ALNewContactsViewController * contactsVC = [[ALNewContactsViewController alloc] init];
+    contactsVC.delegate = self;
 
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
@@ -1163,7 +1164,9 @@
     }
     self.detailChatViewController.contactIds = self.userIdToLaunch;
     self.detailChatViewController.channelKey = self.channelKey;
+    self.detailChatViewController.chatViewDelegate = self;
     [self.detailChatViewController serverCallForLastSeen];
+    
     [self.navigationController pushViewController:_detailChatViewController animated:NO];
 }
 
@@ -1173,6 +1176,12 @@
     channelMessage.groupId = channelKey;
     NSMutableArray * grpMesgArray = [[NSMutableArray alloc] initWithObjects:channelMessage, nil];
     [self updateMessageList:grpMesgArray];
+}
+
+// CHAT VIEW DELEGATE FOR PUSH Custom VC
+-(void)handleCustomActionFromChatVC:(UIViewController *)chatViewController andWithMessage:(ALMessage *)alMessage
+{
+    [self.messagesViewDelegate handleCustomActionFromMsgVC:chatViewController andWithMessage:alMessage];
 }
 
 @end

@@ -87,7 +87,7 @@
                 [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification"
                                                                      object:notificationMsg
                                                                    userInfo:dict];
-                NSLog(@"DICT:");
+
                 [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat"
                                                                      object:notificationMsg
                                                                    userInfo:dict];

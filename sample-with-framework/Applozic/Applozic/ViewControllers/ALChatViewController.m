@@ -57,12 +57,12 @@
 #import "ALContactMessageCell.h"
 #import "ALCustomCell.h"
 #import "ALUIConstant.h"
+#import "ALUserInformationViewController.h"
 
 @import AddressBookUI;
 
 #define MQTT_MAX_RETRY 3
 #define NEW_MESSAGE_NOTIFICATION @"newMessageNotification"
-
 
 
 @interface ALChatViewController ()<ALMediaBaseCellDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate,ALMQTTConversationDelegate,MPMediaPickerControllerDelegate, ALAudioAttachmentDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIAlertViewDelegate, ALMUltipleAttachmentDelegate,UIDocumentInteractionControllerDelegate, ABPeoplePickerNavigationControllerDelegate>
@@ -288,16 +288,35 @@ ALMessageDBService  * dbService;
         self.sendMessageTextView.text = self.text;
     }
     
-    if(self.conversationId)
+    if(self.conversationId && [ALApplozicSettings getContextualChatOption])
     {
         [self setupPickerView];
         [self.pickerView selectRow:0 inComponent:0 animated:NO];
         [self.pickerView reloadAllComponents];
     }
-    
+
+    [self setCallButtonInNavigationBar];
     [self checkIfChannelLeft];
     [self checkUserBlockStatus];
 
+}
+
+-(void)setCallButtonInNavigationBar
+{
+    ALContactDBService * contactDB = [ALContactDBService new];
+    self.alContact = [contactDB loadContactByKey:@"userId" value:self.contactIds];
+    
+    [self.navRightBarButtonItems removeObject:self.callButton];
+    
+    if(self.contactIds && !self.channelKey)
+    {
+        if(self.alContact.contactNumber && [ALApplozicSettings getCallOption])
+        {
+            [self.navRightBarButtonItems addObject:self.callButton];
+        }
+    }
+    
+    self.navigationItem.rightBarButtonItems = [self.navRightBarButtonItems mutableCopy];
 }
 
 -(void)updateChannelName
@@ -519,10 +538,11 @@ ALMessageDBService  * dbService;
     [self.mTableView registerClass:[ALLocationCell class] forCellReuseIdentifier:@"LocationCell"];
     [self.mTableView registerClass:[ALCustomCell class] forCellReuseIdentifier:@"CustomCell"];
     
-    self.pickerView.delegate = self;
-    self.pickerView.dataSource = self;
-    self.pickerView.frame = CGRectMake(0,40,[UIScreen mainScreen].bounds.size.width, 216);
-    
+    if([ALApplozicSettings getContextualChatOption]){
+        self.pickerView.delegate = self;
+        self.pickerView.dataSource = self;
+//        self.pickerView.frame = CGRectMake(0, 40,[UIScreen mainScreen].bounds.size.width, 216);
+    }
     defaultTableRect = self.mTableView.frame;
     
 }
@@ -548,7 +568,6 @@ ALMessageDBService  * dbService;
         return;
     }
     for(ALConversationProxy * conversation in conversationList){
-        NSLog(@"topicDetailJson : %@",conversation.topicDetailJson);
         
         ALTopicDetail * topicDetail  = [[ALTopicDetail alloc] init];   //WithDictonary:conversation.topicDetailJson];
         topicDetail = conversation.getTopicDetail;
@@ -581,19 +600,19 @@ ALMessageDBService  * dbService;
     titleLabelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     titleLabelButton.frame = CGRectMake(0, 0, 70, 44);
     [titleLabelButton addTarget:self action:@selector(didTapTitleView:) forControlEvents:UIControlEventTouchUpInside];
-    if(!(self.individualLaunch)
-            ||
-       [ALUserDefaultsHandler isServerCallDoneForUserInfoForContact:[self.alContact userId]]){
-        
+    
+    if(!(self.individualLaunch) || [ALUserDefaultsHandler isServerCallDoneForUserInfoForContact:[self.alContact userId]])
+    {
         [titleLabelButton setTitle:[self.alContact getDisplayName] forState:UIControlStateNormal];
     }
-    titleLabelButton.userInteractionEnabled = NO;
+    titleLabelButton.userInteractionEnabled = NO;    
     
     if([self isGroup])
     {
         [self setButtonTitle];
-        titleLabelButton.userInteractionEnabled=YES;
+         titleLabelButton.userInteractionEnabled = YES; 
     }
+//    titleLabelButton.userInteractionEnabled = YES;  // COMMENTED TILL NEXT RELEASE
     self.navigationItem.titleView = titleLabelButton;
     
     CGFloat COORDINATE_POINT_Y = titleLabelButton.frame.size.height - 17;
@@ -603,6 +622,7 @@ ALMessageDBService  * dbService;
     userDetail.connected = self.alContact.connected;
     userDetail.userId = self.alContact.userId;
     userDetail.lastSeenAtTime = self.alContact.lastSeenAt;
+    userDetail.contactNumber = self.alContact.contactNumber;
     
     [self updateLastSeenAtStatus:userDetail];
 }
@@ -615,7 +635,13 @@ ALMessageDBService  * dbService;
 
 -(void)didTapTitleView:(id)sender
 {
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+//    if(self.contactIds && !self.channelKey)  // COMMENTED TILL NEXT RELEASE
+//    {
+//        [self getUserInformation];
+//        return;
+//    }
+//    
+    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                                          bundle:[NSBundle bundleForClass:ALGroupDetailViewController.class]];
     
     ALGroupDetailViewController *groupDetailViewController = (ALGroupDetailViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ALGroupDetailViewController"];
@@ -629,7 +655,7 @@ ALMessageDBService  * dbService;
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     NSPredicate* predicate1;
-    if(self.conversationId){
+    if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
         predicate1 = [NSPredicate predicateWithFormat:@"conversationId = %d", [self.conversationId intValue]];
         
     }else if(self.isGroup){
@@ -989,7 +1015,15 @@ ALMessageDBService  * dbService;
     return 0;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return self.conversationId ? self.getHeaderView.frame.size.height : 0;
+    
+    if (self.conversationId && [ALApplozicSettings getContextualChatOption]){
+        return self.getHeaderView.frame.size.height;
+    }
+    else{
+        return 0;
+    }
+    
+    
 }
 
 #pragma mark -  Header View
@@ -1008,7 +1042,6 @@ ALMessageDBService  * dbService;
     
     ALTopicDetail * topicDetail = [[ALTopicDetail alloc] init];//WithJSONString:alConversationProxy.topicDetailJson];
     topicDetail = alConversationProxy.getTopicDetail;
-    NSLog(@"Topic Deatils getHeaderView:%@",topicDetail.title);
     
     // Image View ....
     UIImageView *imageView = [[UIImageView alloc] init];
@@ -1144,7 +1177,7 @@ ALMessageDBService  * dbService;
         
         [UIView animateWithDuration:0.4 animations:^{
            
-            self.tableViewTop2Constraint.constant = 44 + self.pickerView.frame.size.height;
+            self.tableViewTop2Constraint.constant = self.pickerView.frame.size.height;
             self.mTableView.frame = CGRectMake(0,self.pickerView.frame.size.height,
                                                defaultTableRect.size.height,
                                                [UIScreen mainScreen].bounds.size.width);
@@ -1186,7 +1219,7 @@ ALMessageDBService  * dbService;
                                            defaultTableRect.size.height,
                                            [UIScreen mainScreen].bounds.size.width);
         
-        self.tableViewTop2Constraint.constant = 44;
+        self.tableViewTop2Constraint.constant = 0;
         self.mTableView.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.2];
         [self.view layoutIfNeeded];
         [self.pickerView setHidden:YES];
@@ -1285,7 +1318,7 @@ ALMessageDBService  * dbService;
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     [theRequest setFetchLimit:self.rp];
     NSPredicate* predicate1;
-    if(self.conversationId){
+    if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
         predicate1 = [NSPredicate predicateWithFormat:@"conversationId = %d", [self.conversationId intValue]];
 
     }else if(self.isGroup){
@@ -1364,6 +1397,11 @@ ALMessageDBService  * dbService;
 }
 
 #pragma mark IBActions
+
+-(void)phoneCallMethod
+{
+    [self makeCallContact];
+}
 
 -(void) attachmentAction
 {
@@ -1688,17 +1726,18 @@ ALMessageDBService  * dbService;
 {
     for(ALMultipleAttachmentView * attachment in attachmentPathArray)
     {
-            NSString *filePath = @"";
-            if(attachment.classImage)
-            {
-                filePath = [ALImagePickerHandler saveImageToDocDirectory:attachment.classImage];
-            }
-            else
-            {
-                NSURL * videoURL = [NSURL fileURLWithPath:attachment.classVideoPath];
-                filePath = [ALImagePickerHandler saveVideoToDocDirectory:videoURL];
-            }
-            [self processAttachment:filePath andMessageText:messageText andContentType:ALMESSAGE_CONTENT_ATTACHMENT];
+        NSString *filePath = @"";
+        if(attachment.classImage)
+        {
+            filePath = [ALImagePickerHandler saveImageToDocDirectory:attachment.classImage];
+        }
+        else
+        {
+            NSURL * videoURL = [NSURL fileURLWithPath:attachment.classVideoPath];
+            filePath = [ALImagePickerHandler saveVideoToDocDirectory:videoURL];
+        }
+        
+        [self processAttachment:filePath andMessageText:messageText andContentType:ALMESSAGE_CONTENT_ATTACHMENT];
     }
 }
 
@@ -1974,6 +2013,10 @@ ALMessageDBService  * dbService;
 -(void)fetchAndRefresh:(BOOL)flag{
     NSString *deviceKeyString =[ALUserDefaultsHandler getDeviceKeyString ] ;
     
+    ALPushAssist * alpushAssist = [ALPushAssist new];
+    if(!alpushAssist.isChatViewOnTop){
+        return;
+    }
     [ALMessageService getLatestMessageForUser: deviceKeyString withCompletion:^(NSMutableArray  *messageList, NSError *error) {
         if (error) {
             NSLog(@"%@",error);
@@ -2110,24 +2153,23 @@ ALMessageDBService  * dbService;
         
     }
     else{
-        if(![alMessage.type isEqualToString:@"5"]){
-        NSLog(@"show notification as someone else thread is already opened");
-        [self showNativeNotification:alMessage andAlert:alertValue];
+        if(![alMessage.type isEqualToString:@"5"])
+        {
+            NSLog(@"SHOW_NOTIFICATION (OTHER_THREAD_IS_OPENED)");
+           [self showNativeNotification:alMessage andAlert:alertValue];
         }
     }
+    
 }
 
--(void)showNativeNotification:(ALMessage *)alMessage andAlert:(NSString*)alertValue{
-    
+-(void)showNativeNotification:(ALMessage *)alMessage andAlert:(NSString*)alertValue
+{
     ALNotificationView * alnotification;
     alnotification =[[ALNotificationView alloc]
                      initWithAlMessage:alMessage
-                     withAlertMessage:alertValue]; 
+                     withAlertMessage:alertValue];
+    
     [alnotification nativeNotification:self];
-//    if (alMessage.conversationId == self.conversationId || alMessage.conversationId == nil){
-//        [self fetchAndRefresh:YES];
-//    }
-
     
 }
 
@@ -2176,14 +2218,14 @@ ALMessageDBService  * dbService;
     self.startIndex =0;
     [self fetchMessageFromDB];
     [self loadChatView];
-    
+    [self setCallButtonInNavigationBar];
 }
 
 -(void) reloadViewfor3rdParty{
     [[self.alMessageWrapper getUpdatedMessageArray] removeAllObjects];
     self.startIndex =0;
     [self fetchMessageFromDB];
-    
+
 }
 
 -(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer{
@@ -2229,11 +2271,13 @@ ALMessageDBService  * dbService;
     messageListRequest.userId=self.contactIds;
     messageListRequest.channelKey=self.channelKey;
     messageListRequest.endTimeStamp=time;
-    messageListRequest.conversationId=self.conversationId;
+    if([ALApplozicSettings getContextualChatOption]){
+        messageListRequest.conversationId=self.conversationId;
+    }
     
     [ALMessageService getMessageListForUser:messageListRequest  withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
         [loadingIndicator stopAnimating];
-        if(self.conversationId){
+        if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
             [self setupPickerView];
             [self.pickerView reloadAllComponents];
         }
@@ -2242,7 +2286,7 @@ ALMessageDBService  * dbService;
             self.loadEarlierAction.hidden=YES;
             if( messages.count< 50 ){
                 
-                if(self.conversationId){
+                if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
                     [ALUserDefaultsHandler setShowLoadEarlierOption:NO forContactId:[self.conversationId stringValue]];
                 }
                 else{
@@ -2252,7 +2296,7 @@ ALMessageDBService  * dbService;
             }
             if (messages.count==0){
                 
-                if(self.conversationId){
+                if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
                     [ALUserDefaultsHandler setShowLoadEarlierOption:NO forContactId:[self.conversationId stringValue]];
                 }
                 else{
@@ -2335,6 +2379,7 @@ ALMessageDBService  * dbService;
             [[[ALContactDBService alloc] init] updateUserDetail:alUserDetail];
             [self setTitle];
             [self updateLastSeenAtStatus:alUserDetail];
+            [self setCallButtonInNavigationBar];
         }
         else
         {
@@ -2388,18 +2433,10 @@ ALMessageDBService  * dbService;
 
 -(NSString*)formatDateTime:(ALUserDetail*)alUserDetail  andValue:(double)value
 {
-    
     NSDate *current = [[NSDate alloc] init];
     NSDate *date  = [[NSDate alloc] initWithTimeIntervalSince1970:value/1000];
-    NSTimeInterval timeInterval = [current timeIntervalSinceDate:date];
-    long seconds = lroundf(timeInterval);
-    int hour = seconds / 3600;
-    int mins = (seconds % 3600) / 60;
-    int secs = seconds % 60;
-//    NSLog(@"Hours :%i Mins:%i Secs:%i",hour,mins,secs);
-
     
-    NSTimeInterval difference =[current timeIntervalSinceDate:date];
+    NSTimeInterval difference = [current timeIntervalSinceDate:date];
     
     NSDate *today = [NSDate date];
     NSDate *yesterday = [today dateByAddingTimeInterval: -86400.0];
@@ -2529,7 +2566,7 @@ ALMessageDBService  * dbService;
     BOOL doneConversation =  NO;
     BOOL doneOtherwise = NO;
     
-    if(self.conversationId){
+    if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
         doneConversation = ([ALUserDefaultsHandler isShowLoadEarlierOption:[self.conversationId stringValue]]
                                  && [ALUserDefaultsHandler isServerCallDoneForMSGList:[self.conversationId stringValue]]);
         
@@ -2639,16 +2676,16 @@ ALMessageDBService  * dbService;
     }
      [self setTitle];
     
-    if([[self.alMessageWrapper getUpdatedMessageArray] count ] == 0)
-    {
-        [self reloadView];
-    }
-    else
-    {
+//    if([[self.alMessageWrapper getUpdatedMessageArray] count ] == 0 )
+//    {
+//        [self reloadView];
+//    }
+//    else
+//    {
         [self.alMessageWrapper addLatestObjectToArray:[ NSMutableArray arrayWithArray:sortedArray]];
         [self.mTableView reloadData];
         [super scrollTableViewToBottomWithAnimation:YES];
-    }
+    //}
     
 }
 
@@ -2742,5 +2779,39 @@ ALMessageDBService  * dbService;
     }
 }
 
+// CHAT CELL DELEGATE CALLED BY TAP GESTURE
+
+-(void)processALMessage:(ALMessage *)message
+{
+    [self.chatViewDelegate handleCustomActionFromChatVC:self andWithMessage:message];
+}
+
+// MEDIA BASE CELL DELEGATE CALLED BY TAP GESTURE
+-(void) processTapGesture:(ALMessage *)alMessage
+{
+    [self.chatViewDelegate handleCustomActionFromChatVC:self andWithMessage:alMessage];
+}
+
+-(void)makeCallContact
+{   
+     NSURL * phoneNumber = [NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", self.alContact.contactNumber]];
+    [[UIApplication sharedApplication] openURL:phoneNumber];
+}
+
+-(void)getUserInformation
+{
+    [self.mActivityIndicator startAnimating];
+
+    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:[self class]]];
+    ALUserInformationViewController * userInfoVC =
+            (ALUserInformationViewController *)[storyboard instantiateViewControllerWithIdentifier:@"UserInformationView"];
+
+    userInfoVC.alContact = self.alContact;
+
+    [self.mActivityIndicator stopAnimating];
+
+    [self.navigationController pushViewController:userInfoVC animated:YES];
+    
+}
 
 @end

@@ -134,19 +134,42 @@
     }
     tempArray = [NSMutableArray arrayWithArray:self.messageArray];
     [tempArray addObjectsFromArray:paramMessageArray];
+    
+/*  Needed for debug 
+ if(tempArray.count == 1){
+        ALMessage *dateLabel = [self getDatePrototype:self.dateCellText andAlMessageObject:tempArray[0]];
+        [self.messageArray addObject:dateLabel];
+        [self.messageArray addObject:tempArray[0]];
+        [tempArray removeAllObjects];
+        return;
+    }
+ */
     int countX  =((int)self.messageArray.count==0)?1:((int)self.messageArray.count);
     for(int i = countX-1 ; i  < (tempArray.count-1) ; i++)
     {
-        ALMessage * msg1 = tempArray[i];
-        ALMessage * msg2 = tempArray[i+1];
-        if([self checkDateOlder:msg1.createdAtTime andNewer:msg2.createdAtTime])
-        {
-            ALMessage *dateLabel = [self getDatePrototype:self.dateCellText andAlMessageObject:tempArray[i]];
-            [self.messageArray addObject:dateLabel];
-        }
-        [self.messageArray addObject:tempArray[i+1] ];
         
+        if(i==0){
+            [self.messageArray addObject:tempArray[0]];
+        }else{
+            ALMessage * msg1 = tempArray[i];
+            ALMessage * msg2 = tempArray[i+1];
+            if([self checkDateOlder:msg1.createdAtTime andNewer:msg2.createdAtTime])
+            {
+                ALMessage *dateLabel = [self getDatePrototype:self.dateCellText andAlMessageObject:tempArray[i]];
+                [self.messageArray addObject:dateLabel];
+            }
+            [self.messageArray addObject:tempArray[i+1] ];
+        }
     }
+    
+    //final addintion of date at top ....
+    ALMessage * message = [self.messageArray firstObject];
+    if(message){
+        NSString * dateTxt = [self msgAtTop:message];
+        ALMessage *dateLabel = [self getDatePrototype:dateTxt andAlMessageObject:message];
+        [self.messageArray insertObject:dateLabel atIndex:0];
+    }
+
     [tempArray removeAllObjects];
 }
 

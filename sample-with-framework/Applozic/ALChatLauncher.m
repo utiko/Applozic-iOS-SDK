@@ -1,17 +1,10 @@
 //
-
-//  MBChatManager.m
-
+//  ALChatLauncher.m
 //  Applozic
-
 //
-
 //  Created by devashish on 21/12/2015.
-
 //  Copyright © 2015 applozic Inc. All rights reserved.
-
 //
-
 
 
 #import "ALChatLauncher.h"
@@ -24,7 +17,7 @@
 #import "ALUserDefaultsHandler.h"
 #import "ALMessagesViewController.h"
 
-@interface ALChatLauncher ()
+@interface ALChatLauncher ()<ALChatViewControllerDelegate, ALMessagesViewDelegate>
 
 @end
 
@@ -44,21 +37,22 @@
 -(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID
     andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
 {
-    self.chatLauncherFLAG=[NSNumber numberWithInt:1];
+    self.chatLauncherFLAG = [NSNumber numberWithInt:1];
     
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                
-                                                         bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
-    ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+    ALChatViewController * chatView = (ALChatViewController *) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     
     chatView.channelKey = groupID;
     chatView.contactIds = userId;
     chatView.text = text;
     chatView.individualLaunch = YES;
+    chatView.chatViewDelegate = self;
     
-    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
-    conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
+    NSLog(@"CALLED_VIA_NOTIFICATION");
+    
+    UINavigationController * conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
+    conversationViewNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
 }
 
@@ -78,6 +72,7 @@
     chatView.text = text;
     chatView.individualLaunch = YES;
     chatView.displayName = displayName;
+    chatView.chatViewDelegate = self;
     
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
     conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
@@ -96,6 +91,12 @@
     
     //              To Lunch with different Animation...
     //theTabBar.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
+    
+    UITabBarController * tabBAR = ((UITabBarController *)theTabBar);
+    UINavigationController * navBAR = (UINavigationController *)[[tabBAR viewControllers] objectAtIndex:0];
+    ALMessagesViewController * msgVC = (ALMessagesViewController *)[[navBAR viewControllers] objectAtIndex:0];
+    msgVC.messagesViewDelegate = self;
+    
     [viewController presentViewController:theTabBar animated:YES completion:nil];
     
 }
@@ -134,14 +135,14 @@
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
-    ALChatViewController *contextChatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+    ALChatViewController * contextChatView = (ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     
-    contextChatView.displayName     = @"Adarsh";
-    contextChatView.conversationId  = alConversationProxy.Id;
-    contextChatView.channelKey      = alConversationProxy.groupId;
-    contextChatView.contactIds      = alConversationProxy.userId;
-    contextChatView.text            = text;
-    contextChatView.individualLaunch= YES;
+    contextChatView.displayName      = @"Adarsh";
+    contextChatView.conversationId   = alConversationProxy.Id;
+    contextChatView.channelKey       = alConversationProxy.groupId;
+    contextChatView.contactIds       = alConversationProxy.userId;
+    contextChatView.text             = text;
+    contextChatView.individualLaunch = YES;
     
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:contextChatView];
     conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
@@ -152,17 +153,31 @@
 -(void)launchChatListWithUserOrGroup:(NSString *)userId withChannel:(NSNumber*)channelKey andViewControllerObject:(UIViewController *)viewController
 {
     
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     ALMessagesViewController *chatListView = (ALMessagesViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ALViewController"];
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatListView];
 
     chatListView.userIdToLaunch = userId;
     chatListView.channelKey = channelKey;
-
+    chatListView.messagesViewDelegate = self;
+    
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
     
 }
 
+//  WHEN FLOW IS FROM MESSAGEVIEW TO CHATVIEW
+-(void)handleCustomActionFromMsgVC:(UIViewController *)chatView andWithMessage:(ALMessage *)alMessage
+{
+    id launcherDelegate = NSClassFromString([ALApplozicSettings getCustomClassName]);
+    [launcherDelegate handleCustomAction:chatView andWithMessage:alMessage];
+}
+
+//  WHEN FLOW IS FROM DIRECT CHATVIEW
+-(void)handleCustomActionFromChatVC:(UIViewController *)chatViewController andWithMessage:(ALMessage *)alMessage
+{
+    id launcherDelegate = NSClassFromString([ALApplozicSettings getCustomClassName]);
+    [launcherDelegate handleCustomAction:chatViewController andWithMessage:alMessage];
+}
 
 @end
 

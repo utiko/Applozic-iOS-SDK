@@ -16,7 +16,7 @@
 //#define APPLICATION_ID @"66970d99efa63c4adaeb65b51316ed2c"
 
 
-@interface DemoChatManager : NSObject
+@interface DemoChatManager : NSObject <ALChatLauncherDelegate>
 
 @property(nonatomic,strong) ALChatLauncher * chatLauncher;
 
@@ -35,5 +35,10 @@
 -(void)createAndLaunchChatWithSellerWithConversationProxy:(ALConversationProxy*)alConversationProxy fromViewController:(UIViewController*)fromViewController;
 
 -(void)launchListWithUserORGroup: (NSString *)userId ORWithGroupID: (NSNumber *)groupId andFromViewController:(UIViewController*)fromViewController;
+
+-(void)callForChatLauncherWithApplicationKey:(NSString *)userId withGroupId:(NSNumber*)groupID
+                     andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
+
+
 
 @end
