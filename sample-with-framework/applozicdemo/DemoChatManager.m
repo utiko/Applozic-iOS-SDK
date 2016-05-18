@@ -316,27 +316,35 @@
     
     [ALApplozicSettings setContextualChat:YES];
     
+    
 /*   Note: Please uncomment below setter to use app_module_name */
     
 //   [ALUserDefaultsHandler setAppModuleName:@"<APP_MODULE_NAME>"];
-//    [ALUserDefaultsHandler setAppModuleName:@"SELLER"];
 
 //    [self getApplicationBaseURL];
+    
+    
     
 //////////////   IF NEEDED ALL REGISTERED CONTACTS    //////////////
     
     [ALApplozicSettings setFilterContactsStatus:YES];
 /*   PLEASE SET IT TO 'NO' IF NOT REQUIRED */
     
+    
+    
 //////////////   IF NEEDED ONLINE USERS WITH LIMIT   //////////////
     
     [ALApplozicSettings setOnlineContactLimit:0];
 /*   PLEASE SET LIMIT TO ZERO IF NOT REQUIRED */
 
+    
+    
 //////////////   IF CALL OPTION NEEDED   //////////////
     
     [ALApplozicSettings setCallOption:YES];
 /*    PLEASE SET IT TO 'NO' IF NOT REQUIRED      */
+    
+    
     
     
 //////////////   SET 3rd Party Class Name OR DemoChatManager   //////////////
