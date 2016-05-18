@@ -220,6 +220,14 @@ Once your app receive notification, pass it to applozic handler for applozic not
 ```
 ### Changelog
 
+__Version 2.8__
+
+ * Calling option with option to enable/disable this feature
+ * SMS fallback functionality if reciever/sender do not reads thier messages within specific time period
+  
+ (For above two features to work, User contacts should be registered with their phone numbers)
+ * Enable/disable Context-based-chat's view
+
 __Version 2.7__
 
  * Group-Exit, Add-Member UI updates
