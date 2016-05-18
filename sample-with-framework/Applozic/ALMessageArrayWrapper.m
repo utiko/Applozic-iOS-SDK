@@ -135,15 +135,19 @@
     tempArray = [NSMutableArray arrayWithArray:self.messageArray];
     [tempArray addObjectsFromArray:paramMessageArray];
     
-/*  Needed for debug 
- if(tempArray.count == 1){
+    
+    if(tempArray.count == 1)
+    {
+        
+        self.dateCellText = @"Today";
         ALMessage *dateLabel = [self getDatePrototype:self.dateCellText andAlMessageObject:tempArray[0]];
+        
         [self.messageArray addObject:dateLabel];
         [self.messageArray addObject:tempArray[0]];
         [tempArray removeAllObjects];
         return;
     }
- */
+    
     int countX  =((int)self.messageArray.count==0)?1:((int)self.messageArray.count);
     for(int i = countX-1 ; i  < (tempArray.count-1) ; i++)
     {
@@ -163,13 +167,13 @@
     }
     
     //final addintion of date at top ....
-    ALMessage * message = [self.messageArray firstObject];
-    if(message){
-        NSString * dateTxt = [self msgAtTop:message];
-        ALMessage *dateLabel = [self getDatePrototype:dateTxt andAlMessageObject:message];
-        [self.messageArray insertObject:dateLabel atIndex:0];
-    }
-
+    //    ALMessage * message = [self.messageArray firstObject];
+    //    if(message){
+    //        NSString * dateTxt = [self msgAtTop:message];
+    //        ALMessage *dateLabel = [self getDatePrototype:dateTxt andAlMessageObject:message];
+    //        [self.messageArray insertObject:dateLabel atIndex:0];
+    //    }
+    
     [tempArray removeAllObjects];
 }
 
@@ -181,7 +185,7 @@
     dateLabel.type = @"100";
     dateLabel.contactIds = almessage.contactIds;
     dateLabel.fileMeta.thumbnailUrl = nil;
-//    dateLabel.groupId = almessage.groupId;
+    //    dateLabel.groupId = almessage.groupId;
     return  dateLabel;
 }
 
@@ -273,11 +277,11 @@
 }
 
 -(NSMutableArray*)filterOutDuplicateMessage:(NSMutableArray*)newMessageArray {
-
+    
     ALMessage * firstInNewMessage = [newMessageArray objectAtIndex:0];
     ALMessage * lastInOldMessage = [self.messageArray lastObject];
     
-
+    
     if(self.messageArray.count <=0){
         return newMessageArray;
     }
@@ -285,7 +289,7 @@
         return newMessageArray;
     }
     NSMutableArray * tempArray = [NSMutableArray arrayWithArray:newMessageArray];
-
+    
     int count = self.messageArray.count;
     for (  ALMessage* meaage in tempArray ) {
         
