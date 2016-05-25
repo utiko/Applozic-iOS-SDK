@@ -1,18 +1,16 @@
 
 **Create your Application**
 
-a )  [**Sign up**](https://www.applozic.com/signup.html?utm_source=ios&utm_medium=github) with applozic to get your application key.
-
-b ) Once you signed up create your Application with required details on admin dashboard. Upload your push-notification certificate to our portal to enable real time notification.         
+a ) Once you signed up create your Application with required details on admin dashboard. Upload your push-notification certificate to our portal to enable real time notification.         
 
 
 
 
-![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Resized-dashboard-blank-page.png)         
+![dashboard-blank-content](https://github.com/AppLozic/Applozic-Chat-SDK-Documentation/blob/master/Dashboard.png)         
 
 
 
-c) Once you create your application you can see your application key listed on admin dashboard. Please use same application key explained in further steps.          
+b) Once you create your application you can see your application key listed on admin dashboard. Please use same application key explained in further steps.          
 
 
 
