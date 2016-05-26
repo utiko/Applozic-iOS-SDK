@@ -159,7 +159,7 @@
     }
     
     //
-    ALUser *user = [[ALUser alloc] init];
+    ALUser * user = [[ALUser alloc] init];
     [user setUserId:[self.userIdField text]];
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
@@ -168,6 +168,7 @@
     
     [ALUserDefaultsHandler setUserId:user.userId];
     [ALUserDefaultsHandler setEmailId:user.emailId];
+    [ALUserDefaultsHandler setPassword:user.password];
     
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
     [demoChatManager registerUser:user];

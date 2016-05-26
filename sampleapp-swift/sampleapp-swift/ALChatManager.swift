@@ -241,5 +241,9 @@ func ALDefaultChatViewSettings (){
     ALApplozicSettings.setFilterContactsStatus(flag)
     ALApplozicSettings.setGroupOption(true)
 
+    ALApplozicSettings.setTitleForBackButtonChatVC("Back")
+    ALApplozicSettings.setTitleForBackButtonMsgVC("Back")
+    ALApplozicSettings.setColorForSendButton(UIColor(red:66.0/255, green:173.0/255, blue:247.0/255, alpha:1))
+    
 }
 

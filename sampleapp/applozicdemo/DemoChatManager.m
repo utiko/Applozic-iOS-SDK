@@ -300,6 +300,10 @@
     [ALApplozicSettings setMaxImageSizeForUploadInMB:3];
     [ALApplozicSettings setFilterContactsStatus:NO];
     
+    [ALApplozicSettings setTitleForBackButtonChatVC:@"Back"];
+    [ALApplozicSettings setTitleForBackButtonMsgVC:@"Back"];
+    [ALApplozicSettings setColorForSendButton:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
+    
     [ALApplozicSettings setGroupOption:NO];
 }
 

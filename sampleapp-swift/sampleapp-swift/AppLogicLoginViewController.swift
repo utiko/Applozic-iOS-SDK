@@ -36,8 +36,9 @@ class AppLogicLoginViewController: UIViewController {
         let alUser : ALUser =  ALUser();
         alUser.applicationId = ALChatManager.applicationId
         
-        if(ALChatManager.isNilOrEmpty( self.userName.text)){
-        let alert = UIAlertController(title: "Applozic", message: "Please enter userId ", preferredStyle: UIAlertControllerStyle.Alert)
+        if(ALChatManager.isNilOrEmpty( self.userName.text))
+        {
+            let alert = UIAlertController(title: "Applozic", message: "Please enter userId ", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
             return;
@@ -46,14 +47,14 @@ class AppLogicLoginViewController: UIViewController {
         ALUserDefaultsHandler.setUserId(alUser.userId)
 
         print("userName:: " , alUser.userId)
-        if( (emailId.text?.isEmpty) != false ){
-           
+        if(!((emailId.text?.isEmpty)!)){
              alUser.emailId = emailId.text
              ALUserDefaultsHandler.setEmailId(alUser.emailId)
         }
-        if ((password.text?.isEmpty) != false ){
-            alUser.password = password.text
 
+        if (!((password.text?.isEmpty)!)){
+            alUser.password = password.text
+            ALUserDefaultsHandler.setPassword(alUser.password)
         }
         ALChatManager.registerUser(alUser);
         let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("LaunchChatFromSimpleViewController") as UIViewController
@@ -76,14 +77,14 @@ class AppLogicLoginViewController: UIViewController {
         ALUserDefaultsHandler.setUserId(alUser.userId)
         
         print("userName:: " , alUser.userId)
-        if( (emailId.text?.isEmpty) != false ){
+        if(!((emailId.text?.isEmpty)!)){
             
             alUser.emailId = emailId.text
             ALUserDefaultsHandler.setEmailId(alUser.emailId)
         }
-        if ((password.text?.isEmpty) != false ){
+        if (!((password.text?.isEmpty)!)){
             alUser.password = password.text
-            
+            ALUserDefaultsHandler.setPassword(alUser.password)
         }
         ALChatManager.registerUser(alUser);
         let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("moreTabBar") as UIViewController
@@ -91,8 +92,6 @@ class AppLogicLoginViewController: UIViewController {
         
     }
    
-
-
-    }
+}
 
 
