@@ -42,5 +42,6 @@
 -(void)getExactDate:(NSNumber *)dateValue;
 +(UIImage *)setVideoThumbnail:(NSString *)videoFilePATH;
 +(UIImage *)subProcessThumbnail:(NSURL *)url;
++(void)showAlertMessage:(NSString *)text andTitle:(NSString *)title;
 
 @end

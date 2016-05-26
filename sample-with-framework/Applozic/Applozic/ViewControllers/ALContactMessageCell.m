@@ -75,7 +75,7 @@
     if(self)
     {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0 alpha:1];
+//        self.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0 alpha:1];
         self.contentView.userInteractionEnabled = YES;
         
         self.contactProfileImage = [[UIImageView alloc] init];

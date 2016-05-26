@@ -350,4 +350,16 @@
     return thumbnail;
 }
 
++(void)showAlertMessage:(NSString *)text andTitle:(NSString *)title
+{
+    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:title
+                                                         message:text
+                                                        delegate:self
+                                               cancelButtonTitle:nil
+                                               otherButtonTitles:@"OK", nil];
+    
+    [alertView show];
+    
+}
+
 @end

@@ -102,6 +102,8 @@
 				6D44D95A1BF60C990039B1A7 /* LaunchChatFromSimpleViewController.m */,
 				6D7F4C6E1C314EBD00AE04CF /* DemoChatManager.h */,
 				6D7F4C6F1C314EBD00AE04CF /* DemoChatManager.m */,
+				29B643C71CE9F24800FE8A73 /* ALSettingsForDebug.h */,
+				29B643C81CE9F24800FE8A73 /* ALSettingsForDebug.m */,
 			);
 			name = chat;
 			sourceTree = "<group>";
@@ -158,8 +160,6 @@
 		6D6DF1F41BC551FA00EBA00F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				29B643C71CE9F24800FE8A73 /* ALSettingsForDebug.h */,
-				29B643C81CE9F24800FE8A73 /* ALSettingsForDebug.m */,
 				6D6DF1F51BC551FA00EBA00F /* main.m */,
 			);
 			name = "Supporting Files";

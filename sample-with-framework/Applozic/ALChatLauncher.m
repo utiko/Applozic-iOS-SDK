@@ -16,6 +16,7 @@
 #import "ALMessageClientService.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALMessagesViewController.h"
+#import "ALUserService.h"
 
 @interface ALChatLauncher ()<ALChatViewControllerDelegate, ALMessagesViewDelegate>
 
@@ -49,6 +50,8 @@
     chatView.individualLaunch = YES;
     chatView.chatViewDelegate = self;
     
+    
+    
     NSLog(@"CALLED_VIA_NOTIFICATION");
     
     UINavigationController * conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
@@ -65,7 +68,7 @@
                                 
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
-    ALChatViewController *chatView =(ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+    ALChatViewController *chatView = (ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     
     chatView.channelKey = groupID;
     chatView.contactIds = userId;
@@ -74,19 +77,19 @@
     chatView.displayName = displayName;
     chatView.chatViewDelegate = self;
     
-    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
-    conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
-    [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
+    [self checkUserContact:userId withCompletion:^{
+        
+        UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
+        conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
+        [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
 
+    }];
 }
 
 -(void)launchChatList:(NSString *)title andViewControllerObject:(UIViewController *)viewController
 {
     
-    [ALApplozicSettings setTitleForBackButton:title];
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                
-                                                         bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
     
     //              To Lunch with different Animation...
@@ -177,6 +180,23 @@
 {
     id launcherDelegate = NSClassFromString([ALApplozicSettings getCustomClassName]);
     [launcherDelegate handleCustomAction:chatViewController andWithMessage:alMessage];
+}
+
+-(void)checkUserContact:(NSString *)userId withCompletion:(void(^)())completion
+{
+    ALContactDBService *contacDB = [[ALContactDBService alloc] init];
+    if(![contacDB getContactByKey:@"userId" value:userId])
+    {
+        [ALUserService userDetailServerCall:userId withCompletion:^(ALUserDetail *alUserDetail) {
+            
+             [contacDB updateUserDetail:alUserDetail];
+             completion();
+         }];
+    }
+    else
+    {
+        completion();
+    }
 }
 
 @end

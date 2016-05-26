@@ -150,16 +150,20 @@
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
     
-    if (self.userIdField.text.length == 0) {
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:
-                                  @"Error" message:@"UserId can't be blank" delegate:self
-                                                 cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alertView show];
+    if (self.userIdField.text.length == 0)
+    {
+        [ALUtilityClass showAlertMessage:@"UserId can't be blank" andTitle:@"Error"];
         return;
     }
     
-    //
-    ALUser *user = [[ALUser alloc] init];
+    if (self.passwordField.text.length == 0)
+    {
+        [ALUtilityClass showAlertMessage:@"Password can't be blank" andTitle:@"Error"];
+        return;
+    }
+    
+    
+    ALUser * user = [[ALUser alloc] init];
     [user setUserId:[self.userIdField text]];
     [user setEmailId:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
@@ -168,6 +172,7 @@
     
     [ALUserDefaultsHandler setUserId:user.userId];
     [ALUserDefaultsHandler setEmailId:user.emailId];
+    [ALUserDefaultsHandler setPassword:user.password];
     
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
     [demoChatManager registerUser:user];
@@ -179,6 +184,8 @@
     
 
 }
+
+
 
 //-------------------------------------------------------------------------------------------------------------------
 //     Textfield delegate methods

@@ -305,8 +305,8 @@
     }
 }
 
--(void)fetchAndRefreshFromServer{
-    
+-(void)fetchAndRefreshFromServer
+{    
     [self syncConverstionDBWithCompletion:^(BOOL success, NSMutableArray * theArray) {
         
         if (success) {
@@ -342,6 +342,7 @@
 -(void)syncConverstionDBWithCompletion:(void(^)(BOOL success , NSMutableArray * theArray)) completion
 {
     [ALMessageService getMessagesListGroupByContactswithCompletionService:^(NSMutableArray *messages, NSError *error) {
+        
         if (error) {
             NSLog(@"%@",error);
             completion(NO,nil);
@@ -588,7 +589,8 @@
     return msgArray;
 }
 
--(NSMutableArray *)getPendingMessages{
+-(NSMutableArray *)getPendingMessages
+{
     
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
@@ -609,12 +611,30 @@
         [msgArray addObject:theMessage]; NSLog(@"Pending Message status:%@",theMessage.status);
     }
     
-    NSLog(@" get pending messages ...getPendingMessages ..%lu",msgArray.count);
-    
+    NSLog(@" get pending messages ...getPendingMessages ..%lu",(unsigned long)msgArray.count);
     return msgArray;
-
-    
 }
 
+/////////////////////////////  FETCH CONVERSATION WITH PAGE SIZE  /////////////////////////////
+
+-(void)fetchConversationfromServerWithCompletion:(void(^)(BOOL flag))completionHandler
+{
+    [self syncConverstionDBWithCompletion:^(BOOL success, NSMutableArray * theArray) {
+        
+        if (!success)
+        {
+            completionHandler(success);
+            return;
+        }
+
+        [self addMessageList:theArray];
+        [ALUserDefaultsHandler setBoolForKey_isConversationDbSynced:YES];
+        [self fetchConversationsGroupByContactId];
+        
+        completionHandler(success);
+        
+    }];
+    
+}
 
 @end

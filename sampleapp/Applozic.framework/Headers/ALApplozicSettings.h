@@ -31,6 +31,14 @@
 #define THIRD_PARTY_VC_NAME @"THIRD_PARTY_VC_NAME"
 #define CONTEXTUAL_CHAT_OPTION @"CONTEXTUAL_CHAT_OPTION"
 #define USER_CALL_OPTION @"USER_CALL_OPTION"
+#define SEND_BUTTON_BG_COLOR @"SEND_BUTTON_BG_COLOR"
+#define TYPE_MSG_BG_COLOR @"TYPE_MSG_BG_COLOR"
+#define TYPING_LABEL_BG_COLOR @"TYPING_LABEL_BG_COLOR"
+#define TYPING_LABEL_TEXT_COLOR @"TYPING_LABEL_TEXT_COLOR"
+#define EMPTY_CONVERSATION_TEXT @"EMPTY_CONVERSATION_TEXT"
+#define NO_CONVERSATION_FLAG_CHAT_VC @"NO_CONVERSATION_FLAG_CHAT_VC"
+#define ONLINE_INDICATOR_VISIBILITY @"ONLINE_INDICATOR_VISIBILITY"
+#define BACK_BUTTON_TITLE_CHATVC @"BACK_BUTTON_TITLE_CHATVC"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -71,9 +79,11 @@
 
 +(NSString *)getTitleForConversationScreen;
 
-+(void)setTitleForBackButton:(NSString *)backButtonTitle;
++(void)setTitleForBackButtonMsgVC:(NSString *)backButtonTitle;
++(NSString *)getTitleForBackButtonMsgVC;
 
-+(NSString *)getBackButtonTitle;
++(NSString *)getTitleForBackButtonChatVC;
++(void)setTitleForBackButtonChatVC:(NSString *)backButtonTitle;
 
 +(void)setNotificationTitle:(NSString *)notificationTitle;
 
@@ -131,5 +141,29 @@
 
 +(void)setCallOption:(BOOL)flag;
 +(BOOL)getCallOption;
+
++(void)enableNotificationSound;
++(void)disableNotificationSound;
+
++(UIColor *)getColorForSendButton;
++(void)setColorForSendButton:(UIColor *)color;
+
++(UIColor *)getColorForTypeMsgBackground;
++(void)setColorForTypeMsgBackground:(UIColor *)viewColor;
+
++(UIColor *)getBGColorForTypingLabel;
++(void)setBGColorForTypingLabel:(UIColor *)bgColor;
+
++(UIColor *)getTextColorForTypingLabel;
++(void)setTextColorForTypingLabel:(UIColor *)txtColor;
+
++(NSString *)getEmptyConversationText;
++(void)setEmptyConversationText:(NSString *)text;
+
++(BOOL)getVisibilityNoConversationLabelChatVC;
++(void)setVisibilityNoConversationLabelChatVC:(BOOL)flag;
+
++(BOOL)getVisibilityForOnlineIndicator;
++(void)setVisibilityForOnlineIndicator:(BOOL)flag;
 
 @end

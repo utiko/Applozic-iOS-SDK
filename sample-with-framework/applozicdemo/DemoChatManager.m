@@ -47,6 +47,7 @@
             return ;
             
         }
+        
         if (rResponse && [rResponse.message containsString: @"REGISTERED"])
         {                ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
             [messageClientService addWelcomeMessage:nil];
@@ -105,7 +106,7 @@
 
 -(void)registerUserAndLaunchChat:(ALUser *)alUser andFromController:(UIViewController*)viewController forUser:(NSString*)userId withGroupId:(NSNumber*)groupID
 {
-    self.chatLauncher = [[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
+    self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:APPLICATION_ID];
     self.chatLauncher.chatLauncherDelegate = self;
     
     //User is already registered ..directly launch the chat...
@@ -122,26 +123,29 @@
         return;
     }
     
-    //Registartion Reuired....
-    alUser = alUser ?alUser: DemoChatManager.getLoggedinUserInformation;
+    //Registartion Required....
+    alUser = alUser ? alUser : [DemoChatManager getLoggedinUserInformation];
     
     if(!alUser){
         NSLog(@"Not able to find user detail for registration...please register with applozic server first");
         return;
     }
-    
+
     [self ALDefaultChatViewSettings];
-    [ alUser setApplicationId:APPLICATION_ID ];
+    [alUser setApplicationId:APPLICATION_ID ];
     [alUser setAppModuleName: [ALUserDefaultsHandler getAppModuleName]];     // 2. APP_MODULE_NAME setter
     
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
+        
         if (error) {
             //Handle Registration error here ....
-            NSLog(@"%@",error);
+            NSLog(@"REGISTRATION_ERROR : %@",error);
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Response: Cant Register User Client"
-                                      
-                                                                message:rResponse.message delegate: nil cancelButtonTitle:@"Ok" otherButtonTitles: nil, nil];
+                                                                message:rResponse.message
+                                                               delegate: nil
+                                                      cancelButtonTitle:@"Ok"
+                                                      otherButtonTitles: nil, nil];
             
             [alertView show];
             
@@ -157,7 +161,6 @@
         if(![ALUserDefaultsHandler getApnDeviceToken]){
             [self.chatLauncher registerForNotification];
         }
-        
         
         if(userId){
             [self.chatLauncher launchIndividualChat:userId withGroupId:groupID andViewControllerObject:viewController andWithText:nil];
@@ -314,15 +317,83 @@
     [ALApplozicSettings setGroupMemberAddOption:YES];
     [ALApplozicSettings setGroupMemberRemoveOption:YES];
     
-    [ALApplozicSettings setContextualChat:YES];
     
+//////////////   SET BACK BUTTON FOR MSG VC  ////////////
+    
+    [ALApplozicSettings setTitleForBackButtonMsgVC:@"Back"];
+
+    
+//////////////   SET BACK BUTTON FOR CHAT VC  ////////////
+    
+    [ALApplozicSettings setTitleForBackButtonChatVC:@"Back"];
+    
+    
+//////////////   SET VISIBILITY FORONLINE INDICATOR   ////////////
+    
+    [ALApplozicSettings setVisibilityForOnlineIndicator:YES];
+/*   Note: Please set to YES if required */
+
+//////////////   SET TEXT FOR EMPTY CONVERSATION   //////////////
+    
+    [ALApplozicSettings setEmptyConversationText:@"You have no conversations yet"];
+/* ADD TEXT YOU WANT TO SHOW */
+    
+//////////////   SET COLOR FOR SEND BUTTON   //////////////
+    
+    UIColor * sendButtonColor = [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1];
+    [ALApplozicSettings setColorForSendButton:sendButtonColor];
+/*   Note: COLOR SHOULD BE PRESENT */
+    
+    
+//////////////   SET COLOR FOR TYPE MESSAGE VIEW BUTTON   //////////////
+
+    [ALApplozicSettings setColorForTypeMsgBackground:[UIColor lightGrayColor]];
+/*   Note: DEFAULT COLOR LIGHT GRAY */
+    
+
+//////////////   SET NO CONVERSATION LABEL IN CHAT VC //////////////
+    
+    [ALApplozicSettings setVisibilityNoConversationLabelChatVC:NO];
+
+/*   Note: Please set to NO if not required */
+    
+    
+    
+//////////////   SET COLOR FOR TYPING LABEL  //////////////
+
+    [ALApplozicSettings setBGColorForTypingLabel:[UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0 alpha:1]];
+//    [ALApplozicSettings setBGColorForTypingLabel:[UIColor brownColor]];
+
+
+//////////////   SET COLOR FOR TEXT TYPING LABEL  //////////////
+
+//    [ALApplozicSettings setTextColorForTypingLabel:[UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:0.5]];
+    [ALApplozicSettings setTextColorForTypingLabel:[UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:0.5]];
+    
+    
+//////////////   IF NOTIFICATION SOUND NOT NEEDED   //////////////
+    
+    [ALApplozicSettings disableNotificationSound];
+/*   Note: Please uncomment above if sound NOT needed */
+    
+    
+//////////////   IF NOTIFICATION SOUND NEEDED   //////////////
+    
+//    [ALApplozicSettings enableNotificationSound];
+/*   Note: Please uncomment above IF NEEDED */
+    
+    
+    [ALApplozicSettings setContextualChat:YES];
     
 /*   Note: Please uncomment below setter to use app_module_name */
     
 //   [ALUserDefaultsHandler setAppModuleName:@"<APP_MODULE_NAME>"];
+//    [ALUserDefaultsHandler setAppModuleName:@"SELLER"];
 
-//    [self getApplicationBaseURL];
+//////////////   APPLICATION URL CONFIGURATION    //////////////
     
+    [self getApplicationBaseURL];
+/*   Note: PLEASE DO NOT COMMENT THIS  */
     
     
 //////////////   IF NEEDED ALL REGISTERED CONTACTS    //////////////
@@ -330,26 +401,24 @@
     [ALApplozicSettings setFilterContactsStatus:YES];
 /*   PLEASE SET IT TO 'NO' IF NOT REQUIRED */
     
-    
-    
 //////////////   IF NEEDED ONLINE USERS WITH LIMIT   //////////////
     
     [ALApplozicSettings setOnlineContactLimit:0];
 /*   PLEASE SET LIMIT TO ZERO IF NOT REQUIRED */
 
-    
-    
 //////////////   IF CALL OPTION NEEDED   //////////////
     
     [ALApplozicSettings setCallOption:YES];
 /*    PLEASE SET IT TO 'NO' IF NOT REQUIRED      */
     
     
-    
-    
 //////////////   SET 3rd Party Class Name OR DemoChatManager   //////////////
     
     [ALApplozicSettings setCustomClassName:@"DemoChatManager"]; // EXAMPLE
+    
+//////////////   SET MESSAGE LIST PAGE SIZE   //////////////
+    
+    [ALUserDefaultsHandler setFetchConversationPageSize:20];  // DEFAULT VALUE 20
     
 }
 
@@ -358,12 +427,12 @@
     NSDictionary * URLDictionary = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"APPLOZIC_PRODUCTION"];
 
     NSString * alKBASE_URL = [URLDictionary valueForKey:@"AL_KBASE_URL"];
-    NSString * alMQTT_URL = [URLDictionary valueForKey:@"AL_MQTT_URL"];
+//    NSString * alMQTT_URL = [URLDictionary valueForKey:@"AL_MQTT_URL"];
     NSString * alFILE_URL = [URLDictionary valueForKey:@"AL_FILE_URL"];
     NSString * alMQTT_PORT = [URLDictionary valueForKey:@"AL_MQTT_PORT"];
     
     [ALUserDefaultsHandler setBASEURL:alKBASE_URL];
-    [ALUserDefaultsHandler setMQTTURL:alMQTT_URL];
+//    [ALUserDefaultsHandler setMQTTURL:alMQTT_URL];
     [ALUserDefaultsHandler setFILEURL:alFILE_URL];
     [ALUserDefaultsHandler setMQTTPort:alMQTT_PORT];
 

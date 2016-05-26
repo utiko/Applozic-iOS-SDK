@@ -100,7 +100,7 @@
 
 +(void)userDetailServerCall:(NSString *)contactId withCompletion:(void(^)(ALUserDetail *))completionMark
 {
-    ALUserClientService * userDetailService = [[ALUserClientService alloc]init];
+    ALUserClientService * userDetailService = [[ALUserClientService alloc] init];
     
     [userDetailService userDetailServerCall:contactId withCompletion:^(ALUserDetail * userDetail) {
         completionMark(userDetail);

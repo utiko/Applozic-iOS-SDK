@@ -97,7 +97,6 @@
 
 @implementation ALChatViewController
 {
-    UIActivityIndicatorView *loadingIndicator;
     NSString *messageId;
     BOOL typingStat;
     CGRect defaultTableRect;
@@ -288,6 +287,7 @@ ALMessageDBService  * dbService;
         self.sendMessageTextView.text = self.text;
     }
     
+    [self.pickerView setHidden:YES];
     if(self.conversationId && [ALApplozicSettings getContextualChatOption])
     {
         [self setupPickerView];
@@ -299,6 +299,17 @@ ALMessageDBService  * dbService;
     [self checkIfChannelLeft];
     [self checkUserBlockStatus];
 
+    [self showNoConversationLabel];
+}
+
+-(void)showNoConversationLabel
+{
+    if(![self.alMessageWrapper getUpdatedMessageArray].count && [ALApplozicSettings getVisibilityNoConversationLabelChatVC])
+    {
+        [self.noConversationLabel setHidden:NO];
+        return;
+    }
+    [self.noConversationLabel setHidden:YES];
 }
 
 -(void)setCallButtonInNavigationBar
@@ -677,13 +688,9 @@ ALMessageDBService  * dbService;
     NSLog(@"calling refresh from server....");
     
     //TODO: get the user name, devicekey String and make server call...
-    loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    loadingIndicator.center = CGPointMake(160, 160);
-    loadingIndicator.hidesWhenStopped = YES;
-    [self.view addSubview:loadingIndicator];
-    [loadingIndicator startAnimating];
+    [self.mActivityIndicator startAnimating];
     [ self fetchAndRefresh:YES ];
-    [loadingIndicator stopAnimating];
+    [self.mActivityIndicator stopAnimating];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -755,7 +762,11 @@ ALMessageDBService  * dbService;
     NSLog(@"Google Map Length = ZERO");
     
     NSString *alertMsg = @"Unable to fetch current location. Try Again!!!";
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Current Location" message:alertMsg delegate: nil cancelButtonTitle:@"OK" otherButtonTitles: nil, nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Current Location"
+                                                        message:alertMsg
+                                                       delegate: nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil, nil];
     
     [alertView show];
     
@@ -1386,14 +1397,29 @@ ALMessageDBService  * dbService;
     
     self.refresh = YES;
     
-    [self.mTableView setBackgroundView:[self getChatWallpaperImageView]];
+//    [self.mTableView setBackgroundView:[self getChatWallpaperImageView]];
+    [self setBackGroundWallpaper];
 }
 
--(UIImageView *)getChatWallpaperImageView {
-    
-    UIImage * backgoundWallpaperImage = [UIImage imageNamed:[ALApplozicSettings getChatWallpaperImageName]];
-    UIImageView *backgoundWallpaperImageView = [[UIImageView alloc] initWithImage:backgoundWallpaperImage];
-    return backgoundWallpaperImageView;
+//-(UIImageView *)getChatWallpaperImageView
+//{
+//    UIImage * backgoundWallpaperImage = [UIImage imageNamed:[ALApplozicSettings getChatWallpaperImageName]];
+//    UIImageView *backgoundWallpaperImageView = [[UIImageView alloc] initWithImage:backgoundWallpaperImage];
+//    return backgoundWallpaperImageView;
+//}
+
+-(void)setBackGroundWallpaper
+{
+    NSString * imagName = [ALApplozicSettings getChatWallpaperImageName];
+    UIImage * backgroundImage = [UIImage imageNamed:imagName];
+    if(!backgroundImage)
+    {
+        return;
+    }
+    [self.mTableView setBackgroundColor:[UIColor clearColor]];
+    UIImageView * backgroundImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+    backgroundImageView.image = backgroundImage;
+    [self.view insertSubview:backgroundImageView atIndex:0];
 }
 
 #pragma mark IBActions
@@ -1411,7 +1437,7 @@ ALMessageDBService  * dbService;
         return;
     }
     // check os , show sheet or action controller
-    if ([UIDevice currentDevice].systemVersion.floatValue < 8.0 ) { // ios 7 and previous
+    if ([UIDevice currentDevice].systemVersion.floatValue < 8.0) { // ios 7 and previous
         [self showActionSheet];
     }
     else // ios 8
@@ -1430,6 +1456,8 @@ ALMessageDBService  * dbService;
     [UIView animateWithDuration:1.5 animations:^{
         [self.mTableView reloadData];
     }];
+    
+    [self showNoConversationLabel];
 }
 
 #pragma mark chatCellImageDelegate
@@ -2259,12 +2287,7 @@ ALMessageDBService  * dbService;
         time = NULL;
     }
     
-    loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    loadingIndicator.center = self.view.center;
-    loadingIndicator.hidesWhenStopped = YES;
-    [self.view addSubview:loadingIndicator];
-    [loadingIndicator startAnimating];
-    
+    [self.mActivityIndicator startAnimating];
     //preaper Message list request ....
     MessageListRequest *messageListRequest = [[MessageListRequest alloc]init];
     
@@ -2275,8 +2298,10 @@ ALMessageDBService  * dbService;
         messageListRequest.conversationId=self.conversationId;
     }
     
-    [ALMessageService getMessageListForUser:messageListRequest  withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
-        [loadingIndicator stopAnimating];
+    [ALMessageService getMessageListForUser:messageListRequest  withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray) {
+        
+        [self.mActivityIndicator stopAnimating];
+        
         if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
             [self setupPickerView];
             [self.pickerView reloadAllComponents];
@@ -2371,7 +2396,8 @@ ALMessageDBService  * dbService;
 
 -(void)serverCallForLastSeen
 {
-    [ALUserService userDetailServerCall:self.contactIds withCompletion:^(ALUserDetail *alUserDetail){
+    [ALUserService userDetailServerCall:self.contactIds withCompletion:^(ALUserDetail *alUserDetail)
+    {
         if(alUserDetail)
         {
             [ALUserDefaultsHandler setServerCallDoneForUserInfo:YES ForContact:alUserDetail.userId];

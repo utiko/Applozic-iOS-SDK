@@ -83,7 +83,6 @@
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmailId:[ALUserDefaultsHandler getEmailId]];
-    [user setPassword:@""];
     
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
     [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil withGroupId:nil];
@@ -105,10 +104,10 @@
     [self.view addSubview:_activityView];
     [_activityView startAnimating];
     
-    ALUser *user = [[ALUser alloc] init];
+    ALUser * user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmailId:[ALUserDefaultsHandler getEmailId]];
-    [user setPassword:@""];
+
     
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
     [demoChatManager launchChatForUserWithDisplayName:@"masteruser" withGroupId:nil andwithDisplayName:@"Master" andFromViewController:self];

@@ -25,21 +25,31 @@
 -(void) initWithCompletion:(ALUser *)user withCompletion:(void(^)(ALRegistrationResponse * response, NSError *error)) completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/register/client",KBASE_URL];
+   
     [ALUserDefaultsHandler setApplicationKey: user.applicationId];
     [user setPrefContactAPI:2];
     [user setEmailVerified:true];
     [user setDeviceType:4];
     [user setAppVersionCode: VERSION_CODE];
     [user setRegistrationId: [ALUserDefaultsHandler getApnDeviceToken]];
+    [user setNotificationMode:[ALUserDefaultsHandler getNotificationMode]];
+    
+    [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
+    
+    [user setAuthenticationTypeId:[ALUserDefaultsHandler getUserAuthenticationTypeId]];
+    [user setPassword:[ALUserDefaultsHandler getPassword]];
+    
     if([ALUserDefaultsHandler getAppModuleName] != NULL){
         [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];
     }
     [user setUserTypeId:[ALUserDefaultsHandler getUserTypeId]];
     
     //NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
-    NSError *error;
-    NSData *postdata = [NSJSONSerialization dataWithJSONObject:user.dictionary options:0 error:&error];
-    NSString *theParamString = [[NSString alloc]initWithData:postdata encoding:NSUTF8StringEncoding];
+    NSError * error;
+    NSData * postdata = [NSJSONSerialization dataWithJSONObject:user.dictionary options:0 error:&error];
+    NSString *theParamString = [[NSString alloc] initWithData:postdata encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"PARAM_STRING USER_REGISTRATION :: %@",theParamString);
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
     
@@ -61,13 +71,22 @@
         //Todo: figure out how to set country code
         //mobiComUserPreference.setCountryCode(user.getCountryCode());
         //mobiComUserPreference.setContactNumber(user.getContactNumber());
-        @try{
+        @try
+        {
             [ALUserDefaultsHandler setUserId:user.userId];
             [ALUserDefaultsHandler setEmailVerified: user.emailVerified];
             [ALUserDefaultsHandler setDisplayName: user.displayName];
             [ALUserDefaultsHandler setEmailId:user.emailId];
             [ALUserDefaultsHandler setDeviceKeyString:response.deviceKey];
             [ALUserDefaultsHandler setUserKeyString:response.userKey];
+            
+            if(response.brokerURL && ![response.brokerURL isEqualToString:@""])
+            {
+                 NSArray * mqttURL = [response.brokerURL componentsSeparatedByString:@":"];
+                 NSString * MQTTURL = [mqttURL[1] substringFromIndex:2];
+                 NSLog(@"URL:%@",MQTTURL);
+                [ALUserDefaultsHandler setMQTTURL:MQTTURL];
+            }
             //[ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.lastSyncTime];
         }
         
@@ -78,6 +97,9 @@
         @finally {
             NSLog(@"..");
         }
+        
+        completion(response,nil);
+        
         [ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.currentTimeStamp];
         [ALUserDefaultsHandler setLastSyncChannelTime:(NSNumber *)response.currentTimeStamp];
         [self connect];
@@ -85,7 +107,7 @@
         if(dbService.isMessageTableEmpty){
             [ALMessageService processLatestMessagesGroupByContact];
         }
-        completion(response,nil);
+        
     }];
     
 }

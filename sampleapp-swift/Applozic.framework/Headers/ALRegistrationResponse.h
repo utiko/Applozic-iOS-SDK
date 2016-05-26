@@ -17,4 +17,5 @@
 @property NSString *contactNumber;
 @property NSString *lastSyncTime;
 @property NSString *currentTimeStamp;
+@property NSString *brokerURL;
 @end

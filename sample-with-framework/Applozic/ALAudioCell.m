@@ -222,7 +222,7 @@
                                                    MEDIATRACKLENGTH_WIDTH, MEDIATRACKLENGTH_HEIGHT)];
         
         [self.mDateLabel setFrame:CGRectMake(self.mBubleImageView.frame.origin.x,
-                                             self.mBubleImageView.frame.size.height + 7,
+                                             self.mBubleImageView.frame.size.height + self.mBubleImageView.frame.origin.y,
                                              DATE_WIDTH, DATE_HEIGHT)];
         
         if (alMessage.imageFilePath == nil)
@@ -275,6 +275,12 @@
         CGFloat progressBarWidth = self.mBubleImageView.frame.size.width - self.playPauseStop.frame.size.width - 30;
         
         CGFloat progressX = self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10;
+        
+        CGFloat nameWidth = self.mBubleImageView.frame.size.width - self.playPauseStop.frame.size.width - 20;
+        CGFloat nameX = self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10;
+        
+        [self.mediaName setFrame:CGRectMake(nameX, self.playPauseStop.frame.origin.y, nameWidth, MEDIA_NAME_HEIGHT)];
+        
         [self.mediaTrackProgress setFrame:CGRectMake(progressX,
                                                      self.mediaName.frame.origin.y + self.mediaName.frame.size.height
                                                      ,progressBarWidth, PROGRESS_HEIGHT)];
@@ -313,9 +319,7 @@
             [self.mDowloadRetryButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"UploadiOS2.png"] forState:UIControlStateNormal];
         }
         
-        [self.mediaName setFrame:CGRectMake(self.playPauseStop.frame.origin.x + self.playPauseStop.frame.size.width + 10,
-                                            self.playPauseStop.frame.origin.y,
-                                            self.mediaTrackProgress.frame.size.width, 15)];
+
     }
     
     if(alMessage.imageFilePath != nil && alMessage.fileMeta.blobKey)

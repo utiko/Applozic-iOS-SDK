@@ -149,7 +149,7 @@
         userContact.contactNumber = contact.contactNumber;
         userContact.contactImageUrl = contact.contactImageUrl;
         if(contact.unreadCount != NULL){
-            userContact.unreadCount=contact.unreadCount;
+            userContact.unreadCount = contact.unreadCount;
         }
         if(contact.displayName)
         {
@@ -396,7 +396,10 @@
         
         dbContact.lastSeenAt = userDetail.lastSeenAtTime;
         dbContact.connected = userDetail.connected;
-        dbContact.unreadCount = userDetail.unreadCount;
+        if(![userDetail.unreadCount isEqualToNumber:[NSNumber numberWithInt:0]])
+        {
+            dbContact.unreadCount = userDetail.unreadCount;
+        }        
         if(userDetail.displayName)
         {
             dbContact.displayName = userDetail.displayName;
@@ -410,7 +413,7 @@
          // Add contact in DB.
          ALContact * contact = [[ALContact alloc] init];
          contact.userId = userDetail.userId;
-         contact.unreadCount= userDetail.unreadCount;
+         contact.unreadCount = userDetail.unreadCount;
          contact.lastSeenAt = [NSNumber numberWithBool:userDetail.connected];
          contact.displayName = userDetail.displayName;
          contact.contactImageUrl = userDetail.imageLink;

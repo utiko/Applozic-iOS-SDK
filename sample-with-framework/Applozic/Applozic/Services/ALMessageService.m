@@ -31,10 +31,10 @@ static ALMessageClientService *alMsgClientService;
 
 +(void) processLatestMessagesGroupByContact
 {
-    
     ALMessageClientService * almessageClientService = [[ALMessageClientService alloc] init];
     
-    [almessageClientService getLatestMessageGroupByContactWithCompletion:^( ALMessageList *alMessageList, NSError *error) {
+    [almessageClientService getLatestMessageGroupByContact:[ALUserDefaultsHandler getFetchConversationPageSize]
+         startTime:[ALUserDefaultsHandler getLastMessageListTime]  withCompletion:^( ALMessageList *alMessageList, NSError *error) {
         
         if(alMessageList)
         {
@@ -44,7 +44,9 @@ static ALMessageClientService *alMsgClientService;
             [alContactDBService addUserDetails:alMessageList.userDetailsList];
             [ALUserDefaultsHandler setBoolForKey_isConversationDbSynced:YES];
             
-            [self getMessageListForUserIfLastIsHiddenMessageinMessageList:alMessageList withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray) {
+            [self getMessageListForUserIfLastIsHiddenMessageinMessageList:alMessageList
+                   withCompletion:^(NSMutableArray * messages, NSError *error, NSMutableArray *userDetailArray) {
+                       
             }];
         }
         else{
@@ -55,54 +57,56 @@ static ALMessageClientService *alMsgClientService;
     
 }
 
-+(void)getMessagesListGroupByContactswithCompletionService:(void(^)(NSMutableArray * messages, NSError * error))completion{
-    
++(void)getMessagesListGroupByContactswithCompletionService:(void(^)(NSMutableArray * messages, NSError * error))completion
+{
     ALMessageClientService * almessageClientService = [[ALMessageClientService alloc] init];
     
-    [almessageClientService getLatestMessageGroupByContactWithCompletion:^( ALMessageList *alMessageList, NSError *responseError) {
+   [almessageClientService getLatestMessageGroupByContact:[ALUserDefaultsHandler getFetchConversationPageSize]
+    startTime:[ALUserDefaultsHandler getLastMessageListTime]  withCompletion:^(ALMessageList *alMessageList, NSError *error) {
         
-        [self getMessageListForUserIfLastIsHiddenMessageinMessageList:alMessageList withCompletion:^(NSMutableArray *responseMessages, NSError *responseErrorH, NSMutableArray *userDetailArray) {
+        [self getMessageListForUserIfLastIsHiddenMessageinMessageList:alMessageList
+                   withCompletion:^(NSMutableArray *responseMessages, NSError *responseErrorH, NSMutableArray *userDetailArray) {
        
-            completion(responseMessages,responseErrorH);
+            completion(responseMessages, responseErrorH);
             
         }];
-        
-        
     }];
     
 }
-+(void)getMessageListForUserIfLastIsHiddenMessageinMessageList:(ALMessageList*)alMessageList withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion{
+
++(void)getMessageListForUserIfLastIsHiddenMessageinMessageList:(ALMessageList*)alMessageList
+                                                withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion
+{
     
 /*____If latest_message of a contact is Hidden Message then get MessageList of that user from server___*/
     
-    for(ALMessage * alMessage in alMessageList.messageList){
-    
-        if([alMessage isHiddenMessage]){
-
-            NSLog(@"Last Message Hidden of User:%@",alMessage.contactIds);
-            NSNumber * time = alMessage.createdAtTime;
-
-            MessageListRequest *messageListRequest = [[MessageListRequest alloc]init];
-            messageListRequest.userId=alMessage.contactIds;
-            messageListRequest.channelKey=alMessage.groupId;
-            messageListRequest.endTimeStamp=time;
-            messageListRequest.conversationId=alMessage.conversationId;
-
-            [self getMessageListForUser:messageListRequest withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray) {
-                
-                completion (messages,error,userDetailArray);
-            }];
-
+    for(ALMessage * alMessage in alMessageList.messageList)
+    {
+        if(![alMessage isHiddenMessage])
+        {
+            continue;
         }
-        else{
-            completion(alMessageList.messageList,nil,nil);
-        }
+        
+        NSNumber * time = alMessage.createdAtTime;
+        
+        MessageListRequest * messageListRequest = [[MessageListRequest alloc] init];
+        messageListRequest.userId = alMessage.contactIds;
+        messageListRequest.channelKey = alMessage.groupId;
+        messageListRequest.endTimeStamp = time;
+        messageListRequest.conversationId = alMessage.conversationId;
+        
+        [self getMessageListForUser:messageListRequest withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray) {
+            
+            completion (messages,error,userDetailArray);
+        }];
+        
     }
-
+    completion(alMessageList.messageList, nil, nil);
     
 }
 
-+(void)getMessageListForUser:(MessageListRequest*)messageListRequest withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion{
++(void)getMessageListForUser:(MessageListRequest*)messageListRequest withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion
+{
     //On Message List Cell Tap
     ALMessageDBService *almessageDBService =  [[ALMessageDBService alloc] init];
     NSMutableArray * messageList = [almessageDBService getMessageListForContactWithCreatedAt:messageListRequest.userId withCreatedAt:messageListRequest.endTimeStamp andChannelKey:messageListRequest.channelKey conversationId:messageListRequest.conversationId];
@@ -117,7 +121,8 @@ static ALMessageClientService *alMsgClientService;
     }
     ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc ]init];
     
-    [alMessageClientService getMessageListForUser:messageListRequest withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray){
+    [alMessageClientService getMessageListForUser:messageListRequest
+                   withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray) {
         
         completion(messages, error,userDetailArray);
         

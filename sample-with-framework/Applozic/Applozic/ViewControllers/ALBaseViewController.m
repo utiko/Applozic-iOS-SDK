@@ -30,7 +30,9 @@
 @end
 
 @implementation ALBaseViewController
-
+{
+    CGFloat typingIndicatorHeight;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -58,7 +60,8 @@
 }
 
 
--(void)setUpTableView {
+-(void)setUpTableView
+{
     
     UIButton * mLoadEarlierMessagesButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     mLoadEarlierMessagesButton.frame = CGRectMake(self.view.frame.size.width/2-90, 15, 180, 30);
@@ -68,13 +71,7 @@
     [mLoadEarlierMessagesButton addTarget:self action:@selector(loadChatView) forControlEvents:UIControlEventTouchUpInside];
     [mLoadEarlierMessagesButton.titleLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:14]];
     [self.mTableHeaderView addSubview:mLoadEarlierMessagesButton];
-    
-    // textfield right view
-    
-    self.sendButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    [self.rightViewButton setImage:[ALUtilityClass getImageFromFramworkBundle:@"mobicom_ic_action_send_now.png"] forState:UIControlStateNormal];
-    [self.rightViewButton addTarget:self action:@selector(postMessage) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.sendButton];
+
 }
 
 -(void)setUpTheming
@@ -126,9 +123,13 @@
     self.label.textAlignment = NSTextAlignmentCenter;
     [self.navigationController.navigationBar addSubview:self.label];
     
-    self.typingLabel = [[UILabel alloc] initWithFrame: CGRectMake(0,self.tabBarController.tabBar.frame.origin.y - 35, self.view.frame.size.width, 30)];
-    self.typingLabel.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0 alpha:1];
-    self.typingLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:0.5];
+    typingIndicatorHeight = 30;
+    
+    self.typingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.typingMessageView.frame.origin.y - typingIndicatorHeight,
+                                                                 self.view.frame.size.width, typingIndicatorHeight)];
+    
+    self.typingLabel.backgroundColor = [ALApplozicSettings getBGColorForTypingLabel];
+    self.typingLabel.textColor = [ALApplozicSettings getTextColorForTypingLabel];
     self.typingLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.typingLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TYPING_LABEL_SIZE]];
     self.typingLabel.textAlignment = NSTextAlignmentLeft;
@@ -189,12 +190,27 @@
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
     }
 
+    [self sendButtonUI];
+    
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+-(void)sendButtonUI
+{
+    [self.sendButton setBackgroundColor:[ALApplozicSettings getColorForSendButton]];
+    self.sendButton.layer.cornerRadius = self.sendButton.frame.size.width/2;
+    self.sendButton.layer.masksToBounds = YES;
     
+    [self.typingMessageView sendSubviewToBack:self.typeMsgBG];
+    UIImage * image = [[ALUtilityClass getImageFromFramworkBundle:@"TYMSGBG.png"]
+                       resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 10, 20)];
+    
+    [self.typeMsgBG setImage:image];
+    [self.typingMessageView setBackgroundColor:[ALApplozicSettings getColorForTypeMsgBackground]];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
     self.navigationController.navigationBar.barTintColor = self.navColor;
-    
 }
 
 // Setting up keyboard notifications.
@@ -222,7 +238,13 @@
                                 [UIApplication sharedApplication].statusBarFrame.size.height;
     
     self.checkBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y + navigationWidth;
-    self.typingLabel.frame = CGRectMake(0, keyboardEndFrame.origin.y - (KEYBOARD_PADDING + navigationWidth), self.view.frame.size.width, 30);
+    
+//    self.typingLabel.frame = CGRectMake(0, keyboardEndFrame.origin.y - (KEYBOARD_PADDING + navigationWidth), self.view.frame.size.width, 30);
+    
+    self.typingLabel.frame = CGRectMake(0,
+                            keyboardEndFrame.origin.y - (self.typingMessageView.frame.size.height + typingIndicatorHeight + navigationWidth),
+                            self.view.frame.size.width, typingIndicatorHeight);
+    
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         [self scrollTableViewToBottomWithAnimation:YES];
@@ -244,7 +266,12 @@
     CGFloat navigationWidth = self.navigationController.navigationBar.frame.size.height +
                                 [UIApplication sharedApplication].statusBarFrame.size.height;
     
-    self.typingLabel.frame = CGRectMake(0, keyboardEndFrame.origin.y - (KEYBOARD_PADDING + navigationWidth), self.view.frame.size.width, 30);
+//    self.typingLabel.frame = CGRectMake(0, keyboardEndFrame.origin.y - (KEYBOARD_PADDING + navigationWidth), self.view.frame.size.width, 30);
+    
+    self.typingLabel.frame = CGRectMake(0,
+                            keyboardEndFrame.origin.y - (self.typingMessageView.frame.size.height + typingIndicatorHeight + navigationWidth),
+                            self.view.frame.size.width, typingIndicatorHeight);
+    
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         
@@ -306,9 +333,9 @@
     UIImageView *imageView=[[UIImageView alloc] initWithImage: [ALUtilityClass getImageFromFramworkBundle:@"bbb.png"]];
     [imageView setFrame:CGRectMake(-10, 0, 30, 30)];
     [imageView setTintColor:[UIColor whiteColor]];
-    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(imageView.frame.origin.x + imageView.frame.size.width - 5, imageView.frame.origin.y + 5 , @"back".length, 15)];
+    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(imageView.frame.origin.x + imageView.frame.size.width - 5, imageView.frame.origin.y + 5 , 20, 15)];
     [label setTextColor:[UIColor whiteColor]];
-    [label setText:@"Back"];
+    [label setText:[ALApplozicSettings getTitleForBackButtonChatVC]];
     [label sizeToFit];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imageView.frame.size.width + label.frame.size.width, imageView.frame.size.height)];
@@ -316,9 +343,16 @@
     [view addSubview:imageView];
     [view addSubview:label];
     
-    UIButton *button=[[UIButton alloc] initWithFrame:view.frame];
-    [button addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:button];
+//    UIButton *button=[[UIButton alloc] initWithFrame:view.frame];
+//    [button addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+//    [view addSubview:button];
+    
+    UITapGestureRecognizer * backTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
+    backTap.numberOfTapsRequired = 1;
+    [view addGestureRecognizer:backTap];
+
+    
+    
     return view;
     
 }

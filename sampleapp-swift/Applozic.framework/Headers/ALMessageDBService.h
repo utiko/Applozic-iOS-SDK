@@ -27,6 +27,7 @@
 -(DB_Message*)addMessage:(ALMessage*) message;
 -(void)getMessages;
 -(void)fetchAndRefreshFromServer;
+-(void)fetchConversationsGroupByContactId;
 -(void)fetchAndRefreshQuickConversationWithCompletion:(void (^)( NSMutableArray *, NSError *))completion;
 
 -(NSManagedObject *)getMeesageById:(NSManagedObjectID *)objectID
@@ -60,5 +61,9 @@
 
 
 @property(nonatomic,weak) id <ALMessagesDelegate>delegate;
+
+-(void)fetchConversationfromServerWithCompletion:(void(^)(BOOL flag))completionHandler;
+
+
 
 @end

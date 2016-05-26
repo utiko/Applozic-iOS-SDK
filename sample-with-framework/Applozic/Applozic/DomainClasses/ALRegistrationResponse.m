@@ -20,6 +20,7 @@
     self.contactNumber = [registrationResponse valueForKey:@"contactNumber"];
     self.lastSyncTime = [registrationResponse valueForKey:@"lastSyncTime"];
     self.currentTimeStamp = [registrationResponse valueForKey:@"currentTimeStamp"];
+    self.brokerURL = [registrationResponse valueForKey:@"brokerUrl"];
     return self;
 }
 @end

@@ -22,6 +22,8 @@
 #import "ALUserBlockResponse.h"
 #import "ALUserService.h"
 #import "NSString+Encode.h"
+
+
 @implementation ALMessageClientService
 
 -(void) updateDeliveryReports:(NSMutableArray *) messages
@@ -96,27 +98,34 @@
 }
 
 
--(void) getLatestMessageGroupByContactWithCompletion:(void(^)(ALMessageList * alMessageList, NSError * error)) completion{
+-(void) getLatestMessageGroupByContact:(NSUInteger)mainPageSize startTime:(NSNumber *)startTime
+                        withCompletion:(void(^)(ALMessageList * alMessageList, NSError * error)) completion
+{
     NSLog(@"\nGet Latest Messages \t State:- User Login ");
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
     
-    NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@",@"0"];
+    NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@&mainPageSize=%lu", @"0",(unsigned long)mainPageSize];
+    
+    if(startTime)
+    {
+      theParamString = [NSString stringWithFormat:@"startIndex=%@&mainPageSize=%lu&endTime=%@", @"0", (unsigned long)mainPageSize, startTime];
+    }
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"GET MESSAGES GROUP BY CONTACT" WithCompletionHandler:^(id theJson, NSError *theError) {
         
-        if (theError) {
-            
-            completion(nil,theError);
-            
+        if (theError)
+        {
+            completion(nil, theError);
             return ;
         }
         
         ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson] ;
         
-        completion(messageListResponse,nil);
+        completion(messageListResponse, nil);
+        
         NSLog(@"message list response THE JSON %@",theJson);
         
         ALChannelService *channelService = [[ALChannelService alloc] init];
@@ -130,7 +139,8 @@
     
 }
 
--(void) getMessagesListGroupByContactswithCompletion:(void(^)(NSMutableArray * messages, NSError * error)) completion {
+-(void) getMessagesListGroupByContactswithCompletion:(void(^)(NSMutableArray * messages, NSError * error)) completion
+{
     NSLog(@"\nGet Latest Messages \t State:- User Opens Message List View");
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
     
@@ -155,12 +165,9 @@
 //        NSLog(@"getMessagesListGroupByContactswithCompletion message list response THE JSON %@",theJson);
         //        [ALUserService processContactFromMessages:[messageListResponse messageList]];
         
-        //====== NEED CHECK  DB QUERY AND CALLING METHODS
-        
         ALChannelService *channelService = [[ALChannelService alloc] init];
         [channelService callForChannelServiceForDBInsertion:theJson];
         
-        //=========
     }];
     
 }

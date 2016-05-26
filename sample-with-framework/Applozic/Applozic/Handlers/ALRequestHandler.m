@@ -9,6 +9,7 @@
 #import "ALUtilityClass.h"
 #import "ALUserDefaultsHandler.h"
 #import "NSString+Encode.h"
+#import "ALUser.h"
 
 @implementation ALRequestHandler
 
@@ -61,8 +62,14 @@
     
 }
 
-+(void) addGlobalHeader: (NSMutableURLRequest*) request{
++(void) addGlobalHeader: (NSMutableURLRequest*) request
+{
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    if(APPLOZIC == [ALUserDefaultsHandler getUserAuthenticationTypeId])
+    {
+        [request setValue:[ALUserDefaultsHandler getPassword] forHTTPHeaderField:@"Access-Token"];
+    }
     
     [request addValue:[ALUserDefaultsHandler getApplicationKey] forHTTPHeaderField:@"Application-Key"];
     [request addValue:@"true" forHTTPHeaderField:@"UserId-Enabled"];

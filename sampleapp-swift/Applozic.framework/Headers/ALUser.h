@@ -10,6 +10,13 @@
 #import <Foundation/Foundation.h>
 #import "ALJson.h"
 
+typedef enum
+{
+    CLIENT = 0,
+    APPLOZIC = 1,
+    FACEBOOK = 2,
+    
+} AuthenticationType;
 
 @interface ALUser : ALJson
 
@@ -30,5 +37,8 @@
 @property NSString *imageLink;
 @property NSString * appModuleName;
 @property short userTypeId;
+@property short notificationMode;
+@property short authenticationTypeId;
+
 @end
 

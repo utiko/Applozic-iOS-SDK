@@ -11,6 +11,7 @@
 #define TIME_LABEL_SIZE 10
 #define IMAGE_NAME_LABEL_SIZE 14
 
+#import "TSMessageView.h"
 #import "ALMessagesViewController.h"
 #import "ALConstant.h"
 #import "ALMessageService.h"
@@ -52,7 +53,7 @@
 // Private interface
 //------------------------------------------------------------------------------------------------------------------
 
-@interface ALMessagesViewController ()<UITableViewDataSource,UITableViewDelegate,ALMessagesDelegate, ALMQTTConversationDelegate>
+@interface ALMessagesViewController ()<UITableViewDataSource, UITableViewDelegate, ALMessagesDelegate, ALMQTTConversationDelegate>
 
 - (IBAction)logout:(id)sender;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
@@ -76,6 +77,8 @@
 @property (strong, nonatomic) UILabel *emptyConversationText;
 //@property (strong, nonatomic) NSNumber *channelKey;
 @property(strong, nonatomic) ALMQTTConversationService *alMqttConversationService;
+
+
 @end
 
 // $$$$$$$$$$$$$$$$$$ Class Extension for solving Constraints Issues.$$$$$$$$$$$$$$$$$$$$
@@ -109,7 +112,7 @@
     self.mTableView.allowsMultipleSelectionDuringEditing = NO;
     [self.mActivityIndicator startAnimating];
     
-    ALMessageDBService *dBService = [ALMessageDBService new];
+    ALMessageDBService * dBService = [ALMessageDBService new];
     dBService.delegate = self;
     [dBService getMessages];
 
@@ -124,12 +127,12 @@
                                                                            self.view.frame.origin.y + self.view.frame.size.height/2,
                                                                            self.view.frame.size.width, 30)];
     
-    [self.emptyConversationText setText:@"You have no conversations yet"];
+    [self.emptyConversationText setText:[ALApplozicSettings getEmptyConversationText]];
     [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:self.emptyConversationText];
     self.emptyConversationText.hidden =  YES;
     
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Back"]];
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:[ALApplozicSettings getTitleForBackButtonMsgVC]]];
     [self.navigationItem setLeftBarButtonItem: barButtonItem];
     
     if((self.channelKey || self.userIdToLaunch))
@@ -370,14 +373,16 @@
             ALChannelDBService * channelDBService =[[ALChannelDBService alloc] init];
             ALChannel * channel = [channelDBService loadChannelByKey:msg.groupId];
 
-            if(alContact.connected){
+            if(alContact.connected && [ALApplozicSettings getVisibilityForOnlineIndicator])
+            {
                 [contactCell.onlineImageMarker setHidden:NO];
             }
-            else{
+            else
+            {
                 [contactCell.onlineImageMarker setHidden:YES];
             }
             
-            if(alContact.block || alContact.blockBy)
+            if((alContact.block || alContact.blockBy))
             {
                 [contactCell.onlineImageMarker setHidden:YES];
             }
@@ -605,7 +610,7 @@
         {
             [contactCell.onlineImageMarker setHidden:YES];
         }
-        else if(alContact.connected)
+        else if(alContact.connected && [ALApplozicSettings getVisibilityForOnlineIndicator])
         {
             [contactCell.onlineImageMarker setHidden:NO];
         }
@@ -887,7 +892,7 @@
         [self.detailChatViewController.label setHidden:YES];
         
         ALContactCell * contactCell = [self getCell:userId];
-        if(contactCell)
+        if(contactCell && [ALApplozicSettings getVisibilityForOnlineIndicator])
         {
             [contactCell.onlineImageMarker setHidden:flag];
         }
@@ -957,7 +962,7 @@
     {
         ALContactCell *contactCell = [self getCell:alUserDetail.userId];
         [contactCell.onlineImageMarker setHidden:YES];
-        if(alUserDetail.connected)
+        if(alUserDetail.connected && [ALApplozicSettings getVisibilityForOnlineIndicator])
         {
             [contactCell.onlineImageMarker setHidden:NO];
         }
@@ -1087,12 +1092,11 @@
 
 -(UIView *)setCustomBackButton:(NSString *)text
 {
-//    UIImageView *imageView = [[UIImageView alloc] initWithImage: [ALUtilityClass getImageFromFramworkBundle:@"DTDT.png"]];
+
     UIImageView *imageView = [[UIImageView alloc] initWithImage: [ALUtilityClass getImageFromFramworkBundle:@"bbb.png"]];
     [imageView setFrame:CGRectMake(-10, 0, 30, 30)];
     [imageView setTintColor:[UIColor whiteColor]];
-    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(imageView.frame.origin.x + imageView.frame.size.width - 5, imageView.frame.origin.y + 5 , @"back".length, 15)];
-//    [label setTextColor:[UIColor whiteColor]];
+    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(imageView.frame.origin.x + imageView.frame.size.width - 5, imageView.frame.origin.y + 5 , 20, 15)];
     [label setTextColor: [ALApplozicSettings getColorForNavigationItem]];
     [label setText:text];
     [label sizeToFit];
@@ -1102,10 +1106,16 @@
     [view addSubview:imageView];
     [view addSubview:label];
     
-    UIButton *button=[[UIButton alloc] initWithFrame:view.frame];
-    [button addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+//    UIButton * button = [[UIButton alloc] initWithFrame:view.frame];
+//    [button addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UITapGestureRecognizer * backTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
+    backTap.numberOfTapsRequired = 1;
+    [view addGestureRecognizer:backTap];
+
+    
     //    [button addSubview:view];
-    [view addSubview:button];
+//    [view addSubview:button];
     return view;
     
 }
@@ -1182,6 +1192,50 @@
 -(void)handleCustomActionFromChatVC:(UIViewController *)chatViewController andWithMessage:(ALMessage *)alMessage
 {
     [self.messagesViewDelegate handleCustomActionFromMsgVC:chatViewController andWithMessage:alMessage];
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    NSLog(@"END_SCROCLLING_TRY");
+    CGPoint offset = scrollView.contentOffset;
+    CGRect bounds = scrollView.bounds;
+    CGSize size = scrollView.contentSize;
+    UIEdgeInsets inset = scrollView.contentInset;
+    float y = offset.y + bounds.size.height - inset.bottom;
+    float h = size.height;
+    float reload_distance = 10;
+    
+    if(y > (h - reload_distance))
+    {
+       [self fetchMoreMessages:scrollView];
+    }
+}
+
+-(void)fetchMoreMessages:(UIScrollView*)aScrollView
+{
+    ALMessageDBService * dBService = [ALMessageDBService new];
+    dBService.delegate = self;
+    [self.mActivityIndicator startAnimating];
+    [self.mTableView setUserInteractionEnabled:NO];
+    
+    if(![ALUserDefaultsHandler getFlagForAllConversationFetched])
+    {
+        [dBService fetchConversationfromServerWithCompletion:^(BOOL flag) {
+           
+            [self.mActivityIndicator stopAnimating];
+            [self.mTableView setUserInteractionEnabled:YES];
+            
+        }];
+    }
+    else
+    {
+        [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
+        [TSMessage showNotificationWithTitle:@"No more conversations" type:TSMessageNotificationTypeWarning];
+        [self.mActivityIndicator stopAnimating];
+        [self.mTableView setUserInteractionEnabled:YES];
+    }
+    
+
 }
 
 @end

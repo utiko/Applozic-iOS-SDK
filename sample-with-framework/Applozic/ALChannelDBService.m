@@ -387,10 +387,13 @@
     NSArray *array = [theDBHandler.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     NSMutableArray * alChannels = [[NSMutableArray alloc] init];
     if(array.count){
-        for(DB_CHANNEL *ss in array){
+        for(DB_CHANNEL *ss in array)
+        {
             ALChannel* channel = [[ALChannel alloc] init];
             channel.key = ss.channelKey;
             channel.name = ss.channelDisplayName;
+            channel.adminKey = ss.adminId;
+            channel.type = ss.type;
             [alChannels addObject:channel];
         }
     }

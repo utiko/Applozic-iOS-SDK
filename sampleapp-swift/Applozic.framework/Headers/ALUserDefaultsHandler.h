@@ -34,6 +34,12 @@
 #define APPLOZIC_FILE_URL @"APPLOZIC_FILE_URL"
 #define APPLOZIC_MQTT_PORT @"APPLOZIC_MQTT_PORT"
 #define USER_TYPE_ID @"USER_TYPE_ID"
+#define MESSSAGE_LIST_LAST_TIME @"MESSSAGE_LIST_LAST_TIME"
+#define ALL_CONVERSATION_FETCHED @"ALL_CONVERSATION_FETCHED"
+#define CONVERSATION_FETCH_PAGE_SIZE @"CONVERSATION_FETCH_PAGE_SIZE"
+#define NOTIFICATION_MODE @"NOTIFICATION_MODE"
+#define USER_PASSWORD @"USER_PASSWORD"
+#define USER_AUTHENTICATION_TYPE_ID @"USER_AUTHENTICATION_TYPE_ID"
 
 #import <Foundation/Foundation.h>
 
@@ -126,6 +132,9 @@
 //+(NSString *)getNotificationTitle;
 //+(void)setNotificationTitle:(NSString *)notificationTitle;
 
++(NSString *)getPassword;
++(void )setPassword:(NSString *)password;
+
 +(void)setAppModuleName:(NSString*)appModuleName;
 +(NSString*)getAppModuleName;
 
@@ -149,5 +158,20 @@
 
 +(void)setUserTypeId:(short)type;
 +(short)getUserTypeId;
+
++(NSNumber *)getLastMessageListTime;
++(void)setLastMessageListTime:(NSNumber *)lastTime;
+
++(BOOL)getFlagForAllConversationFetched;
++(void)setFlagForAllConversationFetched:(BOOL)flag;
+
++(NSInteger)getFetchConversationPageSize;
++(void)setFetchConversationPageSize:(NSInteger)limit;
+
++(short)getNotificationMode;
++(void)setNotificationMode:(short)mode;
+
++(short)getUserAuthenticationTypeId;
++(void)setUserAuthenticationTypeId:(short)type;
 
 @end

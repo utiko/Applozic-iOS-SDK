@@ -110,7 +110,6 @@
 +(void)setBoolForKey_isConversationDbSynced:(BOOL)value
 {
     [[NSUserDefaults standardUserDefaults] setBool:value forKey:CONVERSATION_DB_SYNCED];
-    
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -180,6 +179,18 @@
 {
     return [[NSUserDefaults standardUserDefaults]
             valueForKey:USER_ID];
+}
+
+//password
++(void )setPassword:(NSString *)password
+{
+    [[NSUserDefaults standardUserDefaults] setValue:password forKey:USER_PASSWORD];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getPassword
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:USER_PASSWORD];
 }
 
 //last sync time
@@ -432,6 +443,63 @@
 
 +(short)getUserTypeId{
     return [[NSUserDefaults standardUserDefaults] integerForKey:USER_TYPE_ID];
+}
+
++(void)setLastMessageListTime:(NSNumber *)lastTime
+{
+    lastTime = @([lastTime doubleValue] + 1);
+    [[NSUserDefaults standardUserDefaults] setDouble:[lastTime doubleValue] forKey:MESSSAGE_LIST_LAST_TIME];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSNumber *)getLastMessageListTime
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:MESSSAGE_LIST_LAST_TIME];
+}
+
++(void)setFlagForAllConversationFetched:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:ALL_CONVERSATION_FETCHED];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getFlagForAllConversationFetched
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:ALL_CONVERSATION_FETCHED];
+}
+
++(void)setFetchConversationPageSize:(NSInteger)limit
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:limit forKey:CONVERSATION_FETCH_PAGE_SIZE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSInteger)getFetchConversationPageSize
+{
+    NSInteger maxLimit = [[NSUserDefaults standardUserDefaults] integerForKey:CONVERSATION_FETCH_PAGE_SIZE];
+    return maxLimit ? maxLimit : 20;
+}
+
++(void)setNotificationMode:(short)mode
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:mode forKey:NOTIFICATION_MODE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(short)getNotificationMode
+{
+    return [[NSUserDefaults standardUserDefaults] integerForKey:NOTIFICATION_MODE];
+}
+
++(void)setUserAuthenticationTypeId:(short)type
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:type forKey:USER_AUTHENTICATION_TYPE_ID];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(short)getUserAuthenticationTypeId
+{
+    return [[NSUserDefaults standardUserDefaults] integerForKey:USER_AUTHENTICATION_TYPE_ID];
 }
 
 @end

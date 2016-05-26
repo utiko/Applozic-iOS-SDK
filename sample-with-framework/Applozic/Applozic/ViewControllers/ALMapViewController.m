@@ -90,17 +90,24 @@
     NSDictionary * latLongDic = [[NSDictionary alloc] initWithObjectsAndKeys:lat,@"lat",lon,@"lon", nil];
     
     NSString *jsonString = [self createJson:latLongDic];
+
+    [self.sendLocationButton setEnabled:NO];
     
     if([ALDataNetworkConnection checkDataNetworkAvailable]){
         [self.controllerDelegate sendGoogleMap:jsonString withCompletion:^(NSString *message, NSError *error) {
-            if(!error){
+            
+            if(!error)
+            {
                 [self.navigationController popViewControllerAnimated:YES];
+                [self.sendLocationButton setEnabled:YES];
             }
         }];
     }
-    else{
+    else
+    {
         [self.controllerDelegate sendGoogleMapOffline:jsonString];
         [self.navigationController popViewControllerAnimated:YES];
+        [self.sendLocationButton setEnabled:YES];
     }
     
 }

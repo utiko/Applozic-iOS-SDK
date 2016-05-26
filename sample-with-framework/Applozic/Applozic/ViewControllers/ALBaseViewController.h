@@ -32,5 +32,9 @@
 - (IBAction)attachmentActionMethod:(id)sender;
 -(UIView *)setCustomBackButton;
 -(void)makeCallContact;
+@property (strong, nonatomic) IBOutlet UIImageView *typeMsgBG;
+
+@property (strong, nonatomic) IBOutlet UILabel *noConversationLabel;
+
 
 @end

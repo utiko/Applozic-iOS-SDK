@@ -7,6 +7,7 @@
 //
 
 #import "ALApplozicSettings.h"
+#import "ALUserDefaultsHandler.h"
 
 @interface ALApplozicSettings ()
 
@@ -131,15 +132,26 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:REFRESH_BUTTON_VISIBILITY];
 }
 
-+(void)setTitleForBackButton:(NSString *)backButtonTitle
++(void)setTitleForBackButtonMsgVC:(NSString *)backButtonTitle
 {
     [[NSUserDefaults standardUserDefaults] setValue:backButtonTitle forKey:BACK_BUTTON_TITLE];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(NSString *)getBackButtonTitle
++(NSString *)getTitleForBackButtonMsgVC
 {
     return [[NSUserDefaults standardUserDefaults] valueForKey:BACK_BUTTON_TITLE];
+}
+
++(void)setTitleForBackButtonChatVC:(NSString *)backButtonTitle
+{
+    [[NSUserDefaults standardUserDefaults] setValue:backButtonTitle forKey:BACK_BUTTON_TITLE_CHATVC];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getTitleForBackButtonChatVC
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:BACK_BUTTON_TITLE_CHATVC];
 }
 
 +(void)setNotificationTitle:(NSString *)notificationTitle
@@ -312,6 +324,106 @@
 +(BOOL)getCallOption
 {
      return [[NSUserDefaults standardUserDefaults] boolForKey:USER_CALL_OPTION];
+}
+
++(void)disableNotificationSound
+{
+    [ALUserDefaultsHandler setNotificationMode:1];
+}
+
++(void)enableNotificationSound
+{
+    [ALUserDefaultsHandler setNotificationMode:0];
+}
+
++(void)setColorForSendButton:(UIColor *)color
+{
+    NSData * colorData = [NSKeyedArchiver archivedDataWithRootObject:color];
+    [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:SEND_BUTTON_BG_COLOR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getColorForSendButton
+{
+    NSData * colorData = [[NSUserDefaults standardUserDefaults] objectForKey:SEND_BUTTON_BG_COLOR];
+    UIColor * color = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
+    return color;
+}
+
++(void)setColorForTypeMsgBackground:(UIColor *)viewColor
+{
+    NSData * viewColorData = [NSKeyedArchiver archivedDataWithRootObject:viewColor];
+    [[NSUserDefaults standardUserDefaults] setObject:viewColorData forKey:TYPE_MSG_BG_COLOR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getColorForTypeMsgBackground
+{
+    NSData * viewColorData = [[NSUserDefaults standardUserDefaults] objectForKey:TYPE_MSG_BG_COLOR];
+    UIColor * viewColor = [NSKeyedUnarchiver unarchiveObjectWithData:viewColorData];
+    return viewColor ? viewColor : [UIColor lightGrayColor];
+}
+
++(void)setBGColorForTypingLabel:(UIColor *)bgColor
+{
+    NSData * bgColorData = [NSKeyedArchiver archivedDataWithRootObject:bgColor];
+    [[NSUserDefaults standardUserDefaults] setObject:bgColorData forKey:TYPING_LABEL_BG_COLOR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getBGColorForTypingLabel
+{
+    NSData * bgColorData = [[NSUserDefaults standardUserDefaults] objectForKey:TYPING_LABEL_BG_COLOR];
+    UIColor * bgColor = [NSKeyedUnarchiver unarchiveObjectWithData:bgColorData];
+    return bgColor ? bgColor : [UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0 alpha:1];
+}
+
++(void)setTextColorForTypingLabel:(UIColor *)txtColor
+{
+    NSData * txtColorData = [NSKeyedArchiver archivedDataWithRootObject:txtColor];
+    [[NSUserDefaults standardUserDefaults] setObject:txtColorData forKey:TYPING_LABEL_TEXT_COLOR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getTextColorForTypingLabel
+{
+    NSData * txtColorData = [[NSUserDefaults standardUserDefaults] objectForKey:TYPING_LABEL_TEXT_COLOR];
+    UIColor * txtColor = [NSKeyedUnarchiver unarchiveObjectWithData:txtColorData];
+    return txtColor ? txtColor : [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:0.5];
+}
+
++(void)setEmptyConversationText:(NSString *)text
+{
+    [[NSUserDefaults standardUserDefaults] setValue:text forKey:EMPTY_CONVERSATION_TEXT];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getEmptyConversationText
+{
+    NSString * text = [[NSUserDefaults standardUserDefaults] valueForKey:EMPTY_CONVERSATION_TEXT];
+    return text ? text : @"You have no conversations yet";
+}
+
++(void)setVisibilityNoConversationLabelChatVC:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:NO_CONVERSATION_FLAG_CHAT_VC];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getVisibilityNoConversationLabelChatVC
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:NO_CONVERSATION_FLAG_CHAT_VC];
+}
+
++(void)setVisibilityForOnlineIndicator:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:ONLINE_INDICATOR_VISIBILITY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getVisibilityForOnlineIndicator
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:ONLINE_INDICATOR_VISIBILITY];
 }
 
 @end

@@ -10,6 +10,7 @@
 #import "ALMessage.h"
 #import "ALUserDetail.h"
 #import "ALChannel.h"
+#import "ALUserDefaultsHandler.h"
 
 @implementation ALMessageList
 
@@ -35,33 +36,44 @@
     NSMutableArray * theUserDetailArray = [NSMutableArray new];
     NSMutableArray * conversationProxyList = [NSMutableArray new];
 
-    
     NSDictionary * theMessageDict = [messagejson valueForKey:@"message"];
-
-    for (NSDictionary * theDictionary in theMessageDict) {
-          ALMessage *message = [[ALMessage alloc] initWithDictonary:theDictionary ];
+    NSLog(@"MESSAGES_DICT_COUNT :: %lu",(unsigned long)theMessageDict.count);
+    if(theMessageDict.count < [ALUserDefaultsHandler getFetchConversationPageSize])
+    {
+        NSLog(@"NO_MORE_MESSAGES");
+        [ALUserDefaultsHandler setFlagForAllConversationFetched: YES];
+    }
+    
+    for (NSDictionary * theDictionary in theMessageDict)
+    {
+        ALMessage *message = [[ALMessage alloc] initWithDictonary:theDictionary];
         [theMessagesArray addObject:message];
     }
     self.messageList = theMessagesArray;
     
     NSDictionary * theUserDetailsDict = [messagejson valueForKey:@"userDetails"];
 
-    for (NSDictionary * theDictionary in theUserDetailsDict) {
+    for (NSDictionary * theDictionary in theUserDetailsDict)
+    {
         ALUserDetail * alUserDetail = [[ALUserDetail alloc] initWithDictonary:theDictionary];
         [theUserDetailArray addObject:alUserDetail];
     }
     
     NSDictionary * theConversationProxyDict = [messagejson valueForKey:@"conversationPxys"];
-    for (NSDictionary * theDictionary in theConversationProxyDict) {
+    
+    for (NSDictionary * theDictionary in theConversationProxyDict)
+    {
         ALConversationProxy *conversationProxy = [[ALConversationProxy alloc] initWithDictonary:theDictionary];
-        
-        conversationProxy.userId =self.userId;
-        conversationProxy.groupId =self.groupId;
-        
+        conversationProxy.userId = self.userId;
+        conversationProxy.groupId = self.groupId;
         [conversationProxyList addObject:conversationProxy];
     }
+    
     self.conversationPxyList = conversationProxyList;
     self.userDetailsList = theUserDetailArray;
+    
+    ALMessage * lastMessage = (ALMessage *)[theMessagesArray lastObject];
+    [ALUserDefaultsHandler setLastMessageListTime:lastMessage.createdAtTime];
     
 }
 

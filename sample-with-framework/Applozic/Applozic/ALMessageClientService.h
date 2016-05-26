@@ -23,7 +23,8 @@
 
 -(void) addWelcomeMessage:(NSNumber *)channelKey;
 
--(void) getLatestMessageGroupByContactWithCompletion:(void(^)(ALMessageList * alMessageList, NSError * error)) completion;
+-(void) getLatestMessageGroupByContact:(NSUInteger)mainPageSize startTime:(NSNumber *)startTime
+                        withCompletion:(void(^)(ALMessageList * alMessageList, NSError * error)) completion;
 
 -(void) getMessagesListGroupByContactswithCompletion:(void(^)(NSMutableArray * messages, NSError * error)) completion;
 

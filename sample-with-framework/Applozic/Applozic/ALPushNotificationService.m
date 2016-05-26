@@ -25,7 +25,7 @@
     static NSArray *notificationTypes;
     if (!notificationTypes)
     {
-        notificationTypes = [[NSArray alloc] initWithObjects:MT_SYNC, MT_CONVERSATION_READ, MT_DELIVERED,MT_SYNC_PENDING, MT_DELETE_MESSAGE, MT_DELETE_MULTIPLE_MESSAGE, MT_CONVERSATION_DELETED, MTEXTER_USER, MT_CONTACT_VERIFIED, MT_CONTACT_VERIFIED, MT_DEVICE_CONTACT_SYNC, MT_EMAIL_VERIFIED,MT_DEVICE_CONTACT_MESSAGE, MT_CANCEL_CALL, MT_MESSAGE,MT_MESSAGE_DELIVERED_AND_READ,MT_CONVERSATION_DELIVERED_AND_READ,MT_USER_BLOCK,MT_USER_UNBLOCK,nil];
+        notificationTypes = [[NSArray alloc] initWithObjects:MT_SYNC, MT_CONVERSATION_READ, MT_DELIVERED,MT_SYNC_PENDING, MT_DELETE_MESSAGE, MT_DELETE_MULTIPLE_MESSAGE, MT_CONVERSATION_DELETED, MTEXTER_USER, MT_CONTACT_VERIFIED, MT_CONTACT_VERIFIED, MT_DEVICE_CONTACT_SYNC, MT_EMAIL_VERIFIED,MT_DEVICE_CONTACT_MESSAGE, MT_CANCEL_CALL, MT_MESSAGE,MT_MESSAGE_DELIVERED_AND_READ,MT_CONVERSATION_DELIVERED_AND_READ,MT_USER_BLOCK,MT_USER_UNBLOCK,TEST_NOTIFICATION,nil];
     }
     return notificationTypes;
 }
@@ -61,7 +61,7 @@
         
         NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
         
-        if( notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId] ){
+        if(notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId]){
             NSLog(@"Returning from ALPUSH because notificationId is already processed... %@",notificationId);
             return true;
         }
@@ -96,40 +96,40 @@
            
             
         }
-        else if ([type isEqualToString:@"MESSAGE_SENT"] || [type isEqualToString:@"APPLOZIC_02"]) {
+        else if ([type isEqualToString:@"MESSAGE_SENT"]||[type isEqualToString:@"APPLOZIC_02"]){
             
         }
-        else if ([type isEqualToString:@"MESSAGE_DELIVERED"] ||[type isEqualToString:MT_DELIVERED])  {
+        else if ([type isEqualToString:@"MESSAGE_DELIVERED"]||[type isEqualToString:MT_DELIVERED]){
             
             NSArray *deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
             NSString * pairedKey = deliveryParts[0];
             [self.alSyncCallService updateMessageDeliveryReport:pairedKey withStatus:DELIVERED];
             [[ NSNotificationCenter defaultCenter] postNotificationName:@"report_DELIVERED" object:deliveryParts[0] userInfo:dictionary];
         }
-        else if ( [type isEqualToString:@"MESSAGE_DELIVERED_READ"] ||[type isEqualToString:@"APPLOZIC_08"] ){
+        else if ([type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:@"APPLOZIC_08"]){
             
             NSArray  * deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
             NSString * pairedKey = deliveryParts[0];
             [self.alSyncCallService updateMessageDeliveryReport:pairedKey withStatus:DELIVERED_AND_READ];
             [[ NSNotificationCenter defaultCenter] postNotificationName:@"report_DELIVERED_READ" object:deliveryParts[0] userInfo:dictionary];
         }
-        else if ([type isEqualToString: MT_CONVERSATION_DELETED]){
+        else if ([type isEqualToString:MT_CONVERSATION_DELETED]){
             
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
             [messageDBService deleteAllMessagesByContact:notificationMsg orChannelKey:nil];
         }
-        else if ([type isEqualToString: @"APPLOZIC_05"]){
+        else if ([type isEqualToString:@"APPLOZIC_05"]){
             
             ALMessageDBService* messageDBService = [[ALMessageDBService alloc] init];
             [messageDBService deleteMessageByKey: notificationMsg];
         }
-        else if ([type isEqualToString:@"APPLOZIC_10"]) {
+        else if ([type isEqualToString:@"APPLOZIC_10"]){
             
             [self.alSyncCallService updateDeliveryStatusForContact:notificationMsg withStatus:DELIVERED_AND_READ];
             [[ NSNotificationCenter defaultCenter] postNotificationName:@"report_CONVERSATION_DELIVERED_READ" object:notificationMsg];
             
         }
-        else if ([type isEqualToString: @"APPLOZIC_11"]) {
+        else if ([type isEqualToString:@"APPLOZIC_11"]){
             
             ALUserDetail *alUserDetail = [[ALUserDetail alloc] init];
             alUserDetail.userId = notificationMsg;
@@ -138,7 +138,7 @@
             [self.alSyncCallService updateConnectedStatus: alUserDetail];
             [[ NSNotificationCenter defaultCenter] postNotificationName:@"update_USER_STATUS" object:alUserDetail];
         }
-        else if ([type isEqualToString:@"APPLOZIC_12"]) {
+        else if ([type isEqualToString:@"APPLOZIC_12"]){
             
             NSArray *parts = [notificationMsg componentsSeparatedByString:@","];
             
@@ -150,29 +150,32 @@
             [[ NSNotificationCenter defaultCenter] postNotificationName:@"update_USER_STATUS" object:alUserDetail];
             
         }
-        else if ([type isEqualToString:@"APPLOZIC_15"]) {
+        else if ([type isEqualToString:@"APPLOZIC_15"]){
             ALChannelService *channelService = [[ALChannelService alloc] init];
             [channelService syncCallForChannel];
             // TODO HANDLE
         }
-        else if ([type isEqualToString:@"APPLOZIC_06"]) {
+        else if ([type isEqualToString:@"APPLOZIC_06"]){
             // TODO HANDLE
             // IF CONTACT ID THE DELETE USER
             // IF CHANNEL KEY then DELETE CHANNEL
         }
-        else if ([type isEqualToString:@"APPLOZIC_16"]) {
+        else if ([type isEqualToString:@"APPLOZIC_16"]){
 //            NSLog(@"BLOCKED / BLOCKED BY");
             if([self processUserBlockNotification:theMessageDict andUserBlockFlag:YES])
             {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"USER_BLOCK_NOTIFICATION" object:nil];
             }
         }
-        else if ([type isEqualToString:@"APPLOZIC_17"]) {
+        else if ([type isEqualToString:@"APPLOZIC_17"]){
 //            NSLog(@"UNBLOCKED / UNBLOCKED BY");
             if([self processUserBlockNotification:theMessageDict andUserBlockFlag:NO])
             {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"USER_UNBLOCK_NOTIFICATION" object:nil];
             }
+        }
+        else if ([type isEqualToString:@"APPLOZIC_20"]){
+            NSLog(@"Process Push Notification APPLOZIC_20");
         }
         
         return TRUE;
