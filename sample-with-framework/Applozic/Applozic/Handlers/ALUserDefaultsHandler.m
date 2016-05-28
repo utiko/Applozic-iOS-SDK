@@ -499,7 +499,8 @@
 
 +(short)getUserAuthenticationTypeId
 {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:USER_AUTHENTICATION_TYPE_ID];
+    short type = [[NSUserDefaults standardUserDefaults] integerForKey:USER_AUTHENTICATION_TYPE_ID];
+    return type ? type : 0;
 }
 
 @end

@@ -39,6 +39,15 @@
 
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userUpdate:) name:@"userUpdate" object:nil];
+    
+    //////////////////////////   SET AUTHENTICATION-TYPE-ID FOR INTERNAL USAGE ONLY ////////////////////////
+    [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
+    ////////////////////////// //////  PLEASE REMOVE IT IF YOU ARE CLIENT ///////////////// ///////////////////////
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -205,9 +214,8 @@
     return alConversationProxy;
 
 }
--(void)viewWillAppear:(BOOL)animated{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userUpdate:) name:@"userUpdate" object:nil];
-}
+
+
 -(void)viewWillDisappear:(BOOL)animated {
     [_activityView stopAnimating];
     [_activityView removeFromSuperview];

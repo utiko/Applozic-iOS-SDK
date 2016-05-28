@@ -29,6 +29,9 @@
     
     self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
     
+    //////////////////////////   SET AUTHENTICATION-TYPE-ID FOR INTERNAL USAGE ONLY ////////////////////////
+        [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
+    ////////////////////////// //////  PLEASE REMOVE IT IF YOU ARE CLIENT ///////////////// ///////////////////////
     
     [self ALDefaultChatViewSettings];
     [alUser setApplicationId:APPLICATION_ID];

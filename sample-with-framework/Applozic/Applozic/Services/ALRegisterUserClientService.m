@@ -33,9 +33,6 @@
     [user setAppVersionCode: VERSION_CODE];
     [user setRegistrationId: [ALUserDefaultsHandler getApnDeviceToken]];
     [user setNotificationMode:[ALUserDefaultsHandler getNotificationMode]];
-    
-    [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
-    
     [user setAuthenticationTypeId:[ALUserDefaultsHandler getUserAuthenticationTypeId]];
     [user setPassword:[ALUserDefaultsHandler getPassword]];
     

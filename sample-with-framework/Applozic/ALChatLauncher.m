@@ -185,7 +185,7 @@
 -(void)checkUserContact:(NSString *)userId withCompletion:(void(^)())completion
 {
     ALContactDBService *contacDB = [[ALContactDBService alloc] init];
-    if(![contacDB getContactByKey:@"userId" value:userId])
+    if(![contacDB loadContactByKey:@"userId" value:userId])
     {
         [ALUserService userDetailServerCall:userId withCompletion:^(ALUserDetail *alUserDetail) {
             
