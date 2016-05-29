@@ -44,6 +44,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userUpdate:) name:@"userUpdate" object:nil];
+}
+
 - (IBAction)logOutButton:(id)sender {
     
     ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
@@ -156,9 +162,7 @@
     return alConversationProxy;
     
 }
--(void)viewWillAppear:(BOOL)animated{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userUpdate:) name:@"userUpdate" object:nil];
-}
+
 -(void)viewWillDisappear:(BOOL)animated {
     [_activityView stopAnimating];
     [_activityView removeFromSuperview];

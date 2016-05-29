@@ -16,7 +16,7 @@
 //#define APPLICATION_ID @"66970d99efa63c4adaeb65b51316ed2c"
 
 
-@interface DemoChatManager : NSObject <ALChatLauncherDelegate>
+@interface DemoChatManager : NSObject 
 
 @property(nonatomic,strong) ALChatLauncher * chatLauncher;
 

@@ -612,11 +612,11 @@ ALMessageDBService  * dbService;
     titleLabelButton.frame = CGRectMake(0, 0, 70, 44);
     [titleLabelButton addTarget:self action:@selector(didTapTitleView:) forControlEvents:UIControlEventTouchUpInside];
     
-    if(!(self.individualLaunch) || [ALUserDefaultsHandler isServerCallDoneForUserInfoForContact:[self.alContact userId]])
-    {
+//    if(!(self.individualLaunch) || [ALUserDefaultsHandler isServerCallDoneForUserInfoForContact:[self.alContact userId]])
+//    {
         [titleLabelButton setTitle:[self.alContact getDisplayName] forState:UIControlStateNormal];
-    }
-    titleLabelButton.userInteractionEnabled = NO;    
+//    }
+    titleLabelButton.userInteractionEnabled = NO;
     
     if([self isGroup])
     {
@@ -1297,8 +1297,16 @@ ALMessageDBService  * dbService;
     theMessage.contentType = 0; //TO-DO chnge after...
     theMessage.groupId = self.channelKey;
     theMessage.conversationId  = self.conversationId;
+//    theMessage.metadata = [self getNewMetaDataDictionary]; // EXAMPLE FOR META DATA
     return theMessage;
 }
+
+//-(NSMutableDictionary *)getNewMetaDataDictionary      // EXAMPLE FOR META DATA
+//{
+//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+//    [dict setObject:@"VALUE" forKey:@"KEY"];
+//    return dict;
+//}
 
 -(ALFileMetaInfo *) getFileMetaInfo
 {

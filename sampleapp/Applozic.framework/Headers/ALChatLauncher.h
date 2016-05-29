@@ -39,6 +39,5 @@
 
 -(void)launchChatListWithUserOrGroup:(NSString *)userId withChannel:(NSNumber*)channelKey andViewControllerObject:(UIViewController *)viewController;
 
--(void)checkUserContact:(NSString *)userId withCompletion:(void(^)())completion;
 
 @end

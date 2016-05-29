@@ -38,4 +38,6 @@
 @property (nonatomic, retain) NSNumber * conversationId;
 @property (nonatomic, retain) NSNumber * status;
 @property (nonatomic, retain) NSString * pairedMessageKey;
+@property (nonatomic, retain) NSString * metadata;
+
 @end

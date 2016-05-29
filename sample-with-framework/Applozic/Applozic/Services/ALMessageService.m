@@ -129,6 +129,7 @@ static ALMessageClientService *alMsgClientService;
     }];
 }
 
+
 +(void) sendMessages:(ALMessage *)alMessage withCompletion:(void(^)(NSString * message, NSError * error)) completion {
     
     //DB insert if objectID is null
@@ -634,4 +635,14 @@ totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInte
     
     return theMessage;
 }
+
++(ALMessage *)createMessageWithMetaData:(NSMutableDictionary *)metaData andReceiverId:(NSString *)receiverId andMessageText:(NSString *)msgTxt
+{
+    ALMessage * theMessage = [self createMessageEntityOfContentType:0 toSendTo:receiverId withText:msgTxt];
+    theMessage.metadata = metaData;
+    return theMessage;
+
+}
+
+
 @end

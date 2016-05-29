@@ -459,6 +459,8 @@
     theMessageEntity.deletedFlag=[NSNumber numberWithBool:theMessage.deleted];
     theMessageEntity.conversationId = theMessage.conversationId;
     theMessageEntity.pairedMessageKey = theMessage.pairedMessageKey;
+    theMessageEntity.metadata = theMessage.metadata.description;
+
     if(theMessage.getGroupId)
     {
         theMessageEntity.groupId = theMessage.groupId;
@@ -467,6 +469,7 @@
         DB_FileMetaInfo *  fileInfo =  [self createFileMetaInfoEntityForDBInsertionWithMessage:theMessage.fileMeta];
         theMessageEntity.fileMetaInfo = fileInfo;
     }
+    
     return theMessageEntity;
 }
 
@@ -516,7 +519,8 @@
     theMessage.groupId = theEntity.groupId;
     theMessage.conversationId = theEntity.conversationId;
     theMessage.pairedMessageKey = theEntity.pairedMessageKey;
-    
+    theMessage.metadata = [theMessage getMetaDataDictionary:theEntity.metadata];
+
     // file meta info
     if(theEntity.fileMetaInfo){
         ALFileMetaInfo * theFileMeta = [ALFileMetaInfo new];

@@ -37,5 +37,6 @@
 @dynamic conversationId;
 @dynamic status;
 @dynamic pairedMessageKey;
+@dynamic metadata;
 
 @end

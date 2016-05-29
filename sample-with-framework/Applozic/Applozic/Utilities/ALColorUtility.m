@@ -72,10 +72,15 @@
     [colourDictionary setObject:@"#BCAAA4" forKey:@"Y"];
     [colourDictionary setObject:@"#AED581" forKey:@"Z"];
     
+    if(!alphabet || [alphabet isEqualToString:@""])
+    {
+        return [UIColor whiteColor];
+    }
+    
     NSString * firstLetter = [[alphabet substringToIndex:1] uppercaseString];
     UIColor * colour = [self colorWithHexString:[colourDictionary valueForKey:firstLetter]];
     
-    if([alphabet isEqualToString:@""] || !colour)
+    if(!colour)
     {
         NSArray * keyArray = [colourDictionary allKeys];
         NSUInteger randomIndex = random()% [keyArray count];

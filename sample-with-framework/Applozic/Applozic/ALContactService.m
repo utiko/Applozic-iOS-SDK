@@ -92,12 +92,12 @@
     
     DB_CONTACT *dbContact = [alContactDBService getContactByKey:@"userId" value:contactId];
     
-    ALContact *contact = [[ALContact alloc]init];
+    ALContact *contact = [[ALContact alloc] init];
     if (!dbContact) {
         contact.userId = contactId;
         contact.displayName = displayName;
         [self addContact:contact];
-        [ ALUserService updateUserDisplayName:contact];
+        [ALUserService updateUserDisplayName:contact];
         return contact;
     }
     contact.userId = dbContact.userId;

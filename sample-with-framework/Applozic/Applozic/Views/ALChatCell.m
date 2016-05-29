@@ -387,8 +387,13 @@
     
     /*    =========================== FOR PUSH VC ON TAP =============================  */
     
-//    [self.mBubleImageView setUserInteractionEnabled:YES];
-//    [self.mBubleImageView addGestureRecognizer:tapForCustomView];
+//   CHECKING IF MESSAGE META-DATA DICTIONARY HAVE SOME DATA
+    
+    if(self.mMessage.metadata.count)
+    {
+        [self.mBubleImageView setUserInteractionEnabled:YES];
+        [self.mBubleImageView addGestureRecognizer:tapForCustomView];
+    }
     
     /*    ====================================== END =================================  */
     

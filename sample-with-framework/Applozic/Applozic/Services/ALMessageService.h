@@ -59,4 +59,7 @@
 +(void)getMessagesListGroupByContactswithCompletionService:(void(^)(NSMutableArray * messages, NSError * error))completion;
 
 +(ALMessage *)createHiddenMessageEntitySentTo:(NSString*)to withText:(NSString*)text;
+
++(ALMessage *)createMessageWithMetaData:(NSMutableDictionary *)metaData andReceiverId:(NSString *)receiverId andMessageText:(NSString *)msgTxt;
+
 @end

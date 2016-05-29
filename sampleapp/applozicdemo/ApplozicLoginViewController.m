@@ -169,6 +169,7 @@
     [ALUserDefaultsHandler setUserId:user.userId];
     [ALUserDefaultsHandler setEmailId:user.emailId];
     [ALUserDefaultsHandler setPassword:user.password];
+    [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
     
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
     [demoChatManager registerUser:user];

@@ -141,7 +141,10 @@
                 self.fileMeta = theFileMetaInfo;
             }
     
-    self.deleted=NO;
+    self.deleted = NO;
+    
+    self.metadata = [[NSMutableDictionary  alloc] initWithDictionary:messageJson[@"metadata"]];
+    
 }
 
 
@@ -232,10 +235,27 @@
     }
 }
 
-//-(BOOL)checkCustomContentType
-//{
-//        CONDITION IS : IF it has (FILE DATA and CUSTOM CLASS PRESENT)
-//    return NO;
-//}
+-(NSMutableDictionary *)getMetaDataDictionary:(NSString *) string
+{
+
+    NSData * data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSString * error;
+    NSPropertyListFormat format;
+    NSMutableDictionary * metaDataDictionary = [NSPropertyListSerialization
+                          propertyListFromData:data
+                          mutabilityOption:NSPropertyListImmutable
+                          format:&format
+                          errorDescription:&error];
+    
+//    NSLog(@"METADATA DICTIONARY COUNT :: %lu",(unsigned long)metaDataDictionary.count);
+    
+    if(!metaDataDictionary)
+    {
+        NSLog(@"ERROR: COULD NOT PARSE META-DATA : %@", error);
+    }
+    
+    return metaDataDictionary;
+}
+
 
 @end

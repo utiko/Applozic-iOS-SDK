@@ -452,8 +452,8 @@ UIViewController * modalCon;
 {
     NSLog(@"TAPPED_IMAGE_CNT_TYP :: %hd",self.mMessage.contentType);
 
-//   COMMENTED TILL API Updates (FOR CUSTOM MESSAGE CONTENT TYPE = 13)
-//    if([self.mMessage checkCustomContentType])
+//   CHECKING IF MESSAGE META-DATA DICTIONARY HAVE SOME DATA
+//    if(self.mMessage.metadata.count)
 //    {
 //        [self.delegate processTapGesture:self.mMessage];
 //        return;

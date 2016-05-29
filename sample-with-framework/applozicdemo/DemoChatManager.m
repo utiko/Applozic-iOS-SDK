@@ -30,8 +30,8 @@
     self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
     
     //////////////////////////   SET AUTHENTICATION-TYPE-ID FOR INTERNAL USAGE ONLY ////////////////////////
-//        [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
-    ////////////////////////// //////  PLEASE REMOVE IT IF YOU ARE CLIENT ///////////////// ///////////////////////
+//    [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
+    ////////////////////////// ////////////////////////// ////////////////////////// ///////////////////////
     
     [self ALDefaultChatViewSettings];
     [alUser setApplicationId:APPLICATION_ID];
@@ -110,7 +110,7 @@
 -(void)registerUserAndLaunchChat:(ALUser *)alUser andFromController:(UIViewController*)viewController forUser:(NSString*)userId withGroupId:(NSNumber*)groupID
 {
     self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:APPLICATION_ID];
-    self.chatLauncher.chatLauncherDelegate = self;
+    
     
     //User is already registered ..directly launch the chat...
     if([ALUserDefaultsHandler getDeviceKeyString]){
@@ -189,7 +189,7 @@
 -(void)launchChatForUserWithDisplayName:(NSString * )userId withGroupId:(NSNumber*)groupID andwithDisplayName:(NSString*)displayName andFromViewController:(UIViewController*)fromViewController
 {
     self.chatLauncher = [[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
-    self.chatLauncher.chatLauncherDelegate = self;
+    
     
     if([ALUserDefaultsHandler getDeviceKeyString]){
         [self.chatLauncher launchIndividualChat:userId withGroupId:groupID withDisplayName:displayName andViewControllerObject:fromViewController andWithText:nil];
@@ -319,6 +319,8 @@
     [ALApplozicSettings setGroupExitOption:YES];
     [ALApplozicSettings setGroupMemberAddOption:YES];
     [ALApplozicSettings setGroupMemberRemoveOption:YES];
+    
+
     
     
 //////////////   SET BACK BUTTON FOR MSG VC  ////////////
@@ -522,7 +524,8 @@
 // DELEGATE FOR THIRD PARTY ACTION ON TAP GESTURE
 +(void)handleCustomAction:(UIViewController *)chatView andWithMessage:(ALMessage *)alMessage
 {
-//    NSLog(@"DELEGATE FOR THIRD PARTY ACTION ON TAP GESTURE");
+    NSLog(@"DELEGATE FOR THIRD PARTY ACTION ON TAP GESTURE");
+    NSLog(@"ALMESSAGE_META_DATA :: %@",alMessage.metadata);
 //    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
 //    UIViewController * customView = [storyboard instantiateViewControllerWithIdentifier:@"CustomVC"];
 //    ALChatViewController * chatVC = (ALChatViewController *)chatView;

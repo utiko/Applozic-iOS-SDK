@@ -21,7 +21,7 @@ class AppLogicLoginViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        
+        ALUserDefaultsHandler.setUserAuthenticationTypeId(1) // APPLOZIC
         
     }
     
@@ -86,6 +86,7 @@ class AppLogicLoginViewController: UIViewController {
             alUser.password = password.text
             ALUserDefaultsHandler.setPassword(alUser.password)
         }
+        
         ALChatManager.registerUser(alUser);
         let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("moreTabBar") as UIViewController
         self.presentViewController(viewController, animated:true, completion: nil)

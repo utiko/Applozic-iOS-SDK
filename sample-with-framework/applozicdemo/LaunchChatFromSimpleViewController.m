@@ -16,7 +16,8 @@
 #import  <Applozic/ALContact.h>
 #import  <Applozic/ALDataNetworkConnection.h>
 #import  <Applozic/ALMessageService.h>
-
+#import  <Applozic/ALContactService.h>
+#import  <Applozic/ALUserService.h>
 
 @interface LaunchChatFromSimpleViewController ()
 
@@ -41,11 +42,11 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userUpdate:) name:@"userUpdate" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userUpdate:) name:@"userUpdate" object:nil];
     
     //////////////////////////   SET AUTHENTICATION-TYPE-ID FOR INTERNAL USAGE ONLY ////////////////////////
 //    [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
-    ////////////////////////// //////  PLEASE REMOVE IT IF YOU ARE CLIENT ///////////////// ///////////////////////
+    ////////////////////////// ////////////////////////// ////////////////////////// ///////////////////////
 }
 
 - (void)didReceiveMemoryWarning {
@@ -119,8 +120,35 @@
 
     
     DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    [demoChatManager launchChatForUserWithDisplayName:@"masteruser" withGroupId:nil andwithDisplayName:@"Master" andFromViewController:self];
+    [self checkUserContact:@"don222" displayName:@"" withCompletion:^(ALContact * contact) {
+        
+         [demoChatManager launchChatForUserWithDisplayName:contact.userId withGroupId:nil
+                                        andwithDisplayName:contact.displayName andFromViewController:self];
     
+    }];
+   
+    
+}
+
+-(void)checkUserContact:(NSString *)userId displayName:(NSString *)displayName withCompletion:(void(^)(ALContact * contact))completion
+{
+    ALContactService *contactService = [ALContactService new];
+    ALContactDBService *contacDB = [ALContactDBService new];
+    ALContact * contact = [contactService loadOrAddContactByKeyWithDisplayName:userId value: displayName];
+    
+    if(![contacDB getContactByKey:@"userId" value:userId])
+    {
+        [ALUserService userDetailServerCall:userId withCompletion:^(ALUserDetail *alUserDetail) {
+            
+            [contacDB updateUserDetail:alUserDetail];
+            ALContact * alContact = [contacDB loadContactByKey:@"userId" value:userId];
+            completion(alContact);
+        }];
+    }
+    else
+    {
+        completion(contact);
+    }
 }
 
 //===============================================================================
@@ -160,7 +188,6 @@
 
 }
 
-
 //===============================================================================
 // TO LAUNCH SELLER CHAT....
 //
@@ -180,6 +207,34 @@
     }
 
     
+}
+
+//===============================================================================
+//  TEXT MESSAGE With META-DATA Sending
+//===============================================================================
+
+-(void)sendMessageWithMetaData      // EXAMPLE FOR META DATA
+{
+    NSMutableDictionary * dictionary = [self getNewMetaDataDictionary];                                    // ADD RECEIVER ID HERE
+    ALMessage * messageWithMetaData = [ALMessageService createMessageWithMetaData:dictionary andReceiverId:@"receiverId" andMessageText:@"MESG WITH META DATA"];
+    
+    [ALMessageService sendMessages:messageWithMetaData withCompletion:^(NSString *message, NSError *error) {
+        
+        if(error)
+        {
+            NSLog(@"ERROR IN SENDING MSG WITH META-DATA : %@", error);
+            return ;
+        }
+        // DO ACTION HERE...
+        NSLog(@"MSG_RESPONSE :: %@",message);
+    }];
+}
+
+-(NSMutableDictionary *)getNewMetaDataDictionary      // EXAMPLE FOR META DATA
+{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:@"VALUE" forKey:@"KEY"];
+    return dict;
 }
 
 //===============================================================================
@@ -214,7 +269,6 @@
     return alConversationProxy;
 
 }
-
 
 -(void)viewWillDisappear:(BOOL)animated {
     [_activityView stopAnimating];
