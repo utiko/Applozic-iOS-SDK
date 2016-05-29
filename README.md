@@ -288,7 +288,7 @@ __Version 2.0__
    * Video messages
  * Image compression (Configurable)
  
-For more details, visit: https://www.applozic.com/developers.html#ios-sdk
+For more details, visit: https://www.applozic.com/docs/ios-chat-sdk.html
 
 ###Sample code in Objective-C to build messenger and chat app
 
