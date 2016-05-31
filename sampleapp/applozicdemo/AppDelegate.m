@@ -47,7 +47,7 @@
         if (dictionary != nil)
         {
             NSLog(@"Launched from push notification: %@", dictionary);
-            ALPushNotificationService *pushNotificationService = [ALPushNotificationService init];
+            ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
             BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:NO];
             if (!applozicProcessed) {
                 //Note: notification for app
