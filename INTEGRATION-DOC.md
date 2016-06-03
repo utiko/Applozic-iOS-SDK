@@ -1,5 +1,5 @@
 
-**Create your Application**
+####Create your Application
 
 a ) Once you signed up create your Application with required details on admin dashboard. Upload your push-notification certificate to our portal to enable real time notification.         
 
@@ -21,7 +21,7 @@ b) Once you create your application you can see your application key listed on a
 
 
 
-**Installing the iOS SDK** 
+####Installing the iOS SDK
 
 **ADD APPLOZIC FRAMEWORK **
 Clone or download the SDK (https://github.com/AppLozic/Applozic-iOS-SDK)
@@ -38,7 +38,7 @@ ii ) Go to Build Phase. Expand  Embedded frameworks and add applozic framework.
 ![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Resized-adding-applozic-framework.png)        
 
 
-**Quickly Launch your chat**
+####Quickly Launch your chat
 
 
 You can test your chat quickly by adding below .h and .m file to your project.
@@ -66,7 +66,7 @@ Launch your chat
 Detail about user creation and registraion:
 
 
-**PUSH NOTIFICATION REGISTRATION AND HANDLING **
+####PUSH NOTIFICATION REGISTRATION AND HANDLING
 
 **a ) Send device token to applozic server:**
 
