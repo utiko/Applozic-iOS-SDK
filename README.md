@@ -66,7 +66,7 @@ b ) Once you signed up create your Application with required details on admin da
 
 
 
-![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Resized-dashboard-blank-page.png)         
+![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Dashboard.png)         
 
 
 
