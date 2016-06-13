@@ -6,8 +6,7 @@ a ) Once you signed up create your Application with required details on admin da
 
 
 
-![dashboard-blank-content](https://github.com/AppLozic/Applozic-Chat-SDK-Documentation/blob/master/Dashboard.png)         
-
+![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Dashboard.png)         
 
 
 b) Once you create your application you can see your application key listed on admin dashboard. Please use same application key explained in further steps.          
