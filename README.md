@@ -222,6 +222,14 @@ Once your app receive notification, pass it to applozic handler for applozic not
 ```
 ### Changelog
 
+__Version 3.0__
+
+ * HyperLink Underline fixes(iOS < 9)
+ * Typing Indicator UI fixes
+ * Send/Receive messages text color settings
+ * No conversation Label added if chat is empty in individual chat
+ * App icon and APNs tap action fixes 
+
 __Version 2.8__
 
  * Calling option with option to enable/disable this feature
