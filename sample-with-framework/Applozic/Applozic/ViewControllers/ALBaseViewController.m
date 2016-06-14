@@ -27,13 +27,16 @@
 
 @property (nonatomic,retain) UIButton * rightViewButton;
 
+
 @end
 
 @implementation ALBaseViewController
 {
     CGFloat typingIndicatorHeight;
+    CGRect tempFrame;
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     [self setUpTableView];
@@ -41,7 +44,9 @@
     [self registerForKeyboardNotifications];
     
     self.sendMessageTextView.delegate = self;
-    
+    self.placeHolderTxt = @"Write a Message...";
+    self.sendMessageTextView.text = self.placeHolderTxt;
+    self.sendMessageTextView.textColor = [UIColor lightGrayColor];
   
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
@@ -124,18 +129,29 @@
     [self.navigationController.navigationBar addSubview:self.label];
     
     typingIndicatorHeight = 30;
-    
-    self.typingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.typingMessageView.frame.origin.y - typingIndicatorHeight,
-                                                                 self.view.frame.size.width, typingIndicatorHeight)];
+ 
+    self.typingLabel = [[UILabel alloc] init];
     
     self.typingLabel.backgroundColor = [ALApplozicSettings getBGColorForTypingLabel];
     self.typingLabel.textColor = [ALApplozicSettings getTextColorForTypingLabel];
-    self.typingLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.typingLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TYPING_LABEL_SIZE]];
     self.typingLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.typingLabel];
- 
+    
+    CGFloat navigationHeight = self.navigationController.navigationBar.frame.size.height +
+    [UIApplication sharedApplication].statusBarFrame.size.height;
+    
+    self.noConversationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height/2) - navigationHeight,
+                                                                         self.view.frame.size.width, 30)];
+    self.noConversationLabel.backgroundColor = [UIColor clearColor];
+    self.noConversationLabel.textColor = [UIColor blackColor];
+    self.noConversationLabel.text = @"You have no conversations";
+    [self.noConversationLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:18]];
+    self.noConversationLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:self.noConversationLabel];
+    
     [self dropShadowInNavigationBar];
+    
 }
 
 -(void)dropShadowInNavigationBar
@@ -172,7 +188,10 @@
     
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated
+{
+//
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSubViews) name:@"APP_ENTER_IN_FOREGROUND" object:nil];
     
     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
     
@@ -180,7 +199,7 @@
     {
         
         [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
-        //self.navigationController.navigationBar.translucent = NO;
+        self.navigationController.navigationBar.translucent = NO;
         //[self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
         [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
@@ -192,7 +211,21 @@
 
     [self sendButtonUI];
     
+    tempFrame = self.noConversationLabel.frame;
+    
 }
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self updateSubViews];
+}
+
+-(void)updateSubViews
+{
+    CGFloat typingLabelY = self.view.frame.size.height - typingIndicatorHeight - self.typingMessageView.frame.size.height;
+    [self.typingLabel setFrame:CGRectMake(0, typingLabelY, self.view.frame.size.width, typingIndicatorHeight)];
+}
+
 
 -(void)sendButtonUI
 {
@@ -210,6 +243,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"APP_ENTER_IN_FOREGROUND" object:nil];
     self.navigationController.navigationBar.barTintColor = self.navColor;
 }
 
@@ -245,6 +279,9 @@
                             keyboardEndFrame.origin.y - (self.typingMessageView.frame.size.height + typingIndicatorHeight + navigationWidth),
                             self.view.frame.size.width, typingIndicatorHeight);
     
+    self.noConversationLabel.frame = CGRectMake(0, self.typingLabel.frame.origin.y - (self.typingLabel.frame.size.height + 10),
+                                                tempFrame.size.width, tempFrame.size.height);
+    
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         [self scrollTableViewToBottomWithAnimation:YES];
@@ -272,6 +309,9 @@
                             keyboardEndFrame.origin.y - (self.typingMessageView.frame.size.height + typingIndicatorHeight + navigationWidth),
                             self.view.frame.size.width, typingIndicatorHeight);
     
+    self.noConversationLabel.frame = tempFrame;
+
+    
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         
@@ -287,16 +327,10 @@
     }
 }
 
+
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - Textfield Delegates
 //------------------------------------------------------------------------------------------------------------------
-
--(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    
-    [self.view endEditing:YES];
-    [super touchesBegan:touches withEvent:event];
-    [self.sendMessageTextView resignFirstResponder];
-}
 
 #pragma mark tap gesture
 
@@ -356,5 +390,6 @@
     return view;
     
 }
+
 
 @end

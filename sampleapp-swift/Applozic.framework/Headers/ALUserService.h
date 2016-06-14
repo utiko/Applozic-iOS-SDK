@@ -47,4 +47,6 @@
 
 -(void)fetchOnlineContactFromServer:(void(^)(NSMutableArray * array, NSError * error))completion;
 
+-(NSNumber *)getTotalUnreadCount;
+
 @end

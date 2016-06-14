@@ -376,6 +376,7 @@
 
 #pragma mark- Fetch All Channels
 //==============================
+
 -(NSMutableArray*)getAllChannelKeyAndName
 {
     ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
@@ -386,14 +387,17 @@
     NSError *error = nil;
     NSArray *array = [theDBHandler.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     NSMutableArray * alChannels = [[NSMutableArray alloc] init];
-    if(array.count){
-        for(DB_CHANNEL *ss in array)
+    if(array.count)
+    {
+        for(DB_CHANNEL * dbChannel in array)
         {
             ALChannel* channel = [[ALChannel alloc] init];
-            channel.key = ss.channelKey;
-            channel.name = ss.channelDisplayName;
-            channel.adminKey = ss.adminId;
-            channel.type = ss.type;
+            channel.key = dbChannel.channelKey;
+            channel.name = dbChannel.channelDisplayName;
+            channel.adminKey = dbChannel.adminId;
+            channel.type = dbChannel.type;
+            channel.unreadCount = dbChannel.unreadCount;
+            
             [alChannels addObject:channel];
         }
     }
@@ -402,6 +406,19 @@
         NSLog(@"NO ENTRY FOUND");
     }
     return alChannels;
+}
+
+-(NSNumber *)getOverallUnreadCountForChannelFromDB
+{
+    NSNumber * unreadCount;
+    int count = 0;
+    NSMutableArray * channelArray = [NSMutableArray arrayWithArray:[self getAllChannelKeyAndName]];
+    for(ALChannel *alChannel in channelArray)
+    {
+        count = count + [alChannel.unreadCount intValue];
+    }
+    unreadCount = [NSNumber numberWithInt:count];
+    return unreadCount;
 }
 
 -(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName

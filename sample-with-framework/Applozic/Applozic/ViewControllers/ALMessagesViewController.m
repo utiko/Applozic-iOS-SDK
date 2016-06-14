@@ -11,6 +11,7 @@
 #define TIME_LABEL_SIZE 10
 #define IMAGE_NAME_LABEL_SIZE 14
 
+#import "UIView+Toast.h"
 #import "TSMessageView.h"
 #import "ALMessagesViewController.h"
 #import "ALConstant.h"
@@ -102,7 +103,8 @@
 #pragma mark - View lifecycle
 //------------------------------------------------------------------------------------------------------------------
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     
     [super viewDidLoad];
     _mqttRetryCount = 0;
@@ -123,8 +125,11 @@
         [_alMqttConversationService subscribeToConversation];
     });
     
+    CGFloat navigationHeight = self.navigationController.navigationBar.frame.size.height +
+    [UIApplication sharedApplication].statusBarFrame.size.height;
+    
     self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x,
-                                                                           self.view.frame.origin.y + self.view.frame.size.height/2,
+                                                                           self.view.frame.size.height/2 - navigationHeight,
                                                                            self.view.frame.size.width, 30)];
     
     [self.emptyConversationText setText:[ALApplozicSettings getEmptyConversationText]];
@@ -141,7 +146,6 @@
     }
     
 }
-
 
 -(void)viewDidDisappear:(BOOL)animated
 {
@@ -162,7 +166,8 @@
     self.navigationController.navigationBar.layer.masksToBounds = NO;
 }
 
--(void)viewWillAppear:(BOOL)animated {
+-(void)viewWillAppear:(BOOL)animated
+{
     
     [super viewWillAppear:animated];
     [self dropShadowInNavigationBar];
@@ -181,6 +186,14 @@
     if([ALUserDefaultsHandler isLogoutButtonHidden])
     {
         [self.navBar setRightBarButtonItems:nil];
+    }
+    if([ALApplozicSettings getCustomNavRightButtonMsgVC])
+    {
+        UIBarButtonItem * refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                                                                        target:self
+                                                                                        action:@selector(refreshMessageList)];
+        [self.navigationItem setRightBarButtonItem:refreshButton];
+        
     }
     if([ALUserDefaultsHandler isBackButtonHidden])
     {
@@ -221,6 +234,7 @@
     if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
     {
         [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+        self.navigationController.navigationBar.translucent = NO;
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
@@ -250,7 +264,27 @@
     }
 }
 
--(void)appEntersForegroundIntoListView:(id)sender{
+-(void)refreshMessageList
+{
+    
+    [self.view makeToast:@"Syncing messages with the server,\n it might take few mins!"
+                duration:1.0
+                position:CSToastPositionBottom
+                   title:nil];
+    [ALMessageService getLatestMessageForUser:[ALUserDefaultsHandler getDeviceKeyString] withCompletion:^(NSMutableArray  * messageList, NSError *error) {
+        
+        if(error)
+        {
+            NSLog(@"ERROR: IN REFRESH MSG VC :: %@",error);
+            return;
+        }
+        NSLog(@"REFRESH MSG VC");
+        
+    }];
+}
+
+-(void)appEntersForegroundIntoListView:(id)sender
+{
     [self callLastSeenStatusUpdate];
 }
 -(void)emptyConversationAlertLabel
@@ -290,9 +324,11 @@
     [super didReceiveMemoryWarning];
 }
 
--(void)setUpView {
+-(void)setUpView
+{
     UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
-    if (!color) {
+    if (!color)
+    {
         color = [UIColor blackColor];
         //        color = [UIColor whiteColor];
     }
@@ -604,6 +640,7 @@
         [self displayAttachmentMediaType:message andContactCell:contactCell];
         
         // here for msg dashboard profile pic
+       
         [nameIcon setText:[ALColorUtility getAlphabetForProfileImage:[alContact getDisplayName]]];
         
         if([message getGroupId])
@@ -784,7 +821,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
         
         NSLog(@"Delete Pressed");
         if(![ALDataNetworkConnection checkDataNetworkAvailable])
@@ -795,7 +834,7 @@
         ALMessage * alMessageobj = self.mContactsMessageListArray[indexPath.row];
         
         ALChannelService *channelService = [ALChannelService new];
-        if([channelService isChannelLeft:alMessageobj.getGroupId])
+        if([channelService isChannelLeft:[alMessageobj getGroupId]])
         {
             NSArray * filteredArray = [self.mContactsMessageListArray filteredArrayUsingPredicate:
                                        [NSPredicate predicateWithFormat:@"groupId = %@",[alMessageobj getGroupId]]];
@@ -910,7 +949,7 @@
     
     if ([self.detailChatViewController contactIds] != nil || [self.detailChatViewController channelKey] !=nil) {
         
-        [self.detailChatViewController syncCall:alMessage updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
+        [self.detailChatViewController syncCall:alMessage updateUI:[NSNumber numberWithInt:APP_STATE_ACTIVE] alertValue:alMessage.message];
     }
     else if (top.isMessageViewOnTop && (![alMessage.type isEqualToString:@"5"])) {
 
@@ -1016,7 +1055,7 @@
 }
 
 -(void)pushNotificationhandler:(NSNotification *) notification{
-  
+   
     NSString * contactId = notification.object;
     
     NSArray *myArray =  [contactId componentsSeparatedByCharactersInSet:
@@ -1029,9 +1068,11 @@
     }
     
     NSDictionary *dict = notification.userInfo;
-    NSNumber *updateUI = [dict valueForKey:@"updateUI"];
+    NSNumber * updateUI = [dict valueForKey:@"updateUI"];
     NSString * alertValue =  [dict valueForKey:@"alertValue" ];
-    if (self.isViewLoaded && self.view.window && [updateUI boolValue])
+    
+    if (self.isViewLoaded && self.view.window
+        && [updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_ACTIVE]] )
     {
         ALMessage *msg = [[ALMessage alloc]init];
         msg.message=alertValue;
@@ -1052,14 +1093,21 @@
         [self syncCall:msg andMessageList:nil];
 
     }
-    else if(![updateUI boolValue])
-    {
+    else if([updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_INACTIVE]]){
+       
         NSLog(@"#################It should never come here");
         [self createDetailChatViewController: contactId];
-//        [self.detailChatViewController fetchAndRefresh];
+//      [self.detailChatViewController fetchAndRefresh];
         [self.detailChatViewController setRefresh: YES];
     }
+    else if([NSNumber numberWithInt:APP_STATE_BACKGROUND]){
+        /*
+         # Synced before already!
+         # NSLog(@"APP_STATE_BACKGROUND HANDLER");
+        */
+    }
     
+
 }
 
 - (void)dealloc{
@@ -1142,6 +1190,11 @@
     NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
     [messageArray sortUsingDescriptors:descriptors];
     [self updateMessageList:messageArray];
+    
+    if(self.mqttRetryCount >= 3)
+    {
+        self.mqttRetryCount = 0;
+    }
 }
 
 - (IBAction)createGroup:(id)sender
@@ -1229,13 +1282,16 @@
     }
     else
     {
-        [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
-        [TSMessage showNotificationWithTitle:@"No more conversations" type:TSMessageNotificationTypeWarning];
-        [self.mActivityIndicator stopAnimating];
-        [self.mTableView setUserInteractionEnabled:YES];
+        if([ALApplozicSettings getVisibilityForNoMoreConversationMsgVC])
+        {
+            [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];
+            [TSMessage showNotificationWithTitle:@"No more conversations" type:TSMessageNotificationTypeWarning];
+        }
+            [self.mActivityIndicator stopAnimating];
+            [self.mTableView setUserInteractionEnabled:YES];
+        
     }
     
-
 }
 
 @end

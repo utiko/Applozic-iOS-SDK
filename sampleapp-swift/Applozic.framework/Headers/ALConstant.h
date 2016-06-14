@@ -5,16 +5,16 @@
 //  Copyright (c) 2015 AppLozic. All rights reserved.
 //
 
-#import "ALUserDefaultsHandler.h"
+//#import "ALUserDefaultsHandler.h"
+//
+//#define KBASE_URL ([ALUserDefaultsHandler getBASEURL])
+//#define MQTT_URL ([ALUserDefaultsHandler getMQTTURL])
+//#define KBASE_FILE_URL ([ALUserDefaultsHandler getFILEURL])
+//#define MQTT_PORT ([ALUserDefaultsHandler getMQTTPort])
 
-#define KBASE_URL ([ALUserDefaultsHandler getBASEURL])
-#define MQTT_URL ([ALUserDefaultsHandler getMQTTURL])
-#define KBASE_FILE_URL ([ALUserDefaultsHandler getFILEURL])
-#define MQTT_PORT ([ALUserDefaultsHandler getMQTTPort])
-
-//#define KBASE_URL @"https://apps.applozic.com"
-//#define MQTT_URL @"apps.applozic.com"
-//#define KBASE_FILE_URL @"https://applozic.appspot.com"
+#define KBASE_URL @"https://apps.applozic.com"
+#define MQTT_URL @"apps.applozic.com"
+#define KBASE_FILE_URL @"https://applozic.appspot.com"
 
 //#define KBASE_URL @"https://test.applozic.com"
 //#define MQTT_URL @"staging.applozic.com"
@@ -24,7 +24,7 @@
 //#define MQTT_URL @"staging.applozic.com"
 //#define KBASE_FILE_URL @"https://mobi-com-alpha.appspot.com"
 
-//#define MQTT_PORT @"1883"
+#define MQTT_PORT @"1883"
 
 #define GREY_COLOR ([UIColor colorWithWhite:0.7 alpha:0.1])
 
@@ -61,3 +61,9 @@ typedef enum {
     UNREAD = 0,
     READ = 1
 } MessageStatus;
+
+typedef enum {
+    APP_STATE_BACKGROUND = -1,
+    APP_STATE_INACTIVE   = 0,
+    APP_STATE_ACTIVE     = 1
+} APP_TRI_STATE;

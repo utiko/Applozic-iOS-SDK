@@ -185,15 +185,18 @@
 +(void)displayToastWithMessage:(NSString *)toastMessage
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^ {
+        
         UIWindow * keyWindow = [[UIApplication sharedApplication] keyWindow];
-        UILabel *toastView = [[UILabel alloc] init];
+        UILabel * toastView = [[UILabel alloc] init];
+        [toastView setFont:[UIFont fontWithName:@"Helvetica" size:14]];
         toastView.text = toastMessage;
-        //toastView.font = @"Helvetica-Bold";
-        //toastView.textColor = [MYUIStyles getToastTextColor];
-        toastView.backgroundColor = [UIColor whiteColor];
+        [toastView setTextColor:[ALApplozicSettings getColorForToastText]];
+        toastView.backgroundColor = [ALApplozicSettings getColorForToastBackground];
         toastView.textAlignment = NSTextAlignmentCenter;
-        toastView.frame = CGRectMake(0.0, 0.0, keyWindow.frame.size.width/2.0, 75.00);
-        toastView.layer.cornerRadius = 10;
+        [toastView setNumberOfLines:2];
+        CGFloat width =  keyWindow.frame.size.width - 60;
+        toastView.frame = CGRectMake(0, 0, width, 80);
+        toastView.layer.cornerRadius = toastView.frame.size.height/2;
         toastView.layer.masksToBounds = YES;
         toastView.center = keyWindow.center;
         
@@ -214,8 +217,8 @@
 
 
 
-+(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId withGroupId:(NSNumber*) groupID delegate:(id)delegate{
-    
++(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId withGroupId:(NSNumber*) groupID delegate:(id)delegate
+{
     //3rd Party View is Opened.........
     ALContact* dpName=[[ALContact alloc] init];
     ALContactDBService * contactDb=[[ALContactDBService alloc] init];

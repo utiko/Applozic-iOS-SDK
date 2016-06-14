@@ -43,7 +43,7 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:AL_kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thirdPartyNotificationHandler:) name:@"showNotificationAndLaunchChat" object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForegroundBase:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForegroundBase:) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     
     if([ALUserDefaultsHandler isLoggedIn]){
@@ -187,13 +187,18 @@
     
     //Works in 3rd Party borders..
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
-    [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
-        if (error) {
-            NSLog(@"ERROR");
-        }
-        else{
-        }
-    }];
+//   CHECK HERE FOR THAT FLAG FOR SYNC CALL
+    if([ALUserDefaultsHandler isLoggedIn] && [ALUserDefaultsHandler isMsgSyncRequired])
+    {
+        [ALMessageService getLatestMessageForUser:deviceKeyString withCompletion:^(NSMutableArray *messageArray, NSError *error) {
+            
+            if (error)
+            {
+                NSLog(@"ERROR IN LATEST MSG APNs CLASS : %@",error);
+            }
+
+        }];
+    }
 }
 
 // To DISPLAY THE NOTIFICATION ONLY ...from 3rd Party View.
@@ -211,14 +216,13 @@
     NSNumber * updateUI = [self.dict valueForKey:@"updateUI"];
     NSString * alertValue = [self.dict valueForKey:@"alertValue"];
     
-        if(updateUI==[NSNumber numberWithBool:NO]){
+        if([updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_INACTIVE]]){
             NSLog(@"App launched from Background....Directly opening view from %@",self.dict);
             [self thirdPartyNotificationTap1:self.contactId withGroupId:groupId]; // Directly launching Chat
             return;
         }
         
-        if(updateUI==[NSNumber numberWithBool:YES]){
-            
+        if([updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_ACTIVE]]){
             if(alertValue){
                 NSLog(@"posting to notification....%@",notification.userInfo);
                 [ALUtilityClass thirdDisplayNotificationTS:alertValue andForContactId:self.contactId withGroupId:groupId delegate:self];
@@ -242,13 +246,10 @@
     
 }
 
-
-
 -(void)dealloc
 {
     NSLog(@"DEALLOC METHOD CALLED");
 }
-
 
 
 @end

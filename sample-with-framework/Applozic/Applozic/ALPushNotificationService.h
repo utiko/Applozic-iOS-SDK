@@ -51,7 +51,7 @@
 
 -(BOOL) isApplozicNotification: (NSDictionary *) dictionary;
 
--(BOOL) processPushNotification: (NSDictionary *) dictionary updateUI: (BOOL) updateUI;
+-(BOOL) processPushNotification: (NSDictionary *) dictionary updateUI: (NSNumber*) updateUI;
 
 @property(nonatomic,strong) ALSyncCallService * alSyncCallService;
 

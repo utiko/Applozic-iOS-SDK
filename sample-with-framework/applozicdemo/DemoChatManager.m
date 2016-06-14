@@ -30,7 +30,7 @@
     self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
     
     //////////////////////////   SET AUTHENTICATION-TYPE-ID FOR INTERNAL USAGE ONLY ////////////////////////
-//    [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
+    [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
     ////////////////////////// ////////////////////////// ////////////////////////// ///////////////////////
     
     [self ALDefaultChatViewSettings];
@@ -178,6 +178,14 @@
     
 }
 
+-(BOOL)isUserHaveMessages:(NSString *)userId
+{
+    ALMessageService * msgService = [ALMessageService new];
+    NSUInteger count = [msgService getMessagsCountForUser:userId];
+    NSLog(@"COUNT MESSAGES :: %lu",(unsigned long)count);
+    return (count == 0);
+}
+
 // ----------------------  ------------------------------------------------------/
 
 // convenient method to directly launch individual user chat screen. UserId parameter define users for which it intented to launch chat screen.
@@ -190,9 +198,16 @@
 {
     self.chatLauncher = [[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
     
+    BOOL flagForText = [self isUserHaveMessages:userId];
+    NSString * preText = nil;
+    if(flagForText)
+    {
+        preText = @""; // SET TEXT HERE
+    }
     
-    if([ALUserDefaultsHandler getDeviceKeyString]){
-        [self.chatLauncher launchIndividualChat:userId withGroupId:groupID withDisplayName:displayName andViewControllerObject:fromViewController andWithText:nil];
+    if([ALUserDefaultsHandler getDeviceKeyString])
+    {
+        [self.chatLauncher launchIndividualChat:userId withGroupId:groupID withDisplayName:displayName andViewControllerObject:fromViewController andWithText:preText];
         return;
     }
     
@@ -215,7 +230,7 @@
             [messageClientService addWelcomeMessage:nil];
             
         }
-        [self.chatLauncher launchIndividualChat:userId withGroupId:groupID withDisplayName:displayName andViewControllerObject:fromViewController andWithText:nil];
+        [self.chatLauncher launchIndividualChat:userId withGroupId:groupID withDisplayName:displayName andViewControllerObject:fromViewController andWithText:preText];
         
         if(![ALUserDefaultsHandler getApnDeviceToken]){
             [self.chatLauncher registerForNotification];
@@ -275,7 +290,8 @@
 
 
 
-+( ALUser * )getLoggedinUserInformation{
++( ALUser * )getLoggedinUserInformation
+{
     
     ALUser *user = [[ALUser alloc] init];
     [user setApplicationId:APPLICATION_ID];
@@ -308,7 +324,10 @@
     [ALApplozicSettings setColorForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     [ALApplozicSettings setColorForNavigationItem: [UIColor whiteColor]];
     
-    NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
+    [ALApplozicSettings setSendMsgTextColor:[UIColor whiteColor]];
+    [ALApplozicSettings setReceiveMsgTextColor:[UIColor grayColor]];
+    
+    NSString * appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     [ALApplozicSettings setNotificationTitle:appName];
     [ALApplozicSettings setMaxCompressionFactor:0.1f];
     [ALApplozicSettings setMaxImageSizeForUploadInMB:3];
@@ -320,7 +339,20 @@
     [ALApplozicSettings setGroupMemberAddOption:YES];
     [ALApplozicSettings setGroupMemberRemoveOption:YES];
     
-
+////////////////////////////////////   SET COLOR FOR TOAST  //////////////////////////////////
+    
+    [ALApplozicSettings setColorForToastText:[UIColor blackColor]];
+    [ALApplozicSettings setColorForToastBackground:[UIColor grayColor]];
+    
+    
+//////////////   SET VISIBILITY FOR REFRESH BUTTON (COMES FROM TOP IN MSG VC)   ////////////
+    
+    [ALApplozicSettings setCustomNavRightButtonMsgVC:NO];
+    /*   Note: Please set to 'NO' if NOT REQUIRED */
+    
+    
+//////////////   SET VISIBILITY NO MORE CONVERSATION (COMES FROM TOP IN MSG VC)   ////////////
+     [ALApplozicSettings setVisibilityForNoMoreConversationMsgVC:NO];
     
     
 //////////////   SET BACK BUTTON FOR MSG VC  ////////////
@@ -333,7 +365,7 @@
     [ALApplozicSettings setTitleForBackButtonChatVC:@"Back"];
     
     
-//////////////   SET VISIBILITY FORONLINE INDICATOR   ////////////
+//////////////   SET VISIBILITY FOR ONLINE INDICATOR   ////////////
     
     [ALApplozicSettings setVisibilityForOnlineIndicator:YES];
 /*   Note: Please set to YES if required */
@@ -358,7 +390,7 @@
 
 //////////////   SET NO CONVERSATION LABEL IN CHAT VC //////////////
     
-    [ALApplozicSettings setVisibilityNoConversationLabelChatVC:NO];
+    [ALApplozicSettings setVisibilityNoConversationLabelChatVC:YES];
 
 /*   Note: Please set to NO if not required */
     

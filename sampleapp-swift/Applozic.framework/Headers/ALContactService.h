@@ -38,4 +38,6 @@
 
 -(BOOL)setUnreadCountInDB:(ALContact*)contact;
 
+-(NSNumber *)getOverallUnreadCountForContact;
+
 @end

@@ -912,12 +912,6 @@
                                     <constraint firstItem="RA0-Qd-4Mg" firstAttribute="bottom" secondItem="WNc-sD-ErX" secondAttribute="bottom" constant="3" id="waE-cy-Zzu"/>
                                 </constraints>
                             </view>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no conversations" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SQZ-B5-ZCh">
-                                <rect key="frame" x="0.0" y="262" width="600" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -929,17 +923,13 @@
                             <constraint firstItem="XrG-C6-GhS" firstAttribute="top" secondItem="IEC-BM-wED" secondAttribute="top" identifier="MTable View.top" id="DHs-aS-wdN"/>
                             <constraint firstItem="onN-md-bNU" firstAttribute="top" secondItem="ySq-fe-e5N" secondAttribute="bottom" id="DfS-YI-cZT"/>
                             <constraint firstItem="fcy-p5-tcB" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="top" identifier="Load Earlier Action.top" id="EqC-1E-6IV"/>
-                            <constraint firstItem="cVw-Po-VWO" firstAttribute="top" secondItem="SQZ-B5-ZCh" secondAttribute="bottom" constant="7" id="GEA-dD-MkE"/>
                             <constraint firstItem="ySq-fe-e5N" firstAttribute="trailing" secondItem="fcy-p5-tcB" secondAttribute="trailing" id="JyS-CG-0BC"/>
                             <constraint firstItem="XrG-C6-GhS" firstAttribute="centerX" secondItem="cVw-Po-VWO" secondAttribute="centerX" identifier="MTable View.centreX" id="M3O-h1-LX1"/>
                             <constraint firstItem="7lO-5W-DOH" firstAttribute="trailing" secondItem="fcy-p5-tcB" secondAttribute="trailing" id="NGM-Mg-dKo"/>
                             <constraint firstItem="onN-md-bNU" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="bottom" id="OEc-Nz-7gM"/>
-                            <constraint firstItem="SQZ-B5-ZCh" firstAttribute="trailing" secondItem="7lO-5W-DOH" secondAttribute="trailing" id="TF7-Nh-d05"/>
                             <constraint firstItem="cVw-Po-VWO" firstAttribute="centerY" secondItem="IEC-BM-wED" secondAttribute="centerY" identifier="MActivity Indicator.centerY" id="WSG-Up-0QY"/>
                             <constraint firstItem="XrG-C6-GhS" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leading" identifier="MTable View.Leading" id="X4Z-tI-BRd"/>
-                            <constraint firstItem="SQZ-B5-ZCh" firstAttribute="leading" secondItem="fcy-p5-tcB" secondAttribute="leading" id="cWX-OT-xli"/>
                             <constraint firstItem="fcy-p5-tcB" firstAttribute="leading" secondItem="XrG-C6-GhS" secondAttribute="leading" identifier="Load Earlier Action.leading" id="cgs-kW-cTD"/>
-                            <constraint firstItem="SQZ-B5-ZCh" firstAttribute="top" secondItem="7lO-5W-DOH" secondAttribute="bottom" constant="46" id="pro-gG-DPu"/>
                             <constraint firstItem="cVw-Po-VWO" firstAttribute="top" secondItem="7lO-5W-DOH" secondAttribute="bottom" constant="74" id="sAf-6k-d1y"/>
                             <constraint firstItem="ySq-fe-e5N" firstAttribute="leading" secondItem="fcy-p5-tcB" secondAttribute="leading" id="ugG-V8-Pbe"/>
                         </constraints>
@@ -959,7 +949,6 @@
                         <outlet property="loadEarlierAction" destination="fcy-p5-tcB" id="Zaz-qp-EqL"/>
                         <outlet property="mActivityIndicator" destination="cVw-Po-VWO" id="7cC-PR-aCE"/>
                         <outlet property="mTableView" destination="XrG-C6-GhS" id="dUZ-gm-Bt0"/>
-                        <outlet property="noConversationLabel" destination="SQZ-B5-ZCh" id="lAC-9m-3eU"/>
                         <outlet property="pickerView" destination="7lO-5W-DOH" id="69e-gZ-jwd"/>
                         <outlet property="sendButton" destination="arI-8a-uqq" id="tOA-SE-Ebv"/>
                         <outlet property="sendMessageTextView" destination="WNc-sD-ErX" id="YZW-Qo-ZZq"/>

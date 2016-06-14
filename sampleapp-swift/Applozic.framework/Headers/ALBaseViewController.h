@@ -10,6 +10,7 @@
 
 @interface ALBaseViewController : UIViewController
 
+@property (nonatomic, strong) NSString * placeHolderTxt;
 @property (nonatomic, retain) UIColor *navColor;
 @property (nonatomic,retain) UIView * mTableHeaderView;
 @property (weak, nonatomic) IBOutlet UITableView *mTableView;
@@ -34,7 +35,7 @@
 -(void)makeCallContact;
 @property (strong, nonatomic) IBOutlet UIImageView *typeMsgBG;
 
-@property (strong, nonatomic) IBOutlet UILabel *noConversationLabel;
+@property (strong, nonatomic) UILabel *noConversationLabel;
 
 
 @end

@@ -101,6 +101,11 @@
     return [ob stringFromChannelUserList: key];
 }
 
+-(NSNumber *)getOverallUnreadCountForChannel
+{
+    ALChannelDBService *ob = [[ALChannelDBService alloc] init];
+    return [ob getOverallUnreadCountForChannelFromDB];
+}
 
 //====================================================================================================
 #pragma mark CHANNEL API

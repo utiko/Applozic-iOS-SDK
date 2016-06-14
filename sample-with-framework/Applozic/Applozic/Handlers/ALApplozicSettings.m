@@ -426,4 +426,82 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:ONLINE_INDICATOR_VISIBILITY];
 }
 
++(void)setVisibilityForNoMoreConversationMsgVC:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:NO_MORE_CONVERSATION_VISIBILITY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getVisibilityForNoMoreConversationMsgVC
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:NO_MORE_CONVERSATION_VISIBILITY];
+}
+
++(void)setCustomNavRightButtonMsgVC:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:CUSTOM_NAV_RIGHT_BUTTON_MSGVC];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getCustomNavRightButtonMsgVC
+{
+   return [[NSUserDefaults standardUserDefaults] boolForKey:CUSTOM_NAV_RIGHT_BUTTON_MSGVC];
+}
+
++(void)setColorForToastBackground:(UIColor *)toastBGColor
+{
+    NSData * toastBGData = [NSKeyedArchiver archivedDataWithRootObject:toastBGColor];
+    [[NSUserDefaults standardUserDefaults] setObject:toastBGData forKey:TOAST_BG_COLOUR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getColorForToastBackground
+{
+    NSData * toastBGData = [[NSUserDefaults standardUserDefaults] objectForKey:TOAST_BG_COLOUR];
+    UIColor * toastBGColor = [NSKeyedUnarchiver unarchiveObjectWithData:toastBGData];
+    return toastBGColor ? toastBGColor : [UIColor grayColor];
+}
+
++(void)setColorForToastText:(UIColor *)toastTextColor
+{
+    NSData * toastTextData = [NSKeyedArchiver archivedDataWithRootObject:toastTextColor];
+    [[NSUserDefaults standardUserDefaults] setObject:toastTextData forKey:TOAST_TEXT_COLOUR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getColorForToastText
+{
+    NSData * toastTextData = [[NSUserDefaults standardUserDefaults] objectForKey:TOAST_TEXT_COLOUR];
+    UIColor * toastTextColor = [NSKeyedUnarchiver unarchiveObjectWithData:toastTextData];
+    return toastTextColor ? toastTextColor : [UIColor blackColor];
+}
+
++(void)setSendMsgTextColor:(UIColor *)sendMsgColor
+{
+    NSData *sendColorData = [NSKeyedArchiver archivedDataWithRootObject:sendMsgColor];
+    [[NSUserDefaults standardUserDefaults] setObject:sendColorData forKey:SEND_MSG_TEXT_COLOUR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getSendMsgTextColor
+{
+    NSData *sendColorData = [[NSUserDefaults standardUserDefaults] objectForKey:SEND_MSG_TEXT_COLOUR];
+    UIColor *sendColor = [NSKeyedUnarchiver unarchiveObjectWithData:sendColorData];
+    return sendColor ? sendColor : [UIColor whiteColor];
+}
+
++(void)setReceiveMsgTextColor:(UIColor *)receiveMsgColor
+{
+    NSData *receiveColorData = [NSKeyedArchiver archivedDataWithRootObject:receiveMsgColor];
+    [[NSUserDefaults standardUserDefaults] setObject:receiveColorData forKey:RECEIVE_MSG_TEXT_COLOUR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getReceiveMsgTextColor
+{
+    NSData *receiveColorData = [[NSUserDefaults standardUserDefaults] objectForKey:RECEIVE_MSG_TEXT_COLOUR];
+    UIColor *receiveColor = [NSKeyedUnarchiver unarchiveObjectWithData:receiveColorData];
+    return receiveColor ? receiveColor : [UIColor grayColor];
+}
+
 @end

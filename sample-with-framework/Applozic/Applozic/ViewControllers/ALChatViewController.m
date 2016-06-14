@@ -5,6 +5,7 @@
 //  Copyright (c) 2015 AppLozic. All rights reserved.
 //
 
+#import "UIView+Toast.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "ALChatViewController.h"
 #import "ALChatCell.h"
@@ -76,7 +77,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *loadEarlierAction;
 @property (nonatomic,weak) NSIndexPath *indexPathofSelection;
 @property (nonatomic,strong ) ALMQTTConversationService *mqttObject;
-@property (nonatomic) NSInteger *  mqttRetryCount;
+@property (nonatomic) NSInteger  mqttRetryCount;
 @property (nonatomic, strong) NSArray * pickerDataSourceArray;
 @property (nonatomic, strong) NSMutableArray * pickerConvIdsArray;
 @property (nonatomic,strong )NSMutableArray * conversationTitleList;
@@ -129,7 +130,8 @@ ALMessageDBService  * dbService;
     [self loadChatView];
 }
 
--(void)markConversationRead{
+-(void)markConversationRead
+{
     bool isGroupNotification = (self.channelKey == nil ? false : true);
     if(self.channelKey && isGroupNotification ){
         [ALChannelService markConversationAsRead:self.channelKey withCompletion:^(NSString * string, NSError * error) {
@@ -150,8 +152,8 @@ ALMessageDBService  * dbService;
     
 }
 
--(void)markSingleMessageRead:(ALMessage *)almessage{
-
+-(void)markSingleMessageRead:(ALMessage *)almessage
+{
     if(almessage.groupId != NULL){
         
         if([self.channelKey isEqualToNumber:almessage.groupId]){
@@ -175,7 +177,9 @@ ALMessageDBService  * dbService;
         }
     }
 }
-- (void)viewDidAppear:(BOOL)animated {
+
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
     [self.view endEditing:YES];
     [self.loadEarlierAction setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -283,7 +287,9 @@ ALMessageDBService  * dbService;
     }
     
     [self setTitle];
-    if(self.text){
+    if(self.text)
+    {
+        [self.sendMessageTextView setTextColor:[UIColor blackColor]];
         self.sendMessageTextView.text = self.text;
     }
     
@@ -300,7 +306,11 @@ ALMessageDBService  * dbService;
     [self checkUserBlockStatus];
 
     [self showNoConversationLabel];
+
+    [self hideKeyBoardOnEmptyList];
+
 }
+
 
 -(void)showNoConversationLabel
 {
@@ -533,7 +543,8 @@ ALMessageDBService  * dbService;
 #pragma mark - SetUp/Theming
 //------------------------------------------------------------------------------------------------------------------
 
--(void)initialSetUp {
+-(void)initialSetUp
+{
     self.rp = 200;
     self.startIndex = 0;
     self.alMessageWrapper = [[ALMessageArrayWrapper alloc] init];
@@ -661,8 +672,11 @@ ALMessageDBService  * dbService;
     
     [self.navigationController pushViewController:groupDetailViewController animated:YES];
 }
--(void)fetchMessageFromDB {
+
+-(void)fetchMessageFromDB
+{
     
+    NSLog(@"fetchMessageFromDB  called:: ");
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     NSPredicate* predicate1;
@@ -683,13 +697,17 @@ ALMessageDBService  * dbService;
 }
 
 //This is just a test method
--(void)refreshTable:(id)sender {
-    
-    NSLog(@"calling refresh from server....");
+-(void)refreshTable:(id)sender
+{
+    [self.sendMessageTextView resignFirstResponder];
+    [self.view makeToast:@"Syncing messages with the server,\n it might take few mins!"
+                duration:1.0
+                position:CSToastPositionBottom
+                   title:nil];
     
     //TODO: get the user name, devicekey String and make server call...
     [self.mActivityIndicator startAnimating];
-    [ self fetchAndRefresh:YES ];
+    [self fetchAndRefresh:YES];
     [self.mActivityIndicator stopAnimating];
 }
 
@@ -830,13 +848,18 @@ ALMessageDBService  * dbService;
         return;
     }
     
-    if (self.sendMessageTextView.text.length == 0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:
-                                  @"Empty" message:@"Did you forget to type the message?" delegate:self
-                                                  cancelButtonTitle:nil otherButtonTitles:@"Yes, Let me add something", nil];
+    if (!self.sendMessageTextView.text.length || [self.sendMessageTextView.text isEqualToString:self.placeHolderTxt])
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Empty"
+                                                            message:@"Did you forget to type the message?"
+                                                           delegate:self
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:@"Yes, Let me add something", nil];
         [alertView show];
         return;
     }
+    
+    
     ALMessage * theMessage = [self getMessageToPost];
     [self.alMessageWrapper addALMessageToMessageArray:theMessage];
     [self.mTableView reloadData];
@@ -844,6 +867,7 @@ ALMessageDBService  * dbService;
         [super scrollTableViewToBottomWithAnimation:YES];
     });
     // save message to db
+    [self showNoConversationLabel];
     [self.sendMessageTextView setText:nil];
     self.mTotalCount = self.mTotalCount + 1;
     self.startIndex = self.startIndex + 1;
@@ -853,6 +877,7 @@ ALMessageDBService  * dbService;
         typingStat = NO;
         [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:typingStat];
     }
+
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -1211,7 +1236,8 @@ ALMessageDBService  * dbService;
     self.navigationItem.rightBarButtonItem = donePickerSelectionButton;
 }
 
--(void)setRightNavButtonToRefresh{
+-(void)setRightNavButtonToRefresh
+{
     UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshTable:)];
     self.navigationItem.rightBarButtonItem = refreshButton;
     
@@ -1330,7 +1356,7 @@ ALMessageDBService  * dbService;
 -(void) loadChatView
 {
 
-        [self setTitle];
+    [self setTitle];
     
     BOOL isLoadEarlierTapped = [self.alMessageWrapper getUpdatedMessageArray].count == 0 ? NO : YES ;
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
@@ -2179,17 +2205,17 @@ ALMessageDBService  * dbService;
         self.contactIds=alMessage.contactIds;
         //[self fetchAndRefresh:YES];
     }
-    else if (![updateUI boolValue]) {
+    else if ([updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_INACTIVE]]) {
         NSLog(@"it was in background, updateUI is false");
         self.conversationId = alMessage.conversationId;
         self.channelKey=alMessage.groupId;
         self.contactIds=alMessage.contactIds;
        // [self fetchAndRefresh:YES];
         [self reloadView];
-        
+        [self markConversationRead];
     }
     else{
-        if(![alMessage.type isEqualToString:@"5"])
+        if(![alMessage.type isEqualToString:@"5"] && ![updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_BACKGROUND]])
         {
             NSLog(@"SHOW_NOTIFICATION (OTHER_THREAD_IS_OPENED)");
            [self showNativeNotification:alMessage andAlert:alertValue];
@@ -2255,6 +2281,7 @@ ALMessageDBService  * dbService;
     [self fetchMessageFromDB];
     [self loadChatView];
     [self setCallButtonInNavigationBar];
+    [self showNoConversationLabel];
 }
 
 -(void) reloadViewfor3rdParty{
@@ -2283,7 +2310,8 @@ ALMessageDBService  * dbService;
     [self processLoadEarlierMessages:false];
 }
 
--(void)processLoadEarlierMessages:(BOOL)isScrollToBottom{
+-(void)processLoadEarlierMessages:(BOOL)isScrollToBottom
+{
     
     NSNumber *time;
     if([self.alMessageWrapper getUpdatedMessageArray].count > 1 && [self.alMessageWrapper getUpdatedMessageArray] != NULL) {
@@ -2309,14 +2337,15 @@ ALMessageDBService  * dbService;
     [ALMessageService getMessageListForUser:messageListRequest  withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray) {
         
         [self.mActivityIndicator stopAnimating];
-        
+        NSLog(@"List call called....");
         if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
             [self setupPickerView];
             [self.pickerView reloadAllComponents];
         }
         
         if(!error ){
-            self.loadEarlierAction.hidden=YES;
+            
+            self.loadEarlierAction.hidden = YES;
             if( messages.count< 50 ){
                 
                 if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
@@ -2353,10 +2382,15 @@ ALMessageDBService  * dbService;
                 
             }
             for (ALMessage * msg in messages) {
-                
+                                
                 if([self.alMessageWrapper getUpdatedMessageArray].count > 0)
                 {
                     ALMessage *msg1 = [[self.alMessageWrapper getUpdatedMessageArray] objectAtIndex:0];
+                    if(msg1.createdAtTime.doubleValue <= msg.createdAtTime.doubleValue) {
+                        NSLog(@"ignoring as coming message has grater time..continue....");
+                        continue;
+                    }
+                    
                     if([self.alMessageWrapper checkDateOlder:msg.createdAtTime andNewer:msg1.createdAtTime])
                     {
                         ALMessage *dateCell = [self.alMessageWrapper getDatePrototype:self.alMessageWrapper.dateCellText andAlMessageObject:msg];
@@ -2368,9 +2402,12 @@ ALMessageDBService  * dbService;
                         
                     }
                 }
-        
-                if(![msg isHiddenMessage]){ // Filters Hidden Messages
+                
+                if(![msg isHiddenMessage] ){ // Filters Hidden Messages
+                    NSLog(@"insterting message at index 0 ::%@", msg.key);
                     [[self.alMessageWrapper getUpdatedMessageArray] insertObject:msg atIndex:0];
+                    [self.noConversationLabel setHidden:YES];
+                    //
                 }
             }
             ALMessage * message = [array firstObject];
@@ -2457,7 +2494,7 @@ ALMessageDBService  * dbService;
     {
         [self.label setText:@""];
     }
-    
+    typingStat = NO;
 }
 
 -(void)updateLastSeenAtStatusPUSH:(NSNotification*)notification
@@ -2570,7 +2607,7 @@ ALMessageDBService  * dbService;
     return userDetailsArray;
 }
 //======================================================
-#pragma textview delegate
+#pragma UITEXTVIEW DELEGATE
 //======================================================
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
@@ -2578,6 +2615,11 @@ ALMessageDBService  * dbService;
     if(self.alContact.applicationId == NULL)
     {
         self.alContact.applicationId = [ALUserDefaultsHandler getApplicationKey];
+    }
+    
+    if ([textView.text isEqualToString:self.placeHolderTxt])
+    {
+        [self placeHolder:@"" andTextColor:[UIColor blackColor]];
     }
 }
 
@@ -2592,6 +2634,17 @@ ALMessageDBService  * dbService;
         typingStat = NO;
         [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:typingStat];
     }
+    
+    if ([textView.text isEqualToString:@""])
+    {
+        [self placeHolder:self.placeHolderTxt andTextColor:[UIColor lightGrayColor]];
+    }
+}
+
+-(void)placeHolder:(NSString *)placeHolderText andTextColor:(UIColor *)textColor
+{
+    [self.sendMessageTextView setText:placeHolderText];
+    [self.sendMessageTextView setTextColor:textColor];
 }
 
 -(void)scrollViewDidScroll: (UIScrollView*)scrollView
@@ -2641,7 +2694,7 @@ ALMessageDBService  * dbService;
 
 -(void) syncCall:(ALMessage *) alMessage andMessageList:(NSMutableArray*)messageArray
 {    
-    [self syncCall:alMessage updateUI:[NSNumber numberWithInt: 1] alertValue:alMessage.message];
+    [self syncCall:alMessage updateUI:[NSNumber numberWithInt:APP_STATE_ACTIVE] alertValue:alMessage.message];
 }
 
 //Message Delivered/Read
@@ -2725,11 +2778,18 @@ ALMessageDBService  * dbService;
 
 -(void)newMessageHandler:(NSNotification *) notification
 {
+    NSLog(@" newMessageHandler called ::#### ");
     NSMutableArray * messageArray = notification.object;
     [self addMessageToList:messageArray];
     for (ALMessage * almessage in messageArray)
     {
         [self markSingleMessageRead:almessage];
+    }
+    [self showNoConversationLabel];
+    
+    if(self.mqttRetryCount >= 3)
+    {
+        self.mqttRetryCount = 0;
     }
 }
 
@@ -2847,5 +2907,24 @@ ALMessageDBService  * dbService;
     [self.navigationController pushViewController:userInfoVC animated:YES];
     
 }
+
+-(void)hideKeyBoardOnEmptyList
+{
+    
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                           action:@selector(handleTapGestureForKeyBoard)];
+    
+    [self.mTableView addGestureRecognizer:tap];
+}
+
+-(void)handleTapGestureForKeyBoard
+{
+    if([self.sendMessageTextView isFirstResponder])
+    {
+        [self.sendMessageTextView resignFirstResponder];
+    }
+}
+
+
 
 @end

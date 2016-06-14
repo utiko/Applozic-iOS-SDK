@@ -44,4 +44,7 @@
 -(BOOL)isChannelLeft:(NSNumber*)groupID;
 
 +(void)setUnreadCountZeroForGroupID:(NSNumber*)channelKey;
+
+-(NSNumber *)getOverallUnreadCountForChannel;
+
 @end

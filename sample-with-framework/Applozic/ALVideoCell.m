@@ -169,7 +169,7 @@
         if(alMessage.message.length > 0)
         {
            [self.imageWithText setHidden:NO];
-            self.imageWithText.textColor = [UIColor grayColor];
+            self.imageWithText.textColor = [ALApplozicSettings getReceiveMsgTextColor];
             self.mBubleImageView.frame = CGRectMake(self.mUserProfileImageView.frame.size.width + BUBBLE_PADDING_X,
                                                     0, viewSize.width - BUBBLE_PADDING_WIDTH,
                                                     (viewSize.width - BUBBLE_PADDING_HEIGHT) +
@@ -255,7 +255,7 @@
         {
             [self.imageWithText setHidden:NO];
             self.imageWithText.backgroundColor = [UIColor clearColor];
-            self.imageWithText.textColor = [UIColor whiteColor];
+            self.imageWithText.textColor = [ALApplozicSettings getSendMsgTextColor];
             
             self.mBubleImageView.frame = CGRectMake((viewSize.width - self.mUserProfileImageView.frame.origin.x + 60), 0,
                                                     viewSize.width - BUBBLE_PADDING_WIDTH,

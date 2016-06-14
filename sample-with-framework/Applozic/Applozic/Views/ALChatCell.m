@@ -89,7 +89,7 @@
         self.mNameLabel.layer.cornerRadius = self.mNameLabel.frame.size.width/2;
         self.mNameLabel.layer.masksToBounds = YES;
         [self.contentView addSubview:self.mNameLabel];
-
+        
         self.mMessageLabel = [[ALUITextView alloc] init];
         self.mMessageLabel.delegate = self.mMessageLabel;
         NSString *fontName = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_FONTNAME];
@@ -132,7 +132,7 @@
         
         tapForCustomView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(processTapGesture)];
         tapForCustomView.numberOfTapsRequired = 1;
-
+        
     }
     
     
@@ -177,7 +177,7 @@
     self.mMessageStatusImageView.hidden = YES;
     [self.contentView bringSubviewToFront:self.mMessageStatusImageView];
     self.mUserProfileImageView.backgroundColor = [UIColor whiteColor];
- 
+    
     if([alMessage.type isEqualToString:@"100"])
     {
         [self dateTextSetupForALMessage:alMessage withViewSize:viewSize andTheTextSize:theTextSize];
@@ -217,15 +217,15 @@
         self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
         self.mBubleImageView.layer.shadowRadius = 1;
         self.mBubleImageView.layer.masksToBounds = NO;
-
+        
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + MESSAGE_PADDING_X ,
                                               self.mBubleImageView.frame.origin.y + MESSAGE_PADDING_Y,
                                               theTextSize.width, theTextSize.height);
-
+        
         if([alMessage getGroupId])
         {
             [self.mChannelMemberName setHidden:NO];
-          
+            
             [self.mChannelMemberName setTextColor: [ALColorUtility getColorForAlphabet:receiverName]];
             
             if(theTextSize.width < receiverNameSize.width)
@@ -242,31 +242,14 @@
                                                        self.mBubleImageView.frame.size.width + CHANNEL_PADDING_WIDTH, CHANNEL_PADDING_HEIGHT);
             
             self.mMessageLabel.frame = CGRectMake(self.mChannelMemberName.frame.origin.x,
-            self.mChannelMemberName.frame.origin.y + self.mChannelMemberName.frame.size.height + MESSAGE_PADDING_Y_GRP,
+                                                  self.mChannelMemberName.frame.origin.y + self.mChannelMemberName.frame.size.height + MESSAGE_PADDING_Y_GRP,
                                                   theTextSize.width, theTextSize.height);
             
             [self.mChannelMemberName setText:receiverName];
         }
         
-        self.mMessageLabel.textColor = [UIColor grayColor];
-        self.mMessageLabel.linkTextAttributes = @{
-                                                  NSForegroundColorAttributeName : [UIColor grayColor],
-                                                  NSUnderlineStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleThick]
-                                                  };
+        self.mMessageLabel.textColor = [ALApplozicSettings getReceiveMsgTextColor];
         
-        if(alMessage.contentType == 3)
-        {
-            
-            NSAttributedString * attributedString = [[NSAttributedString alloc] initWithData:[alMessage.message dataUsingEncoding:NSUnicodeStringEncoding]
-                                                                                    options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
-            
-            self.mMessageLabel.attributedText = attributedString;
-        }
-        else
-        {
-            self.mMessageLabel.text = alMessage.message;
-        }
-  
         self.mDateLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x,
                                            self.mBubleImageView.frame.origin.y + self.mBubleImageView.frame.size.height,
                                            theDateSize.width + DATE_PADDING_WIDTH, DATE_HEIGHT);
@@ -294,9 +277,9 @@
             self.mNameLabel.hidden = YES;
             self.mChannelMemberName.hidden = YES;
             [self.mMessageLabel setUserInteractionEnabled:NO];
-
+            
         }
-
+        
         
     }
     else    //Sent Message
@@ -313,7 +296,7 @@
         self.mUserProfileImageView.frame = CGRectMake(viewSize.width - 53, 0, 0, 45);
         
         self.mMessageStatusImageView.hidden = NO;
-        self.mMessageLabel.text = alMessage.message;
+        
         
         self.mBubleImageView.frame = CGRectMake((viewSize.width - theTextSize.width - BUBBLE_PADDING_X_OUTBOX) , 0,
                                                 theTextSize.width + BUBBLE_PADDING_WIDTH,
@@ -327,11 +310,7 @@
         msgFrameHeight = self.mBubleImageView.frame.size.height;
         
         self.mMessageLabel.backgroundColor = [UIColor clearColor];
-        self.mMessageLabel.textColor = [UIColor whiteColor];
-        self.mMessageLabel.linkTextAttributes = @{
-                                                  NSForegroundColorAttributeName : [UIColor whiteColor],
-                                                  NSUnderlineStyleAttributeName: [NSNumber numberWithInt:NSUnderlineStyleThick]
-                                                  };
+        self.mMessageLabel.textColor = [ALApplozicSettings getSendMsgTextColor];
         
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + MESSAGE_PADDING_X,
                                               MESSAGE_PADDING_Y, theTextSize.width, theTextSize.height);
@@ -344,7 +323,7 @@
         
         self.mDateLabel.textAlignment = NSTextAlignmentLeft;
         self.mDateLabel.textColor = [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:.5];
-
+        
         self.mMessageStatusImageView.frame = CGRectMake(self.mDateLabel.frame.origin.x + self.mDateLabel.frame.size.width,
                                                         self.mDateLabel.frame.origin.y,
                                                         MSG_STATUS_WIDTH, MSG_STATUS_HEIGHT);
@@ -358,7 +337,7 @@
             [self dateTextSetupForALMessage:alMessage withViewSize:viewSize andTheTextSize:theTextSize];
             self.mMessageStatusImageView.hidden = YES;
         }
-
+        
     }
     
     if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT] && (alMessage.contentType != 10)) {
@@ -387,7 +366,7 @@
     
     /*    =========================== FOR PUSH VC ON TAP =============================  */
     
-//   CHECKING IF MESSAGE META-DATA DICTIONARY HAVE SOME DATA
+    //   CHECKING IF MESSAGE META-DATA DICTIONARY HAVE SOME DATA
     
     if(self.mMessage.metadata.count)
     {
@@ -397,14 +376,54 @@
     
     /*    ====================================== END =================================  */
     
-    if ([alMessage.message rangeOfString:@"http://"].location != NSNotFound || [alMessage.message rangeOfString:@"www."].location != NSNotFound
-        || [alMessage.message rangeOfString:@"https://"].location != NSNotFound)
+    
+    //=======This is to reset textView link atttributes.This is explicitly done to handle bug in iOS <= 8.4. =======//
+    self.mMessageLabel.linkTextAttributes = @{};
+    self.mMessageLabel.text = nil;
+    self.mMessageLabel.editable = YES;
+    self.mMessageLabel.editable = NO;
+    //======= END =======//
+
+    
+    self.mMessageLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_TEXT_SIZE];
+    if(alMessage.contentType == 3)
+    {
+        
+        NSAttributedString * attributedString = [[NSAttributedString alloc] initWithData:[alMessage.message dataUsingEncoding:NSUnicodeStringEncoding]
+                                                                                 options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+        
+        self.mMessageLabel.attributedText = attributedString;
+    }
+    else if ([alMessage.message rangeOfString:@"http://"].location != NSNotFound ||
+             [alMessage.message rangeOfString:@"www."].location != NSNotFound ||
+             [alMessage.message rangeOfString:@"https://"].location != NSNotFound ||
+              [alMessage.message rangeOfString:@".com"].location != NSNotFound)
     {
         self.mMessageLabel.userInteractionEnabled = YES;
+        
+        
+        
+        self.mMessageLabel.linkTextAttributes = @{
+                                                  NSFontAttributeName : self.mMessageLabel.font,
+                                                  NSForegroundColorAttributeName :self.mMessageLabel.textColor,
+                                                  NSUnderlineStyleAttributeName : [NSNumber numberWithInt:NSUnderlineStyleThick]
+                                                  };
+        
+//        self.mMessageLabel.text = [alMessage.message stringByAppendingString:@"\n"];
+        
+        NSDictionary *attrs = @{
+                                NSFontAttributeName : self.mMessageLabel.font,
+                                NSForegroundColorAttributeName : self.mMessageLabel.textColor
+                                };
+        
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.mMessage.message attributes:attrs];
+        self.mMessageLabel.attributedText = attributedString;
+        
     }
     else
     {
         self.mMessageLabel.userInteractionEnabled = NO;
+        self.mMessageLabel.text = alMessage.message;
     }
     
     return self;
@@ -422,7 +441,7 @@
     [self.mMessageLabel setBackgroundColor:[UIColor clearColor]];
     [self.mMessageLabel setTextColor:[UIColor blackColor]];
     self.mUserProfileImageView.frame = CGRectMake(USER_PROFILE_PADDING_X, 0, 0, USER_PROFILE_HEIGHT);
-
+    
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
@@ -438,14 +457,14 @@
 {
     if([self.mMessage.type isEqualToString:@MT_OUTBOX_CONSTANT] && self.mMessage.groupId)
     {
-         return (action == @selector(copy:) || action == @selector(delete:) || action == @selector(msgInfo:));
+        return (action == @selector(copy:) || action == @selector(delete:) || action == @selector(msgInfo:));
     }
     return (action == @selector(copy:) || action == @selector(delete:));
 }
 
 // Default copy method
 - (void)copy:(id)sender
-{    
+{
     NSLog(@"Copy in ALChatCell, messageId: %@", self.mMessage.message);
     UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
     
@@ -504,5 +523,6 @@
 {
     [self.delegate processALMessage:self.mMessage];
 }
+
 
 @end

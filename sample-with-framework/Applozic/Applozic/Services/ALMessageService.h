@@ -62,4 +62,6 @@
 
 +(ALMessage *)createMessageWithMetaData:(NSMutableDictionary *)metaData andReceiverId:(NSString *)receiverId andMessageText:(NSString *)msgTxt;
 
+-(NSUInteger)getMessagsCountForUser:(NSString *)userId;
+
 @end

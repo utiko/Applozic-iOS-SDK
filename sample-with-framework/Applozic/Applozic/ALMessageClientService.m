@@ -229,30 +229,37 @@
     }];
 }
 
--(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( ALSyncMessageFeed *, NSError *))completion{
+-(void) getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( ALSyncMessageFeed *, NSError *))completion
+{
     //@synchronized(self) {
-        NSString *lastSyncTime =[ALUserDefaultsHandler getLastSyncTime];
-        if ( lastSyncTime == NULL ){
-            lastSyncTime = @"0";
+        
+    NSString * lastSyncTime = [NSString stringWithFormat:@"%@", [ALUserDefaultsHandler getLastSyncTime]];
+    
+    if(lastSyncTime == NULL)
+    {
+        lastSyncTime = @"0";
+    }
+    
+    NSLog(@"LAST SYNC TIME IN CALL :  %@", lastSyncTime);
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/sync",KBASE_URL];
+    NSString * theParamString = [NSString stringWithFormat:@"lastSyncTime=%@",lastSyncTime];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"SYNC LATEST MESSAGE URL" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        if(theError)
+        {
+            [ALUserDefaultsHandler setMsgSyncRequired:YES];
+            completion(nil,theError);
+            return;
         }
-        NSLog(@"last syncTime in call %@", lastSyncTime);
-        NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/sync",KBASE_URL];
         
-        NSString * theParamString = [NSString stringWithFormat:@"lastSyncTime=%@",lastSyncTime];
-        
-        NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
-        
-        [ALResponseHandler processRequest:theRequest andTag:@"SYNC LATEST MESSAGE URL" WithCompletionHandler:^(id theJson, NSError *theError) {
-            
-            if (theError) {
-                
-                completion(nil,theError);
-                return ;
-            }
-             ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
-            completion(syncResponse,nil);
-            NSLog(@"LatestMessage Json: %@", theJson);
-        }];
+        [ALUserDefaultsHandler setMsgSyncRequired:NO];
+        ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
+        NSLog(@"LATEST_MESSAGE_JSON: %@", (NSString *)theJson);
+        completion(syncResponse,nil);
+    }];
         
     //}
     
@@ -295,10 +302,10 @@
     
     [ALResponseHandler processRequest:theRequest andTag:@"DELETE_MESSAGE_THREAD" WithCompletionHandler:^(id theJson, NSError *theError) {
         
-        if (!theError){
+        if (!theError)
+        {
             ALMessageDBService * dbService = [[ALMessageDBService alloc] init];
             [dbService deleteAllMessagesByContact:contactId orChannelKey:channelKey];
-            
         }
         NSLog(@"Response DELETE_MESSAGE_THREAD: %@", (NSString *)theJson);
         completion((NSString *)theJson,theError);

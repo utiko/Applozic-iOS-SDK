@@ -40,6 +40,7 @@
 #define NOTIFICATION_MODE @"NOTIFICATION_MODE"
 #define USER_PASSWORD @"USER_PASSWORD"
 #define USER_AUTHENTICATION_TYPE_ID @"USER_AUTHENTICATION_TYPE_ID"
+#define MSG_SYN_CALL @"MSG_SYN_CALL"
 
 #import <Foundation/Foundation.h>
 
@@ -173,5 +174,8 @@
 
 +(short)getUserAuthenticationTypeId;
 +(void)setUserAuthenticationTypeId:(short)type;
+
++(BOOL)isMsgSyncRequired;
++(void)setMsgSyncRequired:(BOOL)flag;
 
 @end

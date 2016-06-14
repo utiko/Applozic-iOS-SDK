@@ -273,9 +273,10 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(NSNumber *) getLastSeenSyncTime{
-    return [[NSUserDefaults standardUserDefaults] objectForKey:LAST_SEEN_SYNC_TIME];
-
++(NSNumber *) getLastSeenSyncTime
+{
+    NSNumber * timeStamp = [[NSUserDefaults standardUserDefaults] objectForKey:LAST_SEEN_SYNC_TIME];
+    return timeStamp ? timeStamp : [NSNumber numberWithInt:0];
 }
 
 +(void)setShowLoadEarlierOption:(BOOL) value forContactId:(NSString*)contactId{
@@ -377,9 +378,8 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(BOOL)isServerCallDoneForUserInfoForContact:(NSString*)contactId{
-    
-    
++(BOOL)isServerCallDoneForUserInfoForContact:(NSString*)contactId
+{
     if(!contactId){
         return true;
     }
@@ -501,6 +501,17 @@
 {
     short type = [[NSUserDefaults standardUserDefaults] integerForKey:USER_AUTHENTICATION_TYPE_ID];
     return type ? type : 0;
+}
+
++(void)setMsgSyncRequired:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:MSG_SYN_CALL];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)isMsgSyncRequired
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:MSG_SYN_CALL];
 }
 
 @end

@@ -64,6 +64,6 @@
 
 -(void)fetchConversationfromServerWithCompletion:(void(^)(BOOL flag))completionHandler;
 
-
+-(NSUInteger)getMessagesCountFromDBForUser:(NSString *)userId;
 
 @end

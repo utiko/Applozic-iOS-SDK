@@ -24,7 +24,7 @@
         lastSeenAt = [ALUserDefaultsHandler getLastSyncTime];
         NSLog(@"lastSeenAt is coming as null seeting default vlaue to %@", lastSeenAt);
     }
-    NSString * theParamString = [NSString stringWithFormat:@"lastSeenAt=%@",lastSeenAt.stringValue];
+    NSString * theParamString = [NSString stringWithFormat:@"lastSeenAt=%@",lastSeenAt];
     NSLog(@"calling last seen at api for userIds: %@", theParamString);
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     

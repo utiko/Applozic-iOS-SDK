@@ -16,16 +16,26 @@
     
     [NSURLConnection sendAsynchronousRequest:theRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         
-        //connection error
-        if (connectionError) {
-            reponseCompletion(nil,[self errorWithDescription:@"Unable to connect with the server. Check your internet connection and try again"]);
-            return ;
+        NSHTTPURLResponse * theHttpResponse = (NSHTTPURLResponse *) response;
+
+        NSLog(@"ERROR_RESPONSE : %@ && ERROR:CODE : %ld ", connectionError.description, (long)connectionError.code);
+        
+        if(connectionError.code == kCFURLErrorUserCancelledAuthentication)
+        {
+            NSLog(@"HTTP:401 : ERROR CODE : %ld",  (long)connectionError.code);
+        }
+        if(connectionError.code == kCFURLErrorNotConnectedToInternet)
+        {
+            NSLog(@"NO INTERNET CONNECTIVITY ERROR CODE : %ld",  (long)connectionError.code);
         }
         
+        //connection error
+        if (connectionError)
+        {
+            reponseCompletion(nil,[self errorWithDescription:@"Unable to connect with the server. Check your internet connection and try again"]);
+            return;
+        }
         
-        // reponse code
-        
-        NSHTTPURLResponse * theHttpResponse = (NSHTTPURLResponse *) response;
         
         if (theHttpResponse.statusCode != 200) {
             

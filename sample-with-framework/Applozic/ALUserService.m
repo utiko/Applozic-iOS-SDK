@@ -330,4 +330,22 @@
     }];
 }
 
+//=========================================================================================================================
+#pragma OVER ALL UNREAD COUNT (CHANNEL + CONTACTS)
+//=========================================================================================================================
+
+-(NSNumber *)getTotalUnreadCount
+{
+    ALContactService * contactService = [ALContactService new];
+    NSNumber * contactUnreadCount = [contactService getOverallUnreadCountForContact];
+    
+    ALChannelService * channelService = [ALChannelService new];
+    NSNumber * channelUnreadCount = [channelService getOverallUnreadCountForChannel];
+    
+    int totalCount = [contactUnreadCount intValue] + [channelUnreadCount intValue];
+    NSNumber * unreadCount = [NSNumber numberWithInt:totalCount];
+    
+    return unreadCount;
+}
+
 @end

@@ -619,6 +619,17 @@
     return msgArray;
 }
 
+-(NSUInteger)getMessagesCountFromDBForUser:(NSString *)userId
+{
+    ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"contactId = %@ && groupId = nil",userId];
+    [theRequest setPredicate:predicate];
+    NSUInteger count = [theDbHandler.managedObjectContext countForFetchRequest:theRequest error:nil];
+    return count;
+    
+}
+
 /////////////////////////////  FETCH CONVERSATION WITH PAGE SIZE  /////////////////////////////
 
 -(void)fetchConversationfromServerWithCompletion:(void(^)(BOOL flag))completionHandler
@@ -640,5 +651,6 @@
     }];
     
 }
+
 
 @end

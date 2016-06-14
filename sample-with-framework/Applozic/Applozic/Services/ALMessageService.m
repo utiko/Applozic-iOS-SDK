@@ -196,44 +196,51 @@ static ALMessageClientService *alMsgClientService;
     
     @synchronized(alMsgClientService) {
         
-        [ alMsgClientService getLatestMessageForUser:deviceKeyString withCompletion:^(ALSyncMessageFeed * syncResponse , NSError *error) {
+        [alMsgClientService getLatestMessageForUser:deviceKeyString withCompletion:^(ALSyncMessageFeed * syncResponse , NSError *error) {
             NSMutableArray *messageArray = nil;
            
-            if(!error){
-                if (syncResponse.deliveredMessageKeys.count > 0) {
+            if(!error)
+            {
+                if (syncResponse.deliveredMessageKeys.count > 0)
+                {
                     [ALMessageService updateDeliveredReport: syncResponse.deliveredMessageKeys withStatus:DELIVERED];
                 }
-                if(syncResponse.messagesList.count >0 ){
+                if(syncResponse.messagesList.count > 0)
+                {
                     messageArray = [[NSMutableArray alloc] init];
                     ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
                     messageArray = [dbService addMessageList:syncResponse.messagesList];
                     
-                    BOOL flag = NO;
-                    for(ALMessage * message in messageArray){
-                        flag  = [ALMessageService incrementContactUnreadCount:message];
+                    NSMutableArray * hiddenMsgFilteredArray = [[NSMutableArray alloc] initWithArray:messageArray];
+                    for(ALMessage * message in hiddenMsgFilteredArray)
+                    {
+                        
+                        if([message isHiddenMessage]){
+                            [messageArray removeObject:message];
+                        }else{
+                            [ALMessageService incrementContactUnreadCount:message];
+                        }
                     }
                     
-                    if(flag){
-                        [ALUserService processContactFromMessages:messageArray withCompletion:^{
-                            [[NSNotificationCenter defaultCenter] postNotificationName:NEW_MESSAGE_NOTIFICATION object:messageArray userInfo:nil];
-                            completion(messageArray,error);
-                        }];
-                    }
-                    else{
-                        [ALUserService processContactFromMessages:messageArray withCompletion:^{
-                            NSLog(@"PROCESSED: Hidden Message");
-                            completion(messageArray,error);
-                        }];
+                    [ALUserService processContactFromMessages:messageArray withCompletion:^{
+                        [[NSNotificationCenter defaultCenter] postNotificationName:NEW_MESSAGE_NOTIFICATION object:messageArray userInfo:nil];
+                        
+                    }];
    
-                    }
+                     completion(messageArray,error);
                     
+                }else
+                {
+                    completion(messageArray,error);
                 }
                 
                 [ALUserDefaultsHandler setLastSyncTime:syncResponse.lastSyncTime];
                 ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
                 [messageClientService updateDeliveryReports:syncResponse.messagesList];
                 
-            }else{
+            }
+            else
+            {
                 completion(messageArray,error);
             }
             
@@ -346,26 +353,27 @@ static ALMessageClientService *alMsgClientService;
 {
     
     ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc]init];
-    [alMessageClientService deleteMessageThread:contactId orChannelKey:channelKey
-                                 withCompletion:^(NSString * response, NSError *error) {
-                                     if (!error){
-                                         //delete sucessfull
-                                         NSLog(@"sucessfully deleted !");
-                                         ALMessageDBService * dbService = [[ALMessageDBService alloc] init];
-                                         [dbService deleteAllMessagesByContact:contactId orChannelKey:channelKey];
-                                         
-                                         if(channelKey)
-                                         {
-                                             [ALChannelService setUnreadCountZeroForGroupID:channelKey];
-                                         }
-                                         else
-                                         {
-                                             [ALUserService setUnreadCountZeroForContactId:contactId];
-                                         }
-                                         
-                                     }
-                                     completion(response,error);
-                                 }];
+    [alMessageClientService deleteMessageThread:contactId orChannelKey:channelKey withCompletion:^(NSString * response, NSError *error) {
+        
+        if (!error)
+        {
+             //delete sucessfull
+             NSLog(@"sucessfully deleted !");
+             ALMessageDBService * dbService = [[ALMessageDBService alloc] init];
+             [dbService deleteAllMessagesByContact:contactId orChannelKey:channelKey];
+             
+             if(channelKey)
+             {
+                 [ALChannelService setUnreadCountZeroForGroupID:channelKey];
+             }
+             else
+             {
+                 [ALUserService setUnreadCountZeroForContactId:contactId];
+             }
+
+         }
+             completion(response, error);
+         }];
 }
 
 
@@ -644,5 +652,10 @@ totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInte
 
 }
 
+-(NSUInteger)getMessagsCountForUser:(NSString *)userId
+{
+    ALMessageDBService * dbService = [ALMessageDBService new];
+    return [dbService getMessagesCountFromDBForUser:userId];
+}
 
 @end

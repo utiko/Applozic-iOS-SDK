@@ -37,10 +37,9 @@
     return type != nil && [ALPushNotificationService.ApplozicNotificationTypes containsObject:type];
 }
 
--(BOOL) processPushNotification:(NSDictionary *)dictionary updateUI:(BOOL)updateUI
+-(BOOL) processPushNotification:(NSDictionary *)dictionary updateUI:(NSNumber *)updateUI
 {
-    NSLog(@"update ui: %@", updateUI ? @"Yes": @"No");
-
+    NSLog(@"update ui: %@", updateUI==[NSNumber numberWithInt:1] ? @"ACTIVE": @"BACKGROUND/INACTIVE");
     
     
     if ([self isApplozicNotification:dictionary]) {
@@ -50,7 +49,7 @@
         
         self.alSyncCallService =  [[ALSyncCallService alloc]init];
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
-        [dict setObject:[NSNumber numberWithBool:updateUI] forKey:@"updateUI"];
+        [dict setObject:updateUI forKey:@"updateUI"];
         
         NSString *type = (NSString *)[dictionary valueForKey:@"AL_KEY"];
         NSString *alValueJson = (NSString *)[dictionary valueForKey:@"AL_VALUE"];
@@ -58,40 +57,55 @@
         
         NSError *error = nil;
         NSDictionary *theMessageDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        NSString*  notificationMsg = [theMessageDict valueForKey:@"message"];
+        
         
         NSString *notificationId = (NSString* )[theMessageDict valueForKey:@"id"];
-        
         if(notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId]){
             NSLog(@"Returning from ALPUSH because notificationId is already processed... %@",notificationId);
+            
+            if([[UIApplication sharedApplication] applicationState]== UIApplicationStateInactive){
+            
+                NSLog(@"App Inactive");
+                [self assitingNotificationMessage:notificationMsg andDictionary:dict];
+            }else{
+                NSLog(@"App Inactive False");
+            }
+
             return true;
         }
         //TODO : check if notification is alreday received and processed...
-        NSString *  notificationMsg = [theMessageDict valueForKey:@"message"];
+        
         
         if ([type isEqualToString:MT_SYNC])
         {
+            [ALUserDefaultsHandler setMsgSyncRequired:YES];
             [ALMessageService getLatestMessageForUser:[ALUserDefaultsHandler getDeviceKeyString] withCompletion:^(NSMutableArray *message, NSError *error) {
                  }];
-                NSLog(@"ALPushNotificationService's SYNC CALL");
+            
+            NSLog(@"ALPushNotificationService's SYNC CALL");
             [dict setObject:alertValue forKey:@"alertValue"];
             
-            ALPushAssist* assistant=[[ALPushAssist alloc] init];
+            [self assitingNotificationMessage:notificationMsg andDictionary:dict];
             
-            if(!assistant.isOurViewOnTop){
-                [dict setObject:@"apple push notification.." forKey:@"Calledfrom"];
-                [assistant assist:notificationMsg and:dict ofUser:notificationMsg];
-                
-            }
-            else
-            {   [dict setObject:alertValue forKey:@"alertValue"];
-                [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification"
-                                                                     object:notificationMsg
-                                                                   userInfo:dict];
-
-                [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat"
-                                                                     object:notificationMsg
-                                                                   userInfo:dict];
-            }
+//            ALPushAssist* assistant=[[ALPushAssist alloc] init];
+//            if(!assistant.isOurViewOnTop){
+//                [dict setObject:@"apple push notification.." forKey:@"Calledfrom"];
+//                [assistant assist:notificationMsg and:dict ofUser:notificationMsg];
+//                
+//            }
+//            else
+//            {
+//                NSLog(@"Over View not on top");
+//                [dict setObject:alertValue forKey:@"alertValue"];
+//                [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification"
+//                                                                     object:notificationMsg
+//                                                                   userInfo:dict];
+//
+//                [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat"
+//                                                                     object:notificationMsg
+//                                                                   userInfo:dict];
+//            }
 
            
             
@@ -184,6 +198,27 @@
     return FALSE;
 }
 
+-(void)assitingNotificationMessage:(NSString*)notificationMsg andDictionary:(NSMutableDictionary*)dict {
+    
+    ALPushAssist* assistant=[[ALPushAssist alloc] init];
+    if(!assistant.isOurViewOnTop){
+        [dict setObject:@"apple push notification.." forKey:@"Calledfrom"];
+        [assistant assist:notificationMsg and:dict ofUser:notificationMsg];
+        
+    }
+    else
+    {
+        
+        [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification"
+                                                             object:notificationMsg
+                                                           userInfo:dict];
+        
+        [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat"
+                                                             object:notificationMsg
+                                                           userInfo:dict];
+    }
+
+}
 -(BOOL)processUserBlockNotification:(NSDictionary *)theMessageDict andUserBlockFlag:(BOOL)flag
 {
 
@@ -201,24 +236,42 @@
 
 -(void)notificationArrivedToApplication:(UIApplication*)application withDictionary:(NSDictionary *)userInfo{
     
-    if(application.applicationState == UIApplicationStateInactive ||
-       application.applicationState == UIApplicationStateBackground) {
+     if(application.applicationState == UIApplicationStateInactive){
         
-        NSLog(@"Inactive or Background");
-        
-        //Show the view with the content of the push
-        [self processPushNotification:userInfo updateUI:NO];
- 
-    } else {
-        
-        NSLog(@"Active");
-        
-        //Show an in-app banner
-        [self processPushNotification:userInfo updateUI:YES];
-        
+        /* 
+        # App is transitioning from background to foreground (user taps notification), do what you need when user taps here!
+         
+        # SYNC AND PUSH DETAIL VIEW CONTROLLER
+        NSLog(@"APP_STATE_INACTIVE APP_DELEGATE");
+         */
+        [self processPushNotification:userInfo updateUI:[NSNumber numberWithInt:APP_STATE_INACTIVE]];
         
     }
 
+    else if(application.applicationState == UIApplicationStateActive) {
+        
+        /*
+         # App is currently active, can update badges count here
+       
+         # SYNC AND PUSH DETAIL VIEW CONTROLLER
+         NSLog(@"APP_STATE_ACTIVE APP_DELEGATE");
+         */
+        [self processPushNotification:userInfo updateUI:[NSNumber numberWithInt:APP_STATE_ACTIVE]];
+        
+    }
+    else if(application.applicationState == UIApplicationStateBackground){
+        
+        
+        /* # App is in background, if content-available key of your notification is set to 1, poll to your backend to retrieve data and update your interface here
+        
+        # SYNC ONLY
+        NSLog(@"APP_STATE_BACKGROUND APP_DELEGATE");
+        */
+         [self processPushNotification:userInfo updateUI:[NSNumber numberWithInt:APP_STATE_BACKGROUND]];
+        
+        
+    }
+   
 }
 
 +(void)applicationEntersForeground{

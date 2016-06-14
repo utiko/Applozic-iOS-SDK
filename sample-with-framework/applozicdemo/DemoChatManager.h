@@ -39,6 +39,6 @@
 -(void)callForChatLauncherWithApplicationKey:(NSString *)userId withGroupId:(NSNumber*)groupID
                      andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text;
 
-
+-(BOOL)isUserHaveMessages:(NSString *)userId;
 
 @end

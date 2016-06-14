@@ -8,7 +8,7 @@
 
 #define RESPONSE_SUCCESS @"success"
 
-#import <Applozic/Applozic.h>
+#import "ALAPIResponse.h"
 #import "ALUserBlocked.h"
 
 @interface ALUserBlockResponse : ALAPIResponse

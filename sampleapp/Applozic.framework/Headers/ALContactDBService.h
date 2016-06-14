@@ -56,4 +56,7 @@
 
 -(void)updateFilteredContacts:(ALContactsResponse *)contactsResponse;
 
+-(NSMutableArray *)getAllContactsFromDB;
+-(NSNumber *)getOverallUnreadCountForContactsFromDB;
+
 @end

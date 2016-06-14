@@ -148,9 +148,8 @@
         userContact.fullName = contact.fullName;
         userContact.contactNumber = contact.contactNumber;
         userContact.contactImageUrl = contact.contactImageUrl;
-        if(contact.unreadCount != NULL){
-            userContact.unreadCount = contact.unreadCount;
-        }
+        userContact.unreadCount = contact.unreadCount ? contact.unreadCount : [NSNumber numberWithInt:0];
+        
         if(contact.displayName)
         {
             userContact.displayName = contact.displayName;
@@ -183,9 +182,10 @@
     
     NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
     
-    if(result.count>0){
-        NSManagedObject* userCon = [result objectAtIndex:0];
-        [userCon setValue:0 forKey:@"unreadCount"];
+    if(result.count > 0)
+    {
+        DB_CONTACT * dbContact = [result objectAtIndex:0];
+        dbContact.unreadCount = [NSNumber numberWithInt:0];
     }
     
     NSError *error = nil;
@@ -239,6 +239,7 @@
     contact.unreadCount=dbContact.unreadCount;
     contact.block = dbContact.block;
     contact.blockBy = dbContact.blockBy;
+    
     return contact;
 }
 
@@ -276,30 +277,23 @@
 
     DB_CONTACT* existingContact = [self getContactByKey:@"userId" value:[userContact userId]];
     if (existingContact) {
-        return false;
+        return NO;
     }
-    
     
     BOOL result = NO;
     
     DB_CONTACT * contact = [NSEntityDescription insertNewObjectForEntityForName:@"DB_CONTACT" inManagedObjectContext:dbHandler.managedObjectContext];
     
     contact.userId = userContact.userId;
-    
     contact.fullName = userContact.fullName;
-    
     contact.contactNumber = userContact.contactNumber;
-    
     contact.displayName = userContact.displayName;
-    
     contact.email = userContact.email;
-    
     contact.contactImageUrl = userContact.contactImageUrl;
+    contact.localImageResourceName = userContact.localImageResourceName;
+    contact.unreadCount = userContact.unreadCount ? userContact.unreadCount : [NSNumber numberWithInt:0];
+    contact.lastSeenAt = userContact.lastSeenAt;
     
-    contact.localImageResourceName =userContact.localImageResourceName;
-    
-    contact.unreadCount = userContact.unreadCount;
-
     NSError *error = nil;
     
     result = [dbHandler.managedObjectContext save:&error];
@@ -314,55 +308,17 @@
 
 -(void)addUserDetails:(NSMutableArray *)userDetails
 {
-//    NSMutableArray *userDetailArray = [[NSMutableArray alloc] init];
-    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     for(ALUserDetail *theUserDetail in userDetails)
     {
-        
-        DB_CONTACT* existingContact = [self getContactByKey:@"userId" value:[theUserDetail userId]];
-        if(existingContact!=nil){
-            [self updateUserDetail:theUserDetail];
-            continue;
-        }
-        
-        DB_CONTACT *theUserDetailEntity = [self createUserDetailEntityForDBInsertionWithUserDetail:theUserDetail];
-        [theDBHandler.managedObjectContext save:nil];
-        theUserDetail.userDetailDBObjectId = theUserDetailEntity.objectID;
-//        [userDetailArray addObject:theUserDetail];
-        
+        [self updateUserDetail:theUserDetail];
     }
-    
 }
 
--(DB_CONTACT*) createUserDetailEntityForDBInsertionWithUserDetail:(ALUserDetail *) userDetail
-{
-     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-    
-    DB_CONTACT *theUserDetailEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_CONTACT" inManagedObjectContext:theDBHandler.managedObjectContext];
-    
-    theUserDetailEntity.userId = userDetail.userId;
-    
-    if(userDetail.displayName == nil)
-    {
-        theUserDetailEntity.displayName = userDetail.userId;
-    }
-    else
-    {
-        theUserDetailEntity.displayName = userDetail.displayName;
-    }
-    
-    theUserDetailEntity.lastSeenAt =  userDetail.lastSeenAtTime;   //   [NSNumber numberWithInt:[userDetail.lastSeenAtTime doubleValue]];
-    theUserDetailEntity.connected = userDetail.connected;
-    theUserDetailEntity.unreadCount=[NSNumber numberWithInt:userDetail.unreadCount.intValue];
-    theUserDetailEntity.contactImageUrl = userDetail.imageLink;
-    theUserDetailEntity.contactNumber = userDetail.contactNumber;
-    
-    return theUserDetailEntity;
-}
+
 
 -(void) updateConnectedStatus: (NSString *) userId lastSeenAt:(NSNumber *) lastSeenAt  connected: (BOOL) connected
 {
-    ALUserDetail *ob = [[ALUserDetail alloc]init];
+    ALUserDetail *ob = [[ALUserDetail alloc] init];
     ob.lastSeenAtTime = lastSeenAt;
     ob.connected =  connected;
     ob.userId = userId;
@@ -377,13 +333,10 @@
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CONTACT" inManagedObjectContext:dbHandler.managedObjectContext];
-    
+
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId = %@",userDetail.userId];
-    
     [fetchRequest setEntity:entity];
-    
     [fetchRequest setPredicate:predicate];
     
     NSError *fetchError = nil;
@@ -392,8 +345,8 @@
     
     if(result.count > 0)
     {
-        DB_CONTACT * dbContact = [result objectAtIndex:0];
         
+        DB_CONTACT * dbContact = [result objectAtIndex:0];
         dbContact.lastSeenAt = userDetail.lastSeenAtTime;
         dbContact.connected = userDetail.connected;
         if(![userDetail.unreadCount isEqualToNumber:[NSNumber numberWithInt:0]])
@@ -407,6 +360,7 @@
         dbContact.contactImageUrl = userDetail.imageLink;
         dbContact.contactNumber = userDetail.contactNumber;
 
+
     }
     else
     {
@@ -414,10 +368,11 @@
          ALContact * contact = [[ALContact alloc] init];
          contact.userId = userDetail.userId;
          contact.unreadCount = userDetail.unreadCount;
-         contact.lastSeenAt = [NSNumber numberWithBool:userDetail.connected];
+         contact.lastSeenAt = userDetail.lastSeenAtTime;
          contact.displayName = userDetail.displayName;
          contact.contactImageUrl = userDetail.imageLink;
          contact.contactNumber = userDetail.contactNumber;
+         contact.connected = userDetail.connected;
         
         [self addContact:contact];
     }
@@ -433,19 +388,17 @@
     return success;
 
 }
--(BOOL)updateLastSeenDBUpdate:(ALUserDetail *)userDetail{
+-(BOOL)updateLastSeenDBUpdate:(ALUserDetail *)userDetail
+{
     BOOL success = NO;
     
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CONTACT" inManagedObjectContext:dbHandler.managedObjectContext];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId = %@",userDetail.userId];
-    
     [fetchRequest setEntity:entity];
-    
     [fetchRequest setPredicate:predicate];
     
     NSError *fetchError = nil;
@@ -454,11 +407,8 @@
     
     if(result.count > 0)
     {
-        
-        NSManagedObject *ob = [result objectAtIndex:0];
-        
-        [ob setValue: userDetail.lastSeenAtTime forKey:@"lastSeenAt"];
-        
+        DB_CONTACT * dbContact = [result objectAtIndex:0];
+        dbContact.lastSeenAt = userDetail.lastSeenAtTime;
     }
     
     NSError *error = nil;
@@ -471,6 +421,7 @@
     
     return success;
 }
+
 -(NSUInteger)markConversationAsDeliveredAndRead:(NSString*)contactId
 {
     NSArray *messages =  [self getUnreadMessagesForIndividual:contactId];
@@ -626,6 +577,48 @@
         ALContact * contact = [self loadContactByKey:@"userId" value: userDetail.userId];
         [contactArray addObject:contact];
     }
+}
+
+-(NSMutableArray *)getAllContactsFromDB
+{
+    ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_CONTACT"];
+    [theRequest setReturnsDistinctResults:YES];
+    
+    NSMutableArray * contactList = [NSMutableArray new];
+    NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
+    
+    for (DB_CONTACT * dbContact in theArray)
+    {
+        ALContact *contact = [[ALContact alloc] init];
+        
+        contact.userId = dbContact.userId;
+        contact.fullName = dbContact.fullName;
+        contact.contactNumber = dbContact.contactNumber;
+        contact.displayName = dbContact.displayName;
+        contact.contactImageUrl = dbContact.contactImageUrl;
+        contact.email = dbContact.email;
+        contact.localImageResourceName = dbContact.localImageResourceName;
+        contact.unreadCount = dbContact.unreadCount;
+        
+        [contactList addObject:contact];
+    }
+
+    return contactList;
+    
+}
+
+-(NSNumber *)getOverallUnreadCountForContactsFromDB
+{
+    NSNumber * unreadCount;
+    int count = 0;
+    NSMutableArray * contactArray = [NSMutableArray arrayWithArray:[self getAllContactsFromDB]];
+    for(ALContact *contact in contactArray)
+    {
+        count = count + [contact.unreadCount intValue];
+    }
+    unreadCount = [NSNumber numberWithInt:count];
+    return unreadCount;
 }
 
 @end

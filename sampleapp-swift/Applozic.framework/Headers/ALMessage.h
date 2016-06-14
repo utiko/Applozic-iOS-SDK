@@ -80,6 +80,8 @@
 
 @property (nonatomic, copy) NSNumber * status;
 
+@property (nonatomic,retain) NSMutableDictionary * metadata;
+
 -(NSString *)getCreatedAtTime:(BOOL)today;
 
 -(id)initWithDictonary:(NSDictionary*)messageDictonary;
@@ -91,6 +93,7 @@
 -(NSString *)getCreatedAtTimeChat:(BOOL)today;
 -(NSNumber *)getGroupId;
 -(NSString *)getNotificationText;
+-(NSMutableDictionary *)getMetaDataDictionary:(NSString *) string;
 
 -(BOOL)checkCustomContentType;
 

@@ -138,7 +138,7 @@ static MQTTSession *session;
             else{
                 NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
                 [dict setObject:[alMessage getNotificationText] forKey:@"alertValue"];
-                [dict setObject:[NSNumber numberWithBool:NO] forKey:@"updateUI"];
+                [dict setObject:[NSNumber numberWithInt:APP_STATE_BACKGROUND] forKey:@"updateUI"];
                 
                 [ALMessageService getLatestMessageForUser:[ALUserDefaultsHandler getDeviceKeyString] withCompletion:^(NSMutableArray *message, NSError *error) {
 

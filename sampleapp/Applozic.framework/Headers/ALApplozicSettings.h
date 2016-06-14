@@ -39,6 +39,13 @@
 #define NO_CONVERSATION_FLAG_CHAT_VC @"NO_CONVERSATION_FLAG_CHAT_VC"
 #define ONLINE_INDICATOR_VISIBILITY @"ONLINE_INDICATOR_VISIBILITY"
 #define BACK_BUTTON_TITLE_CHATVC @"BACK_BUTTON_TITLE_CHATVC"
+#define NO_MORE_CONVERSATION_VISIBILITY @"NO_MORE_CONVERSATION_VISIBILITY"
+#define CUSTOM_NAV_RIGHT_BUTTON_MSGVC @"CUSTOM_NAV_RIGHT_BUTTON_MSGVC"
+#define TOAST_BG_COLOUR @"TOAST_BG_COLOUR"
+#define TOAST_TEXT_COLOUR @"TOAST_TEXT_COLOUR"
+#define SEND_MSG_TEXT_COLOUR @"SEND_MSG_TEXT_COLOUR"
+#define RECEIVE_MSG_TEXT_COLOUR @"RECEIVE_MSG_TEXT_COLOUR"
+
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -165,5 +172,23 @@
 
 +(BOOL)getVisibilityForOnlineIndicator;
 +(void)setVisibilityForOnlineIndicator:(BOOL)flag;
+
++(BOOL)getVisibilityForNoMoreConversationMsgVC;
++(void)setVisibilityForNoMoreConversationMsgVC:(BOOL)flag;
+
++(BOOL)getCustomNavRightButtonMsgVC;
++(void)setCustomNavRightButtonMsgVC:(BOOL)flag;
+
++(UIColor *)getColorForToastText;
++(void)setColorForToastText:(UIColor *)toastTextColor;
+
++(UIColor *)getColorForToastBackground;
++(void)setColorForToastBackground:(UIColor *)toastBGColor;
+
++(UIColor *)getSendMsgTextColor;
++(void)setSendMsgTextColor:(UIColor *)sendMsgColor;
+
++(UIColor *)getReceiveMsgTextColor;
++(void)setReceiveMsgTextColor:(UIColor *)receiveMsgColor;
 
 @end

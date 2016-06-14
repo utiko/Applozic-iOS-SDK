@@ -12,6 +12,7 @@
 #import "ALSyncMessageFeed.h"
 #import "MessageListRequest.h"
 #import "ALMessageInfoResponse.h"
+#import "ALMessageService.h"
 
 @interface ALMessageClientService : NSObject
 

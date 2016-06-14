@@ -18,7 +18,7 @@
 
 -(instancetype)  init{
     self= [super init];
-    alContactDBService = [[ALContactDBService alloc]init];
+    alContactDBService = [[ALContactDBService alloc] init];
     return self;
 }
 
@@ -29,7 +29,7 @@
 
 -(BOOL)purgeContact:(ALContact *)contact{
     
-    return [ alContactDBService purgeContact:contact];
+    return [alContactDBService purgeContact:contact];
 }
 
 
@@ -63,6 +63,10 @@
     return [alContactDBService updateListOfContacts:contacts];
 }
 
+-(NSNumber *)getOverallUnreadCountForContact
+{
+   return  [alContactDBService getOverallUnreadCountForContactsFromDB];
+}
 
 #pragma mark addition APIS
 
@@ -90,7 +94,7 @@
 
 - (ALContact *)loadOrAddContactByKeyWithDisplayName:(NSString *) contactId value:(NSString*) displayName{
     
-    DB_CONTACT *dbContact = [alContactDBService getContactByKey:@"userId" value:contactId];
+    DB_CONTACT * dbContact = [alContactDBService getContactByKey:@"userId" value:contactId];
     
     ALContact *contact = [[ALContact alloc] init];
     if (!dbContact) {
@@ -110,6 +114,7 @@
     contact.connected = dbContact.connected;
     contact.lastSeenAt = dbContact.lastSeenAt;
     contact.unreadCount=dbContact.unreadCount;
+    
     return contact;
 }
 

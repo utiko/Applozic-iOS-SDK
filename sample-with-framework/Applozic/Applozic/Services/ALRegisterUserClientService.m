@@ -97,10 +97,10 @@
         
         completion(response,nil);
         
-        [ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.currentTimeStamp];
+        [ALUserDefaultsHandler setLastSyncTime:[NSNumber numberWithDouble:[response.currentTimeStamp doubleValue]]];
         [ALUserDefaultsHandler setLastSyncChannelTime:(NSNumber *)response.currentTimeStamp];
         [self connect];
-        ALMessageDBService * dbService = [[ALMessageDBService alloc]init];
+        ALMessageDBService * dbService = [[ALMessageDBService alloc] init];
         if(dbService.isMessageTableEmpty){
             [ALMessageService processLatestMessagesGroupByContact];
         }

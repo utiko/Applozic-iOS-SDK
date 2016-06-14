@@ -60,7 +60,7 @@
            
             NSLog(@"Launched from push notification: %@", dictionary);
             ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
-            BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:NO];
+            BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:[NSNumber numberWithInt:APP_STATE_INACTIVE]];
             if (!applozicProcessed) {
                 //Note: notification for app
             }
@@ -81,8 +81,6 @@
     ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
     [pushNotificationService notificationArrivedToApplication:application withDictionary:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
-    
-    
     
 }
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -106,6 +104,10 @@
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService connect];
     [ALPushNotificationService applicationEntersForeground];
+    
+    NSLog(@"APP_ENTER_IN_FOREGROUND");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"APP_ENTER_IN_FOREGROUND" object:nil];
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

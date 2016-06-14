@@ -57,4 +57,7 @@
          unreadCount:(NSNumber *)unreadCount;
 -(void)setLeaveFlagForChannel:(NSNumber*)groupId;
 -(BOOL)isChannelLeft:(NSNumber *)groupId;
+
+-(NSNumber *)getOverallUnreadCountForChannelFromDB;
+
 @end
