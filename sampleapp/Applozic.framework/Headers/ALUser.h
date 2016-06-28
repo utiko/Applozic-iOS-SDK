@@ -18,6 +18,7 @@ typedef enum
     
 } AuthenticationType;
 
+
 @interface ALUser : ALJson
 
 @property NSString *userId;
@@ -39,6 +40,7 @@ typedef enum
 @property short userTypeId;
 @property short notificationMode;
 @property short authenticationTypeId;
+@property short unreadCountType;
 
 @end
 

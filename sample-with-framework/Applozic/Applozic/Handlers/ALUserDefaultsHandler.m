@@ -78,9 +78,17 @@
 
 +(void) clearAll
 {
-    NSLog(@"cleared");
-    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
-    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+    NSLog(@"CLEARING_USER_DEFAULTS");
+    NSDictionary * dictionary = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
+    NSArray * keyArray = [dictionary allKeys];
+    for(NSString * defaultKeyString in keyArray)
+    {
+        if([defaultKeyString hasPrefix:KEY_PREFIX])
+        {
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:defaultKeyString];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+    }
 }
 
 +(void) setApnDeviceToken:(NSString *)apnDeviceToken
@@ -166,23 +174,20 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:USER_KEY_STRING];
 }
 
-//user Id
-+(void )setUserId:(NSString *)userId
+//LOGIN USER ID
++(void)setUserId:(NSString *)userId
 {
     [[NSUserDefaults standardUserDefaults] setValue:userId forKey:USER_ID];
-    
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-
 +(NSString *)getUserId
 {
-    return [[NSUserDefaults standardUserDefaults]
-            valueForKey:USER_ID];
+    return [[NSUserDefaults standardUserDefaults] valueForKey:USER_ID];
 }
 
-//password
-+(void )setPassword:(NSString *)password
+//LOGIN USER PASSWORD
++(void)setPassword:(NSString *)password
 {
     [[NSUserDefaults standardUserDefaults] setValue:password forKey:USER_PASSWORD];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -194,18 +199,16 @@
 }
 
 //last sync time
-
-+(void )setLastSyncTime :( NSNumber *) lstSyncTime
++(void)setLastSyncTime :( NSNumber *) lstSyncTime
 {
-   lstSyncTime = @([lstSyncTime doubleValue] + 1);
+    lstSyncTime = @([lstSyncTime doubleValue] + 1);
     NSLog(@"saving last Sync time in the preference ...%@" ,lstSyncTime);
     [[NSUserDefaults standardUserDefaults] setDouble:[lstSyncTime doubleValue] forKey:LAST_SYNC_TIME];
-    
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(NSNumber *)getLastSyncTime{
-    
++(NSNumber *)getLastSyncTime
+{
    // NSNumber *timeStampObj = [NSNumber numberWithDouble: timeStamp];
     return [[NSUserDefaults standardUserDefaults] valueForKey:LAST_SYNC_TIME];
 }
@@ -215,7 +218,8 @@
     if(!contactId){
         return;
     }
-    NSString *key = [ contactId stringByAppendingString:MSG_LIST_CALL_SUFIX];
+    
+    NSString * key = [MSG_LIST_CALL_SUFIX stringByAppendingString: contactId];
     [[NSUserDefaults standardUserDefaults] setBool:true forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
@@ -225,7 +229,7 @@
     if(!contactId){
         return true;
     }
-    NSString *key = [ contactId stringByAppendingString:MSG_LIST_CALL_SUFIX];
+    NSString * key = [MSG_LIST_CALL_SUFIX stringByAppendingString: contactId];
     return [[NSUserDefaults standardUserDefaults] boolForKey:key];
     
 }
@@ -239,7 +243,7 @@
 
 
 +(NSMutableArray*) getProcessedNotificationIds{
-    return [[[NSUserDefaults standardUserDefaults] objectForKey:@"PROCESSED_NOTIFICATION_IDS"] mutableCopy];
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:PROCESSED_NOTIFICATION_IDS] mutableCopy];
 
 }
 
@@ -279,11 +283,12 @@
     return timeStamp ? timeStamp : [NSNumber numberWithInt:0];
 }
 
-+(void)setShowLoadEarlierOption:(BOOL) value forContactId:(NSString*)contactId{
++(void)setShowLoadEarlierOption:(BOOL) value forContactId:(NSString*)contactId
+{
     if(!contactId){
         return;
     }
-    NSString *key = [ contactId stringByAppendingString:SHOW_LOAD_ERLIER_MESSAGE];
+    NSString *key = [SHOW_LOAD_ERLIER_MESSAGE stringByAppendingString:contactId];
     [[NSUserDefaults standardUserDefaults] setBool:value forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
@@ -293,7 +298,7 @@
     if(!contactId){
         return false;
     }
-    NSString *key = [ contactId stringByAppendingString:SHOW_LOAD_ERLIER_MESSAGE];
+    NSString *key = [SHOW_LOAD_ERLIER_MESSAGE stringByAppendingString:contactId];
     if ( [[NSUserDefaults standardUserDefaults] valueForKey:key] ) {
         return [[NSUserDefaults standardUserDefaults] boolForKey:key];
     }else {
@@ -373,7 +378,8 @@
     if(!contactId){
         return;
     }
-    NSString *key = [contactId stringByAppendingString:USER_INFO_API_CALLED_SUFFIX];
+    
+    NSString * key = [USER_INFO_API_CALLED_SUFFIX stringByAppendingString:contactId];
     [[NSUserDefaults standardUserDefaults] setBool:value forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -383,7 +389,8 @@
     if(!contactId){
         return true;
     }
-    NSString *key = [ contactId stringByAppendingString:USER_INFO_API_CALLED_SUFFIX];
+    
+    NSString * key = [USER_INFO_API_CALLED_SUFFIX stringByAppendingString:contactId];
     return [[NSUserDefaults standardUserDefaults] boolForKey:key];
 }
 
@@ -503,6 +510,19 @@
     return type ? type : 0;
 }
 
+
++(void)setUnreadCountType:(short)mode
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:mode forKey:UNREAD_COUNT_TYPE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(short)getUnreadCountType
+{
+    short type = [[NSUserDefaults standardUserDefaults] integerForKey:UNREAD_COUNT_TYPE];
+    return type ? type : 0;
+}
+
 +(void)setMsgSyncRequired:(BOOL)flag
 {
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:MSG_SYN_CALL];
@@ -512,6 +532,28 @@
 +(BOOL)isMsgSyncRequired
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:MSG_SYN_CALL];
+}
+
++(void)setDebugLogsRequire:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:DEBUG_LOG_FLAG];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)isDebugLogsRequire
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:DEBUG_LOG_FLAG];
+}
+
++(void)setLoginUserConatactVisibility:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:LOGIN_USER_CONTACT];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getLoginUserConatactVisibility
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:LOGIN_USER_CONTACT];
 }
 
 @end

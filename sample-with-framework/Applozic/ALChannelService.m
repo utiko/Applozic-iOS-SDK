@@ -47,7 +47,7 @@
     
 }
 
--(void)getChannelInformation:(NSNumber *)channelKey withCompletion:(void (^)(ALChannel *alChannel3)) completion
+-(void)getChannelInformation:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey withCompletion:(void (^)(ALChannel *alChannel3)) completion
 {
     ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
     ALChannel *alChannel1 = [channelDBService checkChannelEntity:channelKey];
@@ -58,7 +58,7 @@
     }
     else
     {
-        [ALChannelClientService getChannelInfo:channelKey withCompletion:^(NSError *error, ALChannel *alChannel2) {
+        [ALChannelClientService getChannelInfo:channelKey orClientChannelKey:clientChannelKey withCompletion:^(NSError *error, ALChannel *alChannel2) {
             
             if(!error)
             {
@@ -69,9 +69,7 @@
             completion (alChannel2);
             
         }];
-        
     }
-    
 }
 
 -(BOOL)isChannelLeft:(NSNumber*)groupID
@@ -107,26 +105,35 @@
     return [ob getOverallUnreadCountForChannelFromDB];
 }
 
-//====================================================================================================
+-(ALChannel *)fetchChannelWithClientChannelKey:(NSString *)clientChannelKey
+{
+    ALChannelDBService * channelDB = [[ALChannelDBService alloc] init];
+    ALChannel * channel = [channelDB loadChannelByClientChannelKey:clientChannelKey];
+    return channel;
+}
+
+//==========================================================================================================================================
 #pragma mark CHANNEL API
-//====================================================================================================
+//==========================================================================================================================================
 
-
+//===========================================================================================================================
 #pragma mark CREATE CHANNEL
-//=========================
+//===========================================================================================================================
 
--(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSNumber *channelKey))completion
+-(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey
+      andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(ALChannel *alChannel))completion
 {
     if(channelName != nil)
     {
-        [ALChannelClientService createChannel: channelName andMembersList: memberArray withCompletion:^(NSError *error, ALChannelCreateResponse *response) {
+        [ALChannelClientService createChannel:channelName orClientChannelKey:(NSString *)clientChannelKey
+                               andMembersList:memberArray withCompletion:^(NSError *error, ALChannelCreateResponse *response) {
             
             if(!error)
             {
                 response.alChannel.adminKey = [ALUserDefaultsHandler getUserId];
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
                 [channelDBService createChannel:response.alChannel];
-                completion(response.alChannel.key);
+                completion(response.alChannel);
             }
             else
             {
@@ -141,34 +148,41 @@
     }
 }
 
+//===========================================================================================================================
 #pragma mark ADD NEW MEMBER TO CHANNEL
-//====================================
+//===========================================================================================================================
 
--(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion
+-(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey
+            withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion
 {
     
     if(channelKey != nil && userId != nil)
     {
-        [ALChannelClientService addMemberToChannel:userId andChannelKey:channelKey withComletion:^(NSError *error, ALAPIResponse *response) {
+        [ALChannelClientService addMemberToChannel:userId orClientChannelKey:clientChannelKey
+                                     andChannelKey:channelKey withComletion:^(NSError *error, ALAPIResponse *response) {
+            
             if([response.status isEqualToString:@"success"])
             {
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
                 [channelDBService addMemberToChannel:userId andChannelKey:channelKey];
-                completion(error,response);
             }
+            completion(error,response);
         }];
-        
     }
-    
 }
 
+//===========================================================================================================================
 #pragma mark REMOVE MEMBER FROM CHANNEL
-//=====================================
+//===========================================================================================================================
 
--(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, NSString *response))completion {
+-(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey
+                 withComletion:(void(^)(NSError *error, NSString *response))completion
+{
     if(channelKey != nil && userId != nil)
     {
-        [ALChannelClientService removeMemberFromChannel:userId andChannelKey:channelKey withComletion:^(NSError *error, ALAPIResponse *response) {
+        [ALChannelClientService removeMemberFromChannel:userId orClientChannelKey:clientChannelKey
+                                          andChannelKey:channelKey withComletion:^(NSError *error, ALAPIResponse *response) {
+                                              
             if([response.status isEqualToString:@"success"])
             {
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
@@ -180,24 +194,26 @@
     }
 }
 
+//===========================================================================================================================
 #pragma mark DELETE CHANNEL
-//=========================
+//===========================================================================================================================
 
--(BOOL)deleteChannel:(NSNumber *)channelKey
+-(void)deleteChannel:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey
+      withCompletion:(void(^)(NSError *error))completion
 {
-    isChannelDeleted = NO;
     if(channelKey != nil)
     {
-        [ALChannelClientService deleteChannel:channelKey withComletion:^(NSError *error, ALAPIResponse *response) {
+        [ALChannelClientService deleteChannel:channelKey orClientChannelKey:clientChannelKey
+                                withComletion:^(NSError *error, ALAPIResponse *response) {
+                                    
             if([response.status isEqualToString:@"success"])
             {
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
                 [channelDBService deleteChannel:channelKey];
-                isChannelDeleted = YES;
             }
+            completion(error);
         }];
     }
-    return isChannelDeleted;
 }
 
 -(BOOL)checkAdmin:(NSNumber *)channelKey
@@ -206,51 +222,56 @@
     ALChannel *channel = [channelDBService loadChannelByKey:channelKey];
     
     return [channel.adminKey isEqualToString:[ALUserDefaultsHandler getUserId]];
-    
 }
 
+//===========================================================================================================================
 #pragma mark LEAVE CHANNEL
-//=========================
+//===========================================================================================================================
 
--(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId withCompletion:(void(^)(NSError *error))completion
+-(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId orClientChannelKey:(NSString *)clientChannelKey
+     withCompletion:(void(^)(NSError *error))completion
 {
     if(channelKey != nil && userId != nil)
     {
-        [ALChannelClientService leaveChannel:channelKey withUserId:(NSString *)userId andCompletion:^(NSError *error, ALAPIResponse *response) {
+        [ALChannelClientService leaveChannel:channelKey orClientChannelKey:clientChannelKey
+                                  withUserId:(NSString *)userId andCompletion:^(NSError *error, ALAPIResponse *response) {
+            
             if([response.status isEqualToString:@"success"])
             {
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
                 [channelDBService removeMemberFromChannel:userId andChannelKey:channelKey];
                 [channelDBService setLeaveFlagForChannel:channelKey];
-                completion(error);
             }
+            completion(error);
         }];
     }
 }
 
+//===========================================================================================================================
 #pragma mark RENAME CHANNEL (FROM DEVICE SIDE)
-//============================================
+//===========================================================================================================================
 
--(BOOL)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName
+-(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName orClientChannelKey:(NSString *)clientChannelKey
+      withCompletion:(void(^)(NSError *error))completion;
 {
-    isChannelRenamed = NO;
     if(channelKey != nil && newName != nil)
     {
-        [ALChannelClientService renameChannel:channelKey andNewName:newName andCompletion:^(NSError *error, ALAPIResponse *response) {
+        [ALChannelClientService renameChannel:channelKey orClientChannelKey:clientChannelKey
+                                   andNewName:newName andCompletion:^(NSError *error, ALAPIResponse *response) {
             
             if([response.status isEqualToString:@"success"])
             {
                 ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
                 [channelDBService renameChannel:channelKey andNewName:newName];
-                isChannelRenamed = YES;
             }
+            completion(error);
         }];
     }
-    return isChannelRenamed;
 }
 
+//===========================================================================================================================
 #pragma mark CHANNEL SYNCHRONIZATION
-//==================================
+//===========================================================================================================================
 
 -(void)syncCallForChannel
 {
@@ -266,13 +287,14 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"UPDATE_CHANNEL_NAME" object:nil];
         }
     }];
-    
 }
 
+//===========================================================================================================================
 #pragma mark MARK READ FOR GROUP
-//==============================
+//===========================================================================================================================
 
-+(void)markConversationAsRead:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion{
++(void)markConversationAsRead:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion
+{
     
     [ALChannelService setUnreadCountZeroForGroupID:channelKey];
     
@@ -291,8 +313,8 @@
 
 }
 
-+(void)setUnreadCountZeroForGroupID:(NSNumber*)channelKey{
-    
++(void)setUnreadCountZeroForGroupID:(NSNumber*)channelKey
+{
     ALChannelDBService *channelDBService = [ALChannelDBService new];
     [channelDBService  updateUnreadCountChannel:channelKey unreadCount:[NSNumber numberWithInt:0]];
     

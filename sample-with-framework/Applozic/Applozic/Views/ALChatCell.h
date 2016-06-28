@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ALMessage.h"
+#import "ALHyperLabel.h"
 
 @protocol ALChatCellDelegate <NSObject>
 
@@ -19,7 +20,9 @@
 
 @interface ALChatCell : UITableViewCell
 
-@property (retain, nonatomic) UITextView *mMessageLabel;
+@property (retain, nonatomic) ALHyperLabel *mMessageLabel;
+
+@property (strong, nonatomic) NSMutableArray * hyperLinkArray;
 
 @property (retain, nonatomic) UILabel *mDateLabel;
 

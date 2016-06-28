@@ -35,6 +35,7 @@
     [user setNotificationMode:[ALUserDefaultsHandler getNotificationMode]];
     [user setAuthenticationTypeId:[ALUserDefaultsHandler getUserAuthenticationTypeId]];
     [user setPassword:[ALUserDefaultsHandler getPassword]];
+    [user setUnreadCountType:[ALUserDefaultsHandler getUnreadCountType]];
     
     if([ALUserDefaultsHandler getAppModuleName] != NULL){
         [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];
@@ -112,6 +113,7 @@
 
 -(void) updateApnDeviceTokenWithCompletion:(NSString *)apnDeviceToken withCompletion:(void(^)(ALRegistrationResponse * response, NSError *error)) completion
 {
+    NSLog(@" Saving  to  setApnDeviceToken ##");
     [ALUserDefaultsHandler setApnDeviceToken:apnDeviceToken];
     if ([ALUserDefaultsHandler isLoggedIn])
     {
@@ -121,6 +123,45 @@
         [user setUserId:[ALUserDefaultsHandler getUserId]];
         [self initWithCompletion:user withCompletion: completion];
     }
+}
+
++(void) updateNotificationMode:(short)notificationMode withCompletion:(void(^)(ALRegistrationResponse * response, NSError *error)) completion
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/register/update",KBASE_URL];
+    
+    ALUser * user = [ALUser new];
+
+    [user setUserId:[ALUserDefaultsHandler getUserId]];
+    [user setApplicationId:[ALUserDefaultsHandler getApplicationKey]];
+    [user setNotificationMode:notificationMode];
+    [user setPassword:[ALUserDefaultsHandler getPassword]];
+    [user setRegistrationId: [ALUserDefaultsHandler getApnDeviceToken]];
+    
+    [user setPrefContactAPI:2];
+    [user setEmailVerified:true];
+    [user setDeviceType:4];
+    [user setAppVersionCode: VERSION_CODE];
+    [user setAuthenticationTypeId:[ALUserDefaultsHandler getUserAuthenticationTypeId]];
+    
+    NSError * error;
+    NSData * postdata = [NSJSONSerialization dataWithJSONObject:user.dictionary options:0 error:&error];
+    NSString *theParamString = [[NSString alloc] initWithData:postdata encoding:NSUTF8StringEncoding];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"CREATE ACCOUNT" WithCompletionHandler:^(id theJson, NSError *theError) {
+        NSLog(@"Updating Notification Mode Server Response Received %@", theJson);
+        
+        NSString *statusStr = (NSString *)theJson;
+        if (theError) {
+            completion(nil,theError);
+            return ;
+        }
+        ALRegistrationResponse *response = [[ALRegistrationResponse alloc] initWithJSONString:statusStr];
+        completion(response,nil);
+        
+    }];
+    
 }
 
 -(void) connect {
@@ -141,7 +182,6 @@
     NSString *userKey = [ALUserDefaultsHandler getUserKeyString];
     [[UIApplication sharedApplication] unregisterForRemoteNotifications];
     [ALUserDefaultsHandler clearAll];
-    [ALApplozicSettings clearAllSettings];
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     [messageDBService deleteAllObjectsInCoreData];
     

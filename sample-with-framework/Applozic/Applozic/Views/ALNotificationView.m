@@ -18,6 +18,8 @@
 #import "ALContactDBService.h"
 #import "ALApplozicSettings.h"
 #import "ALChannelDBService.h"
+#import "ALApplozicSettings.h"
+#import "ALConstant.h"
 @implementation ALNotificationView
     
 
@@ -86,6 +88,9 @@
 //=======================================
 -(void)nativeNotification:(id)delegate{
    
+    if([ALUserDefaultsHandler getNotificationMode] == NOTIFICATION_DISABLE){
+        return;
+    }
     NSString * title; // Title of Notification Banner (Display Name or Group Name)
     NSString * subtitle = self.text; //Message to be shown
     

@@ -32,6 +32,8 @@
 		29C849A31CC932050042643C /* NSString+Encode.m in Sources */ = {isa = PBXBuildFile; fileRef = 29C849A11CC932050042643C /* NSString+Encode.m */; };
 		29CBF2021C0303A700BE6A20 /* ALColorUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 29CBF2001C0303A700BE6A20 /* ALColorUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		29CBF2031C0303A700BE6A20 /* ALColorUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CBF2011C0303A700BE6A20 /* ALColorUtility.m */; };
+		29D6F86B1D193D9D00A75369 /* PSPDFTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 29D6F8691D193D9D00A75369 /* PSPDFTextView.h */; };
+		29D6F86C1D193D9D00A75369 /* PSPDFTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 29D6F86A1D193D9D00A75369 /* PSPDFTextView.m */; };
 		29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DEA3131BEDEC1F004B8085 /* ALUserService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DEA3141BEDEC1F004B8085 /* ALUserService.m */; };
 		6D0877081D01B0F900DB491A /* UIView+Toast.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D0877071D01B0F900DB491A /* UIView+Toast.h */; };
@@ -241,14 +243,14 @@
 		6D8904261C3E744000B59381 /* ALConversationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8904241C3E744000B59381 /* ALConversationProxy.m */; };
 		6D8904291C3E7A9500B59381 /* ALAppLocalNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D8904271C3E7A9400B59381 /* ALAppLocalNotifications.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D89042A1C3E7A9500B59381 /* ALAppLocalNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8904281C3E7A9500B59381 /* ALAppLocalNotifications.m */; };
+		6D8DA3A61D19C936009C66C3 /* ALLogs.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D8DA3A41D19C936009C66C3 /* ALLogs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6D8DA3A71D19C936009C66C3 /* ALLogs.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8DA3A51D19C936009C66C3 /* ALLogs.m */; };
 		6D9342251CAE7509002AC9BE /* ALLocationCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9342231CAE7509002AC9BE /* ALLocationCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D9342261CAE7509002AC9BE /* ALLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9342241CAE7509002AC9BE /* ALLocationCell.m */; };
 		6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547631BE38DFF00776652 /* ALContactDBService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D95476A1BE38DFF00776652 /* ALContactDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547641BE38DFF00776652 /* ALContactDBService.m */; };
 		6D95476B1BE38DFF00776652 /* ALContactService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547651BE38DFF00776652 /* ALContactService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D95476C1BE38DFF00776652 /* ALContactService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547661BE38DFF00776652 /* ALContactService.m */; };
-		6D95476D1BE38DFF00776652 /* ALUITextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9547671BE38DFF00776652 /* ALUITextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6D95476E1BE38DFF00776652 /* ALUITextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9547681BE38DFF00776652 /* ALUITextView.m */; };
 		6D98B4681C4FE4B600A6BBFE /* ALAudioCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D98B4661C4FE4B600A6BBFE /* ALAudioCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D98B4691C4FE4B600A6BBFE /* ALAudioCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D98B4671C4FE4B600A6BBFE /* ALAudioCell.m */; };
 		6D9C693C1C28383B00C78219 /* ALChatLauncher.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9C693A1C28383B00C78219 /* ALChatLauncher.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -296,6 +298,8 @@
 		6DDBE54A1CCE3F21002C04E0 /* ALContactsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDBE5481CCE3F21002C04E0 /* ALContactsResponse.m */; };
 		6DDE81861C27D8EC009B8CF9 /* ALUserClientService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */; };
+		6DE2DE181D12ED75008F041E /* ALHyperLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DE2DE161D12ED75008F041E /* ALHyperLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6DE2DE191D12ED75008F041E /* ALHyperLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE2DE171D12ED75008F041E /* ALHyperLabel.m */; };
 		6DEFEA3F1C9ACF0900F7E168 /* ALMessageInfoViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DEFEA3D1C9ACF0900F7E168 /* ALMessageInfoViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DEFEA401C9ACF0900F7E168 /* ALMessageInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEFEA3E1C9ACF0900F7E168 /* ALMessageInfoViewController.m */; };
 		6DFB40AC1CEA2B54006C1AD1 /* ALUserInformationViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DFB40AA1CEA2B54006C1AD1 /* ALUserInformationViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -350,6 +354,8 @@
 		29C849A11CC932050042643C /* NSString+Encode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Encode.m"; sourceTree = "<group>"; };
 		29CBF2001C0303A700BE6A20 /* ALColorUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALColorUtility.h; sourceTree = "<group>"; };
 		29CBF2011C0303A700BE6A20 /* ALColorUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALColorUtility.m; sourceTree = "<group>"; };
+		29D6F8691D193D9D00A75369 /* PSPDFTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSPDFTextView.h; sourceTree = "<group>"; };
+		29D6F86A1D193D9D00A75369 /* PSPDFTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSPDFTextView.m; sourceTree = "<group>"; };
 		29DEA3131BEDEC1F004B8085 /* ALUserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserService.h; sourceTree = "<group>"; };
 		29DEA3141BEDEC1F004B8085 /* ALUserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserService.m; sourceTree = "<group>"; };
 		6D0877071D01B0F900DB491A /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
@@ -560,14 +566,15 @@
 		6D8904241C3E744000B59381 /* ALConversationProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALConversationProxy.m; sourceTree = "<group>"; };
 		6D8904271C3E7A9400B59381 /* ALAppLocalNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAppLocalNotifications.h; sourceTree = "<group>"; };
 		6D8904281C3E7A9500B59381 /* ALAppLocalNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALAppLocalNotifications.m; sourceTree = "<group>"; };
+		6D8DA3A31D19C8E9009C66C3 /* Applozic_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Applozic_Prefix.pch; sourceTree = "<group>"; };
+		6D8DA3A41D19C936009C66C3 /* ALLogs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALLogs.h; sourceTree = "<group>"; };
+		6D8DA3A51D19C936009C66C3 /* ALLogs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALLogs.m; sourceTree = "<group>"; };
 		6D9342231CAE7509002AC9BE /* ALLocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALLocationCell.h; sourceTree = "<group>"; };
 		6D9342241CAE7509002AC9BE /* ALLocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALLocationCell.m; sourceTree = "<group>"; };
 		6D9547631BE38DFF00776652 /* ALContactDBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALContactDBService.h; path = Applozic/ALContactDBService.h; sourceTree = "<group>"; };
 		6D9547641BE38DFF00776652 /* ALContactDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALContactDBService.m; path = Applozic/ALContactDBService.m; sourceTree = "<group>"; };
 		6D9547651BE38DFF00776652 /* ALContactService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALContactService.h; path = Applozic/ALContactService.h; sourceTree = "<group>"; };
 		6D9547661BE38DFF00776652 /* ALContactService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALContactService.m; path = Applozic/ALContactService.m; sourceTree = "<group>"; };
-		6D9547671BE38DFF00776652 /* ALUITextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALUITextView.h; path = Applozic/ALUITextView.h; sourceTree = "<group>"; };
-		6D9547681BE38DFF00776652 /* ALUITextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALUITextView.m; path = Applozic/ALUITextView.m; sourceTree = "<group>"; };
 		6D98B4661C4FE4B600A6BBFE /* ALAudioCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAudioCell.h; sourceTree = "<group>"; };
 		6D98B4671C4FE4B600A6BBFE /* ALAudioCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALAudioCell.m; sourceTree = "<group>"; };
 		6D9C693A1C28383B00C78219 /* ALChatLauncher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChatLauncher.h; sourceTree = "<group>"; };
@@ -615,6 +622,8 @@
 		6DDBE5481CCE3F21002C04E0 /* ALContactsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALContactsResponse.m; sourceTree = "<group>"; };
 		6DDE81841C27D8EC009B8CF9 /* ALUserClientService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserClientService.h; sourceTree = "<group>"; };
 		6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserClientService.m; sourceTree = "<group>"; };
+		6DE2DE161D12ED75008F041E /* ALHyperLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALHyperLabel.h; sourceTree = "<group>"; };
+		6DE2DE171D12ED75008F041E /* ALHyperLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALHyperLabel.m; sourceTree = "<group>"; };
 		6DEFEA3D1C9ACF0900F7E168 /* ALMessageInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALMessageInfoViewController.h; path = ../../ALMessageInfoViewController.h; sourceTree = "<group>"; };
 		6DEFEA3E1C9ACF0900F7E168 /* ALMessageInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMessageInfoViewController.m; path = ../../ALMessageInfoViewController.m; sourceTree = "<group>"; };
 		6DFB40AA1CEA2B54006C1AD1 /* ALUserInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserInformationViewController.h; sourceTree = "<group>"; };
@@ -692,6 +701,15 @@
 			name = "Chat Cell";
 			sourceTree = "<group>";
 		};
+		29D6F8681D193D9000A75369 /* TEXT VIEW */ = {
+			isa = PBXGroup;
+			children = (
+				29D6F8691D193D9D00A75369 /* PSPDFTextView.h */,
+				29D6F86A1D193D9D00A75369 /* PSPDFTextView.m */,
+			);
+			name = "TEXT VIEW";
+			sourceTree = "<group>";
+		};
 		6D34AEB11CA441D7005FA8D4 /* contact */ = {
 			isa = PBXGroup;
 			children = (
@@ -734,6 +752,7 @@
 		6D6DF0731BC535C800EBA00F = {
 			isa = PBXGroup;
 			children = (
+				6D8DA3A31D19C8E9009C66C3 /* Applozic_Prefix.pch */,
 				6DDB07491CB9162A00B99F33 /* AddressBook.framework */,
 				6DDB07411CB9069B00B99F33 /* AddressBookUI.framework */,
 				6DC729651C7854E100A8A268 /* MediaPlayer.framework */,
@@ -772,6 +791,7 @@
 		6D6DF0A21BC5364C00EBA00F /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				29D6F8681D193D9000A75369 /* TEXT VIEW */,
 				29CBF2001C0303A700BE6A20 /* ALColorUtility.h */,
 				6D0877071D01B0F900DB491A /* UIView+Toast.h */,
 				29CBF2011C0303A700BE6A20 /* ALColorUtility.m */,
@@ -955,12 +975,12 @@
 		6D6DF1DB1BC5371200EBA00F /* ApplozicUIWidget */ = {
 			isa = PBXGroup;
 			children = (
+				6DE2DE161D12ED75008F041E /* ALHyperLabel.h */,
+				6DE2DE171D12ED75008F041E /* ALHyperLabel.m */,
 				6D9547631BE38DFF00776652 /* ALContactDBService.h */,
 				6D9547641BE38DFF00776652 /* ALContactDBService.m */,
 				6D9547651BE38DFF00776652 /* ALContactService.h */,
 				6D9547661BE38DFF00776652 /* ALContactService.m */,
-				6D9547671BE38DFF00776652 /* ALUITextView.h */,
-				6D9547681BE38DFF00776652 /* ALUITextView.m */,
 				6D6DF0C41BC5364C00EBA00F /* Applozic.storyboard */,
 				6D6DF1E51BC5389B00EBA00F /* notification */,
 				6D6DF1E41BC5387B00EBA00F /* contact */,
@@ -1128,6 +1148,8 @@
 				6D6DF09B1BC5364C00EBA00F /* ALUserDefaultsHandler.h */,
 				6D36F2061BFF3EE3003D46D3 /* ALApplozicSettings.h */,
 				6D36F2071BFF3EE3003D46D3 /* ALApplozicSettings.m */,
+				6D8DA3A41D19C936009C66C3 /* ALLogs.h */,
+				6D8DA3A51D19C936009C66C3 /* ALLogs.m */,
 			);
 			name = prefrence;
 			sourceTree = "<group>";
@@ -1336,6 +1358,7 @@
 				6D4763F51C3A79A7005BD5EC /* ALChannelService.h in Headers */,
 				6DDE81861C27D8EC009B8CF9 /* ALUserClientService.h in Headers */,
 				6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */,
+				29D6F86B1D193D9D00A75369 /* PSPDFTextView.h in Headers */,
 				29CBF2021C0303A700BE6A20 /* ALColorUtility.h in Headers */,
 				6D6DF13E1BC5364C00EBA00F /* ALConnection.h in Headers */,
 				6D98B4681C4FE4B600A6BBFE /* ALAudioCell.h in Headers */,
@@ -1365,7 +1388,9 @@
 				6DDB07451CB90E1A00B99F33 /* ALVCFClass.h in Headers */,
 				6D1B07291CD8F76F003D14D8 /* ALUIConstant.h in Headers */,
 				6D52A4291C7CA8EA008CBA3A /* ALMediaPlayer.h in Headers */,
+				6D8DA3A61D19C936009C66C3 /* ALLogs.h in Headers */,
 				6DFB40AC1CEA2B54006C1AD1 /* ALUserInformationViewController.h in Headers */,
+				6DE2DE181D12ED75008F041E /* ALHyperLabel.h in Headers */,
 				2932B9F31C7C875F0017911D /* ALGroupDetailViewController.h in Headers */,
 				6DFB40B41CEA45D5006C1AD1 /* ALUserInfoTableCell.h in Headers */,
 				6D9342251CAE7509002AC9BE /* ALLocationCell.h in Headers */,
@@ -1378,7 +1403,6 @@
 				6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */,
 				6D36F2081BFF3EE3003D46D3 /* ALApplozicSettings.h in Headers */,
 				982F13081C05D6050024678E /* MQTTEncoder.h in Headers */,
-				6D95476D1BE38DFF00776652 /* ALUITextView.h in Headers */,
 				6D9547691BE38DFF00776652 /* ALContactDBService.h in Headers */,
 				6D6DF1541BC5364C00EBA00F /* UIImage+Utility.h in Headers */,
 				6D6DF1CF1BC5364C00EBA00F /* UIImageView+WebCache.h in Headers */,
@@ -1537,6 +1561,7 @@
 				6D6DF1671BC5364C00EBA00F /* ALNotificationView.m in Sources */,
 				6D6DF1851BC5364C00EBA00F /* DB_Message.m in Sources */,
 				6D153D2B1C9B1EB800CD8F55 /* ALMessageInfoResponse.m in Sources */,
+				29D6F86C1D193D9D00A75369 /* PSPDFTextView.m in Sources */,
 				6D6DF17D1BC5364C00EBA00F /* ALSyncMessageFeed.m in Sources */,
 				6D153D2F1C9B1F3D00CD8F55 /* ALMessageInfo.m in Sources */,
 				6DFB40AD1CEA2B54006C1AD1 /* ALUserInformationViewController.m in Sources */,
@@ -1641,7 +1666,6 @@
 				6D6DF1D01BC5364C00EBA00F /* UIImageView+WebCache.m in Sources */,
 				6D1385791CA9B83C009E6F50 /* AlMultipleAttachmentCell.m in Sources */,
 				6D6DF13F1BC5364C00EBA00F /* ALConnection.m in Sources */,
-				6D95476E1BE38DFF00776652 /* ALUITextView.m in Sources */,
 				6D6DF1BD1BC5364C00EBA00F /* SDWebImageDownloader.m in Sources */,
 				6D7B95B61C06E09300374346 /* ALUserDetail.m in Sources */,
 				6D6DF14F1BC5364C00EBA00F /* ALMessageService.m in Sources */,
@@ -1649,6 +1673,7 @@
 				6D46B6C61BD025060014A5D3 /* ALMapViewController.m in Sources */,
 				6DB665081C0EE5EC004D04A8 /* ALDataNetworkConnection.m in Sources */,
 				6DEFEA401C9ACF0900F7E168 /* ALMessageInfoViewController.m in Sources */,
+				6DE2DE191D12ED75008F041E /* ALHyperLabel.m in Sources */,
 				6D52A42A1C7CA8EA008CBA3A /* ALMediaPlayer.m in Sources */,
 				6D4C2B371C81C93A0031C677 /* ALConversationDBService.m in Sources */,
 				6D6DF1531BC5364C00EBA00F /* ALUtilityClass.m in Sources */,
@@ -1656,6 +1681,7 @@
 				6D95476C1BE38DFF00776652 /* ALContactService.m in Sources */,
 				982F13131C05D6050024678E /* MQTTSSLSecurityPolicy.m in Sources */,
 				6D6DF1591BC5364C00EBA00F /* ALChatViewController.m in Sources */,
+				6D8DA3A71D19C936009C66C3 /* ALLogs.m in Sources */,
 				6DCC30221C31774C00F17D0E /* DB_CHANNEL_USER_X.m in Sources */,
 				297DE0AB1C46280500C9D87E /* HexColors.m in Sources */,
 				6D6DF1491BC5364C00EBA00F /* ALRequestHandler.m in Sources */,
@@ -1793,6 +1819,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Applozic_Prefix.pch;
 				INFOPLIST_FILE = Applozic/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1818,6 +1846,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Applozic_Prefix.pch;
 				INFOPLIST_FILE = Applozic/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

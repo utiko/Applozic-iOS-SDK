@@ -64,23 +64,23 @@ static NSString * const reuseIdentifier = @"collectionCell";
     ADJUST_VIEW_CONSTANT = 90;
     ADJUST_X = 20;
     
-    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - ADJUST_VIEW_CONSTANT,
+    UIView * bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - ADJUST_VIEW_CONSTANT,
                                                                   self.view.frame.size.width,
                                                                   ADJUST_VIEW_CONSTANT)];
     
-    [bottomView setBackgroundColor:[UIColor clearColor]];
+    [bottomView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview: bottomView];
     
     ADD_BUTTON_X = bottomView.frame.origin.x + ADJUST_X;
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(ADD_BUTTON_X,
+    UIButton * button = [[UIButton alloc] initWithFrame:CGRectMake(ADD_BUTTON_X,
                                                                   bottomView.frame.origin.y + ADJUST_Y,
                                                                   DIMENSION_WIDTH, DIMENSION_HEIGHT)];
     
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button setContentMode:UIViewContentModeScaleAspectFit];
     [button setTitle:@"CANCEL" forState:UIControlStateNormal];
-    [button setBackgroundColor: self.navigationController.navigationBar.barTintColor];
+    [button setBackgroundColor: [ALApplozicSettings getColorForNavigation]];
     button.layer.cornerRadius = 5;
     button.layer.masksToBounds = YES;
     [button addTarget:self action:@selector(cancelButtonAction) forControlEvents:UIControlEventTouchUpInside];
@@ -95,7 +95,7 @@ static NSString * const reuseIdentifier = @"collectionCell";
     [sendbutton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [sendbutton setContentMode:UIViewContentModeScaleAspectFit];
     [sendbutton setTitle:@"SEND" forState:UIControlStateNormal];
-    [sendbutton setBackgroundColor: self.navigationController.navigationBar.barTintColor];
+    [sendbutton setBackgroundColor: [ALApplozicSettings getColorForNavigation]];
     sendbutton.layer.cornerRadius = 5;
     sendbutton.layer.masksToBounds = YES;
     [sendbutton addTarget:self action:@selector(sendButtonAction) forControlEvents:UIControlEventTouchUpInside];
@@ -108,7 +108,7 @@ static NSString * const reuseIdentifier = @"collectionCell";
     if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
     {
         [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
     }
@@ -131,7 +131,7 @@ static NSString * const reuseIdentifier = @"collectionCell";
     
     [navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
     [navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
 }
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
@@ -145,7 +145,7 @@ static NSString * const reuseIdentifier = @"collectionCell";
     
     if(image)
     {
-        object.classImage = image;
+        object.classImage = [ALUtilityClass getNormalizedImage:image];
         globalThumbnail = image;
     }
     

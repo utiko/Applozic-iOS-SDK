@@ -59,7 +59,8 @@
 #import "ALCustomCell.h"
 #import "ALUIConstant.h"
 #import "ALUserInformationViewController.h"
-
+#import "PSPDFTextView.h"
+#include <tgmath.h>
 @import AddressBookUI;
 
 #define MQTT_MAX_RETRY 3
@@ -82,6 +83,7 @@
 @property (nonatomic, strong) NSMutableArray * pickerConvIdsArray;
 @property (nonatomic,strong )NSMutableArray * conversationTitleList;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewSendMsgTextViewConstraint;
+@property (nonatomic,assign) BOOL comingFromBackground;
 
 - (IBAction)loadEarlierButtonAction:(id)sender;
 -(void)processLoadEarlierMessages:(BOOL)flag;
@@ -115,6 +117,11 @@
     CGFloat DATE_CELL_HEIGHT;
     CGFloat CONTACT_CELL_HEIGHT;
     UIButton *titleLabelButton;
+    
+    CGRect previousRect;
+    
+    CGRect  maxHeight;
+    CGRect minHeight;
 }
 
 ALMessageDBService  * dbService;
@@ -130,12 +137,27 @@ ALMessageDBService  * dbService;
     [self loadChatView];
 }
 
+//-(void)processResettingUnreadCount   //COMMENTED TILL VERIFIED
+//{
+//    ALUserService * userService = [ALUserService new];
+//    int count = [[userService getTotalUnreadCount] intValue];
+//    NSLog(@"CHATVC_UNREAD_COUNT :: %i",count);
+//    if(count == 0)
+//    {
+//        [userService resettingUnreadCountWithCompletion:^(NSString *json, NSError *error) {
+//            
+//            NSLog(@"RESET_UNREAD_COUNT CALL :: %@ and ERROR :: %@",json, error.description);
+//        }];
+//    }
+//}
+
 -(void)markConversationRead
 {
     bool isGroupNotification = (self.channelKey == nil ? false : true);
     if(self.channelKey && isGroupNotification ){
         [ALChannelService markConversationAsRead:self.channelKey withCompletion:^(NSString * string, NSError * error) {
-            if(error) {
+            if(error)
+            {
                 NSLog(@"Error while marking messages as read channel %@",self.channelKey);
             }
         }];
@@ -143,7 +165,8 @@ ALMessageDBService  * dbService;
 
     if(self.contactIds && !self.isGroup){
         [ALUserService markConversationAsRead:self.contactIds withCompletion:^(NSString * string, NSError *error) {
-            if(error) {
+            if(error)
+            {
                 NSLog(@"Error while marking messages as read for contact %@", self.contactIds);
             }
         }];
@@ -186,6 +209,13 @@ ALMessageDBService  * dbService;
     [self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
     [self markConversationRead];
     [[[self navigationController] interactivePopGestureRecognizer] setEnabled:NO];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        [self textViewDidChange:self.sendMessageTextView];
+        [self.sendMessageTextView setScrollEnabled:YES];
+
+    }];
+    
 }
 
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
@@ -209,6 +239,7 @@ ALMessageDBService  * dbService;
     [self.loadEarlierAction setHidden:YES];
     self.showloadEarlierAction = TRUE;
     self.typingLabel.hidden = YES;
+
     
     typingStat = NO;
     
@@ -287,10 +318,16 @@ ALMessageDBService  * dbService;
     }
     
     [self setTitle];
-    if(self.text)
+
+    if(self.text && !self.alMessageWrapper.getUpdatedMessageArray.count)
     {
         [self.sendMessageTextView setTextColor:[UIColor blackColor]];
         self.sendMessageTextView.text = self.text;
+    }
+    else if ([self.sendMessageTextView.text isEqualToString:@""])
+    {
+        [self placeHolder:self.placeHolderTxt andTextColor:self.placeHolderColor];
+        [self subProcessSetHeightOfTextViewDynamically];
     }
     
     [self.pickerView setHidden:YES];
@@ -308,7 +345,13 @@ ALMessageDBService  * dbService;
     [self showNoConversationLabel];
 
     [self hideKeyBoardOnEmptyList];
-
+    
+    previousRect = CGRectZero;
+    
+   
+    maxHeight = [self getMaxSizeLines:[ALApplozicSettings getMaxTextViewLines]];
+    minHeight = [self getMaxSizeLines:1]; //  Single Line Height
+    
 }
 
 
@@ -316,10 +359,10 @@ ALMessageDBService  * dbService;
 {
     if(![self.alMessageWrapper getUpdatedMessageArray].count && [ALApplozicSettings getVisibilityNoConversationLabelChatVC])
     {
-        [self.noConversationLabel setHidden:NO];
+        [self.noConLabel setHidden:NO];
         return;
     }
-    [self.noConversationLabel setHidden:YES];
+    [self.noConLabel setHidden:YES];
 }
 
 -(void)setCallButtonInNavigationBar
@@ -352,6 +395,7 @@ ALMessageDBService  * dbService;
 {
 // Updating Last Seen via Server Call
     [self serverCallForLastSeen];
+    self.comingFromBackground = YES;
 }
 -(void)updateMessageSendStatus:(NSNotification *)notification
 {
@@ -421,12 +465,15 @@ ALMessageDBService  * dbService;
 
     BOOL noContactIdMatch = !([[[self.alMessageWrapper getUpdatedMessageArray][0] contactIds]  isEqualToString:self.contactIds]);
     
-//    NSNumber * currentChannelKey = self.channelKey ? self.channelKey : [NSNumber numberWithInt:0];
-//    NSNumber * tempChannelKey = [[self.alMessageWrapper getUpdatedMessageArray][0] groupId];
-//    NSNumber * actualChannelKey = tempChannelKey ? tempChannelKey : [NSNumber numberWithInt:0];
-//    BOOL noGroupIdMatch = !([actualChannelKey isEqualToNumber:currentChannelKey]);
+    NSNumber * currentChannelKey = self.channelKey ? self.channelKey : [NSNumber numberWithInt:0];
     
-    BOOL noGroupIdMatch = !([[[self.alMessageWrapper getUpdatedMessageArray][0] groupId] isEqualToNumber:self.channelKey]);
+    NSNumber * tempChannelKey = [[self.alMessageWrapper getUpdatedMessageArray][0] groupId];
+    
+    NSNumber * actualChannelKey = tempChannelKey ? tempChannelKey : [NSNumber numberWithInt:0];
+    
+    BOOL noGroupIdMatch = !([actualChannelKey isEqualToNumber:currentChannelKey]);
+    
+//    BOOL noGroupIdMatch = !([[[self.alMessageWrapper getUpdatedMessageArray][0] groupId] isEqualToNumber:self.channelKey]);
 
     if(noGroupIdMatch){  // No group match return YES without doubt!
         return YES;
@@ -566,7 +613,7 @@ ALMessageDBService  * dbService;
 //        self.pickerView.frame = CGRectMake(0, 40,[UIScreen mainScreen].bounds.size.width, 216);
     }
     defaultTableRect = self.mTableView.frame;
-    
+
 }
 -(void)setupPickerView
 {
@@ -1433,6 +1480,9 @@ ALMessageDBService  * dbService;
     
 //    [self.mTableView setBackgroundView:[self getChatWallpaperImageView]];
     [self setBackGroundWallpaper];
+    
+    
+    
 }
 
 //-(UIImageView *)getChatWallpaperImageView
@@ -1651,7 +1701,8 @@ ALMessageDBService  * dbService;
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIImage * image = [info valueForKey:UIImagePickerControllerOriginalImage];
+    UIImage * clickImage = [info valueForKey:UIImagePickerControllerOriginalImage];
+    UIImage * image = [ALUtilityClass getNormalizedImage:clickImage];
     image = [image getCompressedImageLessThanSize:5];
 
     if(image)
@@ -2222,6 +2273,10 @@ ALMessageDBService  * dbService;
         }
     }
     
+    if(self.comingFromBackground){
+        [self serverCallForLastSeen];
+    }
+    
 }
 
 -(void)showNativeNotification:(ALMessage *)alMessage andAlert:(NSString*)alertValue
@@ -2406,7 +2461,7 @@ ALMessageDBService  * dbService;
                 if(![msg isHiddenMessage] ){ // Filters Hidden Messages
                     NSLog(@"insterting message at index 0 ::%@", msg.key);
                     [[self.alMessageWrapper getUpdatedMessageArray] insertObject:msg atIndex:0];
-                    [self.noConversationLabel setHidden:YES];
+                    [self.noConLabel setHidden:YES];
                     //
                 }
             }
@@ -2607,7 +2662,7 @@ ALMessageDBService  * dbService;
     return userDetailsArray;
 }
 //======================================================
-#pragma UITEXTVIEW DELEGATE
+#pragma TEXT VIEW DELEGATE
 //======================================================
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
@@ -2637,7 +2692,7 @@ ALMessageDBService  * dbService;
     
     if ([textView.text isEqualToString:@""])
     {
-        [self placeHolder:self.placeHolderTxt andTextColor:[UIColor lightGrayColor]];
+        [self placeHolder:self.placeHolderTxt andTextColor:self.placeHolderColor];
     }
 }
 
@@ -2647,18 +2702,27 @@ ALMessageDBService  * dbService;
     [self.sendMessageTextView setTextColor:textColor];
 }
 
--(void)scrollViewDidScroll: (UIScrollView*)scrollView
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    float scrollOffset = scrollView.contentOffset.y;
+    
+    CGFloat scrollOffset = scrollView.contentOffset.y;
+    
+    if(scrollView == self.sendMessageTextView)
+    {
+        return;
+    }
+    
     BOOL doneConversation =  NO;
     BOOL doneOtherwise = NO;
     
-    if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
+    if(self.conversationId && [ALApplozicSettings getContextualChatOption])
+    {
         doneConversation = ([ALUserDefaultsHandler isShowLoadEarlierOption:[self.conversationId stringValue]]
                                  && [ALUserDefaultsHandler isServerCallDoneForMSGList:[self.conversationId stringValue]]);
         
     }
-    else{
+    else
+    {
         NSString * IDs = (self.channelKey ? [self.channelKey stringValue] : self.contactIds);
         doneOtherwise = ([ALUserDefaultsHandler isShowLoadEarlierOption:IDs]
                                  && [ALUserDefaultsHandler isServerCallDoneForMSGList:IDs]);
@@ -2667,17 +2731,18 @@ ALMessageDBService  * dbService;
     
     if (scrollOffset == 0 && (doneConversation || doneOtherwise))
     {
-        
         [self.loadEarlierAction setHidden:NO];
-        
     }
     else
     {
         [self.loadEarlierAction setHidden:YES];
     }
+    
 }
+
 - (void)textViewDidChange:(UITextView *)textView
 {
+    
     if(self.isUserBlocked || self.isUserBlockedBy)
     {
         return;
@@ -2687,7 +2752,98 @@ ALMessageDBService  * dbService;
         typingStat = YES;
         [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:typingStat];
     }
+    
+    CGRect textSize = [self sizeOfText:textView.text widthOfTextView:self.sendMessageTextView.textContainer.size.width withFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:textView.font.pointSize]];
+ 
+    if(minHeight.size.height == textSize.size.height){
+        
+        if([textView.text isEqualToString:@""]){
+            [super setHeightOfTextViewDynamically];
+              self.textMessageViewHeightConstaint.constant = 56.0;
+        }
+//        NSLog(@"CASE SINGLE");
+        return;
+    }
+
+    if([textView.text isEqualToString:@""]){
+        /*Incase user deletes the long text than animation is NOT required to set to default height!!*/
+         [textView setScrollEnabled:NO];
+        [super setHeightOfTextViewDynamically];
+//        NSLog(@"CASE EMPTY");
+    }
+    else if(textSize.size.height <= maxHeight.size.height){ //&& [self isNewLine:textView] s
+        //Untill max rows are achieved than SCROLL
+        [textView setScrollEnabled:NO];
+        [UIView animateWithDuration:0.4 animations:^{
+            [super setHeightOfTextViewDynamically];
+        }];
+//        NSLog(@"CASE INCRESE/DECREASE");
+    }
+    else {
+        // If greater than MAX value Scroll instead of expanding the text view.
+        if(self.sendMessageTextView.frame.size.height < maxHeight.size.height){
+          //  NSLog(@"MAX HIGHT");
+            self.textMessageViewHeightConstaint.constant = TEXT_VIEW_TO_MESSAGE_VIEW_RATIO * maxHeight.size.height;
+        }
+        [textView setScrollEnabled:YES];
+
+        
+//        NSLog(@"CASE SCROLL");
+    }
 }
+
+-(CGRect)sizeOfText:(NSString *)textToMesure widthOfTextView:(CGFloat)width withFont:(UIFont*)font
+{
+
+    NSStringDrawingOptions options = NSStringDrawingTruncatesLastVisibleLine |
+    NSStringDrawingUsesLineFragmentOrigin;
+    NSDictionary *attr = @{NSFontAttributeName: self.sendMessageTextView.font};
+    CGRect ts = [textToMesure boundingRectWithSize:CGSizeMake(width-20.0, FLT_MAX)
+                               options:options
+                            attributes:attr
+                               context:nil];
+    return ts;
+}
+
+
+- (BOOL)isNewLine:(UITextView *)textView{
+    
+    BOOL flag = NO;
+    UITextPosition* pos = textView.endOfDocument;//explore others like beginningOfDocument if you want to customize the behaviour
+    CGRect currentRect = [textView caretRectForPosition:pos];
+    
+    if (currentRect.origin.y != previousRect.origin.y){
+        //new line reached, write your code
+        flag = YES;
+    }
+    previousRect = currentRect;
+    
+    return flag;
+    
+}
+
+-(CGRect)getMaxSizeLines:(int)n
+{
+    
+    NSString *saveText = self.sendMessageTextView.text, *newText = @"-";
+    
+    self.sendMessageTextView.delegate = nil;
+    self.sendMessageTextView.hidden = YES;
+    
+    for (int i = 1; i < n; ++i)
+        newText = [newText stringByAppendingString:@"\n|W|"];
+    
+    self.sendMessageTextView.text = newText;
+    
+    CGRect maximumHeight = [self sizeOfText:self.sendMessageTextView.text widthOfTextView:self.sendMessageTextView.textContainer.size.width withFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:self.sendMessageTextView.font.pointSize]];
+    
+    self.sendMessageTextView.text = saveText;
+    self.sendMessageTextView.hidden = NO;
+    self.sendMessageTextView.delegate = self;
+    return maximumHeight;
+
+}
+
 //------------------------------------------------------------------------------------------------------------------
 #pragma mark - MQTT Service delegate methods
 //------------------------------------------------------------------------------------------------------------------
@@ -2914,6 +3070,7 @@ ALMessageDBService  * dbService;
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                            action:@selector(handleTapGestureForKeyBoard)];
     
+    tap.cancelsTouchesInView = NO;
     [self.mTableView addGestureRecognizer:tap];
 }
 
@@ -2924,7 +3081,5 @@ ALMessageDBService  * dbService;
         [self.sendMessageTextView resignFirstResponder];
     }
 }
-
-
 
 @end

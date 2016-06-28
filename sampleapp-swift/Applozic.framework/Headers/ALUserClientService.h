@@ -41,4 +41,6 @@
 
 -(void)subProcessUserDetailServerCall:(NSString *)paramString withCompletion:(void(^)(NSMutableArray * userDetailArray, NSError * error))completionMark;
 
++(void)readCallResettingUnreadCountWithCompletion:(void (^)(NSString *json, NSError *error))completion;
+
 @end

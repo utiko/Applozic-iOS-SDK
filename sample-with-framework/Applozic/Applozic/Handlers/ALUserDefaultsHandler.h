@@ -6,41 +6,46 @@
 //  Copyright (c) 2015 AppLogic. All rights reserved.
 //
 
-#define APPLICATION_KEY @"APPLICATION_KEY"
-#define EMAIL_VERIFIED @"EMAIL_VERIFIED"
-#define DISPLAY_NAME @"DISPLAY_NAME"
-#define DEVICE_KEY_STRING @"DEVICE_KEY_STRING"
-#define USER_KEY_STRING @"USER_KEY_STRING"
-#define EMAIL_ID @"EMAIL_ID"
-#define USER_ID @"USER_ID"
-#define APN_DEVICE_TOKEN @"APN_DEVICE_TOKEN"
-#define LAST_SYNC_TIME @"LAST_SYNC_TIME"
-#define CONVERSATION_DB_SYNCED @"CONVERSATION_DB_SYNCED"
-#define LOGOUT_BUTTON_VISIBLITY @"LOGOUT_BUTTON_VISIBLITY"
-#define BOTTOM_TAB_BAR_VISIBLITY @"BOTTOM_TAB_BAR_VISIBLITY"
-#define BACK_BTN_VISIBILITY_ON_CON_LIST @"BACK_BTN_VISIBILITY_ON_CON_LIST"
-#define CONVERSATION_CONTACT_IMAGE_VISIBILITY @"CONVERSATION_CONTACT_IMAGE_VISIBILITY"
-#define MSG_LIST_CALL_SUFIX @":MSG_CALL_MADE"
-#define PROCESSED_NOTIFICATION_IDS  @"PROCESSED_NOTIFICATION_IDS"
-#define LAST_SEEN_SYNC_TIME @"LAST_SEEN_SYNC_TIME"
-#define SHOW_LOAD_ERLIER_MESSAGE @":SHOW_LOAD_ERLIER_MESSAGE"
-#define LAST_SYNC_CHANNEL_TIME @"LAST_SYNC_CHANNEL_TIME"
-#define USER_BLOCK_LAST_TIMESTAMP @"USER_BLOCK_LAST_TIMESTAMP"
-#define APP_MODULE_NAME_ID @"APP_MODULE_NAME_ID"
-#define CONTACT_VIEW_LOADED @"CONTACT_VIEW_LOADED"
-#define USER_INFO_API_CALLED_SUFFIX @":USER_INFO_API_CALLED"
+#define APPLICATION_KEY @"com.applozic.userdefault.APPLICATION_KEY"
+#define EMAIL_VERIFIED @"com.applozic.userdefault.EMAIL_VERIFIED"
+#define DISPLAY_NAME @"com.applozic.userdefault.DISPLAY_NAME"
+#define DEVICE_KEY_STRING @"com.applozic.userdefault.DEVICE_KEY_STRING"
+#define USER_KEY_STRING @"com.applozic.userdefault.USER_KEY_STRING"
+#define EMAIL_ID @"com.applozic.userdefault.EMAIL_ID"
+#define USER_ID @"com.applozic.userdefault.USER_ID"
+#define APN_DEVICE_TOKEN @"com.applozic.userdefault.APN_DEVICE_TOKEN"
+#define LAST_SYNC_TIME @"com.applozic.userdefault.LAST_SYNC_TIME"
+#define CONVERSATION_DB_SYNCED @"com.applozic.userdefault.CONVERSATION_DB_SYNCED"
+#define LOGOUT_BUTTON_VISIBLITY @"com.applozic.userdefault.LOGOUT_BUTTON_VISIBLITY"
+#define BOTTOM_TAB_BAR_VISIBLITY @"com.applozic.userdefault.BOTTOM_TAB_BAR_VISIBLITY"
+#define BACK_BTN_VISIBILITY_ON_CON_LIST @"com.applozic.userdefault.BACK_BTN_VISIBILITY_ON_CON_LIST"
+#define CONVERSATION_CONTACT_IMAGE_VISIBILITY @"com.applozic.userdefault.CONVERSATION_CONTACT_IMAGE_VISIBILITY"
+#define MSG_LIST_CALL_SUFIX @"com.applozic.userdefault.MSG_CALL_MADE:"
+#define PROCESSED_NOTIFICATION_IDS  @"com.applozic.userdefault.PROCESSED_NOTIFICATION_IDS"
+#define LAST_SEEN_SYNC_TIME @"com.applozic.userdefault.LAST_SEEN_SYNC_TIME"
+#define SHOW_LOAD_ERLIER_MESSAGE @"com.applozic.userdefault.SHOW_LOAD_ERLIER_MESSAGE:"
+#define LAST_SYNC_CHANNEL_TIME @"com.applozic.userdefault.LAST_SYNC_CHANNEL_TIME"
+#define USER_BLOCK_LAST_TIMESTAMP @"com.applozic.userdefault.USER_BLOCK_LAST_TIMESTAMP"
+#define APP_MODULE_NAME_ID @"com.applozic.userdefault.APP_MODULE_NAME_ID"
+#define CONTACT_VIEW_LOADED @"com.applozic.userdefault.CONTACT_VIEW_LOADED"
+#define USER_INFO_API_CALLED_SUFFIX @"com.applozic.userdefault.USER_INFO_API_CALLED:"
 #define APPLOZIC_BASE_URL @"APPLOZIC_BASE_URL"
 #define APPLOZIC_MQTT_URL @"APPLOZIC_MQTT_URL"
 #define APPLOZIC_FILE_URL @"APPLOZIC_FILE_URL"
 #define APPLOZIC_MQTT_PORT @"APPLOZIC_MQTT_PORT"
-#define USER_TYPE_ID @"USER_TYPE_ID"
-#define MESSSAGE_LIST_LAST_TIME @"MESSSAGE_LIST_LAST_TIME"
-#define ALL_CONVERSATION_FETCHED @"ALL_CONVERSATION_FETCHED"
-#define CONVERSATION_FETCH_PAGE_SIZE @"CONVERSATION_FETCH_PAGE_SIZE"
-#define NOTIFICATION_MODE @"NOTIFICATION_MODE"
-#define USER_PASSWORD @"USER_PASSWORD"
-#define USER_AUTHENTICATION_TYPE_ID @"USER_AUTHENTICATION_TYPE_ID"
-#define MSG_SYN_CALL @"MSG_SYN_CALL"
+#define USER_TYPE_ID @"com.applozic.userdefault.USER_TYPE_ID"
+#define MESSSAGE_LIST_LAST_TIME @"com.applozic.userdefault.MESSSAGE_LIST_LAST_TIME"
+#define ALL_CONVERSATION_FETCHED @"com.applozic.userdefault.ALL_CONVERSATION_FETCHED"
+#define CONVERSATION_FETCH_PAGE_SIZE @"com.applozic.userdefault.CONVERSATION_FETCH_PAGE_SIZE"
+#define NOTIFICATION_MODE @"com.applozic.userdefault.NOTIFICATION_MODE"
+#define USER_PASSWORD @"com.applozic.userdefault.USER_PASSWORD"
+#define USER_AUTHENTICATION_TYPE_ID @"com.applozic.userdefault.USER_AUTHENTICATION_TYPE_ID"
+#define UNREAD_COUNT_TYPE @"com.applozic.userdefault.UNREAD_COUNT_TYPE"
+#define MSG_SYN_CALL @"com.applozic.userdefault.MSG_SYN_CALL"
+#define DEBUG_LOG_FLAG @"com.applozic.userdefault.DEBUG_LOG_FLAG"
+#define LOGIN_USER_CONTACT @"com.applozic.userdefault.LOGIN_USER_CONTACT"
+
+#define KEY_PREFIX @"com.applozic.userdefault"
 
 #import <Foundation/Foundation.h>
 
@@ -175,7 +180,16 @@
 +(short)getUserAuthenticationTypeId;
 +(void)setUserAuthenticationTypeId:(short)type;
 
++(short)getUnreadCountType;
++(void)setUnreadCountType:(short)mode;
+
 +(BOOL)isMsgSyncRequired;
 +(void)setMsgSyncRequired:(BOOL)flag;
+
++(BOOL)isDebugLogsRequire;
++(void)setDebugLogsRequire:(BOOL)flag;
+
++(BOOL)getLoginUserConatactVisibility;
++(void)setLoginUserConatactVisibility:(BOOL)flag;
 
 @end

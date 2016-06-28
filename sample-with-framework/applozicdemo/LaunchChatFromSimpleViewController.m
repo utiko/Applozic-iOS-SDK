@@ -23,7 +23,9 @@
 
 - (IBAction)mLaunchChatList:(id)sender;
 - (IBAction)mChatLaunchButton:(id)sender;
+@property (weak, nonatomic) IBOutlet UISwitch *notificationSwitch;
 
+@property (strong, nonatomic) IBOutlet UILabel *unreadCountLabel;
 
 @end
 
@@ -47,6 +49,22 @@
     //////////////////////////   SET AUTHENTICATION-TYPE-ID FOR INTERNAL USAGE ONLY ////////////////////////
 //    [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
     ////////////////////////// ////////////////////////// ////////////////////////// ///////////////////////
+    
+    [self.unreadCountLabel setBackgroundColor:[UIColor grayColor]];
+    [self.unreadCountLabel setTextColor:[UIColor whiteColor]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newMessageHandler) name:NEW_MESSAGE_NOTIFICATION  object:nil];
+    [self newMessageHandler];
+}
+
+//ADD THIS METHOD :
+
+-(void)newMessageHandler
+{
+    ALContactService * contactService = [ALContactService new];
+    NSNumber * count = [contactService getOverallUnreadCountForContact];
+    NSLog(@"ICON_COUNT :: %@",count); // UPDATE YOUR VIEW
+    [self.unreadCountLabel setText:[NSString stringWithFormat:@"UNREAD COUNT #%@",count]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,7 +74,7 @@
 
 - (IBAction)logOutButton:(id)sender {
     
-    ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
+    ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc] init];
     
     if([ALUserDefaultsHandler getDeviceKeyString]){
         [alUserClientService logout];
@@ -273,6 +291,7 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [_activityView stopAnimating];
     [_activityView removeFromSuperview];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NEW_MESSAGE_NOTIFICATION  object:nil];
 }
 
 
@@ -342,6 +361,17 @@
 //        NSLog(@"USER_OFFLINE:\nName%@\nID:%@",user.displayName,user.userId);
     }
 }
+- (IBAction)turnNotification:(id)sender {
+    
+    short mode = (self.notificationSwitch.on?NOTIFICATION_ENABLE:NOTIFICATION_DISABLE);
+    //    [ALUserDefaultsHandler setNotificationMode:mode];
+    NSLog(@"MODE:%hd",mode);
+    [ALRegisterUserClientService updateNotificationMode:mode withCompletion:^(ALRegistrationResponse *response, NSError *error) {
+        [ALUserDefaultsHandler setNotificationMode:mode] ;
+        NSLog(@"UPDATE Notification Mode Response:%@ Error:%@",response,error);
+    }];
+}
+
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:@"userUpdate"];
 }

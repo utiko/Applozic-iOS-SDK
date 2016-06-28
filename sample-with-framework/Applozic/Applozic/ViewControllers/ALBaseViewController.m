@@ -34,6 +34,10 @@
 {
     CGFloat typingIndicatorHeight;
     CGRect tempFrame;
+    
+    CGRect keyboardEndFrame;
+    CGFloat navigationWidth;
+    int paddingForTextMessageViewHeight;
 }
 - (void)viewDidLoad
 {
@@ -41,13 +45,21 @@
     
     [self setUpTableView];
     [self setUpTheming];
-    [self registerForKeyboardNotifications];
     
+    self.sendMessageTextView.clipsToBounds = YES;
+    self.sendMessageTextView.layer.cornerRadius = self.sendMessageTextView.frame.size.height/5;
+    self.sendMessageTextView.textContainer.lineBreakMode = NSLineBreakByCharWrapping;
+    self.sendMessageTextView.textContainerInset = UIEdgeInsetsMake(self.attachmentOutlet.frame.origin.x, // Top
+                                                                   self.attachmentOutlet.frame.size.width,// Left
+                                                                   self.attachmentOutlet.frame.origin.y, // Bottom
+                                                                   self.attachmentOutlet.frame.size.width/4);   // Right
     self.sendMessageTextView.delegate = self;
     self.placeHolderTxt = @"Write a Message...";
     self.sendMessageTextView.text = self.placeHolderTxt;
-    self.sendMessageTextView.textColor = [UIColor lightGrayColor];
-  
+    self.placeHolderColor = [ALApplozicSettings getPlaceHolderColor];
+    self.sendMessageTextView.textColor = self.placeHolderColor;
+    self.sendMessageTextView.backgroundColor = [ALApplozicSettings getMsgTextViewBGColor];
+    
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
         self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
@@ -62,6 +74,16 @@
         self.mTableView.backgroundColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_BACKGROUND_COLOR];
     else
         self.mTableView.backgroundColor = [UIColor colorWithRed:242.0/255 green:242.0/255 blue:242.0/255 alpha:1];
+    
+    
+    // Navigation width is constant
+    navigationWidth = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+
+    
+    // Set Beak's Color : Dependant of SendMessage-TextView
+    _beakImageView.image = [_beakImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [_beakImageView setTintColor:self.sendMessageTextView.backgroundColor];
+
 }
 
 
@@ -97,9 +119,7 @@
     UIBarButtonItem * barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton]];
     UIBarButtonItem * refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshTable:)];
     
-    self.callButton = [[UIBarButtonItem alloc] initWithImage:[ALUtilityClass getImageFromFramworkBundle:@"PhoneCallFilledXXS.png"]
-                                                                    style:UIBarButtonItemStylePlain target:self action:@selector(phoneCallMethod)];
-
+    self.callButton = [[UIBarButtonItem alloc] initWithCustomView:[self customCallButtonView]];
     
     if(self.individualLaunch)
     {
@@ -141,14 +161,16 @@
     CGFloat navigationHeight = self.navigationController.navigationBar.frame.size.height +
     [UIApplication sharedApplication].statusBarFrame.size.height;
     
-    self.noConversationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height/2) - navigationHeight,
-                                                                         self.view.frame.size.width, 30)];
-    self.noConversationLabel.backgroundColor = [UIColor clearColor];
-    self.noConversationLabel.textColor = [UIColor blackColor];
-    self.noConversationLabel.text = @"You have no conversations";
-    [self.noConversationLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:18]];
-    self.noConversationLabel.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:self.noConversationLabel];
+//    self.noConversationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height/2) - navigationHeight,
+//                                                                         self.view.frame.size.width, 30)];
+//    self.noConversationLabel.backgroundColor = [UIColor clearColor];
+//    self.noConversationLabel.textColor = [UIColor blackColor];
+//    self.noConversationLabel.text = @"You have no conversations";
+//    [self.noConversationLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:18]];
+//    self.noConversationLabel.textAlignment = NSTextAlignmentCenter;
+//    [self.view addSubview:self.noConversationLabel];o
+    
+//    [self.view insertSubview:self.noConversationLabel belowSubview:self.typingMessageView];
     
     [self dropShadowInNavigationBar];
     
@@ -190,7 +212,9 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-//
+    
+    [self registerForKeyboardNotifications];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSubViews) name:@"APP_ENTER_IN_FOREGROUND" object:nil];
     
     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
@@ -203,16 +227,18 @@
         //[self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
         [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
-       // [self.navigationController.navigationBar setBackgroundColor: [ALApplozicSettings getColorForNavigation]];
+      
+        [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
 
         [self.label setTextColor:[ALApplozicSettings getColorForNavigationItem]];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  //set color of setTintColor to ehite then this will change to white
+       
     }
 
     [self sendButtonUI];
     
     tempFrame = self.noConversationLabel.frame;
     
+    paddingForTextMessageViewHeight  = 2;
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -222,7 +248,7 @@
 
 -(void)updateSubViews
 {
-    CGFloat typingLabelY = self.view.frame.size.height - typingIndicatorHeight - self.typingMessageView.frame.size.height;
+    CGFloat typingLabelY = self.view.frame.size.height - typingIndicatorHeight - self.typingMessageView.frame.size.height + paddingForTextMessageViewHeight;
     [self.typingLabel setFrame:CGRectMake(0, typingLabelY, self.view.frame.size.width, typingIndicatorHeight)];
 }
 
@@ -243,8 +269,10 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"APP_ENTER_IN_FOREGROUND" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"APP_ENTER_IN_FOREGROUND" object:nil];
     self.navigationController.navigationBar.barTintColor = self.navColor;
+    
+    [self removeRegisteredKeyboardNotifications];
 }
 
 // Setting up keyboard notifications.
@@ -253,9 +281,18 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyBoardWillShow:)
                                                  name:UIKeyboardWillShowNotification object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyBoardWillHide:)
                                                  name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)removeRegisteredKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil];
+
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -264,23 +301,15 @@
 
 -(void) keyBoardWillShow:(NSNotification *) notification
 {
-    NSDictionary * theDictionary = notification.userInfo;
-    NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
-    CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    
-    CGFloat navigationWidth = self.navigationController.navigationBar.frame.size.height +
-                                [UIApplication sharedApplication].statusBarFrame.size.height;
-    
+    NSString * theAnimationDuration = [self handleKeyboardNotification:notification];
+
     self.checkBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y + navigationWidth;
+//    self.noConversationLabel.frame = CGRectMake(0,
+//                                                self.typingLabel.frame.origin.y -
+//                                                (self.typingLabel.frame.size.height+10),
+//                                                tempFrame.size.width,
+//                                                tempFrame.size.height);
     
-//    self.typingLabel.frame = CGRectMake(0, keyboardEndFrame.origin.y - (KEYBOARD_PADDING + navigationWidth), self.view.frame.size.width, 30);
-    
-    self.typingLabel.frame = CGRectMake(0,
-                            keyboardEndFrame.origin.y - (self.typingMessageView.frame.size.height + typingIndicatorHeight + navigationWidth),
-                            self.view.frame.size.width, typingIndicatorHeight);
-    
-    self.noConversationLabel.frame = CGRectMake(0, self.typingLabel.frame.origin.y - (self.typingLabel.frame.size.height + 10),
-                                                tempFrame.size.width, tempFrame.size.height);
     
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
@@ -290,32 +319,70 @@
             [self scrollTableViewToBottomWithAnimation:YES];
         }
     }];
+
 }
 
 
 -(void) keyBoardWillHide:(NSNotification *) notification
 {
-    NSDictionary * theDictionary = notification.userInfo;
-    NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
-    self.checkBottomConstraint.constant = 0;
-    CGRect keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    
-    CGFloat navigationWidth = self.navigationController.navigationBar.frame.size.height +
-                                [UIApplication sharedApplication].statusBarFrame.size.height;
-    
-//    self.typingLabel.frame = CGRectMake(0, keyboardEndFrame.origin.y - (KEYBOARD_PADDING + navigationWidth), self.view.frame.size.width, 30);
-    
-    self.typingLabel.frame = CGRectMake(0,
-                            keyboardEndFrame.origin.y - (self.typingMessageView.frame.size.height + typingIndicatorHeight + navigationWidth),
-                            self.view.frame.size.width, typingIndicatorHeight);
-    
-    self.noConversationLabel.frame = tempFrame;
 
+    NSString * theAnimationDuration = [self handleKeyboardNotification:notification];
+    
+    self.checkBottomConstraint.constant = 0;
+//    self.noConversationLabel.frame = tempFrame;
     
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         
     }];
+  
+}
+
+-(NSString *)handleKeyboardNotification:(NSNotification *) notification{
+    
+    NSDictionary * theDictionary = notification.userInfo;
+    NSString * theAnimationDuration = [theDictionary valueForKey:UIKeyboardAnimationDurationUserInfoKey];
+    
+    keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    
+    self.typingLabel.frame = CGRectMake(0,
+                                        keyboardEndFrame.origin.y - (self.typingMessageView.frame.size.height + typingIndicatorHeight + navigationWidth),
+                                        self.view.frame.size.width, typingIndicatorHeight);
+    return theAnimationDuration;
+}
+
+-(void)setHeightOfTextViewDynamically
+{
+    
+    [self subProcessSetHeightOfTextViewDynamically];
+    
+//    self.noConversationLabel.frame = CGRectMake(0,
+//                                                self.typingLabel.frame.origin.y -
+//                                                (self.typingLabel.frame.size.height+10),
+//                                                tempFrame.size.width,
+//                                                tempFrame.size.height);
+//    
+   
+    //- (self.textMessageViewHeightConstaint.constant + typingIndicatorHeight + navigationWidth)
+
+
+    [self scrollTableViewToBottomWithAnimation:YES];
+    [self.view layoutIfNeeded];
+    
+}
+
+-(void)subProcessSetHeightOfTextViewDynamically
+{
+    
+    CGSize sizeThatFitsTextView = [self.sendMessageTextView sizeThatFits:CGSizeMake(self.sendMessageTextView.frame.size.width, self.sendMessageTextView.frame.size.height)];
+    self.textViewHeightConstraint.constant =  sizeThatFitsTextView.height;
+    
+    self.textMessageViewHeightConstaint.constant = (self.typingMessageView.frame.size.height-self.sendMessageTextView.frame.size.height) + sizeThatFitsTextView.height + paddingForTextMessageViewHeight;
+    
+    self.typingLabel.frame = CGRectMake(0,
+                                        keyboardEndFrame.origin.y - (self.textMessageViewHeightConstaint.constant + typingIndicatorHeight + navigationWidth),
+                                        self.view.frame.size.width, typingIndicatorHeight);
+    
 }
 
 -(void) scrollTableViewToBottomWithAnimation:(BOOL) animated
@@ -357,9 +424,32 @@
         [self postMessage];
     }
     
+    [self.view layoutIfNeeded];
+    [self setHeightOfTextViewDynamically];
 }
+
 - (IBAction)attachmentActionMethod:(id)sender {
     [self attachmentAction];
+}
+
+// SET CUSTOM BUTTON FOR CALL
+
+-(UIView *)customCallButtonView
+{
+    UIImageView *imageView = [[UIImageView alloc] initWithImage: [ALUtilityClass getImageFromFramworkBundle:@"PhoneIcon.png"]];
+    [imageView setFrame:CGRectMake(0, 0, 20, 20)];
+    [imageView setTintColor:[UIColor whiteColor]];
+
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height)];
+    view.bounds = CGRectMake(view.bounds.origin.x, view.bounds.origin.y, view.bounds.size.width, view.bounds.size.height);
+    [view addSubview:imageView];
+    [view setBackgroundColor:[UIColor clearColor]];
+    
+    UITapGestureRecognizer * phoneIconTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(phoneCallMethod)];
+    phoneIconTap.numberOfTapsRequired = 1;
+    [view addGestureRecognizer:phoneIconTap];
+    
+    return view;
 }
 
 -(UIView *)setCustomBackButton
@@ -385,10 +475,7 @@
     backTap.numberOfTapsRequired = 1;
     [view addGestureRecognizer:backTap];
 
-    
-    
     return view;
-    
 }
 
 

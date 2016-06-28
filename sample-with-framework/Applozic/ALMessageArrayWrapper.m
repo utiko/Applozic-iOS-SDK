@@ -185,7 +185,7 @@
     dateLabel.type = @"100";
     dateLabel.contactIds = almessage.contactIds;
     dateLabel.fileMeta.thumbnailUrl = nil;
-//    dateLabel.groupId = almessage.groupId;
+    dateLabel.groupId = almessage.groupId;
     return  dateLabel;
 }
 
@@ -291,14 +291,19 @@
     NSMutableArray * tempArray = [NSMutableArray arrayWithArray:newMessageArray];
 
     int count = self.messageArray.count;
-    for (  ALMessage* meaage in tempArray ) {
+    for (ALMessage *message in tempArray)
+    {
         
-        for(int i = count-1 ; i  > 0 ; i--){
+        for(int i = count-1 ; i  > 0 ; i--)
+        {
             ALMessage * oldMessage = [self.messageArray objectAtIndex:i];
-            if ( [oldMessage.key isEqualToString:meaage.key] ){
+            if ([oldMessage.key isEqualToString:message.key])
+            {
                 NSLog(@"removing duplicate object found....");
-                [ newMessageArray removeObject:meaage];
-            }else if ( meaage.createdAtTime  > oldMessage.createdAtTime  ) {
+                [newMessageArray removeObject:message];
+            }
+            else if (message.createdAtTime  > oldMessage.createdAtTime)
+            {
                 return newMessageArray;
             }
         }

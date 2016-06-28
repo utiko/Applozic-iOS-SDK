@@ -11,6 +11,7 @@
 @interface ALBaseViewController : UIViewController
 
 @property (nonatomic, strong) NSString * placeHolderTxt;
+@property (nonatomic, retain) UIColor * placeHolderColor;
 @property (nonatomic, retain) UIColor *navColor;
 @property (nonatomic,retain) UIView * mTableHeaderView;
 @property (weak, nonatomic) IBOutlet UITableView *mTableView;
@@ -35,7 +36,15 @@
 -(void)makeCallContact;
 @property (strong, nonatomic) IBOutlet UIImageView *typeMsgBG;
 
-@property (strong, nonatomic) UILabel *noConversationLabel;
+// ===Message Text View Constaints===
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textMessageViewHeightConstaint;
 
+@property (strong, nonatomic) UILabel *noConversationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *noConLabel;
+
+-(void)setHeightOfTextViewDynamically;
+@property (weak, nonatomic) IBOutlet UIImageView *beakImageView;
+-(void)subProcessSetHeightOfTextViewDynamically;
 
 @end

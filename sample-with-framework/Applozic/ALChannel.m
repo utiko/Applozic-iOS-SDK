@@ -23,7 +23,9 @@
 -(void)parseMessage:(id) messageJson
 {
     self.key = [self getNSNumberFromJsonValue:messageJson[@"id"]];
+    self.clientChannelKey = [self getStringFromJsonValue:messageJson[@"clientGroupId"]];
     self.name = [self getStringFromJsonValue:messageJson[@"name"]];
+    self.channelImageURL = [self getStringFromJsonValue:messageJson[@"imageUrl"]];
     self.adminKey = [self getStringFromJsonValue:messageJson[@"adminName"]];
     self.unreadCount = [self getNSNumberFromJsonValue:messageJson[@"unreadCount"]];
 //    self.userCount = [self getNSNumberFromJsonValue:messageJson[@""]];

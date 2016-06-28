@@ -105,8 +105,8 @@
     
 }
 
--(void)markConversationAsReadforContact:(NSString *)contactId withCompletion:(void (^)(NSString *, NSError *))completion{
-    
+-(void)markConversationAsReadforContact:(NSString *)contactId withCompletion:(void (^)(NSString *, NSError *))completion
+{
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/read/conversation",KBASE_URL];
     NSString * theParamString;
@@ -330,6 +330,28 @@
             }
             completionMark(ALLUserDetailArray, theError);
         }
+    }];
+}
+
+//========================================================================================================================
+# pragma mark CALL FOR RESETTING UNREAD COUNT
+//========================================================================================================================
+
++(void)readCallResettingUnreadCountWithCompletion:(void (^)(NSString *json, NSError *error))completion
+{
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/read",KBASE_URL];
+    NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:nil];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"RESETTING_UNREAD_COUNT" WithCompletionHandler:^(id theJson, NSError * theError) {
+    
+        NSLog(@"RESPONSE RESETTING_UNREAD_COUNT :: %@",(NSString *)theJson);
+        if(theError)
+        {
+            completion(nil,theError);
+            NSLog(@"ERROR : RESETTING UNREAD COUNT :: %@",theError.description);
+            return;
+        }
+        completion((NSString *)theJson,nil);
     }];
 }
 

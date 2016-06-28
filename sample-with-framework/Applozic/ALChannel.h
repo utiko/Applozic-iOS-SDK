@@ -23,7 +23,9 @@ typedef enum
 @interface ALChannel : ALJson
 
 @property (nonatomic, strong) NSNumber *key;
+@property (nonatomic, strong) NSString *clientChannelKey;
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *channelImageURL;
 @property (nonatomic, strong) NSString *adminKey;
 @property (nonatomic) short type;
 @property (nonatomic, strong) NSNumber *userCount;

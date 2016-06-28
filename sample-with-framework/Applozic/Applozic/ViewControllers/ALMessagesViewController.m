@@ -7,8 +7,8 @@
 
 #define NAVIGATION_TEXT_SIZE 20
 #define USER_NAME_LABEL_SIZE 18
-#define MESSAGE_LABEL_SIZE 12
-#define TIME_LABEL_SIZE 10
+#define MESSAGE_LABEL_SIZE 14
+#define TIME_LABEL_SIZE 12
 #define IMAGE_NAME_LABEL_SIZE 14
 
 #import "UIView+Toast.h"
@@ -172,6 +172,8 @@
     [super viewWillAppear:animated];
     [self dropShadowInNavigationBar];
   
+    [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
+    
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
     if ([_detailChatViewController refreshMainView])
@@ -235,7 +237,6 @@
     {
         [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
         self.navigationController.navigationBar.translucent = NO;
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
     }
@@ -591,7 +592,7 @@
         [contactCell.mTimeLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TIME_LABEL_SIZE]];
         [contactCell.imageNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:IMAGE_NAME_LABEL_SIZE]];
         
-        contactCell.unreadCountLabel.backgroundColor = [ALApplozicSettings getColorForNavigation];
+        contactCell.unreadCountLabel.backgroundColor = [ALApplozicSettings getUnreadCountLabelBGColor];
         contactCell.unreadCountLabel.layer.cornerRadius = contactCell.unreadCountLabel.frame.size.width/2;
         contactCell.unreadCountLabel.layer.masksToBounds = YES;
         
@@ -610,12 +611,12 @@
         ALContact *alContact = [contactDBService loadContactByKey:@"userId" value: message.to];
         
         ALChannelDBService * channelDBService =[[ALChannelDBService alloc] init];
-        ALChannel * alChannel =[channelDBService loadChannelByKey:message.groupId];
+        ALChannel * alChannel = [channelDBService loadChannelByKey:message.groupId];
         
         if([message.groupId intValue])
         {
             ALChannelService *channelService = [[ALChannelService alloc] init];
-            [channelService getChannelInformation:message.groupId withCompletion:^(ALChannel *alChannel)
+            [channelService getChannelInformation:message.groupId orClientChannelKey:nil withCompletion:^(ALChannel *alChannel)
             {
                 contactCell.mUserNameLabel.text = [alChannel name];
                 contactCell.onlineImageMarker.hidden=YES;
@@ -679,7 +680,14 @@
         contactCell.mUserImageView.backgroundColor = [UIColor whiteColor];
         if([message.groupId intValue])
         {
+            
             [contactCell.mUserImageView setImage:[ALUtilityClass getImageFromFramworkBundle:@"applozic_group_icon.png"]];
+            NSURL * imageUrl = [NSURL URLWithString:alChannel.channelImageURL];
+            if(imageUrl)
+            {
+                [contactCell.mUserImageView sd_setImageWithURL:imageUrl];
+            }
+            
             nameIcon.hidden = YES;
         }
         else if(alContact.contactImageUrl)

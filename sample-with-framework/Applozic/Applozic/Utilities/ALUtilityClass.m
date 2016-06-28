@@ -219,6 +219,10 @@
 
 +(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId withGroupId:(NSNumber*) groupID delegate:(id)delegate
 {
+    
+    if([ALUserDefaultsHandler getNotificationMode] == NOTIFICATION_DISABLE){
+        return;
+    }
     //3rd Party View is Opened.........
     ALContact* dpName=[[ALContact alloc] init];
     ALContactDBService * contactDb=[[ALContactDBService alloc] init];
@@ -262,9 +266,8 @@
     
 }
 
-+(NSString *)getFileNameWithCurrentTimeStamp{
-   
-
++(NSString *)getFileNameWithCurrentTimeStamp
+{
     NSString *resultString = [@"IMG-" stringByAppendingString: @([[NSDate date] timeIntervalSince1970]).stringValue];
     return resultString;
 }
@@ -363,6 +366,33 @@
     
     [alertView show];
     
+}
+
++(UIView *)setStatusBarStyle
+{
+    UIApplication * app = [UIApplication sharedApplication];
+    [app setStatusBarHidden:NO];
+    [app setStatusBarStyle:[ALApplozicSettings getStatusBarStyle]];
+    
+    CGFloat height = app.statusBarFrame.size.height;
+    CGFloat width = app.statusBarFrame.size.width;
+    UIView *statusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, -height, width, height)];
+    statusBarView.backgroundColor = [ALApplozicSettings getStatusBarBGColor];
+    
+    return statusBarView;
+}
+
++(UIImage *)getNormalizedImage:(UIImage *)rawImage
+{
+    if(rawImage.imageOrientation == UIImageOrientationUp)
+        return rawImage;
+    
+    UIGraphicsBeginImageContextWithOptions(rawImage.size, NO, rawImage.scale);
+    [rawImage drawInRect:(CGRect){0, 0, rawImage.size}];
+    UIImage *normalizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return normalizedImage;
 }
 
 @end

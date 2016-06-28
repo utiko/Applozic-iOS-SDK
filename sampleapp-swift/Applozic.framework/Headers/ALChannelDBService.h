@@ -60,4 +60,6 @@
 
 -(NSNumber *)getOverallUnreadCountForChannelFromDB;
 
+-(ALChannel *)loadChannelByClientChannelKey:(NSString *)clientChannelKey;
+
 @end

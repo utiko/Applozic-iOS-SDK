@@ -382,11 +382,13 @@
                                   [theDictionary[@"groupId"] intValue],@(NO),ALMESSAGE_CONTENT_HIDDEN]];
         [theRequest setFetchLimit:1];
         
-        NSArray * theArray1 =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
-        DB_Message * theMessageEntity = theArray1.firstObject;
-        
-        ALMessage * theMessage = [self createMessageEntity:theMessageEntity];
-        [messagesArray addObject:theMessage];
+        NSArray * groupMsgArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
+        DB_Message * theMessageEntity = groupMsgArray.firstObject;
+        if(groupMsgArray.count)
+        {
+            ALMessage * theMessage = [self createMessageEntity:theMessageEntity];
+            [messagesArray addObject:theMessage];
+        }
     }
     // Find all message only have contact ...
     NSFetchRequest * theRequest1 = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
@@ -395,9 +397,9 @@
     [theRequest1 setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
     [theRequest1 setPropertiesToFetch:[NSArray arrayWithObjects:@"contactId", nil]];
     [theRequest1 setReturnsDistinctResults:YES];
-    NSArray * theArray1 = [theDbHandler.managedObjectContext executeFetchRequest:theRequest1 error:nil];
+    NSArray * userMsgArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest1 error:nil];
 
-    for (NSDictionary * theDictionary in theArray1) {
+    for (NSDictionary * theDictionary in userMsgArray) {
         
         NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
         [theRequest setPredicate:[NSPredicate predicateWithFormat:@"contactId = %@ and groupId=nil and deletedFlag == %@ AND contentType != %i",
@@ -405,11 +407,13 @@
         [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
         [theRequest setFetchLimit:1];
         
-        NSArray * theArray1 =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
-        DB_Message * theMessageEntity = theArray1.firstObject;
-        
-        ALMessage * theMessage = [self createMessageEntity:theMessageEntity];
-        [messagesArray addObject:theMessage];
+        NSArray * fetchArray =  [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
+        DB_Message * theMessageEntity = fetchArray.firstObject;
+        if(fetchArray.count)
+        {
+            ALMessage * theMessage = [self createMessageEntity:theMessageEntity];
+            [messagesArray addObject:theMessage];
+        }
         
     }
     if(!self.delegate ){
@@ -598,7 +602,7 @@
     
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-    theRequest.predicate =[NSPredicate predicateWithFormat:@"sentToServer = %@ and type= %@",@"0",@"5"];
+    theRequest.predicate =[NSPredicate predicateWithFormat:@"sentToServer = %@ and type= %@ and deletedFlag = %@",@"0",@"5",@(NO)];
     
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES]]];
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];

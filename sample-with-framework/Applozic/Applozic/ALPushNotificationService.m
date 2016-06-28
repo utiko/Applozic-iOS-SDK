@@ -44,7 +44,8 @@
     
     if ([self isApplozicNotification:dictionary]) {
         
-        NSString *alertValue = [[dictionary valueForKey:@"aps"] valueForKey:@"alert"];
+        NSString * alertValue;
+        alertValue = ([ALUserDefaultsHandler getNotificationMode] == NOTIFICATION_DISABLE ?@"":[[dictionary valueForKey:@"aps"] valueForKey:@"alert"]);
         
         
         self.alSyncCallService =  [[ALSyncCallService alloc]init];

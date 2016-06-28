@@ -23,8 +23,19 @@
     }
 }
 
--(id)initWithDictonary:(NSDictionary*)messageDictonary{
-    [self parseMessage:messageDictonary];
+-(id)initWithDictonary:(NSDictionary *)messageDictonary
+{
+    @try
+    {
+        [self parseMessage:messageDictonary];
+    }
+    @catch (NSException *exception)
+    {
+        NSLog(@"EXCEPTION : MSG_PARSING :: %@",exception.description);
+    }
+    @finally
+    { }
+    
     return self;
 }
 

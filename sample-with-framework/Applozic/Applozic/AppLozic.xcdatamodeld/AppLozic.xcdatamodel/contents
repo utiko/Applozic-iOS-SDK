@@ -3,7 +3,9 @@
     <entity name="DB_CHANNEL" representedClassName="DB_CHANNEL" syncable="YES">
         <attribute name="adminId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="channelDisplayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="channelImageURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="channelKey" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="clientChannelKey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isLeft" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="unreadCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -78,7 +80,7 @@
         <relationship name="fileMetaInfo" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DB_FileMetaInfo" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DB_CHANNEL" positionX="27" positionY="171" width="128" height="150"/>
+        <element name="DB_CHANNEL" positionX="27" positionY="171" width="128" height="180"/>
         <element name="DB_CHANNEL_USER_X" positionX="-144" positionY="318" width="128" height="105"/>
         <element name="DB_CONTACT" positionX="-144" positionY="-171" width="128" height="225"/>
         <element name="DB_ConversationProxy" positionX="-171" positionY="90" width="128" height="165"/>

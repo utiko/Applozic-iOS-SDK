@@ -13,6 +13,8 @@
 @dynamic adminId;
 @dynamic channelDisplayName;
 @dynamic channelKey;
+@dynamic channelImageURL;
+@dynamic clientChannelKey;
 @dynamic type;
 @dynamic userCount;
 @dynamic unreadCount;

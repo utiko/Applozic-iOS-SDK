@@ -148,7 +148,8 @@
     [self.searchBar resignFirstResponder];
 }
 
--(void)viewWillAppear:(BOOL)animated {
+-(void)viewWillAppear:(BOOL)animated
+{
     
     [super viewWillAppear:animated];
     self.groupOrContacts = [NSNumber numberWithInt:SHOW_CONTACTS]; //default
@@ -160,7 +161,7 @@
     {
         //        self.navigationController.navigationBar.translucent = NO;
         [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:18]}];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
         
@@ -426,10 +427,17 @@
     
     [theRequest setReturnsDistinctResults:YES];
     
+    if(![ALUserDefaultsHandler getLoginUserConatactVisibility])
+    {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId!=%@",[ALUserDefaultsHandler getUserId]];
+        [theRequest setPredicate:predicate];
+    }
+    
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
     
-    for (DB_CONTACT *dbContact in theArray) {
-        
+    for (DB_CONTACT *dbContact in theArray)
+    {
+
         ALContact *contact = [[ALContact alloc] init];
         
         contact.userId = dbContact.userId;
@@ -439,9 +447,9 @@
         contact.contactImageUrl = dbContact.contactImageUrl;
         contact.email = dbContact.email;
         contact.localImageResourceName = dbContact.localImageResourceName;
+
         [self.contactList addObject:contact];
     }
-    
     
     NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES selector:@selector(caseInsensitiveCompare:)];
     NSArray * descriptors = [NSArray arrayWithObject:valueDescriptor];
@@ -691,29 +699,30 @@
     
     //Server Call
     self.creatingChannel = [[ALChannelService alloc] init];
-    [self.creatingChannel createChannel:self.groupName andMembersList:self.groupMembers withCompletion:^(NSNumber *channelKey) {
+    [self.creatingChannel createChannel:self.groupName orClientChannelKey:nil andMembersList:self.groupMembers withCompletion:^(ALChannel *alChannel) {
         
-        if(channelKey){
+        if(alChannel)
+        {
             //Updating view, popping to MessageList View
             NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
             
-            for (UIViewController *aViewController in allViewControllers) {
+            for (UIViewController *aViewController in allViewControllers)
+            {
                 if ([aViewController isKindOfClass:[ALMessagesViewController class]])
                 {
                     ALMessagesViewController * messageVC = (ALMessagesViewController *)aViewController;
-                    [messageVC insertChannelMessage:channelKey];
+                    [messageVC insertChannelMessage:alChannel.key];
                     [self.navigationController popToViewController:aViewController animated:YES];
-                    
                 }
             }
-            
         }
-        else{
+        else
+        {
             [TSMessage showNotificationWithTitle:@"Unable to create group. Please try again" type:TSMessageNotificationTypeError];
             [self turnUserInteractivityForNavigationAndTableView:YES];
         }
-        [[self activityIndicator] stopAnimating];
         
+        [[self activityIndicator] stopAnimating];
         
     }];
     

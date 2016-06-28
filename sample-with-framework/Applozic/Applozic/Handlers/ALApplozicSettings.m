@@ -8,6 +8,7 @@
 
 #import "ALApplozicSettings.h"
 #import "ALUserDefaultsHandler.h"
+#import "ALConstant.h"
 
 @interface ALApplozicSettings ()
 
@@ -48,13 +49,6 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:USER_PROFILE_PROPERTY];
 }
 
-+(void) clearAllSettings
-{
-    NSLog(@"cleared");
-    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
-    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
-}
-
 +(void)setColorForSendMessages:(UIColor *)sendMsgColor
 {
     NSData *sendColorData = [NSKeyedArchiver archivedDataWithRootObject:sendMsgColor];
@@ -71,7 +65,7 @@
 
 +(UIColor *)getSendMsgColor
 {
-    NSData *sendColorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"SEND_MSG_COLOUR"];
+    NSData *sendColorData = [[NSUserDefaults standardUserDefaults] objectForKey:SEND_MSG_COLOUR];
     UIColor *sendColor = [NSKeyedUnarchiver unarchiveObjectWithData:sendColorData];
     if(sendColor)
     {
@@ -82,7 +76,7 @@
 
 +(UIColor *)getReceiveMsgColor
 {
-    NSData *receiveColorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"RECEIVE_MSG_COLOUR"];
+    NSData *receiveColorData = [[NSUserDefaults standardUserDefaults] objectForKey:RECEIVE_MSG_COLOUR];
     UIColor *receiveColor = [NSKeyedUnarchiver unarchiveObjectWithData:receiveColorData];
     if(receiveColor)
     {
@@ -101,7 +95,7 @@
 
 +(UIColor *)getColorForNavigation
 {
-    NSData *barColorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"NAVIGATION_BAR_COLOUR"];
+    NSData *barColorData = [[NSUserDefaults standardUserDefaults] objectForKey:NAVIGATION_BAR_COLOUR];
     UIColor *barColor = [NSKeyedUnarchiver unarchiveObjectWithData:barColorData];
     return barColor;
 }
@@ -116,7 +110,7 @@
 
 +(UIColor *)getColorForNavigationItem
 {
-    NSData *barItemColourData = [[NSUserDefaults standardUserDefaults] objectForKey:@"NAVIGATION_BAR_ITEM_COLOUR"];
+    NSData *barItemColourData = [[NSUserDefaults standardUserDefaults] objectForKey:NAVIGATION_BAR_ITEM_COLOUR];
     UIColor *barItemColour = [NSKeyedUnarchiver unarchiveObjectWithData:barItemColourData];
     return barItemColour;
 }
@@ -326,14 +320,29 @@
      return [[NSUserDefaults standardUserDefaults] boolForKey:USER_CALL_OPTION];
 }
 
-+(void)disableNotificationSound
-{
-    [ALUserDefaultsHandler setNotificationMode:1];
-}
-
+/*
+NOTIFICATION_ENABLE_SOUND = 0,
+NOTIFICATION_DISABLE_SOUND = 1,
+NOTIFICATION_DISABLE = 2
+*/
 +(void)enableNotificationSound
 {
-    [ALUserDefaultsHandler setNotificationMode:0];
+    [ALUserDefaultsHandler setNotificationMode:NOTIFICATION_ENABLE_SOUND];
+}
+
++(void)disableNotificationSound
+{
+    [ALUserDefaultsHandler setNotificationMode:NOTIFICATION_DISABLE_SOUND];
+}
+
++(void)enableNotification
+{
+    [ALUserDefaultsHandler setNotificationMode:NOTIFICATION_ENABLE];
+}
+
++(void)disableNotification
+{
+    [ALUserDefaultsHandler setNotificationMode:NOTIFICATION_DISABLE];
 }
 
 +(void)setColorForSendButton:(UIColor *)color
@@ -503,5 +512,86 @@
     UIColor *receiveColor = [NSKeyedUnarchiver unarchiveObjectWithData:receiveColorData];
     return receiveColor ? receiveColor : [UIColor grayColor];
 }
+
++(void)setMsgTextViewBGColor:(UIColor *)color
+{
+    NSData * colorData = [NSKeyedArchiver archivedDataWithRootObject:color];
+    [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:MSG_TEXT_BG_COLOUR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getMsgTextViewBGColor
+{
+    NSData * colorData = [[NSUserDefaults standardUserDefaults] objectForKey:MSG_TEXT_BG_COLOUR];
+    UIColor * bgColor = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
+    return bgColor ? bgColor : [UIColor whiteColor];
+}
+
++(void)setPlaceHolderColor:(UIColor *)color
+{
+    NSData * colorData = [NSKeyedArchiver archivedDataWithRootObject:color];
+    [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:PLACE_HOLDER_COLOUR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getPlaceHolderColor
+{
+    NSData * colorData = [[NSUserDefaults standardUserDefaults] objectForKey:PLACE_HOLDER_COLOUR];
+    UIColor * bgColor = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
+    return bgColor ? bgColor : [UIColor grayColor];
+}
+
++(void)setUnreadCountLabelBGColor:(UIColor *)color
+{
+    NSData * colorData = [NSKeyedArchiver archivedDataWithRootObject:color];
+    [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:UNREAD_COUNT_LABEL_BG_COLOUR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getUnreadCountLabelBGColor
+{
+    NSData * colorData = [[NSUserDefaults standardUserDefaults] objectForKey:UNREAD_COUNT_LABEL_BG_COLOUR];
+    UIColor * bgColor = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
+    return bgColor ? bgColor : [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1];
+}
+
++(void)setStatusBarBGColor:(UIColor *)color
+{
+    NSData * colorData = [NSKeyedArchiver archivedDataWithRootObject:color];
+    [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:STATUS_BAR_BG_COLOUR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getStatusBarBGColor
+{
+    NSData * colorData = [[NSUserDefaults standardUserDefaults] objectForKey:STATUS_BAR_BG_COLOUR];
+    UIColor * bgColor = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
+    return bgColor ? bgColor : [self getColorForNavigation];
+}
+
++(void)setStatusBarStyle:(UIStatusBarStyle)style
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:style forKey:STATUS_BAR_STYLE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIStatusBarStyle)getStatusBarStyle
+{
+    UIStatusBarStyle style = [[NSUserDefaults standardUserDefaults] integerForKey:STATUS_BAR_STYLE];
+    return style ? style : UIStatusBarStyleDefault;
+}
+
++(void)setMaxTextViewLines:(int)numberOfLines
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:numberOfLines forKey:MAX_TEXT_VIEW_LINES];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(int)getMaxTextViewLines
+{
+    
+    return [[NSUserDefaults standardUserDefaults] integerForKey:MAX_TEXT_VIEW_LINES]?[[NSUserDefaults standardUserDefaults] integerForKey:MAX_TEXT_VIEW_LINES]:4;
+}
+
 
 @end

@@ -21,7 +21,6 @@
 
 -(void)createChannel:(ALChannel *)channel
 {
-
     ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
     DB_CHANNEL *dbChannel = [self createChannelEntity:channel];
     [theDBHandler.managedObjectContext save:nil];
@@ -87,10 +86,12 @@
     }
     theChannelEntity.channelDisplayName = channel.name;
     theChannelEntity.channelKey = channel.key;
+    theChannelEntity.clientChannelKey = channel.clientChannelKey;
     if(channel.userCount)
     {
         theChannelEntity.userCount = channel.userCount;
     }
+    theChannelEntity.channelImageURL = channel.channelImageURL;
     theChannelEntity.type = channel.type;
     theChannelEntity.adminId = channel.adminKey;
     theChannelEntity.unreadCount = channel.unreadCount;
@@ -202,7 +203,10 @@
         return nil;
     }
     
+    alChannel.key = dbChannel.channelKey;
+    alChannel.clientChannelKey = dbChannel.clientChannelKey;
     alChannel.name = dbChannel.channelDisplayName;
+    alChannel.channelImageURL = dbChannel.channelImageURL;
     alChannel.unreadCount = dbChannel.unreadCount;
     alChannel.adminKey = dbChannel.adminId;
     
@@ -393,10 +397,12 @@
         {
             ALChannel* channel = [[ALChannel alloc] init];
             channel.key = dbChannel.channelKey;
-            channel.name = dbChannel.channelDisplayName;
+            channel.clientChannelKey = dbChannel.clientChannelKey;
+            channel.name = dbChannel.channelDisplayName;            
             channel.adminKey = dbChannel.adminId;
             channel.type = dbChannel.type;
             channel.unreadCount = dbChannel.unreadCount;
+            channel.channelImageURL = dbChannel.channelImageURL;
             
             [alChannels addObject:channel];
         }
@@ -556,5 +562,48 @@
     return result;
 }
 
+-(DB_CHANNEL *)getChannelByClientChannelKey:(NSString *)clientChannelKey
+{
+    ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL" inManagedObjectContext:dbHandler.managedObjectContext];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"clientChannelKey = %@",clientChannelKey];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *fetchError = nil;
+    NSArray *result = [dbHandler.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    
+    if (result.count)
+    {
+        DB_CHANNEL *dbChannel = [result objectAtIndex:0];
+        return dbChannel;
+    }
+    else
+    {
+        return nil;
+    }
+}
+
+-(ALChannel *)loadChannelByClientChannelKey:(NSString *)clientChannelKey
+{
+    DB_CHANNEL * dbChannel = [self getChannelByClientChannelKey:clientChannelKey];
+    ALChannel *alChannel = [[ALChannel alloc] init];
+    
+    if (!alChannel)
+    {
+        return nil;
+    }
+    
+    alChannel.key = dbChannel.channelKey;                      
+    alChannel.clientChannelKey = dbChannel.clientChannelKey;
+    alChannel.name = dbChannel.channelDisplayName;
+    alChannel.unreadCount = dbChannel.unreadCount;
+    alChannel.adminKey = dbChannel.adminId;
+    alChannel.channelImageURL = dbChannel.channelImageURL;
+    
+    return alChannel;
+}
 
 @end

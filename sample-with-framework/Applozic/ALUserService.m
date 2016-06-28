@@ -348,4 +348,12 @@
     return unreadCount;
 }
 
+-(void)resettingUnreadCountWithCompletion:(void (^)(NSString *json, NSError *error))completion
+{
+    [ALUserClientService readCallResettingUnreadCountWithCompletion:^(NSString *json, NSError *error) {
+       
+        completion(json,error);
+    }];
+}
+
 @end

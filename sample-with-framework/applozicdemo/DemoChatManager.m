@@ -57,7 +57,11 @@
             
         }
         
-        if(![ALUserDefaultsHandler getApnDeviceToken]){
+//        if(![ALUserDefaultsHandler getApnDeviceToken]){
+//            [self.chatLauncher registerForNotification];
+//        }
+        
+        if(![[UIApplication sharedApplication] isRegisteredForRemoteNotifications]){
             [self.chatLauncher registerForNotification];
         }
         
@@ -161,7 +165,11 @@
             [messageClientService addWelcomeMessage:nil];
         }
         
-        if(![ALUserDefaultsHandler getApnDeviceToken]){
+//        if(![ALUserDefaultsHandler getApnDeviceToken]){
+//            [self.chatLauncher registerForNotification];
+//        }
+        
+        if(![[UIApplication sharedApplication] isRegisteredForRemoteNotifications]){
             [self.chatLauncher registerForNotification];
         }
         
@@ -232,10 +240,13 @@
         }
         [self.chatLauncher launchIndividualChat:userId withGroupId:groupID withDisplayName:displayName andViewControllerObject:fromViewController andWithText:preText];
         
-        if(![ALUserDefaultsHandler getApnDeviceToken]){
+//        if(![ALUserDefaultsHandler getApnDeviceToken]){
+//            [self.chatLauncher registerForNotification];
+//        }
+        
+        if(![[UIApplication sharedApplication] isRegisteredForRemoteNotifications]){
             [self.chatLauncher registerForNotification];
         }
-        
         
         NSLog(@"Registration response from server:%@", rResponse);
     }];
@@ -312,8 +323,12 @@
 
 -(void)ALDefaultChatViewSettings
 {
+    
+    [ALUserDefaultsHandler setDebugLogsRequire:YES];             /*   ENABLE / DISABLE LOGS   */
     [ALUserDefaultsHandler setLogoutButtonHidden:NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
+    [ALUserDefaultsHandler setLoginUserConatactVisibility:NO];
+    
     [ALApplozicSettings setUserProfileHidden:NO];
     [ALApplozicSettings hideRefreshButton:NO];
     [ALApplozicSettings setTitleForConversationScreen:@"Chats"];
@@ -323,9 +338,15 @@
     [ALApplozicSettings setColorForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     [ALApplozicSettings setColorForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     [ALApplozicSettings setColorForNavigationItem: [UIColor whiteColor]];
+    [ALApplozicSettings setUnreadCountLabelBGColor:[UIColor purpleColor]];
     
     [ALApplozicSettings setSendMsgTextColor:[UIColor whiteColor]];
     [ALApplozicSettings setReceiveMsgTextColor:[UIColor grayColor]];
+    
+    [ALApplozicSettings setStatusBarBGColor:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
+    [ALApplozicSettings setStatusBarStyle:UIStatusBarStyleLightContent];
+    /* BY DEFAULT Black:UIStatusBarStyleDefault IF REQ. White: UIStatusBarStyleLightContent  */
+   /* ADD property in info.plist "View controller-based status bar appearance" type: BOOLEAN value: NO */
     
     NSString * appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     [ALApplozicSettings setNotificationTitle:appName];
@@ -333,129 +354,79 @@
     [ALApplozicSettings setMaxImageSizeForUploadInMB:3];
     [ALApplozicSettings setMultipleAttachmentMaxLimit:5];  //NSInteger
     [ALApplozicSettings setGroupOption:YES];
-    [ALApplozicSettings setChatWallpaperImageName:@"NULL"];
-    
+    [ALApplozicSettings setChatWallpaperImageName:[ALApplozicSettings getChatWallpaperImageName]];
     [ALApplozicSettings setGroupExitOption:YES];
     [ALApplozicSettings setGroupMemberAddOption:YES];
-    [ALApplozicSettings setGroupMemberRemoveOption:YES];
+    [ALApplozicSettings setGroupMemberRemoveOption:YES];  ////////////  /**/
     
-////////////////////////////////////   SET COLOR FOR TOAST  //////////////////////////////////
+    [ALApplozicSettings setColorForToastText:[UIColor blackColor]];         /*  SET COLOR FOR TOAST TEXT    */
+    [ALApplozicSettings setColorForToastBackground:[UIColor grayColor]];    /*  SET COLOR FOR TOAST BG      */
     
-    [ALApplozicSettings setColorForToastText:[UIColor blackColor]];
-    [ALApplozicSettings setColorForToastBackground:[UIColor grayColor]];
-    
-    
-//////////////   SET VISIBILITY FOR REFRESH BUTTON (COMES FROM TOP IN MSG VC)   ////////////
-    
-    [ALApplozicSettings setCustomNavRightButtonMsgVC:NO];
-    /*   Note: Please set to 'NO' if NOT REQUIRED */
-    
-    
-//////////////   SET VISIBILITY NO MORE CONVERSATION (COMES FROM TOP IN MSG VC)   ////////////
-     [ALApplozicSettings setVisibilityForNoMoreConversationMsgVC:NO];
-    
-    
-//////////////   SET BACK BUTTON FOR MSG VC  ////////////
-    
-    [ALApplozicSettings setTitleForBackButtonMsgVC:@"Back"];
+    [ALApplozicSettings setCustomNavRightButtonMsgVC:NO];                   /*  SET VISIBILITY FOR REFRESH BUTTON (COMES FROM TOP IN MSG VC)   */
+                                                                            /*  Note: Please set to 'NO' if NOT REQUIRED */
 
+    [ALApplozicSettings setVisibilityForNoMoreConversationMsgVC:NO];        /*  SET VISIBILITY NO MORE CONVERSATION (COMES FROM TOP IN MSG VC)  */
     
-//////////////   SET BACK BUTTON FOR CHAT VC  ////////////
+    [ALApplozicSettings setTitleForBackButtonMsgVC:@"Back"];                /*  SET BACK BUTTON FOR MSG VC  */
+    [ALApplozicSettings setTitleForBackButtonChatVC:@"Back"];               /*  SET BACK BUTTON FOR CHAT VC */
     
-    [ALApplozicSettings setTitleForBackButtonChatVC:@"Back"];
+    [ALApplozicSettings setVisibilityForOnlineIndicator:YES];               /*  SET VISIBILITY FOR ONLINE INDICATOR */
+                                                                            /*   Note: Please set to YES if required */
     
+    [ALApplozicSettings setEmptyConversationText:@"You have no conversations yet"]; /*  SET TEXT FOR EMPTY CONVERSATION    */
     
-//////////////   SET VISIBILITY FOR ONLINE INDICATOR   ////////////
-    
-    [ALApplozicSettings setVisibilityForOnlineIndicator:YES];
-/*   Note: Please set to YES if required */
+    UIColor * sendButtonColor = [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]; /*  SET COLOR FOR SEND BUTTON   */
+    [ALApplozicSettings setColorForSendButton:sendButtonColor];                                         /*  Note: COLOR SHOULD BE PRESENT */
 
-//////////////   SET TEXT FOR EMPTY CONVERSATION   //////////////
+    [ALApplozicSettings setColorForTypeMsgBackground:[UIColor clearColor]];     /*  SET COLOR FOR TYPE MESSAGE OUTER VIEW */
+    [ALApplozicSettings setMsgTextViewBGColor:[UIColor lightGrayColor]];        /*  SET BG COLOR FOR MESSAGE TEXT VIEW */
+    [ALApplozicSettings setPlaceHolderColor:[UIColor grayColor]];               /*  SET COLOR FOR PLACEHOLDER TEXT */
     
-    [ALApplozicSettings setEmptyConversationText:@"You have no conversations yet"];
-/* ADD TEXT YOU WANT TO SHOW */
-    
-//////////////   SET COLOR FOR SEND BUTTON   //////////////
-    
-    UIColor * sendButtonColor = [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1];
-    [ALApplozicSettings setColorForSendButton:sendButtonColor];
-/*   Note: COLOR SHOULD BE PRESENT */
-    
-    
-//////////////   SET COLOR FOR TYPE MESSAGE VIEW BUTTON   //////////////
+    [ALApplozicSettings setVisibilityNoConversationLabelChatVC:YES];            /*  SET NO CONVERSATION LABEL IN CHAT VC    */
+                                                                                /*  Note: Please set to NO if not required  */
 
-    [ALApplozicSettings setColorForTypeMsgBackground:[UIColor lightGrayColor]];
-/*   Note: DEFAULT COLOR LIGHT GRAY */
-    
-
-//////////////   SET NO CONVERSATION LABEL IN CHAT VC //////////////
-    
-    [ALApplozicSettings setVisibilityNoConversationLabelChatVC:YES];
-
-/*   Note: Please set to NO if not required */
+    [ALApplozicSettings setBGColorForTypingLabel:[UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0 alpha:1]]; /*  SET COLOR FOR TYPING LABEL  */
+    [ALApplozicSettings setTextColorForTypingLabel:[UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:0.5]]; /*  SET COLOR FOR TEXT TYPING LABEL  */
     
     
+//    [ALApplozicSettings enableNotification]; //0
+//    [ALApplozicSettings disableNotification]; //2
     
-//////////////   SET COLOR FOR TYPING LABEL  //////////////
-
-    [ALApplozicSettings setBGColorForTypingLabel:[UIColor colorWithRed:242/255.0 green:242/255.0  blue:242/255.0 alpha:1]];
-//    [ALApplozicSettings setBGColorForTypingLabel:[UIColor brownColor]];
-
-
-//////////////   SET COLOR FOR TEXT TYPING LABEL  //////////////
-
-//    [ALApplozicSettings setTextColorForTypingLabel:[UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:0.5]];
-    [ALApplozicSettings setTextColorForTypingLabel:[UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:0.5]];
+//    [ALApplozicSettings disableNotificationSound]; //1                             /*  IF NOTIFICATION SOUND NOT NEEDED    */
+                                                                                /*  Note: Please uncomment above if sound NOT needed */
+    
+//   [ALApplozicSettings enableNotificationSound];//0                              /*  IF NOTIFICATION SOUND NEEDED    */
+                                                                                /*  Note: Please uncomment above IF NEEDED */
     
     
-//////////////   IF NOTIFICATION SOUND NOT NEEDED   //////////////
-    
-    [ALApplozicSettings disableNotificationSound];
-/*   Note: Please uncomment above if sound NOT needed */
-    
-    
-//////////////   IF NOTIFICATION SOUND NEEDED   //////////////
-    
-//    [ALApplozicSettings enableNotificationSound];
-/*   Note: Please uncomment above IF NEEDED */
-    
-    
-    [ALApplozicSettings setContextualChat:YES];
-    
-/*   Note: Please uncomment below setter to use app_module_name */
-    
+    [ALApplozicSettings setContextualChat:YES];                                 /*  IF CONTEXTUAL NEEDED    */
+                                                                                /*  Note: Please uncomment below setter to use app_module_name */
 //   [ALUserDefaultsHandler setAppModuleName:@"<APP_MODULE_NAME>"];
-//    [ALUserDefaultsHandler setAppModuleName:@"SELLER"];
-
-//////////////   APPLICATION URL CONFIGURATION    //////////////
-    
-    [self getApplicationBaseURL];
-/*   Note: PLEASE DO NOT COMMENT THIS  */
+//   [ALUserDefaultsHandler setAppModuleName:@"SELLER"];
     
     
-//////////////   IF NEEDED ALL REGISTERED CONTACTS    //////////////
+    [ALApplozicSettings setFilterContactsStatus:YES];                           /*  IF NEEDED ALL REGISTERED CONTACTS   */
+                                                                                /*  Note: PLEASE SET IT TO 'NO' IF NOT REQUIRED */
     
-    [ALApplozicSettings setFilterContactsStatus:YES];
-/*   PLEASE SET IT TO 'NO' IF NOT REQUIRED */
+    [ALApplozicSettings setOnlineContactLimit:0];                               /*  IF NEEDED ONLINE USERS WITH LIMIT   */
+                                                                                /*  Note: PLEASE SET LIMIT TO ZERO IF NOT REQUIRED */
     
-//////////////   IF NEEDED ONLINE USERS WITH LIMIT   //////////////
+    [ALApplozicSettings setCallOption:YES];                                     /*  IF CALL OPTION NEEDED   */
+                                                                                /*  Note: PLEASE SET IT TO 'NO' IF NOT REQUIRED      */
     
-    [ALApplozicSettings setOnlineContactLimit:0];
-/*   PLEASE SET LIMIT TO ZERO IF NOT REQUIRED */
-
-//////////////   IF CALL OPTION NEEDED   //////////////
+    [ALApplozicSettings setCustomClassName:@"DemoChatManager"];                 /*  SET 3rd Party Class Name OR DemoChatManager */ // EXAMPLE
     
-    [ALApplozicSettings setCallOption:YES];
-/*    PLEASE SET IT TO 'NO' IF NOT REQUIRED      */
+    [ALUserDefaultsHandler setFetchConversationPageSize:20];                    /*  SET MESSAGE LIST PAGE SIZE  */ // DEFAULT VALUE 20
+    
+    [ALUserDefaultsHandler setUnreadCountType:1];                               /*  SET UNRAED COUNT TYPE   */ // DEFAULT VALUE 0
+    
+    [ALApplozicSettings setMaxTextViewLines:4];
     
     
-//////////////   SET 3rd Party Class Name OR DemoChatManager   //////////////
-    
-    [ALApplozicSettings setCustomClassName:@"DemoChatManager"]; // EXAMPLE
-    
-//////////////   SET MESSAGE LIST PAGE SIZE   //////////////
-    
-    [ALUserDefaultsHandler setFetchConversationPageSize:20];  // DEFAULT VALUE 20
+//<><><><><><>APPLICATION URL CONFIGURATION<><><><><><><>//
+//    [self getApplicationBaseURL];
+/* Note: PLEASE DO NOT COMMENT THIS IF ARCHIVING/RELEASING  */
+//<><><><><><><><><><><><><><><><><><><><><><><><><><><>//
     
 }
 
@@ -464,12 +435,12 @@
     NSDictionary * URLDictionary = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"APPLOZIC_PRODUCTION"];
 
     NSString * alKBASE_URL = [URLDictionary valueForKey:@"AL_KBASE_URL"];
-//    NSString * alMQTT_URL = [URLDictionary valueForKey:@"AL_MQTT_URL"];
+    NSString * alMQTT_URL = [URLDictionary valueForKey:@"AL_MQTT_URL"];
     NSString * alFILE_URL = [URLDictionary valueForKey:@"AL_FILE_URL"];
     NSString * alMQTT_PORT = [URLDictionary valueForKey:@"AL_MQTT_PORT"];
     
     [ALUserDefaultsHandler setBASEURL:alKBASE_URL];
-//    [ALUserDefaultsHandler setMQTTURL:alMQTT_URL];
+    [ALUserDefaultsHandler setMQTTURL:alMQTT_URL];
     [ALUserDefaultsHandler setFILEURL:alFILE_URL];
     [ALUserDefaultsHandler setMQTTPort:alMQTT_PORT];
 
@@ -485,7 +456,7 @@
     //User is already registered ..directly launch the chat...
     if([ALUserDefaultsHandler getDeviceKeyString]){
         
-        LaunchChatFromSimpleViewController *lObj=[[LaunchChatFromSimpleViewController alloc] init];
+        LaunchChatFromSimpleViewController *lObj = [[LaunchChatFromSimpleViewController alloc] init];
         [lObj.activityView removeFromSuperview];
         
         //Launch
@@ -533,9 +504,14 @@
             [messageClientService addWelcomeMessage:nil];
         }
         
-        if(![ALUserDefaultsHandler getApnDeviceToken]){
+//        if(![ALUserDefaultsHandler getApnDeviceToken]){
+//            [self.chatLauncher registerForNotification];
+//        }
+        
+        if(![[UIApplication sharedApplication] isRegisteredForRemoteNotifications]){
             [self.chatLauncher registerForNotification];
         }
+        
         
         //Launch
         if(userId || groupId){

@@ -11,7 +11,6 @@
 #import "ALChatCell.h"
 #import "ALUtilityClass.h"
 #import "ALConstant.h"
-#import "ALUITextView.h"
 #import "UIImageView+WebCache.h"
 #import "ALContactDBService.h"
 #import "ALApplozicSettings.h"
@@ -90,22 +89,17 @@
         self.mNameLabel.layer.masksToBounds = YES;
         [self.contentView addSubview:self.mNameLabel];
         
-        self.mMessageLabel = [[ALUITextView alloc] init];
-        self.mMessageLabel.delegate = self.mMessageLabel;
+        self.mMessageLabel = [[ALHyperLabel alloc] init];
+        self.mMessageLabel.numberOfLines = 0;
+
         NSString *fontName = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_FONTNAME];
         
         if (!fontName) {
             fontName = DEFAULT_FONT_NAME;
         }
+        
         self.mMessageLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_TEXT_SIZE];
         self.mMessageLabel.textColor = [UIColor grayColor];
-        self.mMessageLabel.selectable = YES;
-        self.mMessageLabel.editable = NO;
-        self.mMessageLabel.scrollEnabled = NO;
-        self.mMessageLabel.textContainerInset = UIEdgeInsetsZero;
-        self.mMessageLabel.textContainer.lineFragmentPadding = 0;
-        self.mMessageLabel.dataDetectorTypes = UIDataDetectorTypeLink;
-        self.mMessageLabel.userInteractionEnabled=NO;
         [self.contentView addSubview:self.mMessageLabel];
         
         self.mChannelMemberName = [[UILabel alloc] init];
@@ -133,6 +127,7 @@
         tapForCustomView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(processTapGesture)];
         tapForCustomView.numberOfTapsRequired = 1;
         
+        self.hyperLinkArray = [NSMutableArray new];
     }
     
     
@@ -144,12 +139,14 @@
 -(instancetype)populateCell:(ALMessage*) alMessage viewSize:(CGSize)viewSize
 {
     
+    [self.hyperLinkArray removeAllObjects];
     self.mUserProfileImageView.alpha = 1;
     
     BOOL today = [[NSCalendar currentCalendar] isDateInToday:[NSDate dateWithTimeIntervalSince1970:[alMessage.createdAtTime doubleValue]/1000]];
     NSString * theDate = [NSString stringWithFormat:@"%@",[alMessage getCreatedAtTimeChat:today]];
     
     self.mMessage = alMessage;
+    [self processHyperLink];
     
     ALContactDBService *theContactDBService = [[ALContactDBService alloc] init];
     ALContact *alContact = [theContactDBService loadContactByKey:@"userId" value: alMessage.to];
@@ -177,6 +174,7 @@
     self.mMessageStatusImageView.hidden = YES;
     [self.contentView bringSubviewToFront:self.mMessageStatusImageView];
     self.mUserProfileImageView.backgroundColor = [UIColor whiteColor];
+    self.mMessageLabel.backgroundColor = [UIColor clearColor];
     
     if([alMessage.type isEqualToString:@"100"])
     {
@@ -199,7 +197,6 @@
         if([ALApplozicSettings getReceiveMsgColor])
         {
             self.mBubleImageView.backgroundColor = [ALApplozicSettings getReceiveMsgColor];
-            self.mMessageLabel.backgroundColor = [ALApplozicSettings getReceiveMsgColor];
         }
         else
         {
@@ -309,7 +306,6 @@
         
         msgFrameHeight = self.mBubleImageView.frame.size.height;
         
-        self.mMessageLabel.backgroundColor = [UIColor clearColor];
         self.mMessageLabel.textColor = [ALApplozicSettings getSendMsgTextColor];
         
         self.mMessageLabel.frame = CGRectMake(self.mBubleImageView.frame.origin.x + MESSAGE_PADDING_X,
@@ -376,15 +372,6 @@
     
     /*    ====================================== END =================================  */
     
-    
-    //=======This is to reset textView link atttributes.This is explicitly done to handle bug in iOS <= 8.4. =======//
-    self.mMessageLabel.linkTextAttributes = @{};
-    self.mMessageLabel.text = nil;
-    self.mMessageLabel.editable = YES;
-    self.mMessageLabel.editable = NO;
-    //======= END =======//
-
-    
     self.mMessageLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_TEXT_SIZE];
     if(alMessage.contentType == 3)
     {
@@ -394,36 +381,21 @@
         
         self.mMessageLabel.attributedText = attributedString;
     }
-    else if ([alMessage.message rangeOfString:@"http://"].location != NSNotFound ||
-             [alMessage.message rangeOfString:@"www."].location != NSNotFound ||
-             [alMessage.message rangeOfString:@"https://"].location != NSNotFound ||
-              [alMessage.message rangeOfString:@".com"].location != NSNotFound)
+    else
     {
-        self.mMessageLabel.userInteractionEnabled = YES;
-        
-        
-        
-        self.mMessageLabel.linkTextAttributes = @{
-                                                  NSFontAttributeName : self.mMessageLabel.font,
-                                                  NSForegroundColorAttributeName :self.mMessageLabel.textColor,
-                                                  NSUnderlineStyleAttributeName : [NSNumber numberWithInt:NSUnderlineStyleThick]
-                                                  };
-        
-//        self.mMessageLabel.text = [alMessage.message stringByAppendingString:@"\n"];
-        
         NSDictionary *attrs = @{
                                 NSFontAttributeName : self.mMessageLabel.font,
                                 NSForegroundColorAttributeName : self.mMessageLabel.textColor
                                 };
         
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.mMessage.message attributes:attrs];
-        self.mMessageLabel.attributedText = attributedString;
+        self.mMessageLabel.linkAttributeDefault = @{
+                                                    NSFontAttributeName : self.mMessageLabel.font,
+                                                    NSForegroundColorAttributeName :[UIColor blueColor],
+                                                    NSUnderlineStyleAttributeName : [NSNumber numberWithInt:NSUnderlineStyleThick]
+                                                    };
         
-    }
-    else
-    {
-        self.mMessageLabel.userInteractionEnabled = NO;
-        self.mMessageLabel.text = alMessage.message;
+        self.mMessageLabel.attributedText = [[NSAttributedString alloc] initWithString:self.mMessage.message attributes:attrs];
+        [self setHyperLinkAttribute];
     }
     
     return self;
@@ -434,7 +406,7 @@
 {
     [self.mDateLabel setHidden:YES];
     [self.mBubleImageView setHidden:YES];
-    CGFloat dateY = 10;
+    CGFloat dateY = 0;
     [self.mMessageLabel setFrame:CGRectMake(0, dateY, viewSize.width, theTextSize.height+10)];
     [self.mMessageLabel setTextAlignment:NSTextAlignmentCenter];
     [self.mMessageLabel setText:alMessage.message];
@@ -523,6 +495,49 @@
 {
     [self.delegate processALMessage:self.mMessage];
 }
+
+-(void)processHyperLink
+{
+    NSString * source = self.mMessage.message;
+    NSDataDetector * detector = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypePhoneNumber | NSTextCheckingTypeLink)
+                                                                error:nil];
+    
+    NSArray * matches = [detector matchesInString:source options:0 range:NSMakeRange(0, [source length])];
+    
+    for(NSTextCheckingResult * link in matches)
+    {
+        if(link.URL)
+        {
+            NSString * actualLinkString = [source substringWithRange:link.range];
+            [self.hyperLinkArray addObject:actualLinkString];
+        }
+        else if (link.phoneNumber)
+        {
+            [self.hyperLinkArray addObject:link.phoneNumber.description];
+        }
+    }
+}
+
+-(void)setHyperLinkAttribute
+{
+    void(^handler)(ALHyperLabel *label, NSString *substring) = ^(ALHyperLabel *label, NSString *substring){
+        
+        if(substring.integerValue)
+        {
+            NSNumber * contact = [NSNumber numberWithInteger:substring.integerValue];
+            NSURL * phoneNumber = [NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@",contact]];
+            [[UIApplication sharedApplication] openURL:phoneNumber];
+        }
+        else
+        {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@",substring]]];
+        }
+    };
+    
+    NSArray * nsArrayLink = [NSArray arrayWithArray:[self.hyperLinkArray mutableCopy]];
+    [self.mMessageLabel setLinksForSubstrings:nsArrayLink withLinkHandler: handler];
+}
+
 
 
 @end

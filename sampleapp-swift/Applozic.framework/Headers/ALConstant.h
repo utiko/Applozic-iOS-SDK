@@ -5,16 +5,16 @@
 //  Copyright (c) 2015 AppLozic. All rights reserved.
 //
 
-//#import "ALUserDefaultsHandler.h"
-//
-//#define KBASE_URL ([ALUserDefaultsHandler getBASEURL])
-//#define MQTT_URL ([ALUserDefaultsHandler getMQTTURL])
-//#define KBASE_FILE_URL ([ALUserDefaultsHandler getFILEURL])
-//#define MQTT_PORT ([ALUserDefaultsHandler getMQTTPort])
+#import "ALUserDefaultsHandler.h"
 
-#define KBASE_URL @"https://apps.applozic.com"
-#define MQTT_URL @"apps.applozic.com"
-#define KBASE_FILE_URL @"https://applozic.appspot.com"
+#define KBASE_URL ([ALUserDefaultsHandler getBASEURL])
+#define MQTT_URL ([ALUserDefaultsHandler getMQTTURL])
+#define KBASE_FILE_URL ([ALUserDefaultsHandler getFILEURL])
+#define MQTT_PORT ([ALUserDefaultsHandler getMQTTPort])
+
+//#define KBASE_URL @"https://apps.applozic.com"
+//#define MQTT_URL @"apps.applozic.com"
+//#define KBASE_FILE_URL @"https://applozic.appspot.com"
 
 //#define KBASE_URL @"https://test.applozic.com"
 //#define MQTT_URL @"staging.applozic.com"
@@ -24,10 +24,10 @@
 //#define MQTT_URL @"staging.applozic.com"
 //#define KBASE_FILE_URL @"https://mobi-com-alpha.appspot.com"
 
-#define MQTT_PORT @"1883"
+//#define MQTT_PORT @"1883"
 
 #define GREY_COLOR ([UIColor colorWithWhite:0.7 alpha:0.1])
-
+#define TEXT_VIEW_TO_MESSAGE_VIEW_RATIO 1.4 // Proper scolling.... 
 
 #define FORWARD_STATUS @"5"
 #define REPLIED_STATUS @"4"
@@ -49,6 +49,7 @@
 #define IS_ZOOMED_IPHONE_6_PLUS (IS_IPHONE && MAX([[UIScreen mainScreen] bounds].size.height, [[UIScreen mainScreen] bounds].size.width) == 375.0 && IS_OS_8_OR_LATER && [UIScreen mainScreen].nativeScale < [UIScreen mainScreen].scale)
 #define IS_IPHONE_6 (IS_STANDARD_IPHONE_6 || IS_ZOOMED_IPHONE_6)
 #define IS_IPHONE_6_PLUS (IS_STANDARD_IPHONE_6_PLUS || IS_ZOOMED_IPHONE_6_PLUS)
+#define IS_OS_9_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0)
 
 typedef enum {
     //outbox
@@ -67,3 +68,10 @@ typedef enum {
     APP_STATE_INACTIVE   = 0,
     APP_STATE_ACTIVE     = 1
 } APP_TRI_STATE;
+
+typedef enum {
+    NOTIFICATION_ENABLE_SOUND = 0,
+    NOTIFICATION_DISABLE_SOUND = 1,
+    NOTIFICATION_ENABLE = 0,
+    NOTIFICATION_DISABLE = 2
+} NOTIFICATION_TYPE_MODE;

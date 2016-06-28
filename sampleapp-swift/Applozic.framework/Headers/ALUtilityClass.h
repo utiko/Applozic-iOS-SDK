@@ -30,7 +30,7 @@
 
 
 +(void)thirdDisplayNotificationTS:(NSString *)toastMessage andForContactId:(NSString *)contactId withGroupId:(NSNumber*) groupID delegate:(id)delegate;
-
++(UIView *)setStatusBarStyle;
 
 +(NSString *)getNameAlphabets:(NSString *)actualName;
 +(NSString *)getFileNameWithCurrentTimeStamp;
@@ -43,5 +43,6 @@
 +(UIImage *)setVideoThumbnail:(NSString *)videoFilePATH;
 +(UIImage *)subProcessThumbnail:(NSURL *)url;
 +(void)showAlertMessage:(NSString *)text andTitle:(NSString *)title;
++(UIImage *)getNormalizedImage:(UIImage *)rawImage;
 
 @end

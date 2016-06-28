@@ -71,7 +71,7 @@
     {
 //        self.navigationController.navigationBar.translucent = NO;
         [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:18]}];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
     }
@@ -235,9 +235,11 @@
     [[self activityIndicator] startAnimating];
     self.memberIdToAdd = alcontact.userId;
     ALChannelService * channelService = [[ALChannelService alloc] init];
-     [channelService addMemberToChannel:self.memberIdToAdd andChannelKey:self.channelKeyID withComletion:^(NSError *error, ALAPIResponse *response) {
+     [channelService addMemberToChannel:self.memberIdToAdd andChannelKey:self.channelKeyID orClientChannelKey:nil
+                          withComletion:^(NSError *error, ALAPIResponse *response) {
          
-         if(!error){
+         if(!error)
+         {
              [memberIds addObject:self.memberIdToAdd];
              [self.tableView reloadData];
              
@@ -291,7 +293,7 @@
         // Index 1 : Yes
         [self turnUserInteractivityForNavigationAndTableView:NO];
         ALChannelService * alchannelService = [[ALChannelService alloc] init];
-        [alchannelService leaveChannel:self.channelKeyID andUserId:[ALUserDefaultsHandler getUserId] withCompletion:^(NSError *error) {
+        [alchannelService leaveChannel:self.channelKeyID andUserId:[ALUserDefaultsHandler getUserId] orClientChannelKey:nil withCompletion:^(NSError *error) {
             
             if(!error)
             {
@@ -343,7 +345,7 @@
 
             [self turnUserInteractivityForNavigationAndTableView:NO];
             ALChannelService * alchannelService = [[ALChannelService alloc] init];
-            [alchannelService removeMemberFromChannel:removeMemberID andChannelKey:self.channelKeyID withComletion:^(NSError *error, NSString *response) {
+            [alchannelService removeMemberFromChannel:removeMemberID andChannelKey:self.channelKeyID orClientChannelKey:nil withComletion:^(NSError *error, NSString *response) {
                 
                 if(!error)
                 {
@@ -424,7 +426,7 @@
     
     
     ALChannelDBService * channelDBService = [[ALChannelDBService alloc] init];
-    ALChannel *channel = [channelDBService loadChannelByKey:self.channelKeyID ];
+    ALChannel *channel = [channelDBService loadChannelByKey:self.channelKeyID];
     
     if([channel.adminKey isEqualToString:memberIds[row]]){
         [self.adminLabel setHidden:NO];
@@ -468,7 +470,8 @@
     }
     
 }
--(void)setupCellItems:(ALContactCell*)memberCell{
+-(void)setupCellItems:(ALContactCell*)memberCell
+{
     self.memberNameLabel  = (UILabel*)[memberCell viewWithTag:101];
     
     self.memberIconImageView = (UIImageView*)[memberCell viewWithTag:102];
@@ -516,6 +519,15 @@
     if (section == 0) {
         UIImageView *imageView = [[UIImageView alloc] initWithImage:
                                   [ALUtilityClass getImageFromFramworkBundle:@"applozic_group_icon.png"]];
+        
+        ALChannelDBService * channelDBService = [ALChannelDBService new];
+        ALChannel *alChannel = [channelDBService loadChannelByKey:self.channelKeyID];
+        NSURL * imageUrl = [NSURL URLWithString:alChannel.channelImageURL];
+        if(imageUrl)
+        {
+            [imageView sd_setImageWithURL:imageUrl];
+        }
+        
         imageView.frame = CGRectMake((screenWidth/2)-30, 20, 60, 60);
         imageView.backgroundColor = [UIColor blackColor];
         imageView.clipsToBounds=YES;

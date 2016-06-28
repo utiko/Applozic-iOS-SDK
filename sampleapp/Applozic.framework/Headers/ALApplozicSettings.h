@@ -6,45 +6,51 @@
 //  Copyright © 2015 applozic Inc. All rights reserved.
 //
 
-#define USER_PROFILE_PROPERTY @"USER_PROFILE_PROPERTY"
-#define SEND_MSG_COLOUR @"SEND_MSG_COLOUR"
-#define RECEIVE_MSG_COLOUR @"RECEIVE_MSG_COLOUR"
-#define NAVIGATION_BAR_COLOUR @"NAVIGATION_BAR_COLOUR"
-#define NAVIGATION_BAR_ITEM_COLOUR @"NAVIGATION_BAR_ITEM_COLOUR"
-#define REFRESH_BUTTON_VISIBILITY @"REFRESH_BUTTON_VISIBILITY"
-#define CONVERSATION_TITLE @"CONVERSATION_TITLE"
-#define BACK_BUTTON_TITLE @"BACK_BUTTON_TITLE"
-#define FONT_FACE @"FONT_FACE"
-#define NOTIFICATION_TITLE @"NOTIFICATION_TITLE"
-#define IMAGE_COMPRESSION_FACTOR @"IMAGE_COMPRESSION_FACTOR"
-#define IMAGE_UPLOAD_MAX_SIZE @"IMAGE_UPLOAD_MAX_SIZE"
-#define GROUP_ENABLE @"GROUP_ENABLE"
-#define MAX_SEND_ATTACHMENT @"MAX_SEND_ATTACHMENT"
-#define FILTER_CONTACT @"FILTER_CONTACT"
-#define FILTER_CONTACT_START_TIME @"FILTER_CONTACT_START_TIME"
-#define WALLPAPER_IMAGE @"WALLPAPER_IMAGE"
-#define CUSTOM_MSG_BACKGROUND_COLOR @"CUSTOM_MSG_BACKGROUND_COLOR"
-#define ONLINE_CONTACT_LIMIT @"ONLINE_CONTACT_LIMIT"
-#define GROUP_EXIT_BUTTON @"GROUP_EXIT_BUTTON"
-#define GROUP_MEMBER_ADD_OPTION @"GROUP_MEMBER_ADD_OPTION"
-#define GROUP_MEMBER_REMOVE_OPTION @"GROUP_MEMBER_REMOVE_OPTION"
-#define THIRD_PARTY_VC_NAME @"THIRD_PARTY_VC_NAME"
-#define CONTEXTUAL_CHAT_OPTION @"CONTEXTUAL_CHAT_OPTION"
-#define USER_CALL_OPTION @"USER_CALL_OPTION"
-#define SEND_BUTTON_BG_COLOR @"SEND_BUTTON_BG_COLOR"
-#define TYPE_MSG_BG_COLOR @"TYPE_MSG_BG_COLOR"
-#define TYPING_LABEL_BG_COLOR @"TYPING_LABEL_BG_COLOR"
-#define TYPING_LABEL_TEXT_COLOR @"TYPING_LABEL_TEXT_COLOR"
-#define EMPTY_CONVERSATION_TEXT @"EMPTY_CONVERSATION_TEXT"
-#define NO_CONVERSATION_FLAG_CHAT_VC @"NO_CONVERSATION_FLAG_CHAT_VC"
-#define ONLINE_INDICATOR_VISIBILITY @"ONLINE_INDICATOR_VISIBILITY"
-#define BACK_BUTTON_TITLE_CHATVC @"BACK_BUTTON_TITLE_CHATVC"
-#define NO_MORE_CONVERSATION_VISIBILITY @"NO_MORE_CONVERSATION_VISIBILITY"
-#define CUSTOM_NAV_RIGHT_BUTTON_MSGVC @"CUSTOM_NAV_RIGHT_BUTTON_MSGVC"
-#define TOAST_BG_COLOUR @"TOAST_BG_COLOUR"
-#define TOAST_TEXT_COLOUR @"TOAST_TEXT_COLOUR"
-#define SEND_MSG_TEXT_COLOUR @"SEND_MSG_TEXT_COLOUR"
-#define RECEIVE_MSG_TEXT_COLOUR @"RECEIVE_MSG_TEXT_COLOUR"
+#define USER_PROFILE_PROPERTY @"com.applozic.userdefault.USER_PROFILE_PROPERTY"
+#define SEND_MSG_COLOUR @"com.applozic.userdefault.SEND_MSG_COLOUR"
+#define RECEIVE_MSG_COLOUR @"com.applozic.userdefault.RECEIVE_MSG_COLOUR"
+#define NAVIGATION_BAR_COLOUR @"com.applozic.userdefault.NAVIGATION_BAR_COLOUR"
+#define NAVIGATION_BAR_ITEM_COLOUR @"com.applozic.userdefault.NAVIGATION_BAR_ITEM_COLOUR"
+#define REFRESH_BUTTON_VISIBILITY @"com.applozic.userdefault.REFRESH_BUTTON_VISIBILITY"
+#define CONVERSATION_TITLE @"com.applozic.userdefault.CONVERSATION_TITLE"
+#define BACK_BUTTON_TITLE @"com.applozic.userdefault.BACK_BUTTON_TITLE"
+#define FONT_FACE @"com.applozic.userdefault.FONT_FACE"
+#define NOTIFICATION_TITLE @"com.applozic.userdefault.NOTIFICATION_TITLE"
+#define IMAGE_COMPRESSION_FACTOR @"com.applozic.userdefault.IMAGE_COMPRESSION_FACTOR"
+#define IMAGE_UPLOAD_MAX_SIZE @"com.applozic.userdefault.IMAGE_UPLOAD_MAX_SIZE"
+#define GROUP_ENABLE @"com.applozic.userdefault.GROUP_ENABLE"
+#define MAX_SEND_ATTACHMENT @"com.applozic.userdefault.MAX_SEND_ATTACHMENT"
+#define FILTER_CONTACT @"com.applozic.userdefault.FILTER_CONTACT"
+#define FILTER_CONTACT_START_TIME @"com.applozic.userdefault.FILTER_CONTACT_START_TIME"
+#define WALLPAPER_IMAGE @"com.applozic.userdefault.WALLPAPER_IMAGE"
+#define CUSTOM_MSG_BACKGROUND_COLOR @"com.applozic.userdefault.CUSTOM_MSG_BACKGROUND_COLOR"
+#define ONLINE_CONTACT_LIMIT @"com.applozic.userdefault.ONLINE_CONTACT_LIMIT"
+#define GROUP_EXIT_BUTTON @"com.applozic.userdefault.GROUP_EXIT_BUTTON"
+#define GROUP_MEMBER_ADD_OPTION @"com.applozic.userdefault.GROUP_MEMBER_ADD_OPTION"
+#define GROUP_MEMBER_REMOVE_OPTION @"com.applozic.userdefault.GROUP_MEMBER_REMOVE_OPTION"
+#define THIRD_PARTY_VC_NAME @"com.applozic.userdefault.THIRD_PARTY_VC_NAME"
+#define CONTEXTUAL_CHAT_OPTION @"com.applozic.userdefault.CONTEXTUAL_CHAT_OPTION"
+#define USER_CALL_OPTION @"com.applozic.userdefault.USER_CALL_OPTION"
+#define SEND_BUTTON_BG_COLOR @"com.applozic.userdefault.SEND_BUTTON_BG_COLOR"
+#define TYPE_MSG_BG_COLOR @"com.applozic.userdefault.TYPE_MSG_BG_COLOR"
+#define TYPING_LABEL_BG_COLOR @"com.applozic.userdefault.TYPING_LABEL_BG_COLOR"
+#define TYPING_LABEL_TEXT_COLOR @"com.applozic.userdefault.TYPING_LABEL_TEXT_COLOR"
+#define EMPTY_CONVERSATION_TEXT @"com.applozic.userdefault.EMPTY_CONVERSATION_TEXT"
+#define NO_CONVERSATION_FLAG_CHAT_VC @"com.applozic.userdefault.NO_CONVERSATION_FLAG_CHAT_VC"
+#define ONLINE_INDICATOR_VISIBILITY @"com.applozic.userdefault.ONLINE_INDICATOR_VISIBILITY"
+#define BACK_BUTTON_TITLE_CHATVC @"com.applozic.userdefault.BACK_BUTTON_TITLE_CHATVC"
+#define NO_MORE_CONVERSATION_VISIBILITY @"com.applozic.userdefault.NO_MORE_CONVERSATION_VISIBILITY"
+#define CUSTOM_NAV_RIGHT_BUTTON_MSGVC @"com.applozic.userdefault.CUSTOM_NAV_RIGHT_BUTTON_MSGVC"
+#define TOAST_BG_COLOUR @"com.applozic.userdefault.TOAST_BG_COLOUR"
+#define TOAST_TEXT_COLOUR @"com.applozic.userdefault.TOAST_TEXT_COLOUR"
+#define SEND_MSG_TEXT_COLOUR @"com.applozic.userdefault.SEND_MSG_TEXT_COLOUR"
+#define RECEIVE_MSG_TEXT_COLOUR @"com.applozic.userdefault.RECEIVE_MSG_TEXT_COLOUR"
+#define MSG_TEXT_BG_COLOUR @"com.applozic.userdefault.MSG_TEXT_BG_COLOUR"
+#define PLACE_HOLDER_COLOUR @"com.applozic.userdefault.PLACE_HOLDER_COLOUR"
+#define UNREAD_COUNT_LABEL_BG_COLOUR @"com.applozic.userdefault.UNREAD_COUNT_LABEL_BG_COLOUR"
+#define STATUS_BAR_BG_COLOUR @"com.applozic.userdefault.STATUS_BAR_BG_COLOUR"
+#define STATUS_BAR_STYLE @"com.applozic.userdefault.STATUS_BAR_STYLE"
+#define MAX_TEXT_VIEW_LINES @"com.applozic.userdefault.MAX_TEXT_VIEW_LINES"
 
 
 #import <Foundation/Foundation.h>
@@ -75,8 +81,6 @@
 +(void)setColorForNavigationItem:(UIColor *)barItemColor;
 
 +(UIColor *)getColorForNavigationItem;
-
-+(void) clearAllSettings;
 
 +(void)hideRefreshButton:(BOOL)state;
 
@@ -149,8 +153,12 @@
 +(void)setCallOption:(BOOL)flag;
 +(BOOL)getCallOption;
 
+// Enable/Diable Notification Sound
 +(void)enableNotificationSound;
 +(void)disableNotificationSound;
+// Enable/Diable Notification Complete
++(void)enableNotification;
++(void)disableNotification;
 
 +(UIColor *)getColorForSendButton;
 +(void)setColorForSendButton:(UIColor *)color;
@@ -191,4 +199,22 @@
 +(UIColor *)getReceiveMsgTextColor;
 +(void)setReceiveMsgTextColor:(UIColor *)receiveMsgColor;
 
++(UIColor *)getMsgTextViewBGColor;
++(void)setMsgTextViewBGColor:(UIColor *)color;
+
++(UIColor *)getPlaceHolderColor;
++(void)setPlaceHolderColor:(UIColor *)color;
+
++(UIColor *)getUnreadCountLabelBGColor;
++(void)setUnreadCountLabelBGColor:(UIColor *)color;
+
++(UIColor *)getStatusBarBGColor;
++(void)setStatusBarBGColor:(UIColor *)color;
+
++(UIStatusBarStyle)getStatusBarStyle;            
++(void)setStatusBarStyle:(UIStatusBarStyle)style;
+
+
++(void)setMaxTextViewLines:(int)numberOfLines;
++(int)getMaxTextViewLines;
 @end

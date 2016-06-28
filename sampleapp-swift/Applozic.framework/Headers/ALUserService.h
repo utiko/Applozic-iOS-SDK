@@ -49,4 +49,6 @@
 
 -(NSNumber *)getTotalUnreadCount;
 
+-(void)resettingUnreadCountWithCompletion:(void (^)(NSString *json, NSError *error))completion;
+
 @end

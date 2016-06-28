@@ -24,10 +24,14 @@
 
 @implementation ALChannelClientService
 
-+(void)getChannelInfo:(NSNumber *)channelKey withCompletion:(void(^)(NSError *error, ALChannel *channel)) completion
++(void)getChannelInfo:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey withCompletion:(void(^)(NSError *error, ALChannel *channel)) completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/group/info", KBASE_URL];
     NSString * theParamString = [NSString stringWithFormat:@"groupId=%@", channelKey];
+    if(clientChannelKey)
+    {
+        theParamString = [NSString stringWithFormat:@"clientGroupId=%@", clientChannelKey];
+    }
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"CHANNEL_INFORMATION" WithCompletionHandler:^(id theJson, NSError *error) {
@@ -38,7 +42,7 @@
         }
         else
         {
-            NSLog(@"x=x=x==x=x=x==x  JSON ALCHANNEL CLIENT SERVICE CLASS : :%@  =x=x==x", theJson);
+            NSLog(@"JSON ALCHANNEL CLIENT SERVICE CLASS :: %@", theJson);
             ALChannelCreateResponse *response = [[ALChannelCreateResponse alloc] initWithJSONString:theJson];
             completion(error, response.alChannel);
         }
@@ -46,15 +50,18 @@
     }];
 }
 
-+(void)createChannel:(NSString *)channelName andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSError *error, ALChannelCreateResponse *response))completion
++(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSError *error, ALChannelCreateResponse *response))completion
 {
+    
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, CREATE_CHANNEL_URL];
-//    NSString * theUrlString = [NSString stringWithFormat:@"https://staging.applozic.com%@", CREATE_CHANNEL_URL];
-
     NSMutableDictionary *channelDictionary = [NSMutableDictionary new];
     
     [channelDictionary setObject:channelName forKey:@"groupName"];
     [channelDictionary setObject:memberArray forKey:@"groupMemberList"];
+    if(clientChannelKey)
+    {
+        [channelDictionary setObject:clientChannelKey forKey:@"clientGroupId"];
+    }
     
     NSError *error;
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:channelDictionary options:0 error:&error];
@@ -82,12 +89,14 @@
     
 }
 
-+(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion
++(void)addMemberToChannel:(NSString *)userId orClientChannelKey:(NSString *)clientChannelKey andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, ADD_MEMBER_TO_CHANNEL_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@",
-                                 channelKey,
-                                 [userId urlEncodeUsingNSUTF8StringEncoding]];
+    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@",channelKey,[userId urlEncodeUsingNSUTF8StringEncoding]];
+    if(clientChannelKey)
+    {
+        theParamString = [NSString stringWithFormat:@"clientGroupId=%@&userId=%@",clientChannelKey,[userId urlEncodeUsingNSUTF8StringEncoding]];
+    }
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
@@ -106,12 +115,15 @@
     }];
 }
 
-+(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion
++(void)removeMemberFromChannel:(NSString *)userId orClientChannelKey:(NSString *)clientChannelKey andChannelKey:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion
 {
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, REMOVE_MEMBER_FROM_CHANNEL_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey,
-                                 [userId urlEncodeUsingNSUTF8StringEncoding]];
+    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey,[userId urlEncodeUsingNSUTF8StringEncoding]];
+    if(clientChannelKey)
+    {
+        theParamString = [NSString stringWithFormat:@"clientGroupId=%@&userId=%@",clientChannelKey,[userId urlEncodeUsingNSUTF8StringEncoding]];
+    }
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"REMOVE_MEMBER_FROM_CHANNEL_URL" WithCompletionHandler:^(id theJson, NSError *error) {
@@ -130,10 +142,14 @@
     }];
 }
 
-+(void)deleteChannel:(NSNumber *)channelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion
++(void)deleteChannel:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *error, ALAPIResponse *response))completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, DELETE_CHANNEL_URL];
     NSString * theParamString = [NSString stringWithFormat:@"groupId=%@", channelKey];
+    if(clientChannelKey)
+    {
+        theParamString = [NSString stringWithFormat:@"clientGroupId=%@",clientChannelKey];
+    }
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"DELETE_CHANNEL" WithCompletionHandler:^(id theJson, NSError *error) {
@@ -151,11 +167,14 @@
     }];
 }
 
-+(void)leaveChannel:(NSNumber *)channelKey withUserId:(NSString *)userId andCompletion:(void (^)(NSError *, ALAPIResponse *))completion
++(void)leaveChannel:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey withUserId:(NSString *)userId andCompletion:(void (^)(NSError *, ALAPIResponse *))completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, LEFT_CHANNEL_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey,
-                                 [userId urlEncodeUsingNSUTF8StringEncoding]];
+    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@",channelKey,[userId urlEncodeUsingNSUTF8StringEncoding]];
+    if(clientChannelKey)
+    {
+        theParamString = [NSString stringWithFormat:@"clientGroupId=%@&userId=%@",clientChannelKey,[userId urlEncodeUsingNSUTF8StringEncoding]];
+    }
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"LEAVE_FROM_CHANNEL" WithCompletionHandler:^(id theJson, NSError *error) {
@@ -173,10 +192,15 @@
     }];
 }
 
-+(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName andCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion
++(void)renameChannel:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey
+          andNewName:(NSString *)newName andCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, RENAME_CHANNEL_URL];
-    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&userId=%@", channelKey, newName];
+    NSString * theParamString = [NSString stringWithFormat:@"groupId=%@&newName=%@", channelKey, newName];
+    if(clientChannelKey)
+    {
+        theParamString = [NSString stringWithFormat:@"clientGroupId=%@&newName=%@", clientChannelKey, newName];
+    }
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"RENAME_CHANNEL" WithCompletionHandler:^(id theJson, NSError *error) {
@@ -225,9 +249,8 @@
 
 }
 
--(void)markConversationAsRead:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion{
-    
-    
+-(void)markConversationAsRead:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion
+{
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/read/conversation",KBASE_URL];
     NSString * theParamString;
     if(channelKey)
