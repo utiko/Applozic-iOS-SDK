@@ -666,7 +666,10 @@
         BOOL zeroChannelCount = (alChannel.unreadCount.intValue == 0  ? true:false);
         
         if(zeroChannelCount||zeroContactCount)
+        {
+            contactCell.unreadCountLabel.text = @"";
             [contactCell.unreadCountLabel setHidden:YES];
+        }
         
         if(!zeroContactCount && [alContact userId] && (message.groupId.intValue == 0 || message.groupId == NULL)){
             [contactCell.unreadCountLabel setHidden:NO];
@@ -754,7 +757,7 @@
 }
 
 //------------------------------------------------------------------------------------------------------------------
-#pragma mark - Table View Delegate Methods                 //method to enter a chat/ select aparticular cell in table
+#pragma mark - Table View Delegate Methods
 //------------------------------------------------------------------------------------------------------------------
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -763,6 +766,12 @@
     {
         ALMessage * message = self.mContactsMessageListArray[indexPath.row];
         [self createDetailChatViewControllerWithMessage:message];
+        ALContactCell * contactCell = (ALContactCell *)[tableView cellForRowAtIndexPath:indexPath];
+        int count = [contactCell.unreadCountLabel.text intValue];
+        if(count)
+        {
+            self.detailChatViewController.refresh = YES;
+        }
     }
 }
 
