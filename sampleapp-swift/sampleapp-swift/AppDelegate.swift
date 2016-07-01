@@ -44,7 +44,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("launched from push notification")
                 let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
                 
-                let applozicProcessed = alPushNotificationService.processPushNotification(launchOptions, updateUI: false) as Bool
+                let appState: NSNumber = NSNumber.init(integer:0)
+                let applozicProcessed = alPushNotificationService.processPushNotification(launchOptions,updateUI:appState)
                 if (applozicProcessed) {
                     
                     return true;
@@ -52,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-       
+      
         return true
     }
     

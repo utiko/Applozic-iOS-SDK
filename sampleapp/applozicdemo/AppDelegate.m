@@ -57,7 +57,7 @@
             
             NSLog(@"Launched from push notification: %@", dictionary);
             ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
-            BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:NO];
+            BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:[NSNumber numberWithInt:APP_STATE_INACTIVE]];
             if (!applozicProcessed) {
                 //Note: notification for app
             }
