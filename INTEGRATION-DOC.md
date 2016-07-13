@@ -83,7 +83,7 @@ Launch your chat
 
 ```
 
-![user-creation-registration]** Detail about user creation and registration: **
+####** Detail about user creation and registration: **
 
 i ) create user :
   To create user you need to create object of ALUser.
@@ -109,7 +109,7 @@ If you want to do something just after user registartion you can use below metho
 -(void)registerUserWithCompletion:(ALUser *)alUser withHandler:(void(^)(ALRegistrationResponse *rResponse, NSError *error))completion
 
 ```
-![chat-launch]**Launching Chats :**
+####**Launching Chats :**
 
 1 ) chat list launch:
 
