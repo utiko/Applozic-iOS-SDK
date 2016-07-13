@@ -50,7 +50,7 @@ You can test your chat quickly by adding below .h and .m file to your project.
 
 [**DemoChatManager.m**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sampleapp/applozicdemo/DemoChatManager.m)  
 
-Change applicationID in DemoChatManager and you are ready to launch your chat from your controller :)
+Change applicationID in DemoChatManager, fill your logged-in user deatil and you are ready to launch your chat from your controller :)
 
 Launch your chat
 
@@ -59,7 +59,7 @@ Launch your chat
 
 #define APPLICATION_ID @"applozic-sample-app" 
 
-//Add your logged in user detail:
+//Add your logged in user detail in getLoggedinUserInformation method in DemoChatManager.
 
 +( ALUser * )getLoggedinUserInformation
 {
@@ -83,7 +83,7 @@ Launch your chat
 
 ```
 
-** Detail about user creation and registraion: **
+![user-creation-registration]** Detail about user creation and registration: **
 
 i ) create user :
   To create user you need to create object of ALUser.
@@ -97,19 +97,19 @@ i ) create user :
   
 ```
 
-ii ) Registration of users: Once you create user, you can register user with applozic server. Convenient methods are present in DemoChatmanager.m to register user with applozic. For simple user registration in background, you can use below method:
+ii ) Registration of user: Once you create user, you can register user with applozic server. Convenient methods are present in DemoChatmanager.m to register user with applozic. For simple user registration in background, you can use below method:
 
 ```
  -(void)registerUser:(ALUser *)alUser;
 
 ```
-If you want to do something just after user registartion you can use below mthod. For example: if your very first screen of app is chat screen, you can launch chatlist on success of registartion. 
+If you want to do something just after user registartion you can use below method. For example, if your very first screen of app is chat screen, you can launch chatlist on success of registartion. 
 
 ```
 -(void)registerUserWithCompletion:(ALUser *)alUser withHandler:(void(^)(ALRegistrationResponse *rResponse, NSError *error))completion
 
 ```
-**Launching Chats :**
+![chat-launch]**Launching Chats :**
 
 1 ) chat list launch:
 
@@ -131,9 +131,10 @@ If you want to do something just after user registartion you can use below mthod
 //Example:
   NSString * userIdOfReceiver =  @"receiverUserId";
   DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-  [demoChatManager launchChatForUserWithDisplayName:userIdOfReceiver withGroupId:nil 
-  andwithDisplayName:nil 
-  andFromViewController:<YOUR CONTROLLER REFRENCE> ];
+  [demoChatManager launchChatForUserWithDisplayName:userIdOfReceiver 
+  withGroupId:nil  //If launched for group, pass groupId(pass userId as nil)
+  andwithDisplayName:nil //Not mendatory, if receiver is not already registered you should pass Displayname.
+  andFromViewController:<YOUR CONTROLLER> ];
   
 ```
 
