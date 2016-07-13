@@ -17,6 +17,7 @@
 
 @implementation DemoChatManager
 
+
 // ----------------------
 
 // Call This at time of your app's user authentication OR User registration.
@@ -27,7 +28,7 @@
 
 -(void)registerUser:(ALUser *)alUser{
     
-    self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
+    self.chatLauncher = [[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
     
     //////////////////////////   SET AUTHENTICATION-TYPE-ID FOR INTERNAL USAGE ONLY ////////////////////////
     [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
@@ -35,7 +36,7 @@
     
     [self ALDefaultChatViewSettings];
     [alUser setApplicationId:APPLICATION_ID];
-
+    
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         if (error) {
@@ -57,11 +58,7 @@
             
         }
         
-//        if(![ALUserDefaultsHandler getApnDeviceToken]){
-//            [self.chatLauncher registerForNotification];
-//        }
-        
-        if(![[UIApplication sharedApplication] isRegisteredForRemoteNotifications]){
+        if(![ALUserDefaultsHandler getApnDeviceToken]){
             [self.chatLauncher registerForNotification];
         }
         
@@ -70,6 +67,46 @@
     }];
 }
 
+
+// --------------------
+
+// Call This method if you want to do some operation on registration success.
+// Example: If Chat is your first screen after launch,launch chat list on sucess of login.
+
+// ---------------------
+
+
+-(void)registerUserWithCompletion:(ALUser *)alUser withHandler:(void(^)(ALRegistrationResponse *rResponse, NSError *error))completion
+{
+    
+    self.chatLauncher = [[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
+    
+    //////////////////////////   SET AUTHENTICATION-TYPE-ID FOR INTERNAL USAGE ONLY ////////////////////////
+    [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
+    ////////////////////////// ////////////////////////// ////////////////////////// ///////////////////////
+    
+    [self ALDefaultChatViewSettings];
+    [alUser setApplicationId:APPLICATION_ID];
+    
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+    [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
+        
+        if(error)
+        {
+            NSLog(@"ERROR_USER_REGISTRATION :: %@",error.description);
+            [ALUtilityClass showAlertMessage:rResponse.message andTitle:@"Response"];
+            completion(nil, error);
+            return;
+        }
+        
+        if(![ALUserDefaultsHandler getApnDeviceToken]){
+            [self.chatLauncher registerForNotification];
+        }
+        
+        completion(rResponse,error);
+        NSLog(@"USER_REGISTRATION_RESPONSE :: %@", rResponse);
+    }];
+}
 
 
 // ----------------------  ------------------------------------------------------/
