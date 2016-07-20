@@ -24,4 +24,6 @@
 @property (nonatomic, retain) NSNumber * unreadCount;
 @property (nonatomic) BOOL block;
 @property (nonatomic) BOOL blockBy;
+@property (nonatomic, retain) NSString * userStatus;
+
 @end

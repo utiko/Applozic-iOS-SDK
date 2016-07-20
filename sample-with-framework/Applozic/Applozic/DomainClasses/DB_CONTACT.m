@@ -23,4 +23,6 @@
 @dynamic unreadCount;
 @dynamic block;
 @dynamic blockBy;
+@dynamic userStatus;
+
 @end

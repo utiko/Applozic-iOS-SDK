@@ -32,6 +32,8 @@
     self.lastSeenAt = [dict objectForKey:@"lastSeenAtTime"];
     self.connected = [dict objectForKey:@"connected"];
     self.unreadCount = [dict objectForKey:@"unreadCount"];
+    self.userStatus = [dict objectForKey:@"statusMessage"];
+
 }
 
 -(NSString *)getDisplayName

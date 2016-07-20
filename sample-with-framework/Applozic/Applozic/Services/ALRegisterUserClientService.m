@@ -78,6 +78,13 @@
             [ALUserDefaultsHandler setDeviceKeyString:response.deviceKey];
             [ALUserDefaultsHandler setUserKeyString:response.userKey];
             
+            if(response.imageLink){
+                [ALUserDefaultsHandler setProfileImageLinkFromServer:response.imageLink];
+            }
+            if(response.statusMessage){
+                [ALUserDefaultsHandler setLoggedInUserStatus:response.statusMessage];
+            }
+            
             if(response.brokerURL && ![response.brokerURL isEqualToString:@""])
             {
                  NSArray * mqttURL = [response.brokerURL componentsSeparatedByString:@":"];
@@ -226,7 +233,6 @@
         }
         NSLog(@"Response: APP UPDATED:%@",theJson);
     }];
-
-    
 }
+
 @end

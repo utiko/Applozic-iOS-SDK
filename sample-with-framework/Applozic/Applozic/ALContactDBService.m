@@ -155,6 +155,8 @@
             userContact.displayName = contact.displayName;
         }
         userContact.localImageResourceName = contact.localImageResourceName;
+        userContact.userStatus = contact.userStatus;
+
     }
     
     NSError *error = nil;
@@ -239,7 +241,8 @@
     contact.unreadCount=dbContact.unreadCount;
     contact.block = dbContact.block;
     contact.blockBy = dbContact.blockBy;
-    
+    contact.userStatus = dbContact.userStatus;
+
     return contact;
 }
 
@@ -293,7 +296,8 @@
     contact.localImageResourceName = userContact.localImageResourceName;
     contact.unreadCount = userContact.unreadCount ? userContact.unreadCount : [NSNumber numberWithInt:0];
     contact.lastSeenAt = userContact.lastSeenAt;
-    
+    contact.userStatus = userContact.userStatus;
+
     NSError *error = nil;
     
     result = [dbHandler.managedObjectContext save:&error];
@@ -359,7 +363,7 @@
         }
         dbContact.contactImageUrl = userDetail.imageLink;
         dbContact.contactNumber = userDetail.contactNumber;
-
+        dbContact.userStatus = userDetail.userStatus;
 
     }
     else
@@ -373,7 +377,8 @@
          contact.contactImageUrl = userDetail.imageLink;
          contact.contactNumber = userDetail.contactNumber;
          contact.connected = userDetail.connected;
-        
+         contact.userStatus = userDetail.userStatus;
+
         [self addContact:contact];
     }
     
@@ -600,7 +605,8 @@
         contact.email = dbContact.email;
         contact.localImageResourceName = dbContact.localImageResourceName;
         contact.unreadCount = dbContact.unreadCount;
-        
+        contact.userStatus = dbContact.userStatus;
+
         [contactList addObject:contact];
     }
 

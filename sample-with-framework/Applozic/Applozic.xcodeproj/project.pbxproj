@@ -38,6 +38,8 @@
 		29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DEA3141BEDEC1F004B8085 /* ALUserService.m */; };
 		6D0877081D01B0F900DB491A /* UIView+Toast.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D0877071D01B0F900DB491A /* UIView+Toast.h */; };
 		6D08770A1D01B0FE00DB491A /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0877091D01B0FE00DB491A /* UIView+Toast.m */; };
+		6D0AD9721D3EB92400D49DF2 /* ALUserProfileVC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D0AD9711D3EB92400D49DF2 /* ALUserProfileVC.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6D0AD9741D3EB93100D49DF2 /* ALUserProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0AD9731D3EB93100D49DF2 /* ALUserProfileVC.m */; };
 		6D1385741CA9B80D009E6F50 /* ALMultipleAttachmentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D1385721CA9B80D009E6F50 /* ALMultipleAttachmentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D1385751CA9B80D009E6F50 /* ALMultipleAttachmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1385731CA9B80D009E6F50 /* ALMultipleAttachmentView.m */; };
 		6D1385781CA9B83C009E6F50 /* AlMultipleAttachmentCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D1385761CA9B83C009E6F50 /* AlMultipleAttachmentCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -360,6 +362,8 @@
 		29DEA3141BEDEC1F004B8085 /* ALUserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserService.m; sourceTree = "<group>"; };
 		6D0877071D01B0F900DB491A /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
 		6D0877091D01B0FE00DB491A /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
+		6D0AD9711D3EB92400D49DF2 /* ALUserProfileVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserProfileVC.h; sourceTree = "<group>"; };
+		6D0AD9731D3EB93100D49DF2 /* ALUserProfileVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserProfileVC.m; sourceTree = "<group>"; };
 		6D1385721CA9B80D009E6F50 /* ALMultipleAttachmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMultipleAttachmentView.h; sourceTree = "<group>"; };
 		6D1385731CA9B80D009E6F50 /* ALMultipleAttachmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMultipleAttachmentView.m; sourceTree = "<group>"; };
 		6D1385761CA9B83C009E6F50 /* AlMultipleAttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlMultipleAttachmentCell.h; sourceTree = "<group>"; };
@@ -810,6 +814,8 @@
 		6D6DF0A71BC5364C00EBA00F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				6D0AD9731D3EB93100D49DF2 /* ALUserProfileVC.m */,
+				6D0AD9711D3EB92400D49DF2 /* ALUserProfileVC.h */,
 				6D6DF0A81BC5364C00EBA00F /* ALBaseViewController.h */,
 				6D6DF0A91BC5364C00EBA00F /* ALBaseViewController.m */,
 				6D6DF0AA1BC5364C00EBA00F /* ALChatViewController.h */,
@@ -1286,6 +1292,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D0AD9721D3EB92400D49DF2 /* ALUserProfileVC.h in Headers */,
 				29C849A21CC932050042643C /* NSString+Encode.h in Headers */,
 				6D4C2B261C81B77B0031C677 /* ALConversationService.h in Headers */,
 				297DE0AA1C46280500C9D87E /* HexColors.h in Headers */,
@@ -1589,6 +1596,7 @@
 				6D57379A1CAAFB3B00284F83 /* ALDocumentsCell.m in Sources */,
 				6D6DF1B51BC5364C00EBA00F /* NSData+ImageContentType.m in Sources */,
 				6D6DF15B1BC5364C00EBA00F /* ALMessagesViewController.m in Sources */,
+				6D0AD9741D3EB93100D49DF2 /* ALUserProfileVC.m in Sources */,
 				6D6DF13C1BC5364C00EBA00F /* ALPushNotificationService.m in Sources */,
 				6D81979B1CC55B5700E53EC3 /* ALCollectionReusableView.m in Sources */,
 				6D6DF1D21BC5364C00EBA00F /* UIView+WebCacheOperation.m in Sources */,

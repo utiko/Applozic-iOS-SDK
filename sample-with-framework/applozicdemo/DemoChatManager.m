@@ -346,7 +346,7 @@
     [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];      // 3. APP_MODULE_NAME setter
     
     //random userId. Write your logic to get user information here.
-    [user setUserId:@"demo-test"];
+    //[user setUserId:<YOUR LOGGED IN USER ID>];
     
     //[user setEmailId:[self.emailField text]];
     //[user setPassword:[self.passwordField text]];

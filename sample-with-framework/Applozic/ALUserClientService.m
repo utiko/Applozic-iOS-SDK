@@ -13,6 +13,7 @@
 #import "ALRequestHandler.h"
 #import "ALResponseHandler.h"
 #import "NSString+Encode.h"
+#import "ALAPIResponse.h"
 
 
 @implementation ALUserClientService
@@ -352,6 +353,40 @@
             return;
         }
         completion((NSString *)theJson,nil);
+    }];
+}
+
+-(void)updateUserDisplayName:(NSString *)displayName andUserImageLink:(NSString *)imageLink userStatus:(NSString *)status
+              withCompletion:(void (^)(id theJson, NSError * error))completionHandler
+{
+    
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/user/update",KBASE_URL];
+    
+    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    [dictionary setObject:displayName forKey:@"displayName"];
+    [dictionary setObject:imageLink forKey:@"imageLink"];
+    [dictionary setObject:status forKey:@"statusMessage"];
+    
+    NSError *error;
+    NSData *postdata = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
+    NSString *theParamString = [[NSString alloc] initWithData:postdata encoding: NSUTF8StringEncoding];
+    
+    NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
+    
+    [ALResponseHandler processRequest:theRequest andTag:@"UPDATE_DISPLAY_NAME_AND_PROFILE_IMAGE" WithCompletionHandler:^(id theJson, NSError *theError) {
+        
+        NSLog(@"UPDATE_USER_DISPLAY_NAME/PROFILE_IMAGE/USER_STATUS :: %@",(NSString *)theJson);
+        ALAPIResponse *apiResponse = [[ALAPIResponse alloc] initWithJSONString:(NSString *)theJson];
+        if([apiResponse.status isEqualToString:@"error"])
+        {
+            NSError * reponseError = [NSError errorWithDomain:@"Applozic" code:1
+                                                     userInfo:[NSDictionary dictionaryWithObject:@"ERROR IN JSON STATUS WHILE UPDATING USER STATUS"
+                                                                                          forKey:NSLocalizedDescriptionKey]];
+            completionHandler(theJson, reponseError);
+            return;
+        }
+        completionHandler(theJson, theError);
+        
     }];
 }
 

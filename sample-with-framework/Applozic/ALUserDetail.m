@@ -36,6 +36,8 @@
     self.imageLink = [JSONString valueForKey:@"imageLink"];
     
     self.contactNumber = [JSONString valueForKey:@"phoneNumber"];
+    self.userStatus = [JSONString valueForKey:@"statusMessage"];
+
 }
 
 -(void)userDetail
@@ -65,6 +67,8 @@
     self.unreadCount = [self getNSNumberFromJsonValue:json[@"unreadCount"]];
     self.imageLink  = [self getStringFromJsonValue:json[@"imageLink"]];
     self.contactNumber = [self getStringFromJsonValue:json[@"phoneNumber"]];
+    self.userStatus = [self getStringFromJsonValue:json[@"statusMessage"]];
+
 }
 
 -(NSString *)getDisplayName
