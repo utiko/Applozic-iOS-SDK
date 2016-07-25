@@ -132,10 +132,30 @@ Detail about user creation and registraion:
 
 In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **method  send device registration to applozic server after you get deviceToken from APNS. Sample code is as below:             
 
+**Swift**
+```
+func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+
+    let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+
+    let deviceTokenString: String = ( deviceToken.description as NSString )
+    .stringByTrimmingCharactersInSet( characterSet )
+    .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
+
+    print( deviceTokenString )
+
+    if (ALUserDefaultsHandler.getApnDeviceToken() != deviceTokenString){
+
+        let alRegisterUserClientService: ALRegisterUserClientService = ALRegisterUserClientService()
+        alRegisterUserClientService.updateApnDeviceTokenWithCompletion(deviceTokenString, withCompletion: { (response, error) in
+            print (response)
+        })
+    }
+}
+```
 
 
-
-** Objective-C **      
+**Objective-C**      
 ```
  - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)
    deviceToken       
@@ -175,8 +195,24 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
 
 Once your app receive notification, pass it to applozic handler for applozic notification processing.             
 
+**Swift**
+```
+func application(application: UIApplication,  didReceiveRemoteNotification userInfo: [NSObject : AnyObject],  fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 
-** Objective-C **      
+    let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
+    let applozicProcessed = alPushNotificationService.processPushNotification(userInfo, updateUI: application.applicationState == UIApplicationState.Active) as Bool
+
+    //IF not a appplozic notification, process it
+
+    if (applozicProcessed) {
+
+        //Note: notification for app
+    }
+
+}
+```
+
+**Objective-C**      
   ```
   - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary         
   {            
@@ -197,8 +233,37 @@ Once your app receive notification, pass it to applozic handler for applozic not
 
 **c) Handling app launch on notification click :**          
 
+**Swift**
+```
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-** Objective-C **    
+// Override point for customization after application launch.
+let alApplocalNotificationHnadler : ALAppLocalNotifications =  ALAppLocalNotifications.appLocalNotificationHandler();
+alApplocalNotificationHnadler.dataConnectionNotificationHandler();
+
+    if (launchOptions != nil)
+    {
+    let dictionary = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary
+
+        if (dictionary != nil)
+        {
+            print("launched from push notification")
+            let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
+
+            let appState: NSNumber = NSNumber(int: 0)
+            let applozicProcessed = alPushNotificationService.processPushNotification(launchOptions,updateUI:appState)
+            if (applozicProcessed) {
+                return true;
+            }
+        }
+    }
+
+return true
+}
+
+```
+
+**Objective-C**    
 ```
  - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions    
   {                     

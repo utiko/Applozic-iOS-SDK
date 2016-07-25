@@ -360,50 +360,49 @@
 
 -(void)ALDefaultChatViewSettings
 {
+    //ENABLE / DISABLE LOGS
+    [ALUserDefaultsHandler setDebugLogsRequire:YES];
     
-    [ALUserDefaultsHandler setDebugLogsRequire:YES];             /*   ENABLE / DISABLE LOGS   */
     [ALUserDefaultsHandler setLogoutButtonHidden:NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     [ALUserDefaultsHandler setLoginUserConatactVisibility:NO];
-    
     [ALApplozicSettings setUserProfileHidden:NO];
     [ALApplozicSettings hideRefreshButton:NO];
     [ALApplozicSettings setTitleForConversationScreen:@"Chats"];
-    
     [ALApplozicSettings setFontFace:@"Helvetica"];
     [ALApplozicSettings setColorForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
     [ALApplozicSettings setColorForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     [ALApplozicSettings setColorForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     [ALApplozicSettings setColorForNavigationItem: [UIColor whiteColor]];
     [ALApplozicSettings setUnreadCountLabelBGColor:[UIColor purpleColor]];
-    
     [ALApplozicSettings setSendMsgTextColor:[UIColor whiteColor]];
     [ALApplozicSettings setReceiveMsgTextColor:[UIColor grayColor]];
     
+    // BY DEFAULT Black:UIStatusBarStyleDefault IF REQ. White: UIStatusBarStyleLightContent
+    // ADD property in info.plist "View controller-based status bar appearance" type: BOOLEAN value: NO
     [ALApplozicSettings setStatusBarBGColor:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     [ALApplozicSettings setStatusBarStyle:UIStatusBarStyleLightContent];
-    /* BY DEFAULT Black:UIStatusBarStyleDefault IF REQ. White: UIStatusBarStyleLightContent  */
-   /* ADD property in info.plist "View controller-based status bar appearance" type: BOOLEAN value: NO */
+    
     
     NSString * appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     [ALApplozicSettings setNotificationTitle:appName];
     [ALApplozicSettings setMaxCompressionFactor:0.1f];
     [ALApplozicSettings setMaxImageSizeForUploadInMB:3];
-    [ALApplozicSettings setMultipleAttachmentMaxLimit:5];  //NSInteger
+    [ALApplozicSettings setMultipleAttachmentMaxLimit:5];
     [ALApplozicSettings setGroupOption:YES];
     [ALApplozicSettings setChatWallpaperImageName:[ALApplozicSettings getChatWallpaperImageName]];
     [ALApplozicSettings setGroupExitOption:YES];
     [ALApplozicSettings setGroupMemberAddOption:YES];
-    [ALApplozicSettings setGroupMemberRemoveOption:YES];  ////////////  /**/
+    [ALApplozicSettings setGroupMemberRemoveOption:YES];
     
-    [ALApplozicSettings setColorForToastText:[UIColor blackColor]];         /*  SET COLOR FOR TOAST TEXT    */
-    [ALApplozicSettings setColorForToastBackground:[UIColor grayColor]];    /*  SET COLOR FOR TOAST BG      */
+    //  SET COLOR FOR TOAST TEXT
+    [ALApplozicSettings setColorForToastText:[UIColor blackColor]];
+    //  SET COLOR FOR TOAST BG
+    [ALApplozicSettings setColorForToastBackground:[UIColor grayColor]];
     
-    [ALApplozicSettings setCustomNavRightButtonMsgVC:NO];                   /*  SET VISIBILITY FOR REFRESH BUTTON (COMES FROM TOP IN MSG VC)   */
-                                                                            /*  Note: Please set to 'NO' if NOT REQUIRED */
-
+    //SET VISIBILITY FOR REFRESH BUTTON (COMES FROM TOP IN MSG VC) Note: Please set to 'NO' if NOT REQUIRED
+    [ALApplozicSettings setCustomNavRightButtonMsgVC:NO];
     [ALApplozicSettings setVisibilityForNoMoreConversationMsgVC:NO];        /*  SET VISIBILITY NO MORE CONVERSATION (COMES FROM TOP IN MSG VC)  */
-    
     [ALApplozicSettings setTitleForBackButtonMsgVC:@"Back"];                /*  SET BACK BUTTON FOR MSG VC  */
     [ALApplozicSettings setTitleForBackButtonChatVC:@"Back"];               /*  SET BACK BUTTON FOR CHAT VC */
     
@@ -426,10 +425,10 @@
     [ALApplozicSettings setTextColorForTypingLabel:[UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:0.5]]; /*  SET COLOR FOR TEXT TYPING LABEL  */
     
     
-//    [ALApplozicSettings enableNotification]; //0
+    [ALApplozicSettings enableNotification]; //0
 //    [ALApplozicSettings disableNotification]; //2
     
-//    [ALApplozicSettings disableNotificationSound]; //1                             /*  IF NOTIFICATION SOUND NOT NEEDED    */
+//    [ALApplozicSettings disableNotificationSound]; //1                        /*  IF NOTIFICATION SOUND NOT NEEDED    */
                                                                                 /*  Note: Please uncomment above if sound NOT needed */
     
 //   [ALApplozicSettings enableNotificationSound];//0                              /*  IF NOTIFICATION SOUND NEEDED    */
@@ -439,7 +438,6 @@
     [ALApplozicSettings setContextualChat:YES];                                 /*  IF CONTEXTUAL NEEDED    */
                                                                                 /*  Note: Please uncomment below setter to use app_module_name */
 //   [ALUserDefaultsHandler setAppModuleName:@"<APP_MODULE_NAME>"];
-//   [ALUserDefaultsHandler setAppModuleName:@"SELLER"];
     
     
     [ALApplozicSettings setFilterContactsStatus:YES];                           /*  IF NEEDED ALL REGISTERED CONTACTS   */
@@ -466,8 +464,8 @@
     
 //<><><><><><>APPLICATION URL CONFIGURATION<><><><><><><>//
 //    [self getApplicationBaseURL];
-/* Note: PLEASE DO NOT COMMENT THIS IF ARCHIVING/RELEASING  */
-//<><><><><><><><><><><><><><><><><><><><><><><><><><><>//
+/* Note: PLEASE UNCOMMENT ABOVE GETTER WHEN ARCHIVING/RELEASING  */
+
     
 }
 

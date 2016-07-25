@@ -63,7 +63,7 @@
     
     self.googleReach.reachableBlock = ^(ALReachability * reachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Reachable(%@)", reachability.currentReachabilityString];
+//        NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Reachable(%@)", reachability.currentReachabilityString];
         // NSLog(@"%@", temp);
         
         // to update UI components from a block callback
@@ -74,7 +74,7 @@
     
     self.googleReach.unreachableBlock = ^(ALReachability * reachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Unreachable(%@)", reachability.currentReachabilityString];
+//        NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Unreachable(%@)", reachability.currentReachabilityString];
         //  NSLog(@"%@", temp);
         
         // to update UI components from a block callback
@@ -94,7 +94,7 @@
     
     self.localWiFiReach.reachableBlock = ^(ALReachability * reachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"LocalWIFI Block Says Reachable(%@)", reachability.currentReachabilityString];
+//        NSString * temp = [NSString stringWithFormat:@"LocalWIFI Block Says Reachable(%@)", reachability.currentReachabilityString];
         // NSLog(@"%@", temp);
         
         
@@ -102,7 +102,7 @@
     
     self.localWiFiReach.unreachableBlock = ^(ALReachability * reachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"LocalWIFI Block Says Unreachable(%@)", reachability.currentReachabilityString];
+//        NSString * temp = [NSString stringWithFormat:@"LocalWIFI Block Says Unreachable(%@)", reachability.currentReachabilityString];
         
         // NSLog(@"%@", temp);
         
@@ -116,13 +116,13 @@
     
     self.internetConnectionReach.reachableBlock = ^(ALReachability * reachability)
     {
-        NSString * temp = [NSString stringWithFormat:@" InternetConnection Says Reachable(%@)", reachability.currentReachabilityString];
+//        NSString * temp = [NSString stringWithFormat:@" InternetConnection Says Reachable(%@)", reachability.currentReachabilityString];
         // NSLog(@"%@", temp);
     };
     
     self.internetConnectionReach.unreachableBlock = ^(ALReachability * reachability)
     {
-        NSString * temp = [NSString stringWithFormat:@"InternetConnection Block Says Unreachable(%@)", reachability.currentReachabilityString];
+//        NSString * temp = [NSString stringWithFormat:@"InternetConnection Block Says Unreachable(%@)", reachability.currentReachabilityString];
         //  NSLog(@"%@", temp);
     };
     
