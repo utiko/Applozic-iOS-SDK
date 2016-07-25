@@ -38,6 +38,8 @@
 -(NSString *)getDisplayName;
 
 @property (nonatomic,strong) NSNumber * unreadCount;
+@property (nonatomic, strong) NSString * userStatus;
+
 
 @property (nonatomic) BOOL block;
 @property (nonatomic) BOOL blockBy;

@@ -45,6 +45,11 @@
 #define DEBUG_LOG_FLAG @"com.applozic.userdefault.DEBUG_LOG_FLAG"
 #define LOGIN_USER_CONTACT @"com.applozic.userdefault.LOGIN_USER_CONTACT"
 
+#define LOGIN_USER_PHONE_NUMBER @"com.applozic.userdefault.LOGIN_USER_PHONE_NUMBER"
+#define LOGIN_USER_PROFILE_IMAGE @"com.applozic.userdefault.LOGIN_USER_PROFILE_IMAGE"
+#define LOGIN_USER_PROFILE_IMAGE_SERVER @"com.applozic.userdefault.LOGIN_USER_PROFILE_IMAGE_SERVER"
+#define LOGGEDIN_USER_STATUS @"com.applozic.userdefault.LOGGEDIN_USER_STATUS"
+
 #define KEY_PREFIX @"com.applozic.userdefault"
 
 #import <Foundation/Foundation.h>
@@ -191,5 +196,19 @@
 
 +(BOOL)getLoginUserConatactVisibility;
 +(void)setLoginUserConatactVisibility:(BOOL)flag;
+
+// LOGIN USER PHONE NO.
++(NSString *)getPhoneNumber;
++(void)setPhoneNumber:(NSString *)phoneNumber;
+
+// LOGIN USER PROFILE IMAGE LINK
++(NSString *)getProfileImageLink;
++(void)setProfileImageLink:(NSString *)imageLink;
+
++(NSString *)getProfileImageLinkFromServer;
++(void)setProfileImageLinkFromServer:(NSString *)imageLink;
+
++(NSString *)getLoggedInUserStatus;
++(void)setLoggedInUserStatus:(NSString *)status;
 
 @end

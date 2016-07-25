@@ -51,6 +51,9 @@
 #define IS_IPHONE_6_PLUS (IS_STANDARD_IPHONE_6_PLUS || IS_ZOOMED_IPHONE_6_PLUS)
 #define IS_OS_9_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0)
 
+#define CONNECTION_TYPE_USER_IMG_UPLOAD @"CONNECTION_TYPE_USER_IMG_UPLOAD"
+#define CONNECTION_TYPE_GROUP_IMG_UPLOAD @"CONNECTION_TYPE_GROUP_UPLOAD"
+#define IMAGE_UPLOAD_URL @"/rest/ws/upload/file"
 typedef enum {
     //outbox
     SENT = 3,

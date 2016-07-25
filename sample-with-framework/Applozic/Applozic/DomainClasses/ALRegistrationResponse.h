@@ -18,4 +18,7 @@
 @property NSString *lastSyncTime;
 @property NSString *currentTimeStamp;
 @property NSString *brokerURL;
+@property NSString *imageLink;
+@property NSString *statusMessage;
+
 @end

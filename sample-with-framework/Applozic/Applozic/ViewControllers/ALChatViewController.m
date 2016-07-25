@@ -95,11 +95,9 @@
 @property (nonatomic) BOOL isUserBlocked;
 @property (nonatomic) BOOL isUserBlockedBy;
 -(void)processAttachment:(NSString *)filePath andMessageText:(NSString *)textwithimage andContentType:(short)contentype;
-
 @end
-
-@implementation ALChatViewController
-{
+@implementation ALChatViewController{
+    
     NSString *messageId;
     BOOL typingStat;
     CGRect defaultTableRect;

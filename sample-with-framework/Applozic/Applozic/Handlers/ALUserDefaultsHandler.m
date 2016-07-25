@@ -556,4 +556,38 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:LOGIN_USER_CONTACT];
 }
 
+
++(void)setProfileImageLink:(NSString *)imageLink
+{
+    [[NSUserDefaults standardUserDefaults] setValue:imageLink forKey:LOGIN_USER_PROFILE_IMAGE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getProfileImageLink
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:LOGIN_USER_PROFILE_IMAGE];
+}
+
++(void)setProfileImageLinkFromServer:(NSString *)imageLink
+{
+    [[NSUserDefaults standardUserDefaults] setValue:imageLink forKey:LOGIN_USER_PROFILE_IMAGE_SERVER];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getProfileImageLinkFromServer
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:LOGIN_USER_PROFILE_IMAGE_SERVER];
+}
+
++(void)setLoggedInUserStatus:(NSString *)status
+{
+    [[NSUserDefaults standardUserDefaults] setValue:status forKey:LOGGEDIN_USER_STATUS];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getLoggedInUserStatus
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:LOGGEDIN_USER_STATUS];
+}
+
 @end

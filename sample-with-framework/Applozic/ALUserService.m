@@ -331,6 +331,21 @@
 }
 
 //=========================================================================================================================
+#pragma UPDATE USER DISPLAY NAME AND PROFILE PICTURE
+//=========================================================================================================================
+
+-(void)updateUserDisplayName:(NSString *)displayName andUserImage:(NSString *)imageLink userStatus:(NSString *)status
+              withCompletion:(void (^)(id theJson, NSError * error))completion
+{
+    ALUserClientService *clientService = [ALUserClientService new];
+    [clientService updateUserDisplayName:displayName andUserImageLink:imageLink userStatus:status withCompletion:^(id theJson, NSError *error) {
+        
+        completion(theJson, error);
+        
+    }];
+}
+
+//=========================================================================================================================
 #pragma OVER ALL UNREAD COUNT (CHANNEL + CONTACTS)
 //=========================================================================================================================
 
@@ -355,5 +370,7 @@
         completion(json,error);
     }];
 }
+
+
 
 @end

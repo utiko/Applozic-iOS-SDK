@@ -10,6 +10,7 @@
 #import <Applozic/ALChatLauncher.h>
 #import <Applozic/ALUser.h>
 #import <Applozic/ALConversationService.h>
+#import <Applozic/ALRegistrationResponse.h>
 
 #define APPLICATION_ID @"applozic-sample-app"
 
@@ -18,6 +19,8 @@
 @property(nonatomic,strong) ALChatLauncher * chatLauncher;
 
 -(void)registerUser:(ALUser * )alUser;
+
+-(void)registerUserWithCompletion:(ALUser *)alUser withHandler:(void(^)(ALRegistrationResponse *rResponse, NSError *error))completion;
 
 @property(nonatomic,retain) NSString * userID;
 
