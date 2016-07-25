@@ -209,8 +209,6 @@ func application(application: UIApplication,  didReceiveRemoteNotification userI
         //Note: notification for app
     }
 
-    }
-
 }
 ```
 
