@@ -24,6 +24,7 @@
 #import "ALChatViewController.h"
 #import "ALDataNetworkConnection.h"
 #import "UIImage+MultiFormat.h"
+#import "ALShowImageViewController.h"
 
 // Constants
 #define MT_INBOX_CONSTANT "4"
@@ -68,8 +69,6 @@
     CGFloat msgFrameHeight;
     NSURL * theUrl;
 }
-
-UIViewController * modalCon;
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -448,31 +447,32 @@ UIViewController * modalCon;
     // NSLog(@"##observer is called....%f",self.progresLabel.endDegree );
 }
 
--(void)imageFullScreen:(UITapGestureRecognizer*)sender
-{
-    NSLog(@"TAPPED_IMAGE_CNT_TYP :: %hd",self.mMessage.contentType);
-
-//   CHECKING IF MESSAGE META-DATA DICTIONARY HAVE SOME DATA
-//    if(self.mMessage.metadata.count)
-//    {
-//        [self.delegate processTapGesture:self.mMessage];
-//        return;
-//    }
-
-    modalCon = [[UIViewController alloc] init];
-    modalCon.view.backgroundColor=[UIColor blackColor];
-    modalCon.view.userInteractionEnabled=YES;
+-(void)imageFullScreen:(UITapGestureRecognizer*)sender{
     
-    UIImageView *imageViewNew = [[UIImageView alloc] initWithFrame:modalCon.view.frame];
+    UIStoryboard * applozicStoryboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    
+    ALShowImageViewController * alShowImageViewController = [applozicStoryboard instantiateViewControllerWithIdentifier:@"showImageViewController"];
+    alShowImageViewController.view.backgroundColor=[UIColor blackColor];
+    alShowImageViewController.view.userInteractionEnabled=YES;
+    
+    UIImageView *imageViewNew = [[UIImageView alloc] initWithFrame:alShowImageViewController.view.frame];
     imageViewNew.contentMode = UIViewContentModeScaleAspectFit;
     imageViewNew.image = self.mImageView.image;
-    [modalCon.view addSubview:imageViewNew];
+    [alShowImageViewController.view addSubview:imageViewNew];
     
-    UITapGestureRecognizer *modalTap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissModalView:)];
-    [modalCon.view addGestureRecognizer:modalTap];
-    [self.delegate showFullScreen:modalCon];
+    [alShowImageViewController setImage:self.mImageView.image];
+    [alShowImageViewController setAlMessage:self.mMessage];
+    
+    [self.delegate showFullScreen:alShowImageViewController];
+    
     return;
 }
+
+
+//-(void)dismissModalView:(UITapGestureRecognizer*)gesture
+//{
+//    [alShowImageViewController dismissViewControllerAnimated:YES completion:nil];
+//}
 
 -(void)setupProgress
 {
@@ -488,11 +488,6 @@ UIViewController * modalCon;
     self.progresLabel.progressColor = [UIColor whiteColor];
     [self.contentView addSubview:self.progresLabel];
     
-}
-
--(void)dismissModalView:(UITapGestureRecognizer*)gesture
-{
-    [modalCon dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(BOOL) canPerformAction:(SEL)action withSender:(id)sender

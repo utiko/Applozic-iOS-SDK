@@ -39,7 +39,6 @@
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
-@property (strong, nonatomic) UISearchBar *searchBar;
 
 @property (strong, nonatomic) NSMutableArray *filteredContactList;
 
@@ -154,7 +153,7 @@
     [super viewWillAppear:animated];
     self.groupOrContacts = [NSNumber numberWithInt:SHOW_CONTACTS]; //default
     self.navigationItem.leftBarButtonItem = nil;
-    
+    [self.searchBar setHidden:NO];
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
     if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
@@ -167,8 +166,8 @@
         
     }
     
-    BOOL groupRegular = [self.forGroup isEqualToNumber:[NSNumber numberWithInt:REGULAR_CONTACTS]];
-    if((!groupRegular && self.forGroup != NULL)){
+    BOOL regularContacts = [self.forGroup isEqualToNumber:[NSNumber numberWithInt:REGULAR_CONTACTS]];
+    if((!regularContacts && self.forGroup != NULL)){
         [self updateView];
     }
     
@@ -198,6 +197,8 @@
                      action:@selector(createNewGroup:)];
         
         self.navigationItem.rightBarButtonItem = self.done;
+    }else if ([self.forGroup isEqualToNumber:[NSNumber numberWithInt:IMAGE_SHARE]]){
+        [self.searchBar setHidden:YES];
     }
 }
 
@@ -336,8 +337,7 @@
             ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
             [self.groupMembers addObject:contact.userId];
         }break;
-        case GROUP_ADDITION:
-        {
+        case GROUP_ADDITION:{
             if(![self checkInternetConnectivity:tableView andIndexPath:indexPath]){
                 return;
             }
@@ -365,10 +365,14 @@
                 }
                 
             }];
-        }
-            break;
-        default:
-        { //DEFAULT : Launch contact!
+        }break;
+        case IMAGE_SHARE:{
+                // TODO : Send Image
+            ALContact * contact = self.filteredContactList[indexPath.row];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SHARE_IMAGE" object:contact];
+        }break;
+        default:{
+            //DEFAULT : Launch contact!
             NSNumber * key = nil;
             NSString * userId = @"";
             if(self.selectedSegment == 0)
@@ -387,6 +391,7 @@
             
     }
 }
+
 
 -(void)setUserInteraction:(BOOL)flag
 {

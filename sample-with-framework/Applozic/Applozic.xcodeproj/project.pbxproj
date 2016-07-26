@@ -34,6 +34,10 @@
 		29CBF2031C0303A700BE6A20 /* ALColorUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CBF2011C0303A700BE6A20 /* ALColorUtility.m */; };
 		29D6F86B1D193D9D00A75369 /* PSPDFTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 29D6F8691D193D9D00A75369 /* PSPDFTextView.h */; };
 		29D6F86C1D193D9D00A75369 /* PSPDFTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 29D6F86A1D193D9D00A75369 /* PSPDFTextView.m */; };
+		29DDB4B31D47469A002E429C /* ALShowImageViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DDB4B11D47469A002E429C /* ALShowImageViewController.h */; };
+		29DDB4B41D47469A002E429C /* ALShowImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DDB4B21D47469A002E429C /* ALShowImageViewController.m */; };
+		29DDB4B81D474E12002E429C /* ALImageActivity.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DDB4B61D474E12002E429C /* ALImageActivity.h */; };
+		29DDB4B91D474E12002E429C /* ALImageActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DDB4B71D474E12002E429C /* ALImageActivity.m */; };
 		29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DEA3131BEDEC1F004B8085 /* ALUserService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DEA3141BEDEC1F004B8085 /* ALUserService.m */; };
 		6D0877081D01B0F900DB491A /* UIView+Toast.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D0877071D01B0F900DB491A /* UIView+Toast.h */; };
@@ -358,6 +362,10 @@
 		29CBF2011C0303A700BE6A20 /* ALColorUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALColorUtility.m; sourceTree = "<group>"; };
 		29D6F8691D193D9D00A75369 /* PSPDFTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSPDFTextView.h; sourceTree = "<group>"; };
 		29D6F86A1D193D9D00A75369 /* PSPDFTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSPDFTextView.m; sourceTree = "<group>"; };
+		29DDB4B11D47469A002E429C /* ALShowImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALShowImageViewController.h; sourceTree = "<group>"; };
+		29DDB4B21D47469A002E429C /* ALShowImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALShowImageViewController.m; sourceTree = "<group>"; };
+		29DDB4B61D474E12002E429C /* ALImageActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALImageActivity.h; sourceTree = "<group>"; };
+		29DDB4B71D474E12002E429C /* ALImageActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALImageActivity.m; sourceTree = "<group>"; };
 		29DEA3131BEDEC1F004B8085 /* ALUserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserService.h; sourceTree = "<group>"; };
 		29DEA3141BEDEC1F004B8085 /* ALUserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserService.m; sourceTree = "<group>"; };
 		6D0877071D01B0F900DB491A /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
@@ -714,6 +722,17 @@
 			name = "TEXT VIEW";
 			sourceTree = "<group>";
 		};
+		29DDB4B51D474DD9002E429C /* Share Image  */ = {
+			isa = PBXGroup;
+			children = (
+				29DDB4B11D47469A002E429C /* ALShowImageViewController.h */,
+				29DDB4B21D47469A002E429C /* ALShowImageViewController.m */,
+				29DDB4B61D474E12002E429C /* ALImageActivity.h */,
+				29DDB4B71D474E12002E429C /* ALImageActivity.m */,
+			);
+			name = "Share Image ";
+			sourceTree = "<group>";
+		};
 		6D34AEB11CA441D7005FA8D4 /* contact */ = {
 			isa = PBXGroup;
 			children = (
@@ -844,6 +863,7 @@
 				6DFB40AB1CEA2B54006C1AD1 /* ALUserInformationViewController.m */,
 				6DFB40B21CEA45D5006C1AD1 /* ALUserInfoTableCell.h */,
 				6DFB40B31CEA45D5006C1AD1 /* ALUserInfoTableCell.m */,
+				29DDB4B51D474DD9002E429C /* Share Image  */,
 			);
 			name = ViewControllers;
 			path = Applozic/ViewControllers;
@@ -1378,6 +1398,7 @@
 				6D6E4BF11C76F56400B2FB31 /* ALMediaBaseCell.h in Headers */,
 				6DA701851C8D67D900D7BB13 /* ALUserBlockResponse.h in Headers */,
 				29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */,
+				29DDB4B81D474E12002E429C /* ALImageActivity.h in Headers */,
 				98E1AB971C08718700BE6312 /* ALMQTTConversationService.h in Headers */,
 				29B4ED6C1C899EFF003C266F /* ALConversationCreateResponse.h in Headers */,
 				6DB75FB61C9176E700359748 /* ALUserBlocked.h in Headers */,
@@ -1401,6 +1422,7 @@
 				2932B9F31C7C875F0017911D /* ALGroupDetailViewController.h in Headers */,
 				6DFB40B41CEA45D5006C1AD1 /* ALUserInfoTableCell.h in Headers */,
 				6D9342251CAE7509002AC9BE /* ALLocationCell.h in Headers */,
+				29DDB4B31D47469A002E429C /* ALShowImageViewController.h in Headers */,
 				6D4C2B221C8183CB0031C677 /* ALTopicDetail.h in Headers */,
 				294637B61C6F16050025ED76 /* ALGroupCreationViewController.h in Headers */,
 				6D6DF1561BC5364C00EBA00F /* ALBaseViewController.h in Headers */,
@@ -1590,7 +1612,9 @@
 				6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */,
 				6D6DF15D1BC5364C00EBA00F /* ALNewContactsViewController.m in Sources */,
 				6D4763F61C3A79A7005BD5EC /* ALChannelService.m in Sources */,
+				29DDB4B91D474E12002E429C /* ALImageActivity.m in Sources */,
 				6D6DF1831BC5364C00EBA00F /* DB_FileMetaInfo.m in Sources */,
+				29DDB4B41D47469A002E429C /* ALShowImageViewController.m in Sources */,
 				6DA701861C8D67D900D7BB13 /* ALUserBlockResponse.m in Sources */,
 				6D98B4691C4FE4B600A6BBFE /* ALAudioCell.m in Sources */,
 				6D57379A1CAAFB3B00284F83 /* ALDocumentsCell.m in Sources */,
@@ -1834,7 +1858,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework.hiorbye.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = NO;
@@ -1862,7 +1886,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework.hiorbye.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = NO;

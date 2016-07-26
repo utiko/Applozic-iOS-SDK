@@ -5,6 +5,7 @@
 //  Created by Gaurav Nigam on 16/08/15.
 //  Copyright (c) 2015 AppLogic. All rights reserved.
 //
+#define IMAGE_SHARE 3
 #define GROUP_CREATION 1
 #define GROUP_ADDITION 2
 #define REGULAR_CONTACTS 0
@@ -28,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *mTableViewTopConstraint;
 
 @property (nonatomic,strong) NSArray* colors;
+@property (strong, nonatomic) UISearchBar *searchBar;
 
 -(UIView *)setCustomBackButton:(NSString *)text;
 

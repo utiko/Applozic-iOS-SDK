@@ -297,6 +297,7 @@ ALMessageDBService  * dbService;
                                                  name:@"UPDATE_CHANNEL_NAME" object:nil];
     
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processAttachment:) name:@"SHARE_IMAGE" object:nil];
     self.mqttObject = [ALMQTTConversationService sharedInstance];
     
     if(self.individualLaunch){
@@ -1601,6 +1602,7 @@ ALMessageDBService  * dbService;
 
 -(void)showFullScreen:(UIViewController*)uiController
 {
+//    [self.navigationController pushViewController:uiController animated:YES];
     [self presentViewController:uiController animated:YES completion:nil];
 }
 
@@ -1740,6 +1742,7 @@ ALMessageDBService  * dbService;
     theMessage.imageFilePath = filePath.lastPathComponent;
     
     theMessage.fileMeta.name = [NSString stringWithFormat:@"AUD-5-%@", filePath.lastPathComponent];
+    
     if(self.contactIds)
     {
         theMessage.fileMeta.name = [NSString stringWithFormat:@"%@-5-%@",self.contactIds, filePath.lastPathComponent];
@@ -1772,6 +1775,11 @@ ALMessageDBService  * dbService;
     [self.mTableView reloadData];
     [self scrollTableViewToBottomWithAnimation:NO];
     [self uploadImage:theMessage];
+}
+
+// Delegate Method to forward image from Contacts View Controller
+-(void)processAttachment:(NSNotification *)notification{
+
 }
 
 -(void)uploadImage:(ALMessage *)theMessage
