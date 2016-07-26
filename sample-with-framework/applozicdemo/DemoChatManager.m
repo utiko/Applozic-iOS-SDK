@@ -457,6 +457,10 @@
     
     [ALApplozicSettings setMaxTextViewLines:4];
     
+    [ALUserDefaultsHandler setDeviceApnsType:(short)DEVELOPMENT];
+    
+    //For Distribution CERT::
+    //[ALUserDefaultsHandler setDeviceApnsType:(short)DISTRIBUTION];
     
 //<><><><><><>APPLICATION URL CONFIGURATION<><><><><><><>//
 //    [self getApplicationBaseURL];

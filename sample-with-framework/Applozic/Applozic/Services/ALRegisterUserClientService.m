@@ -36,6 +36,7 @@
     [user setAuthenticationTypeId:[ALUserDefaultsHandler getUserAuthenticationTypeId]];
     [user setPassword:[ALUserDefaultsHandler getPassword]];
     [user setUnreadCountType:[ALUserDefaultsHandler getUnreadCountType]];
+    [user setDeviceApnsType:[ALUserDefaultsHandler getDeviceApnsType]];
     
     if([ALUserDefaultsHandler getAppModuleName] != NULL){
         [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];

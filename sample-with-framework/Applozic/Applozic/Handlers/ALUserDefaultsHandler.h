@@ -51,6 +51,7 @@
 #define LOGGEDIN_USER_STATUS @"com.applozic.userdefault.LOGGEDIN_USER_STATUS"
 
 #define KEY_PREFIX @"com.applozic.userdefault"
+#define DEVICE_APNS_TYPE_ID @"com.applozic.userdefault.DEVICE_APNS_TYPE"
 
 #import <Foundation/Foundation.h>
 
@@ -210,5 +211,8 @@
 
 +(NSString *)getLoggedInUserStatus;
 +(void)setLoggedInUserStatus:(NSString *)status;
+
++(void)setDeviceApnsType:(short)type;
++(short)getDeviceApnsType;
 
 @end
