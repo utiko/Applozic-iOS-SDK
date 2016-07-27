@@ -463,7 +463,7 @@
     //[ALUserDefaultsHandler setDeviceApnsType:(short)DISTRIBUTION];
     
 //<><><><><><>APPLICATION URL CONFIGURATION<><><><><><><>//
-//    [self getApplicationBaseURL];
+    [self getApplicationBaseURL];
 /* Note: PLEASE UNCOMMENT ABOVE GETTER WHEN ARCHIVING/RELEASING  */
 
     
