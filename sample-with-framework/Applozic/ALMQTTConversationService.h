@@ -39,8 +39,11 @@
 
 -(void) unsubscribeToConversation: (NSString *)userKey;
 
--(void) sendTypingStatus:(NSString *) applicationKey userID:(NSString *) userId typing: (BOOL) typing;
+-(void) sendTypingStatus:(NSString *) applicationKey userID:(NSString *) userId andChannelKey:(NSNumber *)channelKey  typing: (BOOL) typing;
 
 @property(nonatomic, strong) id<ALMQTTConversationDelegate>mqttConversationDelegate;
+
+-(void)unSubscribeToChannelConversation:(NSNumber *)channelKey;
+-(void)subscribeToChannelConversation:(NSNumber *)channelKey;
 
 @end

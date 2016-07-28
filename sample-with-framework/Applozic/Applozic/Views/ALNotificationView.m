@@ -188,6 +188,7 @@
              ALChatViewController * class1= (ALChatViewController*)delegate;
              NSLog(@"onTopChatVC: ContactID %@ and ChannelID %@",self.contactId, self.groupId);
              if(self.groupId){
+                [class1 updateChannelSubscribing:class1.channelKey andNewChannel:self.groupId];
                  class1.channelKey=self.groupId;
              }
              else {

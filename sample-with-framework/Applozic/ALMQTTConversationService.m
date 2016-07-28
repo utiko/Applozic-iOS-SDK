@@ -141,7 +141,7 @@ static MQTTSession *session;
                 [dict setObject:[NSNumber numberWithInt:APP_STATE_BACKGROUND] forKey:@"updateUI"];
                 
                 [ALMessageService getLatestMessageForUser:[ALUserDefaultsHandler getDeviceKeyString] withCompletion:^(NSMutableArray *message, NSError *error) {
-
+                    
                     NSLog(@"ALMQTTConversationService SYNC CALL");
                     if(!assistant.isOurViewOnTop){
                         [assistant assist:alMessage.contactIds and:dict ofUser:alMessage.contactIds];
@@ -151,13 +151,13 @@ static MQTTSession *session;
                         [self.alSyncCallService syncCall:alMessage];
                         [self.mqttConversationDelegate syncCall:alMessage andMessageList:nil];
                     }
-
+                    
                 }];
             }
             
         }
         else if ([type isEqualToString:@"MESSAGE_SENT"] || [type isEqualToString:@"APPLOZIC_02"]) {
-
+            
             NSDictionary * message = [theMessageDict objectForKey:@"message"];
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:message];
             
@@ -173,7 +173,7 @@ static MQTTSession *session;
                     [self.alSyncCallService syncCall:alMessage];
                     [self.mqttConversationDelegate syncCall:alMessage andMessageList:nil];
                 }
-
+                
             }];
             
             NSString * key = [message valueForKey:@"pairedMessageKey"];
@@ -190,7 +190,7 @@ static MQTTSession *session;
             
             [self.alSyncCallService updateMessageDeliveryReport:pairedKey withStatus:DELIVERED];
             [self.mqttConversationDelegate delivered:pairedKey contactId:contactId withStatus:DELIVERED];
-
+            
         } else if ([type isEqualToString:@"MESSAGE_DELIVERED_READ"] || [type isEqualToString:@"APPLOZIC_08"]){
             
             NSArray  * deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
@@ -199,7 +199,7 @@ static MQTTSession *session;
             
             [self.alSyncCallService updateMessageDeliveryReport:pairedKey withStatus:DELIVERED_AND_READ];
             [self.mqttConversationDelegate delivered:pairedKey contactId:contactId withStatus:DELIVERED_AND_READ];
-
+            
         }
         else if ([type isEqualToString:@"CONVERSATION_DELIVERED_AND_READ"] || [type isEqualToString:@"APPLOZIC_10"]) {
             NSString *contactId = [theMessageDict objectForKey:@"message"];
@@ -224,7 +224,7 @@ static MQTTSession *session;
             alUserDetail.connected = NO;
             [self.alSyncCallService updateConnectedStatus: alUserDetail];
             [self.mqttConversationDelegate updateLastSeenAtStatus: alUserDetail];
-
+            
         }
         else if ([type isEqualToString:@"APPLOZIC_15"]) { //Added or removed by admin
             ALChannelService *channelService = [[ALChannelService alloc] init];
@@ -257,7 +257,7 @@ static MQTTSession *session;
     {
         return;
     }
-
+    
     ALContactDBService *dbService = [ALContactDBService new];
     [dbService setBlockByUser:userId andBlockedByState:flag];
     [self.mqttConversationDelegate reloadDataForUserBlockNotification:userId andBlockFlag:flag];
@@ -288,14 +288,26 @@ static MQTTSession *session;
     
 }
 
--(void) sendTypingStatus:(NSString *) applicationKey userID:(NSString *) userId typing: (BOOL) typing;
+-(void) sendTypingStatus:(NSString *) applicationKey userID:(NSString *) userId andChannelKey:(NSNumber *)channelKey  typing: (BOOL) typing;
 {
     if(!session){
         return;
     }
     NSLog(@"Sending typing status %d to: %@", typing, userId);
-    NSData* data=[[NSString stringWithFormat:@"%@,%@,%i", [ALUserDefaultsHandler getApplicationKey], [ALUserDefaultsHandler getUserId], typing ? 1 : 0] dataUsingEncoding:NSUTF8StringEncoding];
-    [session publishDataAtMostOnce:data onTopic:[NSString stringWithFormat:@"typing-%@-%@", applicationKey, userId]];
+    NSString * dataString = [NSString stringWithFormat:@"%@,%@,%i", [ALUserDefaultsHandler getApplicationKey],
+                             [ALUserDefaultsHandler getUserId], typing ? 1 : 0];
+    
+    NSString * topicString = [NSString stringWithFormat:@"typing-%@-%@", [ALUserDefaultsHandler getApplicationKey], userId];
+    
+    if(channelKey)
+    {
+        topicString = [NSString stringWithFormat:@"typing-%@-%@", [ALUserDefaultsHandler getApplicationKey], channelKey];
+    }
+    NSLog(@"MQTT_PUBLISH :: %@",topicString);
+    
+    NSData * data = [dataString dataUsingEncoding:NSUTF8StringEncoding];
+    [session publishDataAtMostOnce:data onTopic:topicString];
+    
 }
 
 -(void) unsubscribeToConversation {
@@ -303,8 +315,10 @@ static MQTTSession *session;
     [self unsubscribeToConversation: userKey];
 }
 
--(void) unsubscribeToConversation: (NSString *) userKey {
+-(void) unsubscribeToConversation: (NSString *) userKey
+{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
         if (session == nil) {
             return;
         }
@@ -317,6 +331,36 @@ static MQTTSession *session;
         [session close];
         NSLog(@"Disconnected from mqtt");
     });
+}
+
+-(void)subscribeToChannelConversation:(NSNumber *)channelKey
+{
+    NSLog(@"MQTT_CHANNEL_SUBSCRIBING");
+    @try
+    {
+        if (!session && session.status == MQTTSessionStatusConnected) {
+            return;
+        }
+        [session subscribeToTopic:[NSString stringWithFormat:@"typing-%@-%@", [ALUserDefaultsHandler getApplicationKey], channelKey]
+                       atLevel:MQTTQosLevelAtMostOnce];
+        NSLog(@"MQTT_CHANNEL_SUBSCRIBING_COMPLETE");
+    }
+    @catch (NSException * exp) {
+        NSLog(@"Exception in subscribing channel :: %@", exp.description);
+    }
+}
+
+-(void)unSubscribeToChannelConversation:(NSNumber *)channelKey
+{
+     NSLog(@"MQTT_CHANNEL_UNSUBSCRIBING");
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+
+        if (!session) {
+            return;
+        }
+        [session unsubscribeTopic:[NSString stringWithFormat:@"typing-%@-%@", [ALUserDefaultsHandler getApplicationKey], channelKey]];
+         NSLog(@"MQTT_CHANNEL_UNSUBSCRIBED_COMPLETE");
+      });
 }
 
 @end

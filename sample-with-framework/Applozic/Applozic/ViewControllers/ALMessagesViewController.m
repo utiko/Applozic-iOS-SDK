@@ -800,6 +800,7 @@
     
     if (message.groupId){
         self.detailChatViewController.channelKey = message.groupId;
+        self.detailChatViewController.contactIds = nil;
     }
     else
     {
@@ -1000,7 +1001,7 @@
     {
         return;
     }
-    if ([self.detailChatViewController.contactIds isEqualToString:userId])
+    if ([self.detailChatViewController.contactIds isEqualToString:userId] || self.detailChatViewController.channelKey)
     {
         [self.detailChatViewController showTypingLabel:status userId:userId];
     }

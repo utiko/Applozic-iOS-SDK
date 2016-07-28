@@ -296,6 +296,8 @@ ALMessageDBService  * dbService;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateChannelName)
                                                  name:@"UPDATE_CHANNEL_NAME" object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unSubscrbingChannel)
+                                                      name:@"APP_ENTER_IN_BACKGROUND" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(processAttachment:) name:@"SHARE_IMAGE" object:nil];
     self.mqttObject = [ALMQTTConversationService sharedInstance];
@@ -351,6 +353,7 @@ ALMessageDBService  * dbService;
     maxHeight = [self getMaxSizeLines:[ALApplozicSettings getMaxTextViewLines]];
     minHeight = [self getMaxSizeLines:1]; //  Single Line Height
     
+    [self subscrbingChannel];
 }
 
 
@@ -395,7 +398,39 @@ ALMessageDBService  * dbService;
 // Updating Last Seen via Server Call
     [self serverCallForLastSeen];
     self.comingFromBackground = YES;
+    [self subscrbingChannel];
 }
+
+//====================================================================================================================================
+#pragma mark MQTT SUBSCRIBING CHANNEL : METHODS
+//====================================================================================================================================
+
+-(void)updateChannelSubscribing:(NSNumber *)oldChannelKey andNewChannel:(NSNumber *)newChannelKey
+{
+    [self.mqttObject unSubscribeToChannelConversation:oldChannelKey];
+    [self.mqttObject subscribeToChannelConversation:newChannelKey];
+}
+
+-(void)subscrbingChannel
+{
+    if([self isGroup])
+    {
+        [self.mqttObject subscribeToChannelConversation:self.channelKey];
+    }
+}
+
+-(void)unSubscrbingChannel
+{
+    if([self isGroup])
+    {
+        [self.mqttObject sendTypingStatus:[ALUserDefaultsHandler getApplicationKey] userID:self.contactIds andChannelKey:self.channelKey typing:NO];
+        [self.mqttObject unSubscribeToChannelConversation:self.channelKey];
+    }
+}
+
+//====================================================================================================================================
+//====================================================================================================================================
+
 -(void)updateMessageSendStatus:(NSNotification *)notification
 {
     ALMessage *nfALmessage = (ALMessage *)notification.object;
@@ -431,6 +466,7 @@ ALMessageDBService  * dbService;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"USER_UNBLOCK_NOTIFICATION" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UPDATE_MESSAGE_SEND_STATUS" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"appCameInForeground" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"APP_ENTER_IN_BACKGROUND" object:nil];
     
     [self.sendMessageTextView resignFirstResponder];
     [self.label setHidden:YES];
@@ -455,6 +491,7 @@ ALMessageDBService  * dbService;
     }
     [[[self navigationController] interactivePopGestureRecognizer] setEnabled:YES];
     self.label.alpha = 0;
+    [self unSubscrbingChannel];
 }
 
 -(BOOL)isReloadRequired{
@@ -918,10 +955,10 @@ ALMessageDBService  * dbService;
     self.mTotalCount = self.mTotalCount + 1;
     self.startIndex = self.startIndex + 1;
     [self sendMessage:theMessage];
-    if(typingStat == YES && !self.channelKey)
+    if(typingStat == YES)
     {
         typingStat = NO;
-        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:typingStat];
+        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds andChannelKey:self.channelKey typing:typingStat];
     }
 
 }
@@ -2522,11 +2559,22 @@ ALMessageDBService  * dbService;
 
 -(void)showTypingLabel:(BOOL)flag userId:(NSString *)userId
 {
-    if(flag && [self.alContact.userId isEqualToString: userId])
+    ALContactService *cntService = [ALContactService new];
+    ALContact *contact = [cntService loadContactByKey:@"userId" value:userId];
+
+    if(flag && ([self.alContact.userId isEqualToString: userId] || (self.channelKey && ![userId isEqualToString:[ALUserDefaultsHandler getUserId]])))
     {
         NSString * space = @"    ";
         NSString * msg = [self.alContact getDisplayName];
-        NSString * typingText = [NSString stringWithFormat:@"%@%@ is typing...", space,msg];
+       	NSString * typingText = @"";
+        if(self.channelKey)
+        {
+            typingText = [NSString stringWithFormat:@"%@%@ is typing...", space, [contact getDisplayName]];
+        }
+        else
+        {
+            typingText = [NSString stringWithFormat:@"%@%@ is typing...", space, msg];
+        }
         [self.typingLabel setText:typingText];
         [self.typingLabel setHidden:NO];
     }
@@ -2690,10 +2738,10 @@ ALMessageDBService  * dbService;
     {
         self.alContact.applicationId = [ALUserDefaultsHandler getApplicationKey];
     }
-    if(typingStat == YES && !self.channelKey)
+    if(typingStat == YES)
     {
         typingStat = NO;
-        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:typingStat];
+        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds andChannelKey:self.channelKey typing:typingStat];
     }
     
     if ([textView.text isEqualToString:@""])
@@ -2753,10 +2801,10 @@ ALMessageDBService  * dbService;
     {
         return;
     }
-    if(typingStat == NO && !self.channelKey)
+    if(typingStat == NO)
     {
         typingStat = YES;
-        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:typingStat];
+        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds andChannelKey:self.channelKey typing:typingStat];
     }
     
     CGRect textSize = [self sizeOfText:textView.text widthOfTextView:self.sendMessageTextView.textContainer.size.width withFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:textView.font.pointSize]];
@@ -2875,7 +2923,7 @@ ALMessageDBService  * dbService;
 
 -(void) updateTypingStatus:(NSString *)applicationKey userId:(NSString *)userId status:(BOOL)status
 {
-    if ([self.contactIds isEqualToString:userId])
+    if ([self.contactIds isEqualToString:userId] || self.channelKey)
     {
         [self showTypingLabel:status userId:userId];
     }
@@ -2891,7 +2939,7 @@ ALMessageDBService  * dbService;
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [self.mqttObject subscribeToConversation];
-        
+        [self subscrbingChannel];
     });
     _mqttRetryCount++;
 }
@@ -2957,10 +3005,10 @@ ALMessageDBService  * dbService;
 
 -(void)appWillResignActive
 {
-    if(typingStat == YES && !self.channelKey)
+    if(typingStat == YES)
     {
         typingStat = NO;
-        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds typing:typingStat];
+        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds andChannelKey:self.channelKey typing:typingStat];
     }
 }
 
