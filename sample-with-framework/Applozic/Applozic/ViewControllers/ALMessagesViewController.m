@@ -837,6 +837,23 @@
 
 }
 
+/*
+-(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Button 1" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
+                                    {
+                                        NSLog(@"Action to perform with Button 1");
+                                    }];
+    button.backgroundColor = [UIColor greenColor];
+    UITableViewRowAction *button2 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Button 2" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
+                                     {
+                                         NSLog(@"Action to perform with Button2!");
+                                     }];
+    button2.backgroundColor = [UIColor blueColor];
+    
+    return @[button, button2];
+}
+*/
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete)
