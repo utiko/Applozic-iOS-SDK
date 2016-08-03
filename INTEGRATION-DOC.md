@@ -232,3 +232,22 @@ Once your app receive notification, pass it to applozic handler for applozic not
   }                             
 
 ```
+
+**c) APNs Certification Type Setup :**
+
+In DemoChatManager change setting according to your certificate and profile used:
+
+Method Name:
+
+```
+-(void)ALDefaultChatViewSettings
+```
+code to set mode depending on your code signing and profile used:
+
+```
+For Development:
+    [ALUserDefaultsHandler setDeviceApnsType:(short)DEVELOPMENT];
+
+For Distribution:
+    [ALUserDefaultsHandler setDeviceApnsType:(short)DISTRIBUTION];
+```
