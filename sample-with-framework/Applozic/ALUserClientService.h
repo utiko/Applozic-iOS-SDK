@@ -43,6 +43,7 @@
 
 +(void)readCallResettingUnreadCountWithCompletion:(void (^)(NSString *json, NSError *error))completion;
 
--(void)updateUserDisplayName:(NSString *)displayName andUserImageLink:(NSString *)imageLink userStatus:(NSString *)status withCompletion:(void (^)(id theJson, NSError * error))completionHandler;
+-(void)updateUserDisplayName:(NSString *)displayName andUserImageLink:(NSString *)imageLink userStatus:(NSString *)status
+              withCompletion:(void (^)(id theJson, NSError * error))completionHandler;
 
 @end

@@ -29,7 +29,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *mTableViewTopConstraint;
 
 @property (nonatomic,strong) NSArray* colors;
-@property (strong, nonatomic) UISearchBar *searchBar;
 
 -(UIView *)setCustomBackButton:(NSString *)text;
 
@@ -38,6 +37,7 @@
 @property (nonatomic,strong) NSNumber* forGroup;
 @property (nonatomic,strong) UIBarButtonItem *done;
 @property (nonatomic,strong) NSString* groupName;
+@property (nonatomic,strong) NSString * groupImageURL;
 @property (nonatomic,strong) NSNumber * forGroupAddition;
 @property (nonatomic,strong) NSMutableArray * contactsInGroup;
 @property (nonatomic,assign) id <ALContactDelegate> delegate;

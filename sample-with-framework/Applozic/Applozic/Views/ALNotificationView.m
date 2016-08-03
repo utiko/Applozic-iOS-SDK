@@ -185,15 +185,17 @@
          }
          else if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop){
              // Chat View is Opened....
-             ALChatViewController * class1= (ALChatViewController*)delegate;
+             ALChatViewController * class1 = (ALChatViewController*)delegate;
              NSLog(@"onTopChatVC: ContactID %@ and ChannelID %@",self.contactId, self.groupId);
              if(self.groupId){
-                [class1 updateChannelSubscribing:class1.channelKey andNewChannel:self.groupId];
-                 class1.channelKey=self.groupId;
+                 [class1 updateChannelSubscribing:class1.channelKey andNewChannel:self.groupId];
+                 class1.channelKey = self.groupId;
              }
-             else {
+             else
+             {
+                 self.groupId = nil;
+                 [class1 updateChannelSubscribing:class1.channelKey andNewChannel:self.groupId];
                  class1.channelKey=nil;
-                 self.groupId=nil;
              }
              
              if (self.conversationId) {
@@ -201,7 +203,8 @@
                  [[class1.alMessageWrapper messageArray] removeAllObjects];
                  [class1 processLoadEarlierMessages:YES];
              }
-             else{
+             else
+             {
                  class1.conversationId = nil;
                  class1.contactIds=self.contactId;
                  [class1 reloadView];

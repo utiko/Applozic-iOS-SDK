@@ -43,26 +43,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(groupDeatilsSyncCall) name:@"GroupDetailTableReload" object:nil];
     self.lastSeenMembersArray = [[NSMutableArray alloc] init];
 }
--(void)viewWillAppear:(BOOL)animated{
+
+-(void)viewWillAppear:(BOOL)animated
+{
     [self setupView];
-    self.mqttObject = [ALMQTTConversationService sharedInstance];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.mqttObject)
-            [self.mqttObject subscribeToConversation];
-        else
-            NSLog(@"mqttObject is not found...");
-    });
-
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    if(self.mqttObject){
-        [self.mqttObject unsubscribeToConversation];
-        NSLog(@"ALGroupDetailsVC: In ViewWillDisapper .. MQTTObject in ==IF== now");
-    }
-    else{
-        NSLog(@"mqttObject is not found...");
-    }
 }
 
 -(void)setNavigationColor
@@ -84,7 +68,8 @@
     [self setTitle:@"Group Details"];
     
     ALChannelService * channnelService = [[ALChannelService alloc] init];
-    self.groupName  = [channnelService getChannelName:self.channelKeyID];
+    ALChannel *alChannel = [channnelService getChannelByKey:self.channelKeyID];
+    self.groupName  = alChannel.name;
     isAdmin         = [channnelService checkAdmin:self.channelKeyID];
 
     memberNames = [[NSMutableArray alloc] init];
@@ -247,8 +232,6 @@
          [[self activityIndicator] stopAnimating];
          completion(error,response);
     }];
-    
-    
 }
 
 -(NSString *)getLastSeenForMember:(NSString*)userID{
@@ -470,6 +453,7 @@
     }
     
 }
+
 -(void)setupCellItems:(ALContactCell*)memberCell
 {
     self.memberNameLabel  = (UILabel*)[memberCell viewWithTag:101];
@@ -485,6 +469,7 @@
     
     self.lastSeenLabel = (UILabel *)[memberCell viewWithTag:105];
 }
+
 #pragma mark Row Height
 //===============================
 

@@ -34,6 +34,7 @@
 @property (strong, nonatomic) IBOutlet UISwitch *notificationToggle;
 @property (strong, nonatomic) IBOutlet UILabel *userStatusLabel;
 @property (strong, nonatomic) IBOutlet UIButton *editButton;
+@property (weak, nonatomic) IBOutlet UISwitch *onlineToggleSwitch;
 
 - (IBAction)editButtonAction:(id)sender;
 @end
@@ -56,6 +57,10 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+     // Scales down the switch
+    self.notificationToggle.transform = CGAffineTransformMakeScale(0.75, 0.75);
+    self.onlineToggleSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75);
     
 }
 
@@ -82,6 +87,7 @@
         [self commonNavBarTheme:self.navigationController];
     }
 
+    self.navigationItem.title = @"Profile";
     [self.profileImage setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"]];
     NSData *imageData = [NSData dataWithContentsOfFile:[ALUserDefaultsHandler getProfileImageLink]];
     NSURL *serverImageURL = [NSURL URLWithString:[ALUserDefaultsHandler getProfileImageLinkFromServer]];
@@ -99,7 +105,8 @@
     myContact = [alContactService loadContactByKey:@"userId" value:[ALUserDefaultsHandler getUserId]];
     self.userNameLabel.text = [myContact getDisplayName];
     self.userDesignationLabel.text = @"Manager";
-    [self.userStatusLabel setText:[ALUserDefaultsHandler getLoggedInUserStatus]?[ALUserDefaultsHandler getLoggedInUserStatus] : @"Profile Status"];
+    [self.userStatusLabel setText:[ALUserDefaultsHandler getLoggedInUserStatus] ? [ALUserDefaultsHandler getLoggedInUserStatus] : @"Profile Status"];
+   
 }
 
 -(void)commonNavBarTheme:(UINavigationController *)navigationController
@@ -298,6 +305,7 @@ totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInte
                 NSLog(@"IMAGE_UPDATED_SUCCESSFULLY");
                 [ALUtilityClass showAlertMessage:@"Image Updated Successfully!!!" andTitle:@"Alert"];
                 [ALUserDefaultsHandler setProfileImageLinkFromServer:imageLinkFromServer];
+                
             }
         }];
     }
@@ -448,6 +456,7 @@ totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInte
                     {
                         NSLog(@"USER_STATUS_UPDATED_SUCCESSFULLY");
                         myContact.userStatus = statusText;
+                        NSLog(@"USER_STATUS_UPDATED_SUCCESSFULLY  %@", myContact.userStatus);
                         [alContactService updateContact:myContact];
                         [self.userStatusLabel setText: statusText];
                         [ALUserDefaultsHandler setLoggedInUserStatus:statusText];
@@ -464,6 +473,5 @@ totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInte
      [self presentViewController:alertController animated:YES completion:nil];
     
 }
-
 
 @end

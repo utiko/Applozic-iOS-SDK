@@ -39,6 +39,7 @@
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
+@property (strong, nonatomic) UISearchBar *searchBar;
 
 @property (strong, nonatomic) NSMutableArray *filteredContactList;
 
@@ -153,7 +154,7 @@
     [super viewWillAppear:animated];
     self.groupOrContacts = [NSNumber numberWithInt:SHOW_CONTACTS]; //default
     self.navigationItem.leftBarButtonItem = nil;
-    [self.searchBar setHidden:NO];
+    
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
     if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
@@ -166,8 +167,8 @@
         
     }
     
-    BOOL regularContacts = [self.forGroup isEqualToNumber:[NSNumber numberWithInt:REGULAR_CONTACTS]];
-    if((!regularContacts && self.forGroup != NULL)){
+    BOOL groupRegular = [self.forGroup isEqualToNumber:[NSNumber numberWithInt:REGULAR_CONTACTS]];
+    if((!groupRegular && self.forGroup != NULL)){
         [self updateView];
     }
     
@@ -176,7 +177,6 @@
         [self.segmentControl setSelectedSegmentIndex:0];
         [self.segmentControl setHidden:YES];
     }
-    
 }
 
 - (void)updateView
@@ -197,8 +197,6 @@
                      action:@selector(createNewGroup:)];
         
         self.navigationItem.rightBarButtonItem = self.done;
-    }else if ([self.forGroup isEqualToNumber:[NSNumber numberWithInt:IMAGE_SHARE]]){
-        [self.searchBar setHidden:YES];
     }
 }
 
@@ -214,20 +212,33 @@
     {
         return;
     }
+    
     self.emptyConversationText = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.origin.x,
                                                                            self.view.frame.origin.y + self.view.frame.size.height/2,
                                                                            self.view.frame.size.width, 30)];
-    
-    [self.emptyConversationText setText:@"No contact found"];
-    [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:self.emptyConversationText];
+    
+    [self setTextForEmpty];
+    [self.emptyConversationText setTextAlignment:NSTextAlignmentCenter];
     [self.emptyConversationText setHidden:YES];
 }
+
+-(void)setTextForEmpty
+{
+    NSString *msgText = @"No contact found";
+    if(self.selectedSegment == 1)
+    {
+        msgText = @"No group found";
+    }
+    [self.emptyConversationText setText:msgText];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.contactsTableView?1:0;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     NSUInteger count = self.filteredContactList.count;
     if(self.selectedSegment == 1)
     {
@@ -237,6 +248,7 @@
     {
         if(![self.activityIndicator isAnimating]){
             [self.emptyConversationText setHidden:NO];
+            [self setTextForEmpty];
         }
     }
     return count;
@@ -258,11 +270,14 @@
     
     [self.emptyConversationText setHidden:YES];
     [self.contactsTableView setHidden:NO];
+    
+    @try {
+        
     switch (self.groupOrContacts.intValue)
     {
         case SHOW_CONTACTS:
         {
-            ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
+            ALContact *contact = (ALContact *)[self.filteredContactList objectAtIndex:indexPath.row];
             newContactCell.contactPersonName.text = [contact getDisplayName];
             
             
@@ -300,7 +315,7 @@
         {
             if(self.filteredContactList.count)
             {
-                ALChannel * channel = [self.filteredContactList objectAtIndex:indexPath.row];
+                ALChannel * channel = (ALChannel *)[self.filteredContactList objectAtIndex:indexPath.row];
                 newContactCell.contactPersonName.text = [channel name];
                 [newContactCell.contactPersonImageView setImage:[UIImage imageNamed:@"applozic_group_icon.png"]];
                 [nameIcon setHidden:YES];
@@ -309,11 +324,19 @@
             {
                 [self.contactsTableView setHidden:YES];
                 [self.emptyConversationText setHidden:NO];
+                [self setTextForEmpty];
             }
         }break;
         default:
             break;
     }
+    
+    } @catch (NSException *exception) {
+        
+        NSLog(@"RAISED_EXP :: %@",exception.description);
+    }
+
+    
     
     return newContactCell;
 }
@@ -337,7 +360,8 @@
             ALContact *contact = [self.filteredContactList objectAtIndex:indexPath.row];
             [self.groupMembers addObject:contact.userId];
         }break;
-        case GROUP_ADDITION:{
+        case GROUP_ADDITION:
+        {
             if(![self checkInternetConnectivity:tableView andIndexPath:indexPath]){
                 return;
             }
@@ -367,12 +391,13 @@
             }];
         }break;
         case IMAGE_SHARE:{
-                // TODO : Send Image
-            ALContact * contact = self.filteredContactList[indexPath.row];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"SHARE_IMAGE" object:contact];
+            // TODO : Send Image
+            /* ALContact * contact = self.filteredContactList[indexPath.row];
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"SHARE_IMAGE" object:contact];
+             */
         }break;
-        default:{
-            //DEFAULT : Launch contact!
+        default:
+        { //DEFAULT : Launch contact!
             NSNumber * key = nil;
             NSString * userId = @"";
             if(self.selectedSegment == 0)
@@ -391,7 +416,6 @@
             
     }
 }
-
 
 -(void)setUserInteraction:(BOOL)flag
 {
@@ -442,7 +466,7 @@
     
     for (DB_CONTACT *dbContact in theArray)
     {
-
+        
         ALContact *contact = [[ALContact alloc] init];
         
         contact.userId = dbContact.userId;
@@ -452,7 +476,7 @@
         contact.contactImageUrl = dbContact.contactImageUrl;
         contact.email = dbContact.email;
         contact.localImageResourceName = dbContact.localImageResourceName;
-
+        
         [self.contactList addObject:contact];
     }
     
@@ -658,7 +682,9 @@
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     self.selectedSegment = segmentedControl.selectedSegmentIndex;
     [self.filteredContactList removeAllObjects];
-    if (self.selectedSegment == 0) {
+    
+    if (self.selectedSegment == 0)
+    {
         //toggle the Contacts view to be visible
         self.groupOrContacts = [NSNumber numberWithInt:SHOW_CONTACTS];
         self.filteredContactList = [NSMutableArray arrayWithArray: self.contactList];
@@ -704,32 +730,33 @@
     
     //Server Call
     self.creatingChannel = [[ALChannelService alloc] init];
-    [self.creatingChannel createChannel:self.groupName orClientChannelKey:nil andMembersList:self.groupMembers withCompletion:^(ALChannel *alChannel) {
-        
-        if(alChannel)
-        {
-            //Updating view, popping to MessageList View
-            NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
-            
-            for (UIViewController *aViewController in allViewControllers)
-            {
-                if ([aViewController isKindOfClass:[ALMessagesViewController class]])
-                {
-                    ALMessagesViewController * messageVC = (ALMessagesViewController *)aViewController;
-                    [messageVC insertChannelMessage:alChannel.key];
-                    [self.navigationController popToViewController:aViewController animated:YES];
-                }
-            }
-        }
-        else
-        {
-            [TSMessage showNotificationWithTitle:@"Unable to create group. Please try again" type:TSMessageNotificationTypeError];
-            [self turnUserInteractivityForNavigationAndTableView:YES];
-        }
-        
-        [[self activityIndicator] stopAnimating];
-        
-    }];
+    [self.creatingChannel createChannel:self.groupName orClientChannelKey:nil andMembersList:self.groupMembers andImageLink:self.groupImageURL
+                         withCompletion:^(ALChannel *alChannel) {
+                             
+                             if(alChannel)
+                             {
+                                 //Updating view, popping to MessageList View
+                                 NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
+                                 
+                                 for (UIViewController *aViewController in allViewControllers)
+                                 {
+                                     if ([aViewController isKindOfClass:[ALMessagesViewController class]])
+                                     {
+                                         ALMessagesViewController * messageVC = (ALMessagesViewController *)aViewController;
+                                         [messageVC insertChannelMessage:alChannel.key];
+                                         [self.navigationController popToViewController:aViewController animated:YES];
+                                     }
+                                 }
+                             }
+                             else
+                             {
+                                 [TSMessage showNotificationWithTitle:@"Unable to create group. Please try again" type:TSMessageNotificationTypeError];
+                                 [self turnUserInteractivityForNavigationAndTableView:YES];
+                             }
+                             
+                             [[self activityIndicator] stopAnimating];
+                             
+                         }];
     
     
     

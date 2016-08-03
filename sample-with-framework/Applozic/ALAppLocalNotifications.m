@@ -41,10 +41,18 @@
 
 -(void)dataConnectionNotificationHandler
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:AL_kReachabilityChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thirdPartyNotificationHandler:) name:@"showNotificationAndLaunchChat" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForegroundBase:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:)
+                                                 name:AL_kReachabilityChangedNotification object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thirdPartyNotificationHandler:)
+                                                 name:@"showNotificationAndLaunchChat" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForegroundBase:)
+                                                 name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(proactivelyDisconnectMQTT)
+                                                  name:@"APP_ENTER_IN_BACKGROUND"
+                                                object:nil];
     
     if([ALUserDefaultsHandler isLoggedIn]){
         
@@ -63,7 +71,7 @@
     
     self.googleReach.reachableBlock = ^(ALReachability * reachability)
     {
-//        NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Reachable(%@)", reachability.currentReachabilityString];
+        NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Reachable(%@)", reachability.currentReachabilityString];
         // NSLog(@"%@", temp);
         
         // to update UI components from a block callback
@@ -74,7 +82,7 @@
     
     self.googleReach.unreachableBlock = ^(ALReachability * reachability)
     {
-//        NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Unreachable(%@)", reachability.currentReachabilityString];
+        NSString * temp = [NSString stringWithFormat:@"GOOGLE Block Says Unreachable(%@)", reachability.currentReachabilityString];
         //  NSLog(@"%@", temp);
         
         // to update UI components from a block callback
@@ -94,7 +102,7 @@
     
     self.localWiFiReach.reachableBlock = ^(ALReachability * reachability)
     {
-//        NSString * temp = [NSString stringWithFormat:@"LocalWIFI Block Says Reachable(%@)", reachability.currentReachabilityString];
+        NSString * temp = [NSString stringWithFormat:@"LocalWIFI Block Says Reachable(%@)", reachability.currentReachabilityString];
         // NSLog(@"%@", temp);
         
         
@@ -102,7 +110,7 @@
     
     self.localWiFiReach.unreachableBlock = ^(ALReachability * reachability)
     {
-//        NSString * temp = [NSString stringWithFormat:@"LocalWIFI Block Says Unreachable(%@)", reachability.currentReachabilityString];
+        NSString * temp = [NSString stringWithFormat:@"LocalWIFI Block Says Unreachable(%@)", reachability.currentReachabilityString];
         
         // NSLog(@"%@", temp);
         
@@ -116,19 +124,20 @@
     
     self.internetConnectionReach.reachableBlock = ^(ALReachability * reachability)
     {
-//        NSString * temp = [NSString stringWithFormat:@" InternetConnection Says Reachable(%@)", reachability.currentReachabilityString];
+        NSString * temp = [NSString stringWithFormat:@" InternetConnection Says Reachable(%@)", reachability.currentReachabilityString];
         // NSLog(@"%@", temp);
     };
     
     self.internetConnectionReach.unreachableBlock = ^(ALReachability * reachability)
     {
-//        NSString * temp = [NSString stringWithFormat:@"InternetConnection Block Says Unreachable(%@)", reachability.currentReachabilityString];
+        NSString * temp = [NSString stringWithFormat:@"InternetConnection Block Says Unreachable(%@)", reachability.currentReachabilityString];
         //  NSLog(@"%@", temp);
     };
     
     [self.internetConnectionReach startNotifier];
     
 }
+
 -(void)reachabilityChanged:(NSNotification*)note
 {
     ALReachability * reach = [note object];
@@ -174,7 +183,9 @@
     }
     
 }
--(void)proactivelyConnectMQTT{
+
+-(void)proactivelyConnectMQTT
+{
     ALPushAssist * assitant  = [[ALPushAssist alloc] init];
     if(assitant.isOurViewOnTop){
         ALMQTTConversationService *alMqttConversationService = [ALMQTTConversationService sharedInstance];
@@ -182,9 +193,19 @@
     }
 }
 
+-(void)proactivelyDisconnectMQTT
+{
+    ALPushAssist * assitant  = [[ALPushAssist alloc] init];
+    if(assitant.isOurViewOnTop){
+        ALMQTTConversationService *alMqttConversationService = [ALMQTTConversationService sharedInstance];
+        [alMqttConversationService  unsubscribeToConversation];
+    }
+}
+
 //receiver
 - (void)appWillEnterForegroundBase:(NSNotification *)notification {
     
+    [self proactivelyConnectMQTT];
     //Works in 3rd Party borders..
     NSString * deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
 //   CHECK HERE FOR THAT FLAG FOR SYNC CALL

@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		2932B9F31C7C875F0017911D /* ALGroupDetailViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2932B9F11C7C875F0017911D /* ALGroupDetailViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2932B9F41C7C875F0017911D /* ALGroupDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2932B9F21C7C875F0017911D /* ALGroupDetailViewController.m */; };
+		293446131D4F426F007BD1B4 /* ALImageActivity.h in Headers */ = {isa = PBXBuildFile; fileRef = 2934460F1D4F426F007BD1B4 /* ALImageActivity.h */; };
+		293446141D4F426F007BD1B4 /* ALImageActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 293446101D4F426F007BD1B4 /* ALImageActivity.m */; };
+		293446151D4F426F007BD1B4 /* ALShowImageViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 293446111D4F426F007BD1B4 /* ALShowImageViewController.h */; };
+		293446161D4F426F007BD1B4 /* ALShowImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 293446121D4F426F007BD1B4 /* ALShowImageViewController.m */; };
 		294637B61C6F16050025ED76 /* ALGroupCreationViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 294637B41C6F16050025ED76 /* ALGroupCreationViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		294637B71C6F16050025ED76 /* ALGroupCreationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 294637B51C6F16050025ED76 /* ALGroupCreationViewController.m */; };
 		297DE09E1C46253300C9D87E /* TSMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 297DE09A1C46253300C9D87E /* TSMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -34,16 +38,12 @@
 		29CBF2031C0303A700BE6A20 /* ALColorUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CBF2011C0303A700BE6A20 /* ALColorUtility.m */; };
 		29D6F86B1D193D9D00A75369 /* PSPDFTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 29D6F8691D193D9D00A75369 /* PSPDFTextView.h */; };
 		29D6F86C1D193D9D00A75369 /* PSPDFTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 29D6F86A1D193D9D00A75369 /* PSPDFTextView.m */; };
-		29DDB4B31D47469A002E429C /* ALShowImageViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DDB4B11D47469A002E429C /* ALShowImageViewController.h */; };
-		29DDB4B41D47469A002E429C /* ALShowImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DDB4B21D47469A002E429C /* ALShowImageViewController.m */; };
-		29DDB4B81D474E12002E429C /* ALImageActivity.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DDB4B61D474E12002E429C /* ALImageActivity.h */; };
-		29DDB4B91D474E12002E429C /* ALImageActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DDB4B71D474E12002E429C /* ALImageActivity.m */; };
 		29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */ = {isa = PBXBuildFile; fileRef = 29DEA3131BEDEC1F004B8085 /* ALUserService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 29DEA3141BEDEC1F004B8085 /* ALUserService.m */; };
 		6D0877081D01B0F900DB491A /* UIView+Toast.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D0877071D01B0F900DB491A /* UIView+Toast.h */; };
 		6D08770A1D01B0FE00DB491A /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0877091D01B0FE00DB491A /* UIView+Toast.m */; };
-		6D0AD9721D3EB92400D49DF2 /* ALUserProfileVC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D0AD9711D3EB92400D49DF2 /* ALUserProfileVC.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6D0AD9741D3EB93100D49DF2 /* ALUserProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0AD9731D3EB93100D49DF2 /* ALUserProfileVC.m */; };
+		6D0D107A1D4CD7B6009853FB /* ALImagePickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D0D10781D4CD7B6009853FB /* ALImagePickerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6D0D107B1D4CD7B6009853FB /* ALImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D10791D4CD7B6009853FB /* ALImagePickerController.m */; };
 		6D1385741CA9B80D009E6F50 /* ALMultipleAttachmentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D1385721CA9B80D009E6F50 /* ALMultipleAttachmentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D1385751CA9B80D009E6F50 /* ALMultipleAttachmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1385731CA9B80D009E6F50 /* ALMultipleAttachmentView.m */; };
 		6D1385781CA9B83C009E6F50 /* AlMultipleAttachmentCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D1385761CA9B83C009E6F50 /* AlMultipleAttachmentCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -238,6 +238,8 @@
 		6D6DF1D91BC5364C00EBA00F /* AppLozic.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF1371BC5364C00EBA00F /* AppLozic.xcdatamodeld */; };
 		6D6E4BF11C76F56400B2FB31 /* ALMediaBaseCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6E4BEF1C76F56400B2FB31 /* ALMediaBaseCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6E4BF21C76F56400B2FB31 /* ALMediaBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E4BF01C76F56400B2FB31 /* ALMediaBaseCell.m */; };
+		6D73B2FD1D4F0FF0007D3D72 /* ALReceiverUserProfileVC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D73B2FB1D4F0FF0007D3D72 /* ALReceiverUserProfileVC.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6D73B2FE1D4F0FF0007D3D72 /* ALReceiverUserProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D73B2FC1D4F0FF0007D3D72 /* ALReceiverUserProfileVC.m */; };
 		6D7AFD251BECF061009DDC1D /* ALSendMessageResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D7AFD231BECF061009DDC1D /* ALSendMessageResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D7AFD261BECF061009DDC1D /* ALSendMessageResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D7AFD241BECF061009DDC1D /* ALSendMessageResponse.m */; };
 		6D7B95B51C06E09300374346 /* ALUserDetail.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D7B95B31C06E09300374346 /* ALUserDetail.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -306,12 +308,10 @@
 		6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */; };
 		6DE2DE181D12ED75008F041E /* ALHyperLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DE2DE161D12ED75008F041E /* ALHyperLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DE2DE191D12ED75008F041E /* ALHyperLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE2DE171D12ED75008F041E /* ALHyperLabel.m */; };
+		6DEAEE8C1D4CDBC700360060 /* ALUserProfileVC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DEAEE8A1D4CDBC700360060 /* ALUserProfileVC.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6DEAEE8D1D4CDBC700360060 /* ALUserProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEAEE8B1D4CDBC700360060 /* ALUserProfileVC.m */; };
 		6DEFEA3F1C9ACF0900F7E168 /* ALMessageInfoViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DEFEA3D1C9ACF0900F7E168 /* ALMessageInfoViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DEFEA401C9ACF0900F7E168 /* ALMessageInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEFEA3E1C9ACF0900F7E168 /* ALMessageInfoViewController.m */; };
-		6DFB40AC1CEA2B54006C1AD1 /* ALUserInformationViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DFB40AA1CEA2B54006C1AD1 /* ALUserInformationViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6DFB40AD1CEA2B54006C1AD1 /* ALUserInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFB40AB1CEA2B54006C1AD1 /* ALUserInformationViewController.m */; };
-		6DFB40B41CEA45D5006C1AD1 /* ALUserInfoTableCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DFB40B21CEA45D5006C1AD1 /* ALUserInfoTableCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6DFB40B51CEA45D5006C1AD1 /* ALUserInfoTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFB40B31CEA45D5006C1AD1 /* ALUserInfoTableCell.m */; };
 		982F13041C05D6050024678E /* MQTTClient-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */; };
 		982F13051C05D6050024678E /* MQTTClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F51C05D6040024678E /* MQTTClient.h */; };
 		982F13061C05D6050024678E /* MQTTDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F61C05D6040024678E /* MQTTDecoder.h */; };
@@ -337,6 +337,10 @@
 /* Begin PBXFileReference section */
 		2932B9F11C7C875F0017911D /* ALGroupDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALGroupDetailViewController.h; sourceTree = "<group>"; };
 		2932B9F21C7C875F0017911D /* ALGroupDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALGroupDetailViewController.m; sourceTree = "<group>"; };
+		2934460F1D4F426F007BD1B4 /* ALImageActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALImageActivity.h; sourceTree = "<group>"; };
+		293446101D4F426F007BD1B4 /* ALImageActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALImageActivity.m; sourceTree = "<group>"; };
+		293446111D4F426F007BD1B4 /* ALShowImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALShowImageViewController.h; sourceTree = "<group>"; };
+		293446121D4F426F007BD1B4 /* ALShowImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALShowImageViewController.m; sourceTree = "<group>"; };
 		294637B41C6F16050025ED76 /* ALGroupCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALGroupCreationViewController.h; sourceTree = "<group>"; };
 		294637B51C6F16050025ED76 /* ALGroupCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALGroupCreationViewController.m; sourceTree = "<group>"; };
 		297DE09A1C46253300C9D87E /* TSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMessage.h; sourceTree = "<group>"; };
@@ -362,16 +366,12 @@
 		29CBF2011C0303A700BE6A20 /* ALColorUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALColorUtility.m; sourceTree = "<group>"; };
 		29D6F8691D193D9D00A75369 /* PSPDFTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSPDFTextView.h; sourceTree = "<group>"; };
 		29D6F86A1D193D9D00A75369 /* PSPDFTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSPDFTextView.m; sourceTree = "<group>"; };
-		29DDB4B11D47469A002E429C /* ALShowImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALShowImageViewController.h; sourceTree = "<group>"; };
-		29DDB4B21D47469A002E429C /* ALShowImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALShowImageViewController.m; sourceTree = "<group>"; };
-		29DDB4B61D474E12002E429C /* ALImageActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALImageActivity.h; sourceTree = "<group>"; };
-		29DDB4B71D474E12002E429C /* ALImageActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALImageActivity.m; sourceTree = "<group>"; };
 		29DEA3131BEDEC1F004B8085 /* ALUserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserService.h; sourceTree = "<group>"; };
 		29DEA3141BEDEC1F004B8085 /* ALUserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserService.m; sourceTree = "<group>"; };
 		6D0877071D01B0F900DB491A /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
 		6D0877091D01B0FE00DB491A /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
-		6D0AD9711D3EB92400D49DF2 /* ALUserProfileVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserProfileVC.h; sourceTree = "<group>"; };
-		6D0AD9731D3EB93100D49DF2 /* ALUserProfileVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserProfileVC.m; sourceTree = "<group>"; };
+		6D0D10781D4CD7B6009853FB /* ALImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALImagePickerController.h; sourceTree = "<group>"; };
+		6D0D10791D4CD7B6009853FB /* ALImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALImagePickerController.m; sourceTree = "<group>"; };
 		6D1385721CA9B80D009E6F50 /* ALMultipleAttachmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMultipleAttachmentView.h; sourceTree = "<group>"; };
 		6D1385731CA9B80D009E6F50 /* ALMultipleAttachmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMultipleAttachmentView.m; sourceTree = "<group>"; };
 		6D1385761CA9B83C009E6F50 /* AlMultipleAttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlMultipleAttachmentCell.h; sourceTree = "<group>"; };
@@ -567,6 +567,8 @@
 		6D6DF1381BC5364C00EBA00F /* AppLozic.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppLozic.xcdatamodel; sourceTree = "<group>"; };
 		6D6E4BEF1C76F56400B2FB31 /* ALMediaBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMediaBaseCell.h; sourceTree = "<group>"; };
 		6D6E4BF01C76F56400B2FB31 /* ALMediaBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMediaBaseCell.m; sourceTree = "<group>"; };
+		6D73B2FB1D4F0FF0007D3D72 /* ALReceiverUserProfileVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALReceiverUserProfileVC.h; sourceTree = "<group>"; };
+		6D73B2FC1D4F0FF0007D3D72 /* ALReceiverUserProfileVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALReceiverUserProfileVC.m; sourceTree = "<group>"; };
 		6D7AFD231BECF061009DDC1D /* ALSendMessageResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSendMessageResponse.h; sourceTree = "<group>"; };
 		6D7AFD241BECF061009DDC1D /* ALSendMessageResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALSendMessageResponse.m; sourceTree = "<group>"; };
 		6D7B95B31C06E09300374346 /* ALUserDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserDetail.h; sourceTree = "<group>"; };
@@ -636,12 +638,10 @@
 		6DDE81851C27D8EC009B8CF9 /* ALUserClientService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserClientService.m; sourceTree = "<group>"; };
 		6DE2DE161D12ED75008F041E /* ALHyperLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALHyperLabel.h; sourceTree = "<group>"; };
 		6DE2DE171D12ED75008F041E /* ALHyperLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALHyperLabel.m; sourceTree = "<group>"; };
+		6DEAEE8A1D4CDBC700360060 /* ALUserProfileVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserProfileVC.h; sourceTree = "<group>"; };
+		6DEAEE8B1D4CDBC700360060 /* ALUserProfileVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserProfileVC.m; sourceTree = "<group>"; };
 		6DEFEA3D1C9ACF0900F7E168 /* ALMessageInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALMessageInfoViewController.h; path = ../../ALMessageInfoViewController.h; sourceTree = "<group>"; };
 		6DEFEA3E1C9ACF0900F7E168 /* ALMessageInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMessageInfoViewController.m; path = ../../ALMessageInfoViewController.m; sourceTree = "<group>"; };
-		6DFB40AA1CEA2B54006C1AD1 /* ALUserInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserInformationViewController.h; sourceTree = "<group>"; };
-		6DFB40AB1CEA2B54006C1AD1 /* ALUserInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserInformationViewController.m; sourceTree = "<group>"; };
-		6DFB40B21CEA45D5006C1AD1 /* ALUserInfoTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserInfoTableCell.h; sourceTree = "<group>"; };
-		6DFB40B31CEA45D5006C1AD1 /* ALUserInfoTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserInfoTableCell.m; sourceTree = "<group>"; };
 		982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MQTTClient-Prefix.pch"; path = "Applozic/MQTT/MQTTClient-Prefix.pch"; sourceTree = "<group>"; };
 		982F12F51C05D6040024678E /* MQTTClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTClient.h; path = Applozic/MQTT/MQTTClient.h; sourceTree = "<group>"; };
 		982F12F61C05D6040024678E /* MQTTDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTDecoder.h; path = Applozic/MQTT/MQTTDecoder.h; sourceTree = "<group>"; };
@@ -681,6 +681,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2934460E1D4F4229007BD1B4 /* Share Image */ = {
+			isa = PBXGroup;
+			children = (
+				2934460F1D4F426F007BD1B4 /* ALImageActivity.h */,
+				293446101D4F426F007BD1B4 /* ALImageActivity.m */,
+				293446111D4F426F007BD1B4 /* ALShowImageViewController.h */,
+				293446121D4F426F007BD1B4 /* ALShowImageViewController.m */,
+			);
+			name = "Share Image";
+			sourceTree = "<group>";
+		};
 		29867A2D1CDB4F8F00CAA49D /* Media Base Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -720,17 +731,6 @@
 				29D6F86A1D193D9D00A75369 /* PSPDFTextView.m */,
 			);
 			name = "TEXT VIEW";
-			sourceTree = "<group>";
-		};
-		29DDB4B51D474DD9002E429C /* Share Image  */ = {
-			isa = PBXGroup;
-			children = (
-				29DDB4B11D47469A002E429C /* ALShowImageViewController.h */,
-				29DDB4B21D47469A002E429C /* ALShowImageViewController.m */,
-				29DDB4B61D474E12002E429C /* ALImageActivity.h */,
-				29DDB4B71D474E12002E429C /* ALImageActivity.m */,
-			);
-			name = "Share Image ";
 			sourceTree = "<group>";
 		};
 		6D34AEB11CA441D7005FA8D4 /* contact */ = {
@@ -833,8 +833,9 @@
 		6D6DF0A71BC5364C00EBA00F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				6D0AD9731D3EB93100D49DF2 /* ALUserProfileVC.m */,
-				6D0AD9711D3EB92400D49DF2 /* ALUserProfileVC.h */,
+				2934460E1D4F4229007BD1B4 /* Share Image */,
+				6D73B2FA1D4F0F9C007D3D72 /* ReceiverUserProfile */,
+				6D73B2F91D4F0F02007D3D72 /* LoggedInUserProfile */,
 				6D6DF0A81BC5364C00EBA00F /* ALBaseViewController.h */,
 				6D6DF0A91BC5364C00EBA00F /* ALBaseViewController.m */,
 				6D6DF0AA1BC5364C00EBA00F /* ALChatViewController.h */,
@@ -859,11 +860,8 @@
 				6D1385771CA9B83C009E6F50 /* AlMultipleAttachmentCell.m */,
 				6D8197981CC55B5700E53EC3 /* ALCollectionReusableView.h */,
 				6D8197991CC55B5700E53EC3 /* ALCollectionReusableView.m */,
-				6DFB40AA1CEA2B54006C1AD1 /* ALUserInformationViewController.h */,
-				6DFB40AB1CEA2B54006C1AD1 /* ALUserInformationViewController.m */,
-				6DFB40B21CEA45D5006C1AD1 /* ALUserInfoTableCell.h */,
-				6DFB40B31CEA45D5006C1AD1 /* ALUserInfoTableCell.m */,
-				29DDB4B51D474DD9002E429C /* Share Image  */,
+				6D0D10781D4CD7B6009853FB /* ALImagePickerController.h */,
+				6D0D10791D4CD7B6009853FB /* ALImagePickerController.m */,
 			);
 			name = ViewControllers;
 			path = Applozic/ViewControllers;
@@ -1201,6 +1199,24 @@
 			name = networkcommunication;
 			sourceTree = "<group>";
 		};
+		6D73B2F91D4F0F02007D3D72 /* LoggedInUserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				6DEAEE8A1D4CDBC700360060 /* ALUserProfileVC.h */,
+				6DEAEE8B1D4CDBC700360060 /* ALUserProfileVC.m */,
+			);
+			name = LoggedInUserProfile;
+			sourceTree = "<group>";
+		};
+		6D73B2FA1D4F0F9C007D3D72 /* ReceiverUserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				6D73B2FB1D4F0FF0007D3D72 /* ALReceiverUserProfileVC.h */,
+				6D73B2FC1D4F0FF0007D3D72 /* ALReceiverUserProfileVC.m */,
+			);
+			name = ReceiverUserProfile;
+			sourceTree = "<group>";
+		};
 		6D9C69391C28380100C78219 /* ALChatSettings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1312,7 +1328,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D0AD9721D3EB92400D49DF2 /* ALUserProfileVC.h in Headers */,
 				29C849A21CC932050042643C /* NSString+Encode.h in Headers */,
 				6D4C2B261C81B77B0031C677 /* ALConversationService.h in Headers */,
 				297DE0AA1C46280500C9D87E /* HexColors.h in Headers */,
@@ -1364,6 +1379,7 @@
 				6D6DF1661BC5364C00EBA00F /* ALNotificationView.h in Headers */,
 				6DCC30191C31645700F17D0E /* ALChannelInfo.h in Headers */,
 				6DCC30151C3160C200F17D0E /* ALChannelFeed.h in Headers */,
+				293446151D4F426F007BD1B4 /* ALShowImageViewController.h in Headers */,
 				6DCC30111C315B1200F17D0E /* ALChannelClientService.h in Headers */,
 				6DCC30091C315AD600F17D0E /* ALChannel.h in Headers */,
 				6D6DF1801BC5364C00EBA00F /* DB_CONTACT.h in Headers */,
@@ -1379,6 +1395,7 @@
 				6D8904291C3E7A9500B59381 /* ALAppLocalNotifications.h in Headers */,
 				6D8904251C3E744000B59381 /* ALConversationProxy.h in Headers */,
 				6D9C693C1C28383B00C78219 /* ALChatLauncher.h in Headers */,
+				293446131D4F426F007BD1B4 /* ALImageActivity.h in Headers */,
 				6D6A07491C2299C60002388F /* ALMessageArrayWrapper.h in Headers */,
 				6DD2E20A1C46A97100134EFB /* DB_ConversationProxy.h in Headers */,
 				6D3260EA1C4E29F2003991EB /* ALAPIResponse.h in Headers */,
@@ -1398,7 +1415,6 @@
 				6D6E4BF11C76F56400B2FB31 /* ALMediaBaseCell.h in Headers */,
 				6DA701851C8D67D900D7BB13 /* ALUserBlockResponse.h in Headers */,
 				29DEA3151BEDEC1F004B8085 /* ALUserService.h in Headers */,
-				29DDB4B81D474E12002E429C /* ALImageActivity.h in Headers */,
 				98E1AB971C08718700BE6312 /* ALMQTTConversationService.h in Headers */,
 				29B4ED6C1C899EFF003C266F /* ALConversationCreateResponse.h in Headers */,
 				6DB75FB61C9176E700359748 /* ALUserBlocked.h in Headers */,
@@ -1417,12 +1433,12 @@
 				6D1B07291CD8F76F003D14D8 /* ALUIConstant.h in Headers */,
 				6D52A4291C7CA8EA008CBA3A /* ALMediaPlayer.h in Headers */,
 				6D8DA3A61D19C936009C66C3 /* ALLogs.h in Headers */,
-				6DFB40AC1CEA2B54006C1AD1 /* ALUserInformationViewController.h in Headers */,
+				6D73B2FD1D4F0FF0007D3D72 /* ALReceiverUserProfileVC.h in Headers */,
+				6D0D107A1D4CD7B6009853FB /* ALImagePickerController.h in Headers */,
+				6DEAEE8C1D4CDBC700360060 /* ALUserProfileVC.h in Headers */,
 				6DE2DE181D12ED75008F041E /* ALHyperLabel.h in Headers */,
 				2932B9F31C7C875F0017911D /* ALGroupDetailViewController.h in Headers */,
-				6DFB40B41CEA45D5006C1AD1 /* ALUserInfoTableCell.h in Headers */,
 				6D9342251CAE7509002AC9BE /* ALLocationCell.h in Headers */,
-				29DDB4B31D47469A002E429C /* ALShowImageViewController.h in Headers */,
 				6D4C2B221C8183CB0031C677 /* ALTopicDetail.h in Headers */,
 				294637B61C6F16050025ED76 /* ALGroupCreationViewController.h in Headers */,
 				6D6DF1561BC5364C00EBA00F /* ALBaseViewController.h in Headers */,
@@ -1487,7 +1503,6 @@
 				TargetAttributes = {
 					6D6DF07C1BC535C800EBA00F = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = C25JNDCBM4;
 					};
 				};
 			};
@@ -1567,7 +1582,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		6DAA09DB1BE4AD8800CBF133 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -1575,9 +1590,9 @@
 			name = "Run Script";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "set -e\nset +u\n# Avoid recursively calling this script.\nif [[ $SF_MASTER_SCRIPT_RUNNING ]]\nthen\nexit 0\nfi\nset -u\nexport SF_MASTER_SCRIPT_RUNNING=1\n# Constants\nSF_TARGET_NAME=${PROJECT_NAME}\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n# Take build target\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nSF_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n#if [[ \"$SF_SDK_PLATFORM\" = \"iphoneos\" ]]\n#then\n#echo \"Please choose iPhone simulator as the build target.\"\n#exit 1\n#fi\nIPHONE_DEVICE_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos\n#simulator\nxcodebuild -target \"${PROJECT_NAME}\" -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build\n# Build the other (non-simulator) platform\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" CONFIGURATION_BUILD_DIR=\"${IPHONE_DEVICE_BUILD_DIR}/arm64\" SYMROOT=\"${SYMROOT}\" ARCHS='arm64' VALID_ARCHS='arm64' $ACTION\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\"  CONFIGURATION_BUILD_DIR=\"${IPHONE_DEVICE_BUILD_DIR}/armv7\" SYMROOT=\"${SYMROOT}\" ARCHS='armv7 armv7s' VALID_ARCHS='armv7 armv7s' $ACTION\n# Copy the framework structure to the universal folder (clean it first)\nrm -rf \"${UNIVERSAL_OUTPUTFOLDER}\"\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\"\n# Smash them together to combine all architectures\nlipo -create  \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/arm64/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/armv7/${PROJECT_NAME}.framework/${PROJECT_NAME}\" -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}\"\n";
+			shellScript = "set -e\nset +u\n\n# Avoid recursively calling this script.\n\nif [[ $SF_MASTER_SCRIPT_RUNNING ]]\nthen\nexit 0\nfi\nset -u\nexport SF_MASTER_SCRIPT_RUNNING=1\n\n# Constants\n\nSF_TARGET_NAME=${PROJECT_NAME}\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Take build target\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nSF_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n#if [[ \"$SF_SDK_PLATFORM\" = \"iphoneos\" ]]\n#then\n#echo \"Please choose iPhone simulator as the build target.\"\n#exit 1\n#fi\n\nIPHONE_DEVICE_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos\n\n#simulator\n\nxcodebuild -target \"${PROJECT_NAME}\" -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build\n\n# Build the other (non-simulator) platform\n\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" CONFIGURATION_BUILD_DIR=\"${IPHONE_DEVICE_BUILD_DIR}/arm64\" SYMROOT=\"${SYMROOT}\" ARCHS='arm64' VALID_ARCHS='arm64' $ACTION\n\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\"  CONFIGURATION_BUILD_DIR=\"${IPHONE_DEVICE_BUILD_DIR}/armv7\" SYMROOT=\"${SYMROOT}\" ARCHS='armv7 armv7s' VALID_ARCHS='armv7 armv7s' $ACTION\n\n# Copy the framework structure to the universal folder (clean it first)\n\nrm -rf \"${UNIVERSAL_OUTPUTFOLDER}\"\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\"\n\n# Smash them together to combine all architectures\n\nlipo -create  \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/arm64/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/armv7/${PROJECT_NAME}.framework/${PROJECT_NAME}\" -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1594,12 +1609,12 @@
 				29D6F86C1D193D9D00A75369 /* PSPDFTextView.m in Sources */,
 				6D6DF17D1BC5364C00EBA00F /* ALSyncMessageFeed.m in Sources */,
 				6D153D2F1C9B1F3D00CD8F55 /* ALMessageInfo.m in Sources */,
-				6DFB40AD1CEA2B54006C1AD1 /* ALUserInformationViewController.m in Sources */,
 				6D08770A1D01B0FE00DB491A /* UIView+Toast.m in Sources */,
 				6D9C693D1C28383B00C78219 /* ALChatLauncher.m in Sources */,
 				6D6DF1651BC5364C00EBA00F /* ALNewContactCell.m in Sources */,
 				297DE0A71C4627ED00C9D87E /* TSBlurView.m in Sources */,
 				6D6DF14D1BC5364C00EBA00F /* ALUserDefaultsHandler.m in Sources */,
+				293446161D4F426F007BD1B4 /* ALShowImageViewController.m in Sources */,
 				6D6DF1C81BC5364C00EBA00F /* UIImage+GIF.m in Sources */,
 				6D4C2B271C81B77B0031C677 /* ALConversationService.m in Sources */,
 				6D89042A1C3E7A9500B59381 /* ALAppLocalNotifications.m in Sources */,
@@ -1613,15 +1628,12 @@
 				6DDE81871C27D8EC009B8CF9 /* ALUserClientService.m in Sources */,
 				6D6DF15D1BC5364C00EBA00F /* ALNewContactsViewController.m in Sources */,
 				6D4763F61C3A79A7005BD5EC /* ALChannelService.m in Sources */,
-				29DDB4B91D474E12002E429C /* ALImageActivity.m in Sources */,
 				6D6DF1831BC5364C00EBA00F /* DB_FileMetaInfo.m in Sources */,
-				29DDB4B41D47469A002E429C /* ALShowImageViewController.m in Sources */,
 				6DA701861C8D67D900D7BB13 /* ALUserBlockResponse.m in Sources */,
 				6D98B4691C4FE4B600A6BBFE /* ALAudioCell.m in Sources */,
 				6D57379A1CAAFB3B00284F83 /* ALDocumentsCell.m in Sources */,
 				6D6DF1B51BC5364C00EBA00F /* NSData+ImageContentType.m in Sources */,
 				6D6DF15B1BC5364C00EBA00F /* ALMessagesViewController.m in Sources */,
-				6D0AD9741D3EB93100D49DF2 /* ALUserProfileVC.m in Sources */,
 				6D6DF13C1BC5364C00EBA00F /* ALPushNotificationService.m in Sources */,
 				6D81979B1CC55B5700E53EC3 /* ALCollectionReusableView.m in Sources */,
 				6D6DF1D21BC5364C00EBA00F /* UIView+WebCacheOperation.m in Sources */,
@@ -1641,10 +1653,12 @@
 				6D6DF1691BC5364C00EBA00F /* ALLocationManager.m in Sources */,
 				6DB061181C732FE400EB7393 /* ALChannelSyncResponse.m in Sources */,
 				982F13071C05D6050024678E /* MQTTDecoder.m in Sources */,
+				6D73B2FE1D4F0FF0007D3D72 /* ALReceiverUserProfileVC.m in Sources */,
 				6DB75FB71C9176E700359748 /* ALUserBlocked.m in Sources */,
 				6D95476A1BE38DFF00776652 /* ALContactDBService.m in Sources */,
 				297DE0A11C46253300C9D87E /* TSMessageView.m in Sources */,
 				29DEA3161BEDEC1F004B8085 /* ALUserService.m in Sources */,
+				6D0D107B1D4CD7B6009853FB /* ALImagePickerController.m in Sources */,
 				6DBE8C451C6E2BBF00DC5778 /* ALChannelCreateResponse.m in Sources */,
 				6D6DF1B91BC5364C00EBA00F /* SDWebImageCompat.m in Sources */,
 				6D6DF1CA1BC5364C00EBA00F /* UIImage+MultiFormat.m in Sources */,
@@ -1657,6 +1671,7 @@
 				6D6DF1C11BC5364C00EBA00F /* SDWebImageManager.m in Sources */,
 				6D7AFD261BECF061009DDC1D /* ALSendMessageResponse.m in Sources */,
 				6D1B072A1CD8F76F003D14D8 /* ALUIConstant.m in Sources */,
+				293446141D4F426F007BD1B4 /* ALImageActivity.m in Sources */,
 				6DB57B091C844760001BFA7C /* MessageListRequest.m in Sources */,
 				6DCC30121C315B1200F17D0E /* ALChannelClientService.m in Sources */,
 				6DDBE54A1CCE3F21002C04E0 /* ALContactsResponse.m in Sources */,
@@ -1694,7 +1709,6 @@
 				982F13091C05D6050024678E /* MQTTEncoder.m in Sources */,
 				6DCC301A1C31645700F17D0E /* ALChannelInfo.m in Sources */,
 				6D6DF1791BC5364C00EBA00F /* ALMessageList.m in Sources */,
-				6DFB40B51CEA45D5006C1AD1 /* ALUserInfoTableCell.m in Sources */,
 				29AD70A61C3E8955003C7DB8 /* ALPushAssist.m in Sources */,
 				6D6DF1D01BC5364C00EBA00F /* UIImageView+WebCache.m in Sources */,
 				6D1385791CA9B83C009E6F50 /* AlMultipleAttachmentCell.m in Sources */,
@@ -1708,6 +1722,7 @@
 				6DEFEA401C9ACF0900F7E168 /* ALMessageInfoViewController.m in Sources */,
 				6DE2DE191D12ED75008F041E /* ALHyperLabel.m in Sources */,
 				6D52A42A1C7CA8EA008CBA3A /* ALMediaPlayer.m in Sources */,
+				6DEAEE8D1D4CDBC700360060 /* ALUserProfileVC.m in Sources */,
 				6D4C2B371C81C93A0031C677 /* ALConversationDBService.m in Sources */,
 				6D6DF1531BC5364C00EBA00F /* ALUtilityClass.m in Sources */,
 				294637B71C6F16050025ED76 /* ALGroupCreationViewController.m in Sources */,
@@ -1842,8 +1857,8 @@
 		6D6DF0861BC535C800EBA00F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1869,8 +1884,8 @@
 		6D6DF0871BC535C800EBA00F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1881,7 +1896,6 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Applozic_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = "";
 				INFOPLIST_FILE = Applozic/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

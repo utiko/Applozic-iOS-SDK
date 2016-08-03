@@ -18,6 +18,12 @@ typedef enum
     
 } AuthenticationType;
 
+typedef enum
+{
+    DEVELOPMENT = 0,
+    DISTRIBUTION = 1,
+
+} deviceApnsType;
 
 @interface ALUser : ALJson
 
@@ -41,6 +47,7 @@ typedef enum
 @property short notificationMode;
 @property short authenticationTypeId;
 @property short unreadCountType;
+@property short deviceApnsType;
 
 @end
 

@@ -54,6 +54,7 @@
 #define CONNECTION_TYPE_USER_IMG_UPLOAD @"CONNECTION_TYPE_USER_IMG_UPLOAD"
 #define CONNECTION_TYPE_GROUP_IMG_UPLOAD @"CONNECTION_TYPE_GROUP_UPLOAD"
 #define IMAGE_UPLOAD_URL @"/rest/ws/upload/file"
+
 typedef enum {
     //outbox
     SENT = 3,

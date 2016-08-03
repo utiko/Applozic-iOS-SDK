@@ -11,24 +11,19 @@
 #import "ALUtilityClass.h"
 #import "ALChatViewController.h"
 #import "ALImagePickerHandler.h"
+#import "ALImagePickerController.h"
 
 #define NAVIGATION_TEXT_SIZE 20
 
 @interface ALMultipleAttachmentView () <UITextFieldDelegate>
 
-@property (nonatomic, retain) UIImagePickerController * mImagePicker;
+@property (nonatomic, retain) ALImagePickerController * mImagePicker;
+@property (strong, nonatomic) UIBarButtonItem * sendButton;
 
 @end
 
 @implementation ALMultipleAttachmentView
 {
-    CGFloat DIMENSION_WIDTH;
-    CGFloat DIMENSION_HEIGHT;
-    CGFloat SEND_BUTTON_X;
-    CGFloat ADD_BUTTON_X;
-    CGFloat ADJUST_Y;
-    CGFloat ADJUST_X;
-    CGFloat ADJUST_VIEW_CONSTANT;
     ALCollectionReusableView * headerView;
 }
 
@@ -38,7 +33,7 @@ static NSString * const reuseIdentifier = @"collectionCell";
 {
     [super viewDidLoad];
     
-    self.mImagePicker = [UIImagePickerController new];
+    self.mImagePicker = [ALImagePickerController new];
     self.mImagePicker.delegate = self;
     
     self.imageArray = [NSMutableArray new];
@@ -49,6 +44,11 @@ static NSString * const reuseIdentifier = @"collectionCell";
     
     //    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
+     self.sendButton = [[UIBarButtonItem alloc] initWithTitle:@"Send"
+                                                        style:UIBarButtonItemStylePlain
+                                                       target:self
+                                                       action:@selector(sendButtonAction)];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,48 +58,9 @@ static NSString * const reuseIdentifier = @"collectionCell";
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    DIMENSION_WIDTH = 120;
-    DIMENSION_HEIGHT = 40;
-    ADJUST_Y = 10;
-    ADJUST_VIEW_CONSTANT = 90;
-    ADJUST_X = 20;
+    [super viewWillAppear:YES];
     
-    UIView * bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - ADJUST_VIEW_CONSTANT,
-                                                                  self.view.frame.size.width,
-                                                                  ADJUST_VIEW_CONSTANT)];
-    
-    [bottomView setBackgroundColor:[UIColor whiteColor]];
-    [self.view addSubview: bottomView];
-    
-    ADD_BUTTON_X = bottomView.frame.origin.x + ADJUST_X;
-    
-    UIButton * button = [[UIButton alloc] initWithFrame:CGRectMake(ADD_BUTTON_X,
-                                                                  bottomView.frame.origin.y + ADJUST_Y,
-                                                                  DIMENSION_WIDTH, DIMENSION_HEIGHT)];
-    
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button setContentMode:UIViewContentModeScaleAspectFit];
-    [button setTitle:@"CANCEL" forState:UIControlStateNormal];
-    [button setBackgroundColor: [ALApplozicSettings getColorForNavigation]];
-    button.layer.cornerRadius = 5;
-    button.layer.masksToBounds = YES;
-    [button addTarget:self action:@selector(cancelButtonAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:button];
-    
-    SEND_BUTTON_X = bottomView.frame.size.width - (DIMENSION_WIDTH + ADJUST_X);
-    
-    UIButton *sendbutton = [[UIButton alloc] initWithFrame:CGRectMake(SEND_BUTTON_X,
-                                                                      bottomView.frame.origin.y + ADJUST_Y,
-                                                                      DIMENSION_WIDTH, DIMENSION_HEIGHT)];
-    
-    [sendbutton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [sendbutton setContentMode:UIViewContentModeScaleAspectFit];
-    [sendbutton setTitle:@"SEND" forState:UIControlStateNormal];
-    [sendbutton setBackgroundColor: [ALApplozicSettings getColorForNavigation]];
-    sendbutton.layer.cornerRadius = 5;
-    sendbutton.layer.masksToBounds = YES;
-    [sendbutton addTarget:self action:@selector(sendButtonAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:sendbutton];
+    [self.navigationItem setRightBarButtonItem:self.sendButton];
     [self navigationBarColor];
 }
 
@@ -161,7 +122,7 @@ static NSString * const reuseIdentifier = @"collectionCell";
     [self.imageArray insertObject:globalThumbnail atIndex:0];
     [self.mediaFileArray insertObject:object atIndex:0];
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:nil];
     [self.collectionView reloadData];
 }
 
@@ -202,12 +163,7 @@ static NSString * const reuseIdentifier = @"collectionCell";
     int max = MAX_VALUE + 1;
     if(self.imageArray.count >= max)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"OOPS!!!"
-                                                        message: @"Maximum attachment limit reached"
-                                                       delegate: nil
-                                              cancelButtonTitle: @"OK"
-                                              otherButtonTitles: nil];
-        [alert show];
+        [ALUtilityClass showAlertMessage:@"Maximum attachment limit reached" andTitle:@"OOPS!!!"];
         return;
     }
     
@@ -219,7 +175,7 @@ static NSString * const reuseIdentifier = @"collectionCell";
 {
     if(!self.mediaFileArray.count)
     {
-        [self emptySendView];
+        [ALUtilityClass showAlertMessage:@"Select at least one attachment" andTitle:@"Attachment"];
         return;
     }
     [self.multipleAttachmentDelegate multipleAttachmentProcess:self.mediaFileArray andText:headerView.msgTextField.text];
@@ -231,16 +187,6 @@ static NSString * const reuseIdentifier = @"collectionCell";
     self.mImagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     self.mImagePicker.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
     [self presentViewController:self.mImagePicker animated:YES completion:nil];
-}
-
--(void)emptySendView
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Attachment"
-                                                    message: @"Select at least one attachment"
-                                                   delegate: nil
-                                          cancelButtonTitle: @"OK"
-                                          otherButtonTitles: nil];
-    [alert show];
 }
 
 //====================================================================================================================================

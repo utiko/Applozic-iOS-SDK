@@ -8,7 +8,6 @@
 
 #import "DemoChatManager.h"
 #import <Applozic/ALUserDefaultsHandler.h>
-#import <Applozic/ALRegisterUserClientService.h>
 #import <Applozic/ALMessageClientService.h>
 #import "LaunchChatFromSimpleViewController.h"
 #import <Applozic/ALApplozicSettings.h>
@@ -16,7 +15,6 @@
 #import <Applozic/ALMessage.h>
 
 @implementation DemoChatManager
-
 
 // ----------------------
 
@@ -28,7 +26,7 @@
 
 -(void)registerUser:(ALUser *)alUser{
     
-    self.chatLauncher = [[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
+    self.chatLauncher =[[ALChatLauncher alloc]initWithApplicationId:APPLICATION_ID];
     
     //////////////////////////   SET AUTHENTICATION-TYPE-ID FOR INTERNAL USAGE ONLY ////////////////////////
     [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
@@ -36,7 +34,7 @@
     
     [self ALDefaultChatViewSettings];
     [alUser setApplicationId:APPLICATION_ID];
-    
+
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         if (error) {
@@ -58,7 +56,11 @@
             
         }
         
-        if(![ALUserDefaultsHandler getApnDeviceToken]){
+//        if(![ALUserDefaultsHandler getApnDeviceToken]){
+//            [self.chatLauncher registerForNotification];
+//        }
+        
+        if(![[UIApplication sharedApplication] isRegisteredForRemoteNotifications]){
             [self.chatLauncher registerForNotification];
         }
         
@@ -66,7 +68,6 @@
         NSLog(@"Registration response from server:%@", rResponse);
     }];
 }
-
 
 // --------------------
 
@@ -107,7 +108,6 @@
         NSLog(@"USER_REGISTRATION_RESPONSE :: %@", rResponse);
     }];
 }
-
 
 // ----------------------  ------------------------------------------------------/
 
@@ -346,7 +346,7 @@
     [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];      // 3. APP_MODULE_NAME setter
     
     //random userId. Write your logic to get user information here.
-    //[user setUserId:<YOUR LOGGED IN USER ID>];
+    [user setUserId:@"demo-test"];
     
     //[user setEmailId:[self.emailField text]];
     //[user setPassword:[self.passwordField text]];
@@ -360,49 +360,50 @@
 
 -(void)ALDefaultChatViewSettings
 {
-    //ENABLE / DISABLE LOGS
-    [ALUserDefaultsHandler setDebugLogsRequire:YES];
     
+    [ALUserDefaultsHandler setDebugLogsRequire:YES];             /*   ENABLE / DISABLE LOGS   */
     [ALUserDefaultsHandler setLogoutButtonHidden:NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     [ALUserDefaultsHandler setLoginUserConatactVisibility:NO];
+    
     [ALApplozicSettings setUserProfileHidden:NO];
     [ALApplozicSettings hideRefreshButton:NO];
     [ALApplozicSettings setTitleForConversationScreen:@"Chats"];
+    
     [ALApplozicSettings setFontFace:@"Helvetica"];
     [ALApplozicSettings setColorForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
     [ALApplozicSettings setColorForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     [ALApplozicSettings setColorForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     [ALApplozicSettings setColorForNavigationItem: [UIColor whiteColor]];
     [ALApplozicSettings setUnreadCountLabelBGColor:[UIColor purpleColor]];
+    
     [ALApplozicSettings setSendMsgTextColor:[UIColor whiteColor]];
     [ALApplozicSettings setReceiveMsgTextColor:[UIColor grayColor]];
     
-    // BY DEFAULT Black:UIStatusBarStyleDefault IF REQ. White: UIStatusBarStyleLightContent
-    // ADD property in info.plist "View controller-based status bar appearance" type: BOOLEAN value: NO
     [ALApplozicSettings setStatusBarBGColor:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     [ALApplozicSettings setStatusBarStyle:UIStatusBarStyleLightContent];
-    
+    /* BY DEFAULT Black:UIStatusBarStyleDefault IF REQ. White: UIStatusBarStyleLightContent  */
+   /* ADD property in info.plist "View controller-based status bar appearance" type: BOOLEAN value: NO */
     
     NSString * appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     [ALApplozicSettings setNotificationTitle:appName];
     [ALApplozicSettings setMaxCompressionFactor:0.1f];
     [ALApplozicSettings setMaxImageSizeForUploadInMB:3];
-    [ALApplozicSettings setMultipleAttachmentMaxLimit:5];
+    [ALApplozicSettings setMultipleAttachmentMaxLimit:5];  //NSInteger
     [ALApplozicSettings setGroupOption:YES];
     [ALApplozicSettings setChatWallpaperImageName:[ALApplozicSettings getChatWallpaperImageName]];
     [ALApplozicSettings setGroupExitOption:YES];
     [ALApplozicSettings setGroupMemberAddOption:YES];
-    [ALApplozicSettings setGroupMemberRemoveOption:YES];
+    [ALApplozicSettings setGroupMemberRemoveOption:YES];  ////////////  /**/
     
-    //  SET COLOR FOR TOAST TEXT
-    [ALApplozicSettings setColorForToastText:[UIColor blackColor]];
-    //  SET COLOR FOR TOAST BG
-    [ALApplozicSettings setColorForToastBackground:[UIColor grayColor]];
+    [ALApplozicSettings setColorForToastText:[UIColor blackColor]];         /*  SET COLOR FOR TOAST TEXT    */
+    [ALApplozicSettings setColorForToastBackground:[UIColor grayColor]];    /*  SET COLOR FOR TOAST BG      */
     
-    //SET VISIBILITY FOR REFRESH BUTTON (COMES FROM TOP IN MSG VC) Note: Please set to 'NO' if NOT REQUIRED
-    [ALApplozicSettings setCustomNavRightButtonMsgVC:NO];
+    [ALApplozicSettings setCustomNavRightButtonMsgVC:NO];                   /*  SET VISIBILITY FOR REFRESH BUTTON (COMES FROM TOP IN MSG VC)   */
+                                                                            /*  Note: Please set to 'NO' if NOT REQUIRED */
+
     [ALApplozicSettings setVisibilityForNoMoreConversationMsgVC:NO];        /*  SET VISIBILITY NO MORE CONVERSATION (COMES FROM TOP IN MSG VC)  */
+    
     [ALApplozicSettings setTitleForBackButtonMsgVC:@"Back"];                /*  SET BACK BUTTON FOR MSG VC  */
     [ALApplozicSettings setTitleForBackButtonChatVC:@"Back"];               /*  SET BACK BUTTON FOR CHAT VC */
     
@@ -425,10 +426,10 @@
     [ALApplozicSettings setTextColorForTypingLabel:[UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:0.5]]; /*  SET COLOR FOR TEXT TYPING LABEL  */
     
     
-    [ALApplozicSettings enableNotification]; //0
+//    [ALApplozicSettings enableNotification]; //0
 //    [ALApplozicSettings disableNotification]; //2
     
-//    [ALApplozicSettings disableNotificationSound]; //1                        /*  IF NOTIFICATION SOUND NOT NEEDED    */
+//    [ALApplozicSettings disableNotificationSound]; //1                             /*  IF NOTIFICATION SOUND NOT NEEDED    */
                                                                                 /*  Note: Please uncomment above if sound NOT needed */
     
 //   [ALApplozicSettings enableNotificationSound];//0                              /*  IF NOTIFICATION SOUND NEEDED    */
@@ -438,6 +439,7 @@
     [ALApplozicSettings setContextualChat:YES];                                 /*  IF CONTEXTUAL NEEDED    */
                                                                                 /*  Note: Please uncomment below setter to use app_module_name */
 //   [ALUserDefaultsHandler setAppModuleName:@"<APP_MODULE_NAME>"];
+//   [ALUserDefaultsHandler setAppModuleName:@"SELLER"];
     
     
     [ALApplozicSettings setFilterContactsStatus:YES];                           /*  IF NEEDED ALL REGISTERED CONTACTS   */
@@ -458,14 +460,14 @@
     [ALApplozicSettings setMaxTextViewLines:4];
     
     [ALUserDefaultsHandler setDeviceApnsType:(short)DEVELOPMENT];
-    
     //For Distribution CERT::
     //[ALUserDefaultsHandler setDeviceApnsType:(short)DISTRIBUTION];
     
+    
 //<><><><><><>APPLICATION URL CONFIGURATION<><><><><><><>//
-    [self getApplicationBaseURL];
-/* Note: PLEASE UNCOMMENT ABOVE GETTER WHEN ARCHIVING/RELEASING  */
-
+//    [self getApplicationBaseURL];
+/* Note: PLEASE DO NOT COMMENT THIS IF ARCHIVING/RELEASING  */
+//<><><><><><><><><><><><><><><><><><><><><><><><><><><>//
     
 }
 

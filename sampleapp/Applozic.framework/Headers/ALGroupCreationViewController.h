@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ALGroupCreationViewController : UIViewController<UIImagePickerControllerDelegate>
+@interface ALGroupCreationViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *groupNameInput;
 @property (weak, nonatomic) IBOutlet UIImageView *groupIconView;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UITableView *mTableView;
+@property (strong,nonatomic) NSString * groupImageUploadURL;
+
 @end

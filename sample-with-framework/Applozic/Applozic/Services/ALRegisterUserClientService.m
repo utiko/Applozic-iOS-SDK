@@ -78,14 +78,12 @@
             [ALUserDefaultsHandler setEmailId:user.emailId];
             [ALUserDefaultsHandler setDeviceKeyString:response.deviceKey];
             [ALUserDefaultsHandler setUserKeyString:response.userKey];
-            
             if(response.imageLink){
                 [ALUserDefaultsHandler setProfileImageLinkFromServer:response.imageLink];
             }
             if(response.statusMessage){
                 [ALUserDefaultsHandler setLoggedInUserStatus:response.statusMessage];
             }
-            
             if(response.brokerURL && ![response.brokerURL isEqualToString:@""])
             {
                  NSArray * mqttURL = [response.brokerURL componentsSeparatedByString:@":"];
@@ -157,7 +155,7 @@
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
     
-    [ALResponseHandler processRequest:theRequest andTag:@"CREATE ACCOUNT" WithCompletionHandler:^(id theJson, NSError *theError) {
+    [ALResponseHandler processRequest:theRequest andTag:@"UPDATE NOTIFICATION MODE" WithCompletionHandler:^(id theJson, NSError *theError) {
         NSLog(@"Updating Notification Mode Server Response Received %@", theJson);
         
         NSString *statusStr = (NSString *)theJson;
@@ -234,6 +232,7 @@
         }
         NSLog(@"Response: APP UPDATED:%@",theJson);
     }];
-}
 
+    
+}
 @end

@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSString * email;
 @property (nonatomic, retain) NSString * localImageResourceName;
 @property (nonatomic, retain) NSNumber * lastSeenAt;
+@property (nonatomic, retain) NSString * userStatus;
 @property (nonatomic) BOOL connected;
 @property (nonatomic, retain) NSNumber * unreadCount;
 @property (nonatomic) BOOL block;

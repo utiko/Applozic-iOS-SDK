@@ -51,4 +51,7 @@
 
 -(void)resettingUnreadCountWithCompletion:(void (^)(NSString *json, NSError *error))completion;
 
+-(void)updateUserDisplayName:(NSString *)displayName andUserImage:(NSString *)imageLink userStatus:(NSString *)status
+              withCompletion:(void (^)(id theJson, NSError * error))completion;
+
 @end

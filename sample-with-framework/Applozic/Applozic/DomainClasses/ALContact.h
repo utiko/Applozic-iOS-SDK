@@ -26,6 +26,8 @@
 
 @property(nonatomic,retain) NSString * localImageResourceName;
 
+@property (nonatomic, retain) NSString * userStatus;
+
 @property(nonatomic,retain)NSString * applicationId;
 
 @property (nonatomic) BOOL connected;
@@ -38,8 +40,6 @@
 -(NSString *)getDisplayName;
 
 @property (nonatomic,strong) NSNumber * unreadCount;
-@property (nonatomic, strong) NSString * userStatus;
-
 
 @property (nonatomic) BOOL block;
 @property (nonatomic) BOOL blockBy;

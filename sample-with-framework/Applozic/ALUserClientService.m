@@ -15,7 +15,6 @@
 #import "NSString+Encode.h"
 #import "ALAPIResponse.h"
 
-
 @implementation ALUserClientService
 
 +(void)userLastSeenDetail:(NSNumber *)lastSeenAt withCompletion:(void(^)(ALLastSeenSyncFeed *))completionMark
@@ -355,6 +354,10 @@
         completion((NSString *)theJson,nil);
     }];
 }
+
+//========================================================================================================================
+#pragma mark UPDATE USER Display Name/Status/Profile Image
+//========================================================================================================================
 
 -(void)updateUserDisplayName:(NSString *)displayName andUserImageLink:(NSString *)imageLink userStatus:(NSString *)status
               withCompletion:(void (^)(id theJson, NSError * error))completionHandler

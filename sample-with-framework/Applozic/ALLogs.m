@@ -40,7 +40,7 @@ void ALExtendNSLog(const char *file, int lineNumber, const char *functionName, N
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSS"];
     NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
-
+    
 //    COMMENTED DO NOT DELETE VIMP
 //    fprintf(stderr, "%s Applozic : [%s] [%s:%d] :: %s",[timeStamp UTF8String], functionName, [fileName UTF8String], lineNumber, [body UTF8String]);
      fprintf(stderr, "%s Applozic : [%s:%d] :: %s",[timeStamp UTF8String], [fileName UTF8String], lineNumber, [body UTF8String]);

@@ -11,6 +11,11 @@
 #import "ALJson.h"
 #import "ALConversationProxy.h"
 
+#define CHANNEL_SPECIAL_CASE 7
+/*********************
+ type = 7 SPECIAL CASE
+*********************/
+
 typedef enum
 {
     VIRTUAL,

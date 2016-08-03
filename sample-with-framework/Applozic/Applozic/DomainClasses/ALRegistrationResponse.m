@@ -21,8 +21,9 @@
     self.lastSyncTime = [registrationResponse valueForKey:@"lastSyncTime"];
     self.currentTimeStamp = [registrationResponse valueForKey:@"currentTimeStamp"];
     self.brokerURL = [registrationResponse valueForKey:@"brokerUrl"];
-    self.imageLink = [registrationResponse valueForKey:@"imageLink"];
     self.statusMessage = [registrationResponse valueForKey:@"statusMessage"];
+    self.imageLink = [registrationResponse valueForKey:@"imageLink"];
+    
     return self;
 }
 @end

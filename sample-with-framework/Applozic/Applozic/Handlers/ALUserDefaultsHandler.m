@@ -556,7 +556,6 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:LOGIN_USER_CONTACT];
 }
 
-
 +(void)setProfileImageLink:(NSString *)imageLink
 {
     [[NSUserDefaults standardUserDefaults] setValue:imageLink forKey:LOGIN_USER_PROFILE_IMAGE];
@@ -600,6 +599,17 @@
 {
     short type = [[NSUserDefaults standardUserDefaults] integerForKey:DEVICE_APNS_TYPE_ID];
     return type ? type : 0;
+}
+
++(BOOL)isUserLoggedInUserSubscribedMQTT
+{
+     return [[NSUserDefaults standardUserDefaults] boolForKey:LOGIN_USER_SUBSCRIBED_MQTT];
+}
+
++(void)setLoggedInUserSubscribedMQTT:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:LOGIN_USER_SUBSCRIBED_MQTT];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end

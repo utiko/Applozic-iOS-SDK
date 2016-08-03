@@ -44,8 +44,15 @@
 #define MSG_SYN_CALL @"com.applozic.userdefault.MSG_SYN_CALL"
 #define DEBUG_LOG_FLAG @"com.applozic.userdefault.DEBUG_LOG_FLAG"
 #define LOGIN_USER_CONTACT @"com.applozic.userdefault.LOGIN_USER_CONTACT"
+#define LOGIN_USER_PROFILE_IMAGE @"com.applozic.userdefault.LOGIN_USER_PROFILE_IMAGE"
+#define LOGIN_USER_PROFILE_IMAGE_SERVER @"com.applozic.userdefault.LOGIN_USER_PROFILE_IMAGE_SERVER"
+#define LOGIN_USER_PHONE_NUMBER @"com.applozic.userdefault.LOGIN_USER_PHONE_NUMBER"
+#define LOGGEDIN_USER_STATUS @"com.applozic.userdefault.LOGGEDIN_USER_STATUS"
+#define LOGIN_USER_SUBSCRIBED_MQTT @"com.applozic.userdefault.LOGIN_USER_SUBSCRIBED_MQTT"
 
 #define KEY_PREFIX @"com.applozic.userdefault"
+
+#define DEVICE_APNS_TYPE_ID @"com.applozic.userdefault.DEVICE_APNS_TYPE"
 
 #import <Foundation/Foundation.h>
 
@@ -191,5 +198,25 @@
 
 +(BOOL)getLoginUserConatactVisibility;
 +(void)setLoginUserConatactVisibility:(BOOL)flag;
+
+// LOGIN USER PHONE NO.
++(NSString *)getPhoneNumber;
++(void)setPhoneNumber:(NSString *)phoneNumber;
+
+// LOGIN USER PROFILE IMAGE LINK
++(NSString *)getProfileImageLink;
++(void)setProfileImageLink:(NSString *)imageLink;
+
++(NSString *)getProfileImageLinkFromServer;
++(void)setProfileImageLinkFromServer:(NSString *)imageLink;
+
++(NSString *)getLoggedInUserStatus;
++(void)setLoggedInUserStatus:(NSString *)status;
+
++(void)setDeviceApnsType:(short)type;
++(short)getDeviceApnsType;
+
++(BOOL)isUserLoggedInUserSubscribedMQTT;
++(void)setLoggedInUserSubscribedMQTT:(BOOL)flag;
 
 @end

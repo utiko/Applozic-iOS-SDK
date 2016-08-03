@@ -50,7 +50,7 @@
     }];
 }
 
-+(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(NSError *error, ALChannelCreateResponse *response))completion
++(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey andMembersList:(NSMutableArray *)memberArray andImageLink:(NSString *)imageLink withCompletion:(void(^)(NSError *error, ALChannelCreateResponse *response))completion
 {
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, CREATE_CHANNEL_URL];
@@ -58,6 +58,8 @@
     
     [channelDictionary setObject:channelName forKey:@"groupName"];
     [channelDictionary setObject:memberArray forKey:@"groupMemberList"];
+    [channelDictionary setObject:imageLink forKey:@"imageUrl"];
+    
     if(clientChannelKey)
     {
         [channelDictionary setObject:clientChannelKey forKey:@"clientGroupId"];
@@ -67,7 +69,7 @@
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:channelDictionary options:0 error:&error];
     NSString *theParamString = [[NSString alloc] initWithData:postdata encoding: NSUTF8StringEncoding];
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
-    NSLog(@"PARAm STRINg %@", theParamString);
+    NSLog(@"PARAM_STRING :: %@", theParamString);
 
     [ALResponseHandler processRequest:theRequest andTag:@"CREATE_CHANNEL" WithCompletionHandler:^(id theJson, NSError *theError) {
 

@@ -74,5 +74,6 @@
 -(void)processLoadEarlierMessages:(BOOL)isScrollToBottom;
 -(NSString*)formatDateTime:(ALUserDetail*)alUserDetail  andValue:(double)value;
 -(void)checkUserBlockStatus;
+-(void)updateChannelSubscribing:(NSNumber *)oldChannelKey andNewChannel:(NSNumber *)newChannelKey;
 
 @end

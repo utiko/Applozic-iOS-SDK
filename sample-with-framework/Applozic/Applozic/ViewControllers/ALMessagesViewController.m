@@ -665,7 +665,7 @@
         BOOL zeroContactCount = (alContact.unreadCount.intValue == 0  ? true:false);
         BOOL zeroChannelCount = (alChannel.unreadCount.intValue == 0  ? true:false);
         
-        if(zeroChannelCount||zeroContactCount)
+        if(zeroChannelCount || zeroContactCount)
         {
             contactCell.unreadCountLabel.text = @"";
             [contactCell.unreadCountLabel setHidden:YES];
@@ -757,7 +757,7 @@
 }
 
 //------------------------------------------------------------------------------------------------------------------
-#pragma mark - Table View Delegate Methods
+#pragma mark - Table View Delegate Methods                 
 //------------------------------------------------------------------------------------------------------------------
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -798,7 +798,8 @@
         self.detailChatViewController.conversationId = message.conversationId;
     }
     
-    if (message.groupId){
+    if (message.groupId)
+    {
         self.detailChatViewController.channelKey = message.groupId;
         self.detailChatViewController.contactIds = nil;
     }
@@ -838,23 +839,6 @@
 
 }
 
-/*
--(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Button 1" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
-                                    {
-                                        NSLog(@"Action to perform with Button 1");
-                                    }];
-    button.backgroundColor = [UIColor greenColor];
-    UITableViewRowAction *button2 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Button 2" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
-                                     {
-                                         NSLog(@"Action to perform with Button2!");
-                                     }];
-    button2.backgroundColor = [UIColor blueColor];
-    
-    return @[button, button2];
-}
-*/
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete)
@@ -1011,10 +995,10 @@
 
 -(void) updateTypingStatus:(NSString *)applicationKey userId:(NSString *)userId status:(BOOL)status
 {
-     NSLog(@"==== Received typing status %d for: %@ ====", status, userId);
+    NSLog(@"==== (MSG_VC) Received typing status %d for: %@ ====", status, userId);
     ALContactDBService *contactDBService = [[ALContactDBService alloc] init];
     ALContact *alContact = [contactDBService loadContactByKey:@"userId" value: userId];
-    if(alContact.block || alContact.blockBy)
+    if((alContact.block || alContact.blockBy) && !self.detailChatViewController.channelKey)
     {
         return;
     }
@@ -1324,9 +1308,7 @@
         }
             [self.mActivityIndicator stopAnimating];
             [self.mTableView setUserInteractionEnabled:YES];
-        
     }
-    
 }
 
 @end

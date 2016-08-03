@@ -19,11 +19,13 @@
 
 -(void)getChannelInformation:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey withCompletion:(void (^)(ALChannel *alChannel3)) completion;
 
--(NSString *)getChannelName:(NSNumber *)channelKey;
+-(ALChannel *)getChannelByKey:(NSNumber *)channelKey;
+
+-(NSMutableArray *)getListOfAllUsersInChannel:(NSNumber *)channelKey;
 
 -(NSString *)stringFromChannelUserList:(NSNumber *)key;
 
--(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(ALChannel *alChannel))completion;
+-(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey andMembersList:(NSMutableArray *)memberArray andImageLink:(NSString *)imageLink withCompletion:(void(^)(ALChannel *alChannel))completion;
 
 -(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion;
 

@@ -70,7 +70,8 @@
     return success;
 }
 
-- (BOOL)purgeAllContact {
+- (BOOL)purgeAllContact
+{
     BOOL success = NO;
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
 
@@ -149,14 +150,12 @@
         userContact.contactNumber = contact.contactNumber;
         userContact.contactImageUrl = contact.contactImageUrl;
         userContact.unreadCount = contact.unreadCount ? contact.unreadCount : [NSNumber numberWithInt:0];
-        
+        userContact.userStatus = contact.userStatus;
         if(contact.displayName)
         {
             userContact.displayName = contact.displayName;
         }
         userContact.localImageResourceName = contact.localImageResourceName;
-        userContact.userStatus = contact.userStatus;
-
     }
     
     NSError *error = nil;
@@ -242,7 +241,7 @@
     contact.block = dbContact.block;
     contact.blockBy = dbContact.blockBy;
     contact.userStatus = dbContact.userStatus;
-
+    
     return contact;
 }
 
@@ -297,7 +296,7 @@
     contact.unreadCount = userContact.unreadCount ? userContact.unreadCount : [NSNumber numberWithInt:0];
     contact.lastSeenAt = userContact.lastSeenAt;
     contact.userStatus = userContact.userStatus;
-
+    
     NSError *error = nil;
     
     result = [dbHandler.managedObjectContext save:&error];
@@ -317,8 +316,6 @@
         [self updateUserDetail:theUserDetail];
     }
 }
-
-
 
 -(void) updateConnectedStatus: (NSString *) userId lastSeenAt:(NSNumber *) lastSeenAt  connected: (BOOL) connected
 {
@@ -378,7 +375,7 @@
          contact.contactNumber = userDetail.contactNumber;
          contact.connected = userDetail.connected;
          contact.userStatus = userDetail.userStatus;
-
+        
         [self addContact:contact];
     }
     
@@ -606,7 +603,7 @@
         contact.localImageResourceName = dbContact.localImageResourceName;
         contact.unreadCount = dbContact.unreadCount;
         contact.userStatus = dbContact.userStatus;
-
+        
         [contactList addObject:contact];
     }
 

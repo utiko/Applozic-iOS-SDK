@@ -30,6 +30,8 @@
     self.unreadCount = [self getNSNumberFromJsonValue:messageJson[@"unreadCount"]];
 //    self.userCount = [self getNSNumberFromJsonValue:messageJson[@""]];
     self.membersName = [[NSMutableArray alloc] initWithArray:[messageJson objectForKey:@"membersName"]];
+    self.type = [self getShortFromJsonValue:messageJson[@"type"]];
+
 }
 
 @end

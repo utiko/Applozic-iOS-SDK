@@ -7,6 +7,8 @@
 //
 
 #import "ALAudioAttachmentViewController.h"
+#import "ALApplozicSettings.h"
+#import "ALUtilityClass.h"
 
 @interface ALAudioAttachmentViewController ()
 {
@@ -51,6 +53,16 @@
     recorder.meteringEnabled = YES;
     [recorder prepareToRecord];
     
+}
+
+-(void)navigationBarColor
+{
+    if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
+    {
+        [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
+        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
+        [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -159,6 +171,9 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
+    [self navigationBarColor];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(actionWhenAppInBackground)

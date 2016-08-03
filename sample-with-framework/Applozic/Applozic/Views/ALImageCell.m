@@ -70,6 +70,8 @@
     NSURL * theUrl;
 }
 
+UIViewController * modalCon;
+
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -447,8 +449,8 @@
     // NSLog(@"##observer is called....%f",self.progresLabel.endDegree );
 }
 
--(void)imageFullScreen:(UITapGestureRecognizer*)sender{
-    
+-(void)imageFullScreen:(UITapGestureRecognizer*)sender
+{
     UIStoryboard * applozicStoryboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
     ALShowImageViewController * alShowImageViewController = [applozicStoryboard instantiateViewControllerWithIdentifier:@"showImageViewController"];
@@ -468,12 +470,6 @@
     return;
 }
 
-
-//-(void)dismissModalView:(UITapGestureRecognizer*)gesture
-//{
-//    [alShowImageViewController dismissViewControllerAnimated:YES completion:nil];
-//}
-
 -(void)setupProgress
 {
     self.progresLabel = [[KAProgressLabel alloc] initWithFrame:CGRectMake(self.mImageView.frame.origin.x + self.mImageView.frame.size.width/2.0 - 25, self.mImageView.frame.origin.y + self.mImageView.frame.size.height/2.0 - 25, 50, 50)];
@@ -488,6 +484,11 @@
     self.progresLabel.progressColor = [UIColor whiteColor];
     [self.contentView addSubview:self.progresLabel];
     
+}
+
+-(void)dismissModalView:(UITapGestureRecognizer*)gesture
+{
+    [modalCon dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(BOOL) canPerformAction:(SEL)action withSender:(id)sender

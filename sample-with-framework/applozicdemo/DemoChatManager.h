@@ -10,9 +10,12 @@
 #import <Applozic/ALChatLauncher.h>
 #import <Applozic/ALUser.h>
 #import <Applozic/ALConversationService.h>
-#import <Applozic/ALRegistrationResponse.h>
+#import <Applozic/ALRegisterUserClientService.h>
 
+//#define APPLICATION_ID @"APPLOZIC"
 #define APPLICATION_ID @"applozic-sample-app"
+//#define APPLICATION_ID @"66970d99efa63c4adaeb65b51316ed2c"
+
 
 @interface DemoChatManager : NSObject 
 

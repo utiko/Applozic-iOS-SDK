@@ -31,6 +31,7 @@
 -(void)thirdPartyNotificationTap:(UIGestureRecognizer*)gestureRecognizer;
 -(void)thirdPartyNotificationTap1:(NSString *) contactId withGroupId:(NSNumber*) groupID;
 
-
+-(void)proactivelyConnectMQTT;
+-(void)proactivelyDisconnectMQTT;
 
 @end

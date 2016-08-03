@@ -26,6 +26,8 @@
 
 @property(nonatomic,retain) NSString * localImageResourceName;
 
+@property (nonatomic, retain) NSString * userStatus;
+
 @property(nonatomic,retain)NSString * applicationId;
 
 @property (nonatomic) BOOL connected;

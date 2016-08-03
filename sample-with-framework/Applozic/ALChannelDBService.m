@@ -198,7 +198,7 @@
     DB_CHANNEL *dbChannel = [self getChannelByKey:key];
     ALChannel *alChannel = [[ALChannel alloc] init];
     
-    if (!alChannel)
+    if (!dbChannel)
     {
         return nil;
     }
@@ -209,6 +209,7 @@
     alChannel.channelImageURL = dbChannel.channelImageURL;
     alChannel.unreadCount = dbChannel.unreadCount;
     alChannel.adminKey = dbChannel.adminId;
+    alChannel.type = dbChannel.type;
     
     return alChannel;
 }
@@ -242,7 +243,8 @@
     NSMutableArray *memberList = [[NSMutableArray alloc] init];
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL_USER_X" inManagedObjectContext:dbHandler.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL_USER_X"
+                                              inManagedObjectContext:dbHandler.managedObjectContext];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channelKey = %@",key];
     [fetchRequest setEntity:entity];
@@ -253,9 +255,9 @@
     
     if (resultArray.count)
     {
-        for(DB_CHANNEL_USER_X *dbChannelUserX in resultArray){
-
-                [memberList addObject:dbChannelUserX.userId];
+        for(DB_CHANNEL_USER_X *dbChannelUserX in resultArray)
+        {
+            [memberList addObject:dbChannelUserX.userId];
         }
         
         return memberList;
@@ -323,7 +325,8 @@
 {
     ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL_USER_X" inManagedObjectContext:theDBHandler.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL_USER_X"
+                                              inManagedObjectContext:theDBHandler.managedObjectContext];
     [fetchRequest setEntity:entity];
     
     NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"channelKey = %@", channelKey];
@@ -352,7 +355,8 @@
     //Delete channel
     ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL" inManagedObjectContext:theDBHandler.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL"
+                                              inManagedObjectContext:theDBHandler.managedObjectContext];
     [fetchRequest setEntity:entity];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channelKey = %@", channelKey];
@@ -385,7 +389,8 @@
 {
     ALDBHandler *theDBHandler = [ALDBHandler sharedInstance];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL" inManagedObjectContext:theDBHandler.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL"
+                                              inManagedObjectContext:theDBHandler.managedObjectContext];
     [fetchRequest setEntity:entity];
     
     NSError *error = nil;
@@ -479,7 +484,8 @@
 
 }
 
--(void)setLeaveFlagForChannel:(NSNumber*)groupId{
+-(void)setLeaveFlagForChannel:(NSNumber*)groupId
+{
     ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
     DB_CHANNEL *dbChannel = [self getChannelByKey:groupId];
     
@@ -492,7 +498,9 @@
     }
 
 }
--(BOOL)isChannelLeft:(NSNumber *)groupId{
+
+-(BOOL)isChannelLeft:(NSNumber *)groupId
+{
      DB_CHANNEL *dbChannel = [self getChannelByKey:groupId];
     if(dbChannel.isLeft){
         return YES;
@@ -501,6 +509,7 @@
         return NO;
     }
 }
+
 -(void)processArrayAfterSyncCall:(NSMutableArray *)channelArray
 {
     for(ALChannel *channelObject in channelArray)
@@ -524,9 +533,10 @@
         NSLog(@"channelKey null for marking unread");
     }
     
-    if(messages.count > 0){
+    if(messages.count > 0)
+    {
         NSBatchUpdateRequest *req= [[NSBatchUpdateRequest alloc] initWithEntityName:@"DB_Message"];
-        req.predicate = [NSPredicate predicateWithFormat:@"groupId=%d",[channelKey intValue] ];
+        req.predicate = [NSPredicate predicateWithFormat:@"groupId=%d",[channelKey intValue]];
         req.propertiesToUpdate = @{
                                    @"status" : @(DELIVERED_AND_READ)
                                    };
@@ -601,6 +611,7 @@
     alChannel.name = dbChannel.channelDisplayName;
     alChannel.unreadCount = dbChannel.unreadCount;
     alChannel.adminKey = dbChannel.adminId;
+    alChannel.type = dbChannel.type;
     alChannel.channelImageURL = dbChannel.channelImageURL;
     
     return alChannel;

@@ -85,12 +85,17 @@
     }
 }
 
--(NSString *)getChannelName:(NSNumber *)channelKey
+-(ALChannel *)getChannelByKey:(NSNumber *)channelKey
 {
-    ALChannelDBService *dbSerivce = [[ALChannelDBService alloc] init];
+    ALChannelDBService * dbSerivce = [[ALChannelDBService alloc] init];
     ALChannel *channel = [dbSerivce loadChannelByKey:channelKey];
-    return channel.name;
-    
+    return channel;
+}
+
+-(NSMutableArray *)getListOfAllUsersInChannel:(NSNumber *)channelKey
+{
+    ALChannelDBService *ob = [[ALChannelDBService alloc] init];
+    return [ob getListOfAllUsersInChannel:channelKey];
 }
 
 -(NSString *)stringFromChannelUserList:(NSNumber *)key
@@ -121,12 +126,12 @@
 //===========================================================================================================================
 
 -(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey
-      andMembersList:(NSMutableArray *)memberArray withCompletion:(void(^)(ALChannel *alChannel))completion
+      andMembersList:(NSMutableArray *)memberArray andImageLink:(NSString *)imageLink withCompletion:(void(^)(ALChannel *alChannel))completion
 {
     if(channelName != nil)
     {
         [ALChannelClientService createChannel:channelName orClientChannelKey:(NSString *)clientChannelKey
-                               andMembersList:memberArray withCompletion:^(NSError *error, ALChannelCreateResponse *response) {
+                               andMembersList:memberArray andImageLink:imageLink  withCompletion:^(NSError *error, ALChannelCreateResponse *response) {
             
             if(!error)
             {
