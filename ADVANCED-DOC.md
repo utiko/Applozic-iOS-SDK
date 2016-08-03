@@ -385,7 +385,9 @@ __Class to import :__ Applozic/ALChannelService.h
 
 You can create a Channel/Group by simply calling createChannel method. The callback argument (channelKey) will be unique ChannelId/GroupId created by applozic server. You need to store this for any further operations( like : add member, remove  member, delete group/channel etc) on Channel/Group.  
 ```
--(void) createChannel:(NSString *) channnelName andMemberList:(NSMutableArray *) memberArray withCompletion:(void(^)(NSNumber *channelKey)) completion
+-(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey
+      andMembersList:(NSMutableArray *)memberArray andImageLink:(NSString *)imageLink 
+      withCompletion:(void(^)(ALChannel *alChannel))completion
 ```
 __Parameters:__
 
@@ -396,8 +398,8 @@ __memberArray :__ Array of contactId/userid of members
  
 #### 2. Add New member to Channel
  ```
--(void) addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey 
-withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion
+-(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey 
+orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion
  ``` 	  	
 __Parameters:__
 
@@ -412,8 +414,8 @@ __NOTE:__ Only admin can add member to the group/channel. For more detail see ch
 
 #### 3.  Remove Member from Channel
  ```
--(void) removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey 
-withComletion:(void(^)(NSError *error, NSString *response))completion
+-(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey 
+orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *error, NSString *response))completion
  ```
 __Parameters:__
 
@@ -428,7 +430,8 @@ __NOTE:__ Only admin can add member to the group/channel. For more detail see ch
 
 #### 4.   Delete Channel
 ```
--(BOOL) deleteChannel:(NSNumber *) channelKey
+-(void)deleteChannel:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey
+      withCompletion:(void(^)(NSError *error))completion
 ```
 __Parameters:__
 
@@ -443,8 +446,8 @@ __NOTE:__ Only admin can add member to the group/channel. For more detail see ch
 
 #### 5.   Leave Channel
 ```
--(void) leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId 
-withCompletion:(void(^)(NSError *error))completion
+-(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId orClientChannelKey:(NSString *)clientChannelKey
+     withCompletion:(void(^)(NSError *error))completion
 ```
 __Parameters:__
 
@@ -457,7 +460,8 @@ If member leaved successfully then it will return YES else NO.
 
 #### 6. Rename Channel
  ```
--(BOOL) renameChannel:(NSNumber *) channelKey andNewName:(NSString *) newName
+-(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName orClientChannelKey:(NSString *)clientChannelKey
+      withCompletion:(void(^)(NSError *error))completion
  ```
 __Parameters:__
 
