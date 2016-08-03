@@ -303,6 +303,14 @@ __Version 2.8__
  (For above two features to work, User contacts should be registered with their phone numbers)
  * Enable/disable Context-based-chat's view
 
+__Version 3.2__
+
+* Group Image Upload on creation
+* Login User Profile and Receiver User Information Updates
+* Typing Indicator in group
+* APNs enhancements
+* Image Sharing
+
 __Version 2.7__
 
  * Group-Exit, Add-Member UI updates
