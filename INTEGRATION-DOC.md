@@ -4,7 +4,7 @@
 
 Download Applozic Chat latest framework [**here**](https://github.com/AppLozic/Applozic-iOS-SDK/raw/master/Frameworks) and add it to your project.
 
-You can download Sample Chat app code (https://github.com/AppLozic/Applozic-iOS-SDK)  [**sample project**](https://github.com/AppLozic/Applozic-iOS-SDK/raw/master/Frameworks/Universal%20Release%202.9/Applozic.framework.zip) for more reference.
+You can download Sample Chat app code (https://github.com/AppLozic/Applozic-iOS-SDK)  [**sample project**](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp) for more reference.
 
 
 **Add framework to your project:**
