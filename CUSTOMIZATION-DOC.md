@@ -36,6 +36,18 @@ __Swift__
 ALApplozicSettings.setColorForSendMessages(UIColor(red: 66.0/255, green: 173.0/255, blue: 247.0/255, alpha:1))
 ```
 
+#### Chat Background
+
+__Objective-C__
+```
+[ALApplozicSettings setChatWallpaperImageName:@"<WALLPAPER NAME>"];
+```
+
+__Swift__
+```
+ALApplozicSettings.setChatWallpaperImageName("<WALLPAPER NAME>")
+```
+
 #### Theme Customization
 
 ##### Set Colour for Navigation Bar
