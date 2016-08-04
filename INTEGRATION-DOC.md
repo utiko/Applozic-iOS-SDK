@@ -1,117 +1,65 @@
-
-####Create your Application
-
-a ) Once you signed up create your Application with required details on admin dashboard. Upload your push-notification certificate to our portal to enable real time notification.         
-
-
-
-
-![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Dashboard.png)         
-
-
-b) Once you create your application you can see your application key listed on admin dashboard. Please use same application key explained in further steps.          
-
-
-
-
-![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Resized-dashboard-content-page.png)         
-
-
-
-
-
-####Installing the iOS SDK
-
+####Step 1: Download Chat SDK
 
 **ADD APPLOZIC FRAMEWORK**
 
-Download our latest framework [**here**](https://github.com/AppLozic/Applozic-iOS-SDK/raw/master/Frameworks) and add it to your project.
+Download Applozic Chat latest framework [**here**](https://github.com/AppLozic/Applozic-iOS-SDK/raw/master/Frameworks) and add it to your project.
 
-You can clone or download our (https://github.com/AppLozic/Applozic-iOS-SDK)  [**sample project**](https://github.com/AppLozic/Applozic-iOS-SDK/raw/master/Frameworks/Universal%20Release%202.9/Applozic.framework.zip) for more reference.
+You can download Sample Chat app code (https://github.com/AppLozic/Applozic-iOS-SDK)  [**sample project**](https://github.com/AppLozic/Applozic-iOS-SDK/raw/master/Frameworks/Universal%20Release%202.9/Applozic.framework.zip) for more reference.
 
 
 **Add framework to your project:**
 
 i ) Paste Applozic framework to root folder of your project. 
-ii ) Go to Build Phase. Expand  Embedded frameworks and add applozic framework.         
 
+ii ) Go to Build Phase. 
 
+Expand  Embedded frameworks and add applozic framework.         
 
 
 ![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Resized-adding-applozic-framework.png)        
 
 
-####Quickly Launch your chat
+####Step 2:  Login/Register User
+Applozic will create a new user if the user doesn't exists. userId is the unique identifier for any user, it can be anything like email, phone number or uuid from your database.
 
 
-You can test your chat quickly by adding below .h and .m file to your project.
+i) Add Helper Classes:
+
+Download DemoChatManager.h and DemoChatManager.m file and add to your project.
 
 [**DemoChatManager.h**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sampleapp/applozicdemo/DemoChatManager.h)        
 
 [**DemoChatManager.m**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sampleapp/applozicdemo/DemoChatManager.m)  
 
-Change applicationID in DemoChatManager, fill your logged-in user deatil and you are ready to launch your chat from your controller :)
+Change applicationID in DemoChatManager.h, fill your logged-in user detail and you are ready to launch your chat from your controller.
 
-Launch your chat
 
-```
-//Replace with your application key in DemoChatManager.h
+ii) Login/Register User:
 
-#define APPLICATION_ID @"applozic-sample-app" 
+Convenient methods are present in DemoChatmanager.m to register user with applozic. For simple user registration in background, you can use below method:
 
-//Add your logged in user detail in getLoggedinUserInformation method in DemoChatManager.
-
-+( ALUser * )getLoggedinUserInformation
-{
-    ALUser *user = [[ALUser alloc] init];
-    [user setApplicationId:APPLICATION_ID];
-    [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];      // 3. APP_MODULE_NAME setter
-    
-    // Write your logic to get user information here. May be from user preference.
-    //[user setUserId:<YOUR LOGGED IN USER ID>];
-    
-    //NOT Mandatory 
-    //[user setEmailId:<EMIAL ID>];
-    //[user setPassword:<USER_PASSWORD>];
-    
-    return user;
-}
-
-//Launch your Chat from your controller.
- DemoChatManager * demoChatManager = [[DemoChatManager alloc]init];
-    [demoChatManager launchChat:<yourcontrollerReference> ];
-
-```
-
-####** Detail about user creation and registration: **
-
-i ) create user :
-  To create user you need to create object of ALUser.
-  
 ```
   ALUser *user = [[ALUser alloc] init];
   [user setUserId:@"testUser"]; //NOTE : +,*,? are not allowed chars in userId.
   [user setDisplayName:@"Applozic Test"]; // Display name of user 
   [user setContactNumber:@""];// formatted contact no
   [user setimageLink:@"user_profile_image_link"];// User's profile image link.
-  
 ```
-
-ii ) Registration of user: Once you create user, you can register user with applozic server. Convenient methods are present in DemoChatmanager.m to register user with applozic. For simple user registration in background, you can use below method:
 
 ```
  -(void)registerUser:(ALUser *)alUser;
 
 ```
-If you want to do something just after user registartion you can use below method. For example, if your very first screen of app is chat screen, you can launch chatlist on success of registartion. 
+If you want to do something just after user registartion you can use below method. For example, if your very first screen of app is chat screen, you can launch chatlist on success of registration. 
 
 ```
 -(void)registerUserWithCompletion:(ALUser *)alUser withHandler:(void(^)(ALRegistrationResponse *rResponse, NSError *error))completion
-
 ```
-####**Launching Chats :**
 
-1 ) chat list launch:
+
+####Step 3: Initiate Chat
+
+1 ) Launch chat list screen:
 
 ```
 -(void)launchChat: (UIViewController *)fromViewController; //Use this method to launch chat list
@@ -121,10 +69,10 @@ If you want to do something just after user registartion you can use below metho
     [demoChatManager launchChat:<Your Controller>];
 ```
 
-2) individual user's chat launch:
+2) Launch chat with specific user:
 
 ```
-// Individual chat list launch for group or user with disaplayname
+// Individual chat list launch for group or user with display name
 
 -(void)launchChatForUserWithDisplayName:(NSString * )userId withGroupId:(NSNumber*)groupID andwithDisplayName:(NSString*)displayName andFromViewController:(UIViewController*)fromViewController;
 
@@ -138,13 +86,11 @@ If you want to do something just after user registartion you can use below metho
   
 ```
 
-####PUSH NOTIFICATION REGISTRATION AND HANDLING
+####Step 4: Push Notification Setup
 
-**a ) Send device token to applozic server:**
+**a ) Send device token to Applozic server:**
 
-In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **method  send device registration to applozic server after you get deviceToken from APNS. Sample code is as below:             
-
-
+In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **method send device registration to Applozic server after you get deviceToken from APNS. Sample code is as below:             
 
 
 ** Objective-C **      
@@ -185,7 +131,7 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
 
 **b) Receiving push notification:**
 
-Once your app receive notification, pass it to applozic handler for applozic notification processing.             
+Once your app receive notification, pass it to Applozic handler for chat notification processing.             
 
 
 ** Objective-C **      
@@ -235,6 +181,8 @@ Once your app receive notification, pass it to applozic handler for applozic not
 
 **c) APNs Certification Type Setup :**
 
+Upload your push notification certificate to Applozic Dashboard page under 'Edit Application' section in order to enable real time notification.
+
 In DemoChatManager change setting according to your certificate and profile used:
 
 Method Name:
@@ -242,7 +190,7 @@ Method Name:
 ```
 -(void)ALDefaultChatViewSettings
 ```
-code to set mode depending on your code signing and profile used:
+Code to set mode depending on your code signing and profile used:
 
 ```
 For Development:
