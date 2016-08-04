@@ -48,57 +48,6 @@ __Swift__
 ALApplozicSettings.setChatWallpaperImageName("<WALLPAPER NAME>")
 ```
 
-#### Theme Customization
-
-##### Set Colour for Navigation Bar
-
-__Objective-C__
-```
-[ALApplozicSettings setColorForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
-```
-
-__Swift__
-```
-ALApplozicSettings.setColorForNavigation(UIColor(red: 66.0/255, green: 173.0/255, blue: 247.0/255, alpha:1))
-```
-
-##### Set Colour for Navigation Bar Item
-
-__Objective-C__
-```
-[ALApplozicSettings setColorForNavigationItem: [UIColor whiteColor]];
-```
-
-__Swift__
-```
-ALApplozicSettings.setColorForNavigationItem(UIColor.whiteColor())
-```
-
-
-##### Hide/Show Tab Bar
-
-__Objective-C__
-```
-[ALUserDefaultsHandler setBottomTabBarHidden: YES];
-```
-
-__Swift__
-```
-ALUserDefaultsHandler.setBottomTabBarHidden(true)
-```
-
-##### Set Font Face
-
-__Objective-C__
-```
-[ALApplozicSettings setFontaFace: @"Helvetica"];
-```
-
-__Swift__
-```
-ALApplozicSettings.setFontFace("Helvetica")
-```
-
 ### Chat Screen
 
 Hide/Show profile Image
@@ -190,3 +139,68 @@ __Swift__
 ```
 ALApplozicSettings.setGroupMemberRemoveOption(true)
 ```
+
+#### Theme Customization
+
+##### Set Colour for Navigation Bar
+
+__Objective-C__
+```
+[ALApplozicSettings setColorForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
+```
+
+__Swift__
+```
+ALApplozicSettings.setColorForNavigation(UIColor(red: 66.0/255, green: 173.0/255, blue: 247.0/255, alpha:1))
+```
+
+##### Set Colour for Navigation Bar Item
+
+__Objective-C__
+```
+[ALApplozicSettings setColorForNavigationItem: [UIColor whiteColor]];
+```
+
+__Swift__
+```
+ALApplozicSettings.setColorForNavigationItem(UIColor.whiteColor())
+```
+
+
+##### Hide/Show Tab Bar
+
+__Objective-C__
+```
+[ALUserDefaultsHandler setBottomTabBarHidden: YES];
+```
+
+__Swift__
+```
+ALUserDefaultsHandler.setBottomTabBarHidden(true)
+```
+
+##### Set Font Face
+
+__Objective-C__
+```
+[ALApplozicSettings setFontaFace: @"Helvetica"];
+```
+
+__Swift__
+```
+ALApplozicSettings.setFontFace("Helvetica")
+```
+
+
+#### UI source code
+
+For complete control over UI, you can also download open source chat UI toolkit and change it as per your designs :
+```
+[https://github.com/AppLozic/Applozic-iOS-SDK](https://github.com/AppLozic/Applozic-iOS-SDK)
+```
+
+Import [Applozic iOS Library](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sample-with-framework) into your Xcode project.
+
+Sample-with-framework contains the UI related source code, icons, views and other resources which you can customize based on your design needs.
+
+Sample app with integration is available under [app](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp)
