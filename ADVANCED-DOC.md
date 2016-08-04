@@ -177,7 +177,7 @@ alConversationProxy.topicDetailJson = topicDetails;
 ```
 
 
-### **Channel API** 
+### Channel/Group Messaging
 
 This section explain about convenient SDK APIs  related to group.  
 
@@ -246,7 +246,7 @@ If channel deleted successfully then it will return YES else NO.
 __NOTE:__ Only admin can add member to the group/channel. For more detail see check Admin section.
  
 
-#### Leave Channel/Group
+##### Leave Channel/Group
 ```
 -(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId orClientChannelKey:(NSString *)clientChannelKey
      withCompletion:(void(^)(NSError *error))completion
