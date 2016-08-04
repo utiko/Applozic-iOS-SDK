@@ -1,7 +1,4 @@
-### Contacts             
-
-
-
+### Contacts
 
 Applozic framework provides convenient APIs for building your own contact. Developers can build and store contacts in three different ways. 
 
@@ -124,7 +121,7 @@ Below are additional APIs for contact load, update and delete and requires a ALC
  ```
  
 
-### **Contextual Conversation**
+### Contextual Conversation
  
  Applozic SDK provide APIs which let you set and customise the chat’s context. Developers can create a ‘Conversation’ and launch a chat with context set. 
 
@@ -186,7 +183,7 @@ This section explain about convenient SDK APIs  related to group.
 
 __Class to import :__ Applozic/ALChannelService.h 
 
-#### 1. Add new Channel
+##### Create Channel/Group
 
 You can create a Channel/Group by simply calling createChannel method. The callback argument (channelKey) will be unique ChannelId/GroupId created by applozic server. You need to store this for any further operations( like : add member, remove  member, delete group/channel etc) on Channel/Group.  
 ```
@@ -201,7 +198,7 @@ __channelName :__ Name of group
 __memberArray :__ Array of contactId/userid of members
 
  
-#### 2. Add New member to Channel
+##### Add User to Channel/Group
  ```
 -(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey 
 orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion
@@ -217,7 +214,7 @@ If member added successfully then it will return YES else NO.
 __NOTE:__ Only admin can add member to the group/channel. For more detail see check Admin section.
 
 
-#### 3.  Remove Member from Channel
+##### Remove user from Channel/Group
  ```
 -(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey 
 orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *error, NSString *response))completion
@@ -233,7 +230,7 @@ If member removed successfully then it will return YES else NO.
 __NOTE:__ Only admin can add member to the group/channel. For more detail see check Admin section.
  
 
-#### 4.   Delete Channel
+##### Delete Channel/Grou
 ```
 -(void)deleteChannel:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey
       withCompletion:(void(^)(NSError *error))completion
@@ -249,7 +246,7 @@ If channel deleted successfully then it will return YES else NO.
 __NOTE:__ Only admin can add member to the group/channel. For more detail see check Admin section.
  
 
-#### 5.   Leave Channel
+#### Leave Channel/Group
 ```
 -(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId orClientChannelKey:(NSString *)clientChannelKey
      withCompletion:(void(^)(NSError *error))completion
@@ -263,7 +260,7 @@ __userId:__ userid  of leaving user
 If member leaved successfully then it will return YES else NO. 
 
 
-#### 6. Rename Channel
+##### Rename Channel/Group
  ```
 -(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName orClientChannelKey:(NSString *)clientChannelKey
       withCompletion:(void(^)(NSError *error))completion
@@ -279,7 +276,7 @@ __Return Type :__ BOOL
 If renamed successfully then it will return YES else NO. 
 
 
-#### 7. Check Admin
+##### Group Admin
 
 This method is to check whether the current user is channel/group admin or not.
 As group admin have rights to do delete channel, remove  channel and add new member to channel. it is suggested to call this method to check admin rights before performing operations.
