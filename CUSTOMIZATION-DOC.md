@@ -199,8 +199,8 @@ For complete control over UI, you can also download open source chat UI toolkit 
 [https://github.com/AppLozic/Applozic-iOS-SDK](https://github.com/AppLozic/Applozic-iOS-SDK)
 ```
 
-Import [Applozic iOS Library](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sample-with-framework) into your Xcode project.
+Import [Applozic iOS Library](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sample-with-framework/Applozic) into your Xcode project.
 
-Sample-with-framework contains the UI related source code, icons, views and other resources which you can customize based on your design needs.
+Applozic contains the UI related source code, icons, views and other resources which you can customize based on your design needs.
 
 Sample app with integration is available under [app](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp)
