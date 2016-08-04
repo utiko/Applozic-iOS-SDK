@@ -378,11 +378,12 @@ For more details, visit: https://www.applozic.com/docs/ios-chat-sdk.html
 https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sample-with-framework
 
 ###Sample code in Swift to build messenger and chat app
+https://www.applozic.com/blog/add-applozic-chat-framework-ios/
 
 ###How to add source code in your xcode project
 https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp-swift
 
-https://www.applozic.com/blog/add-applozic-chat-framework-ios/
+
 ##Help
 
 We provide support over at [StackOverflow] (http://stackoverflow.com/questions/tagged/applozic) when you tag using applozic, ask us anything.
