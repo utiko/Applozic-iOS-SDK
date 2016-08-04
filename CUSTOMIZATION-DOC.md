@@ -1,6 +1,6 @@
 
 
-Applozic SDK provides various UI settings to customise chat view eaisly. If you are using __DemoChatManager.h__ explained in the  earlier section, you can put all your settings in below method. 
+Applozic SDK provides various UI settings to customise chat view easily. If you are using __DemoChatManager.h__ explained in the  earlier section, you can put all your settings in below method. 
 
 ```
 -(void)ALDefaultChatViewSettings;
@@ -10,8 +10,9 @@ If you have your own implementation, you should set UI Customization setting on 
 
 Below section will explain UI settings provided by Applozic SDK.
 
+#### Chat Bubble
 
-#### Received Message bubble color
+##### Received Message bubble color
 
 __Objective-C__
 ```
@@ -23,7 +24,7 @@ __Swift__
 ALApplozicSettings.setColorForReceiveMessages(UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha:1))
 ```
 
-#### Send Message bubble color
+##### Send Message bubble color
 
 __Objective-C__
 ```
@@ -35,7 +36,9 @@ __Swift__
 ALApplozicSettings.setColorForSendMessages(UIColor(red: 66.0/255, green: 173.0/255, blue: 247.0/255, alpha:1))
 ```
 
-#### Set Colour for Navigation Bar
+#### Theme Customization
+
+##### Set Colour for Navigation Bar
 
 __Objective-C__
 ```
@@ -47,7 +50,7 @@ __Swift__
 ALApplozicSettings.setColorForNavigation(UIColor(red: 66.0/255, green: 173.0/255, blue: 247.0/255, alpha:1))
 ```
 
-#### Set Colour for Navigation Bar Item
+##### Set Colour for Navigation Bar Item
 
 __Objective-C__
 ```
@@ -57,6 +60,27 @@ __Objective-C__
 __Swift__
 ```
 ALApplozicSettings.setColorForNavigationItem(UIColor.whiteColor())
+```
+
+
+#### Hide/Show Tab Bar
+
+__Objective-C__
+```
+[ALUserDefaultsHandler setBottomTabBarHidden: YES];
+```
+
+
+#### Set Font Face
+
+__Objective-C__
+```
+[ALApplozicSettings setFontaFace: @"Helvetica"];
+```
+
+__Swift__
+```
+ALApplozicSettings.setFontFace("Helvetica")
 ```
 
 #### Hide/Show profile Image
@@ -71,12 +95,6 @@ __Swift__
 ALApplozicSettings.setUserProfileHidden(false)
 ```
 
-#### Hide/Show Tab Bar
-
-__Objective-C__
-```
-[ALUserDefaultsHandler setBottomTabBarHidden: YES];
-```
 
 __Swift__
 ```
@@ -119,17 +137,6 @@ __Swift__
 ALApplozicSettings.setTitleForConversationScreen("Recent Chats")
 ```
 
-#### Set Font Face
-
-__Objective-C__
-```
-[ALApplozicSettings setFontaFace: @"Helvetica"];
-```
-
-__Swift__
-```
-ALApplozicSettings.setFontFace("Helvetica")
-```
 
 #### Set Group Option
 
