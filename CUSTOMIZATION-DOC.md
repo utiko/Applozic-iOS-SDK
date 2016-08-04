@@ -1,6 +1,6 @@
 
 
-Applozic SDK provides various UI settings to customise chat view easily. If you are using __DemoChatManager.h__ explained in the  earlier section, you can put all your settings in below method. 
+Applozic SDK provides various UI settings to customise chat view easily. If you are using __ALChatManager.h__ explained in the  earlier section, you can put all your settings in below method. 
 
 ```
 -(void)ALDefaultChatViewSettings;
