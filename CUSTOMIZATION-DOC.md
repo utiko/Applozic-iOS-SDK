@@ -82,6 +82,10 @@ __Objective-C__
 [ALUserDefaultsHandler setBottomTabBarHidden: YES];
 ```
 
+__Swift__
+```
+ALUserDefaultsHandler.setBottomTabBarHidden(true)
+```
 
 ##### Set Font Face
 
@@ -95,8 +99,9 @@ __Swift__
 ALApplozicSettings.setFontFace("Helvetica")
 ```
 
+### Chat Screen
 
-#### Hide/Show profile Image
+Hide/Show profile Image
 
 __Objective-C__
 ```
@@ -108,25 +113,7 @@ __Swift__
 ALApplozicSettings.setUserProfileHidden(false)
 ```
 
-
-__Swift__
-```
-ALUserDefaultsHandler.setBottomTabBarHidden(false)
-```
-
-#### Hide/Show Logout Button (refresh button in sample app)
-
-__Objective-C__
-```
-[ALUserDefaultsHandler setLogoutButtonHidden: YES];
-```
-
-__Swift__
-```
-ALUserDefaultsHandler.setLogoutButtonHidden(false)
-```
-
-#### Hide/Show Refresh Button
+Hide/Show Refresh Button
 
 __Objective-C__
 ```
@@ -138,7 +125,7 @@ __Swift__
 ALApplozicSettings.hideRefreshButton(flag)
 ```
 
-#### Set Title For Conversation Screen
+Chat Title
 
 __Objective-C__
 ```
