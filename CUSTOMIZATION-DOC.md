@@ -63,7 +63,7 @@ ALApplozicSettings.setColorForNavigationItem(UIColor.whiteColor())
 ```
 
 
-#### Hide/Show Tab Bar
+##### Hide/Show Tab Bar
 
 __Objective-C__
 ```
@@ -71,7 +71,7 @@ __Objective-C__
 ```
 
 
-#### Set Font Face
+##### Set Font Face
 
 __Objective-C__
 ```
@@ -82,6 +82,7 @@ __Swift__
 ```
 ALApplozicSettings.setFontFace("Helvetica")
 ```
+
 
 #### Hide/Show profile Image
 
@@ -138,7 +139,7 @@ ALApplozicSettings.setTitleForConversationScreen("Recent Chats")
 ```
 
 
-#### Set Group Option
+#### Group Messaging
 
 __Objective-C__
 ```
@@ -150,8 +151,6 @@ __Swift__
 ALApplozicSettings.setGroupOption(true)
 ```
 This method is used when group feature is required . It will disable group functionality when set to NO.
-
-#### Show/Hide Group Functions
 
 
 
