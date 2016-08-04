@@ -25,18 +25,18 @@ Applozic will create a new user if the user doesn't exists. userId is the unique
 
 i) Add Helper Classes:
 
-Download DemoChatManager.h and DemoChatManager.m file and add to your project.
+Download ALChatManager.h and ALChatManager.m file and add to your project.
 
-[**DemoChatManager.h**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sampleapp/applozicdemo/DemoChatManager.h)        
+[**ALChatManager.h**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sampleapp/applozicdemo/ALChatManager.h)        
 
-[**DemoChatManager.m**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sampleapp/applozicdemo/DemoChatManager.m)  
+[**ALChatManager.m**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sampleapp/applozicdemo/ALChatManager.m)  
 
-Change applicationID in DemoChatManager.h, fill your logged-in user detail and you are ready to launch your chat from your controller.
+Change applicationID in ALChatManager.h, fill your logged-in user detail and you are ready to launch your chat from your controller.
 
 
 ii) Login/Register User:
 
-Convenient methods are present in DemoChatmanager.m to register user with applozic. For simple user registration in background, you can use below method:
+Convenient methods are present in ALChatManager.m to register user with applozic. For simple user registration in background, you can use below method:
 
 ```
   ALUser *user = [[ALUser alloc] init];
@@ -65,8 +65,8 @@ If you want to do something just after user registartion you can use below metho
 -(void)launchChat: (UIViewController *)fromViewController; //Use this method to launch chat list
    
    //Example: 
-    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    [demoChatManager launchChat:<Your Controller>];
+    ALChatManager * chatManager = [[ALChatManager alloc] init];
+    [chatManager launchChat:<Your Controller>];
 ```
 
 2) Launch chat with specific user:
@@ -78,8 +78,8 @@ If you want to do something just after user registartion you can use below metho
 
 //Example:
   NSString * userIdOfReceiver =  @"receiverUserId";
-  DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-  [demoChatManager launchChatForUserWithDisplayName:userIdOfReceiver 
+  ALChatManager * chatManager = [[ALChatManager alloc] init];
+  [chatManager launchChatForUserWithDisplayName:userIdOfReceiver 
   withGroupId:nil  //If launched for group, pass groupId(pass userId as nil)
   andwithDisplayName:nil //Not mendatory, if receiver is not already registered you should pass Displayname.
   andFromViewController:<YOUR CONTROLLER> ];
@@ -183,7 +183,7 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 
 Upload your push notification certificate to Applozic Dashboard page under 'Edit Application' section in order to enable real time notification.
 
-In DemoChatManager change setting according to your certificate and profile used:
+In ALChatManager change setting according to your certificate and profile used:
 
 Method Name:
 
