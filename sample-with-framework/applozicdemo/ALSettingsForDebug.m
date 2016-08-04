@@ -8,7 +8,7 @@
 
 #import "ALSettingsForDebug.h"
 #import  <Applozic/ALChatViewController.h>
-#import "DemoChatManager.h"
+#import "ALChatManager.h"
 #import "ApplozicLoginViewController.h"
 #import  <Applozic/ALUserDefaultsHandler.h>
 #import  <Applozic/ALRegisterUserClientService.h>

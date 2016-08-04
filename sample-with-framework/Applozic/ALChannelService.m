@@ -257,7 +257,7 @@
 //===========================================================================================================================
 
 -(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName orClientChannelKey:(NSString *)clientChannelKey
-      withCompletion:(void(^)(NSError *error))completion;
+      withCompletion:(void(^)(NSError *error))completion
 {
     if(channelKey != nil && newName != nil)
     {

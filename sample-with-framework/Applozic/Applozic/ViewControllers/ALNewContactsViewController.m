@@ -57,6 +57,9 @@
 @end
 
 @implementation ALNewContactsViewController
+{
+    UIBarButtonItem *barButtonItem;
+}
 @synthesize delegate;
 
 - (void)viewDidLoad
@@ -109,11 +112,9 @@
         [self subProcessContactFetch];
     }
     
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Back"]];
-    [self.navigationItem setLeftBarButtonItem: barButtonItem];
-    
-    float y = self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height;
-    
+    barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Back"]];
+
+    float y = self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height;    
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,y, self.view.frame.size.width, 40)];
     self.searchBar.delegate = self;
     self.searchBar.placeholder = @"Email, userid, number";
@@ -177,6 +178,10 @@
         [self.segmentControl setSelectedSegmentIndex:0];
         [self.segmentControl setHidden:YES];
     }
+    
+    [self.navigationItem setLeftBarButtonItem: barButtonItem];
+    float y = self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
+    self.searchBar.frame = CGRectMake(0,y, self.view.frame.size.width, 40);
 }
 
 - (void)updateView
@@ -608,45 +613,80 @@
 -(void)back:(id)sender {
     
     UIViewController * viewControllersFromStack = [self.navigationController popViewControllerAnimated:YES];
-    if(!viewControllersFromStack){
+    if(self.directContactVCLaunch)
+    {
+        [self  dismissViewControllerAnimated:YES completion:nil];
+    }
+    else if(!viewControllersFromStack){
         self.tabBarController.selectedIndex = 0;
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
     
 }
 
--(void)launchChatForContact:( NSString *)contactId  withChannelKey:(NSNumber*)channelKey {
+-(void)launchChatForContact:(NSString *)contactId  withChannelKey:(NSNumber*)channelKey
+{
     
-    BOOL isFoundInBackStack =false;
+    if(self.directContactVCLaunch)  // IF DIRECT CONTACT VIEW LAUNCH FROM ALCHATLAUNCHER
+    {
+         ALChatLauncher * chatLauncher = [[ALChatLauncher alloc] init];
+         switch (self.selectedSegment)
+         {
+             case 0:
+                {
+                    [chatLauncher launchIndividualChat:contactId withGroupId:nil andViewControllerObject:self andWithText:@""];
+                }
+                    break;
+             case 1:
+                {
+                    [chatLauncher launchIndividualChat:nil withGroupId:channelKey andViewControllerObject:self andWithText:@""];
+                }
+                    break;
+            default:
+                    break;
+          }
+        return;
+    }
+    
+    BOOL isFoundInBackStack = false;
     NSMutableArray *viewControllersFromStack = [self.navigationController.viewControllers mutableCopy];
-    for (UIViewController *currentVC in viewControllersFromStack){
-        if ([currentVC isKindOfClass:[ALMessagesViewController class]]){
+    for (UIViewController *currentVC in viewControllersFromStack)
+    {
+        if ([currentVC isKindOfClass:[ALMessagesViewController class]])
+        {
             [(ALMessagesViewController*)currentVC setChannelKey:channelKey];
-            NSLog(@"found in backStack .....launching from current vc");
+            NSLog(@"IN_NAVIGATION-BAR :: found in backStack .....launching from current vc");
             [(ALMessagesViewController*) currentVC createDetailChatViewController:contactId];
             isFoundInBackStack = true;
         }
     }
-    if(!isFoundInBackStack){
-        NSLog(@"Not found in backStack .....");
+    
+    if(!isFoundInBackStack)
+    {
+        NSLog(@"NOT_FOUND_IN_BACKSTACK_OF_NAVIAGTION");
         self.tabBarController.selectedIndex=0;
         UINavigationController * uicontroller =  self.tabBarController.selectedViewController;
         NSMutableArray *viewControllersFromStack = [uicontroller.childViewControllers mutableCopy];
         
-        for (UIViewController *currentVC in viewControllersFromStack){
-            if ([currentVC isKindOfClass:[ALMessagesViewController class]]){
+        for (UIViewController *currentVC in viewControllersFromStack)
+        {
+            if ([currentVC isKindOfClass:[ALMessagesViewController class]])
+            {
                 [(ALMessagesViewController*)currentVC setChannelKey:channelKey];
-                NSLog(@"f####ound in backStack .....launching from current vc");
+                NSLog(@"IN_TAB-BAR :: found in backStack .....launching from current vc");
                 [(ALMessagesViewController*) currentVC createDetailChatViewController:contactId];
                 isFoundInBackStack = true;
             }
         }
-    }else{
+    }
+    else
+    {
         //remove ALNewContactsViewController from back stack...
         
         viewControllersFromStack = [self.navigationController.viewControllers mutableCopy];
-        if(viewControllersFromStack.count >=2 && [ [viewControllersFromStack objectAtIndex:viewControllersFromStack.count -2] isKindOfClass:[ALNewContactsViewController class]]){
-            [ viewControllersFromStack removeObjectAtIndex:viewControllersFromStack.count -2];
+        if(viewControllersFromStack.count >=2 && [[viewControllersFromStack objectAtIndex:viewControllersFromStack.count -2] isKindOfClass:[ALNewContactsViewController class]])
+        {
+            [viewControllersFromStack removeObjectAtIndex:viewControllersFromStack.count -2];
             self.navigationController.viewControllers = viewControllersFromStack;
             
         }

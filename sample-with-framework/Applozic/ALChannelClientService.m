@@ -58,7 +58,10 @@
     
     [channelDictionary setObject:channelName forKey:@"groupName"];
     [channelDictionary setObject:memberArray forKey:@"groupMemberList"];
-    [channelDictionary setObject:imageLink forKey:@"imageUrl"];
+  
+    if(imageLink){
+        [channelDictionary setObject:imageLink forKey:@"imageUrl"];
+    }
     
     if(clientChannelKey)
     {

@@ -17,7 +17,7 @@
 #import <Applozic/ALDataNetworkConnection.h>
 #import <Applozic/ALChatLauncher.h>
 #import <Applozic/ALMessageDBService.h>
-#import "DemoChatManager.h"
+#import "ALChatManager.h"
 #import <LaunchChatFromSimpleViewController.h>
 
 @interface ApplozicLoginViewController ()
@@ -174,8 +174,8 @@
     [ALUserDefaultsHandler setEmailId:user.emailId];
     [ALUserDefaultsHandler setPassword:user.password];
     
-    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    [demoChatManager registerUser:user];
+    ALChatManager * chatManager = [[ALChatManager alloc] init];
+    [chatManager registerUser:user];
     
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Main"
                                                           bundle:nil];

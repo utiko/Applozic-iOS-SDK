@@ -50,8 +50,6 @@
     chatView.individualLaunch = YES;
     chatView.chatViewDelegate = self;
     
-    
-    
     NSLog(@"CALLED_VIA_NOTIFICATION");
     
     UINavigationController * conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
@@ -123,8 +121,8 @@
 {
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
-    UIViewController *contcatListView = [storyboard instantiateViewControllerWithIdentifier:@"ALNewContactsViewController"];
-    
+    ALNewContactsViewController *contcatListView = (ALNewContactsViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ALNewContactsViewController"];
+    contcatListView.directContactVCLaunch = YES;
     UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:contcatListView];
     [uiViewController presentViewController:conversationViewNavController animated:YES completion:nil];
 

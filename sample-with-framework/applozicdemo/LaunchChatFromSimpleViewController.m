@@ -8,7 +8,7 @@
 
 #import "LaunchChatFromSimpleViewController.h"
 #import  <Applozic/ALChatViewController.h>
-#import "DemoChatManager.h"
+#import "ALChatManager.h"
 #import "ApplozicLoginViewController.h"
 #import  <Applozic/ALUserDefaultsHandler.h>
 #import  <Applozic/ALRegisterUserClientService.h>
@@ -112,8 +112,8 @@
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmailId:[ALUserDefaultsHandler getEmailId]];
     
-    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil withGroupId:nil];
+    ALChatManager * chatManager = [[ALChatManager alloc] init];
+    [chatManager registerUserAndLaunchChat:user andFromController:self forUser:nil withGroupId:nil];
 
     //Adding sample contacts...
     [self insertInitialContacts];
@@ -137,10 +137,10 @@
     [user setEmailId:[ALUserDefaultsHandler getEmailId]];
 
     
-    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
+    ALChatManager * chatManager = [[ALChatManager alloc] init];
     [self checkUserContact:@"don222" displayName:@"" withCompletion:^(ALContact * contact) {
         
-         [demoChatManager launchChatForUserWithDisplayName:contact.userId withGroupId:nil
+         [chatManager launchChatForUserWithDisplayName:contact.userId withGroupId:nil
                                         andwithDisplayName:contact.displayName andFromViewController:self];
     
     }];
@@ -218,8 +218,8 @@
         ALConversationProxy * newProxy = [[ALConversationProxy alloc] init];
         newProxy = [self makeupConversationDetails];
         
-        DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-        [demoChatManager createAndLaunchChatWithSellerWithConversationProxy:newProxy fromViewController:self];
+        ALChatManager * chatManager = [[ALChatManager alloc] init];
+        [chatManager createAndLaunchChatWithSellerWithConversationProxy:newProxy fromViewController:self];
     }else{
         [ALDataNetworkConnection checkDataNetworkAvailable];
     }
@@ -299,7 +299,7 @@
     ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
     
     if([ALUserDefaultsHandler getDeviceKeyString]){
-        alUserClientService.logout;
+        [alUserClientService logout];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }

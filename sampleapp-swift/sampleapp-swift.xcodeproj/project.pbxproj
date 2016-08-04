@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		29A5114D1CC0C14900E1D2D8 /* DVChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A5114C1CC0C14900E1D2D8 /* DVChatViewController.swift */; };
+		6D91116A1D537CBF00F77831 /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D9111691D537CBF00F77831 /* Applozic.framework */; };
+		6D91116B1D537CBF00F77831 /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6D9111691D537CBF00F77831 /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6DB2153E1C69FD00007CA71B /* LaunchChatFromSimpleVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB2153D1C69FCFF007CA71B /* LaunchChatFromSimpleVCViewController.swift */; };
 		6DB75B551C35221700077658 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB75B541C35221700077658 /* AppDelegate.swift */; };
 		6DB75B5D1C35221700077658 /* sampleapp_swift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6DB75B5B1C35221700077658 /* sampleapp_swift.xcdatamodeld */; };
@@ -17,8 +19,6 @@
 		6DB75B701C35245400077658 /* ALChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB75B6F1C35245400077658 /* ALChatManager.swift */; };
 		6DB75B721C35246100077658 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DB75B711C35246100077658 /* Assets.xcassets */; };
 		6DB75B7A1C35250800077658 /* NSObject+ApplozicBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB75B791C35250800077658 /* NSObject+ApplozicBridge.m */; };
-		6DC3186A1D521394001AF58C /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DC318691D521394001AF58C /* Applozic.framework */; };
-		6DC3186B1D521394001AF58C /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6DC318691D521394001AF58C /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,7 +28,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6DC3186B1D521394001AF58C /* Applozic.framework in Embed Frameworks */,
+				6D91116B1D537CBF00F77831 /* Applozic.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -37,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		29A5114C1CC0C14900E1D2D8 /* DVChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DVChatViewController.swift; sourceTree = "<group>"; };
+		6D9111691D537CBF00F77831 /* Applozic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Applozic.framework; sourceTree = "<group>"; };
 		6DB2153D1C69FCFF007CA71B /* LaunchChatFromSimpleVCViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchChatFromSimpleVCViewController.swift; sourceTree = "<group>"; };
 		6DB75B511C35221700077658 /* sampleapp-swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sampleapp-swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DB75B541C35221700077658 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -50,7 +51,6 @@
 		6DB75B781C35250800077658 /* NSObject+ApplozicBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+ApplozicBridge.h"; sourceTree = "<group>"; };
 		6DB75B791C35250800077658 /* NSObject+ApplozicBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ApplozicBridge.m"; sourceTree = "<group>"; };
 		6DB75B7B1C3525E900077658 /* applozicswift-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "applozicswift-Bridging-Header.h"; sourceTree = "<group>"; };
-		6DC318691D521394001AF58C /* Applozic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Applozic.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DC3186A1D521394001AF58C /* Applozic.framework in Frameworks */,
+				6D91116A1D537CBF00F77831 /* Applozic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,7 +68,7 @@
 		6DB75B481C35221700077658 = {
 			isa = PBXGroup;
 			children = (
-				6DC318691D521394001AF58C /* Applozic.framework */,
+				6D9111691D537CBF00F77831 /* Applozic.framework */,
 				6DB75B781C35250800077658 /* NSObject+ApplozicBridge.h */,
 				6DB75B791C35250800077658 /* NSObject+ApplozicBridge.m */,
 				6DB75B531C35221700077658 /* sampleapp-swift */,

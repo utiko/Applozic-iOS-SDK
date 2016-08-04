@@ -20,7 +20,7 @@
 		6D6DF2021BC551FA00EBA00F /* applozicdemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF2001BC551FA00EBA00F /* applozicdemo.xcdatamodeld */; };
 		6D6DF2041BC551FA00EBA00F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF2031BC551FA00EBA00F /* Assets.xcassets */; };
 		6D6DF2071BC551FA00EBA00F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF2051BC551FA00EBA00F /* LaunchScreen.storyboard */; };
-		6D7F4C701C314EBD00AE04CF /* DemoChatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D7F4C6F1C314EBD00AE04CF /* DemoChatManager.m */; };
+		6D7F4C701C314EBD00AE04CF /* ALChatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D7F4C6F1C314EBD00AE04CF /* ALChatManager.m */; };
 		6DAA09D91BE39FB800CBF133 /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DAA09D61BE39F6B00CBF133 /* Applozic.framework */; };
 		6DAA09DA1BE39FCB00CBF133 /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6DAA09D61BE39F6B00CBF133 /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -78,8 +78,8 @@
 		6D6DF2031BC551FA00EBA00F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6D6DF2061BC551FA00EBA00F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6D6DF2081BC551FA00EBA00F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6D7F4C6E1C314EBD00AE04CF /* DemoChatManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoChatManager.h; sourceTree = "<group>"; };
-		6D7F4C6F1C314EBD00AE04CF /* DemoChatManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoChatManager.m; sourceTree = "<group>"; };
+		6D7F4C6E1C314EBD00AE04CF /* ALChatManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChatManager.h; sourceTree = "<group>"; };
+		6D7F4C6F1C314EBD00AE04CF /* ALChatManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChatManager.m; sourceTree = "<group>"; };
 		6DAA09D11BE39F6A00CBF133 /* Applozic.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Applozic.xcodeproj; path = Applozic/Applozic.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,8 +100,8 @@
 			children = (
 				6D44D9591BF60C990039B1A7 /* LaunchChatFromSimpleViewController.h */,
 				6D44D95A1BF60C990039B1A7 /* LaunchChatFromSimpleViewController.m */,
-				6D7F4C6E1C314EBD00AE04CF /* DemoChatManager.h */,
-				6D7F4C6F1C314EBD00AE04CF /* DemoChatManager.m */,
+				6D7F4C6E1C314EBD00AE04CF /* ALChatManager.h */,
+				6D7F4C6F1C314EBD00AE04CF /* ALChatManager.m */,
 				29B643C71CE9F24800FE8A73 /* ALSettingsForDebug.h */,
 				29B643C81CE9F24800FE8A73 /* ALSettingsForDebug.m */,
 			);
@@ -285,7 +285,7 @@
 				6D6DF1FC1BC551FA00EBA00F /* ViewController.m in Sources */,
 				29B643C91CE9F24800FE8A73 /* ALSettingsForDebug.m in Sources */,
 				6D6DF1F91BC551FA00EBA00F /* AppDelegate.m in Sources */,
-				6D7F4C701C314EBD00AE04CF /* DemoChatManager.m in Sources */,
+				6D7F4C701C314EBD00AE04CF /* ALChatManager.m in Sources */,
 				6D4F28CF1BC6429F007E7B35 /* ApplozicLoginViewController.m in Sources */,
 				6D6DF1F61BC551FA00EBA00F /* main.m in Sources */,
 			);

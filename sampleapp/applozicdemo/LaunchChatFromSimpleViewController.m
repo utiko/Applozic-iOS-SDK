@@ -8,7 +8,7 @@
 
 #import "LaunchChatFromSimpleViewController.h"
 #import  <Applozic/ALChatViewController.h>
-#import "DemoChatManager.h"
+#import "ALChatManager.h"
 #import "ApplozicLoginViewController.h"
 #import  <Applozic/ALUserDefaultsHandler.h>
 #import  <Applozic/ALRegisterUserClientService.h>
@@ -55,7 +55,7 @@
     ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
     
     if([ALUserDefaultsHandler getDeviceKeyString]){
-        alUserClientService.logout;
+        [alUserClientService logout];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
     
@@ -91,8 +91,8 @@
     [user setEmailId:[ALUserDefaultsHandler getEmailId]];
     [user setPassword:@""];
     
-    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    [demoChatManager registerUserAndLaunchChat:user andFromController:self forUser:nil withGroupId:nil];
+    ALChatManager * chatManager = [[ALChatManager alloc] init];
+    [chatManager registerUserAndLaunchChat:user andFromController:self forUser:nil withGroupId:nil];
     
     //Adding sample contacts...
     [self insertInitialContacts];
@@ -116,8 +116,8 @@
     [user setEmailId:[ALUserDefaultsHandler getEmailId]];
     [user setPassword:@""];
     
-    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    [demoChatManager launchChatForUserWithDisplayName:@"masteruser" withGroupId:nil andwithDisplayName:@"Master" andFromViewController:self];
+    ALChatManager * chatManager = [[ALChatManager alloc] init];
+    [chatManager launchChatForUserWithDisplayName:@"masteruser" withGroupId:nil andwithDisplayName:@"Master" andFromViewController:self];
     
 }
 
@@ -130,8 +130,8 @@
     ALConversationProxy * newProxy = [[ALConversationProxy alloc] init];
     newProxy = [self makeupConversationDetails];
     
-    DemoChatManager * demoChatManager = [[DemoChatManager alloc] init];
-    [demoChatManager createAndLaunchChatWithSellerWithConversationProxy:newProxy fromViewController:self];
+    ALChatManager * chatManager = [[ALChatManager alloc] init];
+    [chatManager createAndLaunchChatWithSellerWithConversationProxy:newProxy fromViewController:self];
     
 }
 

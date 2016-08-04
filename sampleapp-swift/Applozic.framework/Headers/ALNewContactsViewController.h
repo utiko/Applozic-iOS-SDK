@@ -41,4 +41,6 @@
 @property (nonatomic,strong) NSNumber * forGroupAddition;
 @property (nonatomic,strong) NSMutableArray * contactsInGroup;
 @property (nonatomic,assign) id <ALContactDelegate> delegate;
+@property (nonatomic) BOOL directContactVCLaunch;
+
 @end
