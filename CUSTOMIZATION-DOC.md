@@ -195,9 +195,9 @@ ALApplozicSettings.setFontFace("Helvetica")
 #### UI source code
 
 For complete control over UI, you can also download open source chat UI toolkit and change it as per your designs :
-```
+
 [https://github.com/AppLozic/Applozic-iOS-SDK](https://github.com/AppLozic/Applozic-iOS-SDK)
-```
+
 
 Import [Applozic iOS Library](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sample-with-framework/Applozic) into your Xcode project.
 
