@@ -128,14 +128,15 @@
 
 }
 
--(void)launchIndividualContextChat:(ALConversationProxy *)alConversationProxy andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
+-(void)launchIndividualContextChat:(ALConversationProxy *)alConversationProxy andViewControllerObject:(UIViewController *)viewController
+                   userDisplayName:(NSString *)displayName andWithText:(NSString *)text;
 {
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
                                                          bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
     ALChatViewController * contextChatView = (ALChatViewController*) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
     
-    contextChatView.displayName      = @"Adarsh";
+    contextChatView.displayName      = displayName;
     contextChatView.conversationId   = alConversationProxy.Id;
     contextChatView.channelKey       = alConversationProxy.groupId;
     contextChatView.contactIds       = alConversationProxy.userId;

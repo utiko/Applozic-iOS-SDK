@@ -306,7 +306,7 @@
             self.chatLauncher =[[ALChatLauncher alloc] initWithApplicationId:APPLICATION_ID];
             if([ALUserDefaultsHandler getDeviceKeyString]){
                 ALConversationProxy * finalProxy = [self makeFinalProxyWithGeneratedProxy:alConversationProxy andFinalProxy:proxyObject];
-                [self.chatLauncher launchIndividualContextChat:finalProxy andViewControllerObject:fromViewController andWithText:nil];
+                [self.chatLauncher launchIndividualContextChat:finalProxy andViewControllerObject:fromViewController userDisplayName:@"Adarsh" andWithText:nil];
                 
             }
             
