@@ -75,7 +75,7 @@
             [ALUserDefaultsHandler setUserId:user.userId];
             [ALUserDefaultsHandler setEmailVerified: user.emailVerified];
             [ALUserDefaultsHandler setDisplayName: user.displayName];
-            [ALUserDefaultsHandler setEmailId:user.emailId];
+            [ALUserDefaultsHandler setEmailId:user.email];
             [ALUserDefaultsHandler setDeviceKeyString:response.deviceKey];
             [ALUserDefaultsHandler setUserKeyString:response.userKey];
             if(response.imageLink){

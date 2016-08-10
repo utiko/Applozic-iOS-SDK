@@ -165,13 +165,13 @@
     
     ALUser * user = [[ALUser alloc] init];
     [user setUserId:[self.userIdField text]];
-    [user setEmailId:[self.emailField text]];
+    [user setEmail:[self.emailField text]];
     [user setPassword:[self.passwordField text]];
     
     [self.mActivityIndicator startAnimating];
     
     [ALUserDefaultsHandler setUserId:user.userId];
-    [ALUserDefaultsHandler setEmailId:user.emailId];
+    [ALUserDefaultsHandler setEmailId:user.email];
     [ALUserDefaultsHandler setPassword:user.password];
     
     ALChatManager * chatManager = [[ALChatManager alloc] init];

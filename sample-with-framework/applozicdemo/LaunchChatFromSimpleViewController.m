@@ -110,7 +110,7 @@
     [self.view addSubview:_activityView];
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
-    [user setEmailId:[ALUserDefaultsHandler getEmailId]];
+    [user setEmail:[ALUserDefaultsHandler getEmailId]];
     
     ALChatManager * chatManager = [[ALChatManager alloc] init];
     [chatManager registerUserAndLaunchChat:user andFromController:self forUser:nil withGroupId:nil];
@@ -134,7 +134,7 @@
     
     ALUser * user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
-    [user setEmailId:[ALUserDefaultsHandler getEmailId]];
+    [user setEmail:[ALUserDefaultsHandler getEmailId]];
 
     
     ALChatManager * chatManager = [[ALChatManager alloc] init];
