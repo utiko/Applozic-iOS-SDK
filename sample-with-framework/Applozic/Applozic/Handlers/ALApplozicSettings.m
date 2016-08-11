@@ -594,4 +594,16 @@ NOTIFICATION_DISABLE = 2
 }
 
 
++(NSString *)getNavigationControllerClassName
+{
+    NSString * className = [[NSUserDefaults standardUserDefaults] stringForKey:NAVIGATION_CONTROLLER_CLASS_NAME];
+    return className;
+}
+
++(void)setNavigationControllerClassName:(NSString *)className
+{
+    [[NSUserDefaults standardUserDefaults] setObject:className forKey:NAVIGATION_CONTROLLER_CLASS_NAME];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 @end

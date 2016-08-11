@@ -215,7 +215,7 @@ ALMessageDBService  * dbService;
     [super viewDidAppear:animated];
     [self.view endEditing:YES];
     [self.loadEarlierAction setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
+    //[self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
     [self markConversationRead];
     [[[self navigationController] interactivePopGestureRecognizer] setEnabled:NO];
     
@@ -229,9 +229,9 @@ ALMessageDBService  * dbService;
 
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    [navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:18]}];
-    [navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
-    [navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
+    //[navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:18]}];
+    //[navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
+    //[navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -740,7 +740,8 @@ ALMessageDBService  * dbService;
         [self setButtonTitle];
     }
     
-    self.navigationItem.titleView = titleLabelButton;
+    //self.navigationItem.titleView = titleLabelButton;
+      [self.navigationItem setTitle:[self.alContact getDisplayName]];
     
     CGFloat COORDINATE_POINT_Y = titleLabelButton.frame.size.height - 17;
     [self.label setFrame: CGRectMake(0, COORDINATE_POINT_Y ,self.navigationController.navigationBar.frame.size.width, 20)];
@@ -1560,6 +1561,7 @@ ALMessageDBService  * dbService;
     UIImage * backgroundImage = [UIImage imageNamed:imagName];
     if(!backgroundImage)
     {
+        [self.mTableView setBackgroundColor:[UIColor whiteColor]];
         return;
     }
     [self.mTableView setBackgroundColor:[UIColor clearColor]];

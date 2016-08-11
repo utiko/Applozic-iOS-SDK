@@ -36,7 +36,7 @@
     CGRect tempFrame;
     
     CGRect keyboardEndFrame;
-    CGFloat navigationWidth;
+    //CGFloat navigationWidth;
     int paddingForTextMessageViewHeight;
 }
 - (void)viewDidLoad
@@ -62,11 +62,11 @@
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
-        self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
+       // self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
         
     } else {
         // iOS 7.0 or later
-        self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
+       // self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
         
     }
     
@@ -77,7 +77,7 @@
     
     
     // Navigation width is constant
-    navigationWidth = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+    //navigationWidth = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
 
     
     // Set Beak's Color : Dependant of SendMessage-TextView
@@ -113,10 +113,10 @@
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                     color,NSForegroundColorAttributeName,nil];
     
-    self.navigationController.navigationBar.titleTextAttributes = textAttributes;
+    //self.navigationController.navigationBar.titleTextAttributes = textAttributes;
 //    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"< My Chats" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
     
-    UIBarButtonItem * barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton]];
+    UIBarButtonItem * barButtonItem = [[UIBarButtonItem alloc] initWithTitle:[ALApplozicSettings getTitleForBackButtonChatVC] style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
     UIBarButtonItem * refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshTable:)];
     
     self.callButton = [[UIBarButtonItem alloc] initWithCustomView:[self customCallButtonView]];
@@ -127,10 +127,10 @@
     }
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
-        self.navColor = [self.navigationController.navigationBar tintColor];
+        //self.navColor = [self.navigationController.navigationBar tintColor];
     } else {
         // iOS 7.0 or later
-        self.navColor = [self.navigationController.navigationBar barTintColor];
+        //self.navColor = [self.navigationController.navigationBar barTintColor];
     }
     
     self.navRightBarButtonItems = [NSMutableArray new];
@@ -217,18 +217,18 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSubViews) name:@"APP_ENTER_IN_FOREGROUND" object:nil];
     
-    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+    //[self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
     
     if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
     {
         
-        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+        /*&[self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
         self.navigationController.navigationBar.translucent = NO;
         //[self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
         [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
       
-        [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
+        [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];*/
 
         [self.label setTextColor:[ALApplozicSettings getColorForNavigationItem]];
        
@@ -270,7 +270,7 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"APP_ENTER_IN_FOREGROUND" object:nil];
-    self.navigationController.navigationBar.barTintColor = self.navColor;
+    //self.navigationController.navigationBar.barTintColor = self.navColor;
     
     [self removeRegisteredKeyboardNotifications];
 }
@@ -303,7 +303,7 @@
 {
     NSString * theAnimationDuration = [self handleKeyboardNotification:notification];
 
-    self.checkBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y + navigationWidth;
+    self.checkBottomConstraint.constant = self.view.frame.size.height - keyboardEndFrame.origin.y;
 //    self.noConversationLabel.frame = CGRectMake(0,
 //                                                self.typingLabel.frame.origin.y -
 //                                                (self.typingLabel.frame.size.height+10),
@@ -346,7 +346,7 @@
     keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     
     self.typingLabel.frame = CGRectMake(0,
-                                        keyboardEndFrame.origin.y - (self.typingMessageView.frame.size.height + typingIndicatorHeight + navigationWidth),
+                                        keyboardEndFrame.origin.y - (self.typingMessageView.frame.size.height + typingIndicatorHeight),
                                         self.view.frame.size.width, typingIndicatorHeight);
     return theAnimationDuration;
 }
@@ -380,7 +380,7 @@
     self.textMessageViewHeightConstaint.constant = (self.typingMessageView.frame.size.height-self.sendMessageTextView.frame.size.height) + sizeThatFitsTextView.height + paddingForTextMessageViewHeight;
     
     self.typingLabel.frame = CGRectMake(0,
-                                        keyboardEndFrame.origin.y - (self.textMessageViewHeightConstaint.constant + typingIndicatorHeight + navigationWidth),
+                                        keyboardEndFrame.origin.y - (self.textMessageViewHeightConstaint.constant + typingIndicatorHeight),
                                         self.view.frame.size.width, typingIndicatorHeight);
     
 }

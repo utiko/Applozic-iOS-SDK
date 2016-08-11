@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) NSString * placeHolderTxt;
 @property (nonatomic, retain) UIColor * placeHolderColor;
-@property (nonatomic, retain) UIColor *navColor;
+//@property (nonatomic, retain) UIColor *navColor;
 @property (nonatomic,retain) UIView * mTableHeaderView;
 @property (weak, nonatomic) IBOutlet UITableView *mTableView;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *mTapGesture;

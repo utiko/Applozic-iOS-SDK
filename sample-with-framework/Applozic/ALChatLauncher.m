@@ -52,11 +52,18 @@
     
     NSLog(@"CALLED_VIA_NOTIFICATION");
     
-    UINavigationController * conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
+    UINavigationController * conversationViewNavController = [self createNavigationControllerForVC:chatView];
     conversationViewNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
 }
 
+- (UINavigationController *)createNavigationControllerForVC:(UIViewController *)vc
+{
+    NSString * className = [ALApplozicSettings getNavigationControllerClassName];
+    if (![className isKindOfClass:[NSString class]]) className = @"UINavigationController";
+    UINavigationController * navC = [(UINavigationController *)[NSClassFromString(className) alloc] initWithRootViewController:vc];
+    return navC;
+}
 
 -(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID
             withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
@@ -75,7 +82,7 @@
     chatView.displayName = displayName;
     chatView.chatViewDelegate = self;
     
-    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatView];
+    UINavigationController *conversationViewNavController = [self createNavigationControllerForVC:chatView];
     conversationViewNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve ;
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
     
@@ -123,7 +130,7 @@
     
     ALNewContactsViewController *contcatListView = (ALNewContactsViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ALNewContactsViewController"];
     contcatListView.directContactVCLaunch = YES;
-    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:contcatListView];
+    UINavigationController *conversationViewNavController = [self createNavigationControllerForVC:contcatListView];
     [uiViewController presentViewController:conversationViewNavController animated:YES completion:nil];
 
 }
@@ -143,7 +150,7 @@
     contextChatView.text             = text;
     contextChatView.individualLaunch = YES;
     
-    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:contextChatView];
+    UINavigationController *conversationViewNavController = [self createNavigationControllerForVC:contextChatView];
     conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
     
@@ -154,7 +161,7 @@
     
     UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     ALMessagesViewController *chatListView = (ALMessagesViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ALViewController"];
-    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:chatListView];
+    UINavigationController *conversationViewNavController = [self createNavigationControllerForVC:chatListView];
 
     chatListView.userIdToLaunch = userId;
     chatListView.channelKey = channelKey;

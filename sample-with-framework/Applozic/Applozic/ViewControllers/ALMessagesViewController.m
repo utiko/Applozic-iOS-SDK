@@ -73,7 +73,7 @@
 // Private Variables
 @property (nonatomic) NSInteger mqttRetryCount;
 @property (nonatomic, strong) NSMutableArray * mContactsMessageListArray;
-@property (nonatomic, strong) UIColor *navColor;
+//@property (nonatomic, strong) UIColor *navColor;
 @property (nonatomic, strong) NSNumber *unreadCount;
 @property (strong, nonatomic) UILabel *emptyConversationText;
 //@property (strong, nonatomic) NSNumber *channelKey;
@@ -137,7 +137,8 @@
     [self.view addSubview:self.emptyConversationText];
     self.emptyConversationText.hidden =  YES;
     
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:[ALApplozicSettings getTitleForBackButtonMsgVC]]];
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:[ALApplozicSettings getTitleForBackButtonChatVC] style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
+    //[[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:[ALApplozicSettings getTitleForBackButtonMsgVC]]];
     [self.navigationItem setLeftBarButtonItem: barButtonItem];
     
     if((self.channelKey || self.userIdToLaunch))
@@ -172,7 +173,7 @@
     [super viewWillAppear:animated];
     //[self dropShadowInNavigationBar];
   
-    [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
+    //[self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
     
     [self.tabBarController.tabBar setHidden: [ALUserDefaultsHandler isBottomTabBarHidden]];
     
@@ -205,10 +206,10 @@
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // iOS 6.1 or earlier
-        self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
+        //self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
     } else {
         // iOS 7.0 or later
-        self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
+        //self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
     }
     
     //register for notification
@@ -231,14 +232,14 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEntersForegroundIntoListView:)
                                                  name:@"appCameInForeground" object:nil];
 
-    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+    //[self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
     
     if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
     {
-        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
+        /*[self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
         self.navigationController.navigationBar.translucent = NO;
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
-        [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
+        [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];*/
     }
 
     [self callLastSeenStatusUpdate];
@@ -336,14 +337,14 @@
     NSLog(@"%@",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]);
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                     color,NSForegroundColorAttributeName,nil];
-    self.navigationController.navigationBar.titleTextAttributes = textAttributes;
+    //self.navigationController.navigationBar.titleTextAttributes = textAttributes;
     //    self.navigationItem.title = @"Conversation";
     self.navigationItem.title = [ALApplozicSettings getTitleForConversationScreen];
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1){
-        self.navColor = [self.navigationController.navigationBar tintColor];
+        //self.navColor = [self.navigationController.navigationBar tintColor];
     } else {
-        self.navColor = [self.navigationController.navigationBar barTintColor];
+        //self.navColor = [self.navigationController.navigationBar barTintColor];
     }
     
 }

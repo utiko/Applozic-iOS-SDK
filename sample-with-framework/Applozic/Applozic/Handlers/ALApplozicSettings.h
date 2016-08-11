@@ -51,6 +51,7 @@
 #define STATUS_BAR_BG_COLOUR @"com.applozic.userdefault.STATUS_BAR_BG_COLOUR"
 #define STATUS_BAR_STYLE @"com.applozic.userdefault.STATUS_BAR_STYLE"
 #define MAX_TEXT_VIEW_LINES @"com.applozic.userdefault.MAX_TEXT_VIEW_LINES"
+#define NAVIGATION_CONTROLLER_CLASS_NAME @"com.applozic.userdefault.NAVIGATION_CONTROLLER_CLASS_NAME"
 
 
 #import <Foundation/Foundation.h>
@@ -217,4 +218,8 @@
 
 +(void)setMaxTextViewLines:(int)numberOfLines;
 +(int)getMaxTextViewLines;
+
++ (NSString *)getNavigationControllerClassName;
++ (void)setNavigationControllerClassName:(NSString *)className;
+
 @end
