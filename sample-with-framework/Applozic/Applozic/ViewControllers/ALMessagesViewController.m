@@ -170,7 +170,7 @@
 {
     
     [super viewWillAppear:animated];
-    [self dropShadowInNavigationBar];
+    //[self dropShadowInNavigationBar];
   
     [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
     

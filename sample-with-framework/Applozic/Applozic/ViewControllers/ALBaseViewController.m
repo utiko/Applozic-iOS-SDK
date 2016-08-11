@@ -172,7 +172,7 @@
     
 //    [self.view insertSubview:self.noConversationLabel belowSubview:self.typingMessageView];
     
-    [self dropShadowInNavigationBar];
+//    [self dropShadowInNavigationBar];
     
 }
 
