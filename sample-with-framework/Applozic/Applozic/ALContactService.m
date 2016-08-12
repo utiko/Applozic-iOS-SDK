@@ -92,18 +92,22 @@
 #pragma mark fetching OR SAVE with Serevr call...
 
 
-- (ALContact *)loadOrAddContactByKeyWithDisplayName:(NSString *) contactId value:(NSString*) displayName{
+- (ALContact *)loadOrAddContactByKeyWithDisplayName:(NSString *) contactId value:(NSString*) displayName
+{
     
     DB_CONTACT * dbContact = [alContactDBService getContactByKey:@"userId" value:contactId];
     
     ALContact *contact = [[ALContact alloc] init];
-    if (!dbContact) {
+    
+    if (!dbContact)
+    {
         contact.userId = contactId;
         contact.displayName = displayName;
         [self addContact:contact];
         [ALUserService updateUserDisplayName:contact];
         return contact;
     }
+    
     contact.userId = dbContact.userId;
     contact.fullName = dbContact.fullName;
     contact.contactNumber = dbContact.contactNumber;
@@ -113,7 +117,14 @@
     contact.localImageResourceName = dbContact.localImageResourceName;
     contact.connected = dbContact.connected;
     contact.lastSeenAt = dbContact.lastSeenAt;
-    contact.unreadCount=dbContact.unreadCount;
+    contact.unreadCount = dbContact.unreadCount;
+    
+    if(![dbContact.displayName isEqualToString:displayName])
+    {
+        contact.displayName = displayName;
+        [self updateContact:contact];
+        [ALUserService updateUserDisplayName:contact];
+    }
     
     return contact;
 }

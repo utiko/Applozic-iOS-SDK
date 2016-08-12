@@ -13,29 +13,29 @@
 
 @implementation ALRequestHandler
 
-+(NSMutableURLRequest *) createGETRequestWithUrlString:(NSString *) urlString paramString:(NSString *) paramString
++(NSMutableURLRequest *) createGETRequestWithUrlString:(NSString *) urlString paramString:(NSString *)paramString
 {
     NSMutableURLRequest * theRequest = [[NSMutableURLRequest alloc] init];
     
     NSURL * theUrl = nil;
-    
-    if (paramString != nil) {
-        
+
+    if(paramString != nil)
+    {
         theUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@",urlString,paramString]];
     }
     else
     {
         theUrl = [NSURL URLWithString:urlString];
-    
     }
-    NSLog(@"the url,%@", theUrl);
+    
+    NSLog(@"GET_URL :: %@", theUrl);
+    
     [theRequest setURL:theUrl];
-    
     [theRequest setTimeoutInterval:600];
-    
     [theRequest setHTTPMethod:@"GET"];
     
-    [ self addGlobalHeader:theRequest ];
+    [self addGlobalHeader:theRequest];
+    
     return theRequest;
 }
 
@@ -45,11 +45,10 @@
     NSMutableURLRequest * theRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
     
     [theRequest setTimeoutInterval:600];
-    
     [theRequest setHTTPMethod:@"POST"];
     
-    if (paramString != nil) {
-        
+    if (paramString != nil)
+    {
         NSData * thePostData = [paramString dataUsingEncoding:NSUTF8StringEncoding];
         
         [theRequest setHTTPBody:thePostData];
@@ -57,8 +56,8 @@
         [theRequest setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[thePostData length]] forHTTPHeaderField:@"Content-Length"];
         
     }
-    [ self addGlobalHeader:theRequest ];
-       return theRequest;
+    [self addGlobalHeader:theRequest];
+    return theRequest;
     
 }
 

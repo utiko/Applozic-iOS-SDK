@@ -118,11 +118,12 @@
             
             if(theError)
             {
-                NSLog(@"GETTING ERROR in SEVER CALL FOR DISPLAY NAME");
+                NSLog(@"ERROR : UPDATE_DISPLAY_NAME_OF_OTHER_USER :: %@", theError.description);
             }
             else
             {
                 ALAPIResponse *apiResponse = [[ALAPIResponse alloc] initWithJSONString:theJson];
+                NSLog(@"API_RESPONSE :: %@", apiResponse.status);
             }
             
         }];
