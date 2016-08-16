@@ -116,7 +116,7 @@
     CGFloat VIDEO_CELL_HEIGHT;
     CGFloat DATE_CELL_HEIGHT;
     CGFloat CONTACT_CELL_HEIGHT;
-    UIButton *titleLabelButton;
+    //UIButton *titleLabelButton;
     
     CGRect previousRect;
     
@@ -400,7 +400,9 @@ ALMessageDBService  * dbService;
 {
     if(self.channelKey)
     {
-        [self setButtonTitle];
+        ALChannelService *channelService = [[ALChannelService alloc] init];
+        ALChannel *alChannel = [channelService getChannelByKey:self.channelKey];
+        [self.navigationItem  setTitle:alChannel.name];
     }
 }
 
@@ -725,25 +727,30 @@ ALMessageDBService  * dbService;
         self.alContact = [theDBHandler loadContactByKey:@"userId" value: self.contactIds];
     }
     
-    titleLabelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+   /* titleLabelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     titleLabelButton.frame = CGRectMake(0, 0, 70, 44);
     [titleLabelButton addTarget:self action:@selector(didTapTitleView:) forControlEvents:UIControlEventTouchUpInside];
     titleLabelButton.userInteractionEnabled = YES;
     
-//    if(!(self.individualLaunch) || [ALUserDefaultsHandler isServerCallDoneForUserInfoForContact:[self.alContact userId]])
-//    {
+    if(!(self.individualLaunch) || [ALUserDefaultsHandler isServerCallDoneForUserInfoForContact:[self.alContact userId]])
+    {
         [titleLabelButton setTitle:[self.alContact getDisplayName] forState:UIControlStateNormal];
-//    }
-    
+    }*/
+   
     if([self isGroup])
     {
-        [self setButtonTitle];
+        //[self setButtonTitle];
+        ALChannelService *channelService = [[ALChannelService alloc] init];
+        ALChannel *alChannel = [channelService getChannelByKey:self.channelKey];
+        [self.navigationItem  setTitle:alChannel.name];
+    } else {
+        [self.navigationItem setTitle:[self.alContact getDisplayName]];
     }
     
     //self.navigationItem.titleView = titleLabelButton;
-      [self.navigationItem setTitle:[self.alContact getDisplayName]];
     
-    CGFloat COORDINATE_POINT_Y = titleLabelButton.frame.size.height - 17;
+    
+    CGFloat COORDINATE_POINT_Y = 28;
     [self.label setFrame: CGRectMake(0, COORDINATE_POINT_Y ,self.navigationController.navigationBar.frame.size.width, 20)];
 
     ALUserDetail *userDetail = [[ALUserDetail alloc] init];
@@ -755,12 +762,12 @@ ALMessageDBService  * dbService;
     [self updateLastSeenAtStatus:userDetail];
 }
 
--(void)setButtonTitle
+/*-(void)setButtonTitle
 {
     ALChannelService *channelService = [[ALChannelService alloc] init];
     ALChannel *alChannel = [channelService getChannelByKey:self.channelKey];
     [titleLabelButton setTitle:alChannel.name forState:UIControlStateNormal];
-}
+}*/
 
 -(void)didTapTitleView:(id)sender
 {
