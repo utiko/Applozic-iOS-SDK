@@ -144,6 +144,7 @@
     
     self.label = [[UILabel alloc] init];
     self.label.backgroundColor = [UIColor clearColor];
+    [self.label setTextColor:self.navigationController.navigationBar.tintColor];
     [self.label setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:LAST_SEEN_LABEL_SIZE]];
     self.label.textAlignment = NSTextAlignmentCenter;
     [self.navigationController.navigationBar addSubview:self.label];
