@@ -6,7 +6,7 @@
 //  Copyright © 2016 applozic Inc. All rights reserved.
 //
 
-#import <Applozic/Applozic.h>
+#import "Applozic.h"
 
 @interface ALVideoCell : ALMediaBaseCell
 

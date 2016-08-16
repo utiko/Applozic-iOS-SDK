@@ -41,7 +41,7 @@
 #import "ALMessage.h"
 #import "ALUserDetail.h"
 #import "ALSyncCallService.h"
-#import <Applozic/ALChatLauncher.h>
+#import "ALChatLauncher.h"
 
 
 
