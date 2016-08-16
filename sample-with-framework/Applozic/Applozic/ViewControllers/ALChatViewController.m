@@ -747,6 +747,7 @@ ALMessageDBService  * dbService;
         [self.navigationItem setTitle:[self.alContact getDisplayName]];
     }
     
+    
     //self.navigationItem.titleView = titleLabelButton;
     
     
@@ -1962,26 +1963,7 @@ ALMessageDBService  * dbService;
         [self openCamera];
     }]];
 
-    [theController addAction:[UIAlertAction actionWithTitle:@"Current location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-        ALMapViewController *vc = (ALMapViewController *)[storyboard instantiateViewControllerWithIdentifier:@"shareLoactionViewTag"];
-        vc.controllerDelegate = self;
-        [self.navigationController pushViewController:vc animated:YES];
-        
-    }]];
-    
-    [theController addAction:[UIAlertAction actionWithTitle:@"Send Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-        ALAudioAttachmentViewController *audioViewController = (ALAudioAttachmentViewController *)[storyboard instantiateViewControllerWithIdentifier:@"AudioAttachment"];
-        audioViewController.audioAttchmentDelegate = self;
-        
-        [self.navigationController pushViewController:audioViewController animated:YES];
-        
-    }]];
-    
-    [theController addAction:[UIAlertAction actionWithTitle:@"Send Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    [theController addAction:[UIAlertAction actionWithTitle:@"Take Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
         if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
         {
@@ -2002,6 +1984,31 @@ ALMessageDBService  * dbService;
         }
         
     }]];
+
+    [theController addAction:[UIAlertAction actionWithTitle:@"Select from Gallery" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self openGallery];
+    }]];
+
+    
+    [theController addAction:[UIAlertAction actionWithTitle:@"Current location" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+        ALMapViewController *vc = (ALMapViewController *)[storyboard instantiateViewControllerWithIdentifier:@"shareLoactionViewTag"];
+        vc.controllerDelegate = self;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }]];
+    
+    [theController addAction:[UIAlertAction actionWithTitle:@"Send Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+        ALAudioAttachmentViewController *audioViewController = (ALAudioAttachmentViewController *)[storyboard instantiateViewControllerWithIdentifier:@"AudioAttachment"];
+        audioViewController.audioAttchmentDelegate = self;
+        
+        [self.navigationController pushViewController:audioViewController animated:YES];
+        
+    }]];
+    
 
     if(!self.channelKey && !self.conversationId)
     {
@@ -2044,15 +2051,17 @@ ALMessageDBService  * dbService;
         
     }]];
     
-    [theController addAction:[UIAlertAction actionWithTitle:@"Photos/Videos" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    /*[theController addAction:[UIAlertAction actionWithTitle:@"Photos/Videos" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
         UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
         ALMultipleAttachmentView *launchChat = (ALMultipleAttachmentView *)[storyboardM instantiateViewControllerWithIdentifier:@"collectionView"];
         launchChat.multipleAttachmentDelegate = self;
         [self.navigationController pushViewController:launchChat animated:YES];
         
-    }]];
+    }]];*/
     
+    theController.popoverPresentationController.sourceView = self.attachmentOutlet;
+    theController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionDown;
     [self presentViewController:theController animated:YES completion:nil];
 }
 

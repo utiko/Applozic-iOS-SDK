@@ -313,8 +313,8 @@
     self.contactProfileImage.layer.cornerRadius = self.contactProfileImage.frame.size.width/2;
     self.contactProfileImage.layer.masksToBounds = YES;
     
-    self.mBubleImageView.layer.shadowOpacity = 0.3;
-    self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+    self.mBubleImageView.layer.shadowOpacity = 0.1;
+    self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 1);
     self.mBubleImageView.layer.shadowRadius = 1;
     self.mBubleImageView.layer.masksToBounds = NO;
     

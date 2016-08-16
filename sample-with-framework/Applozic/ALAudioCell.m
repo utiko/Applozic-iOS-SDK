@@ -111,8 +111,8 @@
 
 -(void) addShadowEffects
 {
-    self.mBubleImageView.layer.shadowOpacity = 0.3;
-    self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+    self.mBubleImageView.layer.shadowOpacity = 0.1;
+    self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 1);
     self.mBubleImageView.layer.shadowRadius = 1;
     self.mBubleImageView.layer.masksToBounds = NO;
 }

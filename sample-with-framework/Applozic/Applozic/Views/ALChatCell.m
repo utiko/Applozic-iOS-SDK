@@ -210,8 +210,8 @@
                                                 0, theTextSize.width + BUBBLE_PADDING_WIDTH,
                                                 theTextSize.height + BUBBLE_PADDING_HEIGHT);
         
-        self.mBubleImageView.layer.shadowOpacity = 0.3;
-        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+        self.mBubleImageView.layer.shadowOpacity = 0.1;
+        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 1);
         self.mBubleImageView.layer.shadowRadius = 1;
         self.mBubleImageView.layer.masksToBounds = NO;
         
@@ -299,8 +299,8 @@
                                                 theTextSize.width + BUBBLE_PADDING_WIDTH,
                                                 theTextSize.height + BUBBLE_PADDING_HEIGHT);
         
-        self.mBubleImageView.layer.shadowOpacity = 0.3;
-        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 2);
+        self.mBubleImageView.layer.shadowOpacity = 0.1;
+        self.mBubleImageView.layer.shadowOffset = CGSizeMake(0, 1);
         self.mBubleImageView.layer.shadowRadius = 1;
         self.mBubleImageView.layer.masksToBounds = NO;
         
@@ -407,7 +407,7 @@
     [self.mDateLabel setHidden:YES];
     [self.mBubleImageView setHidden:YES];
     CGFloat dateY = 0;
-    [self.mMessageLabel setFrame:CGRectMake(0, dateY, viewSize.width, theTextSize.height+10)];
+    [self.mMessageLabel setFrame:CGRectMake(10, dateY, viewSize.width - 20, theTextSize.height + 10)];
     [self.mMessageLabel setTextAlignment:NSTextAlignmentCenter];
     [self.mMessageLabel setText:alMessage.message];
     [self.mMessageLabel setBackgroundColor:[UIColor clearColor]];
