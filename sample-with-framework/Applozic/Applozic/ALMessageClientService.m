@@ -44,7 +44,7 @@
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"DEILVERY_REPORT" WithCompletionHandler:^(id theJson, NSError *theError) {
-        NSLog(@"server response received for delivery report %@", theJson);
+        //NSLog(@"server response received for delivery report %@", theJson);
         
         if (theError) {
             
@@ -101,7 +101,7 @@
 -(void) getLatestMessageGroupByContact:(NSUInteger)mainPageSize startTime:(NSNumber *)startTime
                         withCompletion:(void(^)(ALMessageList * alMessageList, NSError * error)) completion
 {
-    NSLog(@"\nGet Latest Messages \t State:- User Login ");
+    //NSLog(@"\nGet Latest Messages \t State:- User Login ");
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
     
@@ -141,7 +141,7 @@
 
 -(void) getMessagesListGroupByContactswithCompletion:(void(^)(NSMutableArray * messages, NSError * error)) completion
 {
-    NSLog(@"\nGet Latest Messages \t State:- User Opens Message List View");
+    //NSLog(@"\nGet Latest Messages \t State:- User Opens Message List View");
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
     
     NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@",@"0"];
@@ -240,7 +240,7 @@
         lastSyncTime = @"0";
     }
     
-    NSLog(@"LAST SYNC TIME IN CALL :  %@", lastSyncTime);
+    //NSLog(@"LAST SYNC TIME IN CALL :  %@", lastSyncTime);
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/sync",KBASE_URL];
     NSString * theParamString = [NSString stringWithFormat:@"lastSyncTime=%@",lastSyncTime];
     
@@ -257,7 +257,7 @@
         
         [ALUserDefaultsHandler setMsgSyncRequired:NO];
         ALSyncMessageFeed *syncResponse =  [[ALSyncMessageFeed alloc] initWithJSONString:theJson];
-        NSLog(@"LATEST_MESSAGE_JSON: %@", (NSString *)theJson);
+        //NSLog(@"LATEST_MESSAGE_JSON: %@", (NSString *)theJson);
         completion(syncResponse,nil);
     }];
         

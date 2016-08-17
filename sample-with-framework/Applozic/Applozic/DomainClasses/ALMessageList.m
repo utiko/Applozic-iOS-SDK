@@ -37,10 +37,10 @@
     NSMutableArray * conversationProxyList = [NSMutableArray new];
 
     NSDictionary * theMessageDict = [messagejson valueForKey:@"message"];
-    NSLog(@"MESSAGES_DICT_COUNT :: %lu",(unsigned long)theMessageDict.count);
+    //NSLog(@"MESSAGES_DICT_COUNT :: %lu",(unsigned long)theMessageDict.count);
     if(theMessageDict.count < [ALUserDefaultsHandler getFetchConversationPageSize])
     {
-        NSLog(@"NO_MORE_MESSAGES");
+        //NSLog(@"NO_MORE_MESSAGES");
         [ALUserDefaultsHandler setFlagForAllConversationFetched: YES];
     }
     

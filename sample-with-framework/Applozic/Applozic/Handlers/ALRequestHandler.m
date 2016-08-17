@@ -28,7 +28,7 @@
         theUrl = [NSURL URLWithString:urlString];
     
     }
-    NSLog(@"the url,%@", theUrl);
+    //NSLog(@"the url,%@", theUrl);
     [theRequest setURL:theUrl];
     
     [theRequest setTimeoutInterval:600];
@@ -84,6 +84,6 @@
     [request setValue:authString forHTTPHeaderField:@"Authorization"];
     //Add header for device key ....
     
-    NSLog(@"Basic string...%@",authString);
+    //NSLog(@"Basic string...%@",authString);
 }
 @end

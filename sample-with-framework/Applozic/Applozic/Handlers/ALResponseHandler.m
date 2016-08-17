@@ -18,7 +18,7 @@
         
         NSHTTPURLResponse * theHttpResponse = (NSHTTPURLResponse *) response;
 
-        NSLog(@"ERROR_RESPONSE : %@ && ERROR:CODE : %ld ", connectionError.description, (long)connectionError.code);
+        //NSLog(@"ERROR_RESPONSE : %@ && ERROR:CODE : %ld ", connectionError.description, (long)connectionError.code);
         
         if(connectionError.code == kCFURLErrorUserCancelledAuthentication)
         {

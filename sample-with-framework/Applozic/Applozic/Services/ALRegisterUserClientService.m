@@ -48,12 +48,12 @@
     NSData * postdata = [NSJSONSerialization dataWithJSONObject:user.dictionary options:0 error:&error];
     NSString *theParamString = [[NSString alloc] initWithData:postdata encoding:NSUTF8StringEncoding];
     
-    NSLog(@"PARAM_STRING USER_REGISTRATION :: %@",theParamString);
+    //NSLog(@"PARAM_STRING USER_REGISTRATION :: %@",theParamString);
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"CREATE ACCOUNT" WithCompletionHandler:^(id theJson, NSError *theError) {
-        NSLog(@"server response received %@", theJson);
+        //NSLog(@"server response received %@", theJson);
         
         NSString *statusStr = (NSString *)theJson;
         
@@ -88,7 +88,7 @@
             {
                  NSArray * mqttURL = [response.brokerURL componentsSeparatedByString:@":"];
                  NSString * MQTTURL = [mqttURL[1] substringFromIndex:2];
-                 NSLog(@"URL:%@",MQTTURL);
+                 //NSLog(@"URL:%@",MQTTURL);
                 [ALUserDefaultsHandler setMQTTURL:MQTTURL];
             }
             //[ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.lastSyncTime];
@@ -119,7 +119,7 @@
 
 -(void) updateApnDeviceTokenWithCompletion:(NSString *)apnDeviceToken withCompletion:(void(^)(ALRegistrationResponse * response, NSError *error)) completion
 {
-    NSLog(@" Saving  to  setApnDeviceToken ##");
+    //NSLog(@" Saving  to  setApnDeviceToken ##");
     [ALUserDefaultsHandler setApnDeviceToken:apnDeviceToken];
     if ([ALUserDefaultsHandler isLoggedIn])
     {

@@ -33,13 +33,13 @@
 -(BOOL) isApplozicNotification:(NSDictionary *)dictionary
 {
     NSString *type = (NSString *)[dictionary valueForKey:@"AL_KEY"];
-    NSLog(@"APNs got new message: Notification type %@", type);
+    //NSLog(@"APNs got new message: Notification type %@", type);
     return type != nil && [ALPushNotificationService.ApplozicNotificationTypes containsObject:type];
 }
 
 -(BOOL) processPushNotification:(NSDictionary *)dictionary updateUI:(NSNumber *)updateUI
 {
-    NSLog(@"update ui: %@", updateUI==[NSNumber numberWithInt:1] ? @"ACTIVE": @"BACKGROUND/INACTIVE");
+    //NSLog(@"update ui: %@", updateUI==[NSNumber numberWithInt:1] ? @"ACTIVE": @"BACKGROUND/INACTIVE");
     
     
     if ([self isApplozicNotification:dictionary]) {
@@ -67,10 +67,10 @@
             
             if([[UIApplication sharedApplication] applicationState]== UIApplicationStateInactive){
             
-                NSLog(@"App Inactive");
+                //NSLog(@"App Inactive");
                 [self assitingNotificationMessage:notificationMsg andDictionary:dict];
             }else{
-                NSLog(@"App Inactive False");
+                //NSLog(@"App Inactive False");
             }
 
             return true;
@@ -84,7 +84,7 @@
             [ALMessageService getLatestMessageForUser:[ALUserDefaultsHandler getDeviceKeyString] withCompletion:^(NSMutableArray *message, NSError *error) {
                  }];
             
-            NSLog(@"ALPushNotificationService's SYNC CALL");
+            //NSLog(@"ALPushNotificationService's SYNC CALL");
             [dict setObject:alertValue forKey:@"alertValue"];
             
             [self assitingNotificationMessage:notificationMsg andDictionary:dict];
@@ -190,7 +190,7 @@
             }
         }
         else if ([type isEqualToString:@"APPLOZIC_20"]){
-            NSLog(@"Process Push Notification APPLOZIC_20");
+            //NSLog(@"Process Push Notification APPLOZIC_20");
         }
         
         return TRUE;
