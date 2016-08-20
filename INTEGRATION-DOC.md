@@ -179,7 +179,7 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 
 ```
 
-**c) APNs Certification Type Setup :**
+**d) APNs Certification Type Setup :**
 
 Upload your push notification certificate to Applozic Dashboard page under 'Edit Application' section in order to enable real time notification.
 
