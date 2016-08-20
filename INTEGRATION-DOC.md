@@ -88,7 +88,7 @@ If you want to do something just after user registartion you can use below metho
 
 ####Step 4: Push Notification Setup
 
- #####a) Send device token to Applozic server :
+#####a) Send device token to Applozic server :
 
 In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **method send device registration to Applozic server after you get deviceToken from APNS. Sample code is as below:             
 
@@ -129,7 +129,7 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
 ```
 
 
-b) Receiving push notification :
+ #####b) Receiving push notification :
 
 Once your app receive notification, pass it to Applozic handler for chat notification processing.             
 
@@ -153,7 +153,7 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 ```
 
 
- #####c) Handling app launch on notification click :          
+#####c) Handling app launch on notification click :          
 
 
 ** Objective-C **    
@@ -179,7 +179,7 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 
 ```
 
- #####d) APNs Certification Type Setup :
+#####d) APNs Certification Type Setup :
 
 Upload your push notification certificate to Applozic Dashboard page under 'Edit Application' section in order to enable real time notification.
 
