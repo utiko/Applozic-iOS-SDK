@@ -179,7 +179,7 @@
         [self.segmentControl setHidden:YES];
     }
     
-    [self.navigationItem setLeftBarButtonItem: barButtonItem];
+    //[self.navigationItem setLeftBarButtonItem: barButtonItem];
     float y = self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
     self.searchBar.frame = CGRectMake(0,y, self.view.frame.size.width, 40);
 }
@@ -555,7 +555,7 @@
         
         if(self.selectedSegment == 0)
         {
-            searchPredicate = [NSPredicate predicateWithFormat:@"email CONTAINS[cd] %@ OR userId CONTAINS[cd] %@ OR contactNumber CONTAINS[cd] %@ OR fullName CONTAINS[cd] %@", searchText, searchText, searchText,searchText];
+            searchPredicate = [NSPredicate predicateWithFormat:@"email CONTAINS[cd] %@ OR userId CONTAINS[cd] %@ OR contactNumber CONTAINS[cd] %@ OR fullName CONTAINS[cd] %@ OR displayName CONTAINS[cd] %@", searchText, searchText, searchText, searchText, searchText];
         }
         else
         {
