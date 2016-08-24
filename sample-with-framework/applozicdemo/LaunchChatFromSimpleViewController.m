@@ -101,10 +101,12 @@
 
 - (IBAction)mLaunchChatList:(id)sender {
     
-    if (![ALDataNetworkConnection checkDataNetworkAvailable]){
+    if (![ALDataNetworkConnection checkDataNetworkAvailable])
+    {
         [_activityView removeFromSuperview];
     }
-    else {
+    else
+    {
         [_activityView startAnimating];
     }
     [self.view addSubview:_activityView];
@@ -112,15 +114,12 @@
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmail:[ALUserDefaultsHandler getEmailId]];
     
-    ALChatManager * chatManager = [[ALChatManager alloc] init];
+     ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
     [chatManager registerUserAndLaunchChat:user andFromController:self forUser:nil withGroupId:nil];
 
     //Adding sample contacts...
     [self insertInitialContacts];
-
-
 }
-
 
 //===============================================================================
 // TO LAUNCH INDIVIDUAL MESSAGE LIST....
@@ -137,7 +136,7 @@
     [user setEmail:[ALUserDefaultsHandler getEmailId]];
 
     
-    ALChatManager * chatManager = [[ALChatManager alloc] init];
+     ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
     [self checkUserContact:@"don222" displayName:@"" withCompletion:^(ALContact * contact) {
         
          [chatManager launchChatForUserWithDisplayName:contact.userId withGroupId:nil
@@ -218,7 +217,7 @@
         ALConversationProxy * newProxy = [[ALConversationProxy alloc] init];
         newProxy = [self makeupConversationDetails];
         
-        ALChatManager * chatManager = [[ALChatManager alloc] init];
+         ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
         [chatManager createAndLaunchChatWithSellerWithConversationProxy:newProxy fromViewController:self];
     }else{
         [ALDataNetworkConnection checkDataNetworkAvailable];
