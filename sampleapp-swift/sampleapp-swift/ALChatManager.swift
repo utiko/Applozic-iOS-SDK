@@ -9,6 +9,7 @@
 import UIKit
 import Applozic
 
+
 class ALChatManager: NSObject {
     
     static let applicationId = "applozic-sample-app"
@@ -24,27 +25,60 @@ class ALChatManager: NSObject {
     
     class func registerUser(alUser: ALUser) {
         
-       
         let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: applicationId )
         ALDefaultChatViewSettings()
 
         let registerUserClientService: ALRegisterUserClientService = ALRegisterUserClientService()
         registerUserClientService.initWithCompletion(alUser, withCompletion: { (response, error) in
-            if (error != nil) {
+            
+            if (error != nil)
+            {
                 print("error while registering to applozic");
-            } else {
+            }
+            else if(response.message.isEqual("PASSWORD_INVALID"))
+            {
+                ALUtilityClass.showAlertMessage("Invalid Passoword", andTitle: "Oops!!!")
+            }
+            else
+            {
                 print("registered")
-                
-                if(isNilOrEmpty(ALUserDefaultsHandler.getApnDeviceToken())){
+                if(isNilOrEmpty(ALUserDefaultsHandler.getApnDeviceToken()))
+                {
                     alChatLauncher.registerForNotification()
                 }
-                
-                //let messageClientService: ALMessageClientService = ALMessageClientService()
-               // messageClientService.addWelcomeMessage()
-                
             }
         })
         
+    }
+    // func hardProcessingWithString(input: String, completion: (result: String) -> Void)
+    
+    class func registerUser(alUser: ALUser, completion : (response: ALRegistrationResponse, error: NSError?) -> Void) {
+    
+        let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: applicationId)
+        ALDefaultChatViewSettings()
+        
+        let registerUserClientService: ALRegisterUserClientService = ALRegisterUserClientService()
+    
+        registerUserClientService.initWithCompletion(alUser, withCompletion: { (response, error) in
+    
+            if (error != nil)
+            {
+                print("error while registering to applozic");
+            }
+            else if(response.message.isEqual("PASSWORD_INVALID"))
+            {
+                ALUtilityClass.showAlertMessage("Invalid Passoword", andTitle: "Oops!!!")
+            }
+            else
+            {
+                print("registered")
+                if(isNilOrEmpty(ALUserDefaultsHandler.getApnDeviceToken()))
+                {
+                    alChatLauncher.registerForNotification()
+                }
+                completion(response: response , error: error)
+            }
+        })
     }
     
     // ----------------------  ------------------------------------------------------/
@@ -220,7 +254,10 @@ func makeFinalProxyWithGeneratedProxy (generatedProxy:ALConversationProxy, respo
 
 func ALDefaultChatViewSettings (){
     
-    
+    //////////////////////////   SET AUTHENTICATION-TYPE-ID FOR INTERNAL USAGE ONLY ////////////////////////
+    //ALUserDefaultsHandler.setUserAuthenticationTypeId(1) // CLIENT:0 ,APPLOZIC:1 ,FACEBOOK:2
+    ////////////////////////// ////////////////////////// ////////////////////////// ///////////////////////
+
     let flag : Bool = false
     ALUserDefaultsHandler.setLogoutButtonHidden(flag)
     ALUserDefaultsHandler.setBottomTabBarHidden(flag)
@@ -244,6 +281,7 @@ func ALDefaultChatViewSettings (){
     ALApplozicSettings.setTitleForBackButtonChatVC("Back")
     ALApplozicSettings.setTitleForBackButtonMsgVC("Back")
     ALApplozicSettings.setColorForSendButton(UIColor(red:66.0/255, green:173.0/255, blue:247.0/255, alpha:1))
-    
+    ALApplozicSettings.setFilterContactsStatus(true);
+    ALUserDefaultsHandler.setDebugLogsRequire(true);
 }
 
