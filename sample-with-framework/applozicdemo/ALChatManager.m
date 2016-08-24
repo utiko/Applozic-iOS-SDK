@@ -80,7 +80,7 @@
 -(NSString *)getApplicationKey
 {
     NSString * appKey = [ALUserDefaultsHandler getApplicationKey];
-    NSLog(@"GGETTING :: %@",appKey);
+    NSLog(@"GETTING :: %@",appKey);
     return appKey ? appKey : APPLICATION_ID;
 }
 
