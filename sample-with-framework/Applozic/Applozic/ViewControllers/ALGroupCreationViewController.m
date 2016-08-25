@@ -31,13 +31,13 @@
 #import "UIImageView+WebCache.h"
 #import "ALContactService.h"
 
-@interface ALGroupCreationViewController ()//<ALGroupCreationVCDelegate>
+@interface ALGroupCreationViewController ()
+
 @property (nonatomic,strong) UIImagePickerController * mImagePicker;
 @property (nonatomic,strong) NSString * mainFilePath;
 @property (nonatomic,strong) NSString * groupImageURL;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
-//@property (weak,nonatomic) ALNewContactsViewController* alNewContactViewController;
 @end
 
 @implementation ALGroupCreationViewController{

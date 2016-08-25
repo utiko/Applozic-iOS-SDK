@@ -4,6 +4,9 @@
 //
 //  Copyright (c) 2015 AppLozic. All rights reserved.
 //
+/*********************************************************************
+ TABLE CELL CUSTOM CLASS : THIS CLASS IS OF PURE TEXT MESSSAGE
+ **********************************************************************/
 
 #import <UIKit/UIKit.h>
 #import "ALMessage.h"

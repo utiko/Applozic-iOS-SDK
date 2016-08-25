@@ -589,8 +589,8 @@ NOTIFICATION_DISABLE = 2
 
 +(int)getMaxTextViewLines
 {
-    
-    return [[NSUserDefaults standardUserDefaults] integerForKey:MAX_TEXT_VIEW_LINES]?[[NSUserDefaults standardUserDefaults] integerForKey:MAX_TEXT_VIEW_LINES]:4;
+    NSInteger line = [[NSUserDefaults standardUserDefaults] integerForKey:MAX_TEXT_VIEW_LINES];
+    return line ? (int)line : 4;
 }
 
 

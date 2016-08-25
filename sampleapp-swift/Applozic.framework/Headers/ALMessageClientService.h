@@ -16,31 +16,28 @@
 
 @interface ALMessageClientService : NSObject
 
--(void) updateDeliveryReports:(NSMutableArray *) messages;
+-(void)updateDeliveryReports:(NSMutableArray *)messages;
 
--(void) updateDeliveryReport: (NSString *) key userId: (NSString *) userId;
+-(void)updateDeliveryReport:(NSString *)key;
 
--(void) updateDeliveryReport: (NSString *) key;
+-(void)addWelcomeMessage:(NSNumber *)channelKey;
 
--(void) addWelcomeMessage:(NSNumber *)channelKey;
+-(void)getLatestMessageGroupByContact:(NSUInteger)mainPageSize startTime:(NSNumber *)startTime
+                        withCompletion:(void(^)(ALMessageList * alMessageList, NSError * error))completion;
 
--(void) getLatestMessageGroupByContact:(NSUInteger)mainPageSize startTime:(NSNumber *)startTime
-                        withCompletion:(void(^)(ALMessageList * alMessageList, NSError * error)) completion;
+-(void)getMessagesListGroupByContactswithCompletion:(void(^)(NSMutableArray * messages, NSError * error)) completion;
 
--(void) getMessagesListGroupByContactswithCompletion:(void(^)(NSMutableArray * messages, NSError * error)) completion;
+-(void)getMessageListForUser:(MessageListRequest *)messageListRequest withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion;
 
--(void) getMessageListForUser:(MessageListRequest *) messageListRequest withCompletion:(void (^)(NSMutableArray *, NSError *, NSMutableArray *))completion;
+-(void)sendPhotoForUserInfo:(NSDictionary *)userInfo withCompletion:(void(^)(NSString * message, NSError *error)) completion;
 
--(void) sendPhotoForUserInfo:(NSDictionary *)userInfo withCompletion:(void(^)(NSString * message, NSError *error)) completion;
+-(void)getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)(ALSyncMessageFeed *, NSError *))completion;
 
+-(void)deleteMessage:(NSString *)keyString andContactId:(NSString *)contactId withCompletion:(void (^)(NSString *, NSError *))completion;
 
--(void)getLatestMessageForUser:(NSString *)deviceKeyString withCompletion:(void (^)( ALSyncMessageFeed *, NSError *))completion;
+-(void)deleteMessageThread:(NSString *)contactId orChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion;
 
--(void)deleteMessage:( NSString * ) keyString andContactId:( NSString * )contactId withCompletion:(void (^)(NSString *, NSError *))completion;
-
--(void)deleteMessageThread:( NSString * ) contactId orChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion;
-
--(void)sendMessage: (NSDictionary *) userInfo WithCompletionHandler:(void(^)(id theJson, NSError *theError))completion;
+-(void)sendMessage:(NSDictionary *)userInfo WithCompletionHandler:(void(^)(id theJson, NSError *theError))completion;
 
 -(void)getCurrentMessageInformation:(NSString *)messageKey withCompletionHandler:(void(^)(ALMessageInfoResponse *msgInfo, NSError *theError))completion;
 

@@ -80,7 +80,7 @@
 -(NSString *)getApplicationKey
 {
     NSString * appKey = [ALUserDefaultsHandler getApplicationKey];
-    NSLog(@"GETTING :: %@",appKey);
+    NSLog(@"APPLICATION_KEY :: %@",appKey);
     return appKey ? appKey : APPLICATION_ID;
 }
 
@@ -380,7 +380,7 @@
     [ALApplozicSettings setColorForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     [ALApplozicSettings setColorForNavigationItem: [UIColor whiteColor]];
     [ALApplozicSettings hideRefreshButton:NO];
-    [ALUserDefaultsHandler setLogoutButtonHidden:NO];
+    [ALUserDefaultsHandler setNavigationRightButtonHidden:NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     [ALApplozicSettings setTitleForConversationScreen:@"Chats"];
     [ALApplozicSettings setCustomNavRightButtonMsgVC:NO];                   /*  SET VISIBILITY FOR REFRESH BUTTON (COMES FROM TOP IN MSG VC)   */
@@ -515,7 +515,7 @@
 -(void)launchListWithUserORGroup:(NSString *)userId ORWithGroupID:(NSNumber *)groupId andFromViewController:(UIViewController*)fromViewController
 {
     self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:[self getApplicationKey]];
-    
+
     //User is already registered ..directly launch the chat...
     if([ALUserDefaultsHandler getDeviceKeyString])
     {

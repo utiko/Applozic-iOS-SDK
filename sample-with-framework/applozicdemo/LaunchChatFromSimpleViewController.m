@@ -32,14 +32,13 @@
 @implementation LaunchChatFromSimpleViewController
 
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    [self mLaunchChatList:self];
-    _activityView = [[UIActivityIndicatorView alloc]
-                     initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    _activityView.center=self.view.center;
-
+    //    [self mLaunchChatList:self];
+    self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.activityView.center = self.view.center;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -67,32 +66,23 @@
     [self.unreadCountLabel setText:[NSString stringWithFormat:@"UNREAD COUNT #%@",count]];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)logOutButton:(id)sender {
-    
+-(IBAction)logOutButton:(id)sender
+{
     ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc] init];
     
-    if([ALUserDefaultsHandler getDeviceKeyString]){
+    if([ALUserDefaultsHandler getDeviceKeyString])
+    {
         [alUserClientService logout];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
     
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 
 //===============================================================================
 // TO LAUNCH MESSAGE LIST.....
@@ -103,23 +93,25 @@
     
     if (![ALDataNetworkConnection checkDataNetworkAvailable])
     {
-        [_activityView removeFromSuperview];
+        [self.activityView removeFromSuperview];
     }
     else
     {
-        [_activityView startAnimating];
+        [self.activityView startAnimating];
     }
+    
     [self.view addSubview:_activityView];
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmail:[ALUserDefaultsHandler getEmailId]];
     
-     ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
+    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
     [chatManager registerUserAndLaunchChat:user andFromController:self forUser:nil withGroupId:nil];
 
     //Adding sample contacts...
     [self insertInitialContacts];
 }
+
 
 //===============================================================================
 // TO LAUNCH INDIVIDUAL MESSAGE LIST....
@@ -129,22 +121,20 @@
 - (IBAction)mChatLaunchButton:(id)sender {
     
     [self.view addSubview:_activityView];
-    [_activityView startAnimating];
+    [self.activityView startAnimating];
     
     ALUser * user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmail:[ALUserDefaultsHandler getEmailId]];
 
     
-     ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
+    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
     [self checkUserContact:@"don222" displayName:@"" withCompletion:^(ALContact * contact) {
         
          [chatManager launchChatForUserWithDisplayName:contact.userId withGroupId:nil
                                         andwithDisplayName:contact.displayName andFromViewController:self];
     
     }];
-   
-    
 }
 
 -(void)checkUserContact:(NSString *)userId displayName:(NSString *)displayName withCompletion:(void(^)(ALContact * contact))completion
@@ -171,7 +161,8 @@
 //===============================================================================
 // Multi-Reciever API
 //===============================================================================
--(void)sendMessageToMulti{
+-(void)sendMessageToMulti
+{
     
     ALMessage * multiSendMessage = [[ALMessage alloc] init];
     multiSendMessage.message = @"Broadcasted Message";
@@ -190,40 +181,40 @@
 // Custom Message Sending API
 //===============================================================================
 
--(void)sendCustomMessageTo:(NSString*)to WithText:(NSString*)text andBackgroundColor:(UIColor *)color{
-  
-    
+-(void)sendCustomMessageTo:(NSString*)to WithText:(NSString*)text andBackgroundColor:(UIColor *)color
+{
     ALMessage * customMessage = [ALMessageService createCustomTextMessageEntitySendTo:to withText:text];
     
     [ALApplozicSettings setCustomMessageBackgroundColor:color];
     
     [ALMessageService sendMessages:customMessage withCompletion:^(NSString *message, NSError *error) {
-        if(error){
+        if(error)
+        {
              NSLog(@"Custom Message Send Error: %@", error);
         }
     }];
-
 }
 
 //===============================================================================
 // TO LAUNCH SELLER CHAT....
 //
 //===============================================================================
-- (IBAction)launchSeller:(id)sender {
-    
-    if(![ALDataNetworkConnection noInternetConnectionNotification]){
-        
+
+- (IBAction)launchSeller:(id)sender
+{    
+    if(![ALDataNetworkConnection noInternetConnectionNotification])
+    {
         [self.activityView startAnimating];
         ALConversationProxy * newProxy = [[ALConversationProxy alloc] init];
         newProxy = [self makeupConversationDetails];
         
          ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
         [chatManager createAndLaunchChatWithSellerWithConversationProxy:newProxy fromViewController:self];
-    }else{
+    }
+    else
+    {
         [ALDataNetworkConnection checkDataNetworkAvailable];
     }
-
-    
 }
 
 //===============================================================================
@@ -258,8 +249,8 @@
 // Creating Conversation Details
 //===============================================================================
 
--(ALConversationProxy * )makeupConversationDetails{
-    
+-(ALConversationProxy *)makeupConversationDetails
+{
     ALConversationProxy * alConversationProxy = [[ALConversationProxy alloc] init];
     alConversationProxy.topicId = @"laptop01";
     alConversationProxy.userId = @"adarshk";
@@ -287,23 +278,27 @@
 
 }
 
--(void)viewWillDisappear:(BOOL)animated {
-    [_activityView stopAnimating];
-    [_activityView removeFromSuperview];
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [self.activityView stopAnimating];
+    [self.activityView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NEW_MESSAGE_NOTIFICATION  object:nil];
 }
 
 
-- (IBAction)logoutBtn:(id)sender {
-    ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
+- (IBAction)logoutBtn:(id)sender
+{
+    ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc] init];
     
-    if([ALUserDefaultsHandler getDeviceKeyString]){
+    if([ALUserDefaultsHandler getDeviceKeyString])
+    {
         [alUserClientService logout];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void) insertInitialContacts{
+- (void) insertInitialContacts
+{
     
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     
@@ -360,18 +355,22 @@
 //        NSLog(@"USER_OFFLINE:\nName%@\nID:%@",user.displayName,user.userId);
     }
 }
-- (IBAction)turnNotification:(id)sender {
-    
-    short mode = (self.notificationSwitch.on?NOTIFICATION_ENABLE:NOTIFICATION_DISABLE);
+
+- (IBAction)turnNotification:(id)sender
+{
+    short mode = (self.notificationSwitch.on ? NOTIFICATION_ENABLE : NOTIFICATION_DISABLE);
     //    [ALUserDefaultsHandler setNotificationMode:mode];
-    NSLog(@"MODE:%hd",mode);
+    NSLog(@"NOTIFICATION MODE :: %hd",mode);
     [ALRegisterUserClientService updateNotificationMode:mode withCompletion:^(ALRegistrationResponse *response, NSError *error) {
+        
         [ALUserDefaultsHandler setNotificationMode:mode] ;
-        NSLog(@"UPDATE Notification Mode Response:%@ Error:%@",response,error);
+        NSLog(@"UPDATE Notification Mode Response :: %@ Error :: %@",response, error);
     }];
 }
 
--(void)dealloc{
+-(void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:@"userUpdate"];
 }
+
 @end

@@ -25,7 +25,7 @@
 
 -(void)registerUserWithCompletion:(ALUser *)alUser withHandler:(void(^)(ALRegistrationResponse *rResponse, NSError *error))completion;
 
-@property(nonatomic,retain) NSString * userID;
+@property (nonatomic,retain) NSString * userID;
 
 -(void)launchChat: (UIViewController *)fromViewController;
 

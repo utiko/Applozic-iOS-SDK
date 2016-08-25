@@ -277,7 +277,6 @@
             
         }
         
-        
     }
     else    //Sent Message
     {
@@ -461,28 +460,25 @@
     [self.delegate deleteMessageFromView:self.mMessage];
     
     //serverCall
-    [ALMessageService deleteMessage:self.mMessage.key andContactId:self.mMessage.contactIds withCompletion:^(NSString* string,NSError* error){
-        if(!error ){
-            NSLog(@"No Error");
-        }
-        else{
-            NSLog(@"some error");
-        }
+    [ALMessageService deleteMessage:self.mMessage.key andContactId:self.mMessage.contactIds withCompletion:^(NSString *string, NSError *error) {
+        
+        NSLog(@"DELETE MESSAGE ERROR :: %@", error.description);
     }];
-    
 }
 
-- (void)msgInfo:(id)sender
+-(void)msgInfo:(id)sender
 {
     [self.delegate showAnimation:YES];
-    UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-    ALMessageInfoViewController *launchChat = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
+    UIStoryboard *storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    ALMessageInfoViewController *msgInfoVC = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
     
-    [launchChat setMessage:self.mMessage andHeaderHeight:msgFrameHeight  withCompletionHandler:^(NSError *error) {
+    __weak typeof(ALMessageInfoViewController *) weakObj = msgInfoVC;
+    
+    [msgInfoVC setMessage:self.mMessage andHeaderHeight:msgFrameHeight withCompletionHandler:^(NSError *error) {
         
         if(!error)
         {
-            [self.delegate loadView:launchChat];
+            [self.delegate loadView:weakObj];
         }
         else
         {
@@ -498,6 +494,11 @@
 
 -(void)processHyperLink
 {
+    if(self.mMessage.contentType == 10) // AVOID HYPERLINK FOR GROUP OPERATION MESSAGE OBJECT
+    {
+        return;
+    }
+    
     NSString * source = self.mMessage.message;
     NSDataDetector * detector = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypePhoneNumber | NSTextCheckingTypeLink)
                                                                 error:nil];

@@ -5,6 +5,10 @@
 //  Created by devashish on 19/02/2016.
 //  Copyright © 2016 applozic Inc. All rights reserved.
 //
+/***************************************************************************************
+ TABLE CELL CUSTOM BASE CLASS : THIS CLASS IS A BASE CLASS FOR ALL MEDIA TYPE MESSAGES
+ i.e IMAGE, VIDEO, DOCUMENT, AUDIO, LOCATION & CONTACT
+ ***************************************************************************************/
 
 #define DATE_LABEL_SIZE 12
 #define MESSAGE_TEXT_SIZE 14

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ALBaseViewController : UIViewController
+@interface ALBaseViewController : UIViewController <UITextViewDelegate>
 
 @property (nonatomic, strong) NSString * placeHolderTxt;
 @property (nonatomic, retain) UIColor * placeHolderColor;
@@ -33,7 +33,7 @@
 -(void) scrollTableViewToBottomWithAnimation:(BOOL) animated;
 - (IBAction)attachmentActionMethod:(id)sender;
 -(UIView *)setCustomBackButton;
--(void)makeCallContact;
+
 @property (strong, nonatomic) IBOutlet UIImageView *typeMsgBG;
 
 // ===Message Text View Constaints===

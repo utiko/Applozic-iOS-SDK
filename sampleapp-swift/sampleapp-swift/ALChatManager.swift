@@ -125,11 +125,15 @@ class ALChatManager: NSObject {
     
         let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: ALChatManager.applicationId)
        
-        if(!ALChatManager.isNilOrEmpty(ALUserDefaultsHandler.getDeviceKeyString())){
-            if (ALChatManager.isNilOrEmpty(forUser)){
-                let title  = ALChatManager.isNilOrEmpty(fromController.title) ?"< Back" : fromController.title;
+        if(!ALChatManager.isNilOrEmpty(ALUserDefaultsHandler.getDeviceKeyString()))
+        {
+            if (ALChatManager.isNilOrEmpty(forUser))
+            {
+                let title  = ALChatManager.isNilOrEmpty(fromController.title) ? "< Back" : fromController.title;
                 alChatLauncher.launchChatList(title, andViewControllerObject:fromController);
-            }else {
+            }
+            else
+            {
                 alChatLauncher.launchIndividualChat(forUser, withGroupId: nil, andViewControllerObject: fromController, andWithText: nil)
             }
             return;
@@ -219,7 +223,7 @@ class ALChatManager: NSObject {
             
             if((error == nil)){
                 let finalProxy : ALConversationProxy = makeFinalProxyWithGeneratedProxy(alConversationProxy!, responseProxy: proxyObject)
-                alChatLauncher.launchIndividualContextChat(finalProxy, andViewControllerObject: fromViewController, andWithText: nil)
+                alChatLauncher.launchIndividualContextChat(finalProxy, andViewControllerObject: fromViewController, userDisplayName: "User", andWithText: nil)
             }
         }
         
@@ -259,7 +263,7 @@ func ALDefaultChatViewSettings (){
     ////////////////////////// ////////////////////////// ////////////////////////// ///////////////////////
 
     let flag : Bool = false
-    ALUserDefaultsHandler.setLogoutButtonHidden(flag)
+    ALUserDefaultsHandler.setNavigationRightButtonHidden(flag)
     ALUserDefaultsHandler.setBottomTabBarHidden(flag)
     ALApplozicSettings.setUserProfileHidden(flag)
     ALApplozicSettings.hideRefreshButton(flag)

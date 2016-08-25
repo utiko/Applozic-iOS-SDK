@@ -7,9 +7,25 @@
 //
 
 #import "ALChatManager.h"
+#import <Applozic/ALUserDefaultsHandler.h>
+#import <Applozic/ALMessageClientService.h>
 #import "LaunchChatFromSimpleViewController.h"
+#import <Applozic/ALApplozicSettings.h>
+#import <Applozic/ALChatViewController.h>
+#import <Applozic/ALMessage.h>
 
 @implementation ALChatManager
+
+-(instancetype)initWithApplicationKey:(NSString *)applicationKey;
+{
+    self = [super init];
+    if (self)
+    {
+        [ALUserDefaultsHandler setApplicationKey:applicationKey];
+    }
+    
+    return self;
+}
 
 //==============================================================================================================================================
 // Call This at time of your app's user authentication OR User registration.
@@ -18,14 +34,14 @@
 
 -(void)registerUser:(ALUser *)alUser
 {
-    self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:APPLICATION_ID];
+    self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:[self getApplicationKey]];
     
     //////////////////////////   SET AUTHENTICATION-TYPE-ID FOR INTERNAL USAGE ONLY ////////////////////////
     [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
     ////////////////////////// ////////////////////////// ////////////////////////// ///////////////////////
     
     [self ALDefaultChatViewSettings];
-    [alUser setApplicationId:APPLICATION_ID];
+    [alUser setApplicationId:[self getApplicationKey]];
     
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
@@ -61,6 +77,13 @@
     }];
 }
 
+-(NSString *)getApplicationKey
+{
+    NSString * appKey = [ALUserDefaultsHandler getApplicationKey];
+    NSLog(@"APPLICATION_KEY :: %@",appKey);
+    return appKey ? appKey : APPLICATION_ID;
+}
+
 //==============================================================================================================================================
 // Call This method if you want to do some operation on registration success.
 // Example: If Chat is your first screen after launch,launch chat list on sucess of login.
@@ -68,14 +91,14 @@
 
 -(void)registerUserWithCompletion:(ALUser *)alUser withHandler:(void(^)(ALRegistrationResponse *rResponse, NSError *error))completion
 {
-    self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:APPLICATION_ID];
+    self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:[self getApplicationKey]];
     
     //////////////////////////   SET AUTHENTICATION-TYPE-ID FOR INTERNAL USAGE ONLY ////////////////////////
     [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
     ////////////////////////// ////////////////////////// ////////////////////////// ///////////////////////
     
     [self ALDefaultChatViewSettings];
-    [alUser setApplicationId:APPLICATION_ID];
+    [alUser setApplicationId:[self getApplicationKey]];
     
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
@@ -132,7 +155,7 @@
 -(void)registerUserAndLaunchChat:(ALUser *)alUser andFromController:(UIViewController *)viewController forUser:(NSString *)userId
                      withGroupId:(NSNumber *)groupID
 {
-    self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:APPLICATION_ID];
+    self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:[self getApplicationKey]];
     
     //User is already registered ..directly launch the chat...
     if([ALUserDefaultsHandler getDeviceKeyString])
@@ -163,7 +186,7 @@
     }
     
     [self ALDefaultChatViewSettings];
-    [alUser setApplicationId:APPLICATION_ID];
+    [alUser setApplicationId:[self getApplicationKey]];
     [alUser setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];     // 2. APP_MODULE_NAME setter
     
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
@@ -227,7 +250,7 @@
 -(void)launchChatForUserWithDisplayName:(NSString *)userId withGroupId:(NSNumber *)groupID andwithDisplayName:(NSString *)displayName
                   andFromViewController:(UIViewController *)fromViewController
 {
-    self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:APPLICATION_ID];
+    self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:[self getApplicationKey]];
     
     BOOL flagForText = [self isUserHaveMessages:userId];
     NSString * preText = nil;
@@ -296,11 +319,11 @@
         
         if(!error)
         {
-            self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:APPLICATION_ID];
+            self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:[self getApplicationKey]];
             if([ALUserDefaultsHandler getDeviceKeyString])
             {
                 ALConversationProxy * finalProxy = [self makeFinalProxyWithGeneratedProxy:alConversationProxy andFinalProxy:proxyObject];
-                [self.chatLauncher launchIndividualContextChat:finalProxy andViewControllerObject:fromViewController andWithText:nil];
+                [self.chatLauncher launchIndividualContextChat:finalProxy andViewControllerObject:fromViewController userDisplayName:@"Adarsh" andWithText:nil];
             }
         }
     }];
@@ -329,7 +352,8 @@
 +(ALUser *)getLoggedinUserInformation
 {
     ALUser *user = [[ALUser alloc] init];
-    [user setApplicationId:APPLICATION_ID];
+    
+    [user setApplicationId:[[[self alloc] init] getApplicationKey]];
     [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];      // 3. APP_MODULE_NAME setter
     
     //random userId. Write your logic to get user information here.
@@ -356,7 +380,7 @@
     [ALApplozicSettings setColorForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     [ALApplozicSettings setColorForNavigationItem: [UIColor whiteColor]];
     [ALApplozicSettings hideRefreshButton:NO];
-    [ALUserDefaultsHandler setLogoutButtonHidden:NO];
+    [ALUserDefaultsHandler setNavigationRightButtonHidden:NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
     [ALApplozicSettings setTitleForConversationScreen:@"Chats"];
     [ALApplozicSettings setCustomNavRightButtonMsgVC:NO];                   /*  SET VISIBILITY FOR REFRESH BUTTON (COMES FROM TOP IN MSG VC)   */
@@ -490,7 +514,7 @@
 
 -(void)launchListWithUserORGroup:(NSString *)userId ORWithGroupID:(NSNumber *)groupId andFromViewController:(UIViewController*)fromViewController
 {
-    self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:APPLICATION_ID];
+    self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:[self getApplicationKey]];
     
     //User is already registered ..directly launch the chat...
     if([ALUserDefaultsHandler getDeviceKeyString])
@@ -523,7 +547,7 @@
     
     [self ALDefaultChatViewSettings];
     
-    [alUser setApplicationId:APPLICATION_ID];
+    [alUser setApplicationId:[self getApplicationKey]];
     [alUser setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];  // 4. APP_MODULE_NAME  setter
     
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];

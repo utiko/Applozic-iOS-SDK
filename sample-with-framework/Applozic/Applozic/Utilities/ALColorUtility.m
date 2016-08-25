@@ -74,18 +74,27 @@
     
     if(!alphabet || [alphabet isEqualToString:@""])
     {
-        return [UIColor whiteColor];
+        return [UIColor lightGrayColor];
     }
-    
-    NSString * firstLetter = [[alphabet substringToIndex:1] uppercaseString];
-    UIColor * colour = [self colorWithHexString:[colourDictionary valueForKey:firstLetter]];
-    
-    if(!colour)
+   
+    UIColor * colour;
+    @try
     {
-        NSArray * keyArray = [colourDictionary allKeys];
-        NSUInteger randomIndex = random()% [keyArray count];
-        NSString * colorKey = [keyArray objectAtIndex:randomIndex];
-        colour = [self colorWithHexString:[colourDictionary valueForKey:colorKey]];
+        NSString * firstLetter = [[alphabet substringToIndex:1] uppercaseString];
+        colour = [self colorWithHexString:[colourDictionary valueForKey:firstLetter]];
+        
+        if(!colour)
+        {
+            NSArray * keyArray = [colourDictionary allKeys];
+            NSUInteger randomIndex = random()% [keyArray count];
+            NSString * colorKey = [keyArray objectAtIndex:randomIndex];
+            colour = [self colorWithHexString:[colourDictionary valueForKey:colorKey]];
+        }
+    }
+    @catch(NSException *ex)
+    {
+        NSLog(@"ALPHABET = ' %@ ' && EXPCEPTION :: %@", alphabet, ex);
+        colour = [UIColor lightGrayColor];
     }
     
     return colour;

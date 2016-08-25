@@ -100,7 +100,7 @@ class LaunchChatFromSimpleVCViewController: UIViewController {
         user.userId = ALUserDefaultsHandler.getUserId();
         user.applicationId=ALChatManager.applicationId;
         if(!ALChatManager.isNilOrEmpty(ALUserDefaultsHandler.getEmailId())){
-            user.emailId = ALUserDefaultsHandler.getEmailId();
+            user.email = ALUserDefaultsHandler.getEmailId();
         }
         return user;
 }

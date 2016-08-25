@@ -46,7 +46,6 @@
 #define LOGIN_USER_CONTACT @"com.applozic.userdefault.LOGIN_USER_CONTACT"
 #define LOGIN_USER_PROFILE_IMAGE @"com.applozic.userdefault.LOGIN_USER_PROFILE_IMAGE"
 #define LOGIN_USER_PROFILE_IMAGE_SERVER @"com.applozic.userdefault.LOGIN_USER_PROFILE_IMAGE_SERVER"
-#define LOGIN_USER_PHONE_NUMBER @"com.applozic.userdefault.LOGIN_USER_PHONE_NUMBER"
 #define LOGGEDIN_USER_STATUS @"com.applozic.userdefault.LOGGEDIN_USER_STATUS"
 #define LOGIN_USER_SUBSCRIBED_MQTT @"com.applozic.userdefault.LOGIN_USER_SUBSCRIBED_MQTT"
 
@@ -66,9 +65,8 @@
 
 +(BOOL) isBottomTabBarHidden;
 
-+(void) setLogoutButtonHidden: (BOOL)flagValue;
-
-+(BOOL) isLogoutButtonHidden;
++(void)setNavigationRightButtonHidden:(BOOL)flagValue;
++(BOOL)isNavigationRightButtonHidden;
 
 +(void) setBackButtonHidden: (BOOL)flagValue;
 
@@ -198,10 +196,6 @@
 
 +(BOOL)getLoginUserConatactVisibility;
 +(void)setLoginUserConatactVisibility:(BOOL)flag;
-
-// LOGIN USER PHONE NO.
-+(NSString *)getPhoneNumber;
-+(void)setPhoneNumber:(NSString *)phoneNumber;
 
 // LOGIN USER PROFILE IMAGE LINK
 +(NSString *)getProfileImageLink;

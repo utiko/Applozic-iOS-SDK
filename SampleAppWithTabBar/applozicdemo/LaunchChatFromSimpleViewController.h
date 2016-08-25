@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Applozic/Applozic.h>
 
 @interface LaunchChatFromSimpleViewController : UIViewController
 

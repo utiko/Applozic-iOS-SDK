@@ -22,11 +22,9 @@
 
 #define KEYBOARD_PADDING 85
 
-@interface ALBaseViewController ()<UITextViewDelegate>
-
+@interface ALBaseViewController ()
 
 @property (nonatomic,retain) UIButton * rightViewButton;
-
 
 @end
 
@@ -60,15 +58,6 @@
     self.sendMessageTextView.textColor = self.placeHolderColor;
     self.sendMessageTextView.backgroundColor = [ALApplozicSettings getMsgTextViewBGColor];
     
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
-        // iOS 6.1 or earlier
-        self.navigationController.navigationBar.tintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
-        
-    } else {
-        // iOS 7.0 or later
-        self.navigationController.navigationBar.barTintColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_TOPBAR_COLOR];
-        
-    }
     
     if ([ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_BACKGROUND_COLOR])
         self.mTableView.backgroundColor = (UIColor *)[ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOZIC_CHAT_BACKGROUND_COLOR];
@@ -81,8 +70,8 @@
 
     
     // Set Beak's Color : Dependant of SendMessage-TextView
-    _beakImageView.image = [_beakImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [_beakImageView setTintColor:self.sendMessageTextView.backgroundColor];
+    self.beakImageView.image = [_beakImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.beakImageView setTintColor:self.sendMessageTextView.backgroundColor];
 
 }
 
@@ -103,18 +92,6 @@
 
 -(void)setUpTheming
 {
-    UIColor *color = [ALUtilityClass parsedALChatCostomizationPlistForKey:APPLOGIC_TOPBAR_TITLE_COLOR];
-    
-    if (!color)
-    {
-        color = [UIColor blackColor];
-        //        color = [UIColor whiteColor];
-    }
-    NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    color,NSForegroundColorAttributeName,nil];
-    
-    self.navigationController.navigationBar.titleTextAttributes = textAttributes;
-//    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"< My Chats" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
     
     UIBarButtonItem * barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton]];
     UIBarButtonItem * refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshTable:)];
@@ -124,13 +101,6 @@
     if(self.individualLaunch)
     {
         [self.navigationItem setLeftBarButtonItem:barButtonItem];
-    }
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
-        // iOS 6.1 or earlier
-        self.navColor = [self.navigationController.navigationBar tintColor];
-    } else {
-        // iOS 7.0 or later
-        self.navColor = [self.navigationController.navigationBar barTintColor];
     }
     
     self.navRightBarButtonItems = [NSMutableArray new];
@@ -158,8 +128,8 @@
     self.typingLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.typingLabel];
     
-    CGFloat navigationHeight = self.navigationController.navigationBar.frame.size.height +
-    [UIApplication sharedApplication].statusBarFrame.size.height;
+//    CGFloat navigationHeight = self.navigationController.navigationBar.frame.size.height +
+//    [UIApplication sharedApplication].statusBarFrame.size.height;
     
 //    self.noConversationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height/2) - navigationHeight,
 //                                                                         self.view.frame.size.width, 30)];
@@ -227,9 +197,8 @@
         //[self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
         [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
-      
+    
         [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
-
         [self.label setTextColor:[ALApplozicSettings getColorForNavigationItem]];
        
     }
@@ -450,6 +419,10 @@
     [view addGestureRecognizer:phoneIconTap];
     
     return view;
+}
+
+-(void)phoneCallMethod {
+
 }
 
 -(UIView *)setCustomBackButton

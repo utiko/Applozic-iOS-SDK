@@ -48,8 +48,8 @@ class AppLogicLoginViewController: UIViewController {
 
         print("userName:: " , alUser.userId)
         if(!((emailId.text?.isEmpty)!)){
-             alUser.emailId = emailId.text
-             ALUserDefaultsHandler.setEmailId(alUser.emailId)
+             alUser.email = emailId.text
+             ALUserDefaultsHandler.setEmailId(alUser.email)
         }
 
         if (!((password.text?.isEmpty)!)){
@@ -79,8 +79,8 @@ class AppLogicLoginViewController: UIViewController {
         print("userName:: " , alUser.userId)
         if(!((emailId.text?.isEmpty)!)){
             
-            alUser.emailId = emailId.text
-            ALUserDefaultsHandler.setEmailId(alUser.emailId)
+            alUser.email = emailId.text
+            ALUserDefaultsHandler.setEmailId(alUser.email)
         }
         if (!((password.text?.isEmpty)!)){
             alUser.password = password.text

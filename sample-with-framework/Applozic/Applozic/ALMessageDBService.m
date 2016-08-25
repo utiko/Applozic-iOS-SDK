@@ -354,7 +354,7 @@
 
 -(void)syncConactsDB
 {
-    ALContactService *contactservice = [[ALContactService alloc] init];
+//    ALContactService *contactservice = [[ALContactService alloc] init];
    // [contactservice insertInitialContacts];
 }
 

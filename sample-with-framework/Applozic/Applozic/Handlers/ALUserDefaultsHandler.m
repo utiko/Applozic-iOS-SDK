@@ -38,13 +38,13 @@
     }
 }
 
-+(void) setLogoutButtonHidden:(BOOL)flagValue
++(void) setNavigationRightButtonHidden:(BOOL)flagValue
 {
     [[NSUserDefaults standardUserDefaults] setBool:flagValue forKey:LOGOUT_BUTTON_VISIBLITY];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(BOOL) isLogoutButtonHidden
++(BOOL) isNavigationRightButtonHidden
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:LOGOUT_BUTTON_VISIBLITY];
 }

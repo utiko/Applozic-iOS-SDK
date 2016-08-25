@@ -13,21 +13,21 @@
 
 @implementation ALRequestHandler
 
-+(NSMutableURLRequest *) createGETRequestWithUrlString:(NSString *) urlString paramString:(NSString *)paramString
++(NSMutableURLRequest *) createGETRequestWithUrlString:(NSString *) urlString paramString:(NSString *) paramString
 {
     NSMutableURLRequest * theRequest = [[NSMutableURLRequest alloc] init];
     
     NSURL * theUrl = nil;
-
-    if(paramString != nil)
-    {
+    
+    if (paramString != nil) {
+        
         theUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@",urlString,paramString]];
     }
     else
     {
         theUrl = [NSURL URLWithString:urlString];
-    }
     
+    }
     NSLog(@"GET_URL :: %@", theUrl);
     
     [theRequest setURL:theUrl];
@@ -45,10 +45,11 @@
     NSMutableURLRequest * theRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
     
     [theRequest setTimeoutInterval:600];
+    
     [theRequest setHTTPMethod:@"POST"];
     
-    if (paramString != nil)
-    {
+    if (paramString != nil) {
+        
         NSData * thePostData = [paramString dataUsingEncoding:NSUTF8StringEncoding];
         
         [theRequest setHTTPBody:thePostData];
