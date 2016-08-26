@@ -211,7 +211,7 @@ Call the following when user logout from your app:
 ###Swift
 
 
-####Step 1: Download Chat SDK
+####Download Chat SDK
 
 **ADD APPLOZIC FRAMEWORK**
 
@@ -232,7 +232,7 @@ Expand  Embedded frameworks and add applozic framework.
 ![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Resized-adding-applozic-framework.png)        
 
 
-####Step 2:  Login/Register User
+####Login/Register User
 Applozic will create a new user if the user doesn't exists. userId is the unique identifier for any user, it can be anything like email, phone number or uuid from your database.
 
 
@@ -277,7 +277,7 @@ Convenient methods are present in ALChatManager.swift to register user with appl
 
 ```
 
-####Step 3: Initiate Chat
+####Initiate Chat
 
 1 ) Launch chat list screen:
     NOTE : Replace "applozic-sample-app" by your application key 
@@ -305,7 +305,7 @@ Convenient methods are present in ALChatManager.swift to register user with appl
   
 ```
 
-####Step 4: Push Notification Setup
+####Push Notification Setup
 
 #####a) Send device token to Applozic server :
 
@@ -407,7 +407,7 @@ For Distribution:
     ALUserDefaultsHandler.setDeviceApnsType(APNS_TYPE_DISTRIBUTION);
 ```
 
-####Step 5: Logout User
+####Logout User
 
 Call the following when user logout from your app:
 
