@@ -56,7 +56,9 @@ class AppLogicLoginViewController: UIViewController {
             alUser.password = password.text
             ALUserDefaultsHandler.setPassword(alUser.password)
         }
-        ALChatManager.registerUser(alUser);
+        
+        let chatManager = ALChatManager(applicationKey: "applozic-sample-app")
+        chatManager.registerUser(alUser)
         let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("LaunchChatFromSimpleViewController") as UIViewController
         self.presentViewController(viewController, animated:true, completion: nil)
 
@@ -64,6 +66,7 @@ class AppLogicLoginViewController: UIViewController {
     
    
     @IBAction func moreButtonAction(sender: AnyObject) {
+        
         let alUser : ALUser =  ALUser();
         alUser.applicationId = ALChatManager.applicationId
         
@@ -87,10 +90,12 @@ class AppLogicLoginViewController: UIViewController {
             ALUserDefaultsHandler.setPassword(alUser.password)
         }
         
-        ALChatManager.registerUser(alUser);
-        let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("moreTabBar") as UIViewController
-        self.presentViewController(viewController, animated:true, completion: nil)
-        
+        let chatManager = ALChatManager(applicationKey: "applozic-sample-app")
+        chatManager.registerUser(alUser) { (response, error) in
+            
+            let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("moreTabBar") as UIViewController
+            self.presentViewController(viewController, animated:true, completion: nil)
+        }
     }
    
 }

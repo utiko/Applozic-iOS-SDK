@@ -14,7 +14,6 @@ class LaunchChatFromSimpleVCViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
 
@@ -22,34 +21,31 @@ class LaunchChatFromSimpleVCViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     @IBAction func launchList(sender: AnyObject) {
         
-        let chatManager : ALChatManager =  ALChatManager()
+        let chatManager : ALChatManager =  ALChatManager(applicationKey: "applozic-sample-app")
         chatManager.registerUserAndLaunchChat(getUserDetail(), fromController: self, forUser:nil)
     }
     
-    
-    
-    @IBAction func launchUserChat(sender: AnyObject) {
-        let chatManager : ALChatManager =  ALChatManager()
-        
+    @IBAction func launchUserChat(sender: AnyObject)
+    {
+        let chatManager : ALChatManager =  ALChatManager(applicationKey: "applozic-sample-app")
         chatManager.registerUserAndLaunchChat(getUserDetail(), fromController: self, forUser:"applozic")
-    
     }
     
     
-    @IBAction func launchSellerChat(sender: AnyObject) {
-        
+    @IBAction func launchSellerChat(sender: AnyObject)
+    {
         var alconversationProxy : ALConversationProxy =  ALConversationProxy()
         alconversationProxy = self.makeupConversationDetails()
         
-        let chatManager : ALChatManager =  ALChatManager()
+        let chatManager : ALChatManager =  ALChatManager(applicationKey: "applozic-sample-app")
         chatManager.createAndLaunchChatWithSellerWithConversationProxy(alconversationProxy, fromViewController:self)
     }
 
-    func makeupConversationDetails() -> ALConversationProxy{
+    func makeupConversationDetails() -> ALConversationProxy
+    {
         let alConversationProxy : ALConversationProxy = ALConversationProxy()
         alConversationProxy.topicId = "laptop01"
         alConversationProxy.userId = "adarshk"
@@ -63,7 +59,6 @@ class LaunchChatFromSimpleVCViewController: UIViewController {
         alTopicDetails.key2      = "Price"
         alTopicDetails.value2    = "Rs.1,04,999.00"
         
-        
         let jsonData: NSData = jsonToNSData(alTopicDetails.dictionary())!
         
         let resultTopicDetails : NSString = NSString.init(data: jsonData, encoding: NSUTF8StringEncoding)!
@@ -72,24 +67,24 @@ class LaunchChatFromSimpleVCViewController: UIViewController {
         return alConversationProxy
     }
     
-    
-    
-    func jsonToNSData(json: AnyObject) -> NSData?{
-        do {
+    func jsonToNSData(json: AnyObject) -> NSData?
+    {
+        do
+        {
             return try NSJSONSerialization.dataWithJSONObject(json, options:NSJSONWritingOptions.PrettyPrinted)
-        } catch let Error {
+        }
+        catch let Error
+        {
             print(Error)
         }
         return nil;
     }
     
-    @IBAction func logout(sender: AnyObject) {
+    @IBAction func logout(sender: AnyObject)
+    {
         let registerUserClientService: ALRegisterUserClientService = ALRegisterUserClientService()
-        
-      registerUserClientService.logout();
-      self.dismissViewControllerAnimated(false, completion: nil)
-        
-    
+        registerUserClientService.logout();
+        self.dismissViewControllerAnimated(false, completion: nil)
     }
     
     func getUserDetail() -> ALUser {
@@ -103,8 +98,8 @@ class LaunchChatFromSimpleVCViewController: UIViewController {
             user.email = ALUserDefaultsHandler.getEmailId();
         }
         return user;
+    }
+    
+    
+    
 }
-    
-    
-    
-   }

@@ -14,18 +14,19 @@ class ALChatManager: NSObject {
     
     static let applicationId = "applozic-sample-app"
     
+    init(applicationKey: NSString) {
+        
+        ALUserDefaultsHandler.setApplicationKey(applicationKey as String)
+    }
     
     // ----------------------
-    
     // Call This at time of your app's user authentication OR User registration.
     // This will register your User at applozic server.
-    
-    
     //----------------------
     
-    class func registerUser(alUser: ALUser) {
+     func registerUser(alUser: ALUser) {
         
-        let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: applicationId )
+        let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: getApplicationKey() as String)
         ALDefaultChatViewSettings()
 
         let registerUserClientService: ALRegisterUserClientService = ALRegisterUserClientService()
@@ -42,19 +43,17 @@ class ALChatManager: NSObject {
             else
             {
                 print("registered")
-                if(isNilOrEmpty(ALUserDefaultsHandler.getApnDeviceToken()))
+                if(ALChatManager.isNilOrEmpty(ALUserDefaultsHandler.getApnDeviceToken()))
                 {
                     alChatLauncher.registerForNotification()
                 }
             }
         })
-        
     }
-    // func hardProcessingWithString(input: String, completion: (result: String) -> Void)
     
-    class func registerUser(alUser: ALUser, completion : (response: ALRegistrationResponse, error: NSError?) -> Void) {
+     func registerUser(alUser: ALUser, completion : (response: ALRegistrationResponse, error: NSError?) -> Void) {
     
-        let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: applicationId)
+        let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: getApplicationKey() as String)
         ALDefaultChatViewSettings()
         
         let registerUserClientService: ALRegisterUserClientService = ALRegisterUserClientService()
@@ -72,7 +71,7 @@ class ALChatManager: NSObject {
             else
             {
                 print("registered")
-                if(isNilOrEmpty(ALUserDefaultsHandler.getApnDeviceToken()))
+                if(ALChatManager.isNilOrEmpty(ALUserDefaultsHandler.getApnDeviceToken()))
                 {
                     alChatLauncher.registerForNotification()
                 }
@@ -82,48 +81,33 @@ class ALChatManager: NSObject {
     }
     
     // ----------------------  ------------------------------------------------------/
-    
     // convenient method to launch chat-list, after user registration is done on applozic server.
     //
     // This will automatically handle unregistered users provided getLoggedinUserInformation is implemented properly.
-    
     // ----------------------  ------------------------------------------------------/
-    
-
     
     func launchChat(fromViewController:UIViewController){
         self.registerUserAndLaunchChat(nil, fromController: fromViewController, forUser: nil)
     }
     
-    
     // ----------------------  ------------------------------------------------------/
-    
     // convenient method to directly launch individual user chat screen. UserId parameter define users for which it intented to launch chat screen.
     //
     // This will automatically handle unregistered users provided getLoggedinUserInformation is implemented properly.
-    
     // ----------------------  ------------------------------------------------------/
     
     func launchChatForUser(forUserId : String ,fromViewController:UIViewController){
         self.registerUserAndLaunchChat(nil, fromController: fromViewController, forUser: forUserId)
     }
     
-    
-    
     // ----------------------  ------------------------------------------------------/
-    
     //      Method to register + lauch chats screen. If user is already registered, directly chats screen will be launched.
     //      If user information is not passed, it will try to get user information from getLoggedinUserInformation.
-    //
-    //
     //-----------------------  ------------------------------------------------------/
     
-    
     func registerUserAndLaunchChat(alUser:ALUser?, fromController:UIViewController,forUser:String?)
-    
     {
-    
-        let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: ALChatManager.applicationId)
+        let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: getApplicationKey() as String)
        
         if(!ALChatManager.isNilOrEmpty(ALUserDefaultsHandler.getDeviceKeyString()))
         {
@@ -141,7 +125,7 @@ class ALChatManager: NSObject {
         
         //register user as it is not registered already ...
         var user : ALUser;
-        if ( alUser == nil) {
+        if (alUser == nil) {
             user = ALChatManager.getUserDetail()
         }else {
             user = alUser!;
@@ -171,18 +155,13 @@ class ALChatManager: NSObject {
                 alChatLauncher.launchIndividualChat(forUser, withGroupId: nil, andViewControllerObject: fromController, andWithText: nil)
             }
         })
-        
     }
     
     // ----------------------  ---------------------------------------------------------------------------------------------//
-    
     //     This method can be used to get app logged-in user's information.
     //     if user information is stored in DB or preference, Code to get user's information should go here.
     //     This might be used to get existing user information in case of app update.
-    
     //----------------------   -----------------------------------------------------------------------------------------//
-    
-
     
     class func getUserDetail() -> ALUser {
         
@@ -190,22 +169,18 @@ class ALChatManager: NSObject {
         
         let user: ALUser = ALUser()
         user.userId = "iosdevtest"
-        user.applicationId=ALChatManager.applicationId
+        user.applicationId = ALChatManager.applicationId
         return user;
         
     }
   
-    
     class func isNilOrEmpty(string: NSString?) -> Bool {
         
         switch string {
-            
         case .Some(let nonNilString): return nonNilString.length == 0
-            
         default:return true
             
         }
-        
     }
     
 // ----------------------  ------------------------------------------------------/
@@ -214,9 +189,9 @@ class ALChatManager: NSObject {
 // This will automatically handle unregistered users provided getLoggedinUserInformation is implemented properly.
 // ----------------------  ------------------------------------------------------/
     
-    func createAndLaunchChatWithSellerWithConversationProxy (alConversationProxy: ALConversationProxy?, fromViewController: UIViewController ) {
+    func createAndLaunchChatWithSellerWithConversationProxy (alConversationProxy: ALConversationProxy?, fromViewController: UIViewController) {
         
-        let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: ALChatManager.applicationId)
+        let alChatLauncher: ALChatLauncher = ALChatLauncher(applicationId: getApplicationKey() as String)
         
         let alconversationService : ALConversationService = ALConversationService()
         alconversationService.createConversation(alConversationProxy) { (error:NSError?, proxyObject: ALConversationProxy!) -> Void in
@@ -226,14 +201,16 @@ class ALChatManager: NSObject {
                 alChatLauncher.launchIndividualContextChat(finalProxy, andViewControllerObject: fromViewController, userDisplayName: "User", andWithText: nil)
             }
         }
-        
     }
-    
-    
 }
 
-
-
+ func getApplicationKey() -> NSString {
+    
+    let appKey = ALUserDefaultsHandler.getApplicationKey() as NSString?
+    let applicationKey = (appKey != nil) ? appKey : ALChatManager.applicationId
+    return applicationKey!;
+    
+}
 
 //----------------------------------------------------------------------------------------------------
 // The below method combines the conversationID got from server's response with the details already set.
@@ -248,18 +225,16 @@ func makeFinalProxyWithGeneratedProxy (generatedProxy:ALConversationProxy, respo
     finalProxy.groupId = responseProxy.groupId;
     
     return finalProxy;
-
-
 }
 
 //--------------------------------------------------------------------------------------------------------------
 // This method helps you customise various settings
 //--------------------------------------------------------------------------------------------------------------
 
-func ALDefaultChatViewSettings (){
+func ALDefaultChatViewSettings () {
     
     //////////////////////////   SET AUTHENTICATION-TYPE-ID FOR INTERNAL USAGE ONLY ////////////////////////
-    //ALUserDefaultsHandler.setUserAuthenticationTypeId(1) // CLIENT:0 ,APPLOZIC:1 ,FACEBOOK:2
+    ALUserDefaultsHandler.setUserAuthenticationTypeId(1) // CLIENT:0 ,APPLOZIC:1 ,FACEBOOK:2
     ////////////////////////// ////////////////////////// ////////////////////////// ///////////////////////
 
     let flag : Bool = false
