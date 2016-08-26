@@ -24,7 +24,7 @@ class LaunchChatFromSimpleVCViewController: UIViewController {
 
     @IBAction func launchList(sender: AnyObject) {
         
-        let chatManager : ALChatManager =  ALChatManager(applicationKey: "applozic-sample-app")
+        let chatManager : ALChatManager = ALChatManager(applicationKey: "applozic-sample-app")
         chatManager.registerUserAndLaunchChat(getUserDetail(), fromController: self, forUser:nil)
     }
     
@@ -93,7 +93,10 @@ class LaunchChatFromSimpleVCViewController: UIViewController {
         
         let user: ALUser = ALUser()
         user.userId = ALUserDefaultsHandler.getUserId();
-        user.applicationId=ALChatManager.applicationId;
+        user.password = ALUserDefaultsHandler.getPassword()
+        user.displayName = ALUserDefaultsHandler.getDisplayName()
+
+        user.applicationId = ALChatManager.applicationId;
         if(!ALChatManager.isNilOrEmpty(ALUserDefaultsHandler.getEmailId())){
             user.email = ALUserDefaultsHandler.getEmailId();
         }

@@ -9,6 +9,12 @@
 import UIKit
 import Applozic
 
+var TYPE_CLIENT : Int16 = 0
+var TYPE_APPLOZIC : Int16 = 1
+var TYPE_FACEBOOK : Int16 = 2
+
+var APNS_TYPE_DEVELOPMENT : Int16 = 0
+var APNS_TYPE_DISTRIBUTION : Int16 = 1
 
 class ALChatManager: NSObject {
     
@@ -234,7 +240,7 @@ func makeFinalProxyWithGeneratedProxy (generatedProxy:ALConversationProxy, respo
 func ALDefaultChatViewSettings () {
     
     //////////////////////////   SET AUTHENTICATION-TYPE-ID FOR INTERNAL USAGE ONLY ////////////////////////
-    ALUserDefaultsHandler.setUserAuthenticationTypeId(1) // CLIENT:0 ,APPLOZIC:1 ,FACEBOOK:2
+    ALUserDefaultsHandler.setUserAuthenticationTypeId(TYPE_APPLOZIC) 
     ////////////////////////// ////////////////////////// ////////////////////////// ///////////////////////
 
     let flag : Bool = false
@@ -254,7 +260,6 @@ func ALDefaultChatViewSettings () {
     ALApplozicSettings.setNotificationTitle(appName?.string)
     ALApplozicSettings.setMaxCompressionFactor(0.1)
     ALApplozicSettings.setMaxImageSizeForUploadInMB(3)
-    ALApplozicSettings.setFilterContactsStatus(flag)
     ALApplozicSettings.setGroupOption(true)
 
     ALApplozicSettings.setTitleForBackButtonChatVC("Back")
@@ -262,5 +267,9 @@ func ALDefaultChatViewSettings () {
     ALApplozicSettings.setColorForSendButton(UIColor(red:66.0/255, green:173.0/255, blue:247.0/255, alpha:1))
     ALApplozicSettings.setFilterContactsStatus(true);
     ALUserDefaultsHandler.setDebugLogsRequire(true);
+    ALUserDefaultsHandler.setDeviceApnsType(APNS_TYPE_DEVELOPMENT);
+    //For Distribution CERT::
+//     ALUserDefaultsHandler.setDeviceApnsType(APNS_TYPE_DISTRIBUTION);
+    
 }
 
