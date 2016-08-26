@@ -58,10 +58,11 @@ class AppLogicLoginViewController: UIViewController {
         }
         
         let chatManager = ALChatManager(applicationKey: "applozic-sample-app")
-        chatManager.registerUser(alUser)
-        let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("LaunchChatFromSimpleViewController") as UIViewController
-        self.presentViewController(viewController, animated:true, completion: nil)
-
+         chatManager.registerUser(alUser) { (response, error) in
+            
+            let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("LaunchChatFromSimpleViewController") as UIViewController
+            self.presentViewController(viewController, animated:true, completion: nil)
+        }
     }
     
    
