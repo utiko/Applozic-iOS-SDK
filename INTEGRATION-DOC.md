@@ -61,7 +61,7 @@ If you want to do something just after user registartion you can use below metho
 
 ####Step 3: Initiate Chat
 
-1 ) Launch chat list screen:
+1) Launch chat list screen:
 
 ```
 -(void)launchChat: (UIViewController *)fromViewController; //Use this method to launch chat list
@@ -94,8 +94,6 @@ If you want to do something just after user registartion you can use below metho
 
 In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **method send device registration to Applozic server after you get deviceToken from APNS. Sample code is as below:             
 
-
-** Objective-C **      
 ```
  - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)
    deviceToken       
@@ -131,12 +129,10 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
 ```
 
 
- #####b) Receiving push notification :
+#####b) Receiving push notification :
 
 Once your app receive notification, pass it to Applozic handler for chat notification processing.             
 
-
-** Objective-C **      
   ```
   - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary         
   {            
@@ -157,8 +153,6 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 
 #####c) Handling app launch on notification click :          
 
-
-** Objective-C **    
 ```
  - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions    
   {                     
@@ -340,7 +334,7 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
 ```
 
 
- #####b) Receiving push notification :
+#####b) Receiving push notification :
 
 Once your app receive notification, pass it to Applozic handler for chat notification processing.             
 
