@@ -227,7 +227,7 @@ You can download Sample Chat app code (https://github.com/AppLozic/Applozic-iOS-
 
 **Add framework to your project:**
 
-i ) Paste Applozic framework to root folder of your project. 
+i) Paste Applozic framework to root folder of your project. 
 
 ii) Go to Build Phase. 
 
@@ -314,7 +314,7 @@ Convenient methods are present in ALChatManager.swift to register user with appl
 
 #####a) Send device token to Applozic server :
 
-In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **method send device registration to Applozic server after you get deviceToken from APNS. Sample code is as below:             
+In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken** method send device registration to Applozic server after you get deviceToken from APNS. Sample code is as below:             
 
 ```
 func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
