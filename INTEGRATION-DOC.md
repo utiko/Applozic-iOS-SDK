@@ -164,6 +164,12 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 ```
  - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions    
   {                     
+  
+   // Register for Applozic notification tap actions and network change notifications
+    ALAppLocalNotifications *localNotification = [ALAppLocalNotifications appLocalNotificationHandler];
+    [localNotification dataConnectionNotificationHandler];
+    
+
   // Override point for customization after application launch.                              
   NSLog(@"launchOptions: %@", launchOptions);                  
   if (launchOptions != nil)               
