@@ -20,7 +20,7 @@ i ) Paste Applozic framework to root folder of your project.
 
 ii ) Go to Build Phase. 
 
-Expand  Embedded frameworks and add applozic framework.         
+Expand Embedded frameworks and add applozic framework.         
 
 
 ![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Resized-adding-applozic-framework.png)        
@@ -38,7 +38,7 @@ Download ALChatManager.h and ALChatManager.m file and add to your project.
 
 [**ALChatManager.m**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sample-with-framework/applozicdemo/ALChatManager.m)  
 
-Change applicationID in ALChatManager.h, fill your logged-in user detail and you are ready to launch your chat from your controller.
+Change value of applicationID in ALChatManager.h with the [Applozic Application Key](https://www.applozic.com/docs/ios-chat-sdk.html#first-level), fill your logged-in user detail and you are ready to launch your chat from your controller.
 
 
 ii) Login/Register User:
@@ -57,11 +57,13 @@ Convenient methods are present in ALChatManager.m to register user with applozic
  -(void)registerUser:(ALUser *)alUser;
 
 ```
-If you want to do something just after user registartion you can use below method. For example, if your very first screen of app is chat screen, you can launch chatlist on success of registration. 
+For performing some action just after user registration, ue the below method:
 
 ```
 -(void)registerUserWithCompletion:(ALUser *)alUser withHandler:(void(^)(ALRegistrationResponse *rResponse, NSError *error))completion
 ```
+For example, if your very first screen of app is chat screen, you can launch chatlist on success of registration. 
+
 
 
 ####Step 3: Initiate Chat
@@ -152,7 +154,8 @@ Once your app receive notification, pass it to Applozic handler for chat notific
     if (!applozicProcessed)            
       {                
          //Note: notification for app          
-    } }                                                           
+    } 
+  }                                                           
 ```
 
 
@@ -231,7 +234,7 @@ i) Paste Applozic framework to root folder of your project.
 
 ii) Go to Build Phase. 
 
-Expand  Embedded frameworks and add applozic framework.         
+Expand Embedded frameworks and add applozic framework.         
 
 
 ![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Resized-adding-applozic-framework.png)        
@@ -285,7 +288,8 @@ Convenient methods are present in ALChatManager.swift to register user with appl
 ####Initiate Chat
 
 1 ) Launch chat list screen:
-    NOTE : Replace "applozic-sample-app" by your application key 
+
+    NOTE: Replace "applozic-sample-app" by your application key 
 
 ```
     func registerUserAndLaunchChat(alUser:ALUser?, fromController:UIViewController,forUser:String?)
