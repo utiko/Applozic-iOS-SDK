@@ -381,29 +381,26 @@
 -(void) delete:(id)sender
 {
     [self.delegate deleteMessageFromView:self.mMessage];
-    [ALMessageService deleteMessage:self.mMessage.key andContactId:self.mMessage.contactIds withCompletion:^(NSString* string,NSError* error) {
+    [ALMessageService deleteMessage:self.mMessage.key andContactId:self.mMessage.contactIds withCompletion:^(NSString *string, NSError *error) {
         
-        if(!error)
-        {
-            NSLog(@"No Error");
-        }
-        else{
-            NSLog(@"some error");
-        }
+        NSLog(@"DELETE MESSAGE ERROR :: %@", error.description);
     }];
 }
 
 - (void)msgInfo:(id)sender
 {
     [self.delegate showAnimationForMsgInfo:YES];
-    UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-    ALMessageInfoViewController *launchChat = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
-    launchChat.VCFObject = vcfClass;
-    [launchChat setMessage:self.mMessage andHeaderHeight:msgFrameHeight  withCompletionHandler:^(NSError *error) {
+    UIStoryboard *storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    ALMessageInfoViewController *msgInfoVC = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
+    msgInfoVC.VCFObject = vcfClass;
+    
+    __weak typeof(ALMessageInfoViewController *) weakObj = msgInfoVC;
+    
+    [msgInfoVC setMessage:self.mMessage andHeaderHeight:msgFrameHeight withCompletionHandler:^(NSError *error) {
         
         if(!error)
         {
-            [self.delegate loadViewForMedia:launchChat];
+            [self.delegate loadViewForMedia:weakObj];
         }
         else
         {

@@ -62,4 +62,6 @@
 
 -(ALChannel *)loadChannelByClientChannelKey:(NSString *)clientChannelKey;
 
+-(void)removedMembersArray:(NSMutableArray *)memberArray andChannelKey:(NSNumber *)channelKey;
+
 @end

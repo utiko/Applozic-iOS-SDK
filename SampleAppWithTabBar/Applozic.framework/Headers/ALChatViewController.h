@@ -21,6 +21,7 @@
 
 @protocol ALChatViewControllerDelegate <NSObject>
 
+@optional
 -(void)handleCustomActionFromChatVC:(UIViewController *)chatViewController andWithMessage:(ALMessage *)alMessage;
 
 @end
@@ -67,7 +68,7 @@
 
 -(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer;
 
--(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl withCompletion:(void(^)(NSString *message, NSError *error))completion;
+//-(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl withCompletion:(void(^)(NSString *message, NSError *error))completion;
 
 -(void) syncCall:(ALMessage*)AlMessage  updateUI:(NSNumber *)updateUI alertValue: (NSString *)alertValue;
 -(void)serverCallForLastSeen;

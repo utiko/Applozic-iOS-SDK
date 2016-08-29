@@ -93,9 +93,7 @@
 -(NSString *)getCreatedAtTimeChat:(BOOL)today;
 -(NSNumber *)getGroupId;
 -(NSString *)getNotificationText;
--(NSMutableDictionary *)getMetaDataDictionary:(NSString *) string;
-
--(BOOL)checkCustomContentType;
+-(NSMutableDictionary *)getMetaDataDictionary:(NSString *)string;
 
 @property (nonatomic,assign) BOOL deleted;
 

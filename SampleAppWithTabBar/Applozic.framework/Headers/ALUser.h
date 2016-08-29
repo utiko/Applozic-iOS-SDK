@@ -28,7 +28,7 @@ typedef enum
 @interface ALUser : ALJson
 
 @property NSString *userId;
-@property NSString *emailId;
+@property NSString *email;
 @property NSString *password;
 @property NSString *displayName;
 @property NSString *registrationId;

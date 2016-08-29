@@ -7,16 +7,14 @@
 //
 
 #import "LaunchChatFromSimpleViewController.h"
-#import  <Applozic/ALChatViewController.h>
+#import <Applozic/ALChatViewController.h>
 #import "ALChatManager.h"
 #import "ApplozicLoginViewController.h"
-#import  <Applozic/ALUserDefaultsHandler.h>
-#import  <Applozic/ALRegisterUserClientService.h>
-#import  <Applozic/ALDBHandler.h>
-#import  <Applozic/ALContact.h>
+#import <Applozic/ALUserDefaultsHandler.h>
+#import <Applozic/ALRegisterUserClientService.h>
+#import <Applozic/ALDBHandler.h>
+#import <Applozic/ALContact.h>
 #import <Applozic/ALDataNetworkConnection.h>
-
-
 
 @interface LaunchChatFromSimpleViewController ()
 
@@ -29,7 +27,8 @@
 @implementation LaunchChatFromSimpleViewController
 
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //    [self mLaunchChatList:self];
@@ -88,16 +87,15 @@
     [self.view addSubview:_activityView];
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
-    [user setEmailId:[ALUserDefaultsHandler getEmailId]];
+    [user setEmail:[ALUserDefaultsHandler getEmailId]];
     [user setPassword:@""];
     
-    ALChatManager * chatManager = [[ALChatManager alloc] init];
+    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
     [chatManager registerUserAndLaunchChat:user andFromController:self forUser:nil withGroupId:nil];
     
     //Adding sample contacts...
     [self insertInitialContacts];
-    
-    
+
 }
 
 
@@ -113,10 +111,10 @@
     
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
-    [user setEmailId:[ALUserDefaultsHandler getEmailId]];
+    [user setEmail:[ALUserDefaultsHandler getEmailId]];
     [user setPassword:@""];
     
-    ALChatManager * chatManager = [[ALChatManager alloc] init];
+    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
     [chatManager launchChatForUserWithDisplayName:@"masteruser" withGroupId:nil andwithDisplayName:@"Master" andFromViewController:self];
     
 }
@@ -125,22 +123,22 @@
 // TO LAUNCH SELLER CHAT....
 //
 //===============================================================================
-- (IBAction)launchSeller:(id)sender {
-    
+
+- (IBAction)launchSeller:(id)sender
+{
     ALConversationProxy * newProxy = [[ALConversationProxy alloc] init];
     newProxy = [self makeupConversationDetails];
     
-    ALChatManager * chatManager = [[ALChatManager alloc] init];
+    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
     [chatManager createAndLaunchChatWithSellerWithConversationProxy:newProxy fromViewController:self];
-    
 }
 
 //===============================================================================
 // Creating Conversation Details
 //===============================================================================
 
--(ALConversationProxy * )makeupConversationDetails{
-    
+-(ALConversationProxy * )makeupConversationDetails
+{
     ALConversationProxy * alConversationProxy = [[ALConversationProxy alloc] init];
     alConversationProxy.topicId = @"laptop01";
     alConversationProxy.userId = @"adarshk";
@@ -163,17 +161,20 @@
     
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+-(void)viewWillDisappear:(BOOL)animated
+{
     [_activityView stopAnimating];
     [_activityView removeFromSuperview];
 }
 
 
-- (IBAction)logoutBtn:(id)sender {
+- (IBAction)logoutBtn:(id)sender
+{
     ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
     
-    if([ALUserDefaultsHandler getDeviceKeyString]){
-        alUserClientService.logout;
+    if([ALUserDefaultsHandler getDeviceKeyString])
+    {
+        [alUserClientService logout];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -226,16 +227,22 @@
     [theDBHandler addListOfContacts:@[contact1, contact2, contact3, contact4]];
     
 }
--(void)userUpdate:(NSNotification*)userDetails{
+
+-(void)userUpdate:(NSNotification*)userDetails
+{
     ALUserDetail * user = userDetails.object;
-    if(user.connected){
+    if(user.connected)
+    {
         //NSLog(@"USER_ONLINE:\nName%@\nID:%@",user.displayName,user.userId);
     }
     else{
         //        NSLog(@"USER_OFFLINE:\nName%@\nID:%@",user.displayName,user.userId);
     }
 }
--(void)dealloc{
+
+-(void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:@"userUpdate"];
 }
+
 @end

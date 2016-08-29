@@ -37,6 +37,7 @@ typedef enum
 @property (nonatomic, strong) NSNumber *unreadCount;
 @property (nonatomic, copy) NSManagedObjectID *channelDBObjectId;
 @property (nonatomic, strong) NSMutableArray *membersName;
+@property (nonatomic, strong) NSMutableArray *removeMembers;
 @property (nonatomic, strong) ALConversationProxy *conversationProxy;
 
 -(id)initWithDictonary:(NSDictionary *)messageDictonary;

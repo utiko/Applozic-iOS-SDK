@@ -10,17 +10,22 @@
 #import <Applozic/ALChatLauncher.h>
 #import <Applozic/ALUser.h>
 #import <Applozic/ALConversationService.h>
+#import <Applozic/ALRegisterUserClientService.h>
 
-//#define APPLICATION_ID @"APPLOZIC"
 #define APPLICATION_ID @"applozic-sample-app"
+
 
 @interface ALChatManager : NSObject
 
 @property(nonatomic,strong) ALChatLauncher * chatLauncher;
 
+-(instancetype)initWithApplicationKey:(NSString *)applicationKey;
+
 -(void)registerUser:(ALUser * )alUser;
 
-@property(nonatomic,retain) NSString * userID;
+-(void)registerUserWithCompletion:(ALUser *)alUser withHandler:(void(^)(ALRegistrationResponse *rResponse, NSError *error))completion;
+
+@property (nonatomic,retain) NSString * userID;
 
 -(void)launchChat: (UIViewController *)fromViewController;
 
@@ -31,4 +36,11 @@
 -(void)launchChatForUserWithDisplayName:(NSString * )userId withGroupId:(NSNumber*)groupID andwithDisplayName:(NSString*)displayName andFromViewController:(UIViewController*)fromViewController;
 
 -(void)createAndLaunchChatWithSellerWithConversationProxy:(ALConversationProxy*)alConversationProxy fromViewController:(UIViewController*)fromViewController;
+
+-(void)launchListWithUserORGroup: (NSString *)userId ORWithGroupID: (NSNumber *)groupId andFromViewController:(UIViewController*)fromViewController;
+
+-(BOOL)isUserHaveMessages:(NSString *)userId;
+
+-(NSString *)getApplicationKey;
+
 @end

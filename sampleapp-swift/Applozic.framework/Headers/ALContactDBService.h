@@ -37,15 +37,13 @@
 
 -(void)addUserDetails:(NSMutableArray *)userDetails;
 
--(DB_CONTACT*) createUserDetailEntityForDBInsertionWithUserDetail:(ALUserDetail *) userDetail;
 
 -(BOOL)updateUserDetail:(ALUserDetail *)userDetail;
--(BOOL)updateLastSeenDBUpdate:(ALUserDetail *)userDetail;
 
+-(BOOL)updateLastSeenDBUpdate:(ALUserDetail *)userDetail;
 
 -(NSUInteger)markConversationAsDeliveredAndRead:(NSString*)contactId;
 - (NSArray *)getUnreadMessagesForIndividual:(NSString *)contactId;
--(void)createWithUnreadCountZeroForContact:(NSString*)userId;
 -(BOOL)setBlockUser:(NSString *)userId andBlockedState:(BOOL)flag;
 -(BOOL)setBlockByUser:(NSString *)userId andBlockedByState:(BOOL)flag;
 -(void)blockAllUserInList:(NSMutableArray *)userList;

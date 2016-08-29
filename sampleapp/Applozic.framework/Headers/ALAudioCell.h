@@ -5,6 +5,10 @@
 //  Created by devashish on 20/01/2016.
 //  Copyright © 2016 applozic Inc. All rights reserved.
 //
+/*********************************************************************
+ TABLE CELL CUSTOM CLASS : THIS CLASS IS FOR AUDIO MESSAGES
+ AUDIO INCLUDE RECORDED OR MUSIC FILE
+ **********************************************************************/
 
 #import <AVFoundation/AVFoundation.h>
 #import <Foundation/Foundation.h>

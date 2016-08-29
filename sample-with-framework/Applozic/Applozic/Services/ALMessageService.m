@@ -349,10 +349,9 @@ static ALMessageClientService *alMsgClientService;
 }
 
 
-+(void)deleteMessageThread:( NSString * ) contactId orChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion
++(void)deleteMessageThread:(NSString *)contactId orChannelKey:(NSNumber *)channelKey withCompletion:(void (^)(NSString *, NSError *))completion
 {
-    
-    ALMessageClientService *alMessageClientService =  [[ALMessageClientService alloc]init];
+    ALMessageClientService *alMessageClientService = [[ALMessageClientService alloc] init];
     [alMessageClientService deleteMessageThread:contactId orChannelKey:channelKey withCompletion:^(NSString * response, NSError *error) {
         
         if (!error)
@@ -370,14 +369,10 @@ static ALMessageClientService *alMsgClientService;
              {
                  [ALUserService setUnreadCountZeroForContactId:contactId];
              }
-
          }
-             completion(response, error);
+         completion(response, error);
          }];
 }
-
-
-
 
 +(void) proessUploadImageForMessage:(ALMessage *)message databaseObj:(DB_FileMetaInfo *)fileMetaInfo uploadURL:(NSString *)uploadURL withdelegate:(id)delegate{
     

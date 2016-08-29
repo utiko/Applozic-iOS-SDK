@@ -173,8 +173,7 @@
     [ALUserDefaultsHandler setUserId:user.userId];
     [ALUserDefaultsHandler setEmailId:user.email];
     [ALUserDefaultsHandler setPassword:user.password];
-    
-    ALChatManager * chatManager = [[ALChatManager alloc] init];
+    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"]; 
     [chatManager registerUser:user];
     
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Main"

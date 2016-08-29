@@ -16,10 +16,10 @@
 		6D6DF2021BC551FA00EBA00F /* applozicdemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF2001BC551FA00EBA00F /* applozicdemo.xcdatamodeld */; };
 		6D6DF2041BC551FA00EBA00F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF2031BC551FA00EBA00F /* Assets.xcassets */; };
 		6D6DF2071BC551FA00EBA00F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF2051BC551FA00EBA00F /* LaunchScreen.storyboard */; };
-		6D9111671D537BB300F77831 /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D9111661D537BB300F77831 /* Applozic.framework */; };
-		6D9111681D537BB300F77831 /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6D9111661D537BB300F77831 /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6DB445151C2C04D200C64524 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6DB445141C2C04D200C64524 /* Info.plist */; };
 		6DB75B091C32CD9100077658 /* ALChatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB75B081C32CD9100077658 /* ALChatManager.m */; };
+		6DBFFBA61D6F670100E83761 /* Applozic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DBFFBA51D6F670100E83761 /* Applozic.framework */; };
+		6DBFFBA71D6F670100E83761 /* Applozic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6DBFFBA51D6F670100E83761 /* Applozic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,7 +29,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6D9111681D537BB300F77831 /* Applozic.framework in Embed Frameworks */,
+				6DBFFBA71D6F670100E83761 /* Applozic.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,10 +52,10 @@
 		6D6DF2031BC551FA00EBA00F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6D6DF2061BC551FA00EBA00F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6D6DF2081BC551FA00EBA00F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6D9111661D537BB300F77831 /* Applozic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Applozic.framework; sourceTree = "<group>"; };
 		6DB445141C2C04D200C64524 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6DB75B071C32CD9100077658 /* ALChatManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChatManager.h; sourceTree = "<group>"; };
 		6DB75B081C32CD9100077658 /* ALChatManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChatManager.m; sourceTree = "<group>"; };
+		6DBFFBA51D6F670100E83761 /* Applozic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Applozic.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D9111671D537BB300F77831 /* Applozic.framework in Frameworks */,
+				6DBFFBA61D6F670100E83761 /* Applozic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +82,7 @@
 		6D6DF1E81BC551FA00EBA00F = {
 			isa = PBXGroup;
 			children = (
-				6D9111661D537BB300F77831 /* Applozic.framework */,
+				6DBFFBA51D6F670100E83761 /* Applozic.framework */,
 				6D6DF1F31BC551FA00EBA00F /* applozicdemo */,
 				6D6DF1F21BC551FA00EBA00F /* Products */,
 			);

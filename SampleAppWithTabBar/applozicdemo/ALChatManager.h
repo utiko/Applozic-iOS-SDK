@@ -7,19 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
-@import Applozic;
+#import <Applozic/ALChatLauncher.h>
+#import <Applozic/ALUser.h>
+#import <Applozic/ALConversationService.h>
+#import <Applozic/ALRegisterUserClientService.h>
 
 #define APPLICATION_ID @"applozic-sample-app"
+
 
 @interface ALChatManager : NSObject
 
 @property(nonatomic,strong) ALChatLauncher * chatLauncher;
 
+-(instancetype)initWithApplicationKey:(NSString *)applicationKey;
+
 -(void)registerUser:(ALUser * )alUser;
 
 -(void)registerUserWithCompletion:(ALUser *)alUser withHandler:(void(^)(ALRegistrationResponse *rResponse, NSError *error))completion;
 
-@property(nonatomic,retain) NSString * userID;
+@property (nonatomic,retain) NSString * userID;
 
 -(void)launchChat: (UIViewController *)fromViewController;
 
@@ -34,5 +40,7 @@
 -(void)launchListWithUserORGroup: (NSString *)userId ORWithGroupID: (NSNumber *)groupId andFromViewController:(UIViewController*)fromViewController;
 
 -(BOOL)isUserHaveMessages:(NSString *)userId;
+
+-(NSString *)getApplicationKey;
 
 @end

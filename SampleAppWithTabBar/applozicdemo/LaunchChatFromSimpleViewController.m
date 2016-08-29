@@ -9,7 +9,6 @@
 #import "LaunchChatFromSimpleViewController.h"
 #import "ALChatManager.h"
 
-
 @interface LaunchChatFromSimpleViewController ()
 
 - (IBAction)mLaunchChatList:(id)sender;
@@ -80,10 +79,10 @@
     [self.view addSubview:_activityView];
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
-    [user setEmailId:[ALUserDefaultsHandler getEmailId]];
+    [user setEmail:[ALUserDefaultsHandler getEmailId]];
     [user setPassword:@""];
     
-    ALChatManager * chatManager = [[ALChatManager alloc] init];
+    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
     [chatManager registerUserAndLaunchChat:user andFromController:self forUser:nil withGroupId:nil];
     
     //Adding sample contacts...
@@ -103,7 +102,7 @@
     
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
-    [user setEmailId:[ALUserDefaultsHandler getEmailId]];
+    [user setEmail:[ALUserDefaultsHandler getEmailId]];
     [user setPassword:@""];
 
     [self launchChatListViaTabBar];  // ASSUMING THAT USERS IS REGISTER
@@ -133,10 +132,10 @@
     
     ALUser *user = [[ALUser alloc] init];
     [user setUserId:[ALUserDefaultsHandler getUserId]];
-    [user setEmailId:[ALUserDefaultsHandler getEmailId]];
+    [user setEmail:[ALUserDefaultsHandler getEmailId]];
     [user setPassword:@""];
     
-    ALChatManager * chatManager = [[ALChatManager alloc] init];
+     ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
     [chatManager launchChatForUserWithDisplayName:@"masteruser" withGroupId:nil andwithDisplayName:@"Master" andFromViewController:self];
     
 }
@@ -150,7 +149,7 @@
     ALConversationProxy * newProxy = [[ALConversationProxy alloc] init];
     newProxy = [self makeupConversationDetails];
     
-    ALChatManager * chatManager = [[ALChatManager alloc] init];
+     ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
     [chatManager createAndLaunchChatWithSellerWithConversationProxy:newProxy fromViewController:self];
     
 }

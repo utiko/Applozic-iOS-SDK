@@ -246,23 +246,31 @@
     }
 }
 
--(NSMutableDictionary *)getMetaDataDictionary:(NSString *) string
+-(NSMutableDictionary *)getMetaDataDictionary:(NSString *)string
 {
-
     NSData * data = [string dataUsingEncoding:NSUTF8StringEncoding];
-    NSString * error;
+//    NSString * error;
     NSPropertyListFormat format;
-    NSMutableDictionary * metaDataDictionary = [NSPropertyListSerialization
-                          propertyListFromData:data
-                          mutabilityOption:NSPropertyListImmutable
-                          format:&format
-                          errorDescription:&error];
-    
-//    NSLog(@"METADATA DICTIONARY COUNT :: %lu",(unsigned long)metaDataDictionary.count);
-    
-    if(!metaDataDictionary)
+    NSMutableDictionary * metaDataDictionary;
+//    NSMutableDictionary * metaDataDictionary = [NSPropertyListSerialization
+//                          propertyListFromData:data
+//                          mutabilityOption:NSPropertyListImmutable
+//                          format:&format
+//                          errorDescription:&error];
+    @try
     {
-        NSLog(@"ERROR: COULD NOT PARSE META-DATA : %@", error);
+        NSError * error;
+        metaDataDictionary = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable
+                                                                                     format:&format
+                                                                                      error:&error];
+        if(!metaDataDictionary)
+        {
+            NSLog(@"ERROR: COULD NOT PARSE META-DATA : %@", error.description);
+        }
+    }
+    @catch(NSException * exp)
+    {
+         NSLog(@"METADATA_DICTIONARY_EXCEPTION :: %@", exp.description);
     }
     
     return metaDataDictionary;

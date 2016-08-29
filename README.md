@@ -287,6 +287,12 @@ return true
 ```
 ### Changelog
 
+__Version 3.3__
+
+* Dynamic Application
+* Group Delete Feature
+* Contact and UI Bug fixes
+
 __Version 3.2.1__
 
 * Context Chat Display Name fixes

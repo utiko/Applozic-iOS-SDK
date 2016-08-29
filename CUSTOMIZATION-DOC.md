@@ -8,7 +8,7 @@ Applozic SDK provides various UI settings to customise chat view easily. If you 
 
 If you have your own implementation, you should set UI Customization setting on successfull registration of user.
 
-Below section will explain UI settings provided by Applozic SDK.
+Below section explains UI settings provided by Applozic SDK.
 
 #### Chat Bubble
 

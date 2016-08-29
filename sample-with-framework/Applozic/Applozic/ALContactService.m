@@ -113,7 +113,14 @@
     contact.localImageResourceName = dbContact.localImageResourceName;
     contact.connected = dbContact.connected;
     contact.lastSeenAt = dbContact.lastSeenAt;
-    contact.unreadCount=dbContact.unreadCount;
+    contact.unreadCount= dbContact.unreadCount;
+    
+    if(![dbContact.displayName isEqualToString:displayName])
+    {
+        contact.displayName = displayName;
+        [self updateContact:contact];
+        [ALUserService updateUserDisplayName:contact];
+    }
     
     return contact;
 }

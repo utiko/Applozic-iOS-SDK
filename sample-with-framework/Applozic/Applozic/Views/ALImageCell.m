@@ -508,31 +508,26 @@ UIViewController * modalCon;
     [self.delegate deleteMessageFromView:self.mMessage];
     
     //serverCall
-    [ALMessageService deleteMessage:self.mMessage.key andContactId:self.mMessage.contactIds withCompletion:^(NSString* string,NSError* error) {
+    [ALMessageService deleteMessage:self.mMessage.key andContactId:self.mMessage.contactIds withCompletion:^(NSString *string, NSError *error) {
         
-        if(!error )
-        {
-            NSLog(@"No Error");
-        }
-        else{
-            NSLog(@"some error");
-        }
-        
+        NSLog(@"DELETE MESSAGE ERROR :: %@", error.description);
     }];
 }
 
 - (void)msgInfo:(id)sender
 {
     [self.delegate showAnimationForMsgInfo:YES];
-    UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-    ALMessageInfoViewController *launchChat = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
+    UIStoryboard *storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    ALMessageInfoViewController *msgInfoVC = (ALMessageInfoViewController *)[storyboardM instantiateViewControllerWithIdentifier:@"ALMessageInfoView"];
     
-    launchChat.contentURL = theUrl;
-    [launchChat setMessage:self.mMessage andHeaderHeight:msgFrameHeight withCompletionHandler:^(NSError *error) {
+    msgInfoVC.contentURL = theUrl;
+    
+    __weak typeof(ALMessageInfoViewController *) weakObj = msgInfoVC;
+    [msgInfoVC setMessage:self.mMessage andHeaderHeight:msgFrameHeight withCompletionHandler:^(NSError *error) {
         
         if(!error)
         {
-            [self.delegate loadViewForMedia:launchChat];
+            [self.delegate loadViewForMedia:weakObj];
         }
         else
         {

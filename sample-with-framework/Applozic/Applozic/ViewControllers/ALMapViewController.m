@@ -28,14 +28,13 @@
 @end
 
 @implementation ALMapViewController
-{
-    
-}
+
 @synthesize locationManager, region;
+
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
@@ -44,7 +43,8 @@
     [self.locationManager requestAlwaysAuthorization];
     [self.locationManager requestWhenInUseAuthorization];
     
-    if([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]){
+    if([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)])
+    {
         [self.locationManager requestWhenInUseAuthorization];
     }
     
@@ -56,11 +56,13 @@
     
 }
 
--(void)viewWillDisappear:(BOOL)animated{
+-(void)viewWillDisappear:(BOOL)animated
+{
     [self.tabBarController.tabBar setHidden: YES];
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated
+{
     [self.tabBarController.tabBar setHidden: YES];
     [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
     [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];

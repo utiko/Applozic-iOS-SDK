@@ -80,12 +80,14 @@
     // Message if associated with image
     ALMessage * alMessage = self.alMessage;
     NSString * messageString = alMessage.message;
+    NSLog(@"MSG_STRING :: %@",messageString);
     
     NSArray *activityItems = @[imagetoshare];
     
     //Custom Activity for Applozic Sharing
     // set "uiActivityArray" for "applicationActivities:nil" instead of nill to add this fuctionality
-    NSArray *uiActivityArray = @[self.alImageActivity];
+//    NSArray *uiActivityArray = @[self.alImageActivity];
+    
     UIActivityViewController *activityVC = [[UIActivityViewController alloc]
                                             initWithActivityItems:activityItems
                                             applicationActivities:nil];

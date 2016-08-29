@@ -67,33 +67,37 @@
 #define NEW_MESSAGE_NOTIFICATION @"newMessageNotification"
 
 
-@interface ALChatViewController ()<ALMediaBaseCellDelegate,NSURLConnectionDataDelegate,NSURLConnectionDelegate,ALLocationDelegate,ALMQTTConversationDelegate,MPMediaPickerControllerDelegate, ALAudioAttachmentDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIAlertViewDelegate, ALMUltipleAttachmentDelegate,UIDocumentInteractionControllerDelegate, ABPeoplePickerNavigationControllerDelegate>
+@interface ALChatViewController ()<ALMediaBaseCellDelegate, NSURLConnectionDataDelegate, NSURLConnectionDelegate, ALLocationDelegate,
+                                    ALMQTTConversationDelegate, ALAudioAttachmentDelegate, UIPickerViewDelegate, UIPickerViewDataSource,
+                                    UIAlertViewDelegate, ALMUltipleAttachmentDelegate, UIDocumentInteractionControllerDelegate,
+                                    ABPeoplePickerNavigationControllerDelegate>
 
 @property (nonatomic, assign) NSInteger startIndex;
-@property (nonatomic,assign) int rp;
-@property (nonatomic,assign) NSUInteger mTotalCount;
-@property (nonatomic,retain) UIImagePickerController * mImagePicker;
-@property (nonatomic)  ALLocationManager * alLocationManager;
-@property (nonatomic,assign) BOOL showloadEarlierAction;
-@property (weak, nonatomic) IBOutlet UIButton *loadEarlierAction;
-@property (nonatomic,weak) NSIndexPath *indexPathofSelection;
-@property (nonatomic,strong ) ALMQTTConversationService *mqttObject;
+@property (nonatomic, assign) int rp;
+@property (nonatomic, assign) NSUInteger mTotalCount;
+@property (nonatomic, retain) UIImagePickerController * mImagePicker;
+@property (nonatomic, strong) ALLocationManager * alLocationManager;
+@property (nonatomic, assign) BOOL showloadEarlierAction;
+@property (nonatomic, weak) IBOutlet UIButton *loadEarlierAction;
+@property (nonatomic, weak) NSIndexPath *indexPathofSelection;
+@property (nonatomic, strong) ALMQTTConversationService *mqttObject;
 @property (nonatomic) NSInteger  mqttRetryCount;
 @property (nonatomic, strong) NSArray * pickerDataSourceArray;
 @property (nonatomic, strong) NSMutableArray * pickerConvIdsArray;
-@property (nonatomic,strong )NSMutableArray * conversationTitleList;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewSendMsgTextViewConstraint;
-@property (nonatomic,assign) BOOL comingFromBackground;
+@property (nonatomic, strong) NSMutableArray * conversationTitleList;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *tableViewSendMsgTextViewConstraint;
+@property (nonatomic, assign) BOOL comingFromBackground;
 
 - (IBAction)loadEarlierButtonAction:(id)sender;
 -(void)processLoadEarlierMessages:(BOOL)flag;
 -(void)markConversationRead;
 -(void)fetchAndRefresh:(BOOL)flag;
 -(void)serverCallForLastSeen;
--(void)freezeView:(BOOL)freeze ;
+-(void)freezeView:(BOOL)freeze;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
 @property (nonatomic) BOOL isUserBlocked;
 @property (nonatomic) BOOL isUserBlockedBy;
+
 -(void)processAttachment:(NSString *)filePath andMessageText:(NSString *)textwithimage andContentType:(short)contentype;
 
 @end
@@ -105,6 +109,7 @@
     CGRect defaultTableRect;
     UIView * maskView;
     BOOL isPickerOpen;
+    
     UIDocumentInteractionController * interaction;
     
     CGFloat TEXT_CELL_HEIGHT;
@@ -117,19 +122,18 @@
     CGFloat DATE_CELL_HEIGHT;
     CGFloat CONTACT_CELL_HEIGHT;
     //UIButton *titleLabelButton;
-    
     CGRect previousRect;
-    
-    CGRect  maxHeight;
+    CGRect maxHeight;
     CGRect minHeight;
+    
+    ALMessageDBService * dbService;
 }
 
-ALMessageDBService  * dbService;
-//------------------------------------------------------------------------------------------------------------------
-#pragma mark - View lifecycle
-//------------------------------------------------------------------------------------------------------------------
+//==============================================================================================================================================
+#pragma mark - VIEW LIFECYCLE
+//==============================================================================================================================================
 
-- (void)viewDidLoad
+-(void)viewDidLoad
 {
     [super viewDidLoad];
     [self initialSetUp];
@@ -137,80 +141,7 @@ ALMessageDBService  * dbService;
     [self loadChatView];
 }
 
--(void)processResettingUnreadCount   
-{
-    ALUserService * userService = [ALUserService new];
-    int count = [[userService getTotalUnreadCount] intValue];
-    NSLog(@"CHATVC_UNREAD_COUNT :: %i",count);
-    if(count == 0)
-    {
-        [userService resettingUnreadCountWithCompletion:^(NSString *json, NSError *error) {
-            
-            NSLog(@"RESET_UNREAD_COUNT CALL :: %@ and ERROR :: %@",json, error.description);
-        }];
-    }
-}
-
--(void)markConversationRead
-{
-    
-    bool isGroupNotification = (self.channelKey == nil ? false : true);
-    if(self.channelKey && isGroupNotification)
-    {
-        [ALChannelService markConversationAsRead:self.channelKey withCompletion:^(NSString * string, NSError * error) {
-            if(error)
-            {
-                NSLog(@"Error while marking messages as read channel %@",self.channelKey);
-            }
-            else
-            {
-                [self processResettingUnreadCount];
-            }
-        }];
-    }
-
-    if(self.contactIds && !self.isGroup)
-    {
-        [ALUserService markConversationAsRead:self.contactIds withCompletion:^(NSString * string, NSError *error) {
-            if(error)
-            {
-                NSLog(@"Error while marking messages as read for contact %@", self.contactIds);
-            }
-            else
-            {
-                [self processResettingUnreadCount];
-            }
-        }];
-    }
-}
-
--(void)markSingleMessageRead:(ALMessage *)almessage
-{
-    if(almessage.groupId != NULL){
-        
-        if([self.channelKey isEqualToNumber:almessage.groupId]){
-            
-            [ALUserService markMessageAsRead:almessage withPairedkeyValue:almessage.pairedMessageKey withCompletion:^(NSString * completion, NSError * error) {
-                if (error) {
-                    NSLog(@"GROUP: Marking message read error:%@",error);
-                }
-            }];
-        }
-    }
-    else{
-        
-        if([self.contactIds isEqualToString:almessage.contactIds]){
-            
-            [ALUserService markMessageAsRead:almessage withPairedkeyValue:almessage.pairedMessageKey withCompletion:^(NSString * completion, NSError * error) {
-                if (error) {
-                    NSLog(@"Individual: Marking message read error:%@",error);
-                }
-            }];
-        }
-    }
-}
-
-- (void)viewDidAppear:(BOOL)animated
+-(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [self.view endEditing:YES];
@@ -227,13 +158,6 @@ ALMessageDBService  * dbService;
     
 }
 
--(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    //[navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:18]}];
-    //[navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
-    //[navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
-}
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -242,13 +166,13 @@ ALMessageDBService  * dbService;
      addObserver:self selector:@selector(newMessageHandler:) name:NEW_MESSAGE_NOTIFICATION  object:nil];
     
     [self.tabBarController.tabBar setHidden: YES];
-
+    
     [self.label setHidden:NO];
     self.label.alpha = 1;
     [self.loadEarlierAction setHidden:YES];
     self.showloadEarlierAction = TRUE;
     self.typingLabel.hidden = YES;
-
+    
     
     typingStat = NO;
     
@@ -289,7 +213,7 @@ ALMessageDBService  * dbService;
                                                  name:@"report_CONVERSATION_DELIVERED_READ" object:nil];
     [[NSNotificationCenter defaultCenter]
      addObserver:self selector:@selector(updateLastSeenAtStatusPUSH:) name:@"update_USER_STATUS"  object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive)
                                                  name:UIApplicationWillResignActiveNotification object:nil];
     
@@ -313,8 +237,9 @@ ALMessageDBService  * dbService;
                                                  name:@"APP_ENTER_IN_BACKGROUND" object:nil];
     self.mqttObject = [ALMQTTConversationService sharedInstance];
     
-    if(self.individualLaunch){
-        NSLog(@"individual launch ...subscribeToConversation to mqtt..");
+    if(self.individualLaunch)
+    {
+        NSLog(@"INDIVIDUAL_LAUNCH :: SUBSCRIBING_MQTT");
         self.mqttObject.mqttConversationDelegate = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             if(self.mqttObject)
@@ -323,14 +248,15 @@ ALMessageDBService  * dbService;
                 NSLog(@"mqttObject is not found...");
         });
         
-        if(![self isGroup]){
+        if(![self isGroup])
+        {
             [self serverCallForLastSeen];
         }
         
     }
     
     [self setTitle];
-
+    
     if(self.text && !self.alMessageWrapper.getUpdatedMessageArray.count)
     {
         [self.sendMessageTextView setTextColor:[UIColor blackColor]];
@@ -349,24 +275,168 @@ ALMessageDBService  * dbService;
         [self.pickerView selectRow:0 inComponent:0 animated:NO];
         [self.pickerView reloadAllComponents];
     }
-
+    
     [self setCallButtonInNavigationBar];
     [self checkIfChannelLeft];
     [self checkUserBlockStatus];
-
     [self showNoConversationLabel];
-
     [self hideKeyBoardOnEmptyList];
     
     previousRect = CGRectZero;
     
-   
     maxHeight = [self getMaxSizeLines:[ALApplozicSettings getMaxTextViewLines]];
     minHeight = [self getMaxSizeLines:1]; //  Single Line Height
     
     [self subscrbingChannel];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.tabBarController.tabBar setHidden:YES];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"report_DELIVERED" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"report_DELIVERED_READ" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"report_CONVERSATION_DELIVERED_READ" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"update_USER_STATUS" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NEW_MESSAGE_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"USER_BLOCK_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"USER_UNBLOCK_NOTIFICATION" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UPDATE_MESSAGE_SEND_STATUS" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"appCameInForeground" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"APP_ENTER_IN_BACKGROUND" object:nil];
+    
+    [self.sendMessageTextView resignFirstResponder];
+    [self.label setHidden:YES];
+    [self.typingLabel setHidden:YES];
+    [[ALMediaPlayer sharedInstance] stopPlaying];
+    
+    if(self.individualLaunch)
+    {
+        NSLog(@"ALChatVC: Individual launch ...unsubscribeToConversation to mqtt..");
+        //        dispatch_async(dispatch_get_main_queue(), ^{
+        if(self.mqttObject)
+        {
+            [self.mqttObject unsubscribeToConversation];
+            NSLog(@"ALChatVC: In ViewWillDisapper .. MQTTObject in ==IF== now");
+        }
+        else
+            NSLog(@"mqttObject is not found...");
+        //        });
+        
+    }
+    
+    if(isPickerOpen)
+    {
+        [self donePicking:nil];
+    }
+    
+    [[[self navigationController] interactivePopGestureRecognizer] setEnabled:YES];
+    self.label.alpha = 0;
+    [self unSubscrbingChannel];
+}
+
+//==============================================================================================================================================
+#pragma mark - REST UNREAD COUNT + CONVERSATION READ HELPER METHODS
+//==============================================================================================================================================
+
+-(void)processResettingUnreadCount
+{
+    ALUserService * userService = [ALUserService new];
+    int count = [[userService getTotalUnreadCount] intValue];
+    NSLog(@"CHATVC_UNREAD_COUNT :: %i",count);
+    if(count == 0)
+    {
+        [userService resettingUnreadCountWithCompletion:^(NSString *json, NSError *error) {
+            
+            NSLog(@"RESET_UNREAD_COUNT CALL :: %@ and ERROR :: %@",json, error.description);
+        }];
+    }
+}
+
+-(void)markConversationRead
+{
+    BOOL isGroupNotification = (self.channelKey == nil ? false : true);
+    if(self.channelKey && isGroupNotification)
+    {
+        [ALChannelService markConversationAsRead:self.channelKey withCompletion:^(NSString * string, NSError * error) {
+            
+            if(error)
+            {
+                NSLog(@"Error while marking messages as read channel %@",self.channelKey);
+            }
+            else
+            {
+                [self processResettingUnreadCount];
+            }
+        }];
+    }
+    
+    if(self.contactIds && !self.isGroup)
+    {
+        [ALUserService markConversationAsRead:self.contactIds withCompletion:^(NSString * string, NSError *error) {
+            if(error)
+            {
+                NSLog(@"Error while marking messages as read for contact %@", self.contactIds);
+            }
+            else
+            {
+                [self processResettingUnreadCount];
+            }
+        }];
+    }
+}
+
+-(void)markSingleMessageRead:(ALMessage *)almessage
+{
+    if(almessage.groupId != NULL)
+    {
+        if([self.channelKey isEqualToNumber:almessage.groupId])
+        {
+            [ALUserService markMessageAsRead:almessage withPairedkeyValue:almessage.pairedMessageKey withCompletion:^(NSString * completion, NSError * error) {
+                
+                if(error)
+                {
+                    NSLog(@"GROUP: Marking message read error:%@",error);
+                }
+            }];
+        }
+    }
+    else
+    {
+        if([self.contactIds isEqualToString:almessage.contactIds])
+        {
+            [ALUserService markMessageAsRead:almessage withPairedkeyValue:almessage.pairedMessageKey withCompletion:^(NSString * completion, NSError * error) {
+                
+                if(error)
+                {
+                    NSLog(@"Individual: Marking message read error:%@",error);
+                }
+            }];
+        }
+    }
+}
+
+//==============================================================================================================================================
+#pragma mark - NAVIGATIN SETUP FOR IMAGE PICKER
+//==============================================================================================================================================
+
+-(void)navigationController:(UINavigationController *)navigationController
+                             willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    [navigationController.navigationBar setTitleTextAttributes: @{
+                                                                  NSForegroundColorAttributeName:[ALApplozicSettings getColorForNavigationItem],
+                                                                  NSFontAttributeName:[UIFont fontWithName:@"Helvetica-Bold" size:18]
+                                                                  }];
+    [navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
+    [navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
+}
+
+//==============================================================================================================================================
+#pragma mark - NO CONVERSATION LABEL HANDLER
+//==============================================================================================================================================
 
 -(void)showNoConversationLabel
 {
@@ -377,6 +447,25 @@ ALMessageDBService  * dbService;
     }
     [self.noConLabel setHidden:YES];
 }
+
+//==============================================================================================================================================
+#pragma mark - PHONE CALL HANDLER
+//==============================================================================================================================================
+
+-(void)phoneCallMethod
+{
+    [self makeCallContact];
+}
+
+-(void)makeCallContact
+{
+    NSURL * phoneNumber = [NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", self.alContact.contactNumber]];
+    [[UIApplication sharedApplication] openURL:phoneNumber];
+}
+
+//==============================================================================================================================================
+#pragma mark - CALL BUTTON HANDLER
+//==============================================================================================================================================
 
 -(void)setCallButtonInNavigationBar
 {
@@ -452,6 +541,7 @@ ALMessageDBService  * dbService;
 }
 
 //====================================================================================================================================
+#pragma mark UPDATING OFFLINE MESSAGES
 //====================================================================================================================================
 
 -(void)updateMessageSendStatus:(NSNotification *)notification
@@ -475,52 +565,12 @@ ALMessageDBService  * dbService;
 
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self.tabBarController.tabBar setHidden: YES];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"notificationIndividualChat" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"report_DELIVERED" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"report_DELIVERED_READ" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"report_CONVERSATION_DELIVERED_READ" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"update_USER_STATUS" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NEW_MESSAGE_NOTIFICATION object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"USER_BLOCK_NOTIFICATION" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"USER_UNBLOCK_NOTIFICATION" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UPDATE_MESSAGE_SEND_STATUS" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"appCameInForeground" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"APP_ENTER_IN_BACKGROUND" object:nil];
-    
-    [self.sendMessageTextView resignFirstResponder];
-    [self.label setHidden:YES];
-    [self.typingLabel setHidden:YES];
-    [[ALMediaPlayer sharedInstance] stopPlaying];
-    
-    if(self.individualLaunch){
-        NSLog(@"ALChatVC: Individual launch ...unsubscribeToConversation to mqtt..");
-        //        dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.mqttObject){
-            [self.mqttObject unsubscribeToConversation];
-            NSLog(@"ALChatVC: In ViewWillDisapper .. MQTTObject in ==IF== now");
-        }
-        else
-            NSLog(@"mqttObject is not found...");
-        //        });
-        
-    }
-    
-    if(isPickerOpen){
-        [self donePicking:nil];
-    }
-    [[[self navigationController] interactivePopGestureRecognizer] setEnabled:YES];
-    self.label.alpha = 0;
-    
-    [self unSubscrbingChannel];
-    
-}
+//==============================================================================================================================================
+#pragma mark - CHECK VIEW IF RELOAD REQUIRE
+//==============================================================================================================================================
 
--(BOOL)isReloadRequired{
-    
+-(BOOL)isReloadRequired
+{
     if(self.refresh || [self.alMessageWrapper getUpdatedMessageArray].count == 0) // if refresh then obviously refresh!!
         return YES;
 
@@ -546,13 +596,12 @@ ALMessageDBService  * dbService;
     {
         return NO; // group match or incoming contact match then no refresh
     }
-    
 }
 
 -(void)checkUserBlockStatus
 {
-    ALContactDBService *dbService = [ALContactDBService new];
-    ALContact *contact = [dbService loadContactByKey:@"userId" value:self.contactIds];
+    ALContactDBService *dbservice = [ALContactDBService new];
+    ALContact *contact = [dbservice loadContactByKey:@"userId" value:self.contactIds];
     self.isUserBlocked = contact.block;
     self.isUserBlockedBy = contact.blockBy;
     [self.label setHidden:NO];
@@ -564,6 +613,10 @@ ALMessageDBService  * dbService;
         [self.typingLabel setHidden:YES];
     }
 }
+
+//==============================================================================================================================================
+#pragma mark - USER BLOCK ALERT HANDLER
+//==============================================================================================================================================
 
 -(void)showBlockedAlert
 {
@@ -599,14 +652,8 @@ ALMessageDBService  * dbService;
                                      {
                                          self.isUserBlocked = NO;
                                          [self.label setHidden:self.isUserBlocked];
-                                         UIAlertView *alert = [[UIAlertView alloc]
-                                                               initWithTitle: @"USER UNBLOCK"
-                                                               message: [NSString stringWithFormat:@"%@ is unblocked successfully",[self.alContact getDisplayName]]
-                                                                    delegate: nil
-                                                           cancelButtonTitle: @"OK"
-                                                           otherButtonTitles: nil];
-                                         
-                                         [alert show];
+                                         NSString *alertText = [NSString stringWithFormat:@"%@ is unblocked successfully",[self.alContact getDisplayName]];
+                                         [ALUtilityClass showAlertMessage:alertText andTitle:@"USER UNBLOCK"];
                                      }
                     
                                  }];
@@ -630,8 +677,11 @@ ALMessageDBService  * dbService;
     {
         [self freezeView:NO];
     }
-
 }
+
+//==============================================================================================================================================
+#pragma mark FREEZE VIEW HANDLER USED FOR USER BLOCK
+//==============================================================================================================================================
 
 -(void)freezeView:(BOOL)freeze
 {
@@ -647,9 +697,9 @@ ALMessageDBService  * dbService;
     [notification noDataConnectionNotificationView];
 }
 
-//------------------------------------------------------------------------------------------------------------------
+//==============================================================================================================================================
 #pragma mark - SetUp/Theming
-//------------------------------------------------------------------------------------------------------------------
+//==============================================================================================================================================
 
 -(void)initialSetUp
 {
@@ -668,44 +718,57 @@ ALMessageDBService  * dbService;
     [self.mTableView registerClass:[ALLocationCell class] forCellReuseIdentifier:@"LocationCell"];
     [self.mTableView registerClass:[ALCustomCell class] forCellReuseIdentifier:@"CustomCell"];
     
-    if([ALApplozicSettings getContextualChatOption]){
+    if([ALApplozicSettings getContextualChatOption])
+    {
         self.pickerView.delegate = self;
         self.pickerView.dataSource = self;
 //        self.pickerView.frame = CGRectMake(0, 40,[UIScreen mainScreen].bounds.size.width, 216);
     }
+    
     defaultTableRect = self.mTableView.frame;
-
 }
+
+//==============================================================================================================================================
+#pragma mark - PICKER VIEW METHOD
+//==============================================================================================================================================
+
 -(void)setupPickerView
 {
     self.pickerConvIdsArray = [[NSMutableArray alloc] init];
-    ALConversationService * alconversationService = [[ALConversationService alloc]init];
-    NSMutableArray * conversationList ;
+    ALConversationService * alconversationService = [[ALConversationService alloc] init];
+    NSMutableArray * conversationList;
     
-    if(self.channelKey){
+    if(self.channelKey)
+    {
         conversationList = [NSMutableArray arrayWithArray:[alconversationService
                                                     getConversationProxyListForChannelKey:self.channelKey]];
     }
-    else{
+    else
+    {
         conversationList = [NSMutableArray arrayWithArray:[alconversationService
                                                     getConversationProxyListForUserID:self.contactIds]];
     }
    
     self.conversationTitleList = [[NSMutableArray alloc] init];
-    if(conversationList.count == 0 )
+    
+    if(conversationList.count == 0)
     {
         NSLog(@"No conversation list ");
         return;
     }
-    for(ALConversationProxy * conversation in conversationList){
-        
-        ALTopicDetail * topicDetail  = [[ALTopicDetail alloc] init];   //WithDictonary:conversation.topicDetailJson];
+    
+    for(ALConversationProxy * conversation in conversationList)
+    {
+        ALTopicDetail * topicDetail = [[ALTopicDetail alloc] init];   //WithDictonary:conversation.topicDetailJson];
         topicDetail = conversation.getTopicDetail;
         
-        if(topicDetail.title != nil){
+        if(topicDetail.title != nil)
+        {
             [self.conversationTitleList addObject:topicDetail.title];
             [self.pickerConvIdsArray addObject:conversation.Id];
-        }else{
+        }
+        else
+        {
             NSLog(@"<< ERROR: Topic Detail NILL >>");
         }
     }
@@ -714,6 +777,11 @@ ALMessageDBService  * dbService;
     self.pickerDataSourceArray = [NSArray arrayWithArray:self.conversationTitleList];
     
 }
+
+//==============================================================================================================================================
+#pragma mark - NAVIGATION TITLE BUTTON METHODS
+//==============================================================================================================================================
+
 -(void) setTitle
 {
     if(self.displayName)
@@ -777,12 +845,10 @@ ALMessageDBService  * dbService;
         [self getUserInformation];
         return;
     }
-//
-    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                                         bundle:[NSBundle bundleForClass:ALGroupDetailViewController.class]];
-    
-    ALGroupDetailViewController *groupDetailViewController = (ALGroupDetailViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ALGroupDetailViewController"];
-    groupDetailViewController.channelKeyID=self.channelKey;
+
+    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:[self class]]];
+    ALGroupDetailViewController * groupDetailViewController = (ALGroupDetailViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ALGroupDetailViewController"];
+    groupDetailViewController.channelKeyID = self.channelKey;
     groupDetailViewController.alChatViewController = self;
     
     [self.navigationController pushViewController:groupDetailViewController animated:YES];
@@ -790,25 +856,29 @@ ALMessageDBService  * dbService;
 
 -(void)fetchMessageFromDB
 {
-    
     NSLog(@"fetchMessageFromDB  called:: ");
     ALDBHandler * theDbHandler = [ALDBHandler sharedInstance];
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     NSPredicate* predicate1;
-    if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
+    if(self.conversationId && [ALApplozicSettings getContextualChatOption])
+    {
         predicate1 = [NSPredicate predicateWithFormat:@"conversationId = %d", [self.conversationId intValue]];
         
-    }else if(self.isGroup){
+    }
+    else if(self.isGroup)
+    {
         predicate1 = [NSPredicate predicateWithFormat:@"groupId = %d", [self.channelKey intValue]];
-    }else{
+    }
+    else
+    {
         predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@ && groupId = nil", self.contactIds];
     }
+    
     NSPredicate* predicate2 = [NSPredicate predicateWithFormat:@"contentType != %i",ALMESSAGE_CONTENT_HIDDEN];
     NSPredicate* compoundPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
     [theRequest setPredicate:compoundPredicate];
     
     self.mTotalCount = [theDbHandler.managedObjectContext countForFetchRequest:theRequest error:nil];
-    
 }
 
 //This is just a test method
@@ -826,63 +896,86 @@ ALMessageDBService  * dbService;
     [self.mActivityIndicator stopAnimating];
 }
 
-- (void)didReceiveMemoryWarning {
+-(void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
 }
 
-- (BOOL)canBecomeFirstResponder {
+-(BOOL)canBecomeFirstResponder
+{
     return YES;
 }
 
-#pragma  mark - ALMapViewController Delegate Methods
-//==================================================
+//==============================================================================================================================================
+#pragma mark - ALMapViewController Delegate Methods
+#pragma mark - ONLINE Location Message Sending
+//==============================================================================================================================================
 
-
-#pragma ONLINE Location Message Sending
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
--(void)sendGoogleMap:(NSString *)latLongString withCompletion:(void(^)(NSString *message, NSError *error))completion{
-    
-    if (latLongString.length != 0) {
+-(void)sendGoogleMap:(NSString *)latLongString withCompletion:(void(^)(NSString *message, NSError *error))completion
+{
+    if (latLongString.length != 0)
+    {
         ALMessage * locationMessage = [self formLocationMessage:latLongString];
         [self sendLocationMessage:locationMessage withCompletion:^(NSString *message, NSError *error) {
-                    if(!error){
-                        [self.alMessageWrapper addALMessageToMessageArray:locationMessage];
-                        [self.mTableView reloadData];
-                        [super scrollTableViewToBottomWithAnimation:YES];
-                        completion(message,error);
-                    }
-                }];
+            
+            if(!error)
+            {
+                [self.alMessageWrapper addALMessageToMessageArray:locationMessage];
+                [self.mTableView reloadData];
+                [super scrollTableViewToBottomWithAnimation:YES];
+                completion(message,error);
+            }
+        }];
     }
-    else{
+    else
+    {
        [self googleLocationErrorAlert];
     }
-    
 }
 
+-(void)sendLocationMessage:(ALMessage *)theMessage withCompletion:(void(^)(NSString *message, NSError *error))completion
+{
+    [ALMessageService sendMessages:theMessage withCompletion:^(NSString *message, NSError *error) {
+        
+        if(error)
+        {
+            NSLog(@"SEND_MSG_ERROR :: %@", error.description);
+            [self handleErrorStatus:theMessage];
+            return;
+        }
+        completion(message, error);
+        [self.mTableView reloadData];
+        [self setRefreshMainView:TRUE];
+    }];
+}
+
+//==============================================================================================================================================
 #pragma OFFLINE Location Message Sending
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
--(void)sendGoogleMapOffline:(NSString*)latLongString{
-    
-    if (latLongString.length != 0) {
+//==============================================================================================================================================
+
+-(void)sendGoogleMapOffline:(NSString*)latLongString
+{
+    if (latLongString.length != 0)
+    {
         ALMessage * locationMessage = [self formLocationMessage:latLongString];
         [[self.alMessageWrapper getUpdatedMessageArray] addObject:locationMessage];
         [self sendMessage:locationMessage];
-        [self.mTableView reloadData]; //RELOAD MANUALLY SINCE NO NETWORK ERROR
+        [self.mTableView reloadData];       //RELOAD MANUALLY SINCE NO NETWORK ERROR
         [self setRefreshMainView:TRUE];
         [self scrollTableViewToBottomWithAnimation:YES];
-        
     }
     else
     {
         [self googleLocationErrorAlert];
     }
-
 }
 
-//Locaiton Message Forming Method
-//-------------------------------
--(ALMessage *)formLocationMessage:(NSString*)latLongString{
-    
+//==============================================================================================================================================
+#pragma mark - LOCATION MESSAGE FORMING METHOD
+//==============================================================================================================================================
+
+-(ALMessage *)formLocationMessage:(NSString*)latLongString
+{
     ALMessage * theMessage = [self getMessageToPost];
     theMessage.contentType = ALMESSAGE_CONTENT_LOCATION;
     theMessage.message = latLongString;
@@ -892,24 +985,22 @@ ALMessageDBService  * dbService;
 
     return theMessage;
 }
-// Location Fetch Error
-//---------------------
--(void)googleLocationErrorAlert{
+
+//==============================================================================================================================================
+#pragma mark - Location Fetch Error
+//==============================================================================================================================================
+
+-(void)googleLocationErrorAlert
+{
     NSLog(@"Google Map Length = ZERO");
-    
-    NSString *alertMsg = @"Unable to fetch current location. Try Again!!!";
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Current Location"
-                                                        message:alertMsg
-                                                       delegate: nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles: nil, nil];
-    
-    [alertView show];
-    
+    NSString * alertMsg = @"Unable to fetch current location. Try Again!!!";
+    [ALUtilityClass showAlertMessage:alertMsg andTitle:@"Current Location"];
 }
-//------------------------------------------------------------------------------------------------------------------
+
+//==============================================================================================================================================
 #pragma mark - UIMenuController Actions
-//------------------------------------------------------------------------------------------------------------------
+//==============================================================================================================================================
+
 //-(BOOL) canPerformAction:(SEL)action withSender:(id)sender {
 //    return (action == @selector(copy:) || action == @selector(deleteAction:));
 //}
@@ -954,11 +1045,11 @@ ALMessageDBService  * dbService;
 //
 //}
 
-//------------------------------------------------------------------------------------------------------------------
-#pragma mark - IBActions
-//------------------------------------------------------------------------------------------------------------------
+//==============================================================================================================================================
+#pragma mark - SEND MESSAGE ACTION
+//==============================================================================================================================================
 
--(void) postMessage
+-(void)postMessage
 {
     if(self.isUserBlocked)
     {
@@ -968,19 +1059,14 @@ ALMessageDBService  * dbService;
     
     if (!self.sendMessageTextView.text.length || [self.sendMessageTextView.text isEqualToString:self.placeHolderTxt])
     {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Empty"
-                                                            message:@"Did you forget to type the message?"
-                                                           delegate:self
-                                                  cancelButtonTitle:nil
-                                                  otherButtonTitles:@"Yes, Let me add something", nil];
-        [alertView show];
+        [ALUtilityClass showAlertMessage:@"Did you forget to type the message?" andTitle:@"Empty"];
         return;
     }
-    
     
     ALMessage * theMessage = [self getMessageToPost];
     [self.alMessageWrapper addALMessageToMessageArray:theMessage];
     [self.mTableView reloadData];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [super scrollTableViewToBottomWithAnimation:YES];
     });
@@ -990,17 +1076,18 @@ ALMessageDBService  * dbService;
     self.mTotalCount = self.mTotalCount + 1;
     self.startIndex = self.startIndex + 1;
     [self sendMessage:theMessage];
+    
     if(typingStat == YES)
     {
         typingStat = NO;
-        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds andChannelKey:self.channelKey typing:typingStat];
+        [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds
+                            andChannelKey:self.channelKey typing:typingStat];
     }
-
 }
 
-//------------------------------------------------------------------------------------------------------------------
+//==============================================================================================================================================
 #pragma mark - TableView Datasource
-//------------------------------------------------------------------------------------------------------------------
+//==============================================================================================================================================
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -1087,13 +1174,14 @@ ALMessageDBService  * dbService;
     }
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
-//------------------------------------------------------------------------------------------------------------------
-#pragma mark - TableView Delegate
-//------------------------------------------------------------------------------------------------------------------
+
+//==============================================================================================================================================
+#pragma mark - TABELVIEW DELEGATE
+//==============================================================================================================================================
 
 -(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -1112,12 +1200,11 @@ ALMessageDBService  * dbService;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ALMessage * theMessage = [self.alMessageWrapper getUpdatedMessageArray][indexPath.row];
-
     CGFloat cellHeight = [ALUIConstant getCellHeight:theMessage andCellFrame:self.view.frame];
     return cellHeight;
 }
 
-- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
+-(BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ALMessage *msgCell = self.alMessageWrapper.messageArray[indexPath.row];
     if([msgCell.type isEqualToString:@"100"] || msgCell.contentType ==(short)10)
@@ -1130,63 +1217,70 @@ ALMessageDBService  * dbService;
     }
 }
 
--(BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+-(BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
+{
     return (action == @selector(copy:));
 }
 
-- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-    // required
-    if (action == @selector(copy:)) {
-        NSLog(@"COPY");
-        [self copy:NULL];
-    }
-    if (action == @selector(deleteAction:)) {
-        NSLog(@"DELETE ACTION");
-    }
+-(void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
+{
+//    // required
+//    if (action == @selector(copy:))
+//    {
+//        NSLog(@"COPY");
+//        [self copy:NULL];
+//    }
+//    if (action == @selector(deleteAction:))
+//    {
+//        NSLog(@"DELETE ACTION");
+//    }
 }
 
-+ (UITableViewStyle)tableViewStyleForCoder:(NSCoder *)decoder
++(UITableViewStyle)tableViewStyleForCoder:(NSCoder *)decoder
 {
     return UITableViewStylePlain;
 }
 
+//==============================================================================================================================================
 #pragma mark - Display Header/Footer View
-//======================================
+//==============================================================================================================================================
+
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     // For Header's Text View
-    
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section
+{
     UITableViewHeaderFooterView *footer = (UITableViewHeaderFooterView *)view;
     footer.contentView.backgroundColor = [UIColor lightGrayColor];
-    
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
     return 0;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    
-    if (self.conversationId && [ALApplozicSettings getContextualChatOption]){
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if(self.conversationId && [ALApplozicSettings getContextualChatOption])
+    {
         return self.getHeaderView.frame.size.height;
     }
-    else{
+    else
+    {
         return 0;
     }
-    
-    
 }
 
-#pragma mark -  Header View
-//===========================
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
+//==============================================================================================================================================
+#pragma mark -  HEADER VIEW FOR CONTEXT CHAT
+//==============================================================================================================================================
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
     return self.getHeaderView;
 }
-
 
 -(UIView *)getHeaderView
 {    
@@ -1209,81 +1303,76 @@ ALMessageDBService  * dbService;
     UILabel * topLeft = [[UILabel alloc] init];
     topLeft.text =topicDetail.title;
     topLeft.frame = CGRectMake(imageView.frame.size.width + 10,
-                               25,
-                               (view.frame.size.width-imageView.frame.size.width)/2,
-                               50);
+                               25, (view.frame.size.width-imageView.frame.size.width)/2, 50);
     
     UILabel * bottomLeft = [[UILabel alloc] init];
     bottomLeft.text =topicDetail.subtitle;
-    bottomLeft.frame = CGRectMake(imageView.frame.size.width + 10,
-                                  58,
-                                  (view.frame.size.width-imageView.frame.size.width)/2,
-                                  50);
+    bottomLeft.frame = CGRectMake(imageView.frame.size.width + 10, 58,
+                                  (view.frame.size.width-imageView.frame.size.width)/2, 50);
     bottomLeft.numberOfLines = 1;
     bottomLeft.preferredMaxLayoutWidth = 8;
     bottomLeft.adjustsFontSizeToFitWidth = YES;
     
     UILabel* topRight = [[UILabel alloc] init];
     topRight.text = [NSString stringWithFormat:@"%@:%@",topicDetail.key1,topicDetail.value1];
-    topRight.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width - topLeft.frame.size.width)+ 10,
-                                25,
-                                [UIScreen mainScreen].bounds.size.width - topLeft.frame.size.width,
-                                50);
-    
+    topRight.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width - topLeft.frame.size.width) + 10, 25,
+                                [UIScreen mainScreen].bounds.size.width - topLeft.frame.size.width, 50);
     
     UILabel* bottomRight = [[UILabel alloc] init];
     bottomRight.text = [NSString stringWithFormat:@"%@:%@",topicDetail.key2,topicDetail.value2];
-    bottomRight.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width - bottomLeft.frame.size.width)+ 10,
-                                   58,
-                                   [UIScreen mainScreen].bounds.size.width - bottomLeft.frame.size.width,
-                                   50);
+    bottomRight.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width - bottomLeft.frame.size.width) + 10, 58,
+                                   [UIScreen mainScreen].bounds.size.width - bottomLeft.frame.size.width, 50);
     
    [self setLabelViews:@[topLeft,bottomLeft,topRight,bottomRight] onView:view];
     
-    if(topicDetail.title != nil){
+    if(topicDetail.title != nil)
+    {
         UITapGestureRecognizer *singleFingerTap =
-        [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                action:@selector(showConversationPicker:)];
+        [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showConversationPicker:)];
         [view addGestureRecognizer:singleFingerTap];
     }
+    
     return view;
 }
 
 -(void)setLabelViews:(NSArray*)labelArray onView:(UIView*)view
 {
-    view.backgroundColor=[ALApplozicSettings getColorForNavigation];
+    view.backgroundColor = [ALApplozicSettings getColorForNavigation];
     view.layer.shadowColor = [[UIColor blackColor] CGColor];
     view.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
     view.layer.shadowRadius = 3.0f;
     view.layer.shadowOpacity = 1.0f;
     
-    for (UILabel * label in labelArray) {
+    for (UILabel * label in labelArray)
+    {
         label.textColor = [UIColor whiteColor];
         label.font = [UIFont fontWithName:@"Helvetica" size:11.0];
         [self resizeLabels:label];
         [view addSubview:label];
     }
-
 }
+
 -(void)resizeLabels:(UILabel*)label{
     
-    CGSize maximumLabelSize = CGSizeMake(296, FLT_MAX);
+//    CGSize maximumLabelSize = CGSizeMake(296, FLT_MAX);
     CGSize expectedLabelSize = [label.text sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}];
     CGRect newFrame = label.frame;
     newFrame.size.height = expectedLabelSize.height;
     label.frame = newFrame;
 }
 
+//==============================================================================================================================================
 #pragma mark - Picker View Delegate Datasource
-//=============================================
+//==============================================================================================================================================
 
 // returns the number of 'columns' to display.
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
     return 1;
 }
 
 // returns the # of rows in each component..
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
     return self.pickerDataSourceArray.count;
 }
 
@@ -1292,8 +1381,10 @@ ALMessageDBService  * dbService;
     return self.pickerDataSourceArray[row];
 }
 
-- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component{
-    switch (component){
+-(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
+{
+    switch(component)
+    {
         case 0:
             return 200.0f;
         case 1:
@@ -1302,10 +1393,12 @@ ALMessageDBService  * dbService;
     return 0;
 }
 
-
+//==============================================================================================================================================
 #pragma mark - PickerView Display Method
-//======================================
--(void)showConversationPicker:(UITapGestureRecognizer *)recognizer{
+//==============================================================================================================================================
+
+-(void)showConversationPicker:(UITapGestureRecognizer *)recognizer
+{
     isPickerOpen = YES;
     NSNumber *iD= self.conversationId;
     NSInteger anIndex = 0;
@@ -1319,14 +1412,10 @@ ALMessageDBService  * dbService;
     }
     
     [self.pickerView selectRow:anIndex inComponent:0 animated:NO];
-
     [self setRightNavButtonToDone];
-    
-    
     [self.sendMessageTextView endEditing:YES];
     
     dispatch_queue_t queue = dispatch_queue_create("animateAndMask", NULL);
-    
     dispatch_sync(queue, ^{
         
         [UIView animateWithDuration:0.4 animations:^{
@@ -1343,9 +1432,12 @@ ALMessageDBService  * dbService;
     });
 }
 
+//==============================================================================================================================================
 #pragma mark - PickerView Display Navigation Buttons update Methods
-//=================================================================
--(void)setRightNavButtonToDone{
+//==============================================================================================================================================
+
+-(void)setRightNavButtonToDone
+{
     UIBarButtonItem *donePickerSelectionButton = [[UIBarButtonItem alloc]
                                                   initWithTitle:@"Done"
                                                   style:UIBarButtonItemStylePlain
@@ -1356,14 +1448,17 @@ ALMessageDBService  * dbService;
 
 -(void)setRightNavButtonToRefresh
 {
-    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshTable:)];
-    self.navigationItem.rightBarButtonItem = refreshButton;
+    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                                                                   target:self
+                                                                                   action:@selector(refreshTable:)];
     
+    self.navigationItem.rightBarButtonItem = refreshButton;
 }
 
-
+//==============================================================================================================================================
 #pragma mark - Picker View Done and View Update Methods
-//=====================================================
+//==============================================================================================================================================
+
 -(void)donePicking:(id)sender{
     
     self.tableViewBottomToAttachment.constant = 0;
@@ -1386,9 +1481,12 @@ ALMessageDBService  * dbService;
     isPickerOpen = NO;
 }
 
-//========= Update Table with new data according to context============
--(void)updateContextInView{
-    
+//==============================================================================================================================================
+#pragma mark - Update Table with new data according to context
+//==============================================================================================================================================
+
+-(void)updateContextInView
+{
     [self.mTableView setUserInteractionEnabled:YES];
     [self.sendMessageTextView setHidden:NO];
 
@@ -1400,28 +1498,32 @@ ALMessageDBService  * dbService;
        
         [[self.alMessageWrapper messageArray] removeAllObjects];
         
-        if (![ALUserDefaultsHandler isServerCallDoneForMSGList:[self.conversationId stringValue]]) {
+        if(![ALUserDefaultsHandler isServerCallDoneForMSGList:[self.conversationId stringValue]])
+        {
            [self processLoadEarlierMessages:YES];
         }
-        else{
+        else
+        {
             [self reloadView];
         }
-        
     }
-    
 }
 
-//============== Masks background when picker shown ===================
--(void)disableRestView{
+//==============================================================================================================================================
+#pragma mark - MASKS BACKGROUND WHEN PICKER SHOWN
+//==============================================================================================================================================
+
+-(void)disableRestView
+{
     [self.mTableView setUserInteractionEnabled:NO];
     [self.sendMessageTextView setHidden:YES];
 }
 
-//------------------------------------------------------------------------------------------------------------------
-#pragma mark - Helper Method
-//------------------------------------------------------------------------------------------------------------------
+//==============================================================================================================================================
+#pragma mark - GET ALMESSAGE OBJECT
+//==============================================================================================================================================
 
--(ALMessage *) getMessageToPost
+-(ALMessage *)getMessageToPost
 {
     ALMessage * theMessage = [ALMessage new];
     
@@ -1429,7 +1531,7 @@ ALMessageDBService  * dbService;
     theMessage.contactIds = self.contactIds;//1
     theMessage.to = self.contactIds;//2
     theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
-    theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString ];
+    theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
     theMessage.message = self.sendMessageTextView.text;//3
     theMessage.sendToDevice = NO;
     theMessage.shared = NO;
@@ -1452,7 +1554,11 @@ ALMessageDBService  * dbService;
 //    return dict;
 //}
 
--(ALFileMetaInfo *) getFileMetaInfo
+//==============================================================================================================================================
+#pragma mark - GET FILEMETA OBJECT
+//==============================================================================================================================================
+
+-(ALFileMetaInfo *)getFileMetaInfo
 {
     ALFileMetaInfo *info = [ALFileMetaInfo new];
     
@@ -1469,11 +1575,12 @@ ALMessageDBService  * dbService;
     return info;
 }
 
-#pragma mark helper methods
+//==============================================================================================================================================
+#pragma mark - VIEW HELPER METHODS
+//==============================================================================================================================================
 
--(void) loadChatView
+-(void)loadChatView
 {
-
     [self setTitle];
     
     BOOL isLoadEarlierTapped = [self.alMessageWrapper getUpdatedMessageArray].count == 0 ? NO : YES ;
@@ -1481,20 +1588,24 @@ ALMessageDBService  * dbService;
     NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
     [theRequest setFetchLimit:self.rp];
     NSPredicate* predicate1;
-    if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
+    if(self.conversationId && [ALApplozicSettings getContextualChatOption])
+    {
         predicate1 = [NSPredicate predicateWithFormat:@"conversationId = %d", [self.conversationId intValue]];
-
-    }else if(self.isGroup){
+    }
+    else if(self.isGroup)
+    {
         predicate1 = [NSPredicate predicateWithFormat:@"groupId = %d", [self.channelKey intValue]];
-    }else{
+    }
+    else
+    {
         predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@ && groupId = nil", self.contactIds];
     }
 
     self.mTotalCount = [theDbHandler.managedObjectContext countForFetchRequest:theRequest error:nil];
     
-    NSPredicate* predicate2=[NSPredicate predicateWithFormat:@"deletedFlag == NO"];
-    NSPredicate* predicate3= [NSPredicate predicateWithFormat:@"contentType != %i",ALMESSAGE_CONTENT_HIDDEN];
-    NSPredicate* compoundPredicate=[NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2,predicate3]];
+    NSPredicate* predicate2 = [NSPredicate predicateWithFormat:@"deletedFlag == NO"];
+    NSPredicate* predicate3 = [NSPredicate predicateWithFormat:@"contentType != %i",ALMESSAGE_CONTENT_HIDDEN];
+    NSPredicate* compoundPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2,predicate3]];
     [theRequest setPredicate:compoundPredicate];
     [theRequest setFetchOffset:self.startIndex];
     [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
@@ -1502,33 +1613,36 @@ ALMessageDBService  * dbService;
     NSArray * theArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
     ALMessageDBService* messageDBService = [[ALMessageDBService alloc]init];
     
-    
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
     
-    for (DB_Message * theEntity in theArray) {
+    for (DB_Message * theEntity in theArray)
+    {
         ALMessage * theMessage = [messageDBService createMessageEntity:theEntity];
         [tempArray insertObject:theMessage atIndex:0];
         //[self.mMessageListArrayKeyStrings insertObject:theMessage.key atIndex:0];
     }
+    
     [self.alMessageWrapper addObjectToMessageArray:tempArray];
     [self.mTableView reloadData];
     
-    
-    if (isLoadEarlierTapped) {
-        if ((theArray != nil && theArray.count < self.rp )|| [self.alMessageWrapper getUpdatedMessageArray].count == self.mTotalCount) {
+    if(isLoadEarlierTapped)
+    {
+        if ((theArray != nil && theArray.count < self.rp )|| [self.alMessageWrapper getUpdatedMessageArray].count == self.mTotalCount)
+        {
 //            self.mTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
         }
         self.startIndex = self.startIndex + theArray.count;
         [self.mTableView reloadData];
-        if (theArray.count != 0) {
+        if (theArray.count != 0)
+        {
             CGRect theFrame = [self.mTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:theArray.count-1 inSection:0]];
             [self.mTableView setContentOffset:CGPointMake(0, theFrame.origin.y-60)];
         }
     }
     else
     {
-        
-        if (theArray.count < self.rp || [self.alMessageWrapper getUpdatedMessageArray].count == self.mTotalCount) {
+        if (theArray.count < self.rp || [self.alMessageWrapper getUpdatedMessageArray].count == self.mTotalCount)
+        {
 //            self.mTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
         }
         else
@@ -1544,24 +1658,15 @@ ALMessageDBService  * dbService;
         dispatch_async(dispatch_get_main_queue(), ^{
             [super scrollTableViewToBottomWithAnimation:YES];
         });
-        
     }
     
     self.refresh = YES;
-    
-//    [self.mTableView setBackgroundView:[self getChatWallpaperImageView]];
     [self setBackGroundWallpaper];
-    
-    
-    
 }
 
-//-(UIImageView *)getChatWallpaperImageView
-//{
-//    UIImage * backgoundWallpaperImage = [UIImage imageNamed:[ALApplozicSettings getChatWallpaperImageName]];
-//    UIImageView *backgoundWallpaperImageView = [[UIImageView alloc] initWithImage:backgoundWallpaperImage];
-//    return backgoundWallpaperImageView;
-//}
+//==============================================================================================================================================
+#pragma mark - SET BACKGROUND WALLPAPER METHOD
+//==============================================================================================================================================
 
 -(void)setBackGroundWallpaper
 {
@@ -1572,40 +1677,19 @@ ALMessageDBService  * dbService;
         [self.mTableView setBackgroundColor:[UIColor whiteColor]];
         return;
     }
+    
     [self.mTableView setBackgroundColor:[UIColor clearColor]];
     UIImageView * backgroundImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
     backgroundImageView.image = backgroundImage;
     [self.view insertSubview:backgroundImageView atIndex:0];
 }
 
-#pragma mark IBActions
+//==============================================================================================================================================
+#pragma mark - CHAT CELL DELEGATE
+//==============================================================================================================================================
 
--(void)phoneCallMethod
+-(void)deleteMessageFromView:(ALMessage *)message
 {
-    [self makeCallContact];
-}
-
--(void) attachmentAction
-{
-    if(self.isUserBlocked)
-    {
-        [self showBlockedAlert];
-        return;
-    }
-    // check os , show sheet or action controller
-    if ([UIDevice currentDevice].systemVersion.floatValue < 8.0) { // ios 7 and previous
-        [self showActionSheet];
-    }
-    else // ios 8
-    {
-        [self showActionAlert];
-    }
-}
-
-#pragma mark chatCellDelegate
-
--(void) deleteMessageFromView:(ALMessage *) message {
-    
     NSLog(@"  deleteMessageFromView in controller...:: ");
     [self.alMessageWrapper removeALMessageFromMessageArray:message];
     
@@ -1616,7 +1700,9 @@ ALMessageDBService  * dbService;
     [self showNoConversationLabel];
 }
 
-#pragma mark chatCellImageDelegate
+//==============================================================================================================================================
+#pragma mark - MEDIA DELEGATE : DOWNLOAD RETRY DELEGATES
+//==============================================================================================================================================
 
 -(void)downloadRetryButtonActionDelegate:(int)index andMessage:(ALMessage *)message
 {
@@ -1659,7 +1745,8 @@ ALMessageDBService  * dbService;
     
 }
 
--(void)stopDownloadForIndex:(int)index andMessage:(ALMessage *)message {
+-(void)stopDownloadForIndex:(int)index andMessage:(ALMessage *)message
+{
     NSLog(@"Called get image stopDownloadForIndex stopDownloadForIndex ####");
     
     ALMediaBaseCell *imageCell = (ALMediaBaseCell *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
@@ -1678,39 +1765,43 @@ ALMessageDBService  * dbService;
     [self presentViewController:uiController animated:YES completion:nil];
 }
 
-#pragma mark connection delegates
+//==============================================================================================================================================
+#pragma mark - ALCONNECTION DELEGATES
+//==============================================================================================================================================
 
 //Progress
 -(void)connection:(ALConnection *)connection didReceiveData:(NSData *)data
 {
     [connection.mData appendData:data];
-    if ([connection.connectionType isEqualToString:@"Image Posting"]) {
+    if ([connection.connectionType isEqualToString:@"Image Posting"])
+    {
         NSLog(@" file posting done");
         return;
     }
     
     ALMediaBaseCell*  cell=  [self getCell:connection.keystring];
     cell.progresLabel.endDegree = [self bytesConvertsToDegree:[cell.mMessage.fileMeta.size floatValue] comingBytes:(CGFloat)connection.mData.length];;
-    
 }
 
--(void)connection:(ALConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
+-(void)connection:(ALConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten
+                        totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
     ALMediaBaseCell * cell = [self getCell:connection.keystring];
      cell.progresLabel.endDegree = [self bytesConvertsToDegree:totalBytesExpectedToWrite comingBytes:totalBytesWritten];
 }
 
 //Finishing
-
--(void)connectionDidFinishLoading:(ALConnection *)connection {
-    
+-(void)connectionDidFinishLoading:(ALConnection *)connection
+{
     [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
     dbService = [[ALMessageDBService alloc] init];
     
-    if ([connection.connectionType isEqualToString:@"Image Posting"]) {
+    if ([connection.connectionType isEqualToString:@"Image Posting"])
+    {
         ALMessage * message = [self getMessageFromViewList:@"key" withValue:connection.keystring];
         //get it fromDB ...we can move it to thread as nothing to show to user
-        if(!message){
+        if(!message)
+        {
             DB_Message * dbMessage = (DB_Message*)[dbService getMessageByKey:@"key" value:connection.keystring];
             message = [dbService createMessageEntity:dbMessage];
         }
@@ -1719,10 +1810,10 @@ ALMessageDBService  * dbService;
         NSDictionary *fileInfo = [theJson objectForKey:@"fileMeta"];
         [message.fileMeta populate:fileInfo ];
         ALMessage * almessage =  [ALMessageService processFileUploadSucess:message];
-        
         [self sendMessage:almessage ];
-    }else {
-        
+    }
+    else
+    {
         DB_Message * messageEntity = (DB_Message*)[dbService getMessageByKey:@"key" value:connection.keystring];
         
         NSString * docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -1730,21 +1821,21 @@ ALMessageDBService  * dbService;
         NSString *fileExtension = [componentsArray lastObject];
         NSString * filePath = [docPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_local.%@",connection.keystring,fileExtension]];
         [connection.mData writeToFile:filePath atomically:YES];
-        // update db
+        // UPDATE DB
         messageEntity.inProgress = [NSNumber numberWithBool:NO];
         messageEntity.isUploadFailed=[NSNumber numberWithBool:NO];
         messageEntity.filePath = [NSString stringWithFormat:@"%@_local.%@",connection.keystring,fileExtension];
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
+        
         ALMessage * message = [self getMessageFromViewList:@"key" withValue:connection.keystring];
-        if(message){
+        if(message)
+        {
             message.isUploadFailed = NO;
             message.inProgress=NO;
             message.imageFilePath =  messageEntity.filePath;
             [self.mTableView reloadData];
         }
-        
     }
-    
 }
 
 //Error
@@ -1762,9 +1853,36 @@ ALMessageDBService  * dbService;
     [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
 }
 
-//===============================================
-#pragma mark IMAGE PICKER DELEGATES
-//===============================================
+-(void)releaseConnection:(NSString *)key
+{
+    NSMutableArray * theConnectionArray = [[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue];
+    NSArray * filteredArray = [theConnectionArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keystring == %@",key]];
+    
+    if(filteredArray.count > 0)
+    {
+        ALConnection * connection = [filteredArray objectAtIndex:0];
+        [connection cancel];
+        [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
+    }
+    else
+    {
+        NSLog(@"CONNECTION_NOT_FOUND");
+    }
+}
+
+-(CGFloat)bytesConvertsToDegree:(CGFloat)totalBytesExpectedToWrite comingBytes:(CGFloat)totalBytesWritten
+{
+    CGFloat totalBytes = totalBytesExpectedToWrite;
+    CGFloat writtenBytes = totalBytesWritten;
+    CGFloat divergence = totalBytes/360;
+    CGFloat degree = writtenBytes/divergence;
+    
+    return degree;
+}
+
+//==============================================================================================================================================
+#pragma mark - IMAGE PICKER DELEGATES
+//==============================================================================================================================================
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
@@ -1801,8 +1919,11 @@ ALMessageDBService  * dbService;
     }
 
     [picker dismissViewControllerAnimated:YES completion:nil];
-    
 }
+
+//==============================================================================================================================================
+#pragma mark - PROCESSING & UPLOADING MEDIA ATTACHMENT
+//==============================================================================================================================================
 
 -(void)processAttachment:(NSString *)filePath andMessageText:(NSString *)textwithimage andContentType:(short)contentype
 {
@@ -1876,9 +1997,9 @@ ALMessageDBService  * dbService;
         {
            [imageCell hidePlayButtonOnUploading];
         }
-        NSError *error=nil;
-        ALMessageDBService  * dbService = [[ALMessageDBService alloc] init];
-        DB_Message *dbMessage = (DB_Message*)[dbService getMeesageById:theMessage.msgDBObjectId error:&error];
+        NSError *error = nil;
+        ALMessageDBService  * msgdbService = [[ALMessageDBService alloc] init];
+        DB_Message *dbMessage = (DB_Message*)[msgdbService getMeesageById:theMessage.msgDBObjectId error:&error];
         dbMessage.inProgress = [NSNumber numberWithBool:YES];
         dbMessage.isUploadFailed = [NSNumber numberWithBool:NO];
         [[ALDBHandler sharedInstance].managedObjectContext save:nil];
@@ -1895,7 +2016,7 @@ ALMessageDBService  * dbService;
                 imageCell.downloadRetryView.alpha = 1;
                 imageCell.sizeLabel.alpha = 1;
                 [self handleErrorStatus:theMessage];
-                return ;
+                return;
             }
             [ALMessageService proessUploadImageForMessage:theMessage databaseObj:dbMessage.fileMetaInfo uploadURL:message  withdelegate:self];
             
@@ -1903,9 +2024,9 @@ ALMessageDBService  * dbService;
     }
 }
 
-//===========================================================================================
-#pragma MULTIPLE ATTACHMENT DELEGATE
-//===========================================================================================
+//==============================================================================================================================================
+#pragma mark - MULTIPLE ATTACHMENT DELEGATE
+//==============================================================================================================================================
 
 -(void)multipleAttachmentProcess:(NSMutableArray *)attachmentPathArray andText:(NSString *)messageText
 {
@@ -1926,18 +2047,39 @@ ALMessageDBService  * dbService;
     }
 }
 
-//===========================================================================================
-#pragma AUDIO DELEGATE
-//===========================================================================================
+//==============================================================================================================================================
+#pragma mark - AUDIO DELEGATE
+//==============================================================================================================================================
 
 -(void)audioAttachment:(NSString *)audioFilePath
 {
     [self processAttachment:audioFilePath andMessageText:@"" andContentType:ALMESSAGE_CONTENT_AUDIO];
 }
 
-//------------------------------------------------------------------------------------------------------------------
-#pragma mark - ActionsSheet Methods
-//------------------------------------------------------------------------------------------------------------------
+//==============================================================================================================================================
+#pragma mark - ATTACHMENT BUTTON HANDLER
+//==============================================================================================================================================
+
+-(void)attachmentAction
+{
+    if(self.isUserBlocked)
+    {
+        [self showBlockedAlert];
+        return;
+    }
+    // check os , show sheet or action controller
+    if ([UIDevice currentDevice].systemVersion.floatValue < 8.0) { // ios 7 and previous
+        [self showActionSheet];
+    }
+    else // ios 8
+    {
+        [self showActionAlert];
+    }
+}
+
+//==============================================================================================================================================
+#pragma mark - ACTIONSHEET METHODS
+//==============================================================================================================================================
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -1958,8 +2100,11 @@ ALMessageDBService  * dbService;
 -(void) showActionAlert
 {
     UIAlertController * theController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
     [theController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    
     [theController addAction:[UIAlertAction actionWithTitle:@"Take photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
         [self openCamera];
     }]];
 
@@ -1969,20 +2114,14 @@ ALMessageDBService  * dbService;
         {
             self.mImagePicker.allowsEditing = YES;
             self.mImagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            self.mImagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeMovie, nil];
+            self.mImagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *)kUTTypeMovie, nil];
             
-            [self presentViewController:self.mImagePicker animated:YES completion:NULL];
+            [self presentViewController:self.mImagePicker animated:YES completion:nil];
         }
         else
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"OOPS !!!"
-                                                            message: @"Camera is not Available !!!"
-                                                           delegate: nil
-                                                  cancelButtonTitle: @"OK"
-                                                  otherButtonTitles: nil];
-            [alert show];
+            [ALUtilityClass showAlertMessage:@"Camera is not Available !!!" andTitle:@"OOPS !!!"];
         }
-        
     }]];
 
     [theController addAction:[UIAlertAction actionWithTitle:@"Select from Gallery" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -2028,18 +2167,10 @@ ALMessageDBService  * dbService;
                     self.isUserBlocked = YES;
                     [self.label setHidden:self.isUserBlocked];
                     [self.typingLabel setHidden:self.isUserBlocked];
-                    UIAlertView *alert = [[UIAlertView alloc]
-                                          initWithTitle: @"USER BLOCK"
-                                                message: [NSString stringWithFormat:@"%@ is blocked successfully", [self.alContact getDisplayName]]
-                                               delegate: nil
-                                      cancelButtonTitle: @"OK"
-                                      otherButtonTitles: nil];
-                    
-                    [alert show];
+                    NSString * alertText = [NSString stringWithFormat:@"%@ is blocked successfully", [self.alContact getDisplayName]];
+                    [ALUtilityClass showAlertMessage:alertText andTitle:@"USER BLOCK"];
                 }
-      
             }];
-            
         }]];
     }
     
@@ -2065,6 +2196,10 @@ ALMessageDBService  * dbService;
     [self presentViewController:theController animated:YES completion:nil];
 }
 
+//==============================================================================================================================================
+#pragma mark - ABPEOPLE PICKER DELEGATE METHOD
+//==============================================================================================================================================
+
 -(void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person
 {
     ALVCFClass *objectVCF = [[ALVCFClass alloc] init];
@@ -2072,92 +2207,74 @@ ALMessageDBService  * dbService;
     [self processAttachment:contactFilePath andMessageText:@"" andContentType:ALMESSAGE_CONTENT_VCARD];
 }
 
--(void)mediaPicker:(MPMediaPickerController *)mediaPicker didPickMediaItems:(MPMediaItemCollection *)mediaItemCollection
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-    NSLog(@"You picked : %@",mediaItemCollection);
-}
+//==============================================================================================================================================
+#pragma mark - HANDLER FOR IMAGE PICKING BY CAMERA/PHOTOS
+//==============================================================================================================================================
 
--(void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker
+-(void)openCamera
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
--(void) openCamera
-{
-    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
-        _mImagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        self.mImagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeImage, nil];
-        [self presentViewController:_mImagePicker animated:YES completion:nil];
+    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera])
+    {
+        self.mImagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.mImagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *)kUTTypeImage, nil];
+        [self presentViewController:self.mImagePicker animated:YES completion:nil];
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Camera is not available in device." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [alert show];
+        [ALUtilityClass showAlertMessage:@"Camera is not available in device." andTitle:@"Alert"];
     }
 }
 
--(void) openGallery
+-(void)openGallery
 {
-    _mImagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    self.mImagePicker.mediaTypes = [NSArray arrayWithObject:(NSString *)kUTTypeImage];
-    [self presentViewController:_mImagePicker animated:YES completion:nil];
+    self.mImagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    self.mImagePicker.mediaTypes = [NSArray arrayWithObject: (NSString *)kUTTypeImage];
+    [self presentViewController:self.mImagePicker animated:YES completion:nil];
 }
 
+//==============================================================================================================================================
+#pragma mark - HANDLE ERROR METHOD
+//==============================================================================================================================================
 
-
--(void) handleErrorStatus:(ALMessage *) message{
-    message.inProgress=NO;
-    message.isUploadFailed=YES;
-    NSError *error=nil;
+-(void)handleErrorStatus:(ALMessage *)message
+{
+    message.inProgress = NO;
+    message.isUploadFailed = YES;
+    NSError *error = nil;
     dbService = [[ALMessageDBService alloc] init];
-    DB_Message *dbMessage =(DB_Message*)[dbService getMeesageById:message.msgDBObjectId error:&error];
     
+    DB_Message *dbMessage = (DB_Message*)[dbService getMeesageById:message.msgDBObjectId error:&error];
     dbMessage.inProgress = [NSNumber numberWithBool:NO];
     dbMessage.isUploadFailed = [NSNumber numberWithBool:YES];
     dbMessage.sentToServer= [NSNumber numberWithBool:NO];;
     
     [[ALDBHandler sharedInstance].managedObjectContext save:nil];
-    
 }
 
--(void) releaseConnection:(NSString *) key
+-(ALMediaBaseCell *)getCell:(NSString *)key
 {
-    NSMutableArray * theConnectionArray =  [[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue];
-    NSArray * filteredArray = [theConnectionArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"keystring == %@",key]];
-    if(filteredArray.count >0 ){
-        ALConnection * connection = [filteredArray objectAtIndex:0];
-        [connection cancel];
-        [[[ALConnectionQueueHandler sharedConnectionQueueHandler] getCurrentConnectionQueue] removeObject:connection];
-    }else{
-        NSLog(@"connection is not found");
-    }
-    
-}
-
--(ALMediaBaseCell *) getCell:(NSString *)key{
-    
-    int index = (int)[[self.alMessageWrapper getUpdatedMessageArray] indexOfObjectPassingTest:^BOOL(id element,NSUInteger idx,BOOL *stop)
-                     {
+    int index = (int)[[self.alMessageWrapper getUpdatedMessageArray] indexOfObjectPassingTest:^BOOL(id element,NSUInteger idx,BOOL *stop) {
                          ALMessage *message = (ALMessage*)element;
-                         
-                         if( [ message.key isEqualToString:key ])
+                         if([message.key isEqualToString:key])
                          {
                              *stop = YES;
                              return YES;
                          }
                          return NO;
                      }];
+    
     NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
     ALMediaBaseCell *cell = (ALMediaBaseCell *)[self.mTableView cellForRowAtIndexPath:path];
     
     return cell;
 }
 
--(void)sendMessage:(ALMessage* )theMessage{
-    
+-(void)sendMessage:(ALMessage *)theMessage
+{
     [ALMessageService sendMessages:theMessage withCompletion:^(NSString *message, NSError *error) {
-        if (error) {
+        
+        if(error)
+        {
             NSLog(@"SEND_MSG_ERROR :: %@",error.description);
             [self handleErrorStatus:theMessage];
             return;
@@ -2165,58 +2282,46 @@ ALMessageDBService  * dbService;
         [self.mTableView reloadData];
         [self setRefreshMainView:TRUE];
     }];
-    
-}
--(void)sendLocationMessage:(ALMessage* )theMessage withCompletion:(void(^)(NSString *message, NSError *error))completion{
-    
-    [ALMessageService sendMessages:theMessage withCompletion:^(NSString *message, NSError *error) {
-        if (error) {
-            NSLog(@"Send Msg Error: %@",error);
-            [self handleErrorStatus:theMessage];
-            return;
-        }
-        completion(message,error);
-        [self.mTableView reloadData];
-        [self setRefreshMainView:TRUE];
-    }];
-    
-}
--(CGFloat)bytesConvertsToDegree:(CGFloat)totalBytesExpectedToWrite comingBytes:(CGFloat)totalBytesWritten {
-    CGFloat  totalBytes = totalBytesExpectedToWrite;
-    CGFloat writtenBytes = totalBytesWritten;
-    CGFloat divergence = totalBytes/360;
-    CGFloat degree = writtenBytes/divergence;
-    return degree;
 }
 
-- (ALMessage* )getMessageFromViewList:(NSString *)key withValue:(NSString*)value{
+-(ALMessage *)getMessageFromViewList:(NSString *)key withValue:(id)value
+{
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"%K == %@",key,value];
+    NSArray * filteredArray = [[self.alMessageWrapper getUpdatedMessageArray] filteredArrayUsingPredicate:predicate];
     
-    NSArray * filteredArray = [[self.alMessageWrapper getUpdatedMessageArray] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%K == %@",key,value]];
-    if (filteredArray.count > 0) {
+    if (filteredArray.count > 0)
+    {
         return filteredArray[0];
     }
     
     return nil;
 }
 
--(void)fetchAndRefresh{
+-(void)fetchAndRefresh
+{
     [self fetchAndRefresh:NO];
 }
 
--(void)fetchAndRefresh:(BOOL)flag{
-    NSString *deviceKeyString =[ALUserDefaultsHandler getDeviceKeyString ] ;
+-(void)fetchAndRefresh:(BOOL)flag
+{
+    NSString *deviceKeyString = [ALUserDefaultsHandler getDeviceKeyString];
     
     ALPushAssist * alpushAssist = [ALPushAssist new];
-    if(!alpushAssist.isChatViewOnTop){
+    if(!alpushAssist.isChatViewOnTop)
+    {
         return;
     }
     [ALMessageService getLatestMessageForUser: deviceKeyString withCompletion:^(NSMutableArray  *messageList, NSError *error) {
-        if (error) {
+        
+        if(error)
+        {
             NSLog(@"%@",error);
             return ;
-        } else {
-            if (messageList.count > 0 ){
-                
+        }
+        else
+        {
+            if(messageList.count > 0)
+            {
                 if(flag)
                 {
                     [self markConversationRead];
@@ -2232,34 +2337,33 @@ ALMessageDBService  * dbService;
     }];
 }
 
--(void)updateStatusReportForConversation:(int)status {
-    
+-(void)updateStatusReportForConversation:(int)status
+{
     NSMutableArray * predicateArray = [[NSMutableArray alloc] init];
-    
-    NSPredicate * statusPred = [NSPredicate predicateWithFormat:@"status!=%i and sentToServer ==%@",DELIVERED_AND_READ,[NSNumber numberWithBool:YES]];
+    NSPredicate * statusPred = [NSPredicate predicateWithFormat:@"status!=%i and sentToServer ==%@", DELIVERED_AND_READ, [NSNumber numberWithBool:YES]];
     [predicateArray addObject:statusPred];
         
     NSCompoundPredicate * compoundPred = [NSCompoundPredicate andPredicateWithSubpredicates:predicateArray];
-    
     NSArray * filteredArray = [[self.alMessageWrapper getUpdatedMessageArray] filteredArrayUsingPredicate:compoundPred];
     
-    NSLog(@"Found Messages to update to DELIVERED_AND_READ in ChatView :%lu",(unsigned long)filteredArray.count);
-    for(ALMessage * message  in  filteredArray){
+    NSLog(@"Found Messages to update to DELIVERED_AND_READ in ChatView :%lu", (unsigned long)filteredArray.count);
+    
+    for(ALMessage * message in filteredArray)
+    {
         message.status = [NSNumber numberWithInt:status];
-        
     }
+    
     [self.mTableView reloadData];
-
 }
 
--(void)updateDeliveryReport:(NSString*)key withStatus:(int)status{
-
+-(void)updateDeliveryReport:(NSString*)key withStatus:(int)status
+{
     NSNumber * statusValue = [NSNumber numberWithInt:status];
 
-    ALMessage * alMessage =  [self getMessageFromViewList:@"key" withValue:key];
-    if (alMessage)
+    ALMessage * alMessage = [self getMessageFromViewList:@"key" withValue:key];
+    if(alMessage)
     {
-        alMessage.status= statusValue;
+        alMessage.status = statusValue;
         [self.mTableView reloadData];
     }
     else
@@ -2268,7 +2372,7 @@ ALMessageDBService  * dbService;
         fetchMsg=[ALMessageService getMessagefromKeyValuePair:@"key" andValue:key];
         
         //now find in list ...
-        ALMessage * alMessage2 =  [self getMessageFromViewList:@"msgDBObjectId" withValue:fetchMsg.msgDBObjectId];
+        ALMessage * alMessage2 = [self getMessageFromViewList:@"msgDBObjectId" withValue:fetchMsg.msgDBObjectId];
         
         if (alMessage2)
         {
@@ -2293,50 +2397,56 @@ ALMessageDBService  * dbService;
     NSString *alertValue = [dict valueForKey:@"alertValue"];
     NSLog(@"Notification received by Individual chat list: %@", contactId);
     
-    NSArray *componentsContactId=[contactId componentsSeparatedByString:@":"];
+    NSArray *componentsContactId = [contactId componentsSeparatedByString:@":"];
     
-    if(componentsContactId.count > 1){
-        
-        NSNumber * appendedGroupId   = [NSNumber numberWithInt:[componentsContactId[1] intValue]];
+    if(componentsContactId.count > 1)
+    {
+        NSNumber * appendedGroupId = [NSNumber numberWithInt:[componentsContactId[1] intValue]];
         alMessage.groupId = appendedGroupId;
         
         NSString * appendedContactId = [NSString stringWithFormat:@"%@",componentsContactId[2]];
         alMessage.contactIds =appendedContactId;
         
         NSArray * componentsAlertValue = [alertValue componentsSeparatedByString:@":"];
-        if(componentsAlertValue.count>1){
+        if(componentsAlertValue.count > 1)
+        {
             alertValue = [NSString stringWithFormat:@"%@",componentsAlertValue[1]];
         }
     }
+    
     alMessage.message = alertValue;
     [self syncCall:alMessage updateUI:updateUI alertValue:alertValue];
 }
 
--(void) syncCall:(ALMessage*)alMessage  updateUI:(NSNumber *)updateUI alertValue: (NSString *)alertValue
+-(void)syncCall:(ALMessage*)alMessage  updateUI:(NSNumber *)updateUI alertValue: (NSString *)alertValue
 {
     [self setRefreshMainView:TRUE];
     bool isGroupNotification = (alMessage.groupId == nil ? false : true);
     
     if (self.isGroup && isGroupNotification && [self.channelKey isEqualToNumber:alMessage.groupId] &&
-        (self.conversationId.intValue == alMessage.conversationId.intValue)){
+        (self.conversationId.intValue == alMessage.conversationId.intValue))
+    {
             self.conversationId = alMessage.conversationId;
             self.contactIds=alMessage.contactIds;
             self.channelKey = alMessage.groupId;
         
         ALPushAssist * pushAssitant = [ALPushAssist new];
-        if(pushAssitant.isGroupDetailViewOnTop){
+        if(pushAssitant.isGroupDetailViewOnTop)
+        {
             [self showNativeNotification:alMessage andAlert:alertValue];
         }
     }
     else if (!self.isGroup && !isGroupNotification && [self.contactIds isEqualToString:alMessage.contactIds] &&
-             (self.conversationId.intValue == alMessage.conversationId.intValue)){
+             (self.conversationId.intValue == alMessage.conversationId.intValue))
+    {
         //Current Same Individual Contact thread is opened..
         self.conversationId = alMessage.conversationId;
         self.channelKey=nil;
         self.contactIds=alMessage.contactIds;
         //[self fetchAndRefresh:YES];
     }
-    else if ([updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_INACTIVE]]) {
+    else if ([updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_INACTIVE]])
+    {
         NSLog(@"it was in background, updateUI is false");
         self.conversationId = alMessage.conversationId;
         self.channelKey=alMessage.groupId;
@@ -2345,7 +2455,8 @@ ALMessageDBService  * dbService;
         [self reloadView];
         [self markConversationRead];
     }
-    else{
+    else
+    {
         if(![alMessage.type isEqualToString:@"5"] && ![updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_BACKGROUND]])
         {
             NSLog(@"SHOW_NOTIFICATION (OTHER_THREAD_IS_OPENED)");
@@ -2353,10 +2464,10 @@ ALMessageDBService  * dbService;
         }
     }
     
-    if(self.comingFromBackground){
+    if(self.comingFromBackground)
+    {
         [self serverCallForLastSeen];
     }
-    
 }
 
 -(void)showNativeNotification:(ALMessage *)alMessage andAlert:(NSString*)alertValue
@@ -2367,67 +2478,73 @@ ALMessageDBService  * dbService;
                      withAlertMessage:alertValue];
     
     [alnotification nativeNotification:self];
-    
 }
 
-//  Local Notification Handlers
-#pragma mark - Update Single Message Status
-//===========================================
+//===============================================================================================================================================
+#pragma mark - Update Single Message Status : Local Notification Handlers
+//===============================================================================================================================================
 
 //DELIVERED
--(void)updateDeliveryStatus:(NSNotification *) notification{
+-(void)updateDeliveryStatus:(NSNotification *)notification
+{
     [self updateReportOfkeyString:notification.object reportStatus:DELIVERED];
 }
 //DELIVERED_AND_READ
--(void)updateReadReport:(NSNotification*)notification{
+-(void)updateReadReport:(NSNotification *)notification
+{
     [self updateReportOfkeyString:notification.object reportStatus:DELIVERED_AND_READ];
 }
 
--(void)updateReportOfkeyString:(NSString*)notificationObject reportStatus:(int)status{
+-(void)updateReportOfkeyString:(NSString *)notificationObject reportStatus:(int)status
+{
     NSString * keyString = notificationObject;
     [self updateDeliveryReport:keyString withStatus:status];
 }
 
+//==============================================================================================================================================
+#pragma mark - SET WHOLE CONVERSATION STATUS DELIVERED AND READ
+//==============================================================================================================================================
 
-#pragma mark -  Set Whole Conversation Status DELIVERED_AND_READ
-//==============================================================
--(void)updateReadReportForConversation:(NSNotification*)notificationObject{
-        [self updateStatusForContact:notificationObject.object withStatus:DELIVERED_AND_READ];
+-(void)updateReadReportForConversation:(NSNotification*)notificationObject
+{
+    [self updateStatusForContact:notificationObject.object withStatus:DELIVERED_AND_READ];
 }
 
--(void)handleAddress:(NSDictionary *)dict{
-    if([dict valueForKey:@"error"]){
+-(void)handleAddress:(NSDictionary *)dict
+{
+    if([dict valueForKey:@"error"])
+    {
         //handlen error
         return;
-        
-    }else {
+    }
+    else
+    {
         NSString *  address = [dict valueForKey:@"address"];
         NSString *  googleurl = [dict valueForKey:@"googleurl"];
         NSString * finalString = [address stringByAppendingString:googleurl];
         [[self sendMessageTextView] setText:finalString];
-        
     }
 }
 
--(void) reloadView
+-(void)reloadView
 {
     [[self.alMessageWrapper getUpdatedMessageArray] removeAllObjects];
-    self.startIndex =0;
+    self.startIndex = 0;
     [self fetchMessageFromDB];
     [self loadChatView];
     [self setCallButtonInNavigationBar];
     [self showNoConversationLabel];
 }
 
--(void) reloadViewfor3rdParty{
+-(void)reloadViewfor3rdParty
+{
     [[self.alMessageWrapper getUpdatedMessageArray] removeAllObjects];
-    self.startIndex =0;
+    self.startIndex = 0;
     [self fetchMessageFromDB];
-
 }
 
--(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer{
-    
+-(void)handleNotification:(UIGestureRecognizer *)gestureRecognizer
+{
     ALNotificationView * notificationView = (ALNotificationView*)gestureRecognizer.view;
     self.contactIds = notificationView.contactId;
     [UIView animateWithDuration:0.5 animations:^{
@@ -2440,84 +2557,90 @@ ALMessageDBService  * dbService;
     }];
 }
 
-
-- (IBAction)loadEarlierButtonAction:(id)sender {
+-(IBAction)loadEarlierButtonAction:(id)sender
+{
     [self processLoadEarlierMessages:false];
 }
 
 -(void)processLoadEarlierMessages:(BOOL)isScrollToBottom
 {
-    
     NSNumber *time;
-    if([self.alMessageWrapper getUpdatedMessageArray].count > 1 && [self.alMessageWrapper getUpdatedMessageArray] != NULL) {
+    if([self.alMessageWrapper getUpdatedMessageArray].count > 1 && [self.alMessageWrapper getUpdatedMessageArray] != NULL)
+    {
         ALMessage * theMessage = [self.alMessageWrapper getUpdatedMessageArray][1];
         time = theMessage.createdAtTime;
     }
-    else {
+    else
+    {
         NSLog(@" time### %@ ",time);
         time = NULL;
     }
     
     [self.mActivityIndicator startAnimating];
     //preaper Message list request ....
-    MessageListRequest *messageListRequest = [[MessageListRequest alloc]init];
+    MessageListRequest * messageListRequest = [[MessageListRequest alloc] init];
+    messageListRequest.userId = self.contactIds;
+    messageListRequest.channelKey = self.channelKey;
+    messageListRequest.endTimeStamp = time;
     
-    messageListRequest.userId=self.contactIds;
-    messageListRequest.channelKey=self.channelKey;
-    messageListRequest.endTimeStamp=time;
-    if([ALApplozicSettings getContextualChatOption]){
-        messageListRequest.conversationId=self.conversationId;
+    if([ALApplozicSettings getContextualChatOption])
+    {
+        messageListRequest.conversationId = self.conversationId;
     }
     
     [ALMessageService getMessageListForUser:messageListRequest  withCompletion:^(NSMutableArray *messages, NSError *error, NSMutableArray *userDetailArray) {
         
         [self.mActivityIndicator stopAnimating];
-        NSLog(@"List call called....");
-        if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
+        NSLog(@"LIST_CALL_CALLED");
+        if(self.conversationId && [ALApplozicSettings getContextualChatOption])
+        {
             [self setupPickerView];
             [self.pickerView reloadAllComponents];
         }
         
-        if(!error ){
-            
+        if(!error)
+        {
             self.loadEarlierAction.hidden = YES;
-            if( messages.count< 50 ){
-                
-                if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
+            if(messages.count < 50)
+            {
+                if(self.conversationId && [ALApplozicSettings getContextualChatOption])
+                {
                     [ALUserDefaultsHandler setShowLoadEarlierOption:NO forContactId:[self.conversationId stringValue]];
                 }
-                else{
+                else
+                {
                     NSString * IDs = (self.channelKey ? [self.channelKey stringValue] : self.contactIds);
                     [ALUserDefaultsHandler setShowLoadEarlierOption:NO forContactId:IDs];
                 }
             }
-            if (messages.count==0){
-                
-                if(self.conversationId && [ALApplozicSettings getContextualChatOption]){
+            
+            if(messages.count == 0)
+            {
+                if(self.conversationId && [ALApplozicSettings getContextualChatOption])
+                {
                     [ALUserDefaultsHandler setShowLoadEarlierOption:NO forContactId:[self.conversationId stringValue]];
                 }
-                else{
+                else
+                {
                     NSString * IDs = (self.channelKey ? [self.channelKey stringValue] : self.contactIds);
                     [ALUserDefaultsHandler setShowLoadEarlierOption:NO forContactId:IDs];
                 }
 
                 return;
             }
+            
             NSMutableArray * array = [self.alMessageWrapper getUpdatedMessageArray];
             
-            if( [array firstObject ] ){
-                
-                ALMessage *messgae = [array firstObject ];
-                
-                if([ messgae.type isEqualToString:@"100"]){
-                    
+            if([array firstObject])
+            {
+                ALMessage *messgae = [array firstObject];
+                if([messgae.type isEqualToString:@"100"])
+                {
                     [array  removeObjectAtIndex:0];
-                    
                 }
-                
             }
-            for (ALMessage * msg in messages) {
-                                
+            for (ALMessage * msg in messages)
+            {
                 if([self.alMessageWrapper getUpdatedMessageArray].count > 0)
                 {
                     ALMessage *msg1 = [[self.alMessageWrapper getUpdatedMessageArray] objectAtIndex:0];
@@ -2534,22 +2657,21 @@ ALMessageDBService  * dbService;
                         {
                             [[self.alMessageWrapper getUpdatedMessageArray] insertObject:dateCell atIndex:0];
                         }
-                        
                     }
                 }
                 
-                if(![msg isHiddenMessage] ){ // Filters Hidden Messages
+                if(![msg isHiddenMessage])  // Filters Hidden Messages
+                {
                     NSLog(@"insterting message at index 0 ::%@", msg.key);
                     [[self.alMessageWrapper getUpdatedMessageArray] insertObject:msg atIndex:0];
                     [self.noConLabel setHidden:YES];
-                    //
                 }
             }
             ALMessage * message = [array firstObject];
-            if(message){
+            if(message)
+            {
                 NSString * dateTxt = [self.alMessageWrapper msgAtTop:message];
-                
-                ALMessage *lastMsg = [self.alMessageWrapper getDatePrototype:dateTxt andAlMessageObject:message];
+                ALMessage * lastMsg = [self.alMessageWrapper getDatePrototype:dateTxt andAlMessageObject:message];
                 [[self.alMessageWrapper getUpdatedMessageArray] insertObject:lastMsg atIndex:0];
             }
             //self.startIndex = self.startIndex + messages.count;
@@ -2557,12 +2679,14 @@ ALMessageDBService  * dbService;
             CGFloat oldTableViewHeight = self.mTableView.contentSize.height;
             [self.mTableView reloadData];
             
-            if(isScrollToBottom){
-                
+            if(isScrollToBottom)
+            {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [super scrollTableViewToBottomWithAnimation:NO];
                 });
-            }else{
+            }
+            else
+            {
                 CGFloat newTableViewHeight = self.mTableView.contentSize.height;
                 self.mTableView.contentOffset = CGPointMake(0, newTableViewHeight - oldTableViewHeight);
             }
@@ -2589,39 +2713,12 @@ ALMessageDBService  * dbService;
         }
         else
         {
-            NSLog(@"CHECK SERVER CALL");
+            NSLog(@"CHECK LAST_SEEN_SERVER CALL");
         }
     }];
 }
 
--(void)showTypingLabel:(BOOL)flag userId:(NSString *)userId
-{
-    ALContactService *cntService = [ALContactService new];
-    ALContact *contact = [cntService loadContactByKey:@"userId" value:userId];
-    
-    if(flag && ([self.alContact.userId isEqualToString: userId] || (self.channelKey && ![userId isEqualToString:[ALUserDefaultsHandler getUserId]])))
-    {
-        NSString * space = @"    ";
-        NSString * msg = [self.alContact getDisplayName];
-        NSString * typingText = @"";
-        if(self.channelKey)
-        {
-            typingText = [NSString stringWithFormat:@"%@%@ is typing...", space, [contact getDisplayName]];
-        }
-        else
-        {
-            typingText = [NSString stringWithFormat:@"%@%@ is typing...", space, msg];
-        }
-        [self.typingLabel setText:typingText];
-        [self.typingLabel setHidden:NO];
-    }
-    else
-    {
-        [self.typingLabel setHidden:YES];
-    }
-}
-
--(void) updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
+-(void)updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
 {
     [self setRefreshMainView:TRUE];
     
@@ -2648,7 +2745,11 @@ ALMessageDBService  * dbService;
     [self updateLastSeenAtStatus:notification.object];
 }
 
--(NSString*)formatDateTime:(ALUserDetail*)alUserDetail  andValue:(double)value
+//==============================================================================================================================================
+#pragma mark - UPDATE USER STATUS HELPER METHOD
+//==============================================================================================================================================
+
+-(NSString *)formatDateTime:(ALUserDetail*)alUserDetail andValue:(double)value
 {
     NSDate *current = [[NSDate alloc] init];
     NSDate *date  = [[NSDate alloc] initWithTimeIntervalSince1970:value/1000];
@@ -2682,7 +2783,8 @@ ALMessageDBService  * dbService;
             int hours =  difference / 3600;
             int minutes = (difference - hours * 3600 ) / 60;
             
-            if(hours > 0){
+            if(hours > 0)
+            {
                 theTime = [NSString stringWithFormat:@"%.2d:%.2d", hours, minutes];
                 if([theTime hasPrefix:@"0"])
                 {
@@ -2691,7 +2793,8 @@ ALMessageDBService  * dbService;
                 str = [str stringByAppendingString:theTime];
                 str = [str stringByAppendingString:@" hrs ago"];
             }
-            else{
+            else
+            {
                 theTime = [NSString stringWithFormat:@"%.2d", minutes];
                 if([theTime hasPrefix:@"0"])
                 {
@@ -2724,37 +2827,40 @@ ALMessageDBService  * dbService;
     }
     
     return self.label.text;
-    
 }
--(NSMutableArray*)getLastSeenForGroupDetails{
-    
+
+-(NSMutableArray *)getLastSeenForGroupDetails
+{
     NSMutableArray * userDetailsArray = [[NSMutableArray alloc] init];
-    
     ALContactService * contactDBService = [[ALContactService alloc] init];
-    
     ALChannelDBService * channelDBService = [[ALChannelDBService alloc] init];
+    
     NSMutableArray *memberIdArray= [NSMutableArray arrayWithArray:[channelDBService getListOfAllUsersInChannel:self.channelKey]];
 
-    for (NSString * userID in memberIdArray) {
+    for (NSString * userID in memberIdArray)
+    {
         ALContact * contact = [contactDBService loadContactByKey:@"userId" value:userID];
         ALUserDetail * userDetails = [[ALUserDetail alloc] init];
         userDetails.userId = userID;
         userDetails.lastSeenAtTime = contact.lastSeenAt;
         double value = contact.lastSeenAt.doubleValue;
-        NSLog(@"Contact:%@ Value:%@",contact.userId, contact.lastSeenAt);
-        if(contact.lastSeenAt == NULL){
+        NSLog(@"Contact :: %@ && Value :: %@", contact.userId, contact.lastSeenAt);
+        if(contact.lastSeenAt == NULL)
+        {
             [userDetailsArray addObject:@" "];
         }
-        else{
-        [userDetailsArray addObject:[self formatDateTime:userDetails andValue:value]];
+        else
+        {
+            [userDetailsArray addObject:[self formatDateTime:userDetails andValue:value]];
         }
     }
 
     return userDetailsArray;
 }
-//======================================================
-#pragma TEXT VIEW DELEGATE
-//======================================================
+
+//==============================================================================================================================================
+#pragma TEXT VIEW DELEGATE + PLUS HELPER METHODS
+//==============================================================================================================================================
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
@@ -2795,7 +2901,6 @@ ALMessageDBService  * dbService;
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    
     CGFloat scrollOffset = scrollView.contentOffset.y;
     
     if(scrollView == self.sendMessageTextView)
@@ -2820,7 +2925,7 @@ ALMessageDBService  * dbService;
     
     }
     
-    if (scrollOffset == 0 && (doneConversation || doneOtherwise))
+    if(scrollOffset == 0 && (doneConversation || doneOtherwise))
     {
         [self.loadEarlierAction setHidden:NO];
     }
@@ -2828,10 +2933,9 @@ ALMessageDBService  * dbService;
     {
         [self.loadEarlierAction setHidden:YES];
     }
-    
 }
 
-- (void)textViewDidChange:(UITextView *)textView
+-(void)textViewDidChange:(UITextView *)textView
 {
     if(self.isUserBlocked || self.isUserBlockedBy)
     {
@@ -2842,18 +2946,19 @@ ALMessageDBService  * dbService;
         typingStat = YES;
         [self.mqttObject sendTypingStatus:self.alContact.applicationId userID:self.contactIds andChannelKey:self.channelKey typing:typingStat];
     }
+    
     [self subProcessTextViewDidChange:textView];
 }
 
 -(void)subProcessTextViewDidChange:(UITextView *)textView
 {
-    CGRect textSize = [self sizeOfText:textView.text
-                       widthOfTextView:self.sendMessageTextView.textContainer.size.width
+    CGRect textSize = [self sizeOfText:textView.text widthOfTextView:self.sendMessageTextView.textContainer.size.width
                               withFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:textView.font.pointSize]];
     
-    if(minHeight.size.height == textSize.size.height){
-        
-        if([textView.text isEqualToString:@""]){
+    if(minHeight.size.height == textSize.size.height)
+    {
+        if([textView.text isEqualToString:@""])
+        {
             [super setHeightOfTextViewDynamically];
             self.textMessageViewHeightConstaint.constant = 56.0;
         }
@@ -2861,13 +2966,15 @@ ALMessageDBService  * dbService;
         return;
     }
     
-    if([textView.text isEqualToString:@""]){
+    if([textView.text isEqualToString:@""])
+    {
         /*Incase user deletes the long text than animation is NOT required to set to default height!!*/
         [textView setScrollEnabled:NO];
         [super setHeightOfTextViewDynamically];
         //        NSLog(@"CASE EMPTY");
     }
-    else if(textSize.size.height <= maxHeight.size.height){ //&& [self isNewLine:textView] s
+    else if(textSize.size.height <= maxHeight.size.height)  //&& [self isNewLine:textView]
+    {
         //Untill max rows are achieved than SCROLL
         [textView setScrollEnabled:NO];
         [UIView animateWithDuration:0.4 animations:^{
@@ -2875,25 +2982,27 @@ ALMessageDBService  * dbService;
         }];
         //        NSLog(@"CASE INCRESE/DECREASE");
     }
-    else {
+    else
+    {
         // If greater than MAX value Scroll instead of expanding the text view.
-        if(self.sendMessageTextView.frame.size.height < maxHeight.size.height){
+        if(self.sendMessageTextView.frame.size.height < maxHeight.size.height)
+        {
             //  NSLog(@"MAX HIGHT");
             self.textMessageViewHeightConstaint.constant = TEXT_VIEW_TO_MESSAGE_VIEW_RATIO * maxHeight.size.height;
         }
         [textView setScrollEnabled:YES];
-        
-        
         //        NSLog(@"CASE SCROLL");
     }
 }
 
 -(CGRect)sizeOfText:(NSString *)textToMesure widthOfTextView:(CGFloat)width withFont:(UIFont*)font
 {
-
-    NSStringDrawingOptions options = NSStringDrawingTruncatesLastVisibleLine |
-    NSStringDrawingUsesLineFragmentOrigin;
-    NSDictionary *attr = @{NSFontAttributeName: self.sendMessageTextView.font};
+    NSStringDrawingOptions options = NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin;
+    
+    NSDictionary *attr = @{
+                           NSFontAttributeName:self.sendMessageTextView.font
+                           };
+    
     CGRect ts = [textToMesure boundingRectWithSize:CGSizeMake(width-20.0, FLT_MAX)
                                options:options
                             attributes:attr
@@ -2902,25 +3011,23 @@ ALMessageDBService  * dbService;
 }
 
 
-- (BOOL)isNewLine:(UITextView *)textView{
-    
+-(BOOL)isNewLine:(UITextView *)textView
+{
     BOOL flag = NO;
-    UITextPosition* pos = textView.endOfDocument;//explore others like beginningOfDocument if you want to customize the behaviour
+    UITextPosition *pos = textView.endOfDocument;   //explore others like beginningOfDocument if you want to customize the behaviour
     CGRect currentRect = [textView caretRectForPosition:pos];
     
-    if (currentRect.origin.y != previousRect.origin.y){
+    if (currentRect.origin.y != previousRect.origin.y)
+    {
         //new line reached, write your code
         flag = YES;
     }
     previousRect = currentRect;
-    
     return flag;
-    
 }
 
 -(CGRect)getMaxSizeLines:(int)n
 {
-    
     NSString *saveText = self.sendMessageTextView.text, *newText = @"-";
     
     self.sendMessageTextView.delegate = nil;
@@ -2931,39 +3038,75 @@ ALMessageDBService  * dbService;
     
     self.sendMessageTextView.text = newText;
     
-    CGRect maximumHeight = [self sizeOfText:self.sendMessageTextView.text widthOfTextView:self.sendMessageTextView.textContainer.size.width withFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:self.sendMessageTextView.font.pointSize]];
+    CGRect maximumHeight = [self sizeOfText:self.sendMessageTextView.text widthOfTextView:self.sendMessageTextView.textContainer.size.width
+                                   withFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:self.sendMessageTextView.font.pointSize]];
     
     self.sendMessageTextView.text = saveText;
     self.sendMessageTextView.hidden = NO;
     self.sendMessageTextView.delegate = self;
+    
     return maximumHeight;
-
 }
 
-//------------------------------------------------------------------------------------------------------------------
+//==============================================================================================================================================
 #pragma mark - MQTT Service delegate methods
-//------------------------------------------------------------------------------------------------------------------
+//==============================================================================================================================================
 
--(void) syncCall:(ALMessage *) alMessage andMessageList:(NSMutableArray*)messageArray
+-(void)syncCall:(ALMessage *) alMessage andMessageList:(NSMutableArray*)messageArray
 {    
     [self syncCall:alMessage updateUI:[NSNumber numberWithInt:APP_STATE_ACTIVE] alertValue:alMessage.message];
 }
 
 //Message Delivered/Read
--(void) delivered:(NSString *)messageKey contactId:(NSString *)contactId withStatus:(int)status{
-    if ([[self contactIds] isEqualToString: contactId]) {
+-(void)delivered:(NSString *)messageKey contactId:(NSString *)contactId withStatus:(int)status
+{
+    if([[self contactIds] isEqualToString: contactId])
+    {
         [self updateDeliveryReport:messageKey withStatus:status];
     }
 }
 
 //Conversation Delivered/Read
--(void) updateStatusForContact:(NSString *)contactId  withStatus:(int)status{
-    if ([[self contactIds] isEqualToString: contactId]) {
+-(void)updateStatusForContact:(NSString *)contactId withStatus:(int)status
+{
+    if([[self contactIds] isEqualToString: contactId])
+    {
         [self updateStatusReportForConversation:status];
     }
 }
 
--(void) updateTypingStatus:(NSString *)applicationKey userId:(NSString *)userId status:(BOOL)status
+//==============================================================================================================================================
+#pragma mark - UPDATING TYPING STATUS
+//==============================================================================================================================================
+
+-(void)showTypingLabel:(BOOL)flag userId:(NSString *)userId
+{
+    ALContactService *cntService = [ALContactService new];
+    ALContact *contact = [cntService loadContactByKey:@"userId" value:userId];
+    
+    if(flag && ([self.alContact.userId isEqualToString: userId] || (self.channelKey && ![userId isEqualToString:[ALUserDefaultsHandler getUserId]])))
+    {
+        NSString * space = @"    ";
+        NSString * msg = [self.alContact getDisplayName];
+        NSString * typingText = @"";
+        if(self.channelKey)
+        {
+            typingText = [NSString stringWithFormat:@"%@%@ is typing...", space, [contact getDisplayName]];
+        }
+        else
+        {
+            typingText = [NSString stringWithFormat:@"%@%@ is typing...", space, msg];
+        }
+        [self.typingLabel setText:typingText];
+        [self.typingLabel setHidden:NO];
+    }
+    else
+    {
+        [self.typingLabel setHidden:YES];
+    }
+}
+
+-(void)updateTypingStatus:(NSString *)applicationKey userId:(NSString *)userId status:(BOOL)status
 {
     NSLog(@"==== (CHAT_VC) Received typing status %d for: %@ ====", status, userId);
     if ([self.contactIds isEqualToString:userId] || self.channelKey)
@@ -2972,8 +3115,10 @@ ALMessageDBService  * dbService;
     }
 }
 
--(void) mqttConnectionClosed {
-    if (_mqttRetryCount > MQTT_MAX_RETRY|| !(self.isViewLoaded && self.view.window) ) {
+-(void)mqttConnectionClosed
+{
+    if(self.mqttRetryCount > MQTT_MAX_RETRY|| !(self.isViewLoaded && self.view.window))
+    {
         return;
     }
     
@@ -2984,29 +3129,32 @@ ALMessageDBService  * dbService;
         [self.mqttObject subscribeToConversation];
         [self subscrbingChannel];
     });
-    _mqttRetryCount++;
+    self.mqttRetryCount++;
 }
 
-- (void)appWillEnterForegroundInChat:(NSNotification *)notification {
+-(void)appWillEnterForegroundInChat:(NSNotification *)notification
+{
     NSLog(@"will enter foreground notification");
     // [self syncCall:self.contactIds updateUI:nil alertValue:nil];
 }
--(void)addMessageToList: (NSMutableArray  *)messageList{
-    
+
+-(void)addMessageToList:(NSMutableArray  *)messageList
+{
     NSCompoundPredicate *compoundPredicate;
     
-    if(self.isGroup){
+    if(self.isGroup)
+    {
         NSPredicate * groupP=[NSPredicate predicateWithFormat:@"groupId = %@",self.channelKey];
         compoundPredicate=[NSCompoundPredicate andPredicateWithSubpredicates:@[groupP]];
     }
-    else{  //self.channelKey not Nil
+    else
+    {  //self.channelKey not Nil
         NSPredicate *groupPredicate=[NSPredicate predicateWithFormat:@"groupId == %d or groupId == nil",0];
         NSPredicate * predicate = [NSPredicate predicateWithFormat:@"contactIds == %@",self.contactIds];
         compoundPredicate=[NSCompoundPredicate andPredicateWithSubpredicates:@[groupPredicate,predicate]];
     }
     
     NSArray * theFilteredArray = [messageList filteredArrayUsingPredicate:compoundPredicate];
-    
     NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAtTime" ascending:YES];
     NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
     NSArray *sortedArray = [theFilteredArray sortedArrayUsingDescriptors:descriptors];
@@ -3014,7 +3162,7 @@ ALMessageDBService  * dbService;
         NSLog(@"No message for contact .....%@",self.contactIds);
         return;
     }
-     [self setTitle];
+    [self setTitle];
     
 //    if([[self.alMessageWrapper getUpdatedMessageArray] count ] == 0 )
 //    {
@@ -3026,10 +3174,9 @@ ALMessageDBService  * dbService;
         [self.mTableView reloadData];
         [super scrollTableViewToBottomWithAnimation:YES];
     //}
-    
 }
 
--(void)newMessageHandler:(NSNotification *) notification
+-(void)newMessageHandler:(NSNotification *)notification
 {
     NSLog(@" newMessageHandler called ::#### ");
     NSMutableArray * messageArray = notification.object;
@@ -3055,12 +3202,66 @@ ALMessageDBService  * dbService;
     }
 }
 
--(BOOL) isGroup
+-(BOOL)isGroup
 {
     return !(self.channelKey == nil || [self.channelKey intValue] == 0 || self.channelKey== NULL);
 }
 
--(void) showVideoFullScreen:(MPMoviePlayerViewController *)fullView
+//==============================================================================================================================================
+#pragma mark - DOCUMENT INTERACTION DELEGATE METHODS
+//==============================================================================================================================================
+
+-(void)showSuggestionView:(NSURL *)fileURL andFrame:(CGRect)frame
+{
+//    NSLog(@"CALL_GESTURE_SELECTOR_TO_DELEGATE_&_FILE_URL : %@", fileURL);
+    interaction = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
+    interaction.delegate = self;
+    
+    // IF OPENING IN SAME VIEW
+//   BOOL selfFlag = [interaction presentPreviewAnimated:YES];
+
+    //IF NEED SUGGESTION MENU : IT WILL RUN ON DEVICE ONLY
+   [interaction presentOpenInMenuFromRect:frame inView:self.view animated:YES];
+
+}
+
+-(UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller
+{
+    return self;
+}
+
+-(void)documentInteractionControllerDidEndPreview:(UIDocumentInteractionController *)controller
+{
+    interaction = nil;
+}
+
+//==============================================================================================================================================
+#pragma mark - HANDLING ACTIVITY INDICATOR && PUSH VIEW CONTROLLER VIA DELEGATES
+//==============================================================================================================================================
+
+-(void)showAnimationForMsgInfo:(BOOL)flag
+{
+    [self startActivityAnimation:flag];
+}
+
+-(void)showAnimation:(BOOL)flag
+{
+    [self startActivityAnimation:flag];
+}
+
+-(void)startActivityAnimation:(BOOL)flag
+{
+    if([ALDataNetworkConnection checkDataNetworkAvailable] && flag)
+    {
+        [self.mActivityIndicator startAnimating];
+    }
+    else
+    {
+         [self.mActivityIndicator stopAnimating];
+    }
+}
+
+-(void)showVideoFullScreen:(MPMoviePlayerViewController *)fullView
 {
     [self presentMoviePlayerViewControllerAnimated: fullView];
 }
@@ -3081,69 +3282,26 @@ ALMessageDBService  * dbService;
     [self.navigationController pushViewController:launch animated:YES];
 }
 
--(void)showSuggestionView:(NSURL *)fileURL andFrame:(CGRect)frame
-{
-//    NSLog(@"CALL_GESTURE_SELECTOR_TO_DELEGATE_&_FILE_URL : %@", fileURL);
-    interaction = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
-    interaction.delegate = self;
-    
-    // IF OPENING IN SAME VIEW
-//   BOOL selfFlag = [interaction presentPreviewAnimated:YES];
-    
-    //IF NEED SUGGESTION MENU : IT WILL RUN ON DEVICE ONLY
-   BOOL viewFlag = [interaction presentOpenInMenuFromRect:frame inView:self.view animated:YES];
-
-}
-
--(UIViewController *) documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller
-{
-    return self;
-}
-
--(void)documentInteractionControllerDidEndPreview:(UIDocumentInteractionController *)controller
-{
-    interaction = nil;
-}
-
--(void)showAnimationForMsgInfo:(BOOL)flag
-{
-    [self startActivityAnimation:flag];
-}
-
--(void)showAnimation:(BOOL)flag
-{
-    [self startActivityAnimation:flag];
-}
-
--(void)startActivityAnimation:(BOOL)flag
-{
-    if([ALDataNetworkConnection checkDataNetworkAvailable] && flag){
-        [self.mActivityIndicator startAnimating];
-    }
-    else
-    {
-         [self.mActivityIndicator stopAnimating];
-    }
-}
-
-// CHAT CELL DELEGATE CALLED BY TAP GESTURE
+//==============================================================================================================================================
+#pragma mark - CHAT CELL DELEGATE CALLED BY TAP GESTURE
+//==============================================================================================================================================
 
 -(void)processALMessage:(ALMessage *)message
 {
     [self.chatViewDelegate handleCustomActionFromChatVC:self andWithMessage:message];
 }
+//==============================================================================================================================================
+#pragma mark - MEDIA BASE CELL DELEGATE CALLED BY TAP GESTURE
+//==============================================================================================================================================
 
-// MEDIA BASE CELL DELEGATE CALLED BY TAP GESTURE
 -(void) processTapGesture:(ALMessage *)alMessage
 {
     [self.chatViewDelegate handleCustomActionFromChatVC:self andWithMessage:alMessage];
 }
 
--(void)makeCallContact
-{   
-     NSURL * phoneNumber = [NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", self.alContact.contactNumber]];
-    [[UIApplication sharedApplication] openURL:phoneNumber];
-}
+//==============================================================================================================================================
+#pragma mark - RECEIVER USER INFOMATION HANDLER
+//==============================================================================================================================================
 
 -(void)getUserInformation
 {
@@ -3160,9 +3318,12 @@ ALMessageDBService  * dbService;
     [self.navigationController pushViewController:receiverUserProfileVC animated:YES];
 }
 
+//==============================================================================================================================================
+#pragma mark - TAP GESTURE TO RESIGN KEYBOARD WHEN TABLE HAVE LIMITED MESSAGES
+//==============================================================================================================================================
+
 -(void)hideKeyBoardOnEmptyList
 {
-    
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                            action:@selector(handleTapGestureForKeyBoard)];
     

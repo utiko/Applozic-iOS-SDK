@@ -16,7 +16,6 @@ FOUNDATION_EXPORT const unsigned char ApplozicVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import "PublicHeader.h"
 
-
 #import "ALRegisterUserClientService.h"
 #import "ALContact.h"
 #import "ALRegistrationResponse.h"
@@ -66,7 +65,6 @@ FOUNDATION_EXPORT const unsigned char ApplozicVersionString[];
 #import "ALContactsResponse.h"
 #import "ALContactService.h"
 #import "ALUserService.h"
-
 #import "ALChannelInfo.h"
 #import "ALCollectionReusableView.h"
 #import "ALContactMessageCell.h"
@@ -93,5 +91,11 @@ FOUNDATION_EXPORT const unsigned char ApplozicVersionString[];
 #import "TSBlurView.h"
 #import "TSMessage.h"
 #import "TSMessageView.h"
+#import "TSBlurView.h"
+#import "NSString+Encode.h"
+#import "MQTTSessionManager.h"
+#import "MQTTEncoder.h"
+#import "MQTTDecoder.h"
+#import "HexColors.h"
 
 

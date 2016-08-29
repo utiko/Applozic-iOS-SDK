@@ -28,14 +28,13 @@
         theUrl = [NSURL URLWithString:urlString];
     
     }
-    //NSLog(@"the url,%@", theUrl);
+    //NSLog(@"GET_URL :: %@", theUrl);    
     [theRequest setURL:theUrl];
-    
     [theRequest setTimeoutInterval:600];
-    
     [theRequest setHTTPMethod:@"GET"];
     
-    [ self addGlobalHeader:theRequest ];
+    [self addGlobalHeader:theRequest];
+    
     return theRequest;
 }
 
@@ -57,8 +56,8 @@
         [theRequest setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[thePostData length]] forHTTPHeaderField:@"Content-Length"];
         
     }
-    [ self addGlobalHeader:theRequest ];
-       return theRequest;
+    [self addGlobalHeader:theRequest];
+    return theRequest;
     
 }
 

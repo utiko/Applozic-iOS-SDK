@@ -28,8 +28,7 @@
 @property(strong,nonatomic) NSString * contactId;
 @property(strong,nonatomic) NSMutableDictionary* dict2;
 
--(void)thirdPartyNotificationTap:(UIGestureRecognizer*)gestureRecognizer;
--(void)thirdPartyNotificationTap1:(NSString *) contactId withGroupId:(NSNumber*) groupID;
+-(void)thirdPartyNotificationTap1:(NSString *)contactId withGroupId:(NSNumber*) groupID;
 
 -(void)proactivelyConnectMQTT;
 -(void)proactivelyDisconnectMQTT;
