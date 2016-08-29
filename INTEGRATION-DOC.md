@@ -38,56 +38,38 @@ Download ALChatManager.h and ALChatManager.m file and add to your project.
 
 [**ALChatManager.m**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sample-with-framework/applozicdemo/ALChatManager.m)  
 
-Change value of applicationID in ALChatManager.h with the [Applozic Application Key](https://www.applozic.com/docs/ios-chat-sdk.html#first-level), fill your logged-in user detail and you are ready to launch your chat from your controller.
+Change value of applicationID in ALChatManager.h with the [Applozic Application Key](https://www.applozic.com/docs/ios-chat-sdk.html#first-level). 
 
 
 ii) Login/Register User:
 
-Convenient methods are present in ALChatManager.m to register user with applozic. For simple user registration in background, you can use below method:
+Create applozic user and add details to applozic user object.
+```
+  ALUser *alUser = [[ALUser alloc] init];
+  [alUser setUserId:@"testUser"]; //NOTE : +,*,? are not allowed chars in userId.
+  [alUser setDisplayName:@"Applozic Test"]; // Display name of user 
+  [alUser setContactNumber:@""];// formatted contact no
+  [alUser setimageLink:@"user_profile_image_link"];// User's profile image link.
+```
+Convenient methods are present in ALChatManager.m to register user with applozic. You can Register user to applozic server by using below method from AlChatManager.h. 
 
 ```
-  ALUser *user = [[ALUser alloc] init];
-  [user setUserId:@"testUser"]; //NOTE : +,*,? are not allowed chars in userId.
-  [user setDisplayName:@"Applozic Test"]; // Display name of user 
-  [user setContactNumber:@""];// formatted contact no
-  [user setimageLink:@"user_profile_image_link"];// User's profile image link.
+    ALChatManager * chatManager = [[ALChatManager alloc] init];
+    [chatManager registerUser:aluser]; 
 ```
-
-```
- -(void)registerUser:(ALUser *)alUser;
-
-```
-For performing some action just after user registration, ue the below method:
-
-```
--(void)registerUserWithCompletion:(ALUser *)alUser withHandler:(void(^)(ALRegistrationResponse *rResponse, NSError *error))completion
-```
-For example, if your very first screen of app is chat screen, you can launch chatlist on success of registration. 
-
-
 
 ####Step 3: Initiate Chat
 
 1) Launch chat list screen:
 
 ```
--(void)launchChat: (UIViewController *)fromViewController; //Use this method to launch chat list
-   
-   //Example: 
-    ALChatManager * chatManager = [[ALChatManager alloc] init];
     [chatManager launchChat:<Your Controller>];
 ```
 
 2) Launch chat with specific user:
 
 ```
-// Individual chat list launch for group or user with display name
-
--(void)launchChatForUserWithDisplayName:(NSString * )userId withGroupId:(NSNumber*)groupID andwithDisplayName:(NSString*)displayName andFromViewController:(UIViewController*)fromViewController;
-
-//Example:
   NSString * userIdOfReceiver =  @"receiverUserId";
-  ALChatManager * chatManager = [[ALChatManager alloc] init];
   [chatManager launchChatForUserWithDisplayName:userIdOfReceiver 
   withGroupId:nil  //If launched for group, pass groupId(pass userId as nil)
   andwithDisplayName:nil //Not mendatory, if receiver is not already registered you should pass Displayname.
