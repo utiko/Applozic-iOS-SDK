@@ -256,7 +256,7 @@ Download ALChatManager.swift and add to your project.
 
 [**ALChatManager.swift**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sampleapp-swift/sampleapp-swift/ALChatManager.swift)  
 
-ii) Add New cocoa class “NSObject+ApplozicBridge” in objective-c. On adding it will ask “would you like to create bridging header” say “yes” and in bridging file paste this code
+ii) Add New cocoa class NSObject+ApplozicBridge in objective-c. On adding it will ask “would you like to create bridging header” say “yes” and in bridging file paste this code
 
 ```
 #import "Applozic/ALMessage.h"
