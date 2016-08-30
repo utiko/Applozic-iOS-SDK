@@ -59,9 +59,9 @@ Features:
 
 **Create your Application**
 
-a )  [**Sign up**](https://www.applozic.com/signup.html?utm_source=ios&utm_medium=github) with applozic to get your application key.
+a) [**Sign up**](https://www.applozic.com/signup.html?utm_source=ios&utm_medium=github) with applozic to get your application key.
 
-b ) Once you signed up create your Application with required details on admin dashboard. Upload your push-notification certificate to our portal to enable real time notification.         
+b) Once you signed up create your Application with required details on admin dashboard. Upload your push-notification certificate to our portal to enable real time notification.         
 
 
 
@@ -83,7 +83,7 @@ c) Once you create your application you can see your application key listed on a
 
 **Installing the iOS SDK** 
 
-**ADD APPLOZIC FRAMEWORK **
+**ADD APPLOZIC FRAMEWORK**
 Clone or download the SDK (https://github.com/AppLozic/Applozic-iOS-SDK)
 Get the latest framework "Applozic.framework" from Applozic github repo [**sample project**](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp)
 
@@ -126,9 +126,9 @@ Launch your chat
 Detail about user creation and registraion:
 
 
-**PUSH NOTIFICATION REGISTRATION AND HANDLING **
+**PUSH NOTIFICATION REGISTRATION AND HANDLING**
 
-**a ) Send device token to applozic server:**
+**a) Send device token to applozic server:**
 
 In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **method  send device registration to applozic server after you get deviceToken from APNS. Sample code is as below:             
 
