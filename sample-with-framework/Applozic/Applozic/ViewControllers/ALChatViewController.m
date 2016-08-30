@@ -885,7 +885,7 @@
 -(void)refreshTable:(id)sender
 {
     [self.sendMessageTextView resignFirstResponder];
-    [self.view makeToast:@"Syncing messages with the server,\n it might take few mins!"
+    [self.view makeToast:@"Loading messages.\nIt might take a few seconds."
                 duration:1.0
                 position:CSToastPositionBottom
                    title:nil];

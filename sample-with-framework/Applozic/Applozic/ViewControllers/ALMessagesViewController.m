@@ -292,7 +292,7 @@
 
 -(void)refreshMessageList
 {
-    NSString * toastMsg = @"Syncing messages with the server,\n it might take few mins!";
+    NSString * toastMsg = @"Loading messages.\nIt might take a few seconds.";
     [self.view makeToast:toastMsg duration:1.0 position:CSToastPositionBottom title:nil];
     
     [ALMessageService getLatestMessageForUser:[ALUserDefaultsHandler getDeviceKeyString] withCompletion:^(NSMutableArray  * messageList, NSError *error) {
