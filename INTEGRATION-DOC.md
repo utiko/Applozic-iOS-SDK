@@ -98,7 +98,7 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
     NSLog(@"apnDeviceToken: %@", hexToken);                  
  
    //TO AVOID Multiple call to server check if previous apns token is same as recent one, 
-   if different call applozic server.           
+   If its different then call Applozic server.          
 
     if (![[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken])              
     {                         
