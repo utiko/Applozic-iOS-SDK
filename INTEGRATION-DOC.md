@@ -98,7 +98,7 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
     NSLog(@"apnDeviceToken: %@", hexToken);                  
  
    //TO AVOID Multiple call to server check if previous apns token is same as recent one, 
-   if different call app lozic server.           
+   if different call applozic server.           
 
     if (![[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken])              
     {                         
@@ -122,52 +122,54 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
 
 Once your app receive notification, pass it to Applozic handler for chat notification processing.             
 
-  ```
-  - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary         
-  {            
-   NSLog(@"Received notification: %@", dictionary);           
+```
+
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
    
-   ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];        
-   BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:
-   [[UIApplication sharedApplication]     applicationState] == UIApplicationStateActive];             
-  
-    //IF not a appplozic notification, process it            
-  
-    if (!applozicProcessed)            
-      {                
-         //Note: notification for app          
-    } 
-  }                                                           
+    NSLog(@"Received notification Completion: %@", userInfo);
+    ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
+    [pushNotificationService notificationArrivedToApplication:application withDictionary:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
+    
+}
+
 ```
 
 
 #####c) Handling app launch on notification click :          
 
 ```
- - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions    
-  {                     
-  
-   // Register for Applozic notification tap actions and network change notifications
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+    
+    // checks wheather app version is updated/changed then makes server call setting VERSION_CODE
+    [ALRegisterUserClientService isAppUpdated];
+    
+    // Register for Applozic notification tap actions and network change notifications
     ALAppLocalNotifications *localNotification = [ALAppLocalNotifications appLocalNotificationHandler];
     [localNotification dataConnectionNotificationHandler];
     
-
-  // Override point for customization after application launch.                              
-  NSLog(@"launchOptions: %@", launchOptions);                  
-  if (launchOptions != nil)               
-  {             
-  NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];         
-  if (dictionary != nil)             
-    {          
-      NSLog(@"Launched from push notification: %@", dictionary);        
-      ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];            
-      BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:NO];               
-  if (!applozicProcessed)                 
-     {            
-       //Note: notification for app              
-     } } }                                   
-      return YES;                 
-  }                             
+    // Override point for customization after application launch.
+    NSLog(@"launchOptions: %@", launchOptions);
+    if (launchOptions != nil)
+    {
+        NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (dictionary != nil)
+        {
+            NSLog(@"Launched from push notification: %@", dictionary);
+            ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
+            BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:[NSNumber numberWithInt:APP_STATE_INACTIVE]];
+            
+            //IF not a appplozic notification, process it
+            if (!applozicProcessed)
+            {
+                //Note: notification for app
+            }
+        }
+    }
+    return YES;
+}
 
 ```
 
@@ -344,7 +346,7 @@ func application(application: UIApplication,  didReceiveRemoteNotification userI
 
     //IF not a appplozic notification, process it
 
-    if (applozicProcessed) {
+    if (!applozicProcessed) {
 
         //Note: notification for app
     }
