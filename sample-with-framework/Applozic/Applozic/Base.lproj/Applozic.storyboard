@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nQk-LM-enC">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -34,7 +34,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="groupCell" rowHeight="50" id="IGO-Q9-WQK">
-                                        <rect key="frame" x="0.0" y="86" width="600" height="50"/>
+                                        <rect key="frame" x="0.0" y="22" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IGO-Q9-WQK" id="L3w-n8-49r">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="49"/>
@@ -59,7 +59,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ContactCell" rowHeight="82" id="nkO-yU-f6Y" customClass="ALContactCell">
-                                        <rect key="frame" x="0.0" y="136" width="600" height="82"/>
+                                        <rect key="frame" x="0.0" y="72" width="600" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nkO-yU-f6Y" id="jVl-2p-Q74">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="81"/>
@@ -1559,12 +1559,6 @@ Upload Image Button.centerX = scd_profile_BG.centerX + 50</string>
                                                     <color key="backgroundColor" red="0.2156862745" green="0.48627450979999998" blue="0.67843137249999996" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="tintColor" red="0.2156862745" green="0.48627450979999998" blue="0.67843137249999996" alpha="1" colorSpace="calibratedRGB"/>
                                                 </imageView>
-                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="SLW-CD-9bn">
-                                                    <rect key="frame" x="292" y="21" width="20" height="20"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="XWm-gr-XTu"/>
-                                                    </constraints>
-                                                </activityIndicatorView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f40-bQ-ijb">
                                                     <rect key="frame" x="560" y="9" width="18" height="22"/>
                                                     <state key="normal" image="applozic_edit">
@@ -1580,24 +1574,27 @@ Upload Image Button.centerX = scd_profile_BG.centerX + 50</string>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="SLW-CD-9bn">
+                                                    <rect key="frame" x="290" y="30" width="20" height="20"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="leading" secondItem="Tfg-C1-Gou" secondAttribute="leading" id="0d2-yD-uFh"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="7Mg-Hk-red" secondAttribute="bottom" constant="52" id="8Py-2C-65s"/>
-                                                <constraint firstItem="SLW-CD-9bn" firstAttribute="leading" secondItem="T6T-dd-toY" secondAttribute="leading" constant="292" id="GrJ-uB-LQx"/>
-                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="leading" secondItem="7Mg-Hk-red" secondAttribute="trailing" constant="20" id="HfH-dI-xuj"/>
-                                                <constraint firstItem="f40-bQ-ijb" firstAttribute="top" secondItem="T6T-dd-toY" secondAttribute="topMargin" constant="1" id="Iia-9v-OvE"/>
-                                                <constraint firstItem="Tfg-C1-Gou" firstAttribute="top" secondItem="SLW-CD-9bn" secondAttribute="bottom" constant="6" id="KI3-pV-3uG"/>
-                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="top" secondItem="T6T-dd-toY" secondAttribute="topMargin" id="TcA-zS-MlQ"/>
-                                                <constraint firstItem="Tfg-C1-Gou" firstAttribute="leading" secondItem="T6T-dd-toY" secondAttribute="leadingMargin" constant="44" id="Uwf-lw-OBv"/>
-                                                <constraint firstItem="Tfg-C1-Gou" firstAttribute="top" secondItem="uPH-8k-6t7" secondAttribute="bottom" constant="17" id="VYT-dd-TRG"/>
-                                                <constraint firstItem="7Mg-Hk-red" firstAttribute="leading" secondItem="T6T-dd-toY" secondAttribute="leadingMargin" constant="19" id="a7v-ae-PKI"/>
-                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="centerX" secondItem="T6T-dd-toY" secondAttribute="centerX" id="bAa-ub-LMi"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Tfg-C1-Gou" secondAttribute="trailing" constant="70" id="bZa-gp-syu"/>
-                                                <constraint firstItem="Tfg-C1-Gou" firstAttribute="bottom" secondItem="T6T-dd-toY" secondAttribute="bottomMargin" id="dVX-8p-pBc"/>
-                                                <constraint firstItem="SLW-CD-9bn" firstAttribute="top" secondItem="T6T-dd-toY" secondAttribute="topMargin" constant="13" id="i7M-q6-0m1"/>
-                                                <constraint firstItem="f40-bQ-ijb" firstAttribute="leading" secondItem="uPH-8k-6t7" secondAttribute="trailing" constant="12" id="lz9-YV-DUW"/>
-                                                <constraint firstItem="7Mg-Hk-red" firstAttribute="top" secondItem="T6T-dd-toY" secondAttribute="topMargin" constant="6" id="pQY-tt-ybZ"/>
+                                                <constraint firstItem="7Mg-Hk-red" firstAttribute="leading" secondItem="T6T-dd-toY" secondAttribute="leadingMargin" constant="19" id="7KZ-Kh-BtW"/>
+                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="centerX" secondItem="SLW-CD-9bn" secondAttribute="centerX" id="8Bc-gG-0TJ"/>
+                                                <constraint firstItem="7Mg-Hk-red" firstAttribute="top" secondItem="T6T-dd-toY" secondAttribute="topMargin" constant="6" id="9M7-Gi-2Tn"/>
+                                                <constraint firstItem="f40-bQ-ijb" firstAttribute="top" secondItem="T6T-dd-toY" secondAttribute="topMargin" constant="1" id="FLA-Ac-jNK"/>
+                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="leading" secondItem="Tfg-C1-Gou" secondAttribute="leading" id="Fit-0Y-6JL"/>
+                                                <constraint firstItem="f40-bQ-ijb" firstAttribute="leading" secondItem="uPH-8k-6t7" secondAttribute="trailing" constant="12" id="PeG-oL-EHG"/>
+                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="leading" secondItem="7Mg-Hk-red" secondAttribute="trailing" constant="20" id="SkE-QZ-AAd"/>
+                                                <constraint firstItem="Tfg-C1-Gou" firstAttribute="leading" secondItem="T6T-dd-toY" secondAttribute="leadingMargin" constant="44" id="VNU-ck-Ffd"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Tfg-C1-Gou" secondAttribute="trailing" constant="70" id="WZB-oA-5cf"/>
+                                                <constraint firstItem="SLW-CD-9bn" firstAttribute="centerY" secondItem="T6T-dd-toY" secondAttribute="centerY" id="akx-nn-rUz"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="7Mg-Hk-red" secondAttribute="bottom" constant="52" id="ara-8F-fa5"/>
+                                                <constraint firstItem="SLW-CD-9bn" firstAttribute="top" secondItem="uPH-8k-6t7" secondAttribute="bottom" id="bqq-1l-6zH"/>
+                                                <constraint firstItem="Tfg-C1-Gou" firstAttribute="top" secondItem="uPH-8k-6t7" secondAttribute="bottom" constant="17" id="ixf-a4-Gfn"/>
+                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="top" secondItem="T6T-dd-toY" secondAttribute="topMargin" id="kdl-Qc-Cjq"/>
+                                                <constraint firstItem="Tfg-C1-Gou" firstAttribute="bottom" secondItem="T6T-dd-toY" secondAttribute="bottomMargin" id="yLd-NI-cRU"/>
+                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="centerX" secondItem="T6T-dd-toY" secondAttribute="centerX" id="zZk-jo-EM1"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
