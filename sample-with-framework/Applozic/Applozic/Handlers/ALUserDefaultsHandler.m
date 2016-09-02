@@ -612,4 +612,15 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
++(NSString *)getEncryptionKey
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:USER_ENCRYPTION_KEY];
+}
+
++(void)setEncryptionKey:(NSString *)encrptionKey
+{
+    [[NSUserDefaults standardUserDefaults] setValue:encrptionKey forKey:USER_ENCRYPTION_KEY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 @end

@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mActivityIndicator;
+- (IBAction)launchTabBar:(id)sender;
 
 @end
 
@@ -171,7 +172,7 @@
     [ALUserDefaultsHandler setPassword:user.password];
     [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
     
-     ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
+    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
     [chatManager registerUser:user];
     
     UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Main"
@@ -200,6 +201,52 @@
     return true;
 }
 
-- (IBAction)getstarted:(id)sender {
+//==================================================================================
+// LAUNCH VIA TAB BAR (USING CONTAINER VIEW)
+//==================================================================================
+
+- (IBAction)launchTabBar:(id)sender
+{
+    
+    if (!self.userIdField.text.length || !self.passwordField.text.length)
+    {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Error"
+                                                           message:@"UserId/Password can't be blank"
+                                                          delegate:self
+                                                 cancelButtonTitle:nil
+                                                 otherButtonTitles:@"Ok", nil];
+        [alertView show];
+        return;
+    }
+    
+    ALUser * user = [[ALUser alloc] init];
+    [user setUserId:[self.userIdField text]];
+    [user setEmail:[self.emailField text]];
+    [user setPassword:[self.passwordField text]];
+    
+    [self.mActivityIndicator startAnimating];
+    
+    [ALUserDefaultsHandler setUserId:user.userId];
+    [ALUserDefaultsHandler setEmailId:user.email];
+    [ALUserDefaultsHandler setPassword:user.password];
+    [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)APPLOZIC];
+    
+    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
+    [chatManager registerUserWithCompletion:user withHandler:^(ALRegistrationResponse *rResponse, NSError *error) {
+        
+        [self launchChatListViaTabBar];
+    }];
 }
+
+-(void)launchChatListViaTabBar
+{
+    UIStoryboard *storyboardM = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    //    UITabBarController *tabBar = [storyboardM instantiateViewControllerWithIdentifier:@"ALTabBarController"];
+    //    UINavigationController *navBar = [tabBar.viewControllers objectAtIndex:0];
+    //    UIViewController *launchChat = [navBar.viewControllers objectAtIndex:0];
+    
+    UIViewController *launchChatViaTabBar = [storyboardM instantiateViewControllerWithIdentifier:@"ALTabBarController"];
+    [self presentViewController:launchChatViaTabBar animated:YES completion:nil];
+}
+
 @end

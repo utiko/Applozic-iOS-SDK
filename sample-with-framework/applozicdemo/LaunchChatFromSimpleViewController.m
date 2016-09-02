@@ -54,6 +54,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newMessageHandler) name:NEW_MESSAGE_NOTIFICATION  object:nil];
     [self newMessageHandler];
+
 }
 
 //ADD THIS METHOD :

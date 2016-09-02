@@ -48,6 +48,7 @@
 #define LOGIN_USER_PROFILE_IMAGE_SERVER @"com.applozic.userdefault.LOGIN_USER_PROFILE_IMAGE_SERVER"
 #define LOGGEDIN_USER_STATUS @"com.applozic.userdefault.LOGGEDIN_USER_STATUS"
 #define LOGIN_USER_SUBSCRIBED_MQTT @"com.applozic.userdefault.LOGIN_USER_SUBSCRIBED_MQTT"
+#define USER_ENCRYPTION_KEY @"com.applozic.userdefault.USER_ENCRYPTION_KEY"
 
 #define KEY_PREFIX @"com.applozic.userdefault"
 
@@ -212,5 +213,8 @@
 
 +(BOOL)isUserLoggedInUserSubscribedMQTT;
 +(void)setLoggedInUserSubscribedMQTT:(BOOL)flag;
+
++(NSString *)getEncryptionKey;
++(void)setEncryptionKey:(NSString *)encrptionKey;
 
 @end

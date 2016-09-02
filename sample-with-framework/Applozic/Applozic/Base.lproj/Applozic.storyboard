@@ -25,16 +25,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dlR-eX-vMZ">
-                                <rect key="frame" x="290" y="290" width="20" height="20"/>
-                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="82" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="S0P-A8-QJi">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="groupCell" rowHeight="50" id="IGO-Q9-WQK">
-                                        <rect key="frame" x="0.0" y="22" width="600" height="50"/>
+                                        <rect key="frame" x="0.0" y="86" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IGO-Q9-WQK" id="L3w-n8-49r">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="49"/>
@@ -59,7 +55,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ContactCell" rowHeight="82" id="nkO-yU-f6Y" customClass="ALContactCell">
-                                        <rect key="frame" x="0.0" y="72" width="600" height="82"/>
+                                        <rect key="frame" x="0.0" y="136" width="600" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nkO-yU-f6Y" id="jVl-2p-Q74">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="81"/>
@@ -195,6 +191,10 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="CCm-Wn-Trg"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dlR-eX-vMZ">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="S0P-A8-QJi" secondAttribute="bottom" id="5R7-vI-i0G"/>
@@ -1579,22 +1579,22 @@ Upload Image Button.centerX = scd_profile_BG.centerX + 50</string>
                                                 </activityIndicatorView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="7Mg-Hk-red" firstAttribute="leading" secondItem="T6T-dd-toY" secondAttribute="leadingMargin" constant="19" id="7KZ-Kh-BtW"/>
-                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="centerX" secondItem="SLW-CD-9bn" secondAttribute="centerX" id="8Bc-gG-0TJ"/>
-                                                <constraint firstItem="7Mg-Hk-red" firstAttribute="top" secondItem="T6T-dd-toY" secondAttribute="topMargin" constant="6" id="9M7-Gi-2Tn"/>
-                                                <constraint firstItem="f40-bQ-ijb" firstAttribute="top" secondItem="T6T-dd-toY" secondAttribute="topMargin" constant="1" id="FLA-Ac-jNK"/>
-                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="leading" secondItem="Tfg-C1-Gou" secondAttribute="leading" id="Fit-0Y-6JL"/>
-                                                <constraint firstItem="f40-bQ-ijb" firstAttribute="leading" secondItem="uPH-8k-6t7" secondAttribute="trailing" constant="12" id="PeG-oL-EHG"/>
-                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="leading" secondItem="7Mg-Hk-red" secondAttribute="trailing" constant="20" id="SkE-QZ-AAd"/>
-                                                <constraint firstItem="Tfg-C1-Gou" firstAttribute="leading" secondItem="T6T-dd-toY" secondAttribute="leadingMargin" constant="44" id="VNU-ck-Ffd"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Tfg-C1-Gou" secondAttribute="trailing" constant="70" id="WZB-oA-5cf"/>
-                                                <constraint firstItem="SLW-CD-9bn" firstAttribute="centerY" secondItem="T6T-dd-toY" secondAttribute="centerY" id="akx-nn-rUz"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="7Mg-Hk-red" secondAttribute="bottom" constant="52" id="ara-8F-fa5"/>
-                                                <constraint firstItem="SLW-CD-9bn" firstAttribute="top" secondItem="uPH-8k-6t7" secondAttribute="bottom" id="bqq-1l-6zH"/>
-                                                <constraint firstItem="Tfg-C1-Gou" firstAttribute="top" secondItem="uPH-8k-6t7" secondAttribute="bottom" constant="17" id="ixf-a4-Gfn"/>
-                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="top" secondItem="T6T-dd-toY" secondAttribute="topMargin" id="kdl-Qc-Cjq"/>
-                                                <constraint firstItem="Tfg-C1-Gou" firstAttribute="bottom" secondItem="T6T-dd-toY" secondAttribute="bottomMargin" id="yLd-NI-cRU"/>
-                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="centerX" secondItem="T6T-dd-toY" secondAttribute="centerX" id="zZk-jo-EM1"/>
+                                                <constraint firstItem="SLW-CD-9bn" firstAttribute="top" secondItem="uPH-8k-6t7" secondAttribute="bottom" id="3fe-Tg-CXF"/>
+                                                <constraint firstItem="Tfg-C1-Gou" firstAttribute="top" secondItem="uPH-8k-6t7" secondAttribute="bottom" constant="17" id="8Fp-F5-bB4"/>
+                                                <constraint firstItem="f40-bQ-ijb" firstAttribute="leading" secondItem="uPH-8k-6t7" secondAttribute="trailing" constant="12" id="BRx-75-gYp"/>
+                                                <constraint firstItem="Tfg-C1-Gou" firstAttribute="leading" secondItem="T6T-dd-toY" secondAttribute="leadingMargin" constant="44" id="FMe-rT-RJU"/>
+                                                <constraint firstItem="SLW-CD-9bn" firstAttribute="centerY" secondItem="T6T-dd-toY" secondAttribute="centerY" id="MAE-AS-OKU"/>
+                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="top" secondItem="T6T-dd-toY" secondAttribute="topMargin" id="OeO-W2-Usb"/>
+                                                <constraint firstItem="Tfg-C1-Gou" firstAttribute="bottom" secondItem="T6T-dd-toY" secondAttribute="bottomMargin" id="T3x-W2-ctj"/>
+                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="leading" secondItem="7Mg-Hk-red" secondAttribute="trailing" constant="20" id="U0s-0Y-irl"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="7Mg-Hk-red" secondAttribute="bottom" constant="52" id="XQt-9Q-tXf"/>
+                                                <constraint firstItem="7Mg-Hk-red" firstAttribute="leading" secondItem="T6T-dd-toY" secondAttribute="leadingMargin" constant="19" id="YaB-qs-aDG"/>
+                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="centerX" secondItem="SLW-CD-9bn" secondAttribute="centerX" id="dmR-Om-GL5"/>
+                                                <constraint firstItem="f40-bQ-ijb" firstAttribute="top" secondItem="T6T-dd-toY" secondAttribute="topMargin" constant="1" id="hcg-08-zyx"/>
+                                                <constraint firstItem="7Mg-Hk-red" firstAttribute="top" secondItem="T6T-dd-toY" secondAttribute="topMargin" constant="6" id="lNK-iz-xE9"/>
+                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="centerX" secondItem="T6T-dd-toY" secondAttribute="centerX" id="mri-bv-Bhm"/>
+                                                <constraint firstItem="uPH-8k-6t7" firstAttribute="leading" secondItem="Tfg-C1-Gou" secondAttribute="leading" id="sVS-t4-K2D"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Tfg-C1-Gou" secondAttribute="trailing" constant="70" id="tIm-xf-jk9"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1704,8 +1704,34 @@ Upload Image Button.centerX = scd_profile_BG.centerX + 50</string>
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0xS-bv-Pt0">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="600" id="3GZ-cb-Z1l"/>
+                                    <constraint firstAttribute="height" constant="44" id="mPa-Ur-ExN"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="KVX-Au-AXN"/>
+                                    <barButtonItem systemItem="action" id="xI9-Sn-E0s">
+                                        <connections>
+                                            <action selector="shareToolBarButton:" destination="Ahq-qZ-4oW" id="FKt-Qe-iEY"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kdb-Qh-QnJ">
+                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="600" id="Dq1-MX-Xun"/>
+                                    <constraint firstAttribute="height" constant="492" id="VcQ-Y0-aK1"/>
+                                </constraints>
+                            </imageView>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hP-XV-XAh">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="7nY-0o-tqu"/>
+                                    <constraint firstAttribute="width" constant="600" id="ocg-YN-F3s"/>
+                                </constraints>
                                 <items>
                                     <navigationItem id="YHG-X5-o4Z">
                                         <barButtonItem key="leftBarButtonItem" title="Back" id="acE-XA-BOH">
@@ -1716,30 +1742,24 @@ Upload Image Button.centerX = scd_profile_BG.centerX + 50</string>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0xS-bv-Pt0">
-                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="KVX-Au-AXN"/>
-                                    <barButtonItem systemItem="action" id="xI9-Sn-E0s">
-                                        <connections>
-                                            <action selector="shareToolBarButton:" destination="Ahq-qZ-4oW" id="FKt-Qe-iEY"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="0xS-bv-Pt0" firstAttribute="top" secondItem="kdb-Qh-QnJ" secondAttribute="bottom" id="Mfb-RO-FE2"/>
+                            <constraint firstItem="7hP-XV-XAh" firstAttribute="bottom" secondItem="kdb-Qh-QnJ" secondAttribute="top" id="Ogc-5O-qe3"/>
                             <constraint firstItem="0xS-bv-Pt0" firstAttribute="trailing" secondItem="7hP-XV-XAh" secondAttribute="trailing" id="WCc-wV-1vp"/>
+                            <constraint firstItem="kdb-Qh-QnJ" firstAttribute="trailing" secondItem="7hP-XV-XAh" secondAttribute="trailing" id="YJb-hx-EhJ"/>
                             <constraint firstItem="0xS-bv-Pt0" firstAttribute="bottom" secondItem="tAb-CJ-iIc" secondAttribute="top" id="fGH-EV-6fA"/>
                             <constraint firstItem="7hP-XV-XAh" firstAttribute="top" secondItem="Pj8-GV-oaw" secondAttribute="top" constant="20" id="mDg-06-LOK"/>
                             <constraint firstItem="0xS-bv-Pt0" firstAttribute="leading" secondItem="7hP-XV-XAh" secondAttribute="leading" id="v8q-S7-A8E"/>
+                            <constraint firstItem="kdb-Qh-QnJ" firstAttribute="leading" secondItem="7hP-XV-XAh" secondAttribute="leading" id="wcb-2I-dPE"/>
                             <constraint firstAttribute="trailing" secondItem="0xS-bv-Pt0" secondAttribute="trailing" id="xKa-Mb-xXS"/>
                             <constraint firstItem="0xS-bv-Pt0" firstAttribute="leading" secondItem="Pj8-GV-oaw" secondAttribute="leading" id="zid-AB-Pgd"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="backBarButton" destination="acE-XA-BOH" id="33w-qy-80K"/>
+                        <outlet property="imageView" destination="kdb-Qh-QnJ" id="a7Z-jt-4Xw"/>
                         <outlet property="navigationBar" destination="7hP-XV-XAh" id="6fA-Xk-lee"/>
                         <outlet property="shareToolBarButton" destination="xI9-Sn-E0s" id="CaQ-XD-fT2"/>
                         <outlet property="toolBar" destination="0xS-bv-Pt0" id="Zp8-iL-CzE"/>

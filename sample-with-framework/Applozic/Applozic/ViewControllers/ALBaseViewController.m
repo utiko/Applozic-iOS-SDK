@@ -94,7 +94,8 @@
 {
     
     UIBarButtonItem * barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton]];
-    UIBarButtonItem * refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshTable:)];
+    UIBarButtonItem * refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                                                                    target:self action:@selector(refreshTable:)];
     
     self.callButton = [[UIBarButtonItem alloc] initWithCustomView:[self customCallButtonView]];
     

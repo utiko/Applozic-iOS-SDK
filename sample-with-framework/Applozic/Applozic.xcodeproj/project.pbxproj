@@ -36,6 +36,8 @@
 		6D3A4E061C76ED6C0067A4C8 /* ALAudioAttachmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3A4E041C76ED6C0067A4C8 /* ALAudioAttachmentViewController.m */; };
 		6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D46B6C31BD025060014A5D3 /* ALMapViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D46B6C61BD025060014A5D3 /* ALMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D46B6C41BD025060014A5D3 /* ALMapViewController.m */; };
+		6D4FE48F1D7411F70044A7E6 /* NSData+AES.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D4FE48D1D7411F70044A7E6 /* NSData+AES.h */; };
+		6D4FE4901D7411F70044A7E6 /* NSData+AES.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4FE48E1D7411F70044A7E6 /* NSData+AES.m */; };
 		6D5439DC1C19B8D600C686BC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D5439DB1C19B8D600C686BC /* SystemConfiguration.framework */; };
 		6D6DF0811BC535C800EBA00F /* Applozic.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF0801BC535C800EBA00F /* Applozic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D6DF13B1BC5364C00EBA00F /* ALMessageDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF0891BC5364C00EBA00F /* ALMessageDBService.m */; };
@@ -365,6 +367,8 @@
 		6D3A4E041C76ED6C0067A4C8 /* ALAudioAttachmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALAudioAttachmentViewController.m; sourceTree = "<group>"; };
 		6D46B6C31BD025060014A5D3 /* ALMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMapViewController.h; sourceTree = "<group>"; };
 		6D46B6C41BD025060014A5D3 /* ALMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMapViewController.m; sourceTree = "<group>"; };
+		6D4FE48D1D7411F70044A7E6 /* NSData+AES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AES.h"; sourceTree = "<group>"; };
+		6D4FE48E1D7411F70044A7E6 /* NSData+AES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES.m"; sourceTree = "<group>"; };
 		6D5439DB1C19B8D600C686BC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6D6DF07D1BC535C800EBA00F /* Applozic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Applozic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D6DF0801BC535C800EBA00F /* Applozic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Applozic.h; sourceTree = "<group>"; };
@@ -815,7 +819,8 @@
 		6D6DF0A21BC5364C00EBA00F /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				29D6F8681D193D9000A75369 /* TEXT VIEW */,
+				6D4FE48D1D7411F70044A7E6 /* NSData+AES.h */,
+				6D4FE48E1D7411F70044A7E6 /* NSData+AES.m */,
 				29CBF2001C0303A700BE6A20 /* ALColorUtility.h */,
 				6D0877071D01B0F900DB491A /* UIView+Toast.h */,
 				29CBF2011C0303A700BE6A20 /* ALColorUtility.m */,
@@ -826,6 +831,7 @@
 				6D6DF0A61BC5364C00EBA00F /* UIImage+Utility.m */,
 				29C849A01CC932050042643C /* NSString+Encode.h */,
 				29C849A11CC932050042643C /* NSString+Encode.m */,
+				29D6F8681D193D9000A75369 /* TEXT VIEW */,
 			);
 			name = Utilities;
 			path = Applozic/Utilities;
@@ -1414,6 +1420,7 @@
 				29D6F86B1D193D9D00A75369 /* PSPDFTextView.h in Headers */,
 				6D7756ED1D5B82560025560B /* ALReachability.h in Headers */,
 				6D7756D71D5B82000025560B /* ALMessageInfoResponse.h in Headers */,
+				6D4FE48F1D7411F70044A7E6 /* NSData+AES.h in Headers */,
 				6D7756751D5B7F150025560B /* ALVCFClass.h in Headers */,
 				6D7756AB1D5B80DF0025560B /* ALChannelClientService.h in Headers */,
 				29CBF2021C0303A700BE6A20 /* ALColorUtility.h in Headers */,
@@ -1505,6 +1512,7 @@
 				TargetAttributes = {
 					6D6DF07C1BC535C800EBA00F = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = C25JNDCBM4;
 					};
 				};
 			};
@@ -1617,6 +1625,7 @@
 				6D7756BA1D5B80DF0025560B /* ALChannelUserX.m in Sources */,
 				6D6DF14D1BC5364C00EBA00F /* ALUserDefaultsHandler.m in Sources */,
 				293446161D4F426F007BD1B4 /* ALShowImageViewController.m in Sources */,
+				6D4FE4901D7411F70044A7E6 /* NSData+AES.m in Sources */,
 				6D6DF1C81BC5364C00EBA00F /* UIImage+GIF.m in Sources */,
 				6D7756761D5B7F150025560B /* ALVCFClass.m in Sources */,
 				6D36F2091BFF3EE3003D46D3 /* ALApplozicSettings.m in Sources */,
@@ -1859,8 +1868,8 @@
 		6D6DF0861BC535C800EBA00F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1886,8 +1895,8 @@
 		6D6DF0871BC535C800EBA00F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

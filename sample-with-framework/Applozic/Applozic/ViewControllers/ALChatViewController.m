@@ -237,6 +237,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unSubscrbingChannel)
                                                  name:@"APP_ENTER_IN_BACKGROUND" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageDeletedAPPLOZIC05Handler:)
+                                                 name:@"NOTIFY_MESSAGE_DELETED" object:nil];
     self.mqttObject = [ALMQTTConversationService sharedInstance];
     
     if(self.individualLaunch)
@@ -244,9 +246,9 @@
         NSLog(@"INDIVIDUAL_LAUNCH :: SUBSCRIBING_MQTT");
         self.mqttObject.mqttConversationDelegate = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            if(self.mqttObject)
+            if(self.mqttObject){
                 [self.mqttObject subscribeToConversation];
-            else
+            }else
                 NSLog(@"mqttObject is not found...");
         });
         
@@ -292,6 +294,39 @@
     [self subscrbingChannel];
 }
 
+-(void)messageDeletedAPPLOZIC05Handler:(NSNotification *)notification{
+
+    NSString * messageKey = notification.object;
+   
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"key=%@",messageKey];
+    NSArray *proccessfilterArray = [[self.alMessageWrapper getUpdatedMessageArray] filteredArrayUsingPredicate:predicate];
+    if(proccessfilterArray.count != 0)
+    {
+        ALMessage *msg = [proccessfilterArray objectAtIndex:0];
+        NSLog(@"Messsage 05:%@",msg.message);
+        msg.deleted = YES;
+        
+           [self deleteMessageFromView:msg]; // Removes message from U.I.
+        
+        [ALMessageService deleteMessage:messageKey andContactId:self.contactIds withCompletion:^(NSString * response, NSError * error) {
+            
+            NSLog(@"Message Deleted upon APPLOZIC_05",response);
+            
+        }];
+//        ALMessageDBService * almessageDBService = [[ALMessageDBService alloc] init];
+//        DB_Message *dbMessage = (DB_Message*)[almessageDBService getMessageByKey:@"key" value:messageKey];
+//        dbMessage.deletedFlag = [NSNumber numberWithBool:YES];
+//        NSError *error;
+//        if (![[dbMessage managedObjectContext] save:&error])
+//        {
+//            NSLog(@"Delete Flag Not Set under APPLOZIC_05");
+//        }
+//        [dbService deleteMessageByKey:messageKey];
+    }
+    
+    [self.mTableView reloadData];
+}
+
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -327,7 +362,6 @@
         else
             NSLog(@"mqttObject is not found...");
         //        });
-        
     }
     
     if(isPickerOpen)
@@ -2423,8 +2457,8 @@
     {
         //Current Same Individual Contact thread is opened..
         self.conversationId = alMessage.conversationId;
-        self.channelKey=nil;
-        self.contactIds=alMessage.contactIds;
+        self.channelKey = nil;
+        self.contactIds = alMessage.contactIds;
         //[self fetchAndRefresh:YES];
     }
     else if ([updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_INACTIVE]])
@@ -2454,11 +2488,7 @@
 
 -(void)showNativeNotification:(ALMessage *)alMessage andAlert:(NSString*)alertValue
 {
-    ALNotificationView * alnotification;
-    alnotification =[[ALNotificationView alloc]
-                     initWithAlMessage:alMessage
-                     withAlertMessage:alertValue];
-    
+    ALNotificationView * alnotification = [[ALNotificationView alloc] initWithAlMessage:alMessage withAlertMessage:alertValue];
     [alnotification nativeNotification:self];
 }
 

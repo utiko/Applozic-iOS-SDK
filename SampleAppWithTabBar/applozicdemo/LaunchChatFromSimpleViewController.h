@@ -14,7 +14,4 @@
 @property (weak, nonatomic) IBOutlet UIButton *launchChatList;
 @property(nonatomic,strong) UIActivityIndicatorView *activityView;
 
-@property (strong, nonatomic) IBOutlet UIButton *launchTabBar;
-
-- (IBAction)launchTabBarAction:(id)sender;
 @end

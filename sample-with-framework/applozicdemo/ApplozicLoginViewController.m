@@ -181,10 +181,7 @@
     UIViewController *launchChat = [storyboardM instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
     [self presentViewController:launchChat animated:YES completion:nil];
     
-
 }
-
-
 
 //-------------------------------------------------------------------------------------------------------------------
 //     Textfield delegate methods

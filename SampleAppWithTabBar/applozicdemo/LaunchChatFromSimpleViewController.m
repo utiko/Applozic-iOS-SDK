@@ -87,37 +87,6 @@
     
     //Adding sample contacts...
     [self insertInitialContacts];
-    
-    
-}
-
-//==================================================================================
-// LAUNCH VIA TAB BAR (USING CONTAINER VIEW)
-//==================================================================================
-
-- (IBAction)launchTabBarAction:(id)sender {
-    
-    [self.view addSubview:_activityView];
-    [self.activityView startAnimating];
-    
-    ALUser *user = [[ALUser alloc] init];
-    [user setUserId:[ALUserDefaultsHandler getUserId]];
-    [user setEmail:[ALUserDefaultsHandler getEmailId]];
-    [user setPassword:@""];
-
-    [self launchChatListViaTabBar];  // ASSUMING THAT USERS IS REGISTER
-                                    //  ELSE PLEASE USE REGISTER WITH HANDLER METHOD THEN PUSH VIEW
-}
-
--(void)launchChatListViaTabBar
-{
-    UIStoryboard *storyboardM = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    //    UITabBarController *tabBar = [storyboardM instantiateViewControllerWithIdentifier:@"ALTabBarController"];
-    //    UINavigationController *navBar = [tabBar.viewControllers objectAtIndex:0];
-    //    UIViewController *launchChat = [navBar.viewControllers objectAtIndex:0];
-    
-    UIViewController *launchChatViaTabBar = [storyboardM instantiateViewControllerWithIdentifier:@"ALTabBarController"];
-    [self presentViewController:launchChatViaTabBar animated:YES completion:nil];
 }
 
 //===============================================================================

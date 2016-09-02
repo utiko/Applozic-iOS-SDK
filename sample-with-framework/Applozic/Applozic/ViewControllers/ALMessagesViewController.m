@@ -134,8 +134,7 @@
     
     self.barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:[ALApplozicSettings getTitleForBackButtonMsgVC]]];
     
-    if((self.channelKey || self.userIdToLaunch))
-    {
+    if((self.channelKey || self.userIdToLaunch)){
         [self createAndLaunchChatView ];
     }
 }
@@ -156,6 +155,7 @@
     [super viewWillAppear:animated];
     
     [self dropShadowInNavigationBar];
+
     [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
     [self.navigationItem setLeftBarButtonItem:self.barButtonItem];
     [self.tabBarController.tabBar setHidden:[ALUserDefaultsHandler isBottomTabBarHidden]];

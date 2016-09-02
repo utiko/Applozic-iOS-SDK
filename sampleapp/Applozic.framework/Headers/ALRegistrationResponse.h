@@ -20,5 +20,6 @@
 @property NSString *brokerURL;
 @property NSString *imageLink;
 @property NSString *statusMessage;
+@property NSString *encryptionKey;
 
 @end

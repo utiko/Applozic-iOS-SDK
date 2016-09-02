@@ -7,7 +7,7 @@
 //
 
 #define INVALID_APPLICATIONID = @"INVALID_APPLICATIONID"
-#define VERSION_CODE @"106"
+#define VERSION_CODE @"108"
 
 #import "ALRegisterUserClientService.h"
 #import "ALRequestHandler.h"
@@ -90,6 +90,10 @@
                  NSString * MQTTURL = [mqttURL[1] substringFromIndex:2];
                  NSLog(@"URL:%@",MQTTURL);
                 [ALUserDefaultsHandler setMQTTURL:MQTTURL];
+            }
+            if(response.encryptionKey)
+            {
+                [ALUserDefaultsHandler setEncryptionKey:response.encryptionKey];
             }
             //[ALUserDefaultsHandler setLastSyncTime:(NSNumber *)response.lastSyncTime];
         }
