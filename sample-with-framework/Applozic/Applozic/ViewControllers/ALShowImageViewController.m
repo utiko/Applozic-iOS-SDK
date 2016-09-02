@@ -15,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backBarButton;
+@property (weak, nonatomic) IBOutlet UIView *statusBarBGView;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @end
 
@@ -25,7 +27,10 @@
     //@"SHARE_IMAGE"
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backToMessageViewController) name:@"SHARE_IMAGE" object:nil];
     [self setupBarItems];
+    
+    [self.imageView setImage:self.image];
 }
+
 
 -(void)setupBarItems{
     
@@ -49,12 +54,15 @@
 }
 
 - (void)setStatusBarBackgroundColor:(UIColor *)color {
-    
+    /*
     UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
     
     if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
         statusBar.backgroundColor = color;
     }
+     */
+    
+    self.statusBarBGView.backgroundColor = color;
 }
 
 - (void)didReceiveMemoryWarning {
