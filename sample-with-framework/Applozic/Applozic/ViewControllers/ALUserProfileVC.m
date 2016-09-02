@@ -114,7 +114,7 @@
     [navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:18]}];
     [navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
     [navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
-    [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
+    [navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
 }
 
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated

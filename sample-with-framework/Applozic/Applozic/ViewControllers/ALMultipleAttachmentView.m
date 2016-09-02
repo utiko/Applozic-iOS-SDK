@@ -93,8 +93,7 @@ static NSString * const reuseIdentifier = @"collectionCell";
     
     [navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
     [navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
-
-    [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
+    [navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
 }
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
