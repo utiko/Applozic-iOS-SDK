@@ -230,7 +230,7 @@ If member removed successfully then it will return YES else NO.
 __NOTE:__ Only admin can add member to the group/channel. For more detail see check Admin section.
  
 
-##### Delete Channel/Grou
+##### Delete Channel/Group
 ```
 -(void)deleteChannel:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey
       withCompletion:(void(^)(NSError *error))completion
