@@ -11,8 +11,10 @@
 
 Download Applozic Chat latest framework [**here**](https://github.com/AppLozic/Applozic-iOS-SDK/raw/master/Frameworks) and add it to your project.
 
-You can download Sample Chat app code (https://github.com/AppLozic/Applozic-iOS-SDK)  [**sample project**](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp) for more reference.
+Note : Framework folder has two frameworks.
 
+1. Universal framework: Complied for both simultor and real devices.
+2. Archive framework: Complied for real device only. When archiving your app, please use achive framework.
 
 **Add framework to your project:**
 
