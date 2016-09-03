@@ -185,7 +185,7 @@ __Class to import :__ Applozic/ALChannelService.h
 
 ##### Create Channel/Group
 
-You can create a Channel/Group by simply calling createChannel method. The callback argument ALChannel will have Channel information created by applozic server.In case you are not passing clientChannelKey,you need to store channelKey from ALChannel object for any further operations( like : add member, remove  member, delete group/channel etc) on Channel/Group.   
+You can create a Channel/Group by simply calling createChannel method. The callback argument ALChannel will have Channel information created by applozic server.In case you are not passing clientChannelKey, you need to store channelKey from ALChannel object for any further operations( like : add member, remove  member, delete group/channel etc) on Channel/Group.   
 ```
 -(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey
       andMembersList:(NSMutableArray *)memberArray andImageLink:(NSString *)imageLink 
@@ -213,7 +213,7 @@ orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *
 | ------------- | ------------- | ------------- | ------------- |       
 | userId  | Yes  |   | member's userId to be added to group  |
 | channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
-| clientChannelKey  | No  |   | clinet channel identifier. This is mandatory if applozic channelKey is not passed. |
+| clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
 | (void(^)(NSError *error,ALAPIResponse *response))completion  | Yes  |   | completion block. If member added successfully, response object's status will have value as sucess. |
 
 
@@ -230,7 +230,7 @@ orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *
 | ------------- | ------------- | ------------- | ------------- |       
 | userId  | Yes  |   | member's userId to be removed from group  |
 | channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
-| clientChannelKey  | No  |   | clinet channel identifier. This is mandatory if applozic channelKey is not passed. |
+| clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
 | (void(^)(NSError *error, NSString *response))completion  | Yes  |   | completion block. |
 
 
@@ -244,7 +244,7 @@ orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *
 | Parameter  | Required | Default | Description |
 | ------------- | ------------- | ------------- | ------------- |       
 | channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
-| clientChannelKey  | No  |   | clinet channel identifier. This is mandatory if applozic channelKey is not passed. |
+| clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
 | (void(^)(NSError *error))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
 
 __NOTE:__ Only admin can add member to the group/channel. For more detail see check Admin section.
@@ -258,7 +258,7 @@ __NOTE:__ Only admin can add member to the group/channel. For more detail see ch
 | Parameter  | Required | Default | Description |
 | ------------- | ------------- | ------------- | ------------- |       
 | channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
-| clientChannelKey  | No  |   | clinet channel identifier. This is mandatory if applozic channelKey is not passed. |
+| clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
 | (void(^)(NSError *error))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
 
 
@@ -273,7 +273,7 @@ __NOTE:__ Only admin can add member to the group/channel. For more detail see ch
 | ------------- | ------------- | ------------- | ------------- |       
 | channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
 | newName  | Yes |   | new name of channel.|
-| clientChannelKey  | No  |   | clinet channel identifier. This is mandatory if applozic channelKey is not passed. |
+| clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
 | (void(^)(NSError *error))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
 
 If renamed successfully then it will return YES else NO. 
