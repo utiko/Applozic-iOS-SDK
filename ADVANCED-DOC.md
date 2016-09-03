@@ -211,7 +211,7 @@ orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *
  
 | Parameter  | Required | Default | Description |
 | ------------- | ------------- | ------------- | ------------- |       
-| userId  | Yes  |   | Member's userId to be added to group  |
+| userId  | Yes  |   | member's userId to be added to group  |
 | channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
 | clientChannelKey  | No  |   | clinet channel identifier. This is mandatory if applozic channelKey is not passed. |
 | (void(^)(NSError *error,ALAPIResponse *response))completion  | Yes  |   | completion block. If member added successfully, response object's status will have value as sucess. |
@@ -225,45 +225,42 @@ __NOTE:__ Only admin can add member to the group/channel. For more detail see ch
 -(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey 
 orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *error, NSString *response))completion
  ```
-__Parameters:__
-
-__userId :__ contactId OR userId
-
-__channelkey :__ channel key of your channel from which member will be removed.
-
-If member removed successfully then it will return YES else NO. 
-
-__NOTE:__ Only admin can add member to the group/channel. For more detail see check Admin section.
  
+| Parameter  | Required | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |       
+| userId  | Yes  |   | member's userId to be removed from group  |
+| channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
+| clientChannelKey  | No  |   | clinet channel identifier. This is mandatory if applozic channelKey is not passed. |
+| (void(^)(NSError *error, NSString *response))completion  | Yes  |   | completion block. |
+
+
 
 ##### Delete Channel/Group
 ```
 -(void)deleteChannel:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey
       withCompletion:(void(^)(NSError *error))completion
 ```
-__Parameters:__
-
-__channelkey :__ channel key of your channel from which member will be removed.
-
-__Return Type :__ BOOL
-
-If channel deleted successfully then it will return YES else NO. 
+ 
+| Parameter  | Required | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |       
+| channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
+| clientChannelKey  | No  |   | clinet channel identifier. This is mandatory if applozic channelKey is not passed. |
+| (void(^)(NSError *error))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
 
 __NOTE:__ Only admin can add member to the group/channel. For more detail see check Admin section.
  
-
 ##### Leave Channel/Group
 ```
 -(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId orClientChannelKey:(NSString *)clientChannelKey
      withCompletion:(void(^)(NSError *error))completion
 ```
-__Parameters:__
 
-__channelkey :__ channel key of your channel whom you are leaving.
+| Parameter  | Required | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |       
+| channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
+| clientChannelKey  | No  |   | clinet channel identifier. This is mandatory if applozic channelKey is not passed. |
+| (void(^)(NSError *error))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
 
-__userId:__ userid  of leaving user
-
-If member leaved successfully then it will return YES else NO. 
 
 
 ##### Rename Channel/Group
@@ -271,13 +268,13 @@ If member leaved successfully then it will return YES else NO.
 -(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName orClientChannelKey:(NSString *)clientChannelKey
       withCompletion:(void(^)(NSError *error))completion
  ```
-__Parameters:__
 
-__newName :__ new name of channel you wish to give
-
-__channelkey :__ channel key of your channel whom you are renaming.
-
-__Return Type :__ BOOL
+| Parameter  | Required | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |       
+| channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
+| newName  | Yes |   | new name of channel.|
+| clientChannelKey  | No  |   | clinet channel identifier. This is mandatory if applozic channelKey is not passed. |
+| (void(^)(NSError *error))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
 
 If renamed successfully then it will return YES else NO. 
 
@@ -289,11 +286,9 @@ As group admin have rights to do delete channel, remove  channel and add new mem
 ```
 -(BOOL) checkAdmin:(NSNumber *) channelKey
 ```
-__Parameters:__
-
-__channelkey :__ channel key of your channel
-
-__Return Type :__ BOOL
+| Parameter  | Required | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |       
+| channelKey  | No |   | applozic channelKey.|
 
 If renamed successfully then it will return YES else NO.                   
 
