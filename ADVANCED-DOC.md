@@ -185,17 +185,22 @@ __Class to import :__ Applozic/ALChannelService.h
 
 ##### Create Channel/Group
 
-You can create a Channel/Group by simply calling createChannel method. The callback argument (channelKey) will be unique ChannelId/GroupId created by applozic server. You need to store this for any further operations( like : add member, remove  member, delete group/channel etc) on Channel/Group.  
+You can create a Channel/Group by simply calling createChannel method. The callback argument ALChannel will have Channel information created by applozic server.In case you are not passing clientChannelKey,you need to store channelKey from ALChannel object for any further operations( like : add member, remove  member, delete group/channel etc) on Channel/Group.   
 ```
 -(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey
       andMembersList:(NSMutableArray *)memberArray andImageLink:(NSString *)imageLink 
       withCompletion:(void(^)(ALChannel *alChannel))completion
 ```
-__Parameters:__
 
-__channelName :__ Name of group
+| Parameter  | Required | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |       
+| channelName  | Yes  |   | channel name  |
+| clientChannelKey  | No  | nil  | Channel key maintain by client. This can be any unique identifier passed by client, to identify his group/channel |
+| memberArray  | Yes  |   | Array of group member's userId  |
+| imageLink  | Yes  |   | group profile image link  |
+| (void(^)(ALChannel *alChannel))completion  |   |   | completion block, once group is created successfully. This will return ALChannel object, which stores information about newly created channel. |
 
-__memberArray :__ Array of contactId/userid of members
+ 
 
  
 ##### Add User to Channel/Group
