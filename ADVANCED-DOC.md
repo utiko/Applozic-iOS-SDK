@@ -91,7 +91,7 @@ ALContact *contact4 = [[ALContact alloc] initWithJSONString:jsonString];
 ```
 
 
-Below are additional APIs for contact load, update and delete and requires a ALContact object or array of ALContact objects. 
+Below are additional APIs for contact load, update, delete and requires a ALContact object or array of ALContact objects. 
 
 ** Objective - C **            
 ```
@@ -123,7 +123,7 @@ Below are additional APIs for contact load, update and delete and requires a ALC
 
 ### Contextual Conversation
  
- Applozic SDK provide APIs which let you set and customise the chat’s context. Developers can create a ‘Conversation’ and launch a chat with context set. 
+ Applozic SDK provide APIs which let you set and customise the chat's context. Developers can create a Conversation and launch a chat with context set. 
 
 The picture below shown depicts the context header set below the navigation bar.Suppose a buyer want to have context chat with seller 'Adarsh' on product macbook pro.
 
