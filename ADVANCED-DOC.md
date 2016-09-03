@@ -207,15 +207,16 @@ You can create a Channel/Group by simply calling createChannel method. The callb
  ```
 -(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey 
 orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion
- ``` 	  	
-__Parameters:__
-
-__userId :__ contactId/userId
-
-__channelkey :__ channel key/GroupId of your channel where member will be added.
-
-If member added successfully then it will return YES else NO. 
+ ``` 	 
  
+| Parameter  | Required | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |       
+| userId  | Yes  |   | Member's userId to be added to group  |
+| channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
+| clientChannelKey  | No  |   | clinet channel identifier. This is mandatory if applozic channelKey is not passed. |
+| (void(^)(NSError *error,ALAPIResponse *response))completion  | Yes  |   | completion block. If member added successfully, response object's status will have value as sucess. |
+
+
 __NOTE:__ Only admin can add member to the group/channel. For more detail see check Admin section.
 
 
