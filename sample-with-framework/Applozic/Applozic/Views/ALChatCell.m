@@ -103,7 +103,7 @@
         [self.contentView addSubview:self.mMessageLabel];
         
         self.mChannelMemberName = [[UILabel alloc] init];
-        self.mChannelMemberName.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
+        self.mChannelMemberName.font = [UIFont boldSystemFontOfSize:15];
         self.mChannelMemberName.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:self.mChannelMemberName];
         
