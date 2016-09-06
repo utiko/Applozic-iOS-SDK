@@ -6,7 +6,8 @@ iOS Chat SDK
 
 Open source iOS Chat and Messaging SDK that lets you add real time messaging in your mobile (android, iOS) applications and website.
 
-Signup at https://www.applozic.com/signup.html to get the application key.
+Signup at [https://www.applozic.com/signup.html](https://www.applozic.com/signup.html?utm_source=github&utm_medium=readme&utm_campaign=ios) to get the application key.
+
 
 Works for both Objective-C and Swift.
 
@@ -14,7 +15,7 @@ It is a light weight Objective-C Chat and Messenger SDK.
 
 Applozic One to One and Group Chat SDK
 
-Documentation: https://www.applozic.com/docs/ios-chat-sdk.html
+Documentation: [https://www.applozic.com/docs/ios-chat-sdk.html](https://www.applozic.com/docs/ios-chat-sdk.html?utm_source=github&utm_medium=readme&utm_campaign=ios)
 
 Features:
 
