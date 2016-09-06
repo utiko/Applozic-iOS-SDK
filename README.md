@@ -60,7 +60,7 @@ Features:
 
 **Create your Application**
 
-a) [**Sign up**](https://www.applozic.com/signup.html?utm_source=ios&utm_medium=github) with applozic to get your application key.
+a) [**Sign up**](https://www.applozic.com/signup.html?utm_source=github&utm_medium=readme&utm_campaign=ios) with applozic to get your application key.
 
 b) Once you signed up create your Application with required details on admin dashboard. Upload your push-notification certificate to our portal to enable real time notification.         
 
