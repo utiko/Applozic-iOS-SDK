@@ -141,8 +141,8 @@
 
 - (IBAction)login:(id)sender {
     
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    [registerUserClientService logout];
+//    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+//    [registerUserClientService logout];
     // Initial login view .....
     
     
