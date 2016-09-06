@@ -17,7 +17,8 @@ Applozic One to One and Group Chat SDK
 
 Documentation: [https://www.applozic.com/docs/ios-chat-sdk.html](https://www.applozic.com/docs/ios-chat-sdk.html?utm_source=github&utm_medium=readme&utm_campaign=ios)
 
-Features:
+
+####Features:
 
 
  One to one and Group Chat
@@ -284,8 +285,13 @@ return true
      } } }                                   
       return YES;                 
   }                             
-
 ```
+
+###Documentation:
+For advanced options and customization, visit [Applozic iOS Chat & Messaging SDK Documentation](https://www.applozic.com/docs/ios-chat-sdk.html?utm_source=github&utm_medium=readme&utm_campaign=ios)
+
+
+
 ### Changelog
 
 __Version 3.3__
@@ -383,7 +389,7 @@ __Version 2.0__
    * Video messages
  * Image compression (Configurable)
  
-For more details, visit: https://www.applozic.com/docs/ios-chat-sdk.html
+
 
 ###Sample code in Objective-C to build messenger and chat app
 
