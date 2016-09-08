@@ -121,7 +121,7 @@
     CGFloat VIDEO_CELL_HEIGHT;
     CGFloat DATE_CELL_HEIGHT;
     CGFloat CONTACT_CELL_HEIGHT;
-    //UIButton *titleLabelButton;
+    UIButton *titleLabelButton;
     CGRect previousRect;
     CGRect maxHeight;
     CGRect minHeight;
@@ -148,7 +148,7 @@
     [self.loadEarlierAction setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     //[self.loadEarlierAction setBackgroundColor:[UIColor grayColor]];
     [self markConversationRead];
-    [[[self navigationController] interactivePopGestureRecognizer] setEnabled:NO];
+    //[[[self navigationController] interactivePopGestureRecognizer] setEnabled:NO];
     
     [UIView animateWithDuration:0.3 animations:^{
         [self subProcessTextViewDidChange:self.sendMessageTextView];
@@ -426,12 +426,12 @@
 -(void)navigationController:(UINavigationController *)navigationController
                              willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    [navigationController.navigationBar setTitleTextAttributes: @{
+    /*[navigationController.navigationBar setTitleTextAttributes: @{
                                                                   NSForegroundColorAttributeName:[ALApplozicSettings getColorForNavigationItem],
                                                                   NSFontAttributeName:[UIFont fontWithName:@"Helvetica-Bold" size:18]
                                                                   }];
     [navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
-    [navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
+    [navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];*/
 }
 
 //==============================================================================================================================================
@@ -795,31 +795,25 @@
         self.alContact = [theDBHandler loadContactByKey:@"userId" value: self.contactIds];
     }
     
-   /* titleLabelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    if (!titleLabelButton) {
+        titleLabelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.navigationItem.titleView = titleLabelButton;
+    }
+    [titleLabelButton setTitleColor:self.navigationController.navigationBar.tintColor forState:UIControlStateNormal];
+    titleLabelButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
     titleLabelButton.frame = CGRectMake(0, 0, 70, 44);
+    titleLabelButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 8, 0);
     [titleLabelButton addTarget:self action:@selector(didTapTitleView:) forControlEvents:UIControlEventTouchUpInside];
     titleLabelButton.userInteractionEnabled = YES;
     
-    if(!(self.individualLaunch) || [ALUserDefaultsHandler isServerCallDoneForUserInfoForContact:[self.alContact userId]])
-    {
-        [titleLabelButton setTitle:[self.alContact getDisplayName] forState:UIControlStateNormal];
-    }*/
-   
     if([self isGroup])
     {
-        //[self setButtonTitle];
-        ALChannelService *channelService = [[ALChannelService alloc] init];
-        ALChannel *alChannel = [channelService getChannelByKey:self.channelKey];
-        [self.navigationItem  setTitle:alChannel.name];
+        [self setButtonTitle];
     } else {
-        [self.navigationItem setTitle:[self.alContact getDisplayName]];
+        [titleLabelButton setTitle:[self.alContact getDisplayName] forState:UIControlStateNormal];
     }
     
-    
-    //self.navigationItem.titleView = titleLabelButton;
-    
-    
-    CGFloat COORDINATE_POINT_Y = 28;
+    CGFloat COORDINATE_POINT_Y = 24;
     [self.label setFrame: CGRectMake(0, COORDINATE_POINT_Y ,self.navigationController.navigationBar.frame.size.width, 20)];
 
     ALUserDetail *userDetail = [[ALUserDetail alloc] init];
@@ -831,15 +825,28 @@
     [self updateLastSeenAtStatus:userDetail];
 }
 
-/*-(void)setButtonTitle
+-(void)setButtonTitle
 {
     ALChannelService *channelService = [[ALChannelService alloc] init];
     ALChannel *alChannel = [channelService getChannelByKey:self.channelKey];
     [titleLabelButton setTitle:alChannel.name forState:UIControlStateNormal];
-}*/
+}
 
 -(void)didTapTitleView:(id)sender
 {
+    
+    if (self.channelKey) {
+        NSDictionary * userInfo = @{@"chanelKey": self.channelKey};
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NOTIFICATION_OPEN_CHAT_TARGET" object:self userInfo:userInfo];
+    } else if (self.alContact.userId) {
+        NSDictionary * userInfo = @{@"userId": self.alContact.userId};
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NOTIFICATION_OPEN_CHAT_TARGET" object:self userInfo:userInfo];
+        
+    }
+    
+    return;
+    
+    
     if(self.contactIds && !self.channelKey)
     {
         [self getUserInformation];
