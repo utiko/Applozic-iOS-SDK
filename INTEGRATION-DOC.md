@@ -14,7 +14,7 @@ Download Applozic Chat latest framework [**here**](https://github.com/AppLozic/A
 Note : Framework folder has two frameworks.
 
 1. Universal framework: Complied for both simultor and real devices.
-2. Archive framework: Complied for real device only. When archiving your app, please use achive framework.
+2. Archive framework: Complied for real device only. When archiving your app, please use archive framework.
 
 **Add framework to your project:**
 
@@ -175,7 +175,29 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 
 ```
 
-#####d) APNs Certification Type Setup :
+d ) AppDelegate changes to observe background/foreground notification.
+
+```
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+    [registerUserClientService disconnect];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"APP_ENTER_IN_BACKGROUND" object:nil];
+
+}
+```
+
+```
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+    [registerUserClientService connect];
+    [ALPushNotificationService applicationEntersForeground];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"APP_ENTER_IN_FOREGROUND" object:nil];
+}
+```
+#####e) APNs Certification Type Setup :
 
 Upload your push notification certificate to Applozic Dashboard page under 'Edit Application' section in order to enable real time notification.
 
@@ -195,8 +217,6 @@ For Development:
 For Distribution:
     [ALUserDefaultsHandler setDeviceApnsType:(short)DISTRIBUTION];
 ```
-
-
 ####Step 5: Logout User
 
 Call the following when user logout from your app:
