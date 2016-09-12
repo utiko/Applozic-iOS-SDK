@@ -5,9 +5,25 @@
 
 ###Objective-C
 
-####Step 1: Download Chat SDK
+####Step 1: Chat SDK Installation
 
-**ADD APPLOZIC FRAMEWORK**
+### Automatic Installation via CocoaPods
+
+i) Open terminal and navigate to your project root directory and run command ```pod init``` in terminal
+
+
+ii) Go to project directory open pod file and add code in that
+
+```
+ pod 'Applozic', '3.2.6'
+```
+
+For reference download our sample project here [**ApplozicCocoaPodDemo**](https://github.com/Abhishek9634/ApplozicCocoaPodDemo)
+
+### Add Framework Manually 
+
+**NOTE: This step is needed only when not using cocoapods.** 
+
 
 Download Applozic Chat latest framework [**here**](https://github.com/AppLozic/Applozic-iOS-SDK/raw/master/Frameworks) and add it to your project.
 
@@ -18,9 +34,9 @@ Note : Framework folder has two frameworks.
 
 **Add framework to your project:**
 
-i ) Paste Applozic framework to root folder of your project. 
+i) Paste Applozic framework to root folder of your project. 
 
-ii ) Go to Build Phase. 
+ii) Go to Build Phase. 
 
 Expand Embedded frameworks and add applozic framework.         
 
@@ -28,7 +44,7 @@ Expand Embedded frameworks and add applozic framework.
 ![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Resized-adding-applozic-framework.png)        
 
 
-####Step 2:  Login/Register User
+####Step 2: Login/Register User
 Applozic will create a new user if the user doesn't exists. userId is the unique identifier for any user, it can be anything like email, phone number or uuid from your database.
 
 
