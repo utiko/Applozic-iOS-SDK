@@ -15,8 +15,9 @@ It is a light weight Objective-C Chat and Messenger SDK.
 
 Applozic One to One and Group Chat SDK
 
-Documentation: [https://www.applozic.com/docs/ios-chat-sdk.html](https://www.applozic.com/docs/ios-chat-sdk.html?utm_source=github&utm_medium=readme&utm_campaign=ios)
+**Documentation:** [https://www.applozic.com/docs/ios-chat-sdk.html](https://www.applozic.com/docs/ios-chat-sdk.html?utm_source=github&utm_medium=readme&utm_campaign=ios)
 
+**Sample Projects** [https://github.com/AppLozic/Applozic-iOS-Chat-Samples]
 
 ####Features:
 
