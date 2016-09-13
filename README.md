@@ -87,7 +87,7 @@ c) Once you create your application you can see your application key listed on a
 
 **ADD APPLOZIC FRAMEWORK**
 Clone or download the SDK (https://github.com/AppLozic/Applozic-iOS-SDK)
-Get the latest framework "Applozic.framework" from Applozic github repo [**sample project**](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp)
+Get the latest framework "Applozic.framework" from Applozic github repo [**sample project**](https://github.com/AppLozic/Applozic-iOS-Chat-Samples)
 
 **Add framework to your project:**
 
@@ -105,9 +105,9 @@ ii ) Go to Build Phase. Expand  Embedded frameworks and add applozic framework.
 
 You can test your chat quickly by adding below .h and .m file to your project.
 
-[**ALChatManager.h**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sampleapp/applozicdemo/ALChatManager.h)        
+[**ALChatManager.h**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sample-with-framework/applozicdemo/ALChatManager.h)        
 
-[**ALChatManager.m**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sampleapp/applozicdemo/ALChatManager.m)  
+[**ALChatManager.m**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sample-with-framework/applozicdemo/ALChatManager.m)  
 
 Change applicationID in ALChatManager and you are ready to launch your chat from your controller :)
 
