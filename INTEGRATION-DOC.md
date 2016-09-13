@@ -262,7 +262,7 @@ Call the following when user logout from your app:
 
 Download Applozic Chat latest framework [**here**](https://github.com/AppLozic/Applozic-iOS-SDK/raw/master/Frameworks) and add it to your project.
 
-You can download Sample Chat app code (https://github.com/AppLozic/Applozic-iOS-SDK)  [**sample project**](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp-swift) for more reference.
+You can download Sample Chat app code (https://github.com/AppLozic/Applozic-iOS-SDK)  [**sample project**](https://github.com/AppLozic/Applozic-iOS-Chat-Samples) for more reference.
 
 
 **Add framework to your project:**
@@ -285,7 +285,7 @@ i) Add Helper Classes:
 
 Download ALChatManager.swift and add to your project.
 
-[**ALChatManager.swift**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sampleapp-swift/sampleapp-swift/ALChatManager.swift)  
+[**ALChatManager.swift**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-Chat-Samples/master/sampleapp-swift/sampleapp-swift/ALChatManager.swift)  
 
 ii) Add New cocoa class NSObject+ApplozicBridge in objective-c. On adding it will ask “would you like to create bridging header” say “yes” and in bridging file paste this code
 
