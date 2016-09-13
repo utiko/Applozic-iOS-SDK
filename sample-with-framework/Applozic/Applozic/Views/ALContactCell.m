@@ -10,6 +10,7 @@
 @implementation ALContactCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
 
 }
 

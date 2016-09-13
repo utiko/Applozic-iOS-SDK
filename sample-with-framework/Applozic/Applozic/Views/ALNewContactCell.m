@@ -11,6 +11,7 @@
 @implementation ALNewContactCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 
