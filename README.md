@@ -17,7 +17,7 @@ Applozic One to One and Group Chat SDK
 
 **Documentation:** [https://www.applozic.com/docs/ios-chat-sdk.html](https://www.applozic.com/docs/ios-chat-sdk.html?utm_source=github&utm_medium=readme&utm_campaign=ios)
 
-**Sample Projects:** (https://github.com/AppLozic/Applozic-iOS-Chat-Samples)
+**Sample Projects:** [https://github.com/AppLozic/Applozic-iOS-Chat-Samples](https://github.com/AppLozic/Applozic-iOS-Chat-Samples)
 
 ####Features:
 
