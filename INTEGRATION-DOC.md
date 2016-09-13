@@ -191,7 +191,7 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 
 ```
 
-d ) AppDelegate changes to observe background/foreground notification.
+d) AppDelegate changes to observe background/foreground notification.
 
 ```
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -209,11 +209,20 @@ d ) AppDelegate changes to observe background/foreground notification.
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService connect];
     [ALPushNotificationService applicationEntersForeground];
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"APP_ENTER_IN_FOREGROUND" object:nil];
 }
 ```
-#####e) APNs Certification Type Setup :
+
+e) Save Context when app terminates
+
+```
+- (void)applicationWillTerminate:(UIApplication *)application 
+{
+    [[ALDBHandler sharedInstance] saveContext];
+}
+```
+
+#####f) APNs Certification Type Setup :
 
 Upload your push notification certificate to Applozic Dashboard page under 'Edit Application' section in order to enable real time notification.
 
@@ -354,13 +363,13 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
 
     let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
 
-    let deviceTokenString: String = ( deviceToken.description as NSString )
-    .stringByTrimmingCharactersInSet( characterSet )
-    .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
+    let deviceTokenString: String = (deviceToken.description as NSString)
+    .stringByTrimmingCharactersInSet(characterSet)
+    .stringByReplacingOccurrencesOfString(" ", withString: "") as String
 
-    print( deviceTokenString )
+    print(deviceTokenString)
 
-    if (ALUserDefaultsHandler.getApnDeviceToken() != deviceTokenString){
+    if (ALUserDefaultsHandler.getApnDeviceToken() != deviceTokenString) {
 
         let alRegisterUserClientService: ALRegisterUserClientService = ALRegisterUserClientService()
         alRegisterUserClientService.updateApnDeviceTokenWithCompletion(deviceTokenString, withCompletion: { (response, error) in
@@ -377,18 +386,13 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
 Once your app receive notification, pass it to Applozic handler for chat notification processing.             
 
 ```
-func application(application: UIApplication,  didReceiveRemoteNotification userInfo: [NSObject : AnyObject],  fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-
-    let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
-    let applozicProcessed = alPushNotificationService.processPushNotification(userInfo, updateUI: application.applicationState == UIApplicationState.Active) as Bool
-
-    //IF not a appplozic notification, process it
-
-    if (!applozicProcessed) {
-
-        //Note: notification for app
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void)
+    {
+        print("Received notification Completion : \(userInfo)")
+        let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
+        alPushNotificationService.notificationArrivedToApplication(application, withDictionary: userInfo)
+        completionHandler(UIBackgroundFetchResult.NewData)
     }
-
 }                                                         
 ```
 
@@ -413,8 +417,8 @@ alApplocalNotificationHnadler.dataConnectionNotificationHandler();
 
             let appState: NSNumber = NSNumber(int: 0)
             let applozicProcessed = alPushNotificationService.processPushNotification(launchOptions,updateUI:appState)
-            if (applozicProcessed) {
-                return true;
+            if (!applozicProcessed) {
+                
             }
         }
     }
@@ -423,8 +427,40 @@ return true
 }                            
 
 ```
+#####d)  AppDelegate changes to observe background/foreground notification.
 
-#####d) APNs Certification Type Setup :
+```
+    func applicationDidEnterBackground(application: UIApplication) 
+    {
+        print("APP_ENTER_IN_BACKGROUND")
+        let registerUserClientService = ALRegisterUserClientService()
+        registerUserClientService.disconnect()
+        NSNotificationCenter.defaultCenter().postNotificationName("APP_ENTER_IN_BACKGROUND", object: nil)
+    }
+ ```
+    
+ ```
+    func applicationWillEnterForeground(application: UIApplication) 
+    {
+        let registerUserClientService = ALRegisterUserClientService()
+        registerUserClientService.connect()
+        ALPushNotificationService.applicationEntersForeground()
+        print("APP_ENTER_IN_FOREGROUND")
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("APP_ENTER_IN_FOREGROUND", object: nil)
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+    }
+```
+#####e) Save Context when app terminates
+
+```
+    func applicationWillTerminate(application: UIApplication) 
+    {
+        ALDBHandler.sharedInstance().saveContext()
+    }
+```
+
+#####f) APNs Certification Type Setup :
 
 Upload your push notification certificate to Applozic Dashboard page under 'Edit Application' section in order to enable real time notification.
 
