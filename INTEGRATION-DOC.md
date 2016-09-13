@@ -103,8 +103,7 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
 
 ```
  - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)
-   deviceToken       
-   {                
+   deviceToken {                
   
     const unsigned *tokenBytes = [deviceToken bytes];            
     NSString *hexToken = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",                 
@@ -118,20 +117,19 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
    //TO AVOID Multiple call to server check if previous apns token is same as recent one, 
    If its different then call Applozic server.          
 
-    if (![[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken])              
-    {                         
+    if (![[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken]) {                         
        ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];          
        [registerUserClientService updateApnDeviceTokenWithCompletion
        :apnDeviceToken withCompletion:^(ALRegistrationResponse
-       *rResponse, NSError *error)       
-     {              
-       if (error)         
-          {          
+       *rResponse, NSError *error) {   
+       
+       if (error) {          
              NSLog(@"%@",error);             
-            return ;           
+            return;           
           }              
     NSLog(@"Registration response from server:%@", rResponse);                         
-    }]; } }                                 
+    }]; 
+} }                                 
 
 ```
 
@@ -142,13 +140,12 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 
 ```
 
--(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
    
     NSLog(@"Received notification Completion: %@", userInfo);
     ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
     [pushNotificationService notificationArrivedToApplication:application withDictionary:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
-    
 }
 
 ```
@@ -170,18 +167,15 @@ Once your app receive notification, pass it to Applozic handler for chat notific
     
     // Override point for customization after application launch.
     NSLog(@"launchOptions: %@", launchOptions);
-    if (launchOptions != nil)
-    {
+    if (launchOptions != nil) {
         NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-        if (dictionary != nil)
-        {
+        if (dictionary != nil) {
             NSLog(@"Launched from push notification: %@", dictionary);
             ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
             BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:[NSNumber numberWithInt:APP_STATE_INACTIVE]];
             
             //IF not a appplozic notification, process it
-            if (!applozicProcessed)
-            {
+            if (!applozicProcessed) {
                 //Note: notification for app
             }
         }
@@ -199,7 +193,6 @@ d) AppDelegate changes to observe background/foreground notification.
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService disconnect];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"APP_ENTER_IN_BACKGROUND" object:nil];
-
 }
 ```
 
@@ -216,8 +209,8 @@ d) AppDelegate changes to observe background/foreground notification.
 e) Save Context when app terminates
 
 ```
-- (void)applicationWillTerminate:(UIApplication *)application 
-{
+- (void)applicationWillTerminate:(UIApplication *)application {
+
     [[ALDBHandler sharedInstance] saveContext];
 }
 ```
@@ -361,7 +354,7 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken** met
 ```
 func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
 
-    let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+    let characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
 
     let deviceTokenString: String = (deviceToken.description as NSString)
     .stringByTrimmingCharactersInSet(characterSet)
@@ -386,8 +379,7 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
 Once your app receive notification, pass it to Applozic handler for chat notification processing.             
 
 ```
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void)
-    {
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         print("Received notification Completion : \(userInfo)")
         let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
         alPushNotificationService.notificationArrivedToApplication(application, withDictionary: userInfo)
@@ -406,12 +398,10 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 let alApplocalNotificationHnadler : ALAppLocalNotifications =  ALAppLocalNotifications.appLocalNotificationHandler();
 alApplocalNotificationHnadler.dataConnectionNotificationHandler();
 
-    if (launchOptions != nil)
-    {
+    if (launchOptions != nil) {
     let dictionary = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary
 
-        if (dictionary != nil)
-        {
+        if (dictionary != nil) {
             print("launched from push notification")
             let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
 
@@ -430,8 +420,7 @@ return true
 #####d)  AppDelegate changes to observe background/foreground notification.
 
 ```
-    func applicationDidEnterBackground(application: UIApplication) 
-    {
+    func applicationDidEnterBackground(application: UIApplication) {
         print("APP_ENTER_IN_BACKGROUND")
         let registerUserClientService = ALRegisterUserClientService()
         registerUserClientService.disconnect()
@@ -440,8 +429,7 @@ return true
  ```
     
  ```
-    func applicationWillEnterForeground(application: UIApplication) 
-    {
+    func applicationWillEnterForeground(application: UIApplication) {
         let registerUserClientService = ALRegisterUserClientService()
         registerUserClientService.connect()
         ALPushNotificationService.applicationEntersForeground()
@@ -454,8 +442,7 @@ return true
 #####e) Save Context when app terminates
 
 ```
-    func applicationWillTerminate(application: UIApplication) 
-    {
+    func applicationWillTerminate(application: UIApplication) {
         ALDBHandler.sharedInstance().saveContext()
     }
 ```
