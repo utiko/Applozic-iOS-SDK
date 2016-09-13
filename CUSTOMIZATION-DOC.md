@@ -203,4 +203,4 @@ Import [Applozic iOS Library](https://github.com/AppLozic/Applozic-iOS-SDK/tree/
 
 Applozic contains the UI related source code, icons, views and other resources which you can customize based on your design needs.
 
-Sample app with integration is available under [app](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp)
+Sample app with integration is available under [**sampleapp**](https://github.com/AppLozic/Applozic-iOS-Chat-Samples)
