@@ -32,12 +32,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
            
         }
         
-        
         if (launchOptions != nil)
         {
             //let dictionary = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary
             let dictionary = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary
-            
             
             if (dictionary != nil)
             {
@@ -46,14 +44,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 let appState: NSNumber = NSNumber(int:0)
                 let applozicProcessed = alPushNotificationService.processPushNotification(launchOptions,updateUI:appState)
-                if (applozicProcessed) {
+                if (!applozicProcessed)
+                {
                     
-                    return true;
                 }
             }
         }
-        
-      
+    
         return true
     }
     
@@ -65,10 +62,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        print("APP_ENTER_IN_BACKGROUND")
+        let registerUserClientService = ALRegisterUserClientService()
+        registerUserClientService.disconnect()
+        NSNotificationCenter.defaultCenter().postNotificationName("APP_ENTER_IN_BACKGROUND", object: nil)
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+
+        let registerUserClientService = ALRegisterUserClientService()
+        registerUserClientService.connect()
+        ALPushNotificationService.applicationEntersForeground()
+        print("APP_ENTER_IN_FOREGROUND")
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("APP_ENTER_IN_FOREGROUND", object: nil)
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
@@ -76,19 +86,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:
+        
+        ALDBHandler.sharedInstance().saveContext()
     }
     
     
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        print("Got token data! (deviceToken)")
-        let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData)
+    {
+        print("Got token data! \(deviceToken)")
+        let characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
         
-        let deviceTokenString: String = ( deviceToken.description as NSString )
+        let deviceTokenString: String = (deviceToken.description as NSString)
             .stringByTrimmingCharactersInSet( characterSet )
-            .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
+            .stringByReplacingOccurrencesOfString(" ", withString: "") as String
         
-        print( deviceTokenString )
+        print(deviceTokenString)
         
         if (ALUserDefaultsHandler.getApnDeviceToken() != deviceTokenString)
         {
@@ -97,24 +110,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print (response)
             })
         }
-        
     }
     
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        print("Couldn’t register: (error)")
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError)
+    {
+        print("Couldn’t register: \(error)")
     }
     
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject])
+    {
+        print("Received notification Completion : \(userInfo)")
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler
+        completionHandler: (UIBackgroundFetchResult) -> Void)
+    {
+        print("Received notification Completion : \(userInfo)")
         let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
-        let applozicProcessed = alPushNotificationService.processPushNotification(userInfo, updateUI: application.applicationState == UIApplicationState.Active) as Bool
-        
-        //IF not a appplozic notification, process it
-        
-        if (applozicProcessed) {
-            return;
-        }
-        
+        alPushNotificationService.notificationArrivedToApplication(application, withDictionary: userInfo)
+        completionHandler(UIBackgroundFetchResult.NewData)
     }
     
 }
