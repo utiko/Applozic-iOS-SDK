@@ -129,7 +129,8 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
           }              
     NSLog(@"Registration response from server:%@", rResponse);                         
     }]; 
-} }                                 
+  } 
+}                                 
 
 ```
 
