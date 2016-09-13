@@ -139,13 +139,13 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
 ```
 func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
 
-    let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+    let characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
 
-    let deviceTokenString: String = ( deviceToken.description as NSString )
-    .stringByTrimmingCharactersInSet( characterSet )
-    .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
+    let deviceTokenString: String = (deviceToken.description as NSString)
+    .stringByTrimmingCharactersInSet(characterSet )
+    .stringByReplacingOccurrencesOfString(" ", withString: "") as String
 
-    print( deviceTokenString )
+    print(deviceTokenString)
 
     if (ALUserDefaultsHandler.getApnDeviceToken() != deviceTokenString){
 
@@ -161,8 +161,7 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
 **Objective-C**      
 ```
  - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)
-   deviceToken       
-   {                
+   deviceToken {                
   
     const unsigned *tokenBytes = [deviceToken bytes];            
     NSString *hexToken = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",                 
@@ -176,17 +175,15 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
    //TO AVOID Multiple call to server check if previous apns token is same as recent one, 
    if different call app lozic server.           
 
-    if (![[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken])              
-    {                         
+    if (![[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken]) {                         
        ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];          
        [registerUserClientService updateApnDeviceTokenWithCompletion
        :apnDeviceToken withCompletion:^(ALRegistrationResponse
-       *rResponse, NSError *error)       
-     {              
-       if (error)         
-          {          
+       *rResponse, NSError *error) {   
+       
+       if (error) {          
              NSLog(@"%@",error);             
-            return ;           
+            return;           
           }              
     NSLog(@"Registration response from server:%@", rResponse);                         
     }]; } }                                 
@@ -208,27 +205,22 @@ func application(application: UIApplication,  didReceiveRemoteNotification userI
     //IF not a appplozic notification, process it
 
     if (applozicProcessed) {
-
         //Note: notification for app
     }
-
 }
 ```
 
 **Objective-C**      
   ```
-  - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary         
-  {            
+  - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary {
+  
    NSLog(@"Received notification: %@", dictionary);           
-   
    ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];        
    BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:
-   [[UIApplication sharedApplication]     applicationState] == UIApplicationStateActive];             
+   [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive];             
   
     //IF not a appplozic notification, process it            
-  
-    if (!applozicProcessed)            
-      {                
+    if (!applozicProcessed) {                
          //Note: notification for app          
     } }                                                           
 ```
@@ -244,12 +236,11 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 let alApplocalNotificationHnadler : ALAppLocalNotifications =  ALAppLocalNotifications.appLocalNotificationHandler();
 alApplocalNotificationHnadler.dataConnectionNotificationHandler();
 
-    if (launchOptions != nil)
-    {
+    if (launchOptions != nil) {
+    
     let dictionary = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary
 
-        if (dictionary != nil)
-        {
+        if (dictionary != nil) {
             print("launched from push notification")
             let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
 
@@ -268,20 +259,18 @@ return true
 
 **Objective-C**    
 ```
- - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions    
-  {                     
+ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions { 
+  
   // Override point for customization after application launch.                              
   NSLog(@"launchOptions: %@", launchOptions);                  
-  if (launchOptions != nil)               
-  {             
+  if (launchOptions != nil) {
+  
   NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];         
-  if (dictionary != nil)             
-    {          
+  if (dictionary != nil) {
       NSLog(@"Launched from push notification: %@", dictionary);        
       ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];            
       BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:NO];               
-  if (!applozicProcessed)                 
-     {            
+  if (!applozicProcessed) {            
        //Note: notification for app              
      } } }                                   
       return YES;                 
