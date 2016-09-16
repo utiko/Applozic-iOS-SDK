@@ -165,8 +165,11 @@ static MQTTSession *session;
             NSDictionary * message = [theMessageDict objectForKey:@"message"];
             ALMessage *alMessage = [[ALMessage alloc] initWithDictonary:message];
             
-            if(!alMessage || (alMessage.deviceKey && [alMessage.deviceKey isEqualToString:[ALUserDefaultsHandler getDeviceKeyString]])){
-                NSLog(@"Sent by self-device");
+            NSLog(@"Message's DKey:%@ and DeviceKey:%@",alMessage.deviceKey,[ALUserDefaultsHandler getDeviceKeyString]);
+            
+            if(alMessage.deviceKey &&
+                [alMessage.deviceKey isEqualToString:[ALUserDefaultsHandler getDeviceKeyString]]){
+                NSLog(@"Returning because message SENT BY SAME DEVICE");
                 return;
             }
             

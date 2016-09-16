@@ -407,6 +407,7 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
+				DEVELOPMENT_TEAM = C25JNDCBM4;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Users/devashish/framework/applozicdemo,
 					"$(PROJECT_DIR)",
@@ -417,7 +418,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.customer.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7a21705d-53af-462a-b017-8aac9885bc54";
+				PROVISIONING_PROFILE = "8878b7d7-3f2c-448b-ab7d-b9d15fa33479";
+				PROVISIONING_PROFILE_SPECIFIER = "Applozic-Customer-Demo-2Cerificates";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
@@ -431,6 +433,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Adarsh Kumar (RN66F37TC5)";
+				DEVELOPMENT_TEAM = C25JNDCBM4;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Users/devashish/framework/applozicdemo,
 					"$(PROJECT_DIR)",
@@ -441,7 +444,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.customer.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7a21705d-53af-462a-b017-8aac9885bc54";
+				PROVISIONING_PROFILE = "8878b7d7-3f2c-448b-ab7d-b9d15fa33479";
+				PROVISIONING_PROFILE_SPECIFIER = "Applozic-Customer-Demo-2Cerificates";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
