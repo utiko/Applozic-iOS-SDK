@@ -509,34 +509,34 @@
 
 -(void)updateChannelSubscribing:(NSNumber *)oldChannelKey andNewChannel:(NSNumber *)newChannelKey
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self.mqttObject unSubscribeToChannelConversation:oldChannelKey];
         [self.mqttObject subscribeToChannelConversation:newChannelKey];
-    });
+    //});µ
 }
 
 -(void)subscrbingChannel
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
     [self.mqttObject subscribeToChannelConversation:self.channelKey];
     if([self isGroup] && [ALUserDefaultsHandler isUserLoggedInUserSubscribedMQTT]){
         [self.mqttObject unSubscribeToChannelConversation:nil];
     }
-});
+//});
 
 }
 
 -(void)unSubscrbingChannel
 {
-     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+     //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     [self.mqttObject sendTypingStatus:[ALUserDefaultsHandler getApplicationKey]
                                userID:self.contactIds
                         andChannelKey:self.channelKey
                                typing:NO];
     
     [self.mqttObject unSubscribeToChannelConversation:self.channelKey];
-     });
+     //});
 
 }
 
