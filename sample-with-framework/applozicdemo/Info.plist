@@ -4,6 +4,8 @@
 <dict>
 	<key>NSContactsUsageDescription</key>
 	<string>Allow Contact Updates</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string> App want to use photos</string>
 	<key>APPLOZIC_PRODUCTION</key>
 	<dict>
 		<key>AL_MQTT_PORT</key>
