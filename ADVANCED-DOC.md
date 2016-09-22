@@ -1,10 +1,30 @@
+### Notifications 
+
+Enable/Disable Notification & Sound
+
+Below method should be called to change notification.
+
+```
+//THIS IS OPTIONAL AND USE IF USER NEEDS TO UPDATE NOTIFICATIONS IN REAL TIME
+
+short mode = 0  // SOUND + NOTIFICATION : THIS IS DEFAULT
+short mode = 1  // NOTIFICATION WITHOUT SOUND
+short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
+
+[ALRegisterUserClientService updateNotificationMode:mode withCompletion:^(ALRegistrationResponse *response, NSError *error) { 
+     [ALUserDefaultsHandler setNotificationMode:mode] ; 
+      NSLog(@"UPDATE Notification Mode Response:%@ Error:%@",response,error); 
+}];
+
+```
+
 ### Contacts
 
 Applozic framework provides convenient APIs for building your own contact. Developers can build and store contacts in three different ways. 
 
  **Build your contact:** 
 
-** a ) Simple method to create your contact is to create contact.
+** a) Simple method to create your contact is to create contact.
 **                 
 
 
