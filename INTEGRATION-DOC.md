@@ -207,7 +207,7 @@ d) AppDelegate changes to observe background/foreground notification.
 }
 ```
 
-e) Update Notification Mode
+#####e) Update Notification Mode
 
 ```
 short mode = 0  // SOUND + NOTIFICATION : THIS IS DEFAULT
@@ -230,7 +230,7 @@ f) Save Context when app terminates
 }
 ```
 
-#####f) APNs Certification Type Setup :
+#####g) APNs Certification Type Setup :
 
 Upload your push notification certificate to Applozic Dashboard page under 'Edit Application' section in order to enable real time notification.
 
