@@ -245,12 +245,12 @@
     {
         NSLog(@"INDIVIDUAL_LAUNCH :: SUBSCRIBING_MQTT");
         self.mqttObject.mqttConversationDelegate = self;
-        dispatch_async(dispatch_get_main_queue(), ^{
+        //dispatch_async(dispatch_get_main_queue(), ^{
             if(self.mqttObject){
                 [self.mqttObject subscribeToConversation];
             }else
                 NSLog(@"mqttObject is not found...");
-        });
+        //});
         
         if(![self isGroup])
         {
@@ -551,26 +551,26 @@
 
 -(void)subscrbingChannel
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
     [self.mqttObject subscribeToChannelConversation:self.channelKey];
     if([self isGroup] && [ALUserDefaultsHandler isUserLoggedInUserSubscribedMQTT]){
         [self.mqttObject unSubscribeToChannelConversation:nil];
     }
-});
+//});
 
 }
 
 -(void)unSubscrbingChannel
 {
-     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     [self.mqttObject sendTypingStatus:[ALUserDefaultsHandler getApplicationKey]
                                userID:self.contactIds
                         andChannelKey:self.channelKey
                                typing:NO];
     
     [self.mqttObject unSubscribeToChannelConversation:self.channelKey];
-     });
+     //});
 
 }
 
@@ -2192,13 +2192,26 @@
         }]];
     }
     
-    [theController addAction:[UIAlertAction actionWithTitle:@"Share Contact" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
-        ABPeoplePickerNavigationController *contactPicker = [[ABPeoplePickerNavigationController alloc] init];
-        contactPicker.peoplePickerDelegate = self;
-        [self presentViewController:contactPicker animated:YES completion:nil];
-        
-    }]];
+    if(IS_OS_EARLIER_THAN_10)
+    {
+        [theController addAction:[UIAlertAction actionWithTitle:@"Share Contact" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+            ABPeoplePickerNavigationController *contactPicker = [[ABPeoplePickerNavigationController alloc] init];
+            contactPicker.peoplePickerDelegate = self;
+            [self presentViewController:contactPicker animated:YES completion:nil];
+            
+        }]];
+    }
+    else
+    {
+        [theController addAction:[UIAlertAction actionWithTitle:@"Share Contact" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+              CNContactPickerViewController *contactPicker = [CNContactPickerViewController new];
+              contactPicker.delegate = self;
+              [self presentViewController:contactPicker animated:YES completion:nil];
+              
+          }]];
+    }
     
     [theController addAction:[UIAlertAction actionWithTitle:@"Photos/Videos" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
@@ -2220,6 +2233,13 @@
 {
     ALVCFClass *objectVCF = [[ALVCFClass alloc] init];
     NSString *contactFilePath = [objectVCF saveContactToDocumentDirectory:person];
+    [self processAttachment:contactFilePath andMessageText:@"" andContentType:ALMESSAGE_CONTENT_VCARD];
+}
+
+-(void)contactPicker:(CNContactPickerViewController *)picker didSelectContact:(CNContact *)contact
+{
+    ALVCardClass *vcardClass = [[ALVCardClass alloc] init];
+    NSString *contactFilePath = [vcardClass saveContactToDocDirectory:contact];
     [self processAttachment:contactFilePath andMessageText:@"" andContentType:ALMESSAGE_CONTENT_VCARD];
 }
 
@@ -3136,11 +3156,11 @@
     
     if([ALDataNetworkConnection checkDataNetworkAvailable])
         NSLog(@"MQTT connection closed, subscribing again: %lu", (long)_mqttRetryCount);
-    dispatch_async(dispatch_get_main_queue(), ^{
+   // dispatch_async(dispatch_get_main_queue(), ^{
         
         [self.mqttObject subscribeToConversation];
         [self subscrbingChannel];
-    });
+  //  });
     self.mqttRetryCount++;
 }
 

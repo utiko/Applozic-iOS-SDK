@@ -92,8 +92,8 @@ Get the latest framework "Applozic.framework" from Applozic github repo [**sampl
 
 **Add framework to your project:**
 
-i ) Paste Applozic framework to root folder of your project. 
-ii ) Go to Build Phase. Expand  Embedded frameworks and add applozic framework.         
+i) Paste Applozic framework to root folder of your project. 
+ii) Go to Build Phase. Expand  Embedded frameworks and add applozic framework.         
 
 
 
