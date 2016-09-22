@@ -207,7 +207,21 @@ d) AppDelegate changes to observe background/foreground notification.
 }
 ```
 
-e) Save Context when app terminates
+e) Update Notification Mode
+
+```
+short mode = 0  // SOUND + NOTIFICATION : THIS IS DEFAULT
+short mode = 1  // NOTIFICATION WITHOUT SOUND
+short mode = 2  // DISABLE NOTIFICATION 
+
+[ALRegisterUserClientService updateNotificationMode:mode withCompletion:^(ALRegistrationResponse *response, NSError *error) { 
+     [ALUserDefaultsHandler setNotificationMode:mode] ; 
+      NSLog(@"UPDATE Notification Mode Response:%@ Error:%@",response,error); 
+}];
+
+```
+
+f) Save Context when app terminates
 
 ```
 - (void)applicationWillTerminate:(UIApplication *)application {
