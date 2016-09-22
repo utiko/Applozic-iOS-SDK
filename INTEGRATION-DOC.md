@@ -210,6 +210,8 @@ d) AppDelegate changes to observe background/foreground notification.
 #####e) Update Notification Mode
 
 ```
+//THIS IS OPTIONAL AND USE IF USER NEEDS TO UPDATE NOTIFICATIONS IN REAL TIME
+
 short mode = 0  // SOUND + NOTIFICATION : THIS IS DEFAULT
 short mode = 1  // NOTIFICATION WITHOUT SOUND
 short mode = 2  // DISABLE NOTIFICATION 
