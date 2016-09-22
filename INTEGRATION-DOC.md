@@ -207,23 +207,7 @@ d) AppDelegate changes to observe background/foreground notification.
 }
 ```
 
-#####e) Update Notification Mode
-
-```
-//THIS IS OPTIONAL AND USE IF USER NEEDS TO UPDATE NOTIFICATIONS IN REAL TIME
-
-short mode = 0  // SOUND + NOTIFICATION : THIS IS DEFAULT
-short mode = 1  // NOTIFICATION WITHOUT SOUND
-short mode = 2  // DISABLE NOTIFICATION 
-
-[ALRegisterUserClientService updateNotificationMode:mode withCompletion:^(ALRegistrationResponse *response, NSError *error) { 
-     [ALUserDefaultsHandler setNotificationMode:mode] ; 
-      NSLog(@"UPDATE Notification Mode Response:%@ Error:%@",response,error); 
-}];
-
-```
-
-f) Save Context when app terminates
+e) Save Context when app terminates
 
 ```
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -232,7 +216,7 @@ f) Save Context when app terminates
 }
 ```
 
-#####g) APNs Certification Type Setup :
+#####f) APNs Certification Type Setup :
 
 Upload your push notification certificate to Applozic Dashboard page under 'Edit Application' section in order to enable real time notification.
 
