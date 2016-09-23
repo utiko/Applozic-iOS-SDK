@@ -2192,13 +2192,26 @@
         }]];
     }
     
-    [theController addAction:[UIAlertAction actionWithTitle:@"Share Contact" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
-        ABPeoplePickerNavigationController *contactPicker = [[ABPeoplePickerNavigationController alloc] init];
-        contactPicker.peoplePickerDelegate = self;
-        [self presentViewController:contactPicker animated:YES completion:nil];
-        
-    }]];
+    if(IS_OS_EARLIER_THAN_10)
+    {
+        [theController addAction:[UIAlertAction actionWithTitle:@"Share Contact" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+            ABPeoplePickerNavigationController *contactPicker = [[ABPeoplePickerNavigationController alloc] init];
+            contactPicker.peoplePickerDelegate = self;
+            [self presentViewController:contactPicker animated:YES completion:nil];
+            
+        }]];
+    }
+    else
+    {
+        [theController addAction:[UIAlertAction actionWithTitle:@"Share Contact" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+              CNContactPickerViewController *contactPicker = [CNContactPickerViewController new];
+              contactPicker.delegate = self;
+              [self presentViewController:contactPicker animated:YES completion:nil];
+              
+          }]];
+    }
     
     [theController addAction:[UIAlertAction actionWithTitle:@"Photos/Videos" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
@@ -2220,6 +2233,13 @@
 {
     ALVCFClass *objectVCF = [[ALVCFClass alloc] init];
     NSString *contactFilePath = [objectVCF saveContactToDocumentDirectory:person];
+    [self processAttachment:contactFilePath andMessageText:@"" andContentType:ALMESSAGE_CONTENT_VCARD];
+}
+
+-(void)contactPicker:(CNContactPickerViewController *)picker didSelectContact:(CNContact *)contact
+{
+    ALVCardClass *vcardClass = [[ALVCardClass alloc] init];
+    NSString *contactFilePath = [vcardClass saveContactToDocDirectory:contact];
     [self processAttachment:contactFilePath andMessageText:@"" andContentType:ALMESSAGE_CONTENT_VCARD];
 }
 
