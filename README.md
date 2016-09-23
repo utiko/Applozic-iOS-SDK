@@ -277,7 +277,7 @@ return true
   }                             
 ```
 
-#### Verify Push Notification Step
+#### Verify Push Notification Setup
 To verify the push notification setup, visit: [https://www.applozic.com/docs/push-notification-test.html](https://www.applozic.com/docs/push-notification-test.html)
 
 
