@@ -2752,6 +2752,11 @@
 
 -(void)updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
 {
+    if (![alUserDetail.userId isEqualToString:self.contactIds])
+    {
+        return;
+    }
+    
     [self setRefreshMainView:TRUE];
     
     double value = [alUserDetail.lastSeenAtTime doubleValue];
