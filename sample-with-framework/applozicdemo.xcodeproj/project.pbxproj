@@ -434,8 +434,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.customer.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d15515f3-ee5b-4af1-ba2c-588cb6f02c10";
-				PROVISIONING_PROFILE_SPECIFIER = "Dev applozic demo";
+				PROVISIONING_PROFILE = "8878b7d7-3f2c-448b-ab7d-b9d15fa33479";
+				PROVISIONING_PROFILE_SPECIFIER = "Applozic-Customer-Demo-2Cerificates";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
@@ -461,8 +461,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.customer.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d15515f3-ee5b-4af1-ba2c-588cb6f02c10";
-				PROVISIONING_PROFILE_SPECIFIER = "Dev applozic demo";
+				PROVISIONING_PROFILE = "8878b7d7-3f2c-448b-ab7d-b9d15fa33479";
+				PROVISIONING_PROFILE_SPECIFIER = "Applozic-Customer-Demo-2Cerificates";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

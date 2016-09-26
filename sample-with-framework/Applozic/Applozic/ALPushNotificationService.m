@@ -121,7 +121,9 @@
             NSLog(@"\nNotification Message:%@\n\nDeviceString:%@\n",notificationMsg,
                   [ALUserDefaultsHandler getDeviceKeyString]);
             
-            if(([[notificationMsg componentsSeparatedByString:@":"][1] isEqualToString:[ALUserDefaultsHandler getDeviceKeyString]]))
+            NSString * keyStringFromMessage = [notificationMsg componentsSeparatedByString:@":"][1];
+            
+            if([keyStringFromMessage isEqualToString:[ALUserDefaultsHandler getDeviceKeyString]])
             {
                 NSLog(@"APNS: Sent by self-device");
                 return YES;
