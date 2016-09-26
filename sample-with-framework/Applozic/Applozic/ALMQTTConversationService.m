@@ -44,6 +44,8 @@ static MQTTSession *session;
 }
 
 -(void) subscribeToConversation {
+   dispatch_async(dispatch_get_main_queue (),^{
+
     @try {
         if (![ALUserDefaultsHandler isLoggedIn]) {
             return;
@@ -85,7 +87,7 @@ static MQTTSession *session;
     @catch (NSException * e) {
         NSLog(@"Exception: %@", e);
     }
-    
+    });
 }
 
 - (void)session:(MQTTSession*)session newMessage:(NSData*)data onTopic:(NSString*)topic {
@@ -340,7 +342,7 @@ static MQTTSession *session;
 
 -(void) unsubscribeToConversation: (NSString *) userKey
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_main_queue (),^{
         
         if (session == nil) {
             return;
@@ -359,6 +361,8 @@ static MQTTSession *session;
 -(void)subscribeToChannelConversation:(NSNumber *)channelKey
 {
     NSLog(@"MQTT_CHANNEL/USER_SUBSCRIBING");
+    dispatch_async(dispatch_get_main_queue (),^{
+
     @try
     {
         if (!session && session.status == MQTTSessionStatusConnected) {
@@ -381,13 +385,14 @@ static MQTTSession *session;
     @catch (NSException * exp) {
         NSLog(@"Exception in subscribing channel :: %@", exp.description);
     }
+    });
+
 }
 
 -(void)unSubscribeToChannelConversation:(NSNumber *)channelKey
 {
      NSLog(@"MQTT_CHANNEL/USER_UNSUBSCRIBING");
-     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
+       dispatch_async(dispatch_get_main_queue (),^{
         if (!session) {
             NSLog(@"MQTT_SESSION_NULL");
             return;

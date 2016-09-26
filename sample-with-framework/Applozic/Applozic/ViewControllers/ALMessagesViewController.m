@@ -116,9 +116,9 @@
     self.alMqttConversationService = [ALMQTTConversationService sharedInstance];
     self.alMqttConversationService.mqttConversationDelegate = self;
     
-    dispatch_async(dispatch_get_main_queue(), ^{
+  //  dispatch_async(dispatch_get_main_queue(), ^{
         [self.alMqttConversationService subscribeToConversation];
-    });
+    //});
     
     CGFloat navigationHeight = self.navigationController.navigationBar.frame.size.height +
     [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -144,9 +144,9 @@
     if (self.navigationController.viewControllers.count == 1)
     {
         NSLog(@"CLOSING_MQTT_CONNECTIONS");
-        dispatch_async(dispatch_get_main_queue(), ^{
+       // dispatch_async(dispatch_get_main_queue(), ^{
             [self.alMqttConversationService unsubscribeToConversation];
-        });
+       // });
     }
 }
 
@@ -1055,13 +1055,15 @@
         return;
     }
     
-    if([ALDataNetworkConnection checkDataNetworkAvailable])
+    if([ALDataNetworkConnection checkDataNetworkAvailable]){
         NSLog(@"MQTT connection closed, subscribing again: %lu", (long)_mqttRetryCount);
-    dispatch_async(dispatch_get_main_queue(), ^{
+        // dispatch_async(dispatch_get_main_queue(), ^{
         NSLog(@"ALMessageVC subscribing channel again....");
         [self.alMqttConversationService subscribeToConversation];
-    });
-    self.mqttRetryCount++;
+        //});
+        self.mqttRetryCount++;
+    }
+
 }
 
 -(void)callLastSeenStatusUpdate
