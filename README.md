@@ -277,6 +277,7 @@ return true
   }                             
 ```
 
+
 ###Documentation:
 For advanced options and customization, visit [Applozic iOS Chat & Messaging SDK Documentation](https://www.applozic.com/docs/ios-chat-sdk.html?utm_source=github&utm_medium=readme&utm_campaign=ios)
 

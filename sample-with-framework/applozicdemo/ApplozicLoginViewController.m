@@ -18,7 +18,7 @@
 #import <Applozic/ALChatLauncher.h>
 #import <Applozic/ALMessageDBService.h>
 #import "ALChatManager.h"
-#import <LaunchChatFromSimpleViewController.h>
+#import "LaunchChatFromSimpleViewController.h"
 
 @interface ApplozicLoginViewController ()
 

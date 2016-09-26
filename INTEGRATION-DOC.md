@@ -236,6 +236,8 @@ For Development:
 For Distribution:
     [ALUserDefaultsHandler setDeviceApnsType:(short)DISTRIBUTION];
 ```
+
+
 ####Step 5: Logout User
 
 Call the following when user logout from your app:

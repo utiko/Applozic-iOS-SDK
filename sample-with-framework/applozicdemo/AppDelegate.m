@@ -15,18 +15,25 @@
 #import "Applozic/ALMessagesViewController.h"
 #import "Applozic/ALPushAssist.h"
 #import "Applozic/ALMessageService.h"
+#import <UserNotifications/UserNotifications.h>
 
 
 
-@interface AppDelegate ()
+
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+
+@interface AppDelegate () <UNUserNotificationCenterDelegate>
 
 @end
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [self registerForNotification];
+
     
     // checks wheather app version is updated/changed then makes server call setting VERSION_CODE
     [ALRegisterUserClientService isAppUpdated];
@@ -46,7 +53,6 @@
         [self.window.rootViewController presentViewController:viewController
                                                      animated:nil
                                                    completion:nil];
-       // [ALUserDefaultsHandler setNoti]
         
     }
     
@@ -83,6 +89,7 @@
     completionHandler(UIBackgroundFetchResultNewData);
     
 }
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -98,6 +105,8 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"APP_ENTER_IN_BACKGROUND" object:nil];
 
 }
+
+
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
@@ -157,6 +166,37 @@
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
     NSLog(@"Failed to get token, error: %@", error);
+}
+
+-(void)registerForNotification
+{
+    if( SYSTEM_VERSION_LESS_THAN( @"10.0" ) )
+    {
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound |    UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        
+    }
+    else
+    {
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        center.delegate = self;
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error)
+         {
+             if( !error )
+             {
+                 [[UIApplication sharedApplication] registerForRemoteNotifications];  // required to get the app to do anything at all about push notifications
+                 NSLog( @"Push registration success." );
+             }
+             else
+             {
+                 NSLog( @"Push registration FAILED" );
+                 NSLog( @"ERROR: %@ - %@", error.localizedFailureReason, error.localizedDescription );
+                 NSLog( @"SUGGESTIONS: %@ - %@", error.localizedRecoveryOptions, error.localizedRecoverySuggestion );  
+             }  
+         }];  
+    }
+    
+    
 }
 
 @end
