@@ -2752,6 +2752,11 @@
 
 -(void)updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
 {
+    if (![alUserDetail.userId isEqualToString:self.contactIds])
+    {
+        return;
+    }
+    
     [self setRefreshMainView:TRUE];
     
     double value = [alUserDetail.lastSeenAtTime doubleValue];
@@ -2993,6 +2998,8 @@
         {
             [super setHeightOfTextViewDynamically];
             self.textMessageViewHeightConstaint.constant = 56.0;
+            NSLog(@"TABLE VIEW -- Y:%f and Height:%f",self.mTableView.frame.origin.y,
+                  self.mTableView.frame.size.height);
         }
         //        NSLog(@"CASE SINGLE");
         return;

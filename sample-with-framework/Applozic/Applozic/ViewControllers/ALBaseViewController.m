@@ -5,6 +5,8 @@
 //  Created by Kumar, Sawant (US - Bengaluru) on 9/23/15.
 //  Copyright (c) 2015 AppLogic. All rights reserved.
 //
+static CGFloat const  sendTextViewCornerRadius = 15.0f;
+
 
 #define NAVIGATION_TEXT_SIZE 20
 #define LAST_SEEN_LABEL_SIZE 10
@@ -45,12 +47,19 @@
     [self setUpTheming];
     
     self.sendMessageTextView.clipsToBounds = YES;
-    self.sendMessageTextView.layer.cornerRadius = self.sendMessageTextView.frame.size.height/5;
+    self.sendMessageTextView.layer.cornerRadius = sendTextViewCornerRadius; //self.sendMessageTextView.frame.size.height/5;
     self.sendMessageTextView.textContainer.lineBreakMode = NSLineBreakByCharWrapping;
-    self.sendMessageTextView.textContainerInset = UIEdgeInsetsMake(self.attachmentOutlet.frame.origin.x, // Top
-                                                                   self.attachmentOutlet.frame.size.width,// Left
-                                                                   self.attachmentOutlet.frame.origin.y, // Bottom
-                                                                   self.attachmentOutlet.frame.size.width/4);   // Right
+    NSLog(@"TEXT INSET TOP:%f: BOTTOM:%f LEFT:%f RIGHT:%f",
+          self.sendMessageTextView.textContainerInset.top,
+          self.sendMessageTextView.textContainerInset.bottom,
+          self.sendMessageTextView.textContainerInset.left,
+          self.sendMessageTextView.textContainerInset.right);
+    self.sendMessageTextView.delegate = self;
+
+//    UIEdgeInsetsMake(self.attachmentOutlet.frame.origin.x, // Top
+//                     self.attachmentOutlet.frame.size.width,// Left
+//                     self.attachmentOutlet.frame.origin.y, // Bottom
+//                    self.attachmentOutlet.frame.size.width/4);   // Right
     self.sendMessageTextView.delegate = self;
     self.placeHolderTxt = @"Write a Message...";
     self.sendMessageTextView.text = self.placeHolderTxt;
@@ -72,6 +81,7 @@
     // Set Beak's Color : Dependant of SendMessage-TextView
     self.beakImageView.image = [_beakImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [self.beakImageView setTintColor:self.sendMessageTextView.backgroundColor];
+    
 
 }
 
@@ -226,7 +236,7 @@
 -(void)sendButtonUI
 {
     [self.sendButton setBackgroundColor:[ALApplozicSettings getColorForSendButton]];
-    self.sendButton.layer.cornerRadius = self.sendButton.frame.size.width/2;
+    self.sendButton.layer.cornerRadius = sendTextViewCornerRadius + 5;
     self.sendButton.layer.masksToBounds = YES;
     
     [self.typingMessageView sendSubviewToBack:self.typeMsgBG];
