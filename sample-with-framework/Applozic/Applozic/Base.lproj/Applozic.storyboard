@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="nQk-LM-enC">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="nQk-LM-enC">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -230,8 +230,8 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="82" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="201-eK-m3i">
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewContactCell" rowHeight="82" id="NOy-HJ-2YL" customClass="ALNewContactCell">
-                                        <rect key="frame" x="0.0" y="86" width="1000" height="82"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewContactCell" rowHeight="82" id="NOy-HJ-2YL" customClass="ALNewContactCell">
+                                        <rect key="frame" x="0.0" y="86" width="600" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NOy-HJ-2YL" id="p0o-92-QNi">
                                             <frame key="frameInset" width="600" height="81"/>
@@ -465,11 +465,11 @@
                             <tableView clipsSubviews="YES" tag="100" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="46" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ilN-FK-5uq">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="memberCell" rowHeight="46" id="EXb-Ck-yJS">
-                                        <rect key="frame" x="0.0" y="28" width="1000" height="46"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="memberCell" rowHeight="46" id="EXb-Ck-yJS">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EXb-Ck-yJS" id="Mmn-Dj-eGq">
-                                            <frame key="frameInset" width="1000" height="45"/>
+                                            <frame key="frameInset" width="600" height="45"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Main Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b0D-o3-Tj0">
@@ -574,10 +574,10 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="userCell" rowHeight="60" id="vev-No-Hw7">
-                                        <rect key="frame" x="0.0" y="28" width="1000" height="60"/>
+                                        <rect key="frame" x="0.0" y="28" width="600" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vev-No-Hw7" id="dZl-o1-IV0">
-                                            <frame key="frameInset" width="1000" height="59"/>
+                                            <frame key="frameInset" width="600" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="504" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BII-FY-L63"/>
@@ -650,7 +650,7 @@
         <scene sceneID="uwJ-c5-MKc">
             <objects>
                 <collectionViewController storyboardIdentifier="collectionView" title="Attachment" extendedLayoutIncludesOpaqueBars="YES" id="5ds-lt-Orl" customClass="ALMultipleAttachmentView" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Cdp-1x-xZh">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="Cdp-1x-xZh">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1013,7 +1013,6 @@
                             <constraint firstAttribute="trailing" secondItem="XrG-C6-GhS" secondAttribute="trailing" identifier="trailing" id="8fX-5Q-Kdx"/>
                             <constraint firstItem="ySq-fe-e5N" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="bottom" constant="8" identifier="typeMessageTopView" id="Bvy-mk-pRc"/>
                             <constraint firstItem="fcy-p5-tcB" firstAttribute="trailing" secondItem="XrG-C6-GhS" secondAttribute="trailing" identifier="Load Earlier Action.trailing" id="CQw-CB-O1b"/>
-                            <constraint firstItem="XrG-C6-GhS" firstAttribute="top" secondItem="IEC-BM-wED" secondAttribute="top" identifier="MTable View.top" id="DHs-aS-wdN"/>
                             <constraint firstItem="onN-md-bNU" firstAttribute="top" secondItem="ySq-fe-e5N" secondAttribute="bottom" constant="-2" identifier="CheckBottom" id="DfS-YI-cZT"/>
                             <constraint firstItem="fcy-p5-tcB" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="top" identifier="Load Earlier Action.top" id="EqC-1E-6IV"/>
                             <constraint firstItem="Jo9-Fl-OK9" firstAttribute="centerX" secondItem="cVw-Po-VWO" secondAttribute="centerX" id="HnX-Gu-EjJ"/>
@@ -1025,6 +1024,7 @@
                             <constraint firstItem="cVw-Po-VWO" firstAttribute="centerY" secondItem="IEC-BM-wED" secondAttribute="centerY" identifier="MActivity Indicator.centerY" id="WSG-Up-0QY"/>
                             <constraint firstItem="XrG-C6-GhS" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leading" identifier="MTable View.Leading" id="X4Z-tI-BRd"/>
                             <constraint firstItem="fcy-p5-tcB" firstAttribute="leading" secondItem="XrG-C6-GhS" secondAttribute="leading" identifier="Load Earlier Action.leading" id="cgs-kW-cTD"/>
+                            <constraint firstItem="XrG-C6-GhS" firstAttribute="top" secondItem="lnW-pa-sGH" secondAttribute="bottom" id="ly8-Bo-7zn"/>
                             <constraint firstItem="cVw-Po-VWO" firstAttribute="top" secondItem="7lO-5W-DOH" secondAttribute="bottom" constant="74" identifier="ActivityIndicatorTop" id="sAf-6k-d1y"/>
                             <constraint firstItem="ySq-fe-e5N" firstAttribute="leading" secondItem="fcy-p5-tcB" secondAttribute="leading" identifier="typingMessageViewLeading" id="ugG-V8-Pbe"/>
                         </constraints>
@@ -1037,7 +1037,6 @@
                             </mask>
                         </variation>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
                     <connections>
@@ -1051,7 +1050,6 @@
                         <outlet property="pickerView" destination="7lO-5W-DOH" id="69e-gZ-jwd"/>
                         <outlet property="sendButton" destination="arI-8a-uqq" id="tOA-SE-Ebv"/>
                         <outlet property="sendMessageTextView" destination="WNc-sD-ErX" id="YZW-Qo-ZZq"/>
-                        <outlet property="tableViewTop2Constraint" destination="DHs-aS-wdN" id="wFJ-bJ-Sos"/>
                         <outlet property="textMessageViewHeightConstaint" destination="XwR-y6-Wd8" id="4Hu-eC-LgS"/>
                         <outlet property="textViewHeightConstraint" destination="9Ar-4U-wMr" id="Jbc-Hc-ZAk"/>
                         <outlet property="typeMsgBG" destination="XWn-8F-vv1" id="vpR-C8-73Z"/>
@@ -1061,7 +1059,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KEu-PH-USU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="ICE-46-P9k"/>
             </objects>
-            <point key="canvasLocation" x="3020.625" y="280.98591549295776"/>
+            <point key="canvasLocation" x="3019.1999999999998" y="280.65967016491754"/>
         </scene>
         <!--Record Audio-->
         <scene sceneID="Aui-Yj-964">
@@ -1603,7 +1601,7 @@ Upload Image Button.centerX = scd_profile_BG.centerX + 50</string>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cae-ki-ei4" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" systemItem="more" id="fx6-zu-YmW"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Apy-Bi-oR6">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Apy-Bi-oR6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
