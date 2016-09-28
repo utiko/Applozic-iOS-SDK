@@ -2765,11 +2765,11 @@
     }
     else if(value > 0)
     {
-        if (![alUserDetail.userId isEqualToString:self.contactIds])
+        if ([alUserDetail.userId isEqualToString:self.contactIds])
         {
-            return;
+            [self formatDateTime:alUserDetail andValue:value];
         }
-        [self formatDateTime:alUserDetail andValue:value];
+        
     }
     else
     {
