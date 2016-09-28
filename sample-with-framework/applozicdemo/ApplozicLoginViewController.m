@@ -18,7 +18,7 @@
 #import <Applozic/ALChatLauncher.h>
 #import <Applozic/ALMessageDBService.h>
 #import "ALChatManager.h"
-#import <LaunchChatFromSimpleViewController.h>
+#import "LaunchChatFromSimpleViewController.h"
 
 @interface ApplozicLoginViewController ()
 
@@ -141,8 +141,8 @@
 
 - (IBAction)login:(id)sender {
     
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    [registerUserClientService logout];
+//    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+//    [registerUserClientService logout];
     // Initial login view .....
     
     
@@ -181,10 +181,7 @@
     UIViewController *launchChat = [storyboardM instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
     [self presentViewController:launchChat animated:YES completion:nil];
     
-
 }
-
-
 
 //-------------------------------------------------------------------------------------------------------------------
 //     Textfield delegate methods

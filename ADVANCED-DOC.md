@@ -1,10 +1,30 @@
+### Notifications 
+
+Enable/Disable Notification & Sound
+
+Below method should be called to change notification.
+
+```
+//THIS IS OPTIONAL AND USE IF USER NEEDS TO UPDATE NOTIFICATIONS IN REAL TIME
+
+short mode = 0  // SOUND + NOTIFICATION : THIS IS DEFAULT
+short mode = 1  // NOTIFICATION WITHOUT SOUND
+short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
+
+[ALRegisterUserClientService updateNotificationMode:mode withCompletion:^(ALRegistrationResponse *response, NSError *error) { 
+     [ALUserDefaultsHandler setNotificationMode:mode] ; 
+      NSLog(@"UPDATE Notification Mode Response:%@ Error:%@",response,error); 
+}];
+
+```
+
 ### Contacts
 
 Applozic framework provides convenient APIs for building your own contact. Developers can build and store contacts in three different ways. 
 
  **Build your contact:** 
 
-** a ) Simple method to create your contact is to create contact.
+** a) Simple method to create your contact is to create contact.
 **                 
 
 
@@ -91,7 +111,7 @@ ALContact *contact4 = [[ALContact alloc] initWithJSONString:jsonString];
 ```
 
 
-Below are additional APIs for contact load, update and delete and requires a ALContact object or array of ALContact objects. 
+Below are additional APIs for contact load, update, delete and requires a ALContact object or array of ALContact objects. 
 
 ** Objective - C **            
 ```
@@ -123,7 +143,7 @@ Below are additional APIs for contact load, update and delete and requires a ALC
 
 ### Contextual Conversation
  
- Applozic SDK provide APIs which let you set and customise the chat’s context. Developers can create a ‘Conversation’ and launch a chat with context set. 
+ Applozic SDK provide APIs which let you set and customise the chat's context. Developers can create a Conversation and launch a chat with context set. 
 
 The picture below shown depicts the context header set below the navigation bar.Suppose a buyer want to have context chat with seller 'Adarsh' on product macbook pro.
 
@@ -135,8 +155,9 @@ ALConversationProxy have three type of properties as following:
 
 
    1. topicId : A unique ID for your Topic/context you want to chat.                        
-   2. userId : User ID of person you like to start your chat with.                    
+   2. userId : User ID of receiver. 
    3. alTopicDetail: Contains the following:
+   
       Topic title                                               
       Topic subtitle             
       Image link                
@@ -185,32 +206,38 @@ __Class to import :__ Applozic/ALChannelService.h
 
 ##### Create Channel/Group
 
-You can create a Channel/Group by simply calling createChannel method. The callback argument (channelKey) will be unique ChannelId/GroupId created by applozic server. You need to store this for any further operations( like : add member, remove  member, delete group/channel etc) on Channel/Group.  
+You can create a Channel/Group by simply calling createChannel method. The callback argument ALChannel will have Channel information created by applozic server.In case you are not passing clientChannelKey, you need to store channelKey from ALChannel object for any further operations( like : add member, remove  member, delete group/channel etc) on Channel/Group.   
 ```
 -(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey
       andMembersList:(NSMutableArray *)memberArray andImageLink:(NSString *)imageLink 
       withCompletion:(void(^)(ALChannel *alChannel))completion
 ```
-__Parameters:__
 
-__channelName :__ Name of group
+| Parameter  | Required | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |       
+| channelName  | Yes  |   | channel name  |
+| clientChannelKey  | No  | nil  | Channel key maintain by client. This can be any unique identifier passed by client, to identify his group/channel |
+| memberArray  | Yes  |   | Array of group member's userId  |
+| imageLink  | Yes  |   | group profile image link  |
+| (void(^)(ALChannel *alChannel))completion  |   |   | completion block, once group is created successfully. This will return ALChannel object, which stores information about newly created channel. |
 
-__memberArray :__ Array of contactId/userid of members
+ 
 
  
 ##### Add User to Channel/Group
  ```
 -(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey 
 orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion
- ``` 	  	
-__Parameters:__
-
-__userId :__ contactId/userId
-
-__channelkey :__ channel key/GroupId of your channel where member will be added.
-
-If member added successfully then it will return YES else NO. 
+ ``` 	 
  
+| Parameter  | Required | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |       
+| userId  | Yes  |   | member's userId to be added to group  |
+| channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
+| clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
+| (void(^)(NSError *error,ALAPIResponse *response))completion  | Yes  |   | completion block. If member added successfully, response object's status will have value as sucess. |
+
+
 __NOTE:__ Only admin can add member to the group/channel. For more detail see check Admin section.
 
 
@@ -219,45 +246,42 @@ __NOTE:__ Only admin can add member to the group/channel. For more detail see ch
 -(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey 
 orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *error, NSString *response))completion
  ```
-__Parameters:__
-
-__userId :__ contactId OR userId
-
-__channelkey :__ channel key of your channel from which member will be removed.
-
-If member removed successfully then it will return YES else NO. 
-
-__NOTE:__ Only admin can add member to the group/channel. For more detail see check Admin section.
  
+| Parameter  | Required | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |       
+| userId  | Yes  |   | member's userId to be removed from group  |
+| channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
+| clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
+| (void(^)(NSError *error, NSString *response))completion  | Yes  |   | completion block. |
 
-##### Delete Channel/Grou
+
+
+##### Delete Channel/Group
 ```
 -(void)deleteChannel:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey
       withCompletion:(void(^)(NSError *error))completion
 ```
-__Parameters:__
-
-__channelkey :__ channel key of your channel from which member will be removed.
-
-__Return Type :__ BOOL
-
-If channel deleted successfully then it will return YES else NO. 
+ 
+| Parameter  | Required | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |       
+| channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
+| clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
+| (void(^)(NSError *error))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
 
 __NOTE:__ Only admin can add member to the group/channel. For more detail see check Admin section.
  
-
 ##### Leave Channel/Group
 ```
 -(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId orClientChannelKey:(NSString *)clientChannelKey
      withCompletion:(void(^)(NSError *error))completion
 ```
-__Parameters:__
 
-__channelkey :__ channel key of your channel whom you are leaving.
+| Parameter  | Required | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |       
+| channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
+| clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
+| (void(^)(NSError *error))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
 
-__userId:__ userid  of leaving user
-
-If member leaved successfully then it will return YES else NO. 
 
 
 ##### Rename Channel/Group
@@ -265,13 +289,13 @@ If member leaved successfully then it will return YES else NO.
 -(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName orClientChannelKey:(NSString *)clientChannelKey
       withCompletion:(void(^)(NSError *error))completion
  ```
-__Parameters:__
 
-__newName :__ new name of channel you wish to give
-
-__channelkey :__ channel key of your channel whom you are renaming.
-
-__Return Type :__ BOOL
+| Parameter  | Required | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |       
+| channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
+| newName  | Yes |   | new name of channel.|
+| clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
+| (void(^)(NSError *error))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
 
 If renamed successfully then it will return YES else NO. 
 
@@ -283,11 +307,9 @@ As group admin have rights to do delete channel, remove  channel and add new mem
 ```
 -(BOOL) checkAdmin:(NSNumber *) channelKey
 ```
-__Parameters:__
-
-__channelkey :__ channel key of your channel
-
-__Return Type :__ BOOL
+| Parameter  | Required | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |       
+| channelKey  | No |   | applozic channelKey.|
 
 If renamed successfully then it will return YES else NO.                   
 

@@ -378,7 +378,6 @@
     CGFloat width = app.statusBarFrame.size.width;
     UIView *statusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, -height, width, height)];
     statusBarView.backgroundColor = [ALApplozicSettings getStatusBarBGColor];
-    
     return statusBarView;
 }
 

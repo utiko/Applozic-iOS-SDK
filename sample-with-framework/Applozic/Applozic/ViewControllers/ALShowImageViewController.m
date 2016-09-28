@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backBarButton;
 @property (weak, nonatomic) IBOutlet UIView *statusBarBGView;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+//@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @end
 
@@ -31,38 +31,28 @@
     [self.imageView setImage:self.image];
 }
 
-
--(void)setupBarItems{
-    
-
+-(void)setupBarItems
+{
     self.alImageActivity = [[ALImageActivity alloc] init];
     self.alImageActivity.imageActivityDelegate = self;
     
-    self.navigationBar.frame = CGRectMake(0, 0,
-                                          CGRectGetWidth(self.view.frame),
-                                        100);
     [self.navigationBar setTintColor:[ALApplozicSettings getColorForNavigation]];
     [self.navigationBar setBarTintColor:[ALApplozicSettings getColorForNavigation]];
-    
+    self.navigationBar.topItem.title = @"Image Preview";
+    self.navigationBar.titleTextAttributes = @{
+                                               NSForegroundColorAttributeName:[ALApplozicSettings getColorForNavigationItem]
+                                               };
     [self.toolBar setBarTintColor:[ALApplozicSettings getColorForNavigation]];
-    
     [self.backBarButton setTintColor:[ALApplozicSettings getColorForNavigationItem]];
-    
     [self.shareToolBarButton setTintColor:[ALApplozicSettings getColorForNavigationItem]];
-
-    [self setStatusBarBackgroundColor:[ALApplozicSettings getStatusBarBGColor]];
+    [self.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
 }
 
-- (void)setStatusBarBackgroundColor:(UIColor *)color {
-    /*
-    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
-    if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-        statusBar.backgroundColor = color;
-    }
-     */
-    
-    self.statusBarBGView.backgroundColor = color;
+    [self.imageView setImage:self.image];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -109,12 +99,13 @@
     [self presentViewController:activityVC animated:TRUE completion:nil];
 }
 
--(void)showContactsToShareImage{
+-(void)showContactsToShareImage
+{
 
     UIStoryboard * applozic = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:[ALNewContactsViewController class]]];
     
     self.contactsViewController = [applozic instantiateViewControllerWithIdentifier:@"ALNewContactsViewController"];
-    self.contactsViewController.forGroup= [NSNumber numberWithInteger:IMAGE_SHARE];
+    self.contactsViewController.forGroup = [NSNumber numberWithInteger:IMAGE_SHARE];
 
     
     UIBarButtonItem * leftBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(dismissContactViewControllerWithCompletion:)];

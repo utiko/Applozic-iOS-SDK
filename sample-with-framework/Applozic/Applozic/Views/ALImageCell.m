@@ -460,6 +460,14 @@ UIViewController * modalCon;
     alShowImageViewController.view.backgroundColor=[UIColor blackColor];
     alShowImageViewController.view.userInteractionEnabled=YES;
     
+/*
+    alShowImageViewController.view.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.4];
+    alShowImageViewController.view.userInteractionEnabled = YES;
+    
+    [alShowImageViewController setImage:self.mImageView.image];
+    [alShowImageViewController setAlMessage:self.mMessage];
+
+    */
     
     [self.delegate showFullScreen:alShowImageViewController];
     

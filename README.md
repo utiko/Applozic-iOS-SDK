@@ -6,7 +6,8 @@ iOS Chat SDK
 
 Open source iOS Chat and Messaging SDK that lets you add real time messaging in your mobile (android, iOS) applications and website.
 
-Signup at https://www.applozic.com/signup.html to get the application key.
+Signup at [https://www.applozic.com/signup.html](https://www.applozic.com/signup.html?utm_source=github&utm_medium=readme&utm_campaign=ios) to get the application key.
+
 
 Works for both Objective-C and Swift.
 
@@ -14,9 +15,11 @@ It is a light weight Objective-C Chat and Messenger SDK.
 
 Applozic One to One and Group Chat SDK
 
-Documentation: https://www.applozic.com/docs/ios-chat-sdk.html
+**Documentation:** [https://www.applozic.com/docs/ios-chat-sdk.html](https://www.applozic.com/docs/ios-chat-sdk.html?utm_source=github&utm_medium=readme&utm_campaign=ios)
 
-Features:
+**Sample Projects:** [https://github.com/AppLozic/Applozic-iOS-Chat-Samples](https://github.com/AppLozic/Applozic-iOS-Chat-Samples)
+
+####Features:
 
 
  One to one and Group Chat
@@ -59,9 +62,9 @@ Features:
 
 **Create your Application**
 
-a )  [**Sign up**](https://www.applozic.com/signup.html?utm_source=ios&utm_medium=github) with applozic to get your application key.
+a) [**Sign up**](https://www.applozic.com/signup.html?utm_source=github&utm_medium=readme&utm_campaign=ios) with applozic to get your application key.
 
-b ) Once you signed up create your Application with required details on admin dashboard. Upload your push-notification certificate to our portal to enable real time notification.         
+b) Once you signed up create your Application with required details on admin dashboard. Upload your push-notification certificate to our portal to enable real time notification.         
 
 
 
@@ -83,14 +86,14 @@ c) Once you create your application you can see your application key listed on a
 
 **Installing the iOS SDK** 
 
-**ADD APPLOZIC FRAMEWORK **
+**ADD APPLOZIC FRAMEWORK**
 Clone or download the SDK (https://github.com/AppLozic/Applozic-iOS-SDK)
-Get the latest framework "Applozic.framework" from Applozic github repo [**sample project**](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp)
+Get the latest framework "Applozic.framework" from Applozic github repo [**sample project**](https://github.com/AppLozic/Applozic-iOS-Chat-Samples)
 
 **Add framework to your project:**
 
-i ) Paste Applozic framework to root folder of your project. 
-ii ) Go to Build Phase. Expand  Embedded frameworks and add applozic framework.         
+i) Paste Applozic framework to root folder of your project. 
+ii) Go to Build Phase. Expand  Embedded frameworks and add applozic framework.         
 
 
 
@@ -103,9 +106,9 @@ ii ) Go to Build Phase. Expand  Embedded frameworks and add applozic framework.
 
 You can test your chat quickly by adding below .h and .m file to your project.
 
-[**ALChatManager.h**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sampleapp/applozicdemo/ALChatManager.h)        
+[**ALChatManager.h**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sample-with-framework/applozicdemo/ALChatManager.h)        
 
-[**ALChatManager.m**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sampleapp/applozicdemo/ALChatManager.m)  
+[**ALChatManager.m**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sample-with-framework/applozicdemo/ALChatManager.m)  
 
 Change applicationID in ALChatManager and you are ready to launch your chat from your controller :)
 
@@ -126,9 +129,9 @@ Launch your chat
 Detail about user creation and registraion:
 
 
-**PUSH NOTIFICATION REGISTRATION AND HANDLING **
+**PUSH NOTIFICATION REGISTRATION AND HANDLING**
 
-**a ) Send device token to applozic server:**
+**a) Send device token to applozic server:**
 
 In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **method  send device registration to applozic server after you get deviceToken from APNS. Sample code is as below:             
 
@@ -136,13 +139,13 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
 ```
 func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
 
-    let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+    let characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
 
-    let deviceTokenString: String = ( deviceToken.description as NSString )
-    .stringByTrimmingCharactersInSet( characterSet )
-    .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
+    let deviceTokenString: String = (deviceToken.description as NSString)
+    .stringByTrimmingCharactersInSet(characterSet )
+    .stringByReplacingOccurrencesOfString(" ", withString: "") as String
 
-    print( deviceTokenString )
+    print(deviceTokenString)
 
     if (ALUserDefaultsHandler.getApnDeviceToken() != deviceTokenString){
 
@@ -158,8 +161,7 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
 **Objective-C**      
 ```
  - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)
-   deviceToken       
-   {                
+   deviceToken {                
   
     const unsigned *tokenBytes = [deviceToken bytes];            
     NSString *hexToken = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",                 
@@ -173,17 +175,15 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
    //TO AVOID Multiple call to server check if previous apns token is same as recent one, 
    if different call app lozic server.           
 
-    if (![[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken])              
-    {                         
+    if (![[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken]) {                         
        ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];          
        [registerUserClientService updateApnDeviceTokenWithCompletion
        :apnDeviceToken withCompletion:^(ALRegistrationResponse
-       *rResponse, NSError *error)       
-     {              
-       if (error)         
-          {          
+       *rResponse, NSError *error) {   
+       
+       if (error) {          
              NSLog(@"%@",error);             
-            return ;           
+            return;           
           }              
     NSLog(@"Registration response from server:%@", rResponse);                         
     }]; } }                                 
@@ -205,27 +205,22 @@ func application(application: UIApplication,  didReceiveRemoteNotification userI
     //IF not a appplozic notification, process it
 
     if (applozicProcessed) {
-
         //Note: notification for app
     }
-
 }
 ```
 
 **Objective-C**      
   ```
-  - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary         
-  {            
+  - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary {
+  
    NSLog(@"Received notification: %@", dictionary);           
-   
    ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];        
    BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:
-   [[UIApplication sharedApplication]     applicationState] == UIApplicationStateActive];             
+   [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive];             
   
     //IF not a appplozic notification, process it            
-  
-    if (!applozicProcessed)            
-      {                
+    if (!applozicProcessed) {                
          //Note: notification for app          
     } }                                                           
 ```
@@ -241,12 +236,11 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 let alApplocalNotificationHnadler : ALAppLocalNotifications =  ALAppLocalNotifications.appLocalNotificationHandler();
 alApplocalNotificationHnadler.dataConnectionNotificationHandler();
 
-    if (launchOptions != nil)
-    {
+    if (launchOptions != nil) {
+    
     let dictionary = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary
 
-        if (dictionary != nil)
-        {
+        if (dictionary != nil) {
             print("launched from push notification")
             let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
 
@@ -265,26 +259,30 @@ return true
 
 **Objective-C**    
 ```
- - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions    
-  {                     
+ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions { 
+  
   // Override point for customization after application launch.                              
   NSLog(@"launchOptions: %@", launchOptions);                  
-  if (launchOptions != nil)               
-  {             
+  if (launchOptions != nil) {
+  
   NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];         
-  if (dictionary != nil)             
-    {          
+  if (dictionary != nil) {
       NSLog(@"Launched from push notification: %@", dictionary);        
       ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];            
       BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:NO];               
-  if (!applozicProcessed)                 
-     {            
+  if (!applozicProcessed) {            
        //Note: notification for app              
      } } }                                   
       return YES;                 
   }                             
-
 ```
+
+
+###Documentation:
+For advanced options and customization, visit [Applozic iOS Chat & Messaging SDK Documentation](https://www.applozic.com/docs/ios-chat-sdk.html?utm_source=github&utm_medium=readme&utm_campaign=ios)
+
+
+
 ### Changelog
 
 __Version 3.3__
@@ -382,7 +380,7 @@ __Version 2.0__
    * Video messages
  * Image compression (Configurable)
  
-For more details, visit: https://www.applozic.com/docs/ios-chat-sdk.html
+
 
 ###Sample code in Objective-C to build messenger and chat app
 
@@ -400,6 +398,9 @@ https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp-swift
 We provide support over at [StackOverflow] (http://stackoverflow.com/questions/tagged/applozic) when you tag using applozic, ask us anything.
 
 Applozic is the best ios chat sdk for instant messaging, still not convinced? Write to us at github@applozic.com and we will be happy to schedule a demo for you.
+
+###Free iOS Chat SDK - Supports both Objective-C and Swift
+Special plans for startup and open source contributors, write to us at github@applozic.com 
 
 ##Github projects
 

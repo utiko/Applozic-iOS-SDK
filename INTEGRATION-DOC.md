@@ -5,20 +5,38 @@
 
 ###Objective-C
 
-####Step 1: Download Chat SDK
+####Step 1: Chat SDK Installation
 
-**ADD APPLOZIC FRAMEWORK**
+### Automatic Installation via CocoaPods
+
+i) Open terminal and navigate to your project root directory and run command ```pod init``` in terminal
+
+
+ii) Go to project directory open pod file and add code in that
+
+```
+ pod 'Applozic', '3.2.7'
+```
+
+For reference download our sample project here [**ApplozicCocoaPodDemo**](https://github.com/AppLozic/Applozic-iOS-Chat-Samples)
+
+### Add Framework Manually 
+
+**NOTE: This step is needed only when not using cocoapods.** 
+
 
 Download Applozic Chat latest framework [**here**](https://github.com/AppLozic/Applozic-iOS-SDK/raw/master/Frameworks) and add it to your project.
 
-You can download Sample Chat app code (https://github.com/AppLozic/Applozic-iOS-SDK)  [**sample project**](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp) for more reference.
+Note : Framework folder has two frameworks.
 
+1. Universal framework: Complied for both simultor and real devices.
+2. Archive framework: Complied for real device only. When archiving your app, please use archive framework.
 
 **Add framework to your project:**
 
-i ) Paste Applozic framework to root folder of your project. 
+i) Paste Applozic framework to root folder of your project. 
 
-ii ) Go to Build Phase. 
+ii) Go to Build Phase. 
 
 Expand Embedded frameworks and add applozic framework.         
 
@@ -26,7 +44,7 @@ Expand Embedded frameworks and add applozic framework.
 ![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Resized-adding-applozic-framework.png)        
 
 
-####Step 2:  Login/Register User
+####Step 2: Login/Register User
 Applozic will create a new user if the user doesn't exists. userId is the unique identifier for any user, it can be anything like email, phone number or uuid from your database.
 
 
@@ -38,56 +56,38 @@ Download ALChatManager.h and ALChatManager.m file and add to your project.
 
 [**ALChatManager.m**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sample-with-framework/applozicdemo/ALChatManager.m)  
 
-Change value of applicationID in ALChatManager.h with the [Applozic Application Key](https://www.applozic.com/docs/ios-chat-sdk.html#first-level), fill your logged-in user detail and you are ready to launch your chat from your controller.
+Change value of applicationID in ALChatManager.h with the [Applozic Application Key](https://www.applozic.com/docs/ios-chat-sdk.html#first-level). 
 
 
 ii) Login/Register User:
 
-Convenient methods are present in ALChatManager.m to register user with applozic. For simple user registration in background, you can use below method:
+Create applozic user and add details to applozic user object.
+```
+  ALUser *alUser = [[ALUser alloc] init];
+  [alUser setUserId:@"testUser"]; //NOTE : +,*,? are not allowed chars in userId.
+  [alUser setDisplayName:@"Applozic Test"]; // Display name of user 
+  [alUser setContactNumber:@""];// formatted contact no
+  [alUser setimageLink:@"user_profile_image_link"];// User's profile image link.
+```
+Convenient methods are present in ALChatManager.m to register user with applozic. You can Register user to applozic server by using below method from AlChatManager.h. 
 
 ```
-  ALUser *user = [[ALUser alloc] init];
-  [user setUserId:@"testUser"]; //NOTE : +,*,? are not allowed chars in userId.
-  [user setDisplayName:@"Applozic Test"]; // Display name of user 
-  [user setContactNumber:@""];// formatted contact no
-  [user setimageLink:@"user_profile_image_link"];// User's profile image link.
+    ALChatManager * chatManager = [[ALChatManager alloc] init];
+    [chatManager registerUser:aluser]; 
 ```
-
-```
- -(void)registerUser:(ALUser *)alUser;
-
-```
-For performing some action just after user registration, ue the below method:
-
-```
--(void)registerUserWithCompletion:(ALUser *)alUser withHandler:(void(^)(ALRegistrationResponse *rResponse, NSError *error))completion
-```
-For example, if your very first screen of app is chat screen, you can launch chatlist on success of registration. 
-
-
 
 ####Step 3: Initiate Chat
 
 1) Launch chat list screen:
 
 ```
--(void)launchChat: (UIViewController *)fromViewController; //Use this method to launch chat list
-   
-   //Example: 
-    ALChatManager * chatManager = [[ALChatManager alloc] init];
     [chatManager launchChat:<Your Controller>];
 ```
 
 2) Launch chat with specific user:
 
 ```
-// Individual chat list launch for group or user with display name
-
--(void)launchChatForUserWithDisplayName:(NSString * )userId withGroupId:(NSNumber*)groupID andwithDisplayName:(NSString*)displayName andFromViewController:(UIViewController*)fromViewController;
-
-//Example:
   NSString * userIdOfReceiver =  @"receiverUserId";
-  ALChatManager * chatManager = [[ALChatManager alloc] init];
   [chatManager launchChatForUserWithDisplayName:userIdOfReceiver 
   withGroupId:nil  //If launched for group, pass groupId(pass userId as nil)
   andwithDisplayName:nil //Not mendatory, if receiver is not already registered you should pass Displayname.
@@ -103,8 +103,7 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
 
 ```
  - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)
-   deviceToken       
-   {                
+   deviceToken {                
   
     const unsigned *tokenBytes = [deviceToken bytes];            
     NSString *hexToken = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",                 
@@ -116,22 +115,22 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
     NSLog(@"apnDeviceToken: %@", hexToken);                  
  
    //TO AVOID Multiple call to server check if previous apns token is same as recent one, 
-   if different call app lozic server.           
+   If its different then call Applozic server.          
 
-    if (![[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken])              
-    {                         
+    if (![[ALUserDefaultsHandler getApnDeviceToken] isEqualToString:apnDeviceToken]) {                         
        ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];          
        [registerUserClientService updateApnDeviceTokenWithCompletion
        :apnDeviceToken withCompletion:^(ALRegistrationResponse
-       *rResponse, NSError *error)       
-     {              
-       if (error)         
-          {          
+       *rResponse, NSError *error) {   
+       
+       if (error) {          
              NSLog(@"%@",error);             
-            return ;           
+            return;           
           }              
     NSLog(@"Registration response from server:%@", rResponse);                         
-    }]; } }                                 
+    }]; 
+  } 
+}                                 
 
 ```
 
@@ -140,56 +139,84 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
 
 Once your app receive notification, pass it to Applozic handler for chat notification processing.             
 
-  ```
-  - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary         
-  {            
-   NSLog(@"Received notification: %@", dictionary);           
+```
+
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
    
-   ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];        
-   BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:
-   [[UIApplication sharedApplication]     applicationState] == UIApplicationStateActive];             
-  
-    //IF not a appplozic notification, process it            
-  
-    if (!applozicProcessed)            
-      {                
-         //Note: notification for app          
-    } 
-  }                                                           
+    NSLog(@"Received notification Completion: %@", userInfo);
+    ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
+    [pushNotificationService notificationArrivedToApplication:application withDictionary:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
 ```
 
 
 #####c) Handling app launch on notification click :          
 
 ```
- - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions    
-  {                     
-  
-   // Register for Applozic notification tap actions and network change notifications
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+    
+    // checks wheather app version is updated/changed then makes server call setting VERSION_CODE
+    [ALRegisterUserClientService isAppUpdated];
+    
+    // Register for Applozic notification tap actions and network change notifications
     ALAppLocalNotifications *localNotification = [ALAppLocalNotifications appLocalNotificationHandler];
     [localNotification dataConnectionNotificationHandler];
     
-
-  // Override point for customization after application launch.                              
-  NSLog(@"launchOptions: %@", launchOptions);                  
-  if (launchOptions != nil)               
-  {             
-  NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];         
-  if (dictionary != nil)             
-    {          
-      NSLog(@"Launched from push notification: %@", dictionary);        
-      ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];            
-      BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:NO];               
-  if (!applozicProcessed)                 
-     {            
-       //Note: notification for app              
-     } } }                                   
-      return YES;                 
-  }                             
+    // Override point for customization after application launch.
+    NSLog(@"launchOptions: %@", launchOptions);
+    if (launchOptions != nil) {
+        NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (dictionary != nil) {
+            NSLog(@"Launched from push notification: %@", dictionary);
+            ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
+            BOOL applozicProcessed = [pushNotificationService processPushNotification:dictionary updateUI:[NSNumber numberWithInt:APP_STATE_INACTIVE]];
+            
+            //IF not a appplozic notification, process it
+            if (!applozicProcessed) {
+                //Note: notification for app
+            }
+        }
+    }
+    return YES;
+}
 
 ```
 
-#####d) APNs Certification Type Setup :
+d) AppDelegate changes to observe background/foreground notification.
+
+```
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+    [registerUserClientService disconnect];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"APP_ENTER_IN_BACKGROUND" object:nil];
+}
+```
+
+```
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+    [registerUserClientService connect];
+    [ALPushNotificationService applicationEntersForeground];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"APP_ENTER_IN_FOREGROUND" object:nil];
+}
+```
+
+e) Save Context when app terminates
+
+```
+- (void)applicationWillTerminate:(UIApplication *)application {
+
+    [[ALDBHandler sharedInstance] saveContext];
+}
+```
+
+#####f) APNs Certification Type Setup :
 
 Upload your push notification certificate to Applozic Dashboard page under 'Edit Application' section in order to enable real time notification.
 
@@ -231,7 +258,7 @@ Call the following when user logout from your app:
 
 Download Applozic Chat latest framework [**here**](https://github.com/AppLozic/Applozic-iOS-SDK/raw/master/Frameworks) and add it to your project.
 
-You can download Sample Chat app code (https://github.com/AppLozic/Applozic-iOS-SDK)  [**sample project**](https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp-swift) for more reference.
+You can download Sample Chat app code (https://github.com/AppLozic/Applozic-iOS-SDK)  [**sample project**](https://github.com/AppLozic/Applozic-iOS-Chat-Samples) for more reference.
 
 
 **Add framework to your project:**
@@ -254,7 +281,7 @@ i) Add Helper Classes:
 
 Download ALChatManager.swift and add to your project.
 
-[**ALChatManager.swift**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-SDK/master/sampleapp-swift/sampleapp-swift/ALChatManager.swift)  
+[**ALChatManager.swift**](https://raw.githubusercontent.com/AppLozic/Applozic-iOS-Chat-Samples/master/sampleapp-swift/sampleapp-swift/ALChatManager.swift)  
 
 ii) Add New cocoa class NSObject+ApplozicBridge in objective-c. On adding it will ask “would you like to create bridging header” say “yes” and in bridging file paste this code
 
@@ -330,15 +357,15 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken** met
 ```
 func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
 
-    let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+    let characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
 
-    let deviceTokenString: String = ( deviceToken.description as NSString )
-    .stringByTrimmingCharactersInSet( characterSet )
-    .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
+    let deviceTokenString: String = (deviceToken.description as NSString)
+    .stringByTrimmingCharactersInSet(characterSet)
+    .stringByReplacingOccurrencesOfString(" ", withString: "") as String
 
-    print( deviceTokenString )
+    print(deviceTokenString)
 
-    if (ALUserDefaultsHandler.getApnDeviceToken() != deviceTokenString){
+    if (ALUserDefaultsHandler.getApnDeviceToken() != deviceTokenString) {
 
         let alRegisterUserClientService: ALRegisterUserClientService = ALRegisterUserClientService()
         alRegisterUserClientService.updateApnDeviceTokenWithCompletion(deviceTokenString, withCompletion: { (response, error) in
@@ -355,18 +382,12 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
 Once your app receive notification, pass it to Applozic handler for chat notification processing.             
 
 ```
-func application(application: UIApplication,  didReceiveRemoteNotification userInfo: [NSObject : AnyObject],  fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-
-    let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
-    let applozicProcessed = alPushNotificationService.processPushNotification(userInfo, updateUI: application.applicationState == UIApplicationState.Active) as Bool
-
-    //IF not a appplozic notification, process it
-
-    if (applozicProcessed) {
-
-        //Note: notification for app
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        print("Received notification Completion : \(userInfo)")
+        let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
+        alPushNotificationService.notificationArrivedToApplication(application, withDictionary: userInfo)
+        completionHandler(UIBackgroundFetchResult.NewData)
     }
-
 }                                                         
 ```
 
@@ -380,19 +401,17 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 let alApplocalNotificationHnadler : ALAppLocalNotifications =  ALAppLocalNotifications.appLocalNotificationHandler();
 alApplocalNotificationHnadler.dataConnectionNotificationHandler();
 
-    if (launchOptions != nil)
-    {
+    if (launchOptions != nil) {
     let dictionary = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary
 
-        if (dictionary != nil)
-        {
+        if (dictionary != nil) {
             print("launched from push notification")
             let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
 
             let appState: NSNumber = NSNumber(int: 0)
             let applozicProcessed = alPushNotificationService.processPushNotification(launchOptions,updateUI:appState)
-            if (applozicProcessed) {
-                return true;
+            if (!applozicProcessed) {
+                
             }
         }
     }
@@ -401,8 +420,37 @@ return true
 }                            
 
 ```
+#####d)  AppDelegate changes to observe background/foreground notification.
 
-#####d) APNs Certification Type Setup :
+```
+    func applicationDidEnterBackground(application: UIApplication) {
+        print("APP_ENTER_IN_BACKGROUND")
+        let registerUserClientService = ALRegisterUserClientService()
+        registerUserClientService.disconnect()
+        NSNotificationCenter.defaultCenter().postNotificationName("APP_ENTER_IN_BACKGROUND", object: nil)
+    }
+ ```
+    
+ ```
+    func applicationWillEnterForeground(application: UIApplication) {
+        let registerUserClientService = ALRegisterUserClientService()
+        registerUserClientService.connect()
+        ALPushNotificationService.applicationEntersForeground()
+        print("APP_ENTER_IN_FOREGROUND")
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("APP_ENTER_IN_FOREGROUND", object: nil)
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+    }
+```
+#####e) Save Context when app terminates
+
+```
+    func applicationWillTerminate(application: UIApplication) {
+        ALDBHandler.sharedInstance().saveContext()
+    }
+```
+
+#####f) APNs Certification Type Setup :
 
 Upload your push notification certificate to Applozic Dashboard page under 'Edit Application' section in order to enable real time notification.
 

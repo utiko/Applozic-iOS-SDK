@@ -235,18 +235,20 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unSubscrbingChannel)
                                                  name:@"APP_ENTER_IN_BACKGROUND" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageDeletedAPPLOZIC05Handler:)
+                                                 name:@"NOTIFY_MESSAGE_DELETED" object:nil];
     self.mqttObject = [ALMQTTConversationService sharedInstance];
     
     if(self.individualLaunch)
     {
         NSLog(@"INDIVIDUAL_LAUNCH :: SUBSCRIBING_MQTT");
         self.mqttObject.mqttConversationDelegate = self;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(self.mqttObject)
+        //dispatch_async(dispatch_get_main_queue(), ^{
+            if(self.mqttObject){
                 [self.mqttObject subscribeToConversation];
-            else
+            }else
                 NSLog(@"mqttObject is not found...");
-        });
+        //});
         
         if(![self isGroup])
         {
@@ -290,6 +292,39 @@
     [self subscrbingChannel];
 }
 
+-(void)messageDeletedAPPLOZIC05Handler:(NSNotification *)notification{
+
+    NSString * messageKey = notification.object;
+   
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"key=%@",messageKey];
+    NSArray *proccessfilterArray = [[self.alMessageWrapper getUpdatedMessageArray] filteredArrayUsingPredicate:predicate];
+    if(proccessfilterArray.count != 0)
+    {
+        ALMessage *msg = [proccessfilterArray objectAtIndex:0];
+        NSLog(@"Messsage 05:%@",msg.message);
+        msg.deleted = YES;
+        
+           [self deleteMessageFromView:msg]; // Removes message from U.I.
+        
+        [ALMessageService deleteMessage:messageKey andContactId:self.contactIds withCompletion:^(NSString * response, NSError * error) {
+            
+            NSLog(@"Message Deleted upon APPLOZIC_05",response);
+            
+        }];
+//        ALMessageDBService * almessageDBService = [[ALMessageDBService alloc] init];
+//        DB_Message *dbMessage = (DB_Message*)[almessageDBService getMessageByKey:@"key" value:messageKey];
+//        dbMessage.deletedFlag = [NSNumber numberWithBool:YES];
+//        NSError *error;
+//        if (![[dbMessage managedObjectContext] save:&error])
+//        {
+//            NSLog(@"Delete Flag Not Set under APPLOZIC_05");
+//        }
+//        [dbService deleteMessageByKey:messageKey];
+    }
+    
+    [self.mTableView reloadData];
+}
+
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -325,7 +360,6 @@
         else
             NSLog(@"mqttObject is not found...");
         //        });
-        
     }
     
     if(isPickerOpen)
@@ -529,7 +563,7 @@
 
 -(void)unSubscrbingChannel
 {
-     //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     [self.mqttObject sendTypingStatus:[ALUserDefaultsHandler getApplicationKey]
                                userID:self.contactIds
                         andChannelKey:self.channelKey
@@ -2181,13 +2215,26 @@
         }]];
     }
     
-    [theController addAction:[UIAlertAction actionWithTitle:@"Share Contact" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
-        ABPeoplePickerNavigationController *contactPicker = [[ABPeoplePickerNavigationController alloc] init];
-        contactPicker.peoplePickerDelegate = self;
-        [self presentViewController:contactPicker animated:YES completion:nil];
-        
-    }]];
+    if(IS_OS_EARLIER_THAN_10)
+    {
+        [theController addAction:[UIAlertAction actionWithTitle:@"Share Contact" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+            ABPeoplePickerNavigationController *contactPicker = [[ABPeoplePickerNavigationController alloc] init];
+            contactPicker.peoplePickerDelegate = self;
+            [self presentViewController:contactPicker animated:YES completion:nil];
+            
+        }]];
+    }
+    else
+    {
+        [theController addAction:[UIAlertAction actionWithTitle:@"Share Contact" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+              CNContactPickerViewController *contactPicker = [CNContactPickerViewController new];
+              contactPicker.delegate = self;
+              [self presentViewController:contactPicker animated:YES completion:nil];
+              
+          }]];
+    }
     
     /*[theController addAction:[UIAlertAction actionWithTitle:@"Photos/Videos" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
@@ -2211,6 +2258,13 @@
 {
     ALVCFClass *objectVCF = [[ALVCFClass alloc] init];
     NSString *contactFilePath = [objectVCF saveContactToDocumentDirectory:person];
+    [self processAttachment:contactFilePath andMessageText:@"" andContentType:ALMESSAGE_CONTENT_VCARD];
+}
+
+-(void)contactPicker:(CNContactPickerViewController *)picker didSelectContact:(CNContact *)contact
+{
+    ALVCardClass *vcardClass = [[ALVCardClass alloc] init];
+    NSString *contactFilePath = [vcardClass saveContactToDocDirectory:contact];
     [self processAttachment:contactFilePath andMessageText:@"" andContentType:ALMESSAGE_CONTENT_VCARD];
 }
 
@@ -2448,8 +2502,8 @@
     {
         //Current Same Individual Contact thread is opened..
         self.conversationId = alMessage.conversationId;
-        self.channelKey=nil;
-        self.contactIds=alMessage.contactIds;
+        self.channelKey = nil;
+        self.contactIds = alMessage.contactIds;
         //[self fetchAndRefresh:YES];
     }
     else if ([updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_INACTIVE]])
@@ -2479,11 +2533,7 @@
 
 -(void)showNativeNotification:(ALMessage *)alMessage andAlert:(NSString*)alertValue
 {
-    ALNotificationView * alnotification;
-    alnotification =[[ALNotificationView alloc]
-                     initWithAlMessage:alMessage
-                     withAlertMessage:alertValue];
-    
+    ALNotificationView * alnotification = [[ALNotificationView alloc] initWithAlMessage:alMessage withAlertMessage:alertValue];
     [alnotification nativeNotification:self];
 }
 
@@ -2727,6 +2777,11 @@
 
 -(void)updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
 {
+    if (![alUserDetail.userId isEqualToString:self.contactIds])
+    {
+        return;
+    }
+    
     [self setRefreshMainView:TRUE];
     
     double value = [alUserDetail.lastSeenAtTime doubleValue];
@@ -2964,11 +3019,13 @@
     
     if(minHeight.size.height == textSize.size.height)
     {
-        if([textView.text isEqualToString:@""])
-        {
+        /*if([textView.text isEqualToString:@""])
+        {*/
             [super setHeightOfTextViewDynamically];
             self.textMessageViewHeightConstaint.constant = 56.0;
-        }
+            NSLog(@"TABLE VIEW -- Y:%f and Height:%f",self.mTableView.frame.origin.y,
+                  self.mTableView.frame.size.height);
+        //}
         //        NSLog(@"CASE SINGLE");
         return;
     }
@@ -3131,11 +3188,11 @@
     
     if([ALDataNetworkConnection checkDataNetworkAvailable])
         NSLog(@"MQTT connection closed, subscribing again: %lu", (long)_mqttRetryCount);
-    dispatch_async(dispatch_get_main_queue(), ^{
+   // dispatch_async(dispatch_get_main_queue(), ^{
         
         [self.mqttObject subscribeToConversation];
         [self subscrbingChannel];
-    });
+  //  });
     self.mqttRetryCount++;
 }
 

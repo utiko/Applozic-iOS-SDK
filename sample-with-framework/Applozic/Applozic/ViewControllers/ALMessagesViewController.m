@@ -136,8 +136,7 @@
     //[[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:[ALApplozicSettings getTitleForBackButtonMsgVC]]];
     [self.navigationItem setLeftBarButtonItem: barButtonItem];
     
-    if((self.channelKey || self.userIdToLaunch))
-    {
+    if((self.channelKey || self.userIdToLaunch)){
         [self createAndLaunchChatView ];
     }
 }
@@ -156,9 +155,13 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    //[self dropShadowInNavigationBar];
-  
-    //[self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
+/*    
+    [self dropShadowInNavigationBar];
+
+    [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
+    [self.navigationItem setLeftBarButtonItem:self.barButtonItem];
+    [self.tabBarController.tabBar setHidden:[ALUserDefaultsHandler isBottomTabBarHidden]];
+*/
     
     if ([self.detailChatViewController refreshMainView])
     {
@@ -572,6 +575,8 @@
         {
             //Add rest of messageList
             contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
+            [contactCell setNeedsLayout];
+            [contactCell layoutIfNeeded];
             
             [contactCell.mUserNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:USER_NAME_LABEL_SIZE]];
             [contactCell.mMessageLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_LABEL_SIZE]];
@@ -697,7 +702,6 @@
         default:
             break;
     }
-    
     return contactCell;
 }
 
