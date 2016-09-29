@@ -2752,10 +2752,7 @@
 
 -(void)updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
 {
-    if (![alUserDetail.userId isEqualToString:self.contactIds])
-    {
-        return;
-    }
+
     
     [self setRefreshMainView:TRUE];
     
@@ -2768,7 +2765,11 @@
     }
     else if(value > 0)
     {
-        [self formatDateTime:alUserDetail andValue:value];
+        if ([alUserDetail.userId isEqualToString:self.contactIds])
+        {
+            [self formatDateTime:alUserDetail andValue:value];
+        }
+        
     }
     else
     {
