@@ -47,10 +47,9 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow location sharing!!</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string> App want to use photos</string>
+	<string>App want to use photos</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow MicroPhone</string>
-
 	<key>UIAppFonts</key>
 	<array>
 		<string>Roboto-Regular.ttf</string>

@@ -40,7 +40,9 @@
 
 -(BOOL) processPushNotification:(NSDictionary *)dictionary updateUI:(NSNumber *)updateUI
 {
-    NSLog(@"UPDATE UI :: %@", (updateUI == [NSNumber numberWithInt:1]) ? @"ACTIVE" : @"BACKGROUND/INACTIVE");
+    NSLog(@"APNS_DICTIONARY :: %@",dictionary.description);
+    NSLog(@"UPDATE UI VALUE :: %@",updateUI);
+    NSLog(@"UPDATE UI :: %@", ([updateUI isEqualToNumber:[NSNumber numberWithInt:1]]) ? @"ACTIVE" : @"BACKGROUND/INACTIVE");
     
     if ([self isApplozicNotification:dictionary])
     {
