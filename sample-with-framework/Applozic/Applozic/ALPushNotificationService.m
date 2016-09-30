@@ -241,11 +241,11 @@
     else
     {
         
-        [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification"
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification"
                                                              object:notificationMsg
                                                            userInfo:dict];
         
-        [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat"
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat"
                                                              object:notificationMsg
                                                            userInfo:dict];
     }
