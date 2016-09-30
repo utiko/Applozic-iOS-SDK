@@ -49,11 +49,11 @@ static CGFloat const  sendTextViewCornerRadius = 15.0f;
     self.sendMessageTextView.clipsToBounds = YES;
     self.sendMessageTextView.layer.cornerRadius = sendTextViewCornerRadius; //self.sendMessageTextView.frame.size.height/5;
     self.sendMessageTextView.textContainer.lineBreakMode = NSLineBreakByCharWrapping;
-    NSLog(@"TEXT INSET TOP:%f: BOTTOM:%f LEFT:%f RIGHT:%f",
-          self.sendMessageTextView.textContainerInset.top,
-          self.sendMessageTextView.textContainerInset.bottom,
-          self.sendMessageTextView.textContainerInset.left,
-          self.sendMessageTextView.textContainerInset.right);
+//    NSLog(@"TEXT INSET TOP:%f: BOTTOM:%f LEFT:%f RIGHT:%f",
+//          self.sendMessageTextView.textContainerInset.top,
+//          self.sendMessageTextView.textContainerInset.bottom,
+//          self.sendMessageTextView.textContainerInset.left,
+//          self.sendMessageTextView.textContainerInset.right);
     self.sendMessageTextView.delegate = self;
 
 //    UIEdgeInsetsMake(self.attachmentOutlet.frame.origin.x, // Top

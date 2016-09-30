@@ -565,7 +565,7 @@
         case 0:
         {
             //Cell for group button....
-            contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:@"groupCell" forIndexPath:indexPath];
+            contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:@"groupCell"];
             
             //Add group button.....
             UIButton *newBtn = (UIButton*)[contactCell viewWithTag:101];
