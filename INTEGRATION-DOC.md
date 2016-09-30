@@ -67,7 +67,7 @@ Create applozic user and add details to applozic user object.
   [alUser setUserId:@"testUser"]; //NOTE : +,*,? are not allowed chars in userId.
   [alUser setDisplayName:@"Applozic Test"]; // Display name of user 
   [alUser setContactNumber:@""];// formatted contact no
-  [alUser setimageLink:@"user_profile_image_link"];// User's profile image link.
+  [alUser setImageLink:@"user_profile_image_link"];// User's profile image link.
 ```
 Convenient methods are present in ALChatManager.m to register user with applozic. You can Register user to applozic server by using below method from AlChatManager.h. 
 
