@@ -585,12 +585,15 @@
             [contactCell.imageNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:IMAGE_NAME_LABEL_SIZE]];
             
             contactCell.unreadCountLabel.backgroundColor = [ALApplozicSettings getUnreadCountLabelBGColor];
-            contactCell.unreadCountLabel.layer.cornerRadius = contactCell.unreadCountLabel.frame.size.width/2;
-            contactCell.unreadCountLabel.layer.masksToBounds = YES;
             
-            contactCell.mUserImageView.hidden = NO;
-            contactCell.mUserImageView.layer.cornerRadius = contactCell.mUserImageView.frame.size.width/2;
-            contactCell.mUserImageView.layer.masksToBounds = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                contactCell.unreadCountLabel.layer.cornerRadius = contactCell.unreadCountLabel.frame.size.width/2;
+                contactCell.unreadCountLabel.layer.masksToBounds = YES;
+                
+                contactCell.mUserImageView.layer.cornerRadius = contactCell.mUserImageView.frame.size.width/2;
+                contactCell.mUserImageView.layer.masksToBounds = YES;
+            });
 
             [contactCell.onlineImageMarker setBackgroundColor:[UIColor clearColor]];
             
