@@ -38,16 +38,26 @@
 
 @implementation ALGroupDetailViewController
 
--(void)viewDidLoad{
+-(void)viewDidLoad
+{
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(groupDeatilsSyncCall) name:@"GroupDetailTableReload" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(groupDetailsSyncCall) name:@"GroupDetailTableReload" object:nil];
     self.lastSeenMembersArray = [[NSMutableArray alloc] init];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     [self setupView];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self.tableView reloadData];
 }
 
 -(void)setNavigationColor
@@ -111,7 +121,7 @@
     NSLog(@"Member Count :%ld",(long)self.memberCount);
 }
 
--(void)groupDeatilsSyncCall{
+-(void)groupDetailsSyncCall{
     [self setupView];
     [self.tableView reloadData];
 }
@@ -495,7 +505,7 @@
 
 -(void)setupCellItems:(ALContactCell*)memberCell
 {
-    self.memberNameLabel  = (UILabel*)[memberCell viewWithTag:101];
+    self.memberNameLabel = (UILabel*)[memberCell viewWithTag:101];
     self.memberIconImageView = (UIImageView*)[memberCell viewWithTag:102];
     self.memberIconImageView.clipsToBounds = YES;
     self.memberIconImageView.layer.cornerRadius = self.memberIconImageView.frame.size.width/2;
