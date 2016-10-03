@@ -329,7 +329,7 @@ Convenient methods are present in ALChatManager.swift to register user with appl
 
 ####Initiate Chat
 
-1 ) Launch chat list screen:
+1) Launch chat list screen:
 
     NOTE: Replace "applozic-sample-app" by your application key 
 
@@ -365,7 +365,7 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken** met
 ```
 func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
 
-        print("DEVICE_TOKEN_DATA :: \(deviceToken.description)")  // (SWIFT = 3) : TOKEN PARSING
+        print("DEVICE_TOKEN_DATA :: \(deviceToken.description)") // (SWIFT = 3):TOKEN PARSING
         
         var deviceTokenString: String = ""
         for i in 0..<deviceToken.count
@@ -373,7 +373,7 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
             deviceTokenString += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
         }
         
-//        let characterSet: CharacterSet = CharacterSet(charactersIn: "<>")   // (SWIFT < 3) : TOKEN PARSING
+//        let characterSet: CharacterSet = CharacterSet(charactersIn: "<>") // (SWIFT < 3):TOKEN PARSING
 //        
 //        let deviceTokenString: String = (deviceToken.description as NSString)
 //            .trimmingCharacters( in: characterSet )
@@ -403,7 +403,7 @@ Once your app receive notification, pass it to Applozic handler for chat notific
         print("Received notification :: \(userInfo.description)")
         let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
         
-        let appState: NSNumber = NSNumber(value: 0 as Int32)                        // APP_STATE_INACTIVE
+        let appState: NSNumber = NSNumber(value: 0 as Int32)                 // APP_STATE_INACTIVE
         alPushNotificationService.processPushNotification(userInfo, updateUI: appState)
     }
     
@@ -413,7 +413,7 @@ Once your app receive notification, pass it to Applozic handler for chat notific
         print("Received notification With Completion :: \(userInfo.description)")
         let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
         
-        let appState: NSNumber = NSNumber(value: -1 as Int32)                       // APP_STATE_BACKGROUND
+        let appState: NSNumber = NSNumber(value: -1 as Int32)                // APP_STATE_BACKGROUND
         alPushNotificationService.processPushNotification(userInfo, updateUI: appState)
         completionHandler(UIBackgroundFetchResult.newData)
     }                                                         
