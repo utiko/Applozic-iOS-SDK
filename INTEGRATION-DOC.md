@@ -141,12 +141,20 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 
 ```
 
--(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary
+{
+    NSLog(@"Received notification WithoutCompletion: %@", dictionary);
+    ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
+    [pushNotificationService processPushNotification:dictionary updateUI:[NSNumber numberWithInt:APP_STATE_INACTIVE]];
+}
+
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
    
     NSLog(@"Received notification Completion: %@", userInfo);
     ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
-    [pushNotificationService notificationArrivedToApplication:application withDictionary:userInfo];
+    [pushNotificationService processPushNotification:userInfo updateUI:[NSNumber numberWithInt:APP_STATE_BACKGROUND]];
     completionHandler(UIBackgroundFetchResultNewData);
+    
 }
 
 ```
