@@ -141,14 +141,14 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 
 ```
 
-- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary
-{
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary {
+
     NSLog(@"Received notification WithoutCompletion: %@", dictionary);
     ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
     [pushNotificationService processPushNotification:dictionary updateUI:[NSNumber numberWithInt:APP_STATE_INACTIVE]];
 }
 
--(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
    
     NSLog(@"Received notification Completion: %@", userInfo);
     ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
@@ -398,25 +398,23 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
 Once your app receive notification, pass it to Applozic handler for chat notification processing.             
 
 ```
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any])
-    {
-        print("Received notification :: \(userInfo.description)")
-        let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
-        
-        let appState: NSNumber = NSNumber(value: 0 as Int32)                 // APP_STATE_INACTIVE
-        alPushNotificationService.processPushNotification(userInfo, updateUI: appState)
-    }
+func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+    print("Received notification :: \(userInfo.description)")
+    let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
+
+    let appState: NSNumber = NSNumber(value: 0 as Int32)                 // APP_STATE_INACTIVE
+    alPushNotificationService.processPushNotification(userInfo, updateUI: appState)
+}
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler
-        completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
-    {
-        print("Received notification With Completion :: \(userInfo.description)")
-        let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
-        
-        let appState: NSNumber = NSNumber(value: -1 as Int32)                // APP_STATE_BACKGROUND
-        alPushNotificationService.processPushNotification(userInfo, updateUI: appState)
-        completionHandler(UIBackgroundFetchResult.newData)
-    }                                                         
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    
+    print("Received notification With Completion :: \(userInfo.description)")
+    let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
+
+    let appState: NSNumber = NSNumber(value: -1 as Int32)                // APP_STATE_BACKGROUND
+    alPushNotificationService.processPushNotification(userInfo, updateUI: appState)
+    completionHandler(UIBackgroundFetchResult.newData)
+}                                                         
 ```
 
 
