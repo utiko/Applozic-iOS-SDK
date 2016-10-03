@@ -1,5 +1,14 @@
 ###Changelog
 
+__Version 3.4__
+
+* StoryBoard UI fixes (Xcode 8)
+* Permission Crash fixes (iOS 10)
+* Contact Crash fixes (iOS 10)
+* Contacts View issue fixes
+* Table UI Fixes (iOS 10)
+* APNs issue fixes (iOS 10)
+
 __Version 3.3__
 
 * Dynamic Application
