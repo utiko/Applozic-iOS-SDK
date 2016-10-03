@@ -406,7 +406,7 @@ func application(_ application: UIApplication, didReceiveRemoteNotification user
     alPushNotificationService.processPushNotification(userInfo, updateUI: appState)
 }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     
     print("Received notification With Completion :: \(userInfo.description)")
     let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
