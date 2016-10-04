@@ -424,7 +424,7 @@
     NSString * appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     [ALApplozicSettings setNotificationTitle:appName];
     
-    //    [ALApplozicSettings enableNotification]; //0
+        [ALApplozicSettings enableNotification]; //0
     //    [ALApplozicSettings disableNotification]; //2
     //    [ALApplozicSettings disableNotificationSound]; //1                /*  IF NOTIFICATION SOUND NOT NEEDED  */
     //    [ALApplozicSettings enableNotificationSound];//0                   /*  IF NOTIFICATION SOUND NEEDED    */

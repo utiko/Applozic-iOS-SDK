@@ -116,9 +116,9 @@
     self.alMqttConversationService = [ALMQTTConversationService sharedInstance];
     self.alMqttConversationService.mqttConversationDelegate = self;
     
-    dispatch_async(dispatch_get_main_queue(), ^{
+  //  dispatch_async(dispatch_get_main_queue(), ^{
         [self.alMqttConversationService subscribeToConversation];
-    });
+    //});
     
     CGFloat navigationHeight = self.navigationController.navigationBar.frame.size.height +
     [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -146,9 +146,9 @@
     if (self.navigationController.viewControllers.count == 1)
     {
         NSLog(@"CLOSING_MQTT_CONNECTIONS");
-        dispatch_async(dispatch_get_main_queue(), ^{
+       // dispatch_async(dispatch_get_main_queue(), ^{
             [self.alMqttConversationService unsubscribeToConversation];
-        });
+       // });
     }
 }
 
@@ -562,7 +562,7 @@
         case 0:
         {
             //Cell for group button....
-            contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:@"groupCell" forIndexPath:indexPath];
+            contactCell = (ALContactCell *)[tableView dequeueReusableCellWithIdentifier:@"groupCell"];
             
             //Add group button.....
             UIButton *newBtn = (UIButton*)[contactCell viewWithTag:101];
@@ -584,12 +584,15 @@
             [contactCell.imageNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:IMAGE_NAME_LABEL_SIZE]];
             
             contactCell.unreadCountLabel.backgroundColor = [ALApplozicSettings getUnreadCountLabelBGColor];
-            contactCell.unreadCountLabel.layer.cornerRadius = contactCell.unreadCountLabel.frame.size.width/2;
-            contactCell.unreadCountLabel.layer.masksToBounds = YES;
             
-            contactCell.mUserImageView.hidden = NO;
-            contactCell.mUserImageView.layer.cornerRadius = contactCell.mUserImageView.frame.size.width/2;
-            contactCell.mUserImageView.layer.masksToBounds = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                contactCell.unreadCountLabel.layer.cornerRadius = contactCell.unreadCountLabel.frame.size.width/2;
+                contactCell.unreadCountLabel.layer.masksToBounds = YES;
+                
+                contactCell.mUserImageView.layer.cornerRadius = contactCell.mUserImageView.frame.size.width/2;
+                contactCell.mUserImageView.layer.masksToBounds = YES;
+            });
 
             [contactCell.onlineImageMarker setBackgroundColor:[UIColor clearColor]];
             
@@ -1053,13 +1056,15 @@
         return;
     }
     
-    if([ALDataNetworkConnection checkDataNetworkAvailable])
+    if([ALDataNetworkConnection checkDataNetworkAvailable]){
         NSLog(@"MQTT connection closed, subscribing again: %lu", (long)_mqttRetryCount);
-    dispatch_async(dispatch_get_main_queue(), ^{
+        // dispatch_async(dispatch_get_main_queue(), ^{
         NSLog(@"ALMessageVC subscribing channel again....");
         [self.alMqttConversationService subscribeToConversation];
-    });
-    self.mqttRetryCount++;
+        //});
+        self.mqttRetryCount++;
+    }
+
 }
 
 -(void)callLastSeenStatusUpdate

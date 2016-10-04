@@ -259,11 +259,13 @@
     [nameIcon setTextColor:[UIColor whiteColor]];
     [nameIcon setHidden:YES];
     [newContactCell.contactPersonImageView sd_setImageWithURL:[NSURL URLWithString:@""]];
-    
+    newContactCell.contactPersonName.text = @"";
     [newContactCell.contactPersonImageView setHidden:NO];
-    newContactCell.contactPersonImageView.layer.cornerRadius = newContactCell.contactPersonImageView.frame.size.width/2;
-    newContactCell.contactPersonImageView.layer.masksToBounds = YES;
     
+    dispatch_async(dispatch_get_main_queue(), ^{
+        newContactCell.contactPersonImageView.layer.cornerRadius = newContactCell.contactPersonImageView.frame.size.width/2;
+        newContactCell.contactPersonImageView.layer.masksToBounds = YES;
+    });
     [self.emptyConversationText setHidden:YES];
     [self.contactsTableView setHidden:NO];
     

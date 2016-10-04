@@ -39,7 +39,9 @@
 
 -(BOOL) processPushNotification:(NSDictionary *)dictionary updateUI:(NSNumber *)updateUI
 {
-    NSLog(@"UPDATE UI :: %@", (updateUI == [NSNumber numberWithInt:1]) ? @"ACTIVE" : @"BACKGROUND/INACTIVE");
+    NSLog(@"APNS_DICTIONARY :: %@",dictionary.description);
+    NSLog(@"UPDATE UI VALUE :: %@",updateUI);
+    NSLog(@"UPDATE UI :: %@", ([updateUI isEqualToNumber:[NSNumber numberWithInt:1]]) ? @"ACTIVE" : @"BACKGROUND/INACTIVE");
     
     if ([self isApplozicNotification:dictionary])
     {
@@ -238,11 +240,11 @@
     else
     {
         
-        [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification"
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification"
                                                              object:notificationMsg
                                                            userInfo:dict];
         
-        [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat"
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat"
                                                              object:notificationMsg
                                                            userInfo:dict];
     }

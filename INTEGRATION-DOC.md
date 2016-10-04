@@ -67,7 +67,7 @@ Create applozic user and add details to applozic user object.
   [alUser setUserId:@"testUser"]; //NOTE : +,*,? are not allowed chars in userId.
   [alUser setDisplayName:@"Applozic Test"]; // Display name of user 
   [alUser setContactNumber:@""];// formatted contact no
-  [alUser setimageLink:@"user_profile_image_link"];// User's profile image link.
+  [alUser setImageLink:@"user_profile_image_link"];// User's profile image link.
 ```
 Convenient methods are present in ALChatManager.m to register user with applozic. You can Register user to applozic server by using below method from AlChatManager.h. 
 
@@ -141,12 +141,20 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 
 ```
 
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary {
+
+    NSLog(@"Received notification WithoutCompletion: %@", dictionary);
+    ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
+    [pushNotificationService processPushNotification:dictionary updateUI:[NSNumber numberWithInt:APP_STATE_INACTIVE]];
+}
+
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
    
     NSLog(@"Received notification Completion: %@", userInfo);
     ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
-    [pushNotificationService notificationArrivedToApplication:application withDictionary:userInfo];
+    [pushNotificationService processPushNotification:userInfo updateUI:[NSNumber numberWithInt:APP_STATE_BACKGROUND]];
     completionHandler(UIBackgroundFetchResultNewData);
+    
 }
 
 ```
@@ -321,7 +329,7 @@ Convenient methods are present in ALChatManager.swift to register user with appl
 
 ####Initiate Chat
 
-1 ) Launch chat list screen:
+1) Launch chat list screen:
 
     NOTE: Replace "applozic-sample-app" by your application key 
 
@@ -357,13 +365,21 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken** met
 ```
 func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
 
-    let characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
-
-    let deviceTokenString: String = (deviceToken.description as NSString)
-    .stringByTrimmingCharactersInSet(characterSet)
-    .stringByReplacingOccurrencesOfString(" ", withString: "") as String
-
-    print(deviceTokenString)
+        print("DEVICE_TOKEN_DATA :: \(deviceToken.description)") // (SWIFT = 3):TOKEN PARSING
+        
+        var deviceTokenString: String = ""
+        for i in 0..<deviceToken.count
+        {
+            deviceTokenString += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
+        }
+        
+//        let characterSet: CharacterSet = CharacterSet(charactersIn: "<>") // (SWIFT < 3):TOKEN PARSING
+//        
+//        let deviceTokenString: String = (deviceToken.description as NSString)
+//            .trimmingCharacters( in: characterSet )
+//            .replacingOccurrences(of: " ", with: "") as String
+//        
+        print("DEVICE_TOKEN_STRING :: \(deviceTokenString)")
 
     if (ALUserDefaultsHandler.getApnDeviceToken() != deviceTokenString) {
 
@@ -382,12 +398,22 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
 Once your app receive notification, pass it to Applozic handler for chat notification processing.             
 
 ```
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-        print("Received notification Completion : \(userInfo)")
-        let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
-        alPushNotificationService.notificationArrivedToApplication(application, withDictionary: userInfo)
-        completionHandler(UIBackgroundFetchResult.NewData)
-    }
+func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+    print("Received notification :: \(userInfo.description)")
+    let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
+
+    let appState: NSNumber = NSNumber(value: 0 as Int32)                 // APP_STATE_INACTIVE
+    alPushNotificationService.processPushNotification(userInfo, updateUI: appState)
+}
+    
+func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    
+    print("Received notification With Completion :: \(userInfo.description)")
+    let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
+
+    let appState: NSNumber = NSNumber(value: -1 as Int32)                // APP_STATE_BACKGROUND
+    alPushNotificationService.processPushNotification(userInfo, updateUI: appState)
+    completionHandler(UIBackgroundFetchResult.newData)
 }                                                         
 ```
 

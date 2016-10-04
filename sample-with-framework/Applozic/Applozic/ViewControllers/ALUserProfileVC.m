@@ -71,11 +71,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width/2;
-    self.profileImage.layer.masksToBounds = YES;
-    
-    self.uploadImageButton.layer.cornerRadius = self.uploadImageButton.frame.size.width/2;
-    self.uploadImageButton.layer.masksToBounds = YES;
+    [super viewWillAppear:animated];
     
     self.mImagePicker = [UIImagePickerController new];
     self.mImagePicker.delegate = self;
@@ -87,6 +83,15 @@
         [self commonNavBarTheme:self.navigationController];
     }
 
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width/2;
+        self.profileImage.layer.masksToBounds = YES;
+        
+        self.uploadImageButton.layer.cornerRadius = self.uploadImageButton.frame.size.width/2;
+        self.uploadImageButton.layer.masksToBounds = YES;
+    });
+    
     self.navigationItem.title = @"Profile";
     [self.profileImage setImage:[ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"]];
     NSData *imageData = [NSData dataWithContentsOfFile:[ALUserDefaultsHandler getProfileImageLink]];
