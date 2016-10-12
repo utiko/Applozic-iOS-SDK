@@ -454,7 +454,7 @@ UIViewController * modalCon;
     UIStoryboard * applozicStoryboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
     ALShowImageViewController * alShowImageViewController = [applozicStoryboard instantiateViewControllerWithIdentifier:@"showImageViewController"];
-    alShowImageViewController.view.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.4];
+    alShowImageViewController.view.backgroundColor = [UIColor lightGrayColor];
     alShowImageViewController.view.userInteractionEnabled = YES;
     
     [alShowImageViewController setImage:self.mImageView.image];

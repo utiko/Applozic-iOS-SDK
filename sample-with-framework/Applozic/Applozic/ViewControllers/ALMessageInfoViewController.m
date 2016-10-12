@@ -400,7 +400,7 @@
                 [textView setText:[NSString stringWithFormat:@"%@\n\n%@",self.VCardClass.fullName,self.VCardClass.userPHONE_NO]];
                 if(self.VCardClass.userEMAIL_ID)
                 {
-                    [textView setText:[NSString stringWithFormat:@"%@\n\n%@\n\n%@",self.VCFObject.fullName, self.VCardClass.userPHONE_NO,
+                    [textView setText:[NSString stringWithFormat:@"%@\n\n%@\n\n%@",self.VCardClass.fullName, self.VCardClass.userPHONE_NO,
                                        self.VCardClass.userEMAIL_ID]];
                 }
             }

@@ -257,6 +257,18 @@
             NSLog(@"Nil Alert Value");
         }
     }
+    if([updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_BACKGROUND]])
+    {
+        if(alertValue)
+        {
+            ALPushAssist* assitant = [[ALPushAssist alloc] init];
+            NSLog(@"APP_STATE_BACKGROUND :: %@",notification.userInfo);
+            if(!assitant.isOurViewOnTop)
+            {
+                [ALUtilityClass thirdDisplayNotificationTS:alertValue andForContactId:self.contactId withGroupId:groupId delegate:self];
+            }
+        }
+    }
 }
 
 -(void)thirdPartyNotificationTap1:(NSString *)contactId withGroupId:(NSNumber *)groupID

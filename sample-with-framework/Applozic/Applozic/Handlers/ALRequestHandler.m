@@ -12,6 +12,8 @@
 #import "ALUser.h"
 #import "NSData+AES.h"
 
+#define REGISTER_USER_STRING @"rest/ws/register/client"
+
 @implementation ALRequestHandler
 
 +(NSMutableURLRequest *) createGETRequestWithUrlString:(NSString *) urlString paramString:(NSString *) paramString
@@ -53,7 +55,7 @@
     {
         NSData * thePostData = [paramString dataUsingEncoding:NSUTF8StringEncoding];
         
-        if([ALUserDefaultsHandler getEncryptionKey]) // ENCRYPTING DATA WITH KEY
+        if([ALUserDefaultsHandler getEncryptionKey] && ![urlString hasSuffix:REGISTER_USER_STRING]) // ENCRYPTING DATA WITH KEY
         {
            NSData *postData = [thePostData AES128EncryptedDataWithKey:[ALUserDefaultsHandler getEncryptionKey]];
            NSData *base64Encoded = [postData base64EncodedDataWithOptions:0];

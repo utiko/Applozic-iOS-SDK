@@ -623,4 +623,15 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
++(void)setEnableEncryption:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:DEVICE_ENCRYPTION_ENABLE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getEnableEncryption
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:DEVICE_ENCRYPTION_ENABLE];
+}
+
 @end

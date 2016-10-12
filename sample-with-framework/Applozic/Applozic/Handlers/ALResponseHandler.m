@@ -55,8 +55,9 @@
         }
         
        id theJson = nil;
-                              
-       if([ALUserDefaultsHandler getEncryptionKey]) // DECRYPTING DATA WITH KEY
+          
+        // DECRYPTING DATA WITH KEY
+       if([ALUserDefaultsHandler getEncryptionKey] && ![tag isEqualToString:@"CREATE ACCOUNT"] && ![tag isEqualToString:@"CREATE FILE URL"])
        {
            NSData *base64DecodedData = [[NSData alloc] initWithBase64EncodedData:data options:0];
            NSData *theData = [base64DecodedData AES128DecryptedDataWithKey:[ALUserDefaultsHandler getEncryptionKey]];

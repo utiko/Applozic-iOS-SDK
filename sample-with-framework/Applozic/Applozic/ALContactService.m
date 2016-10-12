@@ -116,6 +116,7 @@
     contact.connected = dbContact.connected;
     contact.lastSeenAt = dbContact.lastSeenAt;
     contact.unreadCount= dbContact.unreadCount;
+    contact.userStatus = dbContact.userStatus;
     
     return contact;
 }

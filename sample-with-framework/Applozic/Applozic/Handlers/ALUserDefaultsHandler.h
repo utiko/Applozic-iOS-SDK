@@ -49,6 +49,7 @@
 #define LOGGEDIN_USER_STATUS @"com.applozic.userdefault.LOGGEDIN_USER_STATUS"
 #define LOGIN_USER_SUBSCRIBED_MQTT @"com.applozic.userdefault.LOGIN_USER_SUBSCRIBED_MQTT"
 #define USER_ENCRYPTION_KEY @"com.applozic.userdefault.USER_ENCRYPTION_KEY"
+#define DEVICE_ENCRYPTION_ENABLE @"com.applozic.userdefault.DEVICE_ENCRYPTION_ENABLE"
 
 #define KEY_PREFIX @"com.applozic.userdefault"
 
@@ -216,5 +217,8 @@
 
 +(NSString *)getEncryptionKey;
 +(void)setEncryptionKey:(NSString *)encrptionKey;
+
++(BOOL)getEnableEncryption;
++(void)setEnableEncryption:(BOOL)flag;
 
 @end

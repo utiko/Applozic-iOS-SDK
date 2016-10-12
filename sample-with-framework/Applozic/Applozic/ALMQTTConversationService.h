@@ -33,6 +33,8 @@
 
 @property(nonatomic, strong) ALSyncCallService *alSyncCallService;
 
+@property (nonatomic, readwrite) MQTTSession *session;
+
 -(void) subscribeToConversation;
 
 -(void) unsubscribeToConversation;

@@ -37,6 +37,7 @@
     [user setPassword:[ALUserDefaultsHandler getPassword]];
     [user setUnreadCountType:[ALUserDefaultsHandler getUnreadCountType]];
     [user setDeviceApnsType:[ALUserDefaultsHandler getDeviceApnsType]];
+    [user setEnableEncryption:[ALUserDefaultsHandler getEnableEncryption]];
     
     if([ALUserDefaultsHandler getAppModuleName] != NULL){
         [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];
