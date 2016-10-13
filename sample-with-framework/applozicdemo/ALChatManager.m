@@ -9,7 +9,6 @@
 #import "ALChatManager.h"
 #import <Applozic/ALUserDefaultsHandler.h>
 #import <Applozic/ALMessageClientService.h>
-#import "LaunchChatFromSimpleViewController.h"
 #import <Applozic/ALApplozicSettings.h>
 #import <Applozic/ALChatViewController.h>
 #import <Applozic/ALMessage.h>
@@ -61,8 +60,7 @@
         
         if(rResponse && [rResponse.message containsString: @"REGISTERED"])
         {
-            ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
-            [messageClientService addWelcomeMessage:nil];
+            //
         }
         
         //        if(![ALUserDefaultsHandler getApnDeviceToken]){
@@ -160,9 +158,6 @@
     //User is already registered ..directly launch the chat...
     if([ALUserDefaultsHandler getDeviceKeyString])
     {
-        LaunchChatFromSimpleViewController *lObj = [[LaunchChatFromSimpleViewController alloc] init];
-        [lObj.activityView removeFromSuperview];
-        
         if(userId)
         {
             [self.chatLauncher launchIndividualChat:userId withGroupId:groupID
@@ -207,8 +202,7 @@
         
         if (rResponse && [rResponse.message containsString: @"REGISTERED"])
         {
-            ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
-            [messageClientService addWelcomeMessage:nil];
+            //
         }
         
         //        if(![ALUserDefaultsHandler getApnDeviceToken]){
@@ -286,8 +280,7 @@
         
         if (rResponse && [rResponse.message containsString: @"REGISTERED"])
         {
-            ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
-            [messageClientService addWelcomeMessage:nil];
+            //
         }
         
         [self.chatLauncher launchIndividualChat:userId withGroupId:groupID withDisplayName:displayName
@@ -519,10 +512,7 @@
 
     //User is already registered ..directly launch the chat...
     if([ALUserDefaultsHandler getDeviceKeyString])
-    {
-        LaunchChatFromSimpleViewController *lObj = [[LaunchChatFromSimpleViewController alloc] init];
-        [lObj.activityView removeFromSuperview];
-        
+    {        
         //Launch
         if(userId || groupId)
         {
@@ -569,8 +559,7 @@
         
         if (rResponse && [rResponse.message containsString: @"REGISTERED"])
         {
-            ALMessageClientService *messageClientService = [[ALMessageClientService alloc] init];
-            [messageClientService addWelcomeMessage:nil];
+            //
         }
         
         //        if(![ALUserDefaultsHandler getApnDeviceToken]){
