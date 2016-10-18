@@ -5,8 +5,6 @@
 //  Created by Kumar, Sawant (US - Bengaluru) on 9/23/15.
 //  Copyright (c) 2015 AppLogic. All rights reserved.
 //
-static CGFloat const  sendTextViewCornerRadius = 15.0f;
-
 
 #define NAVIGATION_TEXT_SIZE 20
 #define LAST_SEEN_LABEL_SIZE 10
@@ -22,11 +20,14 @@ static CGFloat const  sendTextViewCornerRadius = 15.0f;
 #import "ALChatLauncher.h"
 #import "ALMessagesViewController.h"
 
+static CGFloat const sendTextViewCornerRadius = 15.0f;
+
 #define KEYBOARD_PADDING 85
 
 @interface ALBaseViewController ()
 
 @property (nonatomic,retain) UIButton * rightViewButton;
+-(void)parseRestrictedWordFile;
 
 @end
 
@@ -47,22 +48,18 @@ static CGFloat const  sendTextViewCornerRadius = 15.0f;
     [self setUpTheming];
     
     self.sendMessageTextView.clipsToBounds = YES;
-    self.sendMessageTextView.layer.cornerRadius = sendTextViewCornerRadius; //self.sendMessageTextView.frame.size.height/5;
+    self.sendMessageTextView.layer.cornerRadius = sendTextViewCornerRadius;
+//    self.sendMessageTextView.frame.size.height/5;
+    
     self.sendMessageTextView.textContainer.lineBreakMode = NSLineBreakByCharWrapping;
-//    NSLog(@"TEXT INSET TOP:%f: BOTTOM:%f LEFT:%f RIGHT:%f",
-//          self.sendMessageTextView.textContainerInset.top,
-//          self.sendMessageTextView.textContainerInset.bottom,
-//          self.sendMessageTextView.textContainerInset.left,
-//          self.sendMessageTextView.textContainerInset.right);
+//    self.sendMessageTextView.textContainerInset = UIEdgeInsetsMake(self.attachmentOutlet.frame.origin.x, // Top
+//                                                                   self.attachmentOutlet.frame.size.width,// Left
+//                                                                   self.attachmentOutlet.frame.origin.y, // Bottom
+//                                                                   self.attachmentOutlet.frame.size.width/4);   // Right
     self.sendMessageTextView.delegate = self;
-
-//    UIEdgeInsetsMake(self.attachmentOutlet.frame.origin.x, // Top
-//                     self.attachmentOutlet.frame.size.width,// Left
-//                     self.attachmentOutlet.frame.origin.y, // Bottom
-//                    self.attachmentOutlet.frame.size.width/4);   // Right
-    self.sendMessageTextView.delegate = self;
-    self.placeHolderTxt = @"Write a Message...";
+/*    self.placeHolderTxt = @"Write a Message...";
     self.sendMessageTextView.text = self.placeHolderTxt;
+    */
     self.placeHolderColor = [ALApplozicSettings getPlaceHolderColor];
     self.sendMessageTextView.textColor = self.placeHolderColor;
     self.sendMessageTextView.backgroundColor = [ALApplozicSettings getMsgTextViewBGColor];
@@ -82,17 +79,35 @@ static CGFloat const  sendTextViewCornerRadius = 15.0f;
     self.beakImageView.image = [_beakImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [self.beakImageView setTintColor:self.sendMessageTextView.backgroundColor];
     
-
+    [self parseRestrictedWordFile];
 }
 
+-(void)parseRestrictedWordFile
+{
+    if(![ALApplozicSettings getMessageAbuseMode])
+    {
+        return;
+    }
+    
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSLog(@":: BUNDLE_NAME :: %@",bundle.bundleIdentifier);
+    NSString *path = [bundle pathForResource:@"restrictWords" ofType:@"txt"];
+    NSLog(@":: FILE_PATH :: %@",path);
+    NSError *error = nil;
+    NSString *fileString = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+    NSLog(@"ERROR(IF-ANY) WHILE IMPORT WORD FILE :: %@",error.description);
+    if (!error)
+    {
+        self.wordArray = [NSArray arrayWithArray:[fileString componentsSeparatedByString:@","]];
+    }
+}
 
 -(void)setUpTableView
 {
-    
     UIButton * mLoadEarlierMessagesButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     mLoadEarlierMessagesButton.frame = CGRectMake(self.view.frame.size.width/2-90, 15, 180, 30);
     [mLoadEarlierMessagesButton setTitle:@"Load Earlier" forState:UIControlStateNormal];
-    [mLoadEarlierMessagesButton setBackgroundColor:[UIColor whiteColor] ];
+    [mLoadEarlierMessagesButton setBackgroundColor:[UIColor whiteColor]];
     mLoadEarlierMessagesButton.layer.cornerRadius = 3;
     [mLoadEarlierMessagesButton addTarget:self action:@selector(loadChatView) forControlEvents:UIControlEventTouchUpInside];
     [mLoadEarlierMessagesButton.titleLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:14]];
@@ -131,13 +146,13 @@ static CGFloat const  sendTextViewCornerRadius = 15.0f;
     
     typingIndicatorHeight = 30;
  
-    self.typingLabel = [[UILabel alloc] init];
+//    self.typingLabel = [[UILabel alloc] init];
     
     self.typingLabel.backgroundColor = [ALApplozicSettings getBGColorForTypingLabel];
     self.typingLabel.textColor = [ALApplozicSettings getTextColorForTypingLabel];
     [self.typingLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:TYPING_LABEL_SIZE]];
     self.typingLabel.textAlignment = NSTextAlignmentLeft;
-    [self.view addSubview:self.typingLabel];
+//    [self.view addSubview:self.typingLabel];
     
 //    CGFloat navigationHeight = self.navigationController.navigationBar.frame.size.height +
 //    [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -193,7 +208,7 @@ static CGFloat const  sendTextViewCornerRadius = 15.0f;
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    
+     [super viewWillAppear:animated];
     [self registerForKeyboardNotifications];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSubViews) name:@"APP_ENTER_IN_FOREGROUND" object:nil];
@@ -223,20 +238,58 @@ static CGFloat const  sendTextViewCornerRadius = 15.0f;
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     [self updateSubViews];
+    
+    /*  CHECK PRICING PACKAGE */
+    [self checkPricingPackage];
+}
+
+-(void)checkPricingPackage
+{
+    BOOL debugflag = [ALUtilityClass isThisDebugBuild];
+    BOOL pricingFlag = ([ALUserDefaultsHandler getUserPricingPackage] == BETA);
+   
+    if(debugflag)
+    {
+        return;
+    }
+    if([ALUserDefaultsHandler getUserPricingPackage] == CLOSED)
+    {
+        [self back:self];
+        [ALUtilityClass showAlertMessage:@"Please Contact Applozic to activate chat in your app" andTitle:@"ALERT"];
+        return;
+    }
+    if(!debugflag && pricingFlag)
+    {
+        UIToolbar * accessoryView = [[UIToolbar alloc] init];
+        [accessoryView setBackgroundColor:[UIColor lightGrayColor]];
+        [accessoryView sizeToFit];
+        
+        NSString *titleText = @"  Please Contact Applozic to activate chat in your app";
+        UILabel *customLabel = [[UILabel alloc] initWithFrame:accessoryView.frame];
+        [customLabel setFont:[UIFont fontWithName:@"Helvetica" size:14]];
+        [customLabel setText:titleText];
+        [customLabel setTextColor:[UIColor blueColor]];
+        
+        UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:customLabel];
+        [accessoryView setItems:[NSArray arrayWithObjects:barButton, nil] animated:YES];
+        [accessoryView setUserInteractionEnabled:NO];
+        [self.sendMessageTextView setInputAccessoryView:accessoryView];
+    }
 }
 
 -(void)updateSubViews
 {
-    CGFloat typingLabelY = self.view.frame.size.height - typingIndicatorHeight - self.typingMessageView.frame.size.height + paddingForTextMessageViewHeight;
-    [self.typingLabel setFrame:CGRectMake(0, typingLabelY, self.view.frame.size.width, typingIndicatorHeight)];
+//    CGFloat typingLabelY = self.view.frame.size.height - typingIndicatorHeight - self.typingMessageView.frame.size.height + paddingForTextMessageViewHeight;
+//    [self.typingLabel setFrame:CGRectMake(0, typingLabelY, self.view.frame.size.width, typingIndicatorHeight)];
 }
 
 
 -(void)sendButtonUI
 {
     [self.sendButton setBackgroundColor:[ALApplozicSettings getColorForSendButton]];
-    self.sendButton.layer.cornerRadius = sendTextViewCornerRadius + 5;
+   self.sendButton.layer.cornerRadius = sendTextViewCornerRadius + 5;
     self.sendButton.layer.masksToBounds = YES;
     
     [self.typingMessageView sendSubviewToBack:self.typeMsgBG];
@@ -290,7 +343,6 @@ static CGFloat const  sendTextViewCornerRadius = 15.0f;
 //                                                tempFrame.size.width,
 //                                                tempFrame.size.height);
     
-    
     [UIView animateWithDuration:theAnimationDuration.doubleValue animations:^{
         [self.view layoutIfNeeded];
         [self scrollTableViewToBottomWithAnimation:YES];
@@ -325,9 +377,9 @@ static CGFloat const  sendTextViewCornerRadius = 15.0f;
     
     keyboardEndFrame = [(NSValue *)[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     
-    self.typingLabel.frame = CGRectMake(0,
-                                        keyboardEndFrame.origin.y - (self.typingMessageView.frame.size.height + typingIndicatorHeight + navigationWidth),
-                                        self.view.frame.size.width, typingIndicatorHeight);
+//    self.typingLabel.frame = CGRectMake(0,
+//                                        keyboardEndFrame.origin.y - (self.typingMessageView.frame.size.height + typingIndicatorHeight + navigationWidth),
+//                                        self.view.frame.size.width, typingIndicatorHeight);
     return theAnimationDuration;
 }
 
@@ -359,9 +411,9 @@ static CGFloat const  sendTextViewCornerRadius = 15.0f;
     
     self.textMessageViewHeightConstaint.constant = (self.typingMessageView.frame.size.height-self.sendMessageTextView.frame.size.height) + sizeThatFitsTextView.height + paddingForTextMessageViewHeight;
     
-    self.typingLabel.frame = CGRectMake(0,
-                                        keyboardEndFrame.origin.y - (self.textMessageViewHeightConstaint.constant + typingIndicatorHeight + navigationWidth),
-                                        self.view.frame.size.width, typingIndicatorHeight);
+//    self.typingLabel.frame = CGRectMake(0,
+//                                        keyboardEndFrame.origin.y - (self.textMessageViewHeightConstaint.constant + typingIndicatorHeight + navigationWidth),
+//                                        self.view.frame.size.width, typingIndicatorHeight);
     
 }
 

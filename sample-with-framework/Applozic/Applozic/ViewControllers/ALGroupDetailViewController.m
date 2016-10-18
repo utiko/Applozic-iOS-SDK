@@ -15,8 +15,9 @@
 #import "ALNotificationView.h"
 #import "ALDataNetworkConnection.h"
 #import "ALMQTTConversationService.h"
+#import "ALGroupCreationViewController.h"
 
-@interface ALGroupDetailViewController ()
+@interface ALGroupDetailViewController () <ALGroupInfoDelegate>
 {
     NSMutableOrderedSet *memberIds;
     NSMutableArray *memberNames;
@@ -49,14 +50,18 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self setupView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUser:) name:@"USER_DETAIL_OTHER_VC" object:nil];
 }
 
--(void)viewDidAppear:(BOOL)animated
+-(void)viewWillDisappear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
-    
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"USER_DETAIL_OTHER_VC" object:nil];
+}
+
+-(void)updateUser:(NSNotification *)notifyObj
+{
     [self.tableView reloadData];
 }
 
@@ -71,6 +76,12 @@
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
         [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
     }
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
 }
 
 -(void)setupView
@@ -106,11 +117,10 @@
 
 -(void)getDisplayNamesAndLastSeen
 {
+    ALContactDBService * contactDb=[[ALContactDBService alloc] init];
     for(NSString * userID in memberIds)
     {
-        ALContact * contact = [[ALContact alloc] init];
-        ALContactDBService * contactDb=[[ALContactDBService alloc] init];
-        contact = [contactDb loadContactByKey:@"userId" value:userID];
+        ALContact * contact = [contactDb loadContactByKey:@"userId" value:userID];
         if([contact.userId isEqualToString:[ALUserDefaultsHandler getUserId]]){
             contact.displayName = @"You";
         }
@@ -121,7 +131,8 @@
     NSLog(@"Member Count :%ld",(long)self.memberCount);
 }
 
--(void)groupDetailsSyncCall{
+-(void)groupDetailsSyncCall
+{
     [self setupView];
     [self.tableView reloadData];
 }
@@ -231,13 +242,13 @@
     [self.navigationController pushViewController:contactsViewController animated:YES];
 }
 
--(void)addNewMembertoGroup:(ALContact *)alcontact withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion
+-(void)addNewMembertoGroup:(ALContact *)alcontact withCompletion:(void(^)(NSError *error,ALAPIResponse *response))completion
 {    
     [[self activityIndicator] startAnimating];
     self.memberIdToAdd = alcontact.userId;
     ALChannelService * channelService = [[ALChannelService alloc] init];
      [channelService addMemberToChannel:self.memberIdToAdd andChannelKey:self.channelKeyID orClientChannelKey:nil
-                          withComletion:^(NSError *error, ALAPIResponse *response) {
+                          withCompletion:^(NSError *error, ALAPIResponse *response) {
          
          if(!error)
          {
@@ -364,7 +375,12 @@
     }
     else
     {
-        UIAlertController * theController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController * theController = [UIAlertController alertControllerWithTitle:nil
+                                                                                message:nil
+                                                                         preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        [ALUtilityClass setAlertControllerFrame:theController andViewController:self];
+        
         [theController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
         [theController addAction:[UIAlertAction
                                   actionWithTitle:[NSString stringWithFormat:@"Remove %@",memberNames[row]]
@@ -374,7 +390,7 @@
 
             [self turnUserInteractivityForNavigationAndTableView:NO];
             ALChannelService * alchannelService = [[ALChannelService alloc] init];
-            [alchannelService removeMemberFromChannel:removeMemberID andChannelKey:self.channelKeyID orClientChannelKey:nil withComletion:^(NSError *error, NSString *response) {
+            [alchannelService removeMemberFromChannel:removeMemberID andChannelKey:self.channelKeyID orClientChannelKey:nil withCompletion:^(NSError *error, ALAPIResponse *response) {
                 
                 if(!error)
                 {
@@ -418,42 +434,46 @@
     ALContactCell * memberCell = (ALContactCell*)[tableView dequeueReusableCellWithIdentifier:@"memberCell" forIndexPath:indexPath];
     [memberCell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
    
-    [self setupCellItems:memberCell];
-    [self.firstLetterLabel setHidden:YES];
-    [self.memberIconImageView setHidden:YES];
-    [self.memberNameLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.memberNameLabel setTextColor:[UIColor blackColor]];
-    [self.memberNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:15]];
-    [self.adminLabel setHidden:YES];
-    [self.lastSeenLabel setHidden:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
     
-    switch (indexPath.section)
-    {
-        case 0:
+        [self setupCellItems:memberCell];
+        [self.firstLetterLabel setHidden:YES];
+        [self.memberIconImageView setHidden:YES];
+        [self.memberNameLabel setTextAlignment:NSTextAlignmentCenter];
+        [self.memberNameLabel setTextColor:[UIColor blackColor]];
+        [self.memberNameLabel setFont:[UIFont fontWithName:[ALApplozicSettings getFontFace] size:15]];
+        [self.adminLabel setHidden:YES];
+        [self.lastSeenLabel setHidden:YES];
+        
+        switch (indexPath.section)
         {
-            if(indexPath.row == 0)
+            case 0:
             {
-                [self.memberNameLabel setFont:[UIFont boldSystemFontOfSize:18]];
-                self.memberNameLabel.text = [NSString stringWithFormat:@"%@", self.groupName];
-            }
-            else
+                if(indexPath.row == 0)
+                {
+                    [self.memberNameLabel setFont:[UIFont boldSystemFontOfSize:18]];
+                    self.memberNameLabel.text = [NSString stringWithFormat:@"%@", self.groupName];
+                }
+                else
+                {
+                    self.memberNameLabel.textColor = self.view.tintColor;
+                    self.memberNameLabel.text = @"Add New Member";
+                }
+            }break;
+            case 1:
             {
-                self.memberNameLabel.textColor = self.view.tintColor;
-                self.memberNameLabel.text = @"Add New Member";
-            }
-        }break;
-        case 1:
-        {
-            [self setMemberIcon:indexPath.row];
-        }break;
-        case 2:
-        {
-            [self.memberNameLabel setTextColor:[UIColor redColor]];
-            NSString * labelTitle = (![self isThisChannelLeft:self.channelKeyID]) ? @"Exit Group" : @"Delete Group";
-            self.memberNameLabel.text = labelTitle;
-        }break;
-        default:break;
-    }
+                [self setMemberIcon:indexPath.row];
+            }break;
+            case 2:
+            {
+                [self.memberNameLabel setTextColor:[UIColor redColor]];
+                NSString * labelTitle = (![self isThisChannelLeft:self.channelKeyID]) ? @"Exit Group" : @"Delete Group";
+                self.memberNameLabel.text = labelTitle;
+            }break;
+            default:break;
+        }
+    });
+    
     return memberCell;
 }
 
@@ -474,9 +494,8 @@
     [self.firstLetterLabel setHidden:YES];
     [self.memberIconImageView setHidden:NO];
     
-    ALContact * alContact = [[ALContact alloc] init];
     ALContactDBService * alContactDBService = [[ALContactDBService alloc] init];
-    alContact = [alContactDBService loadContactByKey:@"userId" value:memberIds[row]];
+     ALContact * alContact = [alContactDBService loadContactByKey:@"userId" value:memberIds[row]];
     
     if (![alContact.userId isEqualToString:[ALUserDefaultsHandler getUserId]])
     {
@@ -505,7 +524,7 @@
 
 -(void)setupCellItems:(ALContactCell*)memberCell
 {
-    self.memberNameLabel = (UILabel*)[memberCell viewWithTag:101];
+    self.memberNameLabel  = (UILabel*)[memberCell viewWithTag:101];
     self.memberIconImageView = (UIImageView*)[memberCell viewWithTag:102];
     self.memberIconImageView.clipsToBounds = YES;
     self.memberIconImageView.layer.cornerRadius = self.memberIconImageView.frame.size.width/2;
@@ -548,7 +567,8 @@
 //===========================
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    if (section == 0) {
+    if (section == 0)
+    {
         UIImageView *imageView = [[UIImageView alloc] initWithImage:
                                   [ALUtilityClass getImageFromFramworkBundle:@"applozic_group_icon.png"]];
         
@@ -562,14 +582,22 @@
         
         imageView.frame = CGRectMake((screenWidth/2)-30, 20, 60, 60);
         imageView.backgroundColor = [UIColor blackColor];
-        imageView.clipsToBounds=YES;
+        imageView.clipsToBounds = YES;
         imageView.layer.cornerRadius = imageView.frame.size.width/2;
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 70)];
         view.backgroundColor = [ALApplozicSettings getColorForNavigation];
+        
+        [imageView setUserInteractionEnabled:YES];
         [view addSubview:imageView];
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                    action:@selector(updateGroupView)];
+        singleTap.numberOfTapsRequired = 1;
+        [imageView addGestureRecognizer:singleTap];
+        
         return view;
     }
-    else if(section == 1){
+    else if(section == 1)
+    {
         UILabel * memberSectionHeaderTitle = [[UILabel alloc] init];
         memberSectionHeaderTitle.text=@"Group Members";
         CGSize textSize = [memberSectionHeaderTitle.text sizeWithAttributes:@{NSFontAttributeName:memberSectionHeaderTitle.font}];
@@ -599,6 +627,21 @@
 {
     ALNotificationView * notification = [ALNotificationView new];
     [notification noDataConnectionNotificationView];
+}
+
+-(void)updateGroupView
+{
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:[self class]]];
+    ALGroupCreationViewController * grpUpdate = [storyBoard instantiateViewControllerWithIdentifier:@"ALGroupCreationViewController"];
+    grpUpdate.isViewForUpdatingGroup = YES;
+    grpUpdate.channelKey = self.channelKeyID;
+    grpUpdate.grpInfoDelegate = self;
+    [self.navigationController pushViewController:grpUpdate animated:YES];
+}
+
+-(void)updateGroupInformation
+{
+    [self.tableView reloadData];
 }
 
 @end

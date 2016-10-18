@@ -79,7 +79,9 @@
     
     if([ALUserDefaultsHandler getDeviceKeyString])
     {
-        [alUserClientService logout];
+        [alUserClientService logoutWithCompletionHandler:^{
+            
+        }];
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -293,7 +295,9 @@
     
     if([ALUserDefaultsHandler getDeviceKeyString])
     {
-        [alUserClientService logout];
+        [alUserClientService logoutWithCompletionHandler:^{
+            
+        }];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }

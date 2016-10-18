@@ -330,7 +330,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="uEJ-oo-GLz"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="uEJ-oo-GLz">
+                                <frame key="frameInset" width="1000" height="1000"/>
+                            </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KAL-xm-Upd">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="160" id="QDu-sh-dbQ"/>
@@ -406,14 +408,19 @@
                                             <constraint firstAttribute="width" constant="37" id="pid-yc-Qtd"/>
                                         </constraints>
                                     </activityIndicatorView>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Bgh-OY-zQc">
+                                        <color key="color" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="L1b-27-OrZ" secondAttribute="trailing" constant="20" id="37d-hz-U78"/>
+                                    <constraint firstItem="Bgh-OY-zQc" firstAttribute="centerX" secondItem="NDG-3p-bsz" secondAttribute="centerX" id="3Op-rK-87R"/>
                                     <constraint firstItem="L1b-27-OrZ" firstAttribute="top" secondItem="EIb-qn-EDT" secondAttribute="top" constant="86" id="3eE-n0-A6f"/>
                                     <constraint firstItem="d2y-hV-AkV" firstAttribute="leading" secondItem="10y-gF-sJ8" secondAttribute="trailing" constant="32" id="8RQ-ta-vBb"/>
                                     <constraint firstItem="10y-gF-sJ8" firstAttribute="leading" secondItem="EIb-qn-EDT" secondAttribute="leading" constant="20" id="AS3-UF-JaH"/>
                                     <constraint firstItem="L1b-27-OrZ" firstAttribute="trailing" secondItem="NDG-3p-bsz" secondAttribute="trailing" id="DTT-Zf-WSM"/>
                                     <constraint firstAttribute="bottom" secondItem="NDG-3p-bsz" secondAttribute="bottom" constant="448" id="DhG-EY-E1E"/>
+                                    <constraint firstItem="Bgh-OY-zQc" firstAttribute="centerY" secondItem="EIb-qn-EDT" secondAttribute="centerY" id="FTi-dU-vww"/>
                                     <constraint firstItem="L1b-27-OrZ" firstAttribute="leading" secondItem="10y-gF-sJ8" secondAttribute="trailing" constant="13" id="UGP-DP-TAq"/>
                                     <constraint firstItem="L1b-27-OrZ" firstAttribute="centerX" secondItem="d2y-hV-AkV" secondAttribute="centerX" id="XdZ-i5-Dih"/>
                                     <constraint firstItem="10y-gF-sJ8" firstAttribute="leading" secondItem="NDG-3p-bsz" secondAttribute="leading" id="Yd9-FX-Que"/>
@@ -442,6 +449,7 @@
                         <outlet property="activityIndicator" destination="d2y-hV-AkV" id="YHD-ei-sSW"/>
                         <outlet property="groupIconView" destination="L1b-27-OrZ" id="5DU-OM-1Lf"/>
                         <outlet property="groupNameInput" destination="NDG-3p-bsz" id="pRQ-Q9-v05"/>
+                        <outlet property="loadingIndicator" destination="Bgh-OY-zQc" id="ZXr-Ba-OJ3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TgV-Hf-2V9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -648,7 +656,7 @@
         <scene sceneID="uwJ-c5-MKc">
             <objects>
                 <collectionViewController storyboardIdentifier="collectionView" title="Attachment" extendedLayoutIncludesOpaqueBars="YES" id="5ds-lt-Orl" customClass="ALMultipleAttachmentView" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="Cdp-1x-xZh">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Cdp-1x-xZh">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1002,14 +1010,23 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EuG-md-LqW">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Rmx-7o-OZs"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="Jo9-Fl-OK9" firstAttribute="centerY" secondItem="XrG-C6-GhS" secondAttribute="centerY" constant="4.25" id="4A3-ND-caN"/>
+                            <constraint firstItem="Jo9-Fl-OK9" firstAttribute="centerY" secondItem="XrG-C6-GhS" secondAttribute="centerY" constant="-0.25" id="4A3-ND-caN"/>
+                            <constraint firstItem="EuG-md-LqW" firstAttribute="bottom" secondItem="XrG-C6-GhS" secondAttribute="bottom" id="6PR-32-hER"/>
                             <constraint firstItem="7lO-5W-DOH" firstAttribute="leading" secondItem="fcy-p5-tcB" secondAttribute="leading" id="7mZ-bN-gSg"/>
                             <constraint firstAttribute="trailing" secondItem="XrG-C6-GhS" secondAttribute="trailing" identifier="trailing" id="8fX-5Q-Kdx"/>
-                            <constraint firstItem="ySq-fe-e5N" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="bottom" constant="8" identifier="typeMessageTopView" id="Bvy-mk-pRc"/>
+                            <constraint firstItem="ySq-fe-e5N" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="bottom" constant="-1" identifier="typeMessageTopView" id="Bvy-mk-pRc"/>
                             <constraint firstItem="fcy-p5-tcB" firstAttribute="trailing" secondItem="XrG-C6-GhS" secondAttribute="trailing" identifier="Load Earlier Action.trailing" id="CQw-CB-O1b"/>
                             <constraint firstItem="XrG-C6-GhS" firstAttribute="top" secondItem="IEC-BM-wED" secondAttribute="top" identifier="MTable View.top" id="DHs-aS-wdN"/>
                             <constraint firstItem="onN-md-bNU" firstAttribute="top" secondItem="ySq-fe-e5N" secondAttribute="bottom" constant="-2" identifier="CheckBottom" id="DfS-YI-cZT"/>
@@ -1020,9 +1037,11 @@
                             <constraint firstItem="7lO-5W-DOH" firstAttribute="trailing" secondItem="fcy-p5-tcB" secondAttribute="trailing" id="NGM-Mg-dKo"/>
                             <constraint firstItem="onN-md-bNU" firstAttribute="top" secondItem="XrG-C6-GhS" secondAttribute="bottom" id="OEc-Nz-7gM"/>
                             <constraint firstItem="Jo9-Fl-OK9" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leadingMargin" id="ObO-fu-Bqg"/>
+                            <constraint firstItem="EuG-md-LqW" firstAttribute="trailing" secondItem="ySq-fe-e5N" secondAttribute="trailing" id="URD-0B-sVo"/>
                             <constraint firstItem="cVw-Po-VWO" firstAttribute="centerY" secondItem="IEC-BM-wED" secondAttribute="centerY" identifier="MActivity Indicator.centerY" id="WSG-Up-0QY"/>
                             <constraint firstItem="XrG-C6-GhS" firstAttribute="leading" secondItem="IEC-BM-wED" secondAttribute="leading" identifier="MTable View.Leading" id="X4Z-tI-BRd"/>
                             <constraint firstItem="fcy-p5-tcB" firstAttribute="leading" secondItem="XrG-C6-GhS" secondAttribute="leading" identifier="Load Earlier Action.leading" id="cgs-kW-cTD"/>
+                            <constraint firstItem="EuG-md-LqW" firstAttribute="leading" secondItem="ySq-fe-e5N" secondAttribute="leading" id="lpb-3h-WnJ"/>
                             <constraint firstItem="cVw-Po-VWO" firstAttribute="top" secondItem="7lO-5W-DOH" secondAttribute="bottom" constant="74" identifier="ActivityIndicatorTop" id="sAf-6k-d1y"/>
                             <constraint firstItem="ySq-fe-e5N" firstAttribute="leading" secondItem="fcy-p5-tcB" secondAttribute="leading" identifier="typingMessageViewLeading" id="ugG-V8-Pbe"/>
                         </constraints>
@@ -1053,13 +1072,14 @@
                         <outlet property="textMessageViewHeightConstaint" destination="XwR-y6-Wd8" id="4Hu-eC-LgS"/>
                         <outlet property="textViewHeightConstraint" destination="9Ar-4U-wMr" id="Jbc-Hc-ZAk"/>
                         <outlet property="typeMsgBG" destination="XWn-8F-vv1" id="vpR-C8-73Z"/>
+                        <outlet property="typingLabel" destination="EuG-md-LqW" id="cWf-rq-Jio"/>
                         <outlet property="typingMessageView" destination="ySq-fe-e5N" id="YfG-bP-kZG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KEu-PH-USU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="ICE-46-P9k"/>
             </objects>
-            <point key="canvasLocation" x="3020.625" y="280.98591549295776"/>
+            <point key="canvasLocation" x="3019.1999999999998" y="280.65967016491754"/>
         </scene>
         <!--Record Audio-->
         <scene sceneID="Aui-Yj-964">
@@ -1178,7 +1198,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nR9-3H-cTW" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="featured" id="70j-Xw-YMX"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="aLk-X7-wot">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="aLk-X7-wot">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1197,7 +1217,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MNB-7r-ca3" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="contacts" id="rAD-Rw-MBT"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="GCi-77-i4P">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="GCi-77-i4P">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1601,7 +1621,7 @@ Upload Image Button.centerX = scd_profile_BG.centerX + 50</string>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cae-ki-ei4" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" systemItem="more" id="fx6-zu-YmW"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Apy-Bi-oR6">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Apy-Bi-oR6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

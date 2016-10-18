@@ -39,6 +39,8 @@
 
 -(void)launchListWithUserORGroup: (NSString *)userId ORWithGroupID: (NSNumber *)groupId andFromViewController:(UIViewController*)fromViewController;
 
+-(void)launchOpenGroupWithKey:(NSNumber *)channelKey fromViewController:(UIViewController *)viewController;
+
 -(BOOL)isUserHaveMessages:(NSString *)userId;
 
 -(NSString *)getApplicationKey;

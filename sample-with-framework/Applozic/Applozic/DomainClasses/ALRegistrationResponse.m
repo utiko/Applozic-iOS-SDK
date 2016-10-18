@@ -24,7 +24,8 @@
     self.statusMessage = [registrationResponse valueForKey:@"statusMessage"];
     self.imageLink = [registrationResponse valueForKey:@"imageLink"];
     self.encryptionKey = [registrationResponse valueForKey:@"encryptionKey"];
-    
+    self.pricingPackage = [[registrationResponse valueForKey:@"pricingPackage"] shortValue];
+   
     return self;
 }
 @end

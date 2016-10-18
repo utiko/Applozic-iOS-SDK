@@ -60,7 +60,7 @@
         
         if(rResponse && [rResponse.message containsString: @"REGISTERED"])
         {
-            //
+
         }
         
         //        if(![ALUserDefaultsHandler getApnDeviceToken]){
@@ -202,7 +202,7 @@
         
         if (rResponse && [rResponse.message containsString: @"REGISTERED"])
         {
-            //
+
         }
         
         //        if(![ALUserDefaultsHandler getApnDeviceToken]){
@@ -280,7 +280,7 @@
         
         if (rResponse && [rResponse.message containsString: @"REGISTERED"])
         {
-            //
+
         }
         
         [self.chatLauncher launchIndividualChat:userId withGroupId:groupID withDisplayName:displayName
@@ -337,6 +337,19 @@
 }
 
 //==============================================================================================================================================
+// LAUNCH OPEN GROUP
+//==============================================================================================================================================
+
+-(void)launchOpenGroupWithKey:(NSNumber *)channelKey fromViewController:(UIViewController *)viewController
+{
+    ALChannelService *service = [ALChannelService new];
+    [service getChannelInformation:channelKey orClientChannelKey:nil withCompletion:^(ALChannel *alChannel3) {
+        
+        [self launchChatForUserWithDisplayName:nil withGroupId:alChannel3.key andwithDisplayName:nil andFromViewController:viewController];
+    }];
+}
+
+//==============================================================================================================================================
 // This method can be used to get app logged-in user's information.
 // If user information is stored in DB or preference, Code to get user's information should go here.
 // This might be used to get existing user information in case of app update.
@@ -388,6 +401,12 @@
     [ALApplozicSettings setReceiveMsgTextColor:[UIColor grayColor]];
     [ALApplozicSettings setColorForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
     [ALApplozicSettings setColorForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
+    
+    /***************  SEND MESSAGE ABUSE CHECK  ******************/
+
+    [ALApplozicSettings setAbuseWarningText:@"AVOID USE OF ABUSE WORDS"];
+    [ALApplozicSettings setMessageAbuseMode:YES];
+
     /****************************************************************************************************************/
     
     
@@ -482,9 +501,10 @@
     /***************************************** APPLICATION URL CONFIGURATION + ENCRYPTION  ***************************************/
     
     //    [self getApplicationBaseURL];                                         /* Note: PLEASE DO NOT COMMENT THIS IF ARCHIVING/RELEASING  */
-    [ALUserDefaultsHandler setEnableEncryption:YES];                            /* Note: PLEASE DO YES (IF NEEDED)  */
-    /****************************************************************************************************************/
     
+    [ALUserDefaultsHandler setEnableEncryption:NO];                            /* Note: PLEASE DO YES (IF NEEDED)  */
+    /****************************************************************************************************************/
+   
 }
 
 -(void)getApplicationBaseURL
@@ -559,7 +579,7 @@
         
         if (rResponse && [rResponse.message containsString: @"REGISTERED"])
         {
-            //
+
         }
         
         //        if(![ALUserDefaultsHandler getApnDeviceToken]){

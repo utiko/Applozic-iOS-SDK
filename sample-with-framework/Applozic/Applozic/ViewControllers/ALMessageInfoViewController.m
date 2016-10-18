@@ -378,7 +378,6 @@
             imageView.layer.cornerRadius = imageView.frame.size.width/2;
 
             [imageView setImage: [ALUtilityClass getImageFromFramworkBundle:@"ic_contact_picture_holo_light.png"]];
-            
             if(IS_OS_EARLIER_THAN_10)
             {
                 if(self.VCFObject.retrievedImage)
@@ -404,7 +403,6 @@
                                        self.VCardClass.userEMAIL_ID]];
                 }
             }
-            
             textView.frame = CGRectMake(imageView.frame.origin.x + imageView.frame.size.width + 10,
                                         bubbleView.frame.origin.y + 5,
                                         bubbleView.frame.size.width - imageView.frame.size.width - 10,

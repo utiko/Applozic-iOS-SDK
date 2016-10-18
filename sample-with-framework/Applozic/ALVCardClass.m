@@ -18,11 +18,19 @@
     NSString * vcfCARDPath = [documentsDirectory stringByAppendingString:
                               [NSString stringWithFormat:@"/CONTACT_%f_CARD.vcf",[[NSDate date] timeIntervalSince1970] * 1000]];
     
-    NSArray *array = [[NSArray alloc] initWithObjects:contact, nil];
-    
     NSError *errorVCFCARD;
-    NSData *data = [CNContactVCardSerialization dataWithContacts:array error:&errorVCFCARD];
-    [data writeToFile:vcfCARDPath atomically:YES];
+
+    NSData* vCardData = [CNContactVCardSerialization dataWithContacts:@[contact] error:&errorVCFCARD];
+    if(contact.imageData)
+    {
+        NSString* vcString = [[NSString alloc] initWithData:vCardData encoding:NSUTF8StringEncoding];
+        NSString* base64Image = [contact.imageData base64EncodedStringWithOptions:0];
+        NSString* vcardImageString = [[@"PHOTO;TYPE=JPEG;ENCODING=BASE64:" stringByAppendingString:base64Image] stringByAppendingString:@"\n"];
+        vcString = [vcString stringByReplacingOccurrencesOfString:@"END:VCARD" withString:[vcardImageString stringByAppendingString:@"END:VCARD"]];
+        vCardData = [vcString dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    
+    [vCardData writeToFile:vcfCARDPath atomically:YES];
     NSLog(@"ERROR_IF_ANY WHILE SAVING VCF FILE :: %@",errorVCFCARD.description);
     return vcfCARDPath;
 }
@@ -89,9 +97,17 @@
     NSError * error;
     [store executeSaveRequest:saveRequest error:&error];
     
+    NSLog(@"ERROR SAVING_CONTACT (IF ANY) : %@", error.description);
+    
     if(error)
     {
-        NSLog(@"ERROR_SAVING_NEW_CONTACT : %@", error);
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Application Settings"
+                                                             message:@"Enable Contacts Permission"
+                                                            delegate:self
+                                                   cancelButtonTitle:@"Cancel"
+                                                   otherButtonTitles:@"Settings", nil];
+        
+        [alertView show];
         return;
     }
     
@@ -99,5 +115,12 @@
     
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Settings"])
+    {
+        [ALUtilityClass openApplicationSettings];
+    }
+}
 
 @end
