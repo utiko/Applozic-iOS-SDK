@@ -2454,18 +2454,10 @@
 
 -(void)openLocationView
 {
-    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-    if (status == kCLAuthorizationStatusDenied)
-    {
-        [ALUtilityClass permissionPopUpWithMessage:@"Enable Location Permission" andViewController:self];
-    }
-    else
-    {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:[self class]]];
-        ALMapViewController *mapView = (ALMapViewController *)[storyboard instantiateViewControllerWithIdentifier:@"shareLoactionViewTag"];
-        mapView.controllerDelegate = self;
-        [self.navigationController pushViewController:mapView animated:YES];
-    }
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:[self class]]];
+    ALMapViewController *mapView = (ALMapViewController *)[storyboard instantiateViewControllerWithIdentifier:@"shareLoactionViewTag"];
+    mapView.controllerDelegate = self;
+    [self.navigationController pushViewController:mapView animated:YES];
 }
 
 -(void)openGallery
