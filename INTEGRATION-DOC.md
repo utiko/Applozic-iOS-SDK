@@ -252,9 +252,11 @@ Call the following when user logout from your app:
 
 ```
   ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
-  if([ALUserDefaultsHandler getDeviceKeyString]){
-      [alUserClientService logout];
-  }
+  if([ALUserDefaultsHandler getDeviceKeyString]) {
+  
+      [alUserClientService logoutWithCompletionHandler:^{
+       }]; 
+    }
 ```
 
 ###Swift
@@ -503,5 +505,7 @@ Call the following when user logout from your app:
 
 ```
   let registerUserClientService: ALRegisterUserClientService = ALRegisterUserClientService()
-  registerUserClientService.logout();
+  registerUserClientService.logout { 
+            
+  }
 ```
