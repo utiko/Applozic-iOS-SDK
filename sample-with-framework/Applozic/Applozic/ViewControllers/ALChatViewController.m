@@ -831,7 +831,6 @@
     
     if (!titleLabelButton) {
         titleLabelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.navigationItem.titleView = titleLabelButton;
     }
     [titleLabelButton setTitleColor:self.navigationController.navigationBar.tintColor forState:UIControlStateNormal];
     titleLabelButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
@@ -842,10 +841,20 @@
     
     if([self isGroup])
     {
+        /*
         [self setButtonTitle];
+         */
+        ALChannelService *channelService = [[ALChannelService alloc] init];
+        ALChannel *alChannel = [channelService getChannelByKey:self.channelKey];
+        [titleLabelButton setTitle:alChannel.name forState:UIControlStateNormal];
+        
     } else {
         [titleLabelButton setTitle:[self.alContact getDisplayName] forState:UIControlStateNormal];
     }
+    
+    self.navigationItem.titleView = nil;
+    self.navigationItem.titleView = titleLabelButton;
+    
     
     CGFloat COORDINATE_POINT_Y = 24;
     [self.label setFrame: CGRectMake(0, COORDINATE_POINT_Y ,self.navigationController.navigationBar.frame.size.width, 20)];
@@ -859,12 +868,7 @@
     [self updateLastSeenAtStatus:userDetail];
 }
 
--(void)setButtonTitle
-{
-    ALChannelService *channelService = [[ALChannelService alloc] init];
-    ALChannel *alChannel = [channelService getChannelByKey:self.channelKey];
-    [titleLabelButton setTitle:alChannel.name forState:UIControlStateNormal];
-}
+
 
 -(void)didTapTitleView:(id)sender
 {
