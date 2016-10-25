@@ -15,7 +15,7 @@ i) Open terminal and navigate to your project root directory and run command ```
 ii) Go to project directory open pod file and add code in that
 
 ```
- pod 'Applozic', '3.2.7'
+ pod 'Applozic', '3.4.4'
 ```
 
 For reference download our sample project here [**ApplozicCocoaPodDemo**](https://github.com/AppLozic/Applozic-iOS-Chat-Samples)
