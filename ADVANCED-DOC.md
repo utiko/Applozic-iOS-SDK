@@ -209,8 +209,9 @@ __Class to import :__ Applozic/ALChannelService.h
 You can create a Channel/Group by simply calling createChannel method. The callback argument ALChannel will have Channel information created by applozic server.In case you are not passing clientChannelKey, you need to store channelKey from ALChannel object for any further operations( like : add member, remove  member, delete group/channel etc) on Channel/Group.   
 ```
 -(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey
-      andMembersList:(NSMutableArray *)memberArray andImageLink:(NSString *)imageLink 
-      withCompletion:(void(^)(ALChannel *alChannel))completion
+      andMembersList:(NSMutableArray *)memberArray andImageLink:(NSString *)imageLink channelType:(short)type
+         andMetaData:(NSMutableDictionary *)metaData withCompletion:(void(^)(ALChannel *alChannel))completion
+{
 ```
 
 | Parameter  | Required | Default | Description |
@@ -219,9 +220,37 @@ You can create a Channel/Group by simply calling createChannel method. The callb
 | clientChannelKey  | No  | nil  | Channel key maintain by client. This can be any unique identifier passed by client, to identify his group/channel |
 | memberArray  | Yes  |   | Array of group member's userId  |
 | imageLink  | Yes  |   | group profile image link  |
+|metaData | optional | nil| Setting group meta data for messages like created group, left group, removed from group, group deleted, group icon changed and group name changed.|
 | (void(^)(ALChannel *alChannel))completion  |   |   | completion block, once group is created successfully. This will return ALChannel object, which stores information about newly created channel. |
 
  
+NOTE: Group metadata is optional and should be passed for custom group notification message only. Example method is below, how you can get custom message:
+
+```
+/**
+ * :adminName - Admin display name of group
+ * :userName -  user's display name
+ * :groupName -  Group's Name
+ *
+ **/
+-(NSMutableDictionary *)getChannelMetaData
+{
+    NSMutableDictionary *grpMetaData = [NSMutableDictionary new];
+
+    [grpMetaData setObject:@":adminName created group" forKey:AL_CREATE_GROUP_MESSAGE];
+    [grpMetaData setObject:@":userName removed" forKey:AL_REMOVE_MEMBER_MESSAGE];
+    [grpMetaData setObject:@":userName added" forKey:AL_ADD_MEMBER_MESSAGE];
+    [grpMetaData setObject:@":userName joined" forKey:AL_JOIN_MEMBER_MESSAGE];
+    [grpMetaData setObject:@"Group renamed to :groupName" forKey:AL_GROUP_NAME_CHANGE_MESSAGE];
+    [grpMetaData setObject:@":groupName icon changed" forKey:AL_GROUP_ICON_CHANGE_MESSAGE];
+    [grpMetaData setObject:@":userName left" forKey:AL_GROUP_LEFT_MESSAGE];
+    [grpMetaData setObject:@":groupName deleted" forKey:AL_DELETED_GROUP_MESSAGE];
+    
+    return grpMetaData;
+}
+
+
+```
 
  
 ##### Add User to Channel/Group
