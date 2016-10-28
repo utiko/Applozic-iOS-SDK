@@ -20,6 +20,7 @@
 #import "ALChannelDBService.h"
 #import "ALApplozicSettings.h"
 #import "ALConstant.h"
+#import "ALGroupDetailViewController.h"
 @implementation ALNotificationView
     
 
@@ -188,39 +189,15 @@
              self.checkContactId = [NSString stringWithFormat:@"%@",self.contactId];
              
          }
-         else if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop)// HERE SET DISPLAY NAME
-         {
-             // Chat View is Opened....
-             ALChatViewController * class1 = (ALChatViewController *)delegate;
-             NSLog(@"onTopChatVC: ContactID %@ and ChannelID %@",self.contactId, self.groupId);
-             if(self.groupId)
-             {
-                 [class1 updateChannelSubscribing:class1.channelKey andNewChannel:self.groupId];
-                 class1.channelKey = self.groupId;
-             }
-             else
-             {
-                 self.groupId = nil;
-                 [class1 updateChannelSubscribing:class1.channelKey andNewChannel:self.groupId];
-                 class1.channelKey = nil;
-             }
+         else if([delegate isKindOfClass:[ALChatViewController class]] && top.isChatViewOnTop){
              
-             if (self.conversationId)
-             {
-                 class1.conversationId = self.conversationId;
-                 [[class1.alMessageWrapper messageArray] removeAllObjects];
-                 [class1 processLoadEarlierMessages:YES];
-             }
-             else
-             {
-                 class1.conversationId = nil;
-                 class1.contactIds = self.contactId;
-                 [class1 reloadView];
-                 [class1 markConversationRead];
-                 [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-             }
+             [self updateChatScreen:delegate];
+             
          }
-         else{
+         else if ([delegate isKindOfClass:[ALChatViewController class]] && top.isGroupDetailViewOnTop){
+             [[(ALGroupDetailViewController *)delegate navigationController] popViewControllerAnimated:YES];
+             [self updateChatScreen:delegate];
+         }else{
              NSLog(@"View Already Opened and Notification coming already");
          }
 }
@@ -230,6 +207,36 @@
                            canBeDismissedByUser:YES];
 }
 
+-(void)updateChatScreen:(UIViewController*)delegate{
+    // Chat View is Opened....
+    ALChatViewController * class1 = (ALChatViewController*)delegate;
+    NSLog(@"onTopChatVC: ContactID %@ and ChannelID %@",self.contactId, self.groupId);
+    if(self.groupId){
+        [class1 updateChannelSubscribing:class1.channelKey andNewChannel:self.groupId];
+        class1.channelKey = self.groupId;
+    }
+    else
+    {
+        self.groupId = nil;
+        [class1 updateChannelSubscribing:class1.channelKey andNewChannel:self.groupId];
+        class1.channelKey=nil;
+    }
+    
+    if (self.conversationId) {
+        class1.conversationId = self.conversationId;
+        [[class1.alMessageWrapper messageArray] removeAllObjects];
+        [class1 processLoadEarlierMessages:YES];
+    }
+    else
+    {
+        class1.conversationId = nil;
+        class1.contactIds=self.contactId;
+        [class1 reloadView];
+        [class1 markConversationRead];
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    }
+
+}
 -(void)showGroupLeftMessage
 {
     [[TSMessageView appearance] setTitleTextColor:[UIColor whiteColor]];

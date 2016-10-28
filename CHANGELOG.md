@@ -1,5 +1,20 @@
 ###Changelog
 
+__Version 3.5__
+
+* Abuse Words Restriction added
+* MQTT Crash fixes & Crash Analytics added
+* Permission issue fixes
+* Group left issue fixes
+* Group information (Name/Image) feature added
+* Contact Share : Contact Image fixes
+* Encryption issue fixes
+* UI fixes
+* Real time user image update added
+* 3rd Party Local Notification issue fixed
+* iPad Crash fixed for AlertController
+* Message HyperLink issue fixes
+
 __Version 3.4__
 
 * StoryBoard UI fixes (Xcode 8)

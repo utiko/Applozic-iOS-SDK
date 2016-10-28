@@ -47,7 +47,7 @@
 
 @property  NSUInteger lastSearchLength;
 
-@property (strong,nonatomic)NSMutableArray* groupMembers;
+@property (strong,nonatomic)NSMutableSet* groupMembers;
 @property (strong,nonatomic)ALChannelService * creatingChannel;
 
 @property (strong,nonatomic) NSNumber* groupOrContacts;
@@ -76,11 +76,20 @@
     
     //    if(![ALUserDefaultsHandler getContactViewLoaded] && [ALApplozicSettings getFilterContactsStatus]) // COMMENTED for INTERNAL PURPOSE
     //    {
+    
+    float y = self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height;
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,y, self.view.frame.size.width, 40)];
+    self.searchBar.delegate = self;
+    self.searchBar.placeholder = @"Email, userid, number";
+    [self.view addSubview:self.searchBar];
+    
+    [self.searchBar setUserInteractionEnabled:NO];
     if([ALApplozicSettings getFilterContactsStatus])
     {
         ALUserService * userService = [ALUserService new];
         [userService getListOfRegisteredUsersWithCompletion:^(NSError *error) {
             
+            [self.searchBar setUserInteractionEnabled:YES];
             if(error)
             {
                 [self.activityIndicator stopAnimating];
@@ -96,22 +105,19 @@
     {
         [self processFilterListWithLastSeen];
         [self onlyGroupFetch];
+        [self.searchBar setUserInteractionEnabled:YES];
     }
     else
     {
         [self subProcessContactFetch];
+        [self.searchBar setUserInteractionEnabled:YES];
     }
     
     barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton:@"Back"]];
 
-    float y = self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height;    
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,y, self.view.frame.size.width, 40)];
-    self.searchBar.delegate = self;
-    self.searchBar.placeholder = @"Email, userid, number";
-    [self.view addSubview:self.searchBar];
     self.colors = [[NSArray alloc] initWithObjects:@"#617D8A",@"#628B70",@"#8C8863",@"8B627D",@"8B6F62", nil];
     
-    self.groupMembers=[[NSMutableArray alloc] init];
+    self.groupMembers=[[NSMutableSet alloc] init];
     
     [self emptyConversationAlertLabel];
 }
@@ -173,6 +179,8 @@
     //[self.navigationItem setLeftBarButtonItem: barButtonItem];
     float y = self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
     self.searchBar.frame = CGRectMake(0,y, self.view.frame.size.width, 40);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUser:) name:@"USER_DETAIL_OTHER_VC" object:nil];
 }
 
 - (void)updateView
@@ -200,6 +208,37 @@
 {
     [self.tabBarController.tabBar setHidden: NO];
     self.forGroup = [NSNumber numberWithInt:0];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"USER_DETAIL_OTHER_VC" object:nil];
+}
+
+-(void)updateUser:(NSNotification *)notifyObj
+{
+    ALUserDetail *userDetail = (ALUserDetail *)notifyObj.object;
+    ALNewContactCell *newContactCell = [self getCell:userDetail.userId];
+    if(newContactCell && self.selectedSegment == 0)
+    {
+        [newContactCell.contactPersonImageView sd_setImageWithURL:[NSURL URLWithString:userDetail.imageLink]];
+        newContactCell.contactPersonName.text = [userDetail getDisplayName];
+    }
+}
+
+-(ALNewContactCell *)getCell:(NSString *)key
+{
+    int index = (int)[self.filteredContactList indexOfObjectPassingTest:^BOOL(id element, NSUInteger idx, BOOL *stop) {
+        
+        ALContact *contact = (ALContact *)element;
+        if([contact.userId isEqualToString:key])
+        {
+            *stop = YES;
+            return YES;
+        }
+        return NO;
+    }];
+    
+    NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
+    ALNewContactCell *contactCell = (ALNewContactCell *)[self.contactsTableView cellForRowAtIndexPath:path];
+    
+    return contactCell;
 }
 
 -(void)emptyConversationAlertLabel
@@ -266,6 +305,7 @@
         newContactCell.contactPersonImageView.layer.cornerRadius = newContactCell.contactPersonImageView.frame.size.width/2;
         newContactCell.contactPersonImageView.layer.masksToBounds = YES;
     });
+    
     [self.emptyConversationText setHidden:YES];
     [self.contactsTableView setHidden:NO];
     
@@ -308,6 +348,21 @@
                     newContactCell.selectionStyle = UITableViewCellSelectionStyleGray ;
                 }
                 
+                for (NSString * userID in  self.groupMembers) {
+                    if([userID isEqualToString:contact.userId]){
+                        
+                    
+                        [self.contactsTableView selectRowAtIndexPath:indexPath
+                                                    animated:YES
+                                              scrollPosition:UITableViewScrollPositionNone];
+                        [self tableView:self.contactsTableView didSelectRowAtIndexPath:indexPath];
+                        
+                        NSLog(@"SELECTED:%@",contact.userId);
+                    
+                    }else{
+                        NSLog(@"NOT SELECTED :%@",contact.userId);
+                    }
+                }
             }
         }break;
         case SHOW_GROUP:
@@ -374,7 +429,7 @@
             }
             
             [self turnUserInteractivityForNavigationAndTableView:NO];
-            [delegate addNewMembertoGroup:contact withComletion:^(NSError *error, ALAPIResponse *response) {
+            [delegate addNewMembertoGroup:contact withCompletion:^(NSError *error, ALAPIResponse *response) {
                 
                 if(error)
                 {
@@ -558,7 +613,7 @@
         
         if(self.selectedSegment == 0)
         {
-            searchPredicate = [NSPredicate predicateWithFormat:@"email CONTAINS[cd] %@ OR userId CONTAINS[cd] %@ OR contactNumber CONTAINS[cd] %@ OR fullName CONTAINS[cd] %@ OR displayName CONTAINS[cd] %@", searchText, searchText, searchText, searchText, searchText];
+            searchPredicate = [NSPredicate predicateWithFormat:@"email CONTAINS[cd] %@ OR userId CONTAINS[cd] %@ OR contactNumber CONTAINS[cd] %@ OR fullName CONTAINS[cd] %@ OR displayName CONTAINS[cd] %@", searchText, searchText, searchText, searchText,searchText];
         }
         else
         {
@@ -758,6 +813,8 @@
                                               message:@"Please select minimum two members"
                                               preferredStyle:UIAlertControllerStyleAlert];
         
+        [ALUtilityClass setAlertControllerFrame:alertController andViewController:self];
+        
         UIAlertAction *okAction = [UIAlertAction
                                    actionWithTitle:NSLocalizedString(@"OK", @"OK action")
                                    style:UIAlertActionStyleDefault
@@ -773,7 +830,8 @@
     
     //Server Call
     self.creatingChannel = [[ALChannelService alloc] init];
-    [self.creatingChannel createChannel:self.groupName orClientChannelKey:nil andMembersList:self.groupMembers andImageLink:self.groupImageURL
+    NSMutableArray * memberList = [NSMutableArray arrayWithArray:self.groupMembers.allObjects];
+    [self.creatingChannel createChannel:self.groupName orClientChannelKey:nil andMembersList:memberList andImageLink:self.groupImageURL
                          withCompletion:^(ALChannel *alChannel) {
                              
                              if(alChannel)

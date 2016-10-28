@@ -55,14 +55,15 @@
         }
         
        id theJson = nil;
-                              
-       if([ALUserDefaultsHandler getEncryptionKey]) // DECRYPTING DATA WITH KEY
+       
+       // DECRYPTING DATA WITH KEY
+       if([ALUserDefaultsHandler getEncryptionKey] && ![tag isEqualToString:@"CREATE ACCOUNT"] && ![tag isEqualToString:@"CREATE FILE URL"])
        {
            NSData *base64DecodedData = [[NSData alloc] initWithBase64EncodedData:data options:0];
            NSData *theData = [base64DecodedData AES128DecryptedDataWithKey:[ALUserDefaultsHandler getEncryptionKey]];
            data = theData;
        }
-        
+                              
         if ([tag isEqualToString:@"SEND MESSAGE"] || [tag isEqualToString:@"CREATE FILE URL"] || [tag isEqualToString:@"IMAGE POSTING"])
         {
             theJson = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -81,8 +82,9 @@
         else
         {
             NSError * theJsonError = nil;
+
             theJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&theJsonError];
-            
+           
             if (theJsonError)
             {
                 NSMutableString * responseString = [[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding];

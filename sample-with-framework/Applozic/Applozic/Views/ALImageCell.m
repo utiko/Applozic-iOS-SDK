@@ -461,7 +461,8 @@ UIViewController * modalCon;
     alShowImageViewController.view.userInteractionEnabled=YES;
     
 /*
-    alShowImageViewController.view.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.4];
+
+    alShowImageViewController.view.backgroundColor = [UIColor lightGrayColor];
     alShowImageViewController.view.userInteractionEnabled = YES;
     
     [alShowImageViewController setImage:self.mImageView.image];

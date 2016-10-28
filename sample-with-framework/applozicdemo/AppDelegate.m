@@ -16,8 +16,8 @@
 #import "Applozic/ALPushAssist.h"
 #import "Applozic/ALMessageService.h"
 #import <UserNotifications/UserNotifications.h>
-
-
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
@@ -25,16 +25,16 @@
 
 @interface AppDelegate () <UNUserNotificationCenterDelegate>
 
+
 @end
 
 @implementation AppDelegate
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
     [self registerForNotification];
-
-    
     // checks wheather app version is updated/changed then makes server call setting VERSION_CODE
     [ALRegisterUserClientService isAppUpdated];
     
@@ -53,6 +53,8 @@
         [self.window.rootViewController presentViewController:viewController
                                                      animated:nil
                                                    completion:nil];
+     
+       // [ALUserDefaultsHandler setNoti]
         
     }
     
@@ -73,26 +75,25 @@
         }
     }
     
-    
+    [Fabric with:@[[Crashlytics class]]];
     return YES;
 }
 
-- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary
-{
-    NSLog(@"Received notification WithoutCompletion: %@", dictionary);
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)dictionary {
+    
+    NSLog(@"Received notification Without Completion :: %@", dictionary);
     ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
     [pushNotificationService processPushNotification:dictionary updateUI:[NSNumber numberWithInt:APP_STATE_INACTIVE]];
 }
 
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
    
-    NSLog(@"Received notification Completion: %@", userInfo);
+    NSLog(@"Received notification Completion :: %@", userInfo);
     ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
     [pushNotificationService processPushNotification:userInfo updateUI:[NSNumber numberWithInt:APP_STATE_BACKGROUND]];
     completionHandler(UIBackgroundFetchResultNewData);
     
 }
-
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -108,8 +109,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"APP_ENTER_IN_BACKGROUND" object:nil];
 
 }
-
-
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
@@ -155,13 +154,14 @@
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     
     [registerUserClientService updateApnDeviceTokenWithCompletion:apnDeviceToken withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
-        if (error) {
-            NSLog(@"%@",error);
-            
-            return ;
+        
+        if (error)
+        {
+            NSLog(@"REGISTRATION ERROR :: %@",error.description);
+            return;
         }
         
-        NSLog(@"Registration response from server:%@", rResponse);
+        NSLog(@"Registration response from server : %@", rResponse);
     }];
     
 }
@@ -173,7 +173,7 @@
 
 -(void)registerForNotification
 {
-    if( SYSTEM_VERSION_LESS_THAN( @"10.0" ) )
+    if(SYSTEM_VERSION_LESS_THAN(@"10.0"))
     {
         [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound |    UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
         [[UIApplication sharedApplication] registerForRemoteNotifications];
@@ -194,12 +194,10 @@
              {
                  NSLog( @"Push registration FAILED" );
                  NSLog( @"ERROR: %@ - %@", error.localizedFailureReason, error.localizedDescription );
-                 NSLog( @"SUGGESTIONS: %@ - %@", error.localizedRecoveryOptions, error.localizedRecoverySuggestion );  
-             }  
-         }];  
+                 NSLog( @"SUGGESTIONS: %@ - %@", error.localizedRecoveryOptions, error.localizedRecoverySuggestion );
+             }
+         }];
     }
-    
-    
 }
 
 @end

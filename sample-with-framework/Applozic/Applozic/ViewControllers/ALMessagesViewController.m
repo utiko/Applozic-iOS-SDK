@@ -42,6 +42,7 @@
 #import "ALConversationClientService.h"
 #import "ALPushNotificationService.h"
 #import "ALPushAssist.h"
+#import "ALGroupCreationViewController.h"
 
 // Constants
 #define DEFAULT_TOP_LANDSCAPE_CONSTANT -34
@@ -116,9 +117,9 @@
     self.alMqttConversationService = [ALMQTTConversationService sharedInstance];
     self.alMqttConversationService.mqttConversationDelegate = self;
     
-  //  dispatch_async(dispatch_get_main_queue(), ^{
+//    dispatch_async(dispatch_get_main_queue(), ^{
         [self.alMqttConversationService subscribeToConversation];
-    //});
+//    });
     
     CGFloat navigationHeight = self.navigationController.navigationBar.frame.size.height +
     [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -141,14 +142,20 @@
     }
 }
 
+-(void)loadMessages:(NSNotification *)notification{
+    ALMessageDBService * dBService = [ALMessageDBService new];
+    dBService.delegate = self;
+    [dBService getMessages];
+}
+
 -(void)viewDidDisappear:(BOOL)animated
 {
     if (self.navigationController.viewControllers.count == 1)
     {
         NSLog(@"CLOSING_MQTT_CONNECTIONS");
-       // dispatch_async(dispatch_get_main_queue(), ^{
+//        dispatch_async(dispatch_get_main_queue(), ^{
             [self.alMqttConversationService unsubscribeToConversation];
-       // });
+//        });
     }
 }
 
@@ -201,8 +208,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTable:) name:@"reloadTable" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLastSeenAtStatusPUSH:) name:@"update_USER_STATUS" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEntersForegroundIntoListView:) name:@"appCameInForeground" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages:) name:@"CONVERSATION_DELETION" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCallForUser:) name:@"USER_DETAILS_UPDATE_CALL" object:nil];
+    
+    
+    /*
+    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor blackColor],
+                                                                       NSFontAttributeName:[UIFont fontWithName:[ALApplozicSettings getFontFace]
+                                                                                                            size:NAVIGATION_TEXT_SIZE]}];
+    */
 
-    //[self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [UIColor blackColor], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:NAVIGATION_TEXT_SIZE]}];
     self.navigationItem.title = [ALApplozicSettings getTitleForConversationScreen];
     
     if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
@@ -350,6 +365,7 @@
     
     self.mContactsMessageListArray = messagesArray;
     [self.mTableView reloadData];
+    NSLog(@"GETTING MESSAGE ARRAY");   
 }
 
 //==============================================================================================================================================
@@ -586,13 +602,13 @@
             contactCell.unreadCountLabel.backgroundColor = [ALApplozicSettings getUnreadCountLabelBGColor];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                
-                contactCell.unreadCountLabel.layer.cornerRadius = contactCell.unreadCountLabel.frame.size.width/2;
-                contactCell.unreadCountLabel.layer.masksToBounds = YES;
-                
-                contactCell.mUserImageView.layer.cornerRadius = contactCell.mUserImageView.frame.size.width/2;
-                contactCell.mUserImageView.layer.masksToBounds = YES;
-            });
+                 
+                 contactCell.unreadCountLabel.layer.cornerRadius = contactCell.unreadCountLabel.frame.size.width/2;
+                 contactCell.unreadCountLabel.layer.masksToBounds = YES;
+                 
+                 contactCell.mUserImageView.layer.cornerRadius = contactCell.mUserImageView.frame.size.width/2;
+                 contactCell.mUserImageView.layer.masksToBounds = YES;
+             });
 
             [contactCell.onlineImageMarker setBackgroundColor:[UIColor clearColor]];
             
@@ -947,6 +963,42 @@
 #pragma mark - MQTT SERVICE DELEGATE METHODS
 //==============================================================================================================================================
 
+-(void)updateCallForUser:(NSNotification *)notifyObj
+{
+    NSString *userID = (NSString *)notifyObj.object;
+    [self updateUserDetail:userID];
+}
+
+-(void)updateUserDetail:(NSString *)userId
+{
+    NSLog(@"ALMSGVC : USER_DETAIL_CHANGED_CALL_UPDATE");
+    [ALUserService updateUserDetail:userId withCompletion:^(ALUserDetail *userDetail) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"USER_DETAIL_OTHER_VC" object:userDetail];
+        ALContactCell * contactCell = [self getCell:userId];
+        UILabel* nameIcon = (UILabel *)[contactCell viewWithTag:102];
+        [nameIcon setText:[ALColorUtility getAlphabetForProfileImage:[userDetail getDisplayName]]];
+       
+        if(contactCell)
+        {
+            NSURL * URL = [NSURL URLWithString:userDetail.imageLink];
+            if(URL)
+            {
+                [contactCell.mUserImageView sd_setImageWithURL:URL];
+                nameIcon.hidden = YES;
+            }
+            else
+            {
+                nameIcon.hidden = NO;
+                [contactCell.mUserImageView sd_setImageWithURL:[NSURL URLWithString:@""]];
+                contactCell.mUserImageView.backgroundColor = [ALColorUtility getColorForAlphabet:[userDetail getDisplayName]];
+            }
+            [self.detailChatViewController setRefresh:YES];
+        }
+        [self.detailChatViewController subProcessDetailUpdate:userDetail];
+    }];
+}
+
 -(void)reloadDataForUserBlockNotification:(NSString *)userId andBlockFlag:(BOOL)flag
 {
     [self.detailChatViewController checkUserBlockStatus];
@@ -1056,15 +1108,13 @@
         return;
     }
     
-    if([ALDataNetworkConnection checkDataNetworkAvailable]){
+    if([ALDataNetworkConnection checkDataNetworkAvailable])
         NSLog(@"MQTT connection closed, subscribing again: %lu", (long)_mqttRetryCount);
-        // dispatch_async(dispatch_get_main_queue(), ^{
+//    dispatch_async(dispatch_get_main_queue(), ^{
         NSLog(@"ALMessageVC subscribing channel again....");
         [self.alMqttConversationService subscribeToConversation];
-        //});
-        self.mqttRetryCount++;
-    }
-
+//    });
+    self.mqttRetryCount++;
 }
 
 -(void)callLastSeenStatusUpdate
@@ -1136,7 +1186,8 @@
 -(void)dealloc
 {
 //    NSLog(@"dealloc called. Unsubscribing with mqtt.");
-     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"USER_DETAILS_UPDATE_CALL" object:nil];
 }
 
 -(IBAction)backButtonAction:(id)sender
@@ -1236,8 +1287,13 @@
         return;
     }
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:[self class]]];
-    UIViewController *groupCreation = [storyboard instantiateViewControllerWithIdentifier:@"ALGroupCreationViewController"];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                                         bundle:[NSBundle bundleForClass:[self class]]];
+    
+    ALGroupCreationViewController * groupCreation = (ALGroupCreationViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ALGroupCreationViewController"];
+    
+    groupCreation.isViewForUpdatingGroup = NO;
+    
     [self.navigationController pushViewController:groupCreation animated:YES];
 }
 

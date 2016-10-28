@@ -531,7 +531,14 @@
         }
         else
         {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@",substring]]];
+            if([substring hasPrefix:@"http"])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:substring]];
+            }
+            else
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@",substring]]];
+            }
         }
     };
     

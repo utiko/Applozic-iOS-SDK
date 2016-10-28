@@ -53,7 +53,7 @@
     [self.mapKitView setShowsUserLocation:YES];
     [self.mapKitView setDelegate:self];
     self.geocoder = [[CLGeocoder alloc] init];
-    
+ 
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -133,9 +133,9 @@
 - (void)requestAlwaysAuthorization
 {
     CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-    
     // If the status is denied or only granted for when in use, display an alert
-    if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusDenied) {
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusDenied)
+    {
         NSString *title;
         title = (status == kCLAuthorizationStatusDenied) ? @"Location services are off" : @"Background location is not enabled";
         NSString *message = @"To use background location you must turn on 'Always' in the Location Services Settings";
@@ -147,8 +147,8 @@
                                                   otherButtonTitles:@"Settings", nil];
         [alertView show];
     }
-    // The user has not enabled any location services. Request background authorization.
     else if (status == kCLAuthorizationStatusNotDetermined) {
+        // The user has not enabled any location services. Request background authorization.
         [locationManager requestAlwaysAuthorization];
     }
 }
@@ -159,6 +159,10 @@
         // Send the user to the Settings for this app
         NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
         [[UIApplication sharedApplication] openURL:settingsURL];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
