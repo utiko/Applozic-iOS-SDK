@@ -220,6 +220,7 @@ You can create a Channel/Group by simply calling createChannel method. The callb
 | clientChannelKey  | No  | nil  | Channel key maintain by client. This can be any unique identifier passed by client, to identify his group/channel |
 | memberArray  | Yes  |   | Array of group member's userId  |
 | imageLink  | Yes  |   | group profile image link  |
+| type  | Yes  |  PUBLIC=2 | type of the group. PRIVATE = 1,PUBLIC = 2, OPEN = 6 |
 |metaData | optional | nil| Setting group meta data for messages like created group, left group, removed from group, group deleted, group icon changed and group name changed.|
 | (void(^)(ALChannel *alChannel))completion  |   |   | completion block, once group is created successfully. This will return ALChannel object, which stores information about newly created channel. |
 
