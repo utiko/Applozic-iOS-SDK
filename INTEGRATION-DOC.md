@@ -72,7 +72,11 @@ Create applozic user and add details to applozic user object.
 Convenient methods are present in ALChatManager.m to register user with applozic. You can Register user to applozic server by using below method from AlChatManager.h. 
 
 ```
-    ALChatManager * chatManager = [[ALChatManager alloc] init];
+   NOTE: Replace "applozic-sample-app" by your application key 
+```
+
+```
+    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
     [chatManager registerUser:aluser]; 
 ```
 
