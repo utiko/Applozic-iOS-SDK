@@ -1,5 +1,14 @@
 ###Changelog
 
+__Version 3.6__
+
+* Navigation Item Color bug fixes
+* Online/Last Seen Bug fixes
+* ClientChannelKey based server calls bug fixes
+* Receiver User Profile Show/Hide Settings
+* MQTT code improved
+* Date messsage and message time color settings
+
 __Version 3.5__
 
 * Abuse Words Restriction added
@@ -14,6 +23,7 @@ __Version 3.5__
 * 3rd Party Local Notification issue fixed
 * iPad Crash fixed for AlertController
 * Message HyperLink issue fixes
+* Group MetaData Changes
 
 __Version 3.4__
 
