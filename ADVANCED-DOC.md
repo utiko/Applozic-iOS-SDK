@@ -98,10 +98,13 @@ NOTE: For real time update of count(like badge count on icon/view),you can obser
             // WRITE YOUR LOGIC (IF - ANY)
         }
     }];
+    
+```
 
 
-// SEND MESSAGE WITH METADATA
+### Send Message with MetaData
 
+```
     NSMutableDictionary * metaDictionary = [self getNewMetaDataDictionary]; // GETTING DICTIONARY FOR METADATA
    
     ALMessage * alMessage = [[ALMessage alloc] init];
