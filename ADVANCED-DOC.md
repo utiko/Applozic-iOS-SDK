@@ -22,58 +22,45 @@ short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
 ### Unread Count
 
 ```
-// GETTING UNREAD COUNT INSIDE APPLICATION
 
-// FOR REAL TIME UPDATE OF UNREAD COUNT ADD CODE BELOW TO -(void)viewWillAppear VIEW LIFECYCLE METHOD 
+1. UNREAD COUNT FOR INDIVIDUAL CONTACT/USER
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
+    ALContactService* contactService = [ALContactService new];
+    ALContact *contact = [contactService loadContactByKey:@"userId" value:userID];
+    NSNumber *unreadCount = [contact unreadCount];
+
+
+2. UNREAD COUNT FOR INDIVIDUAL GROUP
+   
+     ALChannelService *channelService = [ALChannelService new];
+     ALChannel *alChannel = [channelService getChannelByKey:channelKey];
+     NSNumber *unreadCount = [channel unreadCount];
+
+  
+3. IF UNREAD COUNT REQUIRE OVER ALL (Contacts + Groups)
+
+    ALUserService * alUserService = [[ALUserService alloc] init];
+    NSNumber * totalUnreadCount = [alUserService getTotalUnreadCount];
+
+
+NOTE: For real time update of count(like badge count on icon/view),you can observe notification for new incoming message and update count in view:
+
+//Observe notification for new incoming message and refresh count in handler method. You can add this in viewWillAppear of your controller.
+
+[[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(newMessageHandler)
                                                  name:NEW_MESSAGE_NOTIFICATION
                                                object:nil];
-                                               
-    [self newMessageHandler];
-    
-// ADD METHOD 
-
-1. IF UNREAD COUNT REQUIRE FOR CONTACTS ONLY
-
-// #import ALContactService.h
-
+//Handler method in your controller.
 -(void)newMessageHandler
 {
-    ALContactService * contactService = [[ALContactService alloc] init];
-    NSNumber * contactUnreadCount = [contactService getOverallUnreadCountForContact];
-    NSLog(@"ICON_COUNT :: %@",contactUnreadCount);                 
+   //refresh your count in this method
     [YourLabel setText:[NSString stringWithFormat:@"%@", contactUnreadCount]];   // UPDATE YOUR LABEL
 }
 
-2. IF UNREAD COUNT REQUIRE FOR GROUP ONLY
-
-// #import ALChannelService.h
-
--(void)newMessageHandler
-{
-    ALChannelService * channelService = [[ALChannelService alloc] init];
-    NSNumber * channelUnreadCount = [channelService getOverallUnreadCountForChannel];
-    NSLog(@"ICON_COUNT :: %@",channelUnreadCount);                 
-    [YourLabel setText:[NSString stringWithFormat:@"%@", channelUnreadCount]];   // UPDATE YOUR LABEL
-}
-
-3. IF UNREAD COUNT REQUIRE OVER ALL (Contacts + Groups)
-
-// #import ALUserService.h
-
--(void)newMessageHandler
-{
-    ALUserService * alUserService = [[ALUserService alloc] init];
-    NSNumber * totalUnreadCount = [alUserService getTotalUnreadCount];
-    NSLog(@"ICON_COUNT :: %@",totalUnreadCount);                  
-    [YourLabel setText:[NSString stringWithFormat:@"%@", totalUnreadCount]];    // UPDATE YOUR LABEL
-}
-
-// ADD THIS TO -(void)viewWillDisappear
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NEW_MESSAGE_NOTIFICATION object:nil];
+//STOP observing new message notification. You can add this in -(void)viewWillDisappear
+[[NSNotificationCenter defaultCenter] removeObserver:self name:NEW_MESSAGE_NOTIFICATION object:nil];
+    
 
 ```
 
