@@ -59,7 +59,7 @@ short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
     
     theMessage.contactIds = USER-ID;     // REPLACE USER-ID BY Receiver's userId
     theMessage.to = USER-ID;             // REPLACE USER-ID BY Receiver's userId
-    theMessage.message = text;      // Message Text
+    theMessage.message = TEXT;           // REPLACE TEXT BY Your message text
     theMessage.contentType = 0; 
     theMessage.type = @"5";
     theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
