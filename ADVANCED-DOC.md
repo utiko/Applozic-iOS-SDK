@@ -21,30 +21,32 @@ short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
 
 ### Unread Count
 
-```
+
 
 1. UNREAD COUNT FOR INDIVIDUAL CONTACT/USER
 
+ ```
     ALContactService* contactService = [ALContactService new];
     ALContact *contact = [contactService loadContactByKey:@"userId" value:userID];
     NSNumber *unreadCount = [contact unreadCount];
-
-
+ ```
 2. UNREAD COUNT FOR INDIVIDUAL GROUP
-   
+  ``` 
      ALChannelService *channelService = [ALChannelService new];
      ALChannel *alChannel = [channelService getChannelByKey:channelKey];
      NSNumber *unreadCount = [channel unreadCount];
-
+ ```
   
-3. IF UNREAD COUNT REQUIRE OVER ALL (Contacts + Groups)
+3. OVER ALL UNREAD COUNT (Contacts + Groups)
 
+ ```
     ALUserService * alUserService = [[ALUserService alloc] init];
     NSNumber * totalUnreadCount = [alUserService getTotalUnreadCount];
+ ```
 
+NOTE: For real time update of count(like badge count on icon/view),you can observe notification for new incoming message and update count in view.
 
-NOTE: For real time update of count(like badge count on icon/view),you can observe notification for new incoming message and update count in view:
-
+```
 //Observe notification for new incoming message and refresh count in handler method. You can add this in viewWillAppear of your controller.
 
 [[NSNotificationCenter defaultCenter] addObserver:self
