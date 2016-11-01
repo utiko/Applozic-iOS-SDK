@@ -57,8 +57,8 @@ short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
 
     ALMessage * alMessage = [[ALMessage alloc] init];
     
-    theMessage.contactIds = to;     // Receiver's userId
-    theMessage.to = to;             // Receiver's userId
+    theMessage.contactIds = USER-ID;     // REPLACE USER-ID BY Receiver's userId
+    theMessage.to = USER-ID;             // REPLACE USER-ID BY Receiver's userId
     theMessage.message = text;      // Message Text
     theMessage.contentType = 0; 
     theMessage.type = @"5";
