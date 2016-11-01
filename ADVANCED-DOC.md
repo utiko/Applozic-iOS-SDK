@@ -57,20 +57,20 @@ short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
 
     ALMessage * alMessage = [[ALMessage alloc] init];
     
-    theMessage.contactIds = USER-ID;     // REPLACE USER-ID BY Receiver's userId
-    theMessage.to = USER-ID;             // REPLACE USER-ID BY Receiver's userId
-    theMessage.message = TEXT;           // REPLACE TEXT BY Your message text
-    theMessage.contentType = 0; 
-    theMessage.type = @"5";
-    theMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
-    theMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
-    theMessage.sendToDevice = NO;
-    theMessage.shared = NO;
-    theMessage.fileMeta = nil;
-    theMessage.storeOnDevice = NO;
-    theMessage.key = [[NSUUID UUID] UUIDString];
-    theMessage.delivered = NO;
-    theMessage.fileMetaKey = nil;
+    alMessage.contactIds = USER-ID;     // REPLACE USER-ID BY Receiver's userId
+    alMessage.to = USER-ID;             // REPLACE USER-ID BY Receiver's userId
+    alMessage.message = TEXT;           // REPLACE TEXT BY Your message text
+    alMessage.contentType = 0; 
+    alMessage.type = @"5";
+    alMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
+    alMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
+    alMessage.sendToDevice = NO;
+    alMessage.shared = NO;
+    alMessage.fileMeta = nil;
+    alMessage.storeOnDevice = NO;
+    alMessage.key = [[NSUUID UUID] UUIDString];
+    alMessage.delivered = NO;
+    alMessage.fileMetaKey = nil;
 
 // Send Message 
 
