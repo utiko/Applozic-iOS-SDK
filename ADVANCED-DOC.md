@@ -24,7 +24,7 @@ short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
 ```
 // GETTING UNREAD COUNT INSIDE APPLICATION
 
-// FOR REAL TIME UPDATE OF UNREAD COUNT ADD CODE BELOW TO **-(void)viewWillAppear** VIEW LIFECYCLE METHOD 
+// FOR REAL TIME UPDATE OF UNREAD COUNT ADD CODE BELOW TO -(void)viewWillAppear VIEW LIFECYCLE METHOD 
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(newMessageHandler)
@@ -42,7 +42,7 @@ short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
     [YourLabel setText:[NSString stringWithFormat:@"%@", count]];
 }
 
-// ADD THIS TO **-(void)viewWillDisappear**
+// ADD THIS TO -(void)viewWillDisappear
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NEW_MESSAGE_NOTIFICATION object:nil];
 
