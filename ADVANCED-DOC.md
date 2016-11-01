@@ -105,7 +105,8 @@ NOTE: For real time update of count(like badge count on icon/view),you can obser
 ### Send Message with MetaData
 
 ```
-    NSMutableDictionary * metaDictionary = [self getNewMetaDataDictionary]; // GETTING DICTIONARY FOR METADATA
+    // GETTING DICTIONARY FOR METADATA
+    NSMutableDictionary * metaDictionary = [self getNewMetaDataDictionary]; 
    
     ALMessage * alMessage = [[ALMessage alloc] init];
     
@@ -123,7 +124,7 @@ NOTE: For real time update of count(like badge count on icon/view),you can obser
     alMessage.key = [[NSUUID UUID] UUIDString];
     alMessage.delivered = NO;
     alMessage.fileMetaKey = nil;
-    alMessage.metadata = metaDictionary     // HERE DICTIONARY ADDED WITH ALMessage object
+    alMessage.metadata = metaDictionary  // HERE DICTIONARY ADDED WITH ALMessage object
     
     [ALMessageService sendMessages:alMessage withCompletion:^(NSString *message, NSError *error) {
         if(!error)
