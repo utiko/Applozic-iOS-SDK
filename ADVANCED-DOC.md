@@ -18,6 +18,37 @@ short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
 
 ```
 
+
+### Unread Count
+
+```
+// GETTING UNREAD COUNT INSIDE APPLICATION
+
+// FOR REAL TIME UPDATE OF UNREAD COUNT ADD CODE BELOW TO **-(void)viewWillAppear** VIEW LIFECYCLE METHOD 
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(newMessageHandler)
+                                                 name:NEW_MESSAGE_NOTIFICATION
+                                               object:nil];
+                                               
+    [self newMessageHandler];
+    
+// ADD METHOD    
+-(void)newMessageHandler
+{
+    ALContactService * contactService = [ALContactService new];
+    NSNumber * count = [contactService getOverallUnreadCountForContact];
+    NSLog(@"ICON_COUNT :: %@",count);                  // UPDATE YOUR VIEW
+    [YourLabel setText:[NSString stringWithFormat:@"%@", count]];
+}
+
+// ADD THIS TO **-(void)viewWillDisappear**
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NEW_MESSAGE_NOTIFICATION object:nil];
+
+```
+
+
 ### Contacts
 
 Applozic framework provides convenient APIs for building your own contact. Developers can build and store contacts in three different ways. 
