@@ -66,7 +66,7 @@ short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
 -(void)newMessageHandler
 {
     ALUserService * alUserService = [[ALUserService alloc] init];
-    NSNumber * totalUnreadCount = [contactService getTotalUnreadCount];
+    NSNumber * totalUnreadCount = [alUserService getTotalUnreadCount];
     NSLog(@"ICON_COUNT :: %@",totalUnreadCount);                  
     [YourLabel setText:[NSString stringWithFormat:@"%@", totalUnreadCount]];    // UPDATE YOUR LABEL
 }
