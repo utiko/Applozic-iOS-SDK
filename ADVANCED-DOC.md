@@ -98,7 +98,47 @@ NOTE: For real time update of count(like badge count on icon/view),you can obser
             // WRITE YOUR LOGIC (IF - ANY)
         }
     }];
+
+
+// SEND MESSAGE WITH METADATA
+
+    NSMutableDictionary * metaDictionary = [self getNewMetaDataDictionary]; // GETTING DICTIONARY FOR METADATA
+   
+    ALMessage * alMessage = [[ALMessage alloc] init];
     
+    alMessage.contactIds = USER-ID;     // REPLACE USER-ID BY Receiver's userId
+    alMessage.to = USER-ID;             // REPLACE USER-ID BY Receiver's userId
+    alMessage.message = TEXT;           // REPLACE TEXT BY Your message text
+    alMessage.contentType = 0; 
+    alMessage.type = @"5";
+    alMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
+    alMessage.deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
+    alMessage.sendToDevice = NO;
+    alMessage.shared = NO;
+    alMessage.fileMeta = nil;
+    alMessage.storeOnDevice = NO;
+    alMessage.key = [[NSUUID UUID] UUIDString];
+    alMessage.delivered = NO;
+    alMessage.fileMetaKey = nil;
+    alMessage.metadata = metaDictionary     // HERE DICTIONARY ADDED WITH ALMessage object
+    
+    [ALMessageService sendMessages:alMessage withCompletion:^(NSString *message, NSError *error) {
+        if(!error)
+        {
+             // WRITE YOUR LOGIC (IF - ANY)
+        }
+    }];
+
+// ADD METADATA DICTIONARY METHOD 
+
+-(NSMutableDictionary *)getNewMetaDataDictionary 
+{
+    NSMutableDictionary *metaDict = [[NSMutableDictionary alloc] init];
+    [metaDict setObject:@"VALUE1" forKey:@"KEY1"];
+    [metaDict setObject:@"VALUE2" forKey:@"KEY2"];
+    return metaDict;
+}
+
 ```
 
 ### Contacts
