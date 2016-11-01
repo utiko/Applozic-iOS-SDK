@@ -104,6 +104,8 @@ NOTE: For real time update of count(like badge count on icon/view),you can obser
 
 ### Send Message with MetaData
 
+You can send extra information along with message text as meta-data. These key value pair can be used to do some extra processing or keep information about messages.
+
 ```
     // GETTING DICTIONARY FOR METADATA
     NSMutableDictionary * metaDictionary = [self getNewMetaDataDictionary]; 
