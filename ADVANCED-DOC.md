@@ -33,13 +33,42 @@ short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
                                                
     [self newMessageHandler];
     
-// ADD METHOD    
+// ADD METHOD 
+
+1. IF UNREAD COUNT REQUIRE FOR CONTACTS ONLY
+
+// #import ALContactService.h
+
 -(void)newMessageHandler
 {
-    ALContactService * contactService = [ALContactService new];
-    NSNumber * count = [contactService getOverallUnreadCountForContact];
-    NSLog(@"ICON_COUNT :: %@",count);                  // UPDATE YOUR VIEW
-    [YourLabel setText:[NSString stringWithFormat:@"%@", count]];
+    ALContactService * contactService = [[ALContactService alloc] init];
+    NSNumber * contactUnreadCount = [contactService getOverallUnreadCountForContact];
+    NSLog(@"ICON_COUNT :: %@",contactUnreadCount);                 
+    [YourLabel setText:[NSString stringWithFormat:@"%@", contactUnreadCount]];   // UPDATE YOUR LABEL
+}
+
+2. IF UNREAD COUNT REQUIRE FOR GROUP ONLY
+
+// #import ALChannelService.h
+
+-(void)newMessageHandler
+{
+    ALChannelService * channelService = [[ALChannelService alloc] init];
+    NSNumber * channelUnreadCount = [channelService getOverallUnreadCountForChannel];
+    NSLog(@"ICON_COUNT :: %@",channelUnreadCount);                 
+    [YourLabel setText:[NSString stringWithFormat:@"%@", channelUnreadCount]];   // UPDATE YOUR LABEL
+}
+
+3. IF UNREAD COUNT REQUIRE OVER ALL (Contacts + Groups)
+
+// #import ALUserService.h
+
+-(void)newMessageHandler
+{
+    ALUserService * alUserService = [[ALUserService alloc] init];
+    NSNumber * totalUnreadCount = [contactService getTotalUnreadCount];
+    NSLog(@"ICON_COUNT :: %@",totalUnreadCount);                  
+    [YourLabel setText:[NSString stringWithFormat:@"%@", totalUnreadCount]];    // UPDATE YOUR LABEL
 }
 
 // ADD THIS TO -(void)viewWillDisappear
