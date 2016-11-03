@@ -56,7 +56,7 @@
     [ALResponseHandler processRequest:theRequest andTag:@"CREATE ACCOUNT" WithCompletionHandler:^(id theJson, NSError *theError) {
         
         NSString *statusStr = (NSString *)theJson;
-        NSLog(@"RESPONSE_USER_REGISTRATION :: %@", statusStr);
+        //NSLog(@"RESPONSE_USER_REGISTRATION :: %@", statusStr);
         
         if (theError)
         {

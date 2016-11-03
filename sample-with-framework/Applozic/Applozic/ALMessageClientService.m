@@ -126,7 +126,7 @@
         
         completion(messageListResponse, nil);
         
-        NSLog(@"message list response THE JSON %@",theJson);
+        //NSLog(@"message list response THE JSON %@",theJson);
         
         ALChannelService *channelService = [[ALChannelService alloc] init];
         [channelService callForChannelServiceForDBInsertion:theJson];
@@ -182,7 +182,7 @@
         
         if (theError)
         {
-            NSLog(@"MSG_LIST ERROR :: %@",theError.description);
+            //NSLog(@"MSG_LIST ERROR :: %@",theError.description);
             completion(nil, theError, nil);
             return;
         }
@@ -209,7 +209,7 @@
         [alConversationService addConversations:messageListResponse.conversationPxyList];
         
         completion(messageListResponse.messageList, nil, messageListResponse.userDetailsList);
-       NSLog(@"MSG_LIST RESPONSE :: %@",(NSString *)theJson);
+       //NSLog(@"MSG_LIST RESPONSE :: %@",(NSString *)theJson);
         
     }];
     
@@ -231,7 +231,7 @@
         }
         
         NSString *imagePostingURL = (NSString *)theJson;
-        NSLog(@"RESPONSE_IMG_URL :: %@",imagePostingURL);
+        //NSLog(@"RESPONSE_IMG_URL :: %@",imagePostingURL);
         completion(imagePostingURL, nil);
         
     }];

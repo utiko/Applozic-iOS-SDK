@@ -86,7 +86,18 @@
                                        withCompletion:^(NSMutableArray *message, NSError *error) { }];
             
             //NSLog(@"ALPushNotificationService's SYNC CALL");
+            
+            /* Stupid fix of stupid bug
+             
+             
             [dict setObject:alertValue forKey:@"alertValue"];
+             
+             */
+            if (alertValue) {
+                [dict setObject:alertValue forKey:@"alertValue"];
+            } else {
+                [dict setObject:@"" forKey:@"alertValue"];
+            }
             
             [self assitingNotificationMessage:notificationMsg andDictionary:dict];
             
