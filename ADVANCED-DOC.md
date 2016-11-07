@@ -147,6 +147,23 @@ You can send extra information along with message text as meta-data. These key v
 
 ```
 
+### Encryption
+
+If encryption is required
+
+```
+Objective-C
+
+[ALUserDefaultsHandler setEnableEncryption:YES]; 
+
+
+SWIFT
+
+ALUserDefaultsHandler.setEnableEncryption(true)
+
+```
+
+
 ### Contacts
 
 Applozic framework provides convenient APIs for building your own contact. Developers can build and store contacts in three different ways. 
