@@ -339,9 +339,9 @@ You can create a Channel/Group by simply calling createChannel method. The callb
 ```
 Objective-C
 
--(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey
-      andMembersList:(NSMutableArray *)memberArray andImageLink:(NSString *)imageLink channelType:(short)type
-         andMetaData:(NSMutableDictionary *)metaData withCompletion:(void(^)(ALChannel *alChannel))completion
+-(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey 
+andMembersList:(NSMutableArray *)memberArray andImageLink:(NSString *)imageLink channelType:(short)type 
+andMetaData:(NSMutableDictionary *)metaData withCompletion:(void(^)(ALChannel *alChannel))completion
          
 SWIFT
 
@@ -450,7 +450,7 @@ SWIFT
 open func removeMember(fromChannel userId: String!, andChannelKey channelKey: NSNumber!, orClientChannelKey 
 clientChannelKey: String!, withCompletion completion: ((Error?, ALAPIResponse?) -> Swift.Void)!)
 
- ```
+```
  
 | Parameter  | Required | Default | Description |
 | ------------- | ------------- | ------------- | ------------- |       
