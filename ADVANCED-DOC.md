@@ -442,8 +442,7 @@ __NOTE:__ Only admin can add member to the group/channel. For more detail see ch
 Objective-C
  
 -(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey 
-orClientChannelKey:(NSString *)clientChannelKey 
-withCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion
+orClientChannelKey:(NSString *)clientChannelKey withCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion
 
 
 SWIFT
@@ -465,13 +464,13 @@ clientChannelKey: String!, withCompletion completion: ((Error?, ALAPIResponse?) 
 ```
 Objective-C
 
--(void)deleteChannel:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey
-      withCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion
+-(void)deleteChannel:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey 
+withCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion
       
 SWIFT
 
-open func deleteChannel(_ channelKey: NSNumber!, orClientChannelKey clientChannelKey: String!, withCompletion 
-completion: ((Error?, ALAPIResponse?) -> Swift.Void)!)
+open func deleteChannel(_ channelKey: NSNumber!, orClientChannelKey 
+clientChannelKey: String!, withCompletion completion: ((Error?, ALAPIResponse?) -> Swift.Void)!)
 
 ```
  
