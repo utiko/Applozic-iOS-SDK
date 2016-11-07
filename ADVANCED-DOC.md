@@ -337,10 +337,18 @@ __Class to import :__ Applozic/ALChannelService.h
 
 You can create a Channel/Group by simply calling createChannel method. The callback argument ALChannel will have Channel information created by applozic server.In case you are not passing clientChannelKey, you need to store channelKey from ALChannel object for any further operations( like : add member, remove  member, delete group/channel etc) on Channel/Group.   
 ```
+Objective-C
+
 -(void)createChannel:(NSString *)channelName orClientChannelKey:(NSString *)clientChannelKey
       andMembersList:(NSMutableArray *)memberArray andImageLink:(NSString *)imageLink channelType:(short)type
          andMetaData:(NSMutableDictionary *)metaData withCompletion:(void(^)(ALChannel *alChannel))completion
-{
+         
+SWIFT
+
+open func createChannel(_ channelName: String!, orClientChannelKey clientChannelKey: String!, 
+andMembersList memberArray: NSMutableArray!, andImageLink imageLink: String!, 
+withCompletion completion: ((ALChannel?) -> Swift.Void)!)
+
 ```
 
 | Parameter  | Required | Default | Description |
@@ -363,6 +371,9 @@ NOTE: Group metadata is optional and should be passed for custom group notificat
  * :groupName -  Group's Name
  *
  **/
+ 
+Objective-C
+
 -(NSMutableDictionary *)getChannelMetaData
 {
     NSMutableDictionary *grpMetaData = [NSMutableDictionary new];
@@ -379,15 +390,41 @@ NOTE: Group metadata is optional and should be passed for custom group notificat
     return grpMetaData;
 }
 
+SWIFT
+
+func getChannelMetaData() -> NSMutableDictionary
+{
+    let grpMetaData: NSMutableDictionary = NSMutableDictionary()
+    
+    grpMetaData["CREATE_GROUP_MESSAGE"] = ":adminName created group"
+    grpMetaData["REMOVE_MEMBER_MESSAGE"] = ":userName removed"
+    grpMetaData["ADD_MEMBER_MESSAGE"] = ":userName added"
+    grpMetaData["JOIN_MEMBER_MESSAGE"] = ":userName joined"
+    grpMetaData["GROUP_NAME_CHANGE_MESSAGE"] = "Group renamed to :groupName"
+    grpMetaData["GROUP_ICON_CHANGE_MESSAGE"] = ":groupName icon changed"
+    grpMetaData["GROUP_LEFT_MESSAGE"] = ":userName left"
+    grpMetaData["DELETED_GROUP_MESSAGE"] = ":groupName deleted"
+    
+    return grpMetaData
+}
 
 ```
 
- 
 ##### Add User to Channel/Group
- ```
+```
+Objective-C
+
 -(void)addMemberToChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey 
-orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *error,ALAPIResponse *response))completion
- ``` 	 
+orClientChannelKey:(NSString *)clientChannelKey 
+withCompletion:(void(^)(NSError *error,ALAPIResponse *response))completion
+
+
+SWIFT
+
+open func addMember(toChannel userId: String!, andChannelKey channelKey: NSNumber!, orClientChannelKey 
+clientChannelKey: String!, withCompletion completion: ((Error?, ALAPIResponse?) -> Swift.Void)!)
+
+``` 	 
  
 | Parameter  | Required | Default | Description |
 | ------------- | ------------- | ------------- | ------------- |       
@@ -402,8 +439,18 @@ __NOTE:__ Only admin can add member to the group/channel. For more detail see ch
 
 ##### Remove user from Channel/Group
  ```
+Objective-C
+ 
 -(void)removeMemberFromChannel:(NSString *)userId andChannelKey:(NSNumber *)channelKey 
-orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *error, NSString *response))completion
+orClientChannelKey:(NSString *)clientChannelKey 
+withCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion
+
+
+SWIFT
+
+open func removeMember(fromChannel userId: String!, andChannelKey channelKey: NSNumber!, orClientChannelKey 
+clientChannelKey: String!, withCompletion completion: ((Error?, ALAPIResponse?) -> Swift.Void)!)
+
  ```
  
 | Parameter  | Required | Default | Description |
@@ -411,28 +458,44 @@ orClientChannelKey:(NSString *)clientChannelKey withComletion:(void(^)(NSError *
 | userId  | Yes  |   | member's userId to be removed from group  |
 | channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
 | clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
-| (void(^)(NSError *error, NSString *response))completion  | Yes  |   | completion block. |
-
+| (void(^)(NSError *error, ALAPIResponse *response))completion  | Yes  |   | completion block. |
 
 
 ##### Delete Channel/Group
 ```
+Objective-C
+
 -(void)deleteChannel:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey
-      withCompletion:(void(^)(NSError *error))completion
+      withCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion
+      
+SWIFT
+
+open func deleteChannel(_ channelKey: NSNumber!, orClientChannelKey clientChannelKey: String!, withCompletion 
+completion: ((Error?, ALAPIResponse?) -> Swift.Void)!)
+
 ```
  
 | Parameter  | Required | Default | Description |
 | ------------- | ------------- | ------------- | ------------- |       
 | channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
 | clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
-| (void(^)(NSError *error))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
+| (void(^)(NSError *error, ALAPIResponse *response))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
 
 __NOTE:__ Only admin can add member to the group/channel. For more detail see check Admin section.
- 
+
+
 ##### Leave Channel/Group
 ```
--(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId orClientChannelKey:(NSString *)clientChannelKey
-     withCompletion:(void(^)(NSError *error))completion
+Objective-C
+
+-(void)leaveChannel:(NSNumber *)channelKey andUserId:(NSString *)userId 
+orClientChannelKey:(NSString *)clientChannelKey withCompletion:(void(^)(NSError *error))completion
+     
+SWIFT
+
+open func leaveChannel(_ channelKey: NSNumber!, andUserId userId: String!, orClientChannelKey 
+clientChannelKey: String!, withCompletion completion: ((Error?) -> Swift.Void)!)
+
 ```
 
 | Parameter  | Required | Default | Description |
@@ -442,34 +505,50 @@ __NOTE:__ Only admin can add member to the group/channel. For more detail see ch
 | (void(^)(NSError *error))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
 
 
+##### Update Channel/Group
+```
+Objective-C
 
-##### Rename Channel/Group
- ```
--(void)renameChannel:(NSNumber *)channelKey andNewName:(NSString *)newName orClientChannelKey:(NSString *)clientChannelKey
-      withCompletion:(void(^)(NSError *error))completion
- ```
+-(void)updateChannel:(NSNumber *)channelKey andNewName:(NSString *)newName 
+andImageURL:(NSString *)imageURL orClientChannelKey:(NSString *)clientChannelKey 
+withCompletion:(void(^)(NSError *error))completion
+      
+SWIFT
+
+open func updateChannel(_ channelKey: NSNumber!, andNewName newName: String!, 
+andImageURL imageURL: String!, orClientChannelKey clientChannelKey: String!, 
+withCompletion completion: ((Error?) -> Swift.Void)!)
+
+```
 
 | Parameter  | Required | Default | Description |
 | ------------- | ------------- | ------------- | ------------- |       
 | channelKey  | No |   | applozic channelKey. If clientChannelKey is passed, this should be passed as nil. |
 | newName  | Yes |   | new name of channel.|
+| imageURL  | No |   | new Image of channel. If require to change image of channel/group|
 | clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
 | (void(^)(NSError *error))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
-
-If renamed successfully then it will return YES else NO. 
 
 
 ##### Group Admin
 
-This method is to check whether the current user is channel/group admin or not.
+This method is to check whether the current login user is channel/group admin or not.
 As group admin have rights to do delete channel, remove  channel and add new member to channel. it is suggested to call this method to check admin rights before performing operations.
 ```
+Objective-C
+
 -(BOOL) checkAdmin:(NSNumber *) channelKey
+
+
+SWIFT
+
+open func checkAdmin(_ channelKey: NSNumber!) -> Bool
+
 ```
 | Parameter  | Required | Default | Description |
 | ------------- | ------------- | ------------- | ------------- |       
 | channelKey  | No |   | applozic channelKey.|
 
-If renamed successfully then it will return YES else NO.                   
+If admin successfully then it will return YES else NO.                   
 
 
