@@ -447,8 +447,8 @@ orClientChannelKey:(NSString *)clientChannelKey withCompletion:(void(^)(NSError 
 
 SWIFT
 
-open func removeMember(fromChannel userId: String!, andChannelKey channelKey: NSNumber!, orClientChannelKey 
-clientChannelKey: String!, withCompletion completion: ((Error?, ALAPIResponse?) -> Swift.Void)!)
+open func removeMember(fromChannel userId: String!, andChannelKey channelKey: NSNumber!, 
+orClientChannelKey clientChannelKey: String!, withCompletion completion: ((Error?, ALAPIResponse?) -> Swift.Void)!)
 
 ```
  
