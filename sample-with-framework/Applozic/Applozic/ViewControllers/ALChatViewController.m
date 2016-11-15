@@ -2685,7 +2685,7 @@
     
     NSArray *componentsContactId = [contactId componentsSeparatedByString:@":"];
     
-    if(componentsContactId.count > 1)
+    if(componentsContactId.count > 2)
     {
         NSNumber * appendedGroupId = [NSNumber numberWithInt:[componentsContactId[1] intValue]];
         alMessage.groupId = appendedGroupId;
