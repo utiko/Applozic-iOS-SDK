@@ -109,14 +109,17 @@
         return actualName;
     }
     NSString *firstLetter = [trimmed substringToIndex:1];
-    NSRange whiteSpaceRange = [trimmed rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
     NSArray *listNames = [trimmed componentsSeparatedByString:@" "];
     
-    if (whiteSpaceRange.location != NSNotFound)
+    if (listNames.count >= 2)
     {
-        NSString *firstLetter = [[listNames[0] substringToIndex:1] uppercaseString];
-        NSString *lastLetter = [[listNames[1] substringToIndex:1] uppercaseString];
-        iconAlphabet = [[firstLetter stringByAppendingString:lastLetter] uppercaseString];
+        NSString * firstName = listNames[0];
+        NSString * lastName = listNames[1];
+        
+        NSString * ab = @"";
+        if (firstName.length > 0) ab = [ab stringByAppendingString: [firstName substringToIndex:1]];
+        if (lastName.length > 0) ab = [ab stringByAppendingString: [lastName substringToIndex:1]];
+        iconAlphabet = [ab uppercaseString];
     }
     else
     {
