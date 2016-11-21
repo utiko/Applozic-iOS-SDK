@@ -78,6 +78,7 @@ NOTE: For real time update of count(like badge count on icon/view),you can obser
     alMessage.contactIds = USER-ID;     // REPLACE USER-ID BY Receiver's userId
     alMessage.to = USER-ID;             // REPLACE USER-ID BY Receiver's userId
     alMessage.message = TEXT;           // REPLACE TEXT BY Your message text
+    //alMessage.groupId= groupId        // REPLACE groupId or ChannelKey. This should be set while sending message to group.
     alMessage.contentType = 0; 
     alMessage.type = @"5";
     alMessage.createdAtTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000];
