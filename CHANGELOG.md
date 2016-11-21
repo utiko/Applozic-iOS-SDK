@@ -2,6 +2,13 @@
 
 __Version 3.6__
 
+* Settings for grouInfo disable/enable, groupinfo edit disable/enable
+* Google map-key configurations and https support
+* Mqtt retry reduce
+* bug fixes and optimisations
+
+__Version 3.6__
+
 * Navigation Item Color bug fixes
 * Online/Last Seen Bug fixes
 * ClientChannelKey based server calls bug fixes
