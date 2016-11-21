@@ -365,7 +365,7 @@
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmail:[ALUserDefaultsHandler getEmailId]];
     [user setPassword:[ALUserDefaultsHandler getPassword]];
-//    [user setDisplayName:[ALUserDefaultsHandler getDisplayName]]; // IF SETTING ANY DISPLAY NAME THEN UNCOMMENT IT
+    //    [user setDisplayName:[ALUserDefaultsHandler getDisplayName]]; // IF SETTING ANY DISPLAY NAME THEN UNCOMMENT IT
     
     return user;
 }
@@ -403,6 +403,10 @@
     [ALApplozicSettings setColorForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
     [ALApplozicSettings setColorForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     
+    [ALApplozicSettings setCustomMessageBackgroundColor:[UIColor lightGrayColor]];              /*  SET CUSTOM MESSAGE COLOR */
+    [ALApplozicSettings setCustomMessageFontSize:14];                                     /*  SET CUSTOM MESSAGE FONT SIZE */
+    [ALApplozicSettings setCustomMessageFont:@"Helvetica"];
+    
     //****************** DATE COLOUR : AT THE BOTTOM OF MESSAGE BUBBLE ******************/
     [ALApplozicSettings setDateColor:[UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:0.5]];
     
@@ -431,9 +435,15 @@
     /**********************************************  GROUP SETTINGS  ************************************************/
     
     [ALApplozicSettings setGroupOption:YES];
+    [ALApplozicSettings setGroupInfoDisabled:NO];
+    [ALApplozicSettings setGroupInfoEditDisabled:NO];
+
+    
     [ALApplozicSettings setGroupExitOption:YES];
     [ALApplozicSettings setGroupMemberAddOption:YES];
     [ALApplozicSettings setGroupMemberRemoveOption:YES];
+
+
     /****************************************************************************************************************/
     
     
@@ -514,6 +524,8 @@
     
     [ALUserDefaultsHandler setEnableEncryption:NO];                            /* Note: PLEASE DO YES (IF NEEDED)  */
     /****************************************************************************************************************/
+    
+    [ALUserDefaultsHandler setGoogleMapAPIKey:@"AIzaSyBnWMTGs1uTFuf8fqQtsmLk-vsWM7OrIXk"]; //REPLACE WITH YOUR GOOGLE MAPKEY
    
 }
 
