@@ -140,6 +140,30 @@ __Swift__
 ALApplozicSettings.setGroupMemberRemoveOption(true)
 ```
 
+##### Disable GroupInfo (Tap on group Title)
+
+__Objective-C__
+```
+[ALApplozicSettings setGroupInfoDisabled:YES];
+```
+
+__Swift__
+```
+ALApplozicSettings.setGroupInfoDisabled(true)
+```
+
+##### Disable GroupInfoEdit (Edit group name and image)
+
+__Objective-C__
+```
+[ALApplozicSettings setGroupInfoEditDisabled:YES];
+```
+
+__Swift__
+```
+ ALApplozicSettings.setGroupInfoEditDisabled(true)
+ ```
+
 #### Theme Customization
 
 ##### Set Colour for Navigation Bar
