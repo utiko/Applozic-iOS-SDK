@@ -1,6 +1,11 @@
 ###Changelog
 
-__Version 3.6__
+__Version 3.7.2__
+
+* Group info bug fix (Group create API)
+* Removed script for build phases
+
+__Version 3.7__
 
 * Settings for grouInfo disable/enable, groupinfo edit disable/enable
 * Google map-key configurations and https support
