@@ -362,10 +362,11 @@
     [user setApplicationId:[[[self alloc] init] getApplicationKey]];
     [user setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];      // 3. APP_MODULE_NAME setter
     
-    //random userId. Write your logic to get user information here.
-    [user setUserId:@"demo-test"];
-    //[user setEmailId:[self.emailField text]];
-    //[user setPassword:[self.passwordField text]];
+    [user setUserId:[ALUserDefaultsHandler getUserId]];
+    [user setEmail:[ALUserDefaultsHandler getEmailId]];
+    [user setPassword:[ALUserDefaultsHandler getPassword]];
+    //    [user setDisplayName:[ALUserDefaultsHandler getDisplayName]]; // IF SETTING ANY DISPLAY NAME THEN UNCOMMENT IT
+    
     return user;
 }
 
@@ -383,8 +384,8 @@
     /* BY DEFAULT Black:UIStatusBarStyleDefault IF REQ. White: UIStatusBarStyleLightContent  */
     /* ADD property in info.plist "View controller-based status bar appearance" type: BOOLEAN value: NO */
     
-    [ALApplozicSettings setColorForNavigation: [UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
-    [ALApplozicSettings setColorForNavigationItem: [UIColor whiteColor]];
+    [ALApplozicSettings setColorForNavigation:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
+    [ALApplozicSettings setColorForNavigationItem:[UIColor whiteColor]];
     [ALApplozicSettings hideRefreshButton:NO];
     [ALUserDefaultsHandler setNavigationRightButtonHidden:NO];
     [ALUserDefaultsHandler setBottomTabBarHidden:NO];
@@ -402,11 +403,24 @@
     [ALApplozicSettings setColorForReceiveMessages:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:1]];
     [ALApplozicSettings setColorForSendMessages:[UIColor colorWithRed:66.0/255 green:173.0/255 blue:247.0/255 alpha:1]];
     
+    [ALApplozicSettings setCustomMessageBackgroundColor:[UIColor lightGrayColor]];              /*  SET CUSTOM MESSAGE COLOR */
+    [ALApplozicSettings setCustomMessageFontSize:14];                                     /*  SET CUSTOM MESSAGE FONT SIZE */
+    [ALApplozicSettings setCustomMessageFont:@"Helvetica"];
+    
+    //****************** DATE COLOUR : AT THE BOTTOM OF MESSAGE BUBBLE ******************/
+    [ALApplozicSettings setDateColor:[UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:0.5]];
+    
+    //****************** MESSAGE SEPERATE DATE COLOUR : DATE MESSAGE ******************/
+    [ALApplozicSettings setMsgDateColor:[UIColor blackColor]];
+     
     /***************  SEND MESSAGE ABUSE CHECK  ******************/
 
     [ALApplozicSettings setAbuseWarningText:@"AVOID USE OF ABUSE WORDS"];
     [ALApplozicSettings setMessageAbuseMode:YES];
 
+    //****************** SHOW/HIDE RECEIVER USER PROFILE ******************/
+    [ALApplozicSettings setReceiverUserProfileOption:NO];
+    
     /****************************************************************************************************************/
     
     
@@ -421,9 +435,15 @@
     /**********************************************  GROUP SETTINGS  ************************************************/
     
     [ALApplozicSettings setGroupOption:YES];
+    [ALApplozicSettings setGroupInfoDisabled:NO];
+    [ALApplozicSettings setGroupInfoEditDisabled:NO];
+
+    
     [ALApplozicSettings setGroupExitOption:YES];
     [ALApplozicSettings setGroupMemberAddOption:YES];
     [ALApplozicSettings setGroupMemberRemoveOption:YES];
+
+
     /****************************************************************************************************************/
     
     
@@ -504,6 +524,8 @@
     
     [ALUserDefaultsHandler setEnableEncryption:NO];                            /* Note: PLEASE DO YES (IF NEEDED)  */
     /****************************************************************************************************************/
+    
+    [ALUserDefaultsHandler setGoogleMapAPIKey:@"AIzaSyBnWMTGs1uTFuf8fqQtsmLk-vsWM7OrIXk"]; //REPLACE WITH YOUR GOOGLE MAPKEY
    
 }
 

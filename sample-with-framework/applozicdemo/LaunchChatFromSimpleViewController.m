@@ -88,7 +88,7 @@
 }
 
 //===============================================================================
-// TO LAUNCH MESSAGE LIST.....
+// TO LAUNCH MESSAGE LIST
 //
 //===============================================================================
 
@@ -117,7 +117,7 @@
 
 
 //===============================================================================
-// TO LAUNCH INDIVIDUAL MESSAGE LIST....
+// TO LAUNCH INDIVIDUAL CHAT
 //
 //===============================================================================
 
@@ -138,6 +138,7 @@
                                         andwithDisplayName:contact.displayName andFromViewController:self];
     
     }];
+    
 }
 
 -(void)checkUserContact:(NSString *)userId displayName:(NSString *)displayName withCompletion:(void(^)(ALContact * contact))completion
@@ -184,11 +185,9 @@
 // Custom Message Sending API
 //===============================================================================
 
--(void)sendCustomMessageTo:(NSString*)to WithText:(NSString*)text andBackgroundColor:(UIColor *)color
+-(void)sendCustomMessageTo:(NSString *)to WithText:(NSString *)text
 {
     ALMessage * customMessage = [ALMessageService createCustomTextMessageEntitySendTo:to withText:text];
-    
-    [ALApplozicSettings setCustomMessageBackgroundColor:color];
     
     [ALMessageService sendMessages:customMessage withCompletion:^(NSString *message, NSError *error) {
         if(error)

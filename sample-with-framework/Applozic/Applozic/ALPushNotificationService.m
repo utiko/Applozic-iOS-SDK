@@ -64,17 +64,16 @@
         if(notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId])
         {
             NSLog(@"Returning from ALPUSH because notificationId is already processed... %@",notificationId);
-            
             if([[UIApplication sharedApplication] applicationState] == UIApplicationStateInactive)
             {
-                NSLog(@"App Inactive");
+                NSLog(@"ALAPNs : APP_IS_INACTIVE");
                 [self assitingNotificationMessage:notificationMsg andDictionary:dict];
             }
             else
             {
-                NSLog(@"App Inactive False");
+                NSLog(@"ALAPNs : APP_IS_ACTIVE");
             }
-
+            
             return true;
         }
         //TODO : check if notification is alreday received and processed...
@@ -85,42 +84,10 @@
             [ALMessageService getLatestMessageForUser:[ALUserDefaultsHandler getDeviceKeyString]
                                        withCompletion:^(NSMutableArray *message, NSError *error) { }];
             
-            //NSLog(@"ALPushNotificationService's SYNC CALL");
-            
-            /* Stupid fix of stupid bug
-             
-             
-            [dict setObject:alertValue forKey:@"alertValue"];
-             
-             */
-            if (alertValue) {
-                [dict setObject:alertValue forKey:@"alertValue"];
-            } else {
-                [dict setObject:@"" forKey:@"alertValue"];
-            }
+            NSLog(@"ALPushNotificationService's SYNC CALL");
+            [dict setObject:(alertValue ? alertValue : @"") forKey:@"alertValue"];
             
             [self assitingNotificationMessage:notificationMsg andDictionary:dict];
-            
-//            ALPushAssist* assistant=[[ALPushAssist alloc] init];
-//            if(!assistant.isOurViewOnTop){
-//                [dict setObject:@"apple push notification.." forKey:@"Calledfrom"];
-//                [assistant assist:notificationMsg and:dict ofUser:notificationMsg];
-//                
-//            }
-//            else
-//            {
-//                NSLog(@"Over View not on top");
-//                [dict setObject:alertValue forKey:@"alertValue"];
-//                [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification"
-//                                                                     object:notificationMsg
-//                                                                   userInfo:dict];
-//
-//                [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat"
-//                                                                     object:notificationMsg
-//                                                                   userInfo:dict];
-//            }
-
-           
             
         }
         else if ([type isEqualToString:@"MESSAGE_SENT"]||[type isEqualToString:@"APPLOZIC_02"])
@@ -272,24 +239,25 @@
     else if(assistant.isGroupDetailViewOnTop){
             
         //Group Detail View Controller
-        [[ NSNotificationCenter defaultCenter] postNotificationName:@"popGroupDetailsAndLoadChat"
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"popGroupDetailsAndLoadChat"
                                                              object:notificationMsg
                                                            userInfo:dict];
     }
     else
     {
-        
+        NSLog(@"ASSISTING : OUR_VIEW_IS_IN_TOP");
         // Message View Controller
-        [[ NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification"
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pushNotification"
                                                              object:notificationMsg
                                                            userInfo:dict];
         //Chat View Controller
-        [[ NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat"
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"notificationIndividualChat"
                                                              object:notificationMsg
                                                            userInfo:dict];
     }
 
 }
+
 -(BOOL)processUserBlockNotification:(NSDictionary *)theMessageDict andUserBlockFlag:(BOOL)flag
 {
     NSArray *mqttMSGArray = [[theMessageDict valueForKey:@"message"] componentsSeparatedByString:@":"];
@@ -304,10 +272,10 @@
     return  YES;
 }
 
--(void)notificationArrivedToApplication:(UIApplication*)application withDictionary:(NSDictionary *)userInfo{
-    
-     if(application.applicationState == UIApplicationStateInactive){
-        
+-(void)notificationArrivedToApplication:(UIApplication*)application withDictionary:(NSDictionary *)userInfo
+{
+     if(application.applicationState == UIApplicationStateInactive)
+     {
         /* 
         # App is transitioning from background to foreground (user taps notification), do what you need when user taps here!
          
@@ -315,11 +283,9 @@
         NSLog(@"APP_STATE_INACTIVE APP_DELEGATE");
          */
         [self processPushNotification:userInfo updateUI:[NSNumber numberWithInt:APP_STATE_INACTIVE]];
-        
     }
-
-    else if(application.applicationState == UIApplicationStateActive) {
-        
+    else if(application.applicationState == UIApplicationStateActive)
+    {
         /*
          # App is currently active, can update badges count here
        
@@ -327,30 +293,27 @@
          NSLog(@"APP_STATE_ACTIVE APP_DELEGATE");
          */
         [self processPushNotification:userInfo updateUI:[NSNumber numberWithInt:APP_STATE_ACTIVE]];
-        
     }
-    else if(application.applicationState == UIApplicationStateBackground){
-        
-        
+    else if(application.applicationState == UIApplicationStateBackground)
+    {
         /* # App is in background, if content-available key of your notification is set to 1, poll to your backend to retrieve data and update your interface here
         
         # SYNC ONLY
         NSLog(@"APP_STATE_BACKGROUND APP_DELEGATE");
         */
          [self processPushNotification:userInfo updateUI:[NSNumber numberWithInt:APP_STATE_BACKGROUND]];
-        
-        
     }
-   
 }
 
-+(void)applicationEntersForeground{
++(void)applicationEntersForeground
+{
    [[NSNotificationCenter defaultCenter] postNotificationName:@"appCameInForeground" object:nil];
 }
 
-+(void)userSync{
-
++(void)userSync
+{
     ALUserService *userService = [ALUserService new];
     [userService blockUserSync: [ALUserDefaultsHandler getUserBlockLastTimeStamp]];
 }
+
 @end

@@ -159,32 +159,36 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:NOTIFICATION_TITLE];
 }
 
-+(void)setMaxImageSizeForUploadInMB:(NSInteger)maxFileSize{
++(void)setMaxImageSizeForUploadInMB:(NSInteger)maxFileSize
+{
     [[NSUserDefaults standardUserDefaults] setInteger:maxFileSize forKey:IMAGE_UPLOAD_MAX_SIZE];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(NSInteger)getMaxImageSizeForUploadInMB{
++(NSInteger)getMaxImageSizeForUploadInMB
+{
     return [[NSUserDefaults standardUserDefaults] integerForKey:IMAGE_UPLOAD_MAX_SIZE];
-    
 }
 
-+(void) setMaxCompressionFactor:(double)maxCompressionRatio{
++(void) setMaxCompressionFactor:(double)maxCompressionRatio
+{
     [[NSUserDefaults standardUserDefaults] setDouble:maxCompressionRatio  forKey:IMAGE_COMPRESSION_FACTOR];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(double) getMaxCompressionFactor{
++(double) getMaxCompressionFactor
+{
     return [[NSUserDefaults standardUserDefaults] doubleForKey:IMAGE_COMPRESSION_FACTOR];
-    
 }
 
-+(void)setGroupOption:(BOOL)option{
++(void)setGroupOption:(BOOL)option
+{
     [[NSUserDefaults standardUserDefaults] setBool:option forKey:GROUP_ENABLE];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(BOOL)getGroupOption{
++(BOOL)getGroupOption
+{
     return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_ENABLE];
 }
 
@@ -616,6 +620,7 @@ NOTIFICATION_DISABLE = 2
     return [[NSUserDefaults standardUserDefaults] boolForKey:ENABLE_MSGTEXT_ABUSE_CHECK];
 }
 
+
 +(NSString *)getNavigationControllerClassName
 {
     NSString * className = [[NSUserDefaults standardUserDefaults] stringForKey:NAVIGATION_CONTROLLER_CLASS_NAME];
@@ -627,5 +632,92 @@ NOTIFICATION_DISABLE = 2
     [[NSUserDefaults standardUserDefaults] setObject:className forKey:NAVIGATION_CONTROLLER_CLASS_NAME];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
++(void)setDateColor:(UIColor *)dateColor
+{
+    NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:dateColor];
+    [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:MSG_DATE_COLOR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getDateColor
+{
+    NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:MSG_DATE_COLOR];
+    UIColor *color = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
+    return color ? color : [UIColor colorWithRed:51.0/255 green:51.0/255 blue:51.0/255 alpha:0.5];
+}
+
++(void)setMsgDateColor:(UIColor *)dateColor
+{
+    NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:dateColor];
+    [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:MSG_SEPERATE_DATE_COLOR];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIColor *)getMsgDateColor
+{
+    NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:MSG_SEPERATE_DATE_COLOR];
+    UIColor *color = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
+    return color ? color : [UIColor blackColor];
+}
+
++(void)setReceiverUserProfileOption:(BOOL)flag  
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:ENABLE_RECEIVER_USER_PROFILE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getReceiverUserProfileOption
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:ENABLE_RECEIVER_USER_PROFILE];
+}
+
++(void)setCustomMessageFontSize:(float)fontSize
+{
+    [[NSUserDefaults standardUserDefaults] setFloat:fontSize forKey:CUSTOM_MSG_FONT_SIZE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(float)getCustomMessageFontSize
+{
+    float size = [[NSUserDefaults standardUserDefaults] floatForKey:CUSTOM_MSG_FONT_SIZE];
+    return size ? size : 14;
+}
+
++(void)setCustomMessageFont:(NSString *)font 
+{
+    [[NSUserDefaults standardUserDefaults] setValue:font forKey:CUSTOM_MSG_FONT];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+ 
++(NSString *)getCustomMessageFont
+{
+    NSString * font = [[NSUserDefaults standardUserDefaults] valueForKey:CUSTOM_MSG_FONT];
+    return font ? font : @"Helvetica";
+}
+
++(void)setGroupInfoDisabled:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:GROUP_INFO_DISABLED];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)isGroupInfoDisabled
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_INFO_DISABLED];
+
+}
+
++(void)setGroupInfoEditDisabled:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:GROUP_INFO_EDIT_DISABLED];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)isGroupInfoEditDisabled
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_INFO_EDIT_DISABLED];
+}
+
 
 @end

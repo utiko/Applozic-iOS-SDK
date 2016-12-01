@@ -157,7 +157,11 @@
     if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
     {
         //        self.navigationController.navigationBar.translucent = NO;
-        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:18]}];
+        [self.navigationController.navigationBar setTitleTextAttributes: @{
+                                                                           NSForegroundColorAttributeName:[ALApplozicSettings getColorForNavigationItem],
+                                                                           NSFontAttributeName:[UIFont fontWithName:[ALApplozicSettings getFontFace]
+                                                                                                               size:18]
+                                                                           }];
 
         [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
         [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
@@ -372,6 +376,11 @@
                 ALChannel * channel = (ALChannel *)[self.filteredContactList objectAtIndex:indexPath.row];
                 newContactCell.contactPersonName.text = [channel name];
                 [newContactCell.contactPersonImageView setImage:[UIImage imageNamed:@"applozic_group_icon.png"]];
+                NSURL * imageUrl = [NSURL URLWithString:channel.channelImageURL];
+                if(imageUrl)
+                {
+                    [newContactCell.contactPersonImageView sd_setImageWithURL:imageUrl];
+                }
                 [nameIcon setHidden:YES];
             }
             else
@@ -670,15 +679,17 @@
 
 -(void)back:(id)sender
 {
-    UIViewController * viewControllersFromStack = [self.navigationController popViewControllerAnimated:YES];
     if(self.directContactVCLaunch)
     {
         [self  dismissViewControllerAnimated:YES completion:nil];
     }
-    else if(!viewControllersFromStack)
+    else
     {
-        self.tabBarController.selectedIndex = 0;
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        UIViewController * viewControllersFromStack = [self.navigationController popViewControllerAnimated:YES];
+        if(!viewControllersFromStack){
+            self.tabBarController.selectedIndex = 0;
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
     }
 }
 
@@ -686,17 +697,32 @@
 {
     if(self.directContactVCLaunch)  // IF DIRECT CONTACT VIEW LAUNCH FROM ALCHATLAUNCHER
     {
-         ALChatLauncher * chatLauncher = [[ALChatLauncher alloc] init];
+        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                    
+                                                             bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+        
+        ALChatViewController *chatView = (ALChatViewController *) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+        chatView.alMessage = self.alMessage;
+        chatView.individualLaunch = YES;
+        
          switch (self.selectedSegment)
          {
+
              case 0:
                 {
-                    [chatLauncher launchIndividualChat:contactId withGroupId:nil andViewControllerObject:self andWithText:@""];
+                    chatView.channelKey = nil;
+                    chatView.contactIds = contactId;
+                    [self.navigationController pushViewController:chatView animated:YES];
+                    [self removeFromParentViewController];
                 }
                     break;
              case 1:
                 {
-                    [chatLauncher launchIndividualChat:nil withGroupId:channelKey andViewControllerObject:self andWithText:@""];
+                    chatView.channelKey = channelKey;
+                    chatView.contactIds = contactId;
+                    [self.navigationController pushViewController:chatView animated:YES];
+                    [self removeFromParentViewController];
+
                 }
                     break;
             default:

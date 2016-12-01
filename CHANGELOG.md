@@ -1,5 +1,32 @@
 ###Changelog
 
+
+__Version 3.7.3__
+
+* Group fix( group details)
+* Send message after opening contact screen first.
+
+__Version 3.7.2__
+
+* Group info bug fix (Group create API)
+* Removed script for build phases
+
+__Version 3.7__
+
+* Settings for grouInfo disable/enable, groupinfo edit disable/enable
+* Google map-key configurations and https support
+* Mqtt retry reduce
+* bug fixes and optimisations
+
+__Version 3.6__
+
+* Navigation Item Color bug fixes
+* Online/Last Seen Bug fixes
+* ClientChannelKey based server calls bug fixes
+* Receiver User Profile Show/Hide Settings
+* MQTT code improved
+* Date messsage and message time color settings
+
 __Version 3.5__
 
 * Abuse Words Restriction added
@@ -14,6 +41,7 @@ __Version 3.5__
 * 3rd Party Local Notification issue fixed
 * iPad Crash fixed for AlertController
 * Message HyperLink issue fixes
+* Group MetaData Changes
 
 __Version 3.4__
 

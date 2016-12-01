@@ -15,7 +15,7 @@ i) Open terminal and navigate to your project root directory and run command ```
 ii) Go to project directory open pod file and add code in that
 
 ```
- pod 'Applozic', '3.4.4'
+ pod 'Applozic', '3.7.2'
 ```
 
 For reference download our sample project here [**ApplozicCocoaPodDemo**](https://github.com/AppLozic/Applozic-iOS-Chat-Samples)
@@ -72,7 +72,11 @@ Create applozic user and add details to applozic user object.
 Convenient methods are present in ALChatManager.m to register user with applozic. You can Register user to applozic server by using below method from AlChatManager.h. 
 
 ```
-    ALChatManager * chatManager = [[ALChatManager alloc] init];
+   NOTE: Replace "applozic-sample-app" by your application key 
+```
+
+```
+    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
     [chatManager registerUser:aluser]; 
 ```
 
@@ -268,7 +272,7 @@ Call the following when user logout from your app:
 
 Download Applozic Chat latest framework [**here**](https://github.com/AppLozic/Applozic-iOS-SDK/raw/master/Frameworks) and add it to your project.
 
-You can download Sample Chat app code (https://github.com/AppLozic/Applozic-iOS-SDK)  [**sample project**](https://github.com/AppLozic/Applozic-iOS-Chat-Samples) for more reference.
+You can download Sample Chat app code (https://github.com/AppLozic/Applozic-iOS-Chat-Samples)  [**sample project**](https://github.com/AppLozic/Applozic-iOS-Chat-Samples) for more reference.
 
 
 **Add framework to your project:**

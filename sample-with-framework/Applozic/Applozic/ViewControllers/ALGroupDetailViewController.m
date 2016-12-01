@@ -70,11 +70,15 @@
     /*if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
     {
 //        self.navigationController.navigationBar.translucent = NO;
-        [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName: [ALApplozicSettings getColorForNavigationItem], NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace] size:18]}];
+        [self.navigationController.navigationBar setTitleTextAttributes: @{
+                                                                           NSForegroundColorAttributeName:[ALApplozicSettings getColorForNavigationItem],
+                                                                           NSFontAttributeName: [UIFont fontWithName:[ALApplozicSettings getFontFace]
+                                                                                                                size:18]
+                                                                           }];
 
         [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
-        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
-        [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
+        [self.navigationController.navigationBar setBarTintColor:[ALApplozicSettings getColorForNavigation]];
+        [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
     }*/
 }
 
@@ -631,6 +635,12 @@
 
 -(void)updateGroupView
 {
+    
+    if([ALApplozicSettings isGroupInfoEditDisabled]){
+        NSLog(@"group edit is disabled");
+        return;
+    }
+
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:[self class]]];
     ALGroupCreationViewController * grpUpdate = [storyBoard instantiateViewControllerWithIdentifier:@"ALGroupCreationViewController"];
     grpUpdate.isViewForUpdatingGroup = YES;
