@@ -7,6 +7,8 @@
 //
 
 #import "ALChannel.h"
+#import "ALChannelUser.h"
+
 
 @interface ALChannel ()
 
@@ -32,7 +34,15 @@
     self.membersName = [[NSMutableArray alloc] initWithArray:[messageJson objectForKey:@"membersName"]];
     self.removeMembers = [[NSMutableArray alloc] initWithArray:[messageJson objectForKey:@"removedMembersId"]];
     self.type = [self getShortFromJsonValue:messageJson[@"type"]];
-   
+    
+    NSDictionary * channelDetailGroup = [messageJson objectForKey:@"groupUsers"];
+    NSMutableArray * userArray = [NSMutableArray new];
+
+    for(NSDictionary* dict in channelDetailGroup){
+        ALChannelUser * channelUser = [[ALChannelUser alloc] initWithDictonary:dict];
+        [userArray addObject:channelUser];
+    }
+    self.groupUsers = userArray;
 }
 
 @end

@@ -706,4 +706,27 @@ NOTIFICATION_DISABLE = 2
     return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_INFO_EDIT_DISABLED];
 }
 
++(void) setContactTypeToFilter:(NSMutableArray*)arrayWithIds
+{
+    [[NSUserDefaults standardUserDefaults] setObject:arrayWithIds forKey:FILTER_ONLY_CONTACT_TYPE_ID];
+}
+
++(NSMutableArray*) getContactTypeToFilter
+{
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:FILTER_ONLY_CONTACT_TYPE_ID] mutableCopy];
+}
+
++(NSString *)getCustomNavigationControllerClassName
+{
+    NSString * className = [[NSUserDefaults standardUserDefaults] stringForKey:CUSTOM_NAVIGATION_CLASS_NAME];
+    return className;
+}
+
++(void)setNavigationControllerClassName:(NSString *)className
+{
+    [[NSUserDefaults standardUserDefaults] setObject:className forKey:CUSTOM_NAVIGATION_CLASS_NAME];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+
 @end

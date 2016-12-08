@@ -44,6 +44,10 @@ typedef enum
 @property (nonatomic, strong) NSMutableArray *membersName;
 @property (nonatomic, strong) NSMutableArray *removeMembers;
 @property (nonatomic, strong) ALConversationProxy *conversationProxy;
+@property (nonatomic, strong) NSNumber *parentKey;
+@property (nonatomic,strong) NSMutableArray * groupUsers;
+
+
 
 -(id)initWithDictonary:(NSDictionary *)messageDictonary;
 -(void)parseMessage:(id) messageJson;
