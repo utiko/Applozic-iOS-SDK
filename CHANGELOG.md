@@ -1,5 +1,11 @@
 ###Changelog
 
+
+__Version 3.7.3__
+
+* Group fix( group details)
+* Send message after opening contact screen first.
+
 __Version 3.7.2__
 
 * Group info bug fix (Group create API)
