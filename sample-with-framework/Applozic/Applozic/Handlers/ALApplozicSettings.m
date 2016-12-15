@@ -621,7 +621,7 @@ NOTIFICATION_DISABLE = 2
 }
 
 
-+(NSString *)getNavigationControllerClassName
+/*+(NSString *)getNavigationControllerClassName
 {
     NSString * className = [[NSUserDefaults standardUserDefaults] stringForKey:NAVIGATION_CONTROLLER_CLASS_NAME];
     return className;
@@ -631,7 +631,7 @@ NOTIFICATION_DISABLE = 2
 {
     [[NSUserDefaults standardUserDefaults] setObject:className forKey:NAVIGATION_CONTROLLER_CLASS_NAME];
     [[NSUserDefaults standardUserDefaults] synchronize];
-}
+}*/
 
 +(void)setDateColor:(UIColor *)dateColor
 {
@@ -717,6 +717,28 @@ NOTIFICATION_DISABLE = 2
 +(BOOL)isGroupInfoEditDisabled
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_INFO_EDIT_DISABLED];
+}
+
++(void) setContactTypeToFilter:(NSMutableArray*)arrayWithIds
+{
+    [[NSUserDefaults standardUserDefaults] setObject:arrayWithIds forKey:FILTER_ONLY_CONTACT_TYPE_ID];
+}
+
++(NSMutableArray*) getContactTypeToFilter
+{
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:FILTER_ONLY_CONTACT_TYPE_ID] mutableCopy];
+}
+
++(NSString *)getCustomNavigationControllerClassName
+{
+    NSString * className = [[NSUserDefaults standardUserDefaults] stringForKey:CUSTOM_NAVIGATION_CLASS_NAME];
+    return className;
+}
+
++(void)setNavigationControllerClassName:(NSString *)className
+{
+    [[NSUserDefaults standardUserDefaults] setObject:className forKey:CUSTOM_NAVIGATION_CLASS_NAME];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 

@@ -35,6 +35,20 @@
     return self;
 }
 
+/**
+ * Get navigation controller to launch depend on settings.
+ **/
+
+- (UINavigationController *)createNavigationControllerForVC:(UIViewController *)vc
+{
+    NSString * className = [ALApplozicSettings getCustomNavigationControllerClassName];
+    if (![className isKindOfClass:[NSString class]]) className = @"UINavigationController";
+    UINavigationController * navC = [(UINavigationController *)[NSClassFromString(className) alloc] initWithRootViewController:vc];
+    return navC;
+}
+
+
+
 -(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID
     andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
 {
@@ -57,13 +71,13 @@
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
 }
 
-- (UINavigationController *)createNavigationControllerForVC:(UIViewController *)vc
+/*- (UINavigationController *)createNavigationControllerForVC:(UIViewController *)vc
 {
     NSString * className = [ALApplozicSettings getNavigationControllerClassName];
     if (![className isKindOfClass:[NSString class]]) className = @"UINavigationController";
     UINavigationController * navC = [(UINavigationController *)[NSClassFromString(className) alloc] initWithRootViewController:vc];
     return navC;
-}
+}*/
 
 -(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID
             withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
@@ -82,7 +96,7 @@
     chatView.displayName = displayName;
     chatView.chatViewDelegate = self;
     
-    UINavigationController *conversationViewNavController = [self createNavigationControllerForVC:chatView];
+    UINavigationController *conversationViewNavController = [self createNavigationControllerForVC:chatView];;
     conversationViewNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve ;
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
     
@@ -143,7 +157,7 @@
     contextChatView.individualLaunch = YES;
     
     UINavigationController *conversationViewNavController = [self createNavigationControllerForVC:contextChatView];
-    conversationViewNavController.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
+    conversationViewNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
     
 }
@@ -153,7 +167,6 @@
     UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     ALMessagesViewController *chatListView = (ALMessagesViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ALViewController"];
     UINavigationController *conversationViewNavController = [self createNavigationControllerForVC:chatListView];
-
     chatListView.userIdToLaunch = userId;
     chatListView.channelKey = channelKey;
     chatListView.messagesViewDelegate = self;
@@ -175,6 +188,22 @@
     id launcherDelegate = NSClassFromString([ALApplozicSettings getCustomClassName]);
     [launcherDelegate handleCustomAction:chatViewController andWithMessage:alMessage];
 }
+
+
+-(void)launchChatListWithCustomNavigationBar:(UIViewController *)viewController
+{
+    UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    
+    ALMessagesViewController *chatListView = (ALMessagesViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ALViewController"];
+    
+    NSString * className = [ALApplozicSettings getCustomNavigationControllerClassName];
+    if (![className isKindOfClass:[NSString class]]) className = @"UINavigationController";
+    
+    UINavigationController * navC = [(UINavigationController *)[NSClassFromString(className) alloc] initWithRootViewController:chatListView];
+    [viewController presentViewController:navC animated:YES completion:nil];
+    
+}
+
 
 @end
 

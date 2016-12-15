@@ -34,12 +34,16 @@
 
 - (ALContact *)loadOrAddContactByKeyWithDisplayName:(NSString *) contactId value:(NSString*) displayName;
 
-- (void) insertInitialContacts;
+//- (void) insertInitialContacts;
 
 -(BOOL)setUnreadCountInDB:(ALContact*)contact;
 
 -(NSNumber *)getOverallUnreadCountForContact;
 
 -(BOOL) isContactExist:(NSString *) value;
+
+-(BOOL) updateOrInsert:(ALContact*)contact;
+
+-(void) updateOrInsertListOfContacts:(NSMutableArray *)contacts;
 
 @end
