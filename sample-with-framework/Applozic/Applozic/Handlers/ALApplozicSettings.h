@@ -63,6 +63,8 @@
 #define ENABLE_RECEIVER_USER_PROFILE @"com.applozic.userdefault.ENABLE_RECEIVER_USER_PROFILE"
 #define CUSTOM_MSG_FONT_SIZE @"com.applozic.userdefault.CUSTOM_MSG_FONT_SIZE"
 #define CUSTOM_MSG_FONT @"com.applozic.userdefault.CUSTOM_MSG_FONT"
+#define FILTER_ONLY_CONTACT_TYPE_ID @"com.applozic.userdefault.FILTER_ONLY_CONTACT_TYPE_ID"
+#define CUSTOM_NAVIGATION_CLASS_NAME @"com.applozic.userdefault.NAVIGATION_CONTROLLER_CLASS_NAME"
 
 #define NAVIGATION_CONTROLLER_CLASS_NAME @"com.applozic.userdefault.NAVIGATION_CONTROLLER_CLASS_NAME"
 
@@ -237,8 +239,8 @@
 +(void)setMessageAbuseMode:(BOOL)flag;
 
 
-+ (NSString *)getNavigationControllerClassName;
-+ (void)setNavigationControllerClassName:(NSString *)className;
+//+ (NSString *)getNavigationControllerClassName;
+//+ (void)setNavigationControllerClassName:(NSString *)className;
 
 +(UIColor *)getDateColor;
 +(void)setDateColor:(UIColor *)dateColor;
@@ -262,5 +264,10 @@
 +(void) setGroupInfoEditDisabled:(BOOL)flag;
 +(BOOL) isGroupInfoEditDisabled;
 
++(void) setContactTypeToFilter:(NSMutableArray*)arrayWithIds;
++(NSMutableArray*) getContactTypeToFilter;
+
++(NSString *)getCustomNavigationControllerClassName;
++(void)setNavigationControllerClassName:(NSString *)className;
 
 @end

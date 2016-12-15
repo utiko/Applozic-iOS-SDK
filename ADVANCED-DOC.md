@@ -148,6 +148,24 @@ You can send extra information along with message text as meta-data. These key v
 
 ```
 
+### Get Latest Message for USER and CHANNEL
+
+```
+
+FOR USER :
+
+ALMessageService *msgService = [[ALMessageService alloc] init];
+ALMessage * msgService = [msgService getLatestMessageForUser:@"USER_ID"];
+
+
+FOR CHANNEL :
+// NOTE : IF PASSING 'YES' THEN IT WILL EXCLUDE GROUP OPERATIONS LIKE ADD/REMOVE etc. MESSSAGES
+
+ALMessageService *msgService = [[ALMessageService alloc] init];
+ALMessage * = [msgService getLatestMessageForChannel:[NSNumber numberWithInt:<GROUP_ID>] excludeChannelOperations:NO];
+
+```
+
 ### Encryption
 
 If encryption is required

@@ -63,10 +63,12 @@
         NSString *notificationId = (NSString *)[theMessageDict valueForKey:@"id"];
         if(notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId])
         {
+
             NSLog(@"Returning from ALPUSH because notificationId is already processed... %@",notificationId);
-            if([[UIApplication sharedApplication] applicationState] == UIApplicationStateInactive)
+            Boolean isInactive=  ( [[UIApplication sharedApplication] applicationState] == UIApplicationStateInactive);
+            if(isInactive && ( [type isEqualToString:MT_SYNC] || [type isEqualToString:MT_MESSAGE_SENT] ) )
             {
-                NSLog(@"ALAPNs : APP_IS_INACTIVE");
+                NSLog(@"ALAPNs : APP_IS_INACTIVE::");
                 [self assitingNotificationMessage:notificationMsg andDictionary:dict];
             }
             else
@@ -231,6 +233,8 @@
 -(void)assitingNotificationMessage:(NSString*)notificationMsg andDictionary:(NSMutableDictionary*)dict
 {
     ALPushAssist* assistant = [[ALPushAssist alloc] init];
+    //Check for APPLOZIC_01 and APPLOZIC_02 only..
+    
     if(!assistant.isOurViewOnTop)
     {
         [dict setObject:@"apple push notification.." forKey:@"Calledfrom"];
