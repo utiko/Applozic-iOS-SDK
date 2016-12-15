@@ -586,4 +586,27 @@ open func checkAdmin(_ channelKey: NSNumber!) -> Bool
 
 If admin successfully then it will return YES else NO.                   
 
+### Adding button on navigationbar and getting callback outside SDK.
+
+- To Add custom buttons on navigationbar and executing callbacks outside SDK, you need to [checkout and add our open source client code](https://www.applozic.com/blog/add-applozic-chat-framework-ios/) and make below changes.
+
+STEP 1: Create your custom navigation class extending ALNavigationController and override
+-(void)customNavigationItemClicked:(id)sender withTag:(NSString*)buttonName;
+
+STEP2: Set this setting in ALDefaultChatViewSettings
+```
+[ALApplozicSettings setNavigationControllerClassName:@"YOUR CUSTOM CLASS NAME (STEP1)"];
+```
+STEP3: Add below in button selector -(void)buttonSelector.
+
+```
+-(void)buttonSelector
+{
+    ALNavigationController * controller = (ALNavigationController*)self.navigationController;
+    [ controller customNavigationItemClicked:nil withTag:@"button_tag"];
+}
+```
+
+
+
 
