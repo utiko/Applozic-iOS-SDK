@@ -163,7 +163,9 @@ NSString * filePath = [ALImagePickerHandler saveImageToDocDirectory:image];
 
 [wrapperService sendMessage:almessage withAttachmentAtLocation:filePath andWithStatusDelegate:self andContentType:ALMESSAGE_CONTENT_ATTACHMENT];
 ```
+
 - You can also implement delegate to recevie status update of upload and download.
+
 ```
 // bytes downloaded  
 -(void)updateBytesDownloaded:(NSUInteger) bytesReceived;
@@ -179,6 +181,7 @@ NSString * filePath = [ALImagePickerHandler saveImageToDocDirectory:image];
 
 //download completed
 -(void)DownloadCompleted:(ALMessage *) alMessage;
+
 ```
 
 ### Download Message's attachment
