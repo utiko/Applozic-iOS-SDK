@@ -147,6 +147,48 @@ You can send extra information along with message text as meta-data. These key v
 }
 
 ```
+### Send Message With Attachment
+
+You can use below method to send message with attachments.  
+
+```
+MessageServiceWrapper * wrapperService  = [MessageServiceWrapper new];
+
+//build message Objects
+ALMessage * almessage = [wrapperService createMessageEntityOfContentType:ALMESSAGE_CONTENT_ATTACHMENT toSendTo:@"receiverContact" withText:@"Text"];
+
+//get file path of attachment
+UIImage *image = [UIImage imageNamed:@"IMGE_NAME"]; 
+NSString * filePath = [ALImagePickerHandler saveImageToDocDirectory:image];
+
+[wrapperService sendMessage:almessage withAttachmentAtLocation:filePath andWithStatusDelegate:self andContentType:ALMESSAGE_CONTENT_ATTACHMENT];
+```
+- You can also implement delegate to recevie status update of upload and download.
+```
+// bytes downloaded  
+-(void)updateBytesDownloaded:(NSUInteger) bytesReceived;
+
+//bytes uploaded 
+-(void)updateBytesUploaded:(NSUInteger) bytesSent;
+
+//download OR upload  failed 
+-(void)uploadDownloadFailed:(ALMessage*)alMessage;
+
+//upload completed 
+-(void)uploadCompleted:(ALMessage *) alMessage;
+
+//download completed
+-(void)DownloadCompleted:(ALMessage *) alMessage;
+```
+
+### Download Message's attachment
+
+```
+ALMessageServiceWrapper * wrapperService  = [ALMessageServiceWrapper new];
+wrapperService.messageServiceDelegate = self;
+wrapperService downloadMessageAttachment:alMessage];
+```
+NOTE: Once successfully downloaded, attachment will be saved and almessage object will have file path  information(almessage.imageFilePath).
 
 ### Get Latest Message for USER and CHANNEL
 
