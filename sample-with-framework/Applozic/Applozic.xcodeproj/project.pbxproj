@@ -21,6 +21,8 @@
 		29CBF2031C0303A700BE6A20 /* ALColorUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CBF2011C0303A700BE6A20 /* ALColorUtility.m */; };
 		29D6F86B1D193D9D00A75369 /* PSPDFTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 29D6F8691D193D9D00A75369 /* PSPDFTextView.h */; };
 		29D6F86C1D193D9D00A75369 /* PSPDFTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 29D6F86A1D193D9D00A75369 /* PSPDFTextView.m */; };
+		3DE73E2F1E0D45EC00261716 /* ALChannelUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE73E2D1E0D45EC00261716 /* ALChannelUser.m */; };
+		3DE73E301E0D45EC00261716 /* ALChannelUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3DE73E2E1E0D45EC00261716 /* ALChannelUser.h */; };
 		463E49201DB7B45D00CDFFE6 /* ALVCardClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 463E491E1DB7B45D00CDFFE6 /* ALVCardClass.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		463E49211DB7B45D00CDFFE6 /* ALVCardClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 463E491F1DB7B45D00CDFFE6 /* ALVCardClass.m */; };
 		46ABAAD71DA4054000EC48AC /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46ABAAD51DA4054000EC48AC /* Contacts.framework */; };
@@ -118,7 +120,6 @@
 		6D6DF1861BC5364C00EBA00F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF0DD1BC5364C00EBA00F /* Images.xcassets */; };
 		6D6DF1871BC5364C00EBA00F /* ALChatCostomization.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF0E01BC5364C00EBA00F /* ALChatCostomization.plist */; };
 		6D6DF1881BC5364C00EBA00F /* ALConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF0E11BC5364C00EBA00F /* ALConstant.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6D6DF1891BC5364C00EBA00F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF0E21BC5364C00EBA00F /* Localizable.strings */; };
 		6D6DF1B21BC5364C00EBA00F /* MKAnnotationView+WebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF10F1BC5364C00EBA00F /* MKAnnotationView+WebCache.h */; };
 		6D6DF1B31BC5364C00EBA00F /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF1101BC5364C00EBA00F /* MKAnnotationView+WebCache.m */; };
 		6D6DF1B41BC5364C00EBA00F /* NSData+ImageContentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6DF1111BC5364C00EBA00F /* NSData+ImageContentType.h */; };
@@ -303,8 +304,6 @@
 		C70273CC1DED445E00BA2C8A /* ALUserDetailListFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = C70273CA1DED445E00BA2C8A /* ALUserDetailListFeed.m */; };
 		C76366081DF82B500087221C /* ALNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = C76366061DF82B500087221C /* ALNavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C76366091DF82B500087221C /* ALNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C76366071DF82B500087221C /* ALNavigationController.m */; };
-		C76366101DF8A0A70087221C /* ALChannelUser.h in Headers */ = {isa = PBXBuildFile; fileRef = C763660E1DF8A0A70087221C /* ALChannelUser.h */; };
-		C76366111DF8A0A70087221C /* ALChannelUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C763660F1DF8A0A70087221C /* ALChannelUser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -322,6 +321,8 @@
 		29CBF2011C0303A700BE6A20 /* ALColorUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALColorUtility.m; sourceTree = "<group>"; };
 		29D6F8691D193D9D00A75369 /* PSPDFTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSPDFTextView.h; sourceTree = "<group>"; };
 		29D6F86A1D193D9D00A75369 /* PSPDFTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSPDFTextView.m; sourceTree = "<group>"; };
+		3DE73E2D1E0D45EC00261716 /* ALChannelUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALChannelUser.m; path = Applozic/ALChannelUser.m; sourceTree = "<group>"; };
+		3DE73E2E1E0D45EC00261716 /* ALChannelUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALChannelUser.h; path = Applozic/ALChannelUser.h; sourceTree = "<group>"; };
 		463E491E1DB7B45D00CDFFE6 /* ALVCardClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALVCardClass.h; path = Applozic/ALVCardClass.h; sourceTree = "<group>"; };
 		463E491F1DB7B45D00CDFFE6 /* ALVCardClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALVCardClass.m; path = Applozic/ALVCardClass.m; sourceTree = "<group>"; };
 		46ABAAD51DA4054000EC48AC /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
@@ -420,7 +421,6 @@
 		6D6DF0DD1BC5364C00EBA00F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
 		6D6DF0E01BC5364C00EBA00F /* ALChatCostomization.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ALChatCostomization.plist; sourceTree = "<group>"; };
 		6D6DF0E11BC5364C00EBA00F /* ALConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALConstant.h; sourceTree = "<group>"; };
-		6D6DF0E31BC5364C00EBA00F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D6DF10F1BC5364C00EBA00F /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		6D6DF1101BC5364C00EBA00F /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		6D6DF1111BC5364C00EBA00F /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -605,8 +605,6 @@
 		C70273CA1DED445E00BA2C8A /* ALUserDetailListFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALUserDetailListFeed.m; path = Applozic/ALUserDetailListFeed.m; sourceTree = "<group>"; };
 		C76366061DF82B500087221C /* ALNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALNavigationController.h; sourceTree = "<group>"; };
 		C76366071DF82B500087221C /* ALNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALNavigationController.m; sourceTree = "<group>"; };
-		C763660E1DF8A0A70087221C /* ALChannelUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannelUser.h; sourceTree = "<group>"; };
-		C763660F1DF8A0A70087221C /* ALChannelUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChannelUser.m; sourceTree = "<group>"; };
 		C7EF19C71DF2FDB600529704 /* AppLozic 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "AppLozic 2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -849,7 +847,6 @@
 			children = (
 				6D6DF0E01BC5364C00EBA00F /* ALChatCostomization.plist */,
 				6D6DF0E11BC5364C00EBA00F /* ALConstant.h */,
-				6D6DF0E21BC5364C00EBA00F /* Localizable.strings */,
 			);
 			path = Files;
 			sourceTree = "<group>";
@@ -1169,10 +1166,10 @@
 				6D7756A41D5B80DF0025560B /* ALChannelService.m */,
 				6D7756A51D5B80DF0025560B /* ALChannelSyncResponse.h */,
 				6D7756A61D5B80DF0025560B /* ALChannelSyncResponse.m */,
+				3DE73E2D1E0D45EC00261716 /* ALChannelUser.m */,
+				3DE73E2E1E0D45EC00261716 /* ALChannelUser.h */,
 				6D7756A71D5B80DF0025560B /* ALChannelUserX.h */,
 				6D7756A81D5B80DF0025560B /* ALChannelUserX.m */,
-				C763660E1DF8A0A70087221C /* ALChannelUser.h */,
-				C763660F1DF8A0A70087221C /* ALChannelUser.m */,
 			);
 			name = ALChannel;
 			sourceTree = "<group>";
@@ -1326,7 +1323,7 @@
 				6D7756861D5B7FBE0025560B /* ALConversationClientService.h in Headers */,
 				6D77568F1D5B7FBE0025560B /* ALTopicDetail.h in Headers */,
 				6D7756E11D5B82000025560B /* ALUserService.h in Headers */,
-				C76366101DF8A0A70087221C /* ALChannelUser.h in Headers */,
+				3DE73E301E0D45EC00261716 /* ALChannelUser.h in Headers */,
 				6D6DF1781BC5364C00EBA00F /* ALMessageList.h in Headers */,
 				6D6DF1641BC5364C00EBA00F /* ALNewContactCell.h in Headers */,
 				6D6DF17C1BC5364C00EBA00F /* ALSyncMessageFeed.h in Headers */,
@@ -1465,7 +1462,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D7757161D5B83660025560B /* TSMessagesDefaultDesign.json in Resources */,
-				6D6DF1891BC5364C00EBA00F /* Localizable.strings in Resources */,
 				6D6DF1861BC5364C00EBA00F /* Images.xcassets in Resources */,
 				6D6DF16F1BC5364C00EBA00F /* Applozic.storyboard in Resources */,
 				6D6DF1871BC5364C00EBA00F /* ALChatCostomization.plist in Resources */,
@@ -1631,7 +1627,7 @@
 				6D6DF1491BC5364C00EBA00F /* ALRequestHandler.m in Sources */,
 				6D7757181D5B83660025560B /* TSMessageView.m in Sources */,
 				6D6DF17B1BC5364C00EBA00F /* ALRegistrationResponse.m in Sources */,
-				C76366111DF8A0A70087221C /* ALChannelUser.m in Sources */,
+				3DE73E2F1E0D45EC00261716 /* ALChannelUser.m in Sources */,
 				6D77568B1D5B7FBE0025560B /* ALConversationDBService.m in Sources */,
 				6D7756F61D5B82B50025560B /* ALAppLocalNotifications.m in Sources */,
 				6D77570F1D5B83660025560B /* ALPushAssist.m in Sources */,
@@ -1649,14 +1645,6 @@
 			);
 			name = Applozic.storyboard;
 			path = Applozic/Base.lproj;
-			sourceTree = "<group>";
-		};
-		6D6DF0E21BC5364C00EBA00F /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6D6DF0E31BC5364C00EBA00F /* en */,
-			);
-			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
