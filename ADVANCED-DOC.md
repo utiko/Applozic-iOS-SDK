@@ -34,7 +34,7 @@ short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
   ``` 
      ALChannelService *channelService = [ALChannelService new];
      ALChannel *alChannel = [channelService getChannelByKey:channelKey];
-     NSNumber *unreadCount = [channel unreadCount];
+     NSNumber *unreadCount = [alChannel unreadCount];
  ```
   
 3. OVER ALL UNREAD COUNT (Contacts + Groups)
