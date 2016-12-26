@@ -94,7 +94,7 @@ Convenient methods are present in ALChatManager.m to register user with applozic
   NSString * userIdOfReceiver =  @"receiverUserId";
   [chatManager launchChatForUserWithDisplayName:userIdOfReceiver 
   withGroupId:nil  //If launched for group, pass groupId(pass userId as nil)
-  andwithDisplayName:nil //Not mendatory, if receiver is not already registered you should pass Displayname.
+  andwithDisplayName:nil //Not mandatory, if receiver is not already registered you should pass Displayname.
   andFromViewController:<YOUR CONTROLLER> ];
   
 ```
