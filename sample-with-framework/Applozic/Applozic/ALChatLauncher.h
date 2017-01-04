@@ -41,5 +41,6 @@
 
 -(void)launchChatListWithCustomNavigationBar:(UIViewController *)viewController;
 
+-(void)launchChatListWithParentKey:(NSNumber *)parentKey andViewControllerObject:(UIViewController *)viewController;
 
 @end

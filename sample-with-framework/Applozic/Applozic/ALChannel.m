@@ -30,10 +30,14 @@
     self.channelImageURL = [self getStringFromJsonValue:messageJson[@"imageUrl"]];
     self.adminKey = [self getStringFromJsonValue:messageJson[@"adminId"]];
     self.unreadCount = [self getNSNumberFromJsonValue:messageJson[@"unreadCount"]];
-//    self.userCount = [self getNSNumberFromJsonValue:messageJson[@""]];
+    //self.userCount = [self getNSNumberFromJsonValue:messageJson[@""]];
     self.membersName = [[NSMutableArray alloc] initWithArray:[messageJson objectForKey:@"membersName"]];
     self.removeMembers = [[NSMutableArray alloc] initWithArray:[messageJson objectForKey:@"removedMembersId"]];
     self.type = [self getShortFromJsonValue:messageJson[@"type"]];
+    self.childKeys = [[NSMutableArray alloc] initWithArray:[messageJson objectForKey:@"childKeys"]];
+
+    self.parentKey = [self getNSNumberFromJsonValue:messageJson[@"parentKey"]];
+    self.parentClientKey = [self getStringFromJsonValue:messageJson[@"parentClientGroupId"]];
     
     NSDictionary * channelDetailGroup = [messageJson objectForKey:@"groupUsers"];
     NSMutableArray * userArray = [NSMutableArray new];
@@ -43,6 +47,19 @@
         [userArray addObject:channelUser];
     }
     self.groupUsers = userArray;
+}
+
+-(NSNumber *)getChannelMemberParentKey:(NSString *)userId
+{
+    for(ALChannelUser * channelUser in self.groupUsers)
+    {
+        if(userId && [userId isEqualToString:channelUser.userId])
+        {
+            return channelUser.parentGroupKey;
+        }
+    }
+    
+    return nil;
 }
 
 @end

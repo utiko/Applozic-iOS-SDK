@@ -198,6 +198,29 @@
     
 }
 
+//==========================================================================================================================================
+#pragma mark : ALMSGVC LAUNCH FOR SUB GROUPS
+//==========================================================================================================================================
+
+-(void)launchChatListWithParentKey:(NSNumber *)parentKey andViewControllerObject:(UIViewController *)viewController
+{
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
+    
+    UITabBarController * tabBAR = ((UITabBarController *)theTabBar);
+    UINavigationController * navBAR = (UINavigationController *)[[tabBAR viewControllers] objectAtIndex:0];
+    ALMessagesViewController * msgVC = (ALMessagesViewController *)[[navBAR viewControllers] objectAtIndex:0];
+    msgVC.messagesViewDelegate = self;
+    
+    ALChannelService * channelService = [ALChannelService new];
+    [channelService getChannelInformation:parentKey orClientChannelKey:nil withCompletion:^(ALChannel *alChannel3) {
+        
+        msgVC.parentGroupKey = parentKey;
+        [msgVC intializeSubgroupMessages];
+        [viewController presentViewController:theTabBar animated:YES completion:nil];
+    }];
+}
+
 
 @end
 

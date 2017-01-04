@@ -15,6 +15,7 @@
 @property (nonatomic, retain) NSString *channelImageURL;
 @property (nonatomic, retain) NSNumber *channelKey;
 @property (nonatomic, retain) NSNumber *parentGroupKey;
+@property (nonatomic, retain) NSString *parentClientGroupKey;
 
 @property (nonatomic, retain) NSString *clientChannelKey;
 @property (nonatomic) short type;

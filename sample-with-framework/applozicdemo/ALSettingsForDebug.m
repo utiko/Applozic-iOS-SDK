@@ -45,7 +45,7 @@
     
     environmentNamesArray = [[NSArray alloc] initWithObjects:@"apps",@"test",@"staging",@"chat", nil];
     environmentURLArray = [[NSArray alloc] initWithObjects:@"https://apps.applozic.com",
-                           @"https://test.applozic.com",
+                           @"https://apps-test.applozic.com",
                            @"https://staging.applozic.com",
                            @"https://chat.applozic.com", nil];
 
