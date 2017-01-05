@@ -555,7 +555,7 @@
 //    [array addObject:[NSNumber numberWithInt:1]];
 //    [array addObject:[NSNumber numberWithInt:2]];
 //
-//    [ALApplozicSettings setContactTypeToFilter: array]; //REPLACE WITH YOUR GOOGLE MAPKEY
+//    [ALApplozicSettings setContactTypeToFilter: array];      // SET ARRAY TO PREFERENCE
     
     /************************************** 3rd PARTY VIEWS + MSg CONTAINER SETTINGS  *************************************/
     
