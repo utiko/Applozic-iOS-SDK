@@ -350,6 +350,25 @@ Below are additional APIs for contact load, update, delete and requires a ALCont
   
  ```
  
+Show all registered contacts in my application 
+
+** Objective - C **
+
+In AlChatManager.m in method -(void)ALDefaultChatViewSettings method update
+
+```
+   [ALApplozicSettings setFilterContactsStatus:YES]; 
+   
+```
+
+** Swift **
+
+In AlChatManager.m in method func ALDefaultChatViewSettings () method update
+
+```
+   ALApplozicSettings.setFilterContactsStatus(true) 
+   
+```
 
 ### Contextual Conversation
  
