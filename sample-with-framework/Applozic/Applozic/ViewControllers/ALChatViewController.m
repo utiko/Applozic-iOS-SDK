@@ -2322,9 +2322,9 @@
     [theController addAction:[UIAlertAction actionWithTitle:@"Send Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
          */
 
-    [theController addAction:[UIAlertAction actionWithTitle:@"Take Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    /*[theController addAction:[UIAlertAction actionWithTitle:@"Take Video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self openVideoCamera];
-    }]];
+    }]];*/
 
     [theController addAction:[UIAlertAction actionWithTitle:@"Select from Gallery" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self openGallery];
@@ -2340,7 +2340,7 @@
         
     }]];
     
-    [theController addAction:[UIAlertAction actionWithTitle:@"Send Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    /*[theController addAction:[UIAlertAction actionWithTitle:@"Send Audio" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
         ALAudioAttachmentViewController *audioViewController = (ALAudioAttachmentViewController *)[storyboard instantiateViewControllerWithIdentifier:@"AudioAttachment"];
@@ -2348,7 +2348,7 @@
         
         [self.navigationController pushViewController:audioViewController animated:YES];
         
-    }]];
+    }]];*/
     
 
     if(!self.channelKey && !self.conversationId)
