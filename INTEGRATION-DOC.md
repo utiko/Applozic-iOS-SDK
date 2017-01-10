@@ -80,6 +80,23 @@ Convenient methods are present in ALChatManager.m to register user with applozic
     [chatManager registerUser:aluser]; 
 ```
 
+#### NOTE: If access-token ([client authentication] (https://www.applozic.com/docs/configuration.html#access-token-url) ) validation from your server is configured, you need to set token generated from your server as password at time of user registration.
+
+i) Set Authentication type to CLIENT in ALChatManager.m
+
+```
+  [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)CLIENT];
+```
+
+ii) Set access token generated as password.  
+
+```
+  [user setPassword:<YOUR ACCESS TOKEN>];
+  
+  [ALUserDefaultsHandler setPassword:<YOUR ACCESS TOKEN>];
+  ``` 
+
+
 ####Step 3: Initiate Chat
 
 1) Launch chat list screen:
