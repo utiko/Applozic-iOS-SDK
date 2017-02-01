@@ -2918,7 +2918,7 @@
                 {
                     ALMessage *msg1 = [[self.alMessageWrapper getUpdatedMessageArray] objectAtIndex:0];
                     if(msg1.createdAtTime.doubleValue <= msg.createdAtTime.doubleValue) {
-                        NSLog(@"ignoring as coming message has grater time..continue....");
+                        //NSLog(@"ignoring as coming message has grater time..continue....");
                         continue;
                     }
                     

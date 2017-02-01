@@ -17,9 +17,21 @@
 
 @implementation ALChatManager
 
+-(instancetype) init{
+    
+    return [self initWithApplicationKey:APPLICATION_ID];
+}
+
+//========================//
+//
+// NOTE: Should be used only in case of distribution
+//
+//========================//
+
 -(instancetype)initWithApplicationKey:(NSString *)applicationKey;
 {
     self = [super init];
+    
     if (self)
     {
         [ALUserDefaultsHandler setApplicationKey:applicationKey];

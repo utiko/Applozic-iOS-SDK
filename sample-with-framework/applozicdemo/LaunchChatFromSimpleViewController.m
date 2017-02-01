@@ -19,11 +19,14 @@
 #import  <Applozic/ALContactService.h>
 #import  <Applozic/ALUserService.h>
 #import <Applozic/ALImagePickerHandler.h>
+#import <Applozic/ALMessageServiceWrapper.h>
+#import <Applozic/ALMessageDBService.h>
 @interface LaunchChatFromSimpleViewController ()
 
 - (IBAction)mLaunchChatList:(id)sender;
 - (IBAction)mChatLaunchButton:(id)sender;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationSwitch;
+@property (weak, nonatomic) IBOutlet UIButton *individualChatButton;
 
 @property (strong, nonatomic) IBOutlet UILabel *unreadCountLabel;
 
@@ -52,7 +55,7 @@
     
     [self.unreadCountLabel setBackgroundColor:[UIColor grayColor]];
     [self.unreadCountLabel setTextColor:[UIColor whiteColor]];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newMessageHandler) name:NEW_MESSAGE_NOTIFICATION  object:nil];
     [self newMessageHandler];
     if([ALUserDefaultsHandler isLoggedIn]){
@@ -112,7 +115,7 @@
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmail:[ALUserDefaultsHandler getEmailId]];
     
-    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
+    ALChatManager * chatManager = [[ALChatManager alloc] init];
     [chatManager registerUserAndLaunchChat:user andFromController:self forUser:nil withGroupId:nil];
 
     //Adding sample contacts...
@@ -127,24 +130,11 @@
 
 - (IBAction)mChatLaunchButton:(id)sender {
     
-    [self.view addSubview:_activityView];
-    [self.activityView startAnimating];
-    
-    ALUser * user = [[ALUser alloc] init];
-    [user setUserId:[ALUserDefaultsHandler getUserId]];
-    [user setEmail:[ALUserDefaultsHandler getEmailId]];
-
-    
-    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
-
-    [self checkUserContact:@"don222" displayName:@"" withCompletion:^(ALContact * contact) {
-
-         [chatManager launchChatForUserWithDisplayName:contact.userId withGroupId:nil
-                                        andwithDisplayName:contact.displayName andFromViewController:self];
-
-    }];
+    [self launchChatForUserInput];
 
 }
+
+
 
 -(void)checkUserContact:(NSString *)userId displayName:(NSString *)displayName withCompletion:(void(^)(ALContact * contact))completion
 {
@@ -215,7 +205,7 @@
         ALConversationProxy * newProxy = [[ALConversationProxy alloc] init];
         newProxy = [self makeupConversationDetails];
         
-         ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
+         ALChatManager * chatManager = [[ALChatManager alloc] init];
         [chatManager createAndLaunchChatWithSellerWithConversationProxy:newProxy fromViewController:self];
     }
     else
@@ -384,6 +374,59 @@
         NSLog(@"UPDATE Notification Mode Response :: %@ Error :: %@",response, error);
     }];
 }
+
+
+-(void)launchChatForUserInput
+{
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Invite for chat"
+                                                                             message:@"Enter userId of receiver "
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    [ALUtilityClass setAlertControllerFrame:alertController andViewController:self];
+    
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        
+        textField.placeholder = @"Enter userId.";
+    }];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"CANCEL"
+                                                        style:UIAlertActionStyleCancel
+                                                      handler:nil]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"OK"
+                                
+                     style:UIAlertActionStyleDefault
+                     handler:^(UIAlertAction *action) {
+                                                          
+                        UITextField *statusField = alertController.textFields.firstObject;
+                        
+                        NSString * userId = statusField.text;
+                        if(userId.length == 0 )
+                        {
+                            [ALUtilityClass showAlertMessage:@"userId can not be empty" andTitle:@""];
+                            return;
+                        }
+                         
+                         [self.view addSubview:_activityView];
+                         [self.activityView startAnimating];
+                         
+                         
+                         
+                         ALChatManager * chatManager = [[ALChatManager alloc] init];
+                         
+                         [self checkUserContact:userId displayName:@"" withCompletion:^(ALContact * contact) {
+                             
+                             [chatManager launchChatForUserWithDisplayName:contact.userId withGroupId:nil
+                                                        andwithDisplayName:contact.displayName andFromViewController:self];
+                             
+                         }];
+                         
+    }]];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+}
+
 
 -(void)subGroupCODE:(ALChatManager *)chatManager
 {
