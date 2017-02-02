@@ -59,7 +59,7 @@
 -(void)getChannelInformation:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey withCompletion:(void (^)(ALChannel *alChannel3)) completion
 {
     ALChannelDBService *channelDBService = [[ALChannelDBService alloc] init];
-    ALChannel *alChannel1 = [channelDBService checkChannelEntity:channelKey];
+    ALChannel *alChannel1 = [channelDBService loadChannelByKey:channelKey];
     
     if(alChannel1)
     {

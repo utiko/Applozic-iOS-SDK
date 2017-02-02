@@ -182,8 +182,8 @@
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"DB_CHANNEL_USER_X" inManagedObjectContext:theDBHandler.managedObjectContext];
-    [fetchRequest setPropertiesToFetch:[NSArray arrayWithObject:@"userId"]];
     [fetchRequest setEntity:entity];
+    [fetchRequest setPropertiesToFetch:[NSArray arrayWithObject:@"userId"]];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channelKey = %@", channelKey];
     [fetchRequest setPredicate:predicate];
@@ -196,7 +196,13 @@
     }
     else
     {
-        memberList = [NSMutableArray arrayWithArray:fetchedObjects];
+        
+        NSMutableArray* users = [NSMutableArray arrayWithArray:fetchedObjects];
+        
+        for (NSDictionary * theDictionary in users)
+        {
+            [memberList addObject:[theDictionary valueForKey:@"userId"]];
+        }
     }
     
     return memberList;
@@ -221,6 +227,7 @@
     alChannel.unreadCount = dbChannel.unreadCount;
     alChannel.adminKey = dbChannel.adminId;
     alChannel.type = dbChannel.type;
+    alChannel.membersName = [self getChannelMembersList:key];
     
     return alChannel;
 }
