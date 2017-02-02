@@ -443,9 +443,7 @@
             {
                 if(channel && channel.type == GROUP_OF_TWO)
                 {
-                    NSMutableArray * array = [[channel.clientChannelKey componentsSeparatedByString:@":"] mutableCopy];
-                    [array removeObject:[ALUserDefaultsHandler getUserId]];
-                    ALContact *grpContact = [contactDBService loadContactByKey:@"userId" value:array[1]];
+                    ALContact *grpContact = [contactDBService loadContactByKey:@"userId" value:[channel getReceiverIdInGroupOfTwo]];
                     contactCell.onlineImageMarker.hidden = (!grpContact.connected);
                 }
                 else
@@ -695,10 +693,9 @@
                 {
                     if(alChannel.type == GROUP_OF_TWO)
                     {
-                        NSMutableArray * array = [[alChannel.clientChannelKey componentsSeparatedByString:@":"] mutableCopy];
-                        [array removeObject:[ALUserDefaultsHandler getUserId]];
+                        NSString * receiverId =  [alChannel getReceiverIdInGroupOfTwo];
                         ALContactService * contactService = [ALContactService new];
-                        grpContact = [contactService loadContactByKey:@"userId" value:array[1]];
+                        grpContact = [contactService loadContactByKey:@"userId" value:receiverId];
                         contactCell.mUserNameLabel.text = [grpContact getDisplayName];
                         contactCell.onlineImageMarker.hidden = (!grpContact.connected);
                     }
@@ -923,10 +920,9 @@
         ALChannel *alChannel = [channelService getChannelByKey:message.groupId];
         if(alChannel.type == GROUP_OF_TWO)
         {
-            NSMutableArray * array = [[alChannel.clientChannelKey componentsSeparatedByString:@":"] mutableCopy];
-            [array removeObject:[ALUserDefaultsHandler getUserId]];
+            NSString* contactId = [alChannel getReceiverIdInGroupOfTwo];
             ALContactService * contactService = [ALContactService new];
-            ALContact * alContact = [contactService loadContactByKey:@"userId" value:array[1]];
+            ALContact * alContact = [contactService loadContactByKey:@"userId" value:contactId];
             self.detailChatViewController.contactIds = alContact.userId;
         }
 

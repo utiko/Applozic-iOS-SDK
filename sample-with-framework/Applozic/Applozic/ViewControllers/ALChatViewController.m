@@ -960,10 +960,8 @@
     if(self.alChannel.type == GROUP_OF_TWO)
     {
         NSLog(@"CURENT clientChannelKey :: %@",self.alChannel.clientChannelKey);
-        NSMutableArray * array = [[self.alChannel.clientChannelKey componentsSeparatedByString:@":"] mutableCopy];
-        [array removeObject:[ALUserDefaultsHandler getUserId]];
         ALContactService * contactService = [ALContactService new];
-        self.alContact = [contactService loadContactByKey:@"userId" value:array[1]];
+        self.alContact = [contactService loadContactByKey:@"userId" value:[self.alChannel getReceiverIdInGroupOfTwo]];
         [titleLabelButton setTitle:[self.alContact getDisplayName] forState:UIControlStateNormal];
     }
 }

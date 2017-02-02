@@ -54,5 +54,6 @@ typedef enum
 -(id)initWithDictonary:(NSDictionary *)messageDictonary;
 -(void)parseMessage:(id) messageJson;
 -(NSNumber *)getChannelMemberParentKey:(NSString *)userId;
+-(NSString*)getReceiverIdInGroupOfTwo;
 
 @end

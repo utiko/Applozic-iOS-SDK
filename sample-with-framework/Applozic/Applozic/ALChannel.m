@@ -62,4 +62,19 @@
     return nil;
 }
 
+-(NSString*)getReceiverIdInGroupOfTwo{
+    
+    if(self.type!=GROUP_OF_TWO){
+        return nil;
+    }
+    
+    for( NSString* userId in  _membersName){
+        
+        if(!([userId isEqualToString:[ALUserDefaultsHandler getUserId]]) ){
+            return userId;
+        }
+    }
+    return nil;
+}
+
 @end

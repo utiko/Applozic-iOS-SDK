@@ -118,9 +118,7 @@
         
         if (alchannel.type == GROUP_OF_TWO)
         {
-            NSMutableArray * array = [[alchannel.clientChannelKey componentsSeparatedByString:@":"] mutableCopy];
-            [array removeObject:[ALUserDefaultsHandler getUserId]];
-            ALContact * grpContact = [contactDbService loadContactByKey:@"userId" value:array[1]];
+            ALContact * grpContact = [contactDbService loadContactByKey:@"userId" value:[alchannel getReceiverIdInGroupOfTwo]];
             groupName = [grpContact getDisplayName];
         }
         
