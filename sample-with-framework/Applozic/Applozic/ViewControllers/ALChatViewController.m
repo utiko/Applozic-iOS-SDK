@@ -2741,7 +2741,6 @@
     
     if(self.comingFromBackground)
     {
-        self.comingFromBackground = NO;
         [self serverCallForLastSeen];
     }
 }
