@@ -17,21 +17,14 @@
 
 @implementation ALChatManager
 
--(instancetype) init{
+-(instancetype)init {
     
     return [self initWithApplicationKey:APPLICATION_ID];
 }
 
-//========================//
-//
-// NOTE: Should be used only in case of distribution
-//
-//========================//
-
 -(instancetype)initWithApplicationKey:(NSString *)applicationKey;
 {
     self = [super init];
-    
     if (self)
     {
         [ALUserDefaultsHandler setApplicationKey:applicationKey];
@@ -567,7 +560,7 @@
 //    [array addObject:[NSNumber numberWithInt:1]];
 //    [array addObject:[NSNumber numberWithInt:2]];
 //
-//    [ALApplozicSettings setContactTypeToFilter: array];      // SET ARRAY TO PREFERENCE
+//    [ALApplozicSettings setContactTypeToFilter: array];         // SET ARRAY TO PREFERENCE
     
     /************************************** 3rd PARTY VIEWS + MSg CONTAINER SETTINGS  *************************************/
     
