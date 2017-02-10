@@ -15,7 +15,7 @@ i) Open terminal and navigate to your project root directory and run command ```
 ii) Go to project directory open pod file and add code in that
 
 ```
- pod 'Applozic', '3.7.2'
+ pod 'Applozic', '~>3.8'
 ```
 
 For reference download our sample project here [**ApplozicCocoaPodDemo**](https://github.com/AppLozic/Applozic-iOS-Chat-Samples)
@@ -80,6 +80,23 @@ Convenient methods are present in ALChatManager.m to register user with applozic
     [chatManager registerUser:aluser]; 
 ```
 
+#### NOTE: if [access token validation](https://www.applozic.com/docs/configuration.html#access-token-url) is configured from your server then set your server generated token as password at the time of user registration.
+
+i) Set Authentication type to CLIENT in ALChatManager.m
+
+```
+  [ALUserDefaultsHandler setUserAuthenticationTypeId:(short)CLIENT];
+```
+
+ii) Set access token generated as password.  
+
+```
+  [user setPassword:<YOUR ACCESS TOKEN>];
+  
+  [ALUserDefaultsHandler setPassword:<YOUR ACCESS TOKEN>];
+  ``` 
+
+
 ####Step 3: Initiate Chat
 
 1) Launch chat list screen:
@@ -94,7 +111,7 @@ Convenient methods are present in ALChatManager.m to register user with applozic
   NSString * userIdOfReceiver =  @"receiverUserId";
   [chatManager launchChatForUserWithDisplayName:userIdOfReceiver 
   withGroupId:nil  //If launched for group, pass groupId(pass userId as nil)
-  andwithDisplayName:nil //Not mendatory, if receiver is not already registered you should pass Displayname.
+  andwithDisplayName:nil //Not mandatory, if receiver is not already registered you should pass Displayname.
   andFromViewController:<YOUR CONTROLLER> ];
   
 ```
@@ -149,14 +166,14 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 
     NSLog(@"Received notification WithoutCompletion: %@", dictionary);
     ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
-    [pushNotificationService processPushNotification:dictionary updateUI:[NSNumber numberWithInt:APP_STATE_INACTIVE]];
+    [pushNotificationService notificationArrivedToApplication:application withDictionary:dictionary];
 }
 
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
    
     NSLog(@"Received notification Completion: %@", userInfo);
     ALPushNotificationService *pushNotificationService = [[ALPushNotificationService alloc] init];
-    [pushNotificationService processPushNotification:userInfo updateUI:[NSNumber numberWithInt:APP_STATE_BACKGROUND]];
+     [pushNotificationService notificationArrivedToApplication:application withDictionary:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
     
 }
@@ -407,9 +424,7 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
     print("Received notification :: \(userInfo.description)")
     let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
-
-    let appState: NSNumber = NSNumber(value: 0 as Int32)                 // APP_STATE_INACTIVE
-    alPushNotificationService.processPushNotification(userInfo, updateUI: appState)
+    alPushNotificationService.notificationArrived(to: application, with: userInfo)
 }
     
 func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -417,8 +432,7 @@ func application(_ application: UIApplication, didReceiveRemoteNotification user
     print("Received notification With Completion :: \(userInfo.description)")
     let alPushNotificationService: ALPushNotificationService = ALPushNotificationService()
 
-    let appState: NSNumber = NSNumber(value: -1 as Int32)                // APP_STATE_BACKGROUND
-    alPushNotificationService.processPushNotification(userInfo, updateUI: appState)
+    alPushNotificationService.notificationArrived(to: application, with: userInfo)
     completionHandler(UIBackgroundFetchResult.newData)
 }                                                         
 ```

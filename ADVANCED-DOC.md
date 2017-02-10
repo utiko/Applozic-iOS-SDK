@@ -34,7 +34,7 @@ short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
   ``` 
      ALChannelService *channelService = [ALChannelService new];
      ALChannel *alChannel = [channelService getChannelByKey:channelKey];
-     NSNumber *unreadCount = [channel unreadCount];
+     NSNumber *unreadCount = [alChannel unreadCount];
  ```
   
 3. OVER ALL UNREAD COUNT (Contacts + Groups)
@@ -147,6 +147,51 @@ You can send extra information along with message text as meta-data. These key v
 }
 
 ```
+### Send Message With Attachment
+
+You can use below method to send message with attachments.  
+
+```
+MessageServiceWrapper * wrapperService  = [MessageServiceWrapper new];
+
+//build message Objects
+ALMessage * almessage = [wrapperService createMessageEntityOfContentType:ALMESSAGE_CONTENT_ATTACHMENT toSendTo:@"receiverContact" withText:@"Text"];
+
+//get file path of attachment
+UIImage *image = [UIImage imageNamed:@"IMGE_NAME"]; 
+NSString * filePath = [ALImagePickerHandler saveImageToDocDirectory:image];
+
+[wrapperService sendMessage:almessage withAttachmentAtLocation:filePath andWithStatusDelegate:self andContentType:ALMESSAGE_CONTENT_ATTACHMENT];
+```
+
+- You can also implement delegate to recevie status update of upload and download.
+
+```
+// bytes downloaded  
+-(void)updateBytesDownloaded:(NSUInteger) bytesReceived;
+
+//bytes uploaded 
+-(void)updateBytesUploaded:(NSUInteger) bytesSent;
+
+//download OR upload  failed 
+-(void)uploadDownloadFailed:(ALMessage*)alMessage;
+
+//upload completed 
+-(void)uploadCompleted:(ALMessage *) alMessage;
+
+//download completed
+-(void)DownloadCompleted:(ALMessage *) alMessage;
+
+```
+
+### Download Message's attachment
+
+```
+ALMessageServiceWrapper * wrapperService  = [ALMessageServiceWrapper new];
+wrapperService.messageServiceDelegate = self;
+wrapperService downloadMessageAttachment:alMessage];
+```
+NOTE: Once successfully downloaded, attachment will be saved and almessage object will have file path  information(almessage.imageFilePath).
 
 ### Get Latest Message for USER and CHANNEL
 
@@ -305,6 +350,25 @@ Below are additional APIs for contact load, update, delete and requires a ALCont
   
  ```
  
+Show all registered contacts in my application 
+
+** Objective - C **
+
+In AlChatManager.m in method -(void)ALDefaultChatViewSettings method update
+
+```
+   [ALApplozicSettings setFilterContactsStatus:YES]; 
+   
+```
+
+** Swift **
+
+In AlChatManager.m in method func ALDefaultChatViewSettings () method update
+
+```
+   ALApplozicSettings.setFilterContactsStatus(true) 
+   
+```
 
 ### Contextual Conversation
  
@@ -585,5 +649,28 @@ open func checkAdmin(_ channelKey: NSNumber!) -> Bool
 | channelKey  | No |   | applozic channelKey.|
 
 If admin successfully then it will return YES else NO.                   
+
+### Adding button on navigationbar and getting callback outside SDK.
+
+- To Add custom buttons on navigationbar and executing callbacks outside SDK, you need to [checkout and add our open source client code](https://www.applozic.com/blog/add-applozic-chat-framework-ios/) and make below changes.
+
+STEP 1: Create your custom navigation class extending ALNavigationController and override
+-(void)customNavigationItemClicked:(id)sender withTag:(NSString*)buttonName;
+
+STEP2: Set this setting in ALDefaultChatViewSettings
+```
+[ALApplozicSettings setNavigationControllerClassName:@"YOUR CUSTOM CLASS NAME (STEP1)"];
+```
+STEP3: Add below in button selector -(void)buttonSelector.
+
+```
+-(void)buttonSelector
+{
+    ALNavigationController * controller = (ALNavigationController*)self.navigationController;
+    [ controller customNavigationItemClicked:nil withTag:@"button_tag"];
+}
+```
+
+
 
 

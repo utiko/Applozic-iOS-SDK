@@ -15,10 +15,14 @@
 @property (nonatomic, retain) NSString *channelImageURL;
 @property (nonatomic, retain) NSNumber *channelKey;
 @property (nonatomic, retain) NSNumber *parentGroupKey;
+@property (nonatomic, retain) NSString *parentClientGroupKey;
 
 @property (nonatomic, retain) NSString *clientChannelKey;
 @property (nonatomic) short type;
 @property (nonatomic, strong) NSNumber *userCount;
 @property (nonatomic, strong) NSNumber *unreadCount;
 @property (nonatomic) BOOL isLeft;
+@property (nonatomic, strong) NSNumber* notificationAfterTime;
+@property (nonatomic, strong) NSNumber* deletedAtTime;
+
 @end

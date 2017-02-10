@@ -65,6 +65,10 @@
 #define CUSTOM_MSG_FONT @"com.applozic.userdefault.CUSTOM_MSG_FONT"
 #define FILTER_ONLY_CONTACT_TYPE_ID @"com.applozic.userdefault.FILTER_ONLY_CONTACT_TYPE_ID"
 #define CUSTOM_NAVIGATION_CLASS_NAME @"com.applozic.userdefault.NAVIGATION_CONTROLLER_CLASS_NAME"
+#define SUB_GROUP_LAUNCH @"com.applozic.userdefault.SUB_GROUP_LAUNCH"
+#define VIEW_CONTROLLER_ARRAY @"com.applozic.userdefault.VIEW_CONTROLLER_ARRAY"
+#define MSG_CONTAINER_VC @"com.applozic.userdefault.MSG_CONTAINER_VC"
+#define GROUP_DELETED_TITLE @"com.applozic.userdefault.GROUP_DELETED_TITLE"
 
 #define NAVIGATION_CONTROLLER_CLASS_NAME @"com.applozic.userdefault.NAVIGATION_CONTROLLER_CLASS_NAME"
 
@@ -267,7 +271,19 @@
 +(void) setContactTypeToFilter:(NSMutableArray*)arrayWithIds;
 +(NSMutableArray*) getContactTypeToFilter;
 
-+(NSString *)getCustomNavigationControllerClassName;
++(NSString *)getCustomNavigationControllerClassName; 
 +(void)setNavigationControllerClassName:(NSString *)className;
+
++(BOOL)getSubGroupLaunchFlag;
++(void)setSubGroupLaunchFlag:(BOOL)flag;
+
++(NSArray *)getListOfViewControllers;
++(void)setListOfViewControllers:(NSArray *)viewList;
+
++(void)setMsgContainerVC:(NSString *)className;
++(NSString *)getMsgContainerVC;
+
++(NSString *)getGroupDeletedTitle;
++(void)setGroupDeletedTitle:(NSString *)title;
 
 @end

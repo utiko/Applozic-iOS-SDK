@@ -45,7 +45,7 @@
 
 -(NSMutableArray*)getAllChannelKeyAndName;
 
--(void)updateChannel:(NSNumber *)channelKey andNewName:(NSString *)newName orImageURL:(NSString *)imageURL;
+-(void)updateChannel:(NSNumber *)channelKey andNewName:(NSString *)newName orImageURL:(NSString *)imageURL orChildKeys:(NSMutableArray *)childKeysList;
 
 -(void)processArrayAfterSyncCall:(NSMutableArray *)channelArray;
 
@@ -61,6 +61,14 @@
 
 -(BOOL)isChannelLeft:(NSNumber *)groupId;
 
+-(BOOL)isChannelDeleted:(NSNumber *)groupId;
+
+-(void) updateChannelParentKey:(NSNumber *)channelKey
+              andWithParentKey:(NSNumber *)channelParentKey isAdding:(BOOL)flag;
+
+-(void)updateClientChannelParentKey:(NSString *)clientChildKey
+                   andWithClientParentKey:(NSString *)clientParentKey isAdding:(BOOL)flag;
+
 -(NSNumber *)getOverallUnreadCountForChannelFromDB;
 
 -(ALChannel *)loadChannelByClientChannelKey:(NSString *)clientChannelKey;
@@ -68,5 +76,9 @@
 -(void)removedMembersArray:(NSMutableArray *)memberArray andChannelKey:(NSNumber *)channelKey;
 
 -(void)addedMembersArray:(NSMutableArray *)memberArray andChannelKey:(NSNumber *)channelKey;
+
+-(NSMutableArray *)fetchChildChannels:(NSNumber *)parentGroupKey;
+
+-(void)updateMuteAfterTime:(NSNumber*)notificationAfterTime andChnnelKey:(NSNumber*)channelKey;
 
 @end

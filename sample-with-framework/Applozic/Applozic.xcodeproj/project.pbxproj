@@ -21,10 +21,49 @@
 		29CBF2031C0303A700BE6A20 /* ALColorUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CBF2011C0303A700BE6A20 /* ALColorUtility.m */; };
 		29D6F86B1D193D9D00A75369 /* PSPDFTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 29D6F8691D193D9D00A75369 /* PSPDFTextView.h */; };
 		29D6F86C1D193D9D00A75369 /* PSPDFTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 29D6F86A1D193D9D00A75369 /* PSPDFTextView.m */; };
-		3DE73E2F1E0D45EC00261716 /* ALChannelUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE73E2D1E0D45EC00261716 /* ALChannelUser.m */; };
-		3DE73E301E0D45EC00261716 /* ALChannelUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3DE73E2E1E0D45EC00261716 /* ALChannelUser.h */; };
+		4612E8F31E13882D0022DB23 /* Doxyfile in Resources */ = {isa = PBXBuildFile; fileRef = 4612E8CB1E13882D0022DB23 /* Doxyfile */; };
+		4612E8F41E13882D0022DB23 /* MQTTCFSocketDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8CC1E13882D0022DB23 /* MQTTCFSocketDecoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E8F51E13882D0022DB23 /* MQTTCFSocketDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8CD1E13882D0022DB23 /* MQTTCFSocketDecoder.m */; };
+		4612E8F61E13882D0022DB23 /* MQTTCFSocketEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8CE1E13882D0022DB23 /* MQTTCFSocketEncoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E8F71E13882D0022DB23 /* MQTTCFSocketEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8CF1E13882D0022DB23 /* MQTTCFSocketEncoder.m */; };
+		4612E8F81E13882D0022DB23 /* MQTTCFSocketTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8D01E13882D0022DB23 /* MQTTCFSocketTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E8F91E13882D0022DB23 /* MQTTCFSocketTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8D11E13882D0022DB23 /* MQTTCFSocketTransport.m */; };
+		4612E8FA1E13882D0022DB23 /* MQTTClient-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8D21E13882D0022DB23 /* MQTTClient-Prefix.pch */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E8FB1E13882D0022DB23 /* MQTTClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8D31E13882D0022DB23 /* MQTTClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E8FC1E13882D0022DB23 /* MQTTClient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8D41E13882D0022DB23 /* MQTTClient.xcdatamodeld */; };
+		4612E8FD1E13882D0022DB23 /* MQTTCoreDataPersistence.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8D61E13882D0022DB23 /* MQTTCoreDataPersistence.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E8FE1E13882D0022DB23 /* MQTTCoreDataPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8D71E13882D0022DB23 /* MQTTCoreDataPersistence.m */; };
+		4612E8FF1E13882D0022DB23 /* MQTTDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8D81E13882D0022DB23 /* MQTTDecoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E9001E13882D0022DB23 /* MQTTDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8D91E13882D0022DB23 /* MQTTDecoder.m */; };
+		4612E9011E13882D0022DB23 /* MQTTInMemoryPersistence.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8DA1E13882D0022DB23 /* MQTTInMemoryPersistence.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E9021E13882D0022DB23 /* MQTTInMemoryPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8DB1E13882D0022DB23 /* MQTTInMemoryPersistence.m */; };
+		4612E9031E13882D0022DB23 /* MQTTLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8DC1E13882D0022DB23 /* MQTTLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E9041E13882D0022DB23 /* MQTTMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8DD1E13882D0022DB23 /* MQTTMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E9051E13882D0022DB23 /* MQTTMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8DE1E13882D0022DB23 /* MQTTMessage.m */; };
+		4612E9061E13882D0022DB23 /* MQTTPersistence.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8DF1E13882D0022DB23 /* MQTTPersistence.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E9071E13882D0022DB23 /* MQTTSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8E01E13882D0022DB23 /* MQTTSession.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E9081E13882D0022DB23 /* MQTTSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8E11E13882D0022DB23 /* MQTTSession.m */; };
+		4612E9091E13882D0022DB23 /* MQTTSessionLegacy.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8E21E13882D0022DB23 /* MQTTSessionLegacy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E90A1E13882D0022DB23 /* MQTTSessionLegacy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8E31E13882D0022DB23 /* MQTTSessionLegacy.m */; };
+		4612E90B1E13882D0022DB23 /* MQTTSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8E41E13882D0022DB23 /* MQTTSessionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E90C1E13882D0022DB23 /* MQTTSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8E51E13882D0022DB23 /* MQTTSessionManager.m */; };
+		4612E90D1E13882D0022DB23 /* MQTTSessionSynchron.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8E61E13882D0022DB23 /* MQTTSessionSynchron.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E90E1E13882D0022DB23 /* MQTTSessionSynchron.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8E71E13882D0022DB23 /* MQTTSessionSynchron.m */; };
+		4612E90F1E13882D0022DB23 /* MQTTSSLSecurityPolicy.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8E81E13882D0022DB23 /* MQTTSSLSecurityPolicy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E9101E13882D0022DB23 /* MQTTSSLSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8E91E13882D0022DB23 /* MQTTSSLSecurityPolicy.m */; };
+		4612E9111E13882D0022DB23 /* MQTTSSLSecurityPolicyDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8EA1E13882D0022DB23 /* MQTTSSLSecurityPolicyDecoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E9121E13882D0022DB23 /* MQTTSSLSecurityPolicyDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8EB1E13882D0022DB23 /* MQTTSSLSecurityPolicyDecoder.m */; };
+		4612E9131E13882D0022DB23 /* MQTTSSLSecurityPolicyEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8EC1E13882D0022DB23 /* MQTTSSLSecurityPolicyEncoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E9141E13882D0022DB23 /* MQTTSSLSecurityPolicyEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8ED1E13882D0022DB23 /* MQTTSSLSecurityPolicyEncoder.m */; };
+		4612E9151E13882D0022DB23 /* MQTTSSLSecurityPolicyTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8EE1E13882D0022DB23 /* MQTTSSLSecurityPolicyTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E9161E13882D0022DB23 /* MQTTSSLSecurityPolicyTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8EF1E13882D0022DB23 /* MQTTSSLSecurityPolicyTransport.m */; };
+		4612E9171E13882D0022DB23 /* MQTTTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 4612E8F01E13882D0022DB23 /* MQTTTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4612E9181E13882D0022DB23 /* MQTTTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4612E8F11E13882D0022DB23 /* MQTTTransport.m */; };
+		4612E9191E13882D0022DB23 /* MQTTWebsocketTransport in Resources */ = {isa = PBXBuildFile; fileRef = 4612E8F21E13882D0022DB23 /* MQTTWebsocketTransport */; };
 		463E49201DB7B45D00CDFFE6 /* ALVCardClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 463E491E1DB7B45D00CDFFE6 /* ALVCardClass.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		463E49211DB7B45D00CDFFE6 /* ALVCardClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 463E491F1DB7B45D00CDFFE6 /* ALVCardClass.m */; };
+		464F7D191E1D345300B68DCC /* ALChannelUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 464F7D171E1D345300B68DCC /* ALChannelUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		464F7D1A1E1D345300B68DCC /* ALChannelUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 464F7D181E1D345300B68DCC /* ALChannelUser.m */; };
 		46ABAAD71DA4054000EC48AC /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46ABAAD51DA4054000EC48AC /* Contacts.framework */; };
 		46ABAAD81DA4054000EC48AC /* ContactsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46ABAAD61DA4054000EC48AC /* ContactsUI.framework */; };
 		6D0877081D01B0F900DB491A /* UIView+Toast.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D0877071D01B0F900DB491A /* UIView+Toast.h */; };
@@ -284,24 +323,12 @@
 		6DDB074A1CB9162A00B99F33 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DDB07491CB9162A00B99F33 /* AddressBook.framework */; };
 		6DEAEE8C1D4CDBC700360060 /* ALUserProfileVC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DEAEE8A1D4CDBC700360060 /* ALUserProfileVC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6DEAEE8D1D4CDBC700360060 /* ALUserProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DEAEE8B1D4CDBC700360060 /* ALUserProfileVC.m */; };
-		982F13041C05D6050024678E /* MQTTClient-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */; settings = {ATTRIBUTES = (Public, ); }; };
-		982F13051C05D6050024678E /* MQTTClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F51C05D6040024678E /* MQTTClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		982F13061C05D6050024678E /* MQTTDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F61C05D6040024678E /* MQTTDecoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		982F13071C05D6050024678E /* MQTTDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F12F71C05D6040024678E /* MQTTDecoder.m */; };
-		982F13081C05D6050024678E /* MQTTEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F12F81C05D6040024678E /* MQTTEncoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		982F13091C05D6050024678E /* MQTTEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F12F91C05D6040024678E /* MQTTEncoder.m */; };
-		982F130A1C05D6050024678E /* MQTTMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F12FA1C05D6040024678E /* MQTTMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		982F130B1C05D6050024678E /* MQTTMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F12FB1C05D6040024678E /* MQTTMessage.m */; };
-		982F130C1C05D6050024678E /* MQTTPersistence.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F12FC1C05D6040024678E /* MQTTPersistence.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		982F130D1C05D6050024678E /* MQTTPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F12FD1C05D6040024678E /* MQTTPersistence.m */; };
-		982F130E1C05D6050024678E /* MQTTSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F12FE1C05D6040024678E /* MQTTSession.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		982F130F1C05D6050024678E /* MQTTSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F12FF1C05D6040024678E /* MQTTSession.m */; };
-		982F13101C05D6050024678E /* MQTTSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F13001C05D6040024678E /* MQTTSessionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		982F13111C05D6050024678E /* MQTTSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F13011C05D6040024678E /* MQTTSessionManager.m */; };
-		982F13121C05D6050024678E /* MQTTSSLSecurityPolicy.h in Headers */ = {isa = PBXBuildFile; fileRef = 982F13021C05D6040024678E /* MQTTSSLSecurityPolicy.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		982F13131C05D6050024678E /* MQTTSSLSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F13031C05D6040024678E /* MQTTSSLSecurityPolicy.m */; };
 		C70273CB1DED445E00BA2C8A /* ALUserDetailListFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = C70273C91DED445E00BA2C8A /* ALUserDetailListFeed.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C70273CC1DED445E00BA2C8A /* ALUserDetailListFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = C70273CA1DED445E00BA2C8A /* ALUserDetailListFeed.m */; };
+		C70983071E0177E900FC93A1 /* ALMessageServiceWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = C70983051E0177E900FC93A1 /* ALMessageServiceWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C70983081E0177E900FC93A1 /* ALMessageServiceWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = C70983061E0177E900FC93A1 /* ALMessageServiceWrapper.m */; };
+		C75576EE1E27A5B300358D9B /* ALMuteRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C75576EC1E27A5B300358D9B /* ALMuteRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C75576EF1E27A5B300358D9B /* ALMuteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C75576ED1E27A5B300358D9B /* ALMuteRequest.m */; };
 		C76366081DF82B500087221C /* ALNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = C76366061DF82B500087221C /* ALNavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C76366091DF82B500087221C /* ALNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C76366071DF82B500087221C /* ALNavigationController.m */; };
 /* End PBXBuildFile section */
@@ -321,12 +348,52 @@
 		29CBF2011C0303A700BE6A20 /* ALColorUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALColorUtility.m; sourceTree = "<group>"; };
 		29D6F8691D193D9D00A75369 /* PSPDFTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSPDFTextView.h; sourceTree = "<group>"; };
 		29D6F86A1D193D9D00A75369 /* PSPDFTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSPDFTextView.m; sourceTree = "<group>"; };
-		3DE73E2D1E0D45EC00261716 /* ALChannelUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALChannelUser.m; path = Applozic/ALChannelUser.m; sourceTree = "<group>"; };
-		3DE73E2E1E0D45EC00261716 /* ALChannelUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALChannelUser.h; path = Applozic/ALChannelUser.h; sourceTree = "<group>"; };
+		4612E8CB1E13882D0022DB23 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Doxyfile; path = Applozic/MQTT/Doxyfile; sourceTree = "<group>"; };
+		4612E8CC1E13882D0022DB23 /* MQTTCFSocketDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTCFSocketDecoder.h; path = Applozic/MQTT/MQTTCFSocketDecoder.h; sourceTree = "<group>"; };
+		4612E8CD1E13882D0022DB23 /* MQTTCFSocketDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTCFSocketDecoder.m; path = Applozic/MQTT/MQTTCFSocketDecoder.m; sourceTree = "<group>"; };
+		4612E8CE1E13882D0022DB23 /* MQTTCFSocketEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTCFSocketEncoder.h; path = Applozic/MQTT/MQTTCFSocketEncoder.h; sourceTree = "<group>"; };
+		4612E8CF1E13882D0022DB23 /* MQTTCFSocketEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTCFSocketEncoder.m; path = Applozic/MQTT/MQTTCFSocketEncoder.m; sourceTree = "<group>"; };
+		4612E8D01E13882D0022DB23 /* MQTTCFSocketTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTCFSocketTransport.h; path = Applozic/MQTT/MQTTCFSocketTransport.h; sourceTree = "<group>"; };
+		4612E8D11E13882D0022DB23 /* MQTTCFSocketTransport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTCFSocketTransport.m; path = Applozic/MQTT/MQTTCFSocketTransport.m; sourceTree = "<group>"; };
+		4612E8D21E13882D0022DB23 /* MQTTClient-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MQTTClient-Prefix.pch"; path = "Applozic/MQTT/MQTTClient-Prefix.pch"; sourceTree = "<group>"; };
+		4612E8D31E13882D0022DB23 /* MQTTClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTClient.h; path = Applozic/MQTT/MQTTClient.h; sourceTree = "<group>"; };
+		4612E8D51E13882D0022DB23 /* MQTTClient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MQTTClient.xcdatamodel; sourceTree = "<group>"; };
+		4612E8D61E13882D0022DB23 /* MQTTCoreDataPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTCoreDataPersistence.h; path = Applozic/MQTT/MQTTCoreDataPersistence.h; sourceTree = "<group>"; };
+		4612E8D71E13882D0022DB23 /* MQTTCoreDataPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTCoreDataPersistence.m; path = Applozic/MQTT/MQTTCoreDataPersistence.m; sourceTree = "<group>"; };
+		4612E8D81E13882D0022DB23 /* MQTTDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTDecoder.h; path = Applozic/MQTT/MQTTDecoder.h; sourceTree = "<group>"; };
+		4612E8D91E13882D0022DB23 /* MQTTDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTDecoder.m; path = Applozic/MQTT/MQTTDecoder.m; sourceTree = "<group>"; };
+		4612E8DA1E13882D0022DB23 /* MQTTInMemoryPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTInMemoryPersistence.h; path = Applozic/MQTT/MQTTInMemoryPersistence.h; sourceTree = "<group>"; };
+		4612E8DB1E13882D0022DB23 /* MQTTInMemoryPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTInMemoryPersistence.m; path = Applozic/MQTT/MQTTInMemoryPersistence.m; sourceTree = "<group>"; };
+		4612E8DC1E13882D0022DB23 /* MQTTLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTLog.h; path = Applozic/MQTT/MQTTLog.h; sourceTree = "<group>"; };
+		4612E8DD1E13882D0022DB23 /* MQTTMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTMessage.h; path = Applozic/MQTT/MQTTMessage.h; sourceTree = "<group>"; };
+		4612E8DE1E13882D0022DB23 /* MQTTMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTMessage.m; path = Applozic/MQTT/MQTTMessage.m; sourceTree = "<group>"; };
+		4612E8DF1E13882D0022DB23 /* MQTTPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTPersistence.h; path = Applozic/MQTT/MQTTPersistence.h; sourceTree = "<group>"; };
+		4612E8E01E13882D0022DB23 /* MQTTSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTSession.h; path = Applozic/MQTT/MQTTSession.h; sourceTree = "<group>"; };
+		4612E8E11E13882D0022DB23 /* MQTTSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSession.m; path = Applozic/MQTT/MQTTSession.m; sourceTree = "<group>"; };
+		4612E8E21E13882D0022DB23 /* MQTTSessionLegacy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTSessionLegacy.h; path = Applozic/MQTT/MQTTSessionLegacy.h; sourceTree = "<group>"; };
+		4612E8E31E13882D0022DB23 /* MQTTSessionLegacy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSessionLegacy.m; path = Applozic/MQTT/MQTTSessionLegacy.m; sourceTree = "<group>"; };
+		4612E8E41E13882D0022DB23 /* MQTTSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTSessionManager.h; path = Applozic/MQTT/MQTTSessionManager.h; sourceTree = "<group>"; };
+		4612E8E51E13882D0022DB23 /* MQTTSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSessionManager.m; path = Applozic/MQTT/MQTTSessionManager.m; sourceTree = "<group>"; };
+		4612E8E61E13882D0022DB23 /* MQTTSessionSynchron.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTSessionSynchron.h; path = Applozic/MQTT/MQTTSessionSynchron.h; sourceTree = "<group>"; };
+		4612E8E71E13882D0022DB23 /* MQTTSessionSynchron.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSessionSynchron.m; path = Applozic/MQTT/MQTTSessionSynchron.m; sourceTree = "<group>"; };
+		4612E8E81E13882D0022DB23 /* MQTTSSLSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTSSLSecurityPolicy.h; path = Applozic/MQTT/MQTTSSLSecurityPolicy.h; sourceTree = "<group>"; };
+		4612E8E91E13882D0022DB23 /* MQTTSSLSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSSLSecurityPolicy.m; path = Applozic/MQTT/MQTTSSLSecurityPolicy.m; sourceTree = "<group>"; };
+		4612E8EA1E13882D0022DB23 /* MQTTSSLSecurityPolicyDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTSSLSecurityPolicyDecoder.h; path = Applozic/MQTT/MQTTSSLSecurityPolicyDecoder.h; sourceTree = "<group>"; };
+		4612E8EB1E13882D0022DB23 /* MQTTSSLSecurityPolicyDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSSLSecurityPolicyDecoder.m; path = Applozic/MQTT/MQTTSSLSecurityPolicyDecoder.m; sourceTree = "<group>"; };
+		4612E8EC1E13882D0022DB23 /* MQTTSSLSecurityPolicyEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTSSLSecurityPolicyEncoder.h; path = Applozic/MQTT/MQTTSSLSecurityPolicyEncoder.h; sourceTree = "<group>"; };
+		4612E8ED1E13882D0022DB23 /* MQTTSSLSecurityPolicyEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSSLSecurityPolicyEncoder.m; path = Applozic/MQTT/MQTTSSLSecurityPolicyEncoder.m; sourceTree = "<group>"; };
+		4612E8EE1E13882D0022DB23 /* MQTTSSLSecurityPolicyTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTSSLSecurityPolicyTransport.h; path = Applozic/MQTT/MQTTSSLSecurityPolicyTransport.h; sourceTree = "<group>"; };
+		4612E8EF1E13882D0022DB23 /* MQTTSSLSecurityPolicyTransport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSSLSecurityPolicyTransport.m; path = Applozic/MQTT/MQTTSSLSecurityPolicyTransport.m; sourceTree = "<group>"; };
+		4612E8F01E13882D0022DB23 /* MQTTTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTTransport.h; path = Applozic/MQTT/MQTTTransport.h; sourceTree = "<group>"; };
+		4612E8F11E13882D0022DB23 /* MQTTTransport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTTransport.m; path = Applozic/MQTT/MQTTTransport.m; sourceTree = "<group>"; };
+		4612E8F21E13882D0022DB23 /* MQTTWebsocketTransport */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MQTTWebsocketTransport; path = Applozic/MQTT/MQTTWebsocketTransport; sourceTree = "<group>"; };
 		463E491E1DB7B45D00CDFFE6 /* ALVCardClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALVCardClass.h; path = Applozic/ALVCardClass.h; sourceTree = "<group>"; };
 		463E491F1DB7B45D00CDFFE6 /* ALVCardClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALVCardClass.m; path = Applozic/ALVCardClass.m; sourceTree = "<group>"; };
+		464F7D171E1D345300B68DCC /* ALChannelUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALChannelUser.h; path = Applozic/ALChannelUser.h; sourceTree = "<group>"; };
+		464F7D181E1D345300B68DCC /* ALChannelUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALChannelUser.m; path = Applozic/ALChannelUser.m; sourceTree = "<group>"; };
 		46ABAAD51DA4054000EC48AC /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 		46ABAAD61DA4054000EC48AC /* ContactsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ContactsUI.framework; path = System/Library/Frameworks/ContactsUI.framework; sourceTree = SDKROOT; };
+		46FD67DB1E1D0DBC00580A0F /* AppLozic 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "AppLozic 3.xcdatamodel"; sourceTree = "<group>"; };
 		6D0877071D01B0F900DB491A /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
 		6D0877091D01B0FE00DB491A /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
 		6D0D10781D4CD7B6009853FB /* ALImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALImagePickerController.h; sourceTree = "<group>"; };
@@ -585,26 +652,15 @@
 		6DDB07491CB9162A00B99F33 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		6DEAEE8A1D4CDBC700360060 /* ALUserProfileVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUserProfileVC.h; sourceTree = "<group>"; };
 		6DEAEE8B1D4CDBC700360060 /* ALUserProfileVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUserProfileVC.m; sourceTree = "<group>"; };
-		982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MQTTClient-Prefix.pch"; path = "Applozic/MQTT/MQTTClient-Prefix.pch"; sourceTree = "<group>"; };
-		982F12F51C05D6040024678E /* MQTTClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTClient.h; path = Applozic/MQTT/MQTTClient.h; sourceTree = "<group>"; };
-		982F12F61C05D6040024678E /* MQTTDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTDecoder.h; path = Applozic/MQTT/MQTTDecoder.h; sourceTree = "<group>"; };
-		982F12F71C05D6040024678E /* MQTTDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTDecoder.m; path = Applozic/MQTT/MQTTDecoder.m; sourceTree = "<group>"; };
-		982F12F81C05D6040024678E /* MQTTEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTEncoder.h; path = Applozic/MQTT/MQTTEncoder.h; sourceTree = "<group>"; };
-		982F12F91C05D6040024678E /* MQTTEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTEncoder.m; path = Applozic/MQTT/MQTTEncoder.m; sourceTree = "<group>"; };
-		982F12FA1C05D6040024678E /* MQTTMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTMessage.h; path = Applozic/MQTT/MQTTMessage.h; sourceTree = "<group>"; };
-		982F12FB1C05D6040024678E /* MQTTMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTMessage.m; path = Applozic/MQTT/MQTTMessage.m; sourceTree = "<group>"; };
-		982F12FC1C05D6040024678E /* MQTTPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTPersistence.h; path = Applozic/MQTT/MQTTPersistence.h; sourceTree = "<group>"; };
-		982F12FD1C05D6040024678E /* MQTTPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTPersistence.m; path = Applozic/MQTT/MQTTPersistence.m; sourceTree = "<group>"; };
-		982F12FE1C05D6040024678E /* MQTTSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTSession.h; path = Applozic/MQTT/MQTTSession.h; sourceTree = "<group>"; };
-		982F12FF1C05D6040024678E /* MQTTSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSession.m; path = Applozic/MQTT/MQTTSession.m; sourceTree = "<group>"; };
-		982F13001C05D6040024678E /* MQTTSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTSessionManager.h; path = Applozic/MQTT/MQTTSessionManager.h; sourceTree = "<group>"; };
-		982F13011C05D6040024678E /* MQTTSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSessionManager.m; path = Applozic/MQTT/MQTTSessionManager.m; sourceTree = "<group>"; };
-		982F13021C05D6040024678E /* MQTTSSLSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTSSLSecurityPolicy.h; path = Applozic/MQTT/MQTTSSLSecurityPolicy.h; sourceTree = "<group>"; };
-		982F13031C05D6040024678E /* MQTTSSLSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTSSLSecurityPolicy.m; path = Applozic/MQTT/MQTTSSLSecurityPolicy.m; sourceTree = "<group>"; };
 		C70273C91DED445E00BA2C8A /* ALUserDetailListFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALUserDetailListFeed.h; path = Applozic/ALUserDetailListFeed.h; sourceTree = "<group>"; };
 		C70273CA1DED445E00BA2C8A /* ALUserDetailListFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALUserDetailListFeed.m; path = Applozic/ALUserDetailListFeed.m; sourceTree = "<group>"; };
+		C70983051E0177E900FC93A1 /* ALMessageServiceWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALMessageServiceWrapper.h; path = Applozic/ALMessageServiceWrapper.h; sourceTree = "<group>"; };
+		C70983061E0177E900FC93A1 /* ALMessageServiceWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMessageServiceWrapper.m; path = Applozic/ALMessageServiceWrapper.m; sourceTree = "<group>"; };
+		C75576EC1E27A5B300358D9B /* ALMuteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALMuteRequest.h; path = Applozic/ALMuteRequest.h; sourceTree = "<group>"; };
+		C75576ED1E27A5B300358D9B /* ALMuteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALMuteRequest.m; path = Applozic/ALMuteRequest.m; sourceTree = "<group>"; };
 		C76366061DF82B500087221C /* ALNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALNavigationController.h; sourceTree = "<group>"; };
 		C76366071DF82B500087221C /* ALNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALNavigationController.m; sourceTree = "<group>"; };
+		C7C173AC1E3EE4CF00AF2031 /* AppLozic 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "AppLozic 4.xcdatamodel"; sourceTree = "<group>"; };
 		C7EF19C71DF2FDB600529704 /* AppLozic 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "AppLozic 2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -994,6 +1050,8 @@
 				6D6DF0BF1BC5364C00EBA00F /* ALMessageDBService.h */,
 				6D6DF09F1BC5364C00EBA00F /* ALMessageService.m */,
 				6D6DF09E1BC5364C00EBA00F /* ALMessageService.h */,
+				C70983051E0177E900FC93A1 /* ALMessageServiceWrapper.h */,
+				C70983061E0177E900FC93A1 /* ALMessageServiceWrapper.m */,
 			);
 			name = message;
 			sourceTree = "<group>";
@@ -1150,6 +1208,8 @@
 		6DCC30061C315A3D00F17D0E /* ALChannel */ = {
 			isa = PBXGroup;
 			children = (
+				464F7D171E1D345300B68DCC /* ALChannelUser.h */,
+				464F7D181E1D345300B68DCC /* ALChannelUser.m */,
 				6D7756971D5B80DF0025560B /* ALChannel.h */,
 				6D7756981D5B80DF0025560B /* ALChannel.m */,
 				6D7756991D5B80DF0025560B /* ALChannelClientService.h */,
@@ -1170,6 +1230,8 @@
 				3DE73E2E1E0D45EC00261716 /* ALChannelUser.h */,
 				6D7756A71D5B80DF0025560B /* ALChannelUserX.h */,
 				6D7756A81D5B80DF0025560B /* ALChannelUserX.m */,
+				C75576EC1E27A5B300358D9B /* ALMuteRequest.h */,
+				C75576ED1E27A5B300358D9B /* ALMuteRequest.m */,
 			);
 			name = ALChannel;
 			sourceTree = "<group>";
@@ -1208,22 +1270,45 @@
 		982F12F31C05D5620024678E /* MQTT */ = {
 			isa = PBXGroup;
 			children = (
-				982F12F41C05D6040024678E /* MQTTClient-Prefix.pch */,
-				982F12F51C05D6040024678E /* MQTTClient.h */,
-				982F12F61C05D6040024678E /* MQTTDecoder.h */,
-				982F12F71C05D6040024678E /* MQTTDecoder.m */,
-				982F12F81C05D6040024678E /* MQTTEncoder.h */,
-				982F12F91C05D6040024678E /* MQTTEncoder.m */,
-				982F12FA1C05D6040024678E /* MQTTMessage.h */,
-				982F12FB1C05D6040024678E /* MQTTMessage.m */,
-				982F12FC1C05D6040024678E /* MQTTPersistence.h */,
-				982F12FD1C05D6040024678E /* MQTTPersistence.m */,
-				982F12FE1C05D6040024678E /* MQTTSession.h */,
-				982F12FF1C05D6040024678E /* MQTTSession.m */,
-				982F13001C05D6040024678E /* MQTTSessionManager.h */,
-				982F13011C05D6040024678E /* MQTTSessionManager.m */,
-				982F13021C05D6040024678E /* MQTTSSLSecurityPolicy.h */,
-				982F13031C05D6040024678E /* MQTTSSLSecurityPolicy.m */,
+				4612E8CB1E13882D0022DB23 /* Doxyfile */,
+				4612E8CC1E13882D0022DB23 /* MQTTCFSocketDecoder.h */,
+				4612E8CD1E13882D0022DB23 /* MQTTCFSocketDecoder.m */,
+				4612E8CE1E13882D0022DB23 /* MQTTCFSocketEncoder.h */,
+				4612E8CF1E13882D0022DB23 /* MQTTCFSocketEncoder.m */,
+				4612E8D01E13882D0022DB23 /* MQTTCFSocketTransport.h */,
+				4612E8D11E13882D0022DB23 /* MQTTCFSocketTransport.m */,
+				4612E8D21E13882D0022DB23 /* MQTTClient-Prefix.pch */,
+				4612E8D31E13882D0022DB23 /* MQTTClient.h */,
+				4612E8D41E13882D0022DB23 /* MQTTClient.xcdatamodeld */,
+				4612E8D61E13882D0022DB23 /* MQTTCoreDataPersistence.h */,
+				4612E8D71E13882D0022DB23 /* MQTTCoreDataPersistence.m */,
+				4612E8D81E13882D0022DB23 /* MQTTDecoder.h */,
+				4612E8D91E13882D0022DB23 /* MQTTDecoder.m */,
+				4612E8DA1E13882D0022DB23 /* MQTTInMemoryPersistence.h */,
+				4612E8DB1E13882D0022DB23 /* MQTTInMemoryPersistence.m */,
+				4612E8DC1E13882D0022DB23 /* MQTTLog.h */,
+				4612E8DD1E13882D0022DB23 /* MQTTMessage.h */,
+				4612E8DE1E13882D0022DB23 /* MQTTMessage.m */,
+				4612E8DF1E13882D0022DB23 /* MQTTPersistence.h */,
+				4612E8E01E13882D0022DB23 /* MQTTSession.h */,
+				4612E8E11E13882D0022DB23 /* MQTTSession.m */,
+				4612E8E21E13882D0022DB23 /* MQTTSessionLegacy.h */,
+				4612E8E31E13882D0022DB23 /* MQTTSessionLegacy.m */,
+				4612E8E41E13882D0022DB23 /* MQTTSessionManager.h */,
+				4612E8E51E13882D0022DB23 /* MQTTSessionManager.m */,
+				4612E8E61E13882D0022DB23 /* MQTTSessionSynchron.h */,
+				4612E8E71E13882D0022DB23 /* MQTTSessionSynchron.m */,
+				4612E8E81E13882D0022DB23 /* MQTTSSLSecurityPolicy.h */,
+				4612E8E91E13882D0022DB23 /* MQTTSSLSecurityPolicy.m */,
+				4612E8EA1E13882D0022DB23 /* MQTTSSLSecurityPolicyDecoder.h */,
+				4612E8EB1E13882D0022DB23 /* MQTTSSLSecurityPolicyDecoder.m */,
+				4612E8EC1E13882D0022DB23 /* MQTTSSLSecurityPolicyEncoder.h */,
+				4612E8ED1E13882D0022DB23 /* MQTTSSLSecurityPolicyEncoder.m */,
+				4612E8EE1E13882D0022DB23 /* MQTTSSLSecurityPolicyTransport.h */,
+				4612E8EF1E13882D0022DB23 /* MQTTSSLSecurityPolicyTransport.m */,
+				4612E8F01E13882D0022DB23 /* MQTTTransport.h */,
+				4612E8F11E13882D0022DB23 /* MQTTTransport.m */,
+				4612E8F21E13882D0022DB23 /* MQTTWebsocketTransport */,
 			);
 			name = MQTT;
 			sourceTree = "<group>";
@@ -1253,6 +1338,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C75576EE1E27A5B300358D9B /* ALMuteRequest.h in Headers */,
 				29C849A21CC932050042643C /* NSString+Encode.h in Headers */,
 				6D0877081D01B0F900DB491A /* UIView+Toast.h in Headers */,
 				6D6DF1501BC5364C00EBA00F /* ALRegisterUserClientService.h in Headers */,
@@ -1350,6 +1436,26 @@
 				6D1385781CA9B83C009E6F50 /* AlMultipleAttachmentCell.h in Headers */,
 				6D7757141D5B83660025560B /* TSMessage.h in Headers */,
 				6D7756911D5B7FBE0025560B /* DB_ConversationProxy.h in Headers */,
+				4612E9111E13882D0022DB23 /* MQTTSSLSecurityPolicyDecoder.h in Headers */,
+				4612E90F1E13882D0022DB23 /* MQTTSSLSecurityPolicy.h in Headers */,
+				4612E9041E13882D0022DB23 /* MQTTMessage.h in Headers */,
+				4612E9061E13882D0022DB23 /* MQTTPersistence.h in Headers */,
+				4612E9151E13882D0022DB23 /* MQTTSSLSecurityPolicyTransport.h in Headers */,
+				4612E9011E13882D0022DB23 /* MQTTInMemoryPersistence.h in Headers */,
+				4612E9071E13882D0022DB23 /* MQTTSession.h in Headers */,
+				4612E9031E13882D0022DB23 /* MQTTLog.h in Headers */,
+				4612E9091E13882D0022DB23 /* MQTTSessionLegacy.h in Headers */,
+				4612E8F41E13882D0022DB23 /* MQTTCFSocketDecoder.h in Headers */,
+				4612E9131E13882D0022DB23 /* MQTTSSLSecurityPolicyEncoder.h in Headers */,
+				4612E90D1E13882D0022DB23 /* MQTTSessionSynchron.h in Headers */,
+				4612E90B1E13882D0022DB23 /* MQTTSessionManager.h in Headers */,
+				4612E8FF1E13882D0022DB23 /* MQTTDecoder.h in Headers */,
+				4612E8FB1E13882D0022DB23 /* MQTTClient.h in Headers */,
+				4612E8FD1E13882D0022DB23 /* MQTTCoreDataPersistence.h in Headers */,
+				4612E9171E13882D0022DB23 /* MQTTTransport.h in Headers */,
+				4612E8F61E13882D0022DB23 /* MQTTCFSocketEncoder.h in Headers */,
+				4612E8FA1E13882D0022DB23 /* MQTTClient-Prefix.pch in Headers */,
+				4612E8F81E13882D0022DB23 /* MQTTCFSocketTransport.h in Headers */,
 				6D7757101D5B83660025560B /* HexColors.h in Headers */,
 				6D7757121D5B83660025560B /* TSBlurView.h in Headers */,
 				6D7757171D5B83660025560B /* TSMessageView.h in Headers */,
@@ -1357,15 +1463,6 @@
 				6D1385741CA9B80D009E6F50 /* ALMultipleAttachmentView.h in Headers */,
 				6D81979A1CC55B5700E53EC3 /* ALCollectionReusableView.h in Headers */,
 				6D73B2FD1D4F0FF0007D3D72 /* ALReceiverUserProfileVC.h in Headers */,
-				982F130A1C05D6050024678E /* MQTTMessage.h in Headers */,
-				982F13041C05D6050024678E /* MQTTClient-Prefix.pch in Headers */,
-				982F13101C05D6050024678E /* MQTTSessionManager.h in Headers */,
-				982F13121C05D6050024678E /* MQTTSSLSecurityPolicy.h in Headers */,
-				982F13061C05D6050024678E /* MQTTDecoder.h in Headers */,
-				982F13051C05D6050024678E /* MQTTClient.h in Headers */,
-				982F130C1C05D6050024678E /* MQTTPersistence.h in Headers */,
-				982F130E1C05D6050024678E /* MQTTSession.h in Headers */,
-				982F13081C05D6050024678E /* MQTTEncoder.h in Headers */,
 				6D0D107A1D4CD7B6009853FB /* ALImagePickerController.h in Headers */,
 				6DEAEE8C1D4CDBC700360060 /* ALUserProfileVC.h in Headers */,
 				2932B9F31C7C875F0017911D /* ALGroupDetailViewController.h in Headers */,
@@ -1376,6 +1473,8 @@
 				463E49201DB7B45D00CDFFE6 /* ALVCardClass.h in Headers */,
 				C70273CB1DED445E00BA2C8A /* ALUserDetailListFeed.h in Headers */,
 				C76366081DF82B500087221C /* ALNavigationController.h in Headers */,
+				464F7D191E1D345300B68DCC /* ALChannelUser.h in Headers */,
+				C70983071E0177E900FC93A1 /* ALMessageServiceWrapper.h in Headers */,
 				6D95476B1BE38DFF00776652 /* ALContactService.h in Headers */,
 				6D46B6C51BD025060014A5D3 /* ALMapViewController.h in Headers */,
 				6D36F2081BFF3EE3003D46D3 /* ALApplozicSettings.h in Headers */,
@@ -1461,7 +1560,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4612E8F31E13882D0022DB23 /* Doxyfile in Resources */,
 				6D7757161D5B83660025560B /* TSMessagesDefaultDesign.json in Resources */,
+				4612E9191E13882D0022DB23 /* MQTTWebsocketTransport in Resources */,
+				6D6DF1891BC5364C00EBA00F /* Localizable.strings in Resources */,
 				6D6DF1861BC5364C00EBA00F /* Images.xcassets in Resources */,
 				6D6DF16F1BC5364C00EBA00F /* Applozic.storyboard in Resources */,
 				6D6DF1871BC5364C00EBA00F /* ALChatCostomization.plist in Resources */,
@@ -1473,7 +1575,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		6DAA09DB1BE4AD8800CBF133 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -1481,7 +1583,7 @@
 			name = "Run Script";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "";
 		};
@@ -1507,13 +1609,16 @@
 				6D6DF14D1BC5364C00EBA00F /* ALUserDefaultsHandler.m in Sources */,
 				293446161D4F426F007BD1B4 /* ALShowImageViewController.m in Sources */,
 				6D4FE4901D7411F70044A7E6 /* NSData+AES.m in Sources */,
+				4612E9021E13882D0022DB23 /* MQTTInMemoryPersistence.m in Sources */,
 				6D6DF1C81BC5364C00EBA00F /* UIImage+GIF.m in Sources */,
 				6D7756761D5B7F150025560B /* ALVCFClass.m in Sources */,
 				6D36F2091BFF3EE3003D46D3 /* ALApplozicSettings.m in Sources */,
+				4612E8F51E13882D0022DB23 /* MQTTCFSocketDecoder.m in Sources */,
 				6D6DF1811BC5364C00EBA00F /* DB_CONTACT.m in Sources */,
 				6D7756DE1D5B82000025560B /* ALUserClientService.m in Sources */,
 				6D77573E1D5B84E70025560B /* ALAudioCell.m in Sources */,
 				6D7756891D5B7FBE0025560B /* ALConversationCreateResponse.m in Sources */,
+				4612E9101E13882D0022DB23 /* MQTTSSLSecurityPolicy.m in Sources */,
 				6D6DF1BF1BC5364C00EBA00F /* SDWebImageDownloaderOperation.m in Sources */,
 				6D6DF1711BC5364C00EBA00F /* ALContact.m in Sources */,
 				6D6DF1631BC5364C00EBA00F /* ALContactCell.m in Sources */,
@@ -1531,7 +1636,6 @@
 				6D6DF15F1BC5364C00EBA00F /* ALChatCell.m in Sources */,
 				6D6DF1611BC5364C00EBA00F /* ALImageCell.m in Sources */,
 				6D7756E61D5B821F0025560B /* ALSyncCallService.m in Sources */,
-				982F130D1C05D6050024678E /* MQTTPersistence.m in Sources */,
 				6D7756B61D5B80DF0025560B /* ALChannelService.m in Sources */,
 				6D7757001D5B82ED0025560B /* DB_CHANNEL_USER_X.m in Sources */,
 				6D77568C1D5B7FBE0025560B /* ALConversationProxy.m in Sources */,
@@ -1544,8 +1648,9 @@
 				6D7756DA1D5B82000025560B /* ALUserBlocked.m in Sources */,
 				6D77574A1D5B85100025560B /* ALVideoCell.m in Sources */,
 				6D6DF1691BC5364C00EBA00F /* ALLocationManager.m in Sources */,
-				982F13071C05D6050024678E /* MQTTDecoder.m in Sources */,
+				C70983081E0177E900FC93A1 /* ALMessageServiceWrapper.m in Sources */,
 				6D7757201D5B838A0025560B /* MessageListRequest.m in Sources */,
+				4612E9181E13882D0022DB23 /* MQTTTransport.m in Sources */,
 				6D73B2FE1D4F0FF0007D3D72 /* ALReceiverUserProfileVC.m in Sources */,
 				6D7756EA1D5B823B0025560B /* ALMQTTConversationService.m in Sources */,
 				6D95476A1BE38DFF00776652 /* ALContactDBService.m in Sources */,
@@ -1553,19 +1658,26 @@
 				6D6DF1B91BC5364C00EBA00F /* SDWebImageCompat.m in Sources */,
 				6D7756721D5B7EEC0025560B /* ALChatLauncher.m in Sources */,
 				6D77568E1D5B7FBE0025560B /* ALConversationService.m in Sources */,
+				4612E9081E13882D0022DB23 /* MQTTSession.m in Sources */,
 				6D7756901D5B7FBE0025560B /* ALTopicDetail.m in Sources */,
 				6D7756B81D5B80DF0025560B /* ALChannelSyncResponse.m in Sources */,
 				6D6DF1CA1BC5364C00EBA00F /* UIImage+MultiFormat.m in Sources */,
+				4612E8F71E13882D0022DB23 /* MQTTCFSocketEncoder.m in Sources */,
+				4612E90C1E13882D0022DB23 /* MQTTSessionManager.m in Sources */,
 				6D6DF13B1BC5364C00EBA00F /* ALMessageDBService.m in Sources */,
+				4612E8FC1E13882D0022DB23 /* MQTTClient.xcdatamodeld in Sources */,
 				6D6DF16B1BC5364C00EBA00F /* ALMessageClientService.m in Sources */,
+				4612E9001E13882D0022DB23 /* MQTTDecoder.m in Sources */,
 				6D7757021D5B82ED0025560B /* DB_CHANNEL.m in Sources */,
-				982F13111C05D6050024678E /* MQTTSessionManager.m in Sources */,
+				4612E9051E13882D0022DB23 /* MQTTMessage.m in Sources */,
 				6D6DF1CC1BC5364C00EBA00F /* UIImage+WebP.m in Sources */,
 				6D6DF1C11BC5364C00EBA00F /* SDWebImageManager.m in Sources */,
 				6D7756E21D5B82000025560B /* ALUserService.m in Sources */,
 				6D7756D61D5B82000025560B /* ALMessageInfo.m in Sources */,
+				4612E90A1E13882D0022DB23 /* MQTTSessionLegacy.m in Sources */,
 				6D7757111D5B83660025560B /* HexColors.m in Sources */,
 				6D7756AA1D5B80DF0025560B /* ALChannel.m in Sources */,
+				4612E8FE1E13882D0022DB23 /* MQTTCoreDataPersistence.m in Sources */,
 				293446141D4F426F007BD1B4 /* ALImageActivity.m in Sources */,
 				6D7756921D5B7FBE0025560B /* DB_ConversationProxy.m in Sources */,
 				463E49211DB7B45D00CDFFE6 /* ALVCardClass.m in Sources */,
@@ -1576,11 +1688,12 @@
 				6D7757481D5B85100025560B /* ALLocationCell.m in Sources */,
 				6D7756B01D5B80DF0025560B /* ALChannelDBService.m in Sources */,
 				2932B9F41C7C875F0017911D /* ALGroupDetailViewController.m in Sources */,
+				4612E8F91E13882D0022DB23 /* MQTTCFSocketTransport.m in Sources */,
 				6D6DF14B1BC5364C00EBA00F /* ALResponseHandler.m in Sources */,
 				6D6DF1B31BC5364C00EBA00F /* MKAnnotationView+WebCache.m in Sources */,
-				982F130F1C05D6050024678E /* MQTTSession.m in Sources */,
 				6D6DF1431BC5364C00EBA00F /* ALDBHandler.m in Sources */,
 				6D6DF1571BC5364C00EBA00F /* ALBaseViewController.m in Sources */,
+				C75576EF1E27A5B300358D9B /* ALMuteRequest.m in Sources */,
 				6D7757281D5B841B0025560B /* ALMessageInfoViewController.m in Sources */,
 				6D6DF1411BC5364C00EBA00F /* ALConnectionQueueHandler.m in Sources */,
 				6D6DF1BB1BC5364C00EBA00F /* SDWebImageDecoder.m in Sources */,
@@ -1590,14 +1703,15 @@
 				6D6DF1CE1BC5364C00EBA00F /* UIImageView+HighlightedWebCache.m in Sources */,
 				6D3A4E061C76ED6C0067A4C8 /* ALAudioAttachmentViewController.m in Sources */,
 				6D77573A1D5B84D60025560B /* ALMediaBaseCell.m in Sources */,
+				4612E9141E13882D0022DB23 /* MQTTSSLSecurityPolicyEncoder.m in Sources */,
 				6D6DF1D61BC5364C00EBA00F /* TPPropertyAnimation.m in Sources */,
 				6D7757241D5B83AA0025560B /* ALHyperLabel.m in Sources */,
+				4612E90E1E13882D0022DB23 /* MQTTSessionSynchron.m in Sources */,
 				6D6DF17F1BC5364C00EBA00F /* ALUser.m in Sources */,
-				982F130B1C05D6050024678E /* MQTTMessage.m in Sources */,
+				4612E9161E13882D0022DB23 /* MQTTSSLSecurityPolicyTransport.m in Sources */,
 				6D6DF1731BC5364C00EBA00F /* ALFileMetaInfo.m in Sources */,
 				6D7757151D5B83660025560B /* TSMessage.m in Sources */,
 				6D6DF1C61BC5364C00EBA00F /* UIButton+WebCache.m in Sources */,
-				982F13091C05D6050024678E /* MQTTEncoder.m in Sources */,
 				6D7756FA1D5B82CA0025560B /* ALLogs.m in Sources */,
 				6D6DF1791BC5364C00EBA00F /* ALMessageList.m in Sources */,
 				6D6DF1D01BC5364C00EBA00F /* UIImageView+WebCache.m in Sources */,
@@ -1622,8 +1736,8 @@
 				294637B71C6F16050025ED76 /* ALGroupCreationViewController.m in Sources */,
 				6D95476C1BE38DFF00776652 /* ALContactService.m in Sources */,
 				6D7756961D5B80110025560B /* ALMediaPlayer.m in Sources */,
-				982F13131C05D6050024678E /* MQTTSSLSecurityPolicy.m in Sources */,
 				6D6DF1591BC5364C00EBA00F /* ALChatViewController.m in Sources */,
+				464F7D1A1E1D345300B68DCC /* ALChannelUser.m in Sources */,
 				6D6DF1491BC5364C00EBA00F /* ALRequestHandler.m in Sources */,
 				6D7757181D5B83660025560B /* TSMessageView.m in Sources */,
 				6D6DF17B1BC5364C00EBA00F /* ALRegistrationResponse.m in Sources */,
@@ -1632,6 +1746,7 @@
 				6D7756F61D5B82B50025560B /* ALAppLocalNotifications.m in Sources */,
 				6D77570F1D5B83660025560B /* ALPushAssist.m in Sources */,
 				6DBA7D0E1C943BFF001263F4 /* ALContactMessageCell.m in Sources */,
+				4612E9121E13882D0022DB23 /* MQTTSSLSecurityPolicyDecoder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1692,6 +1807,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1733,6 +1849,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1820,13 +1937,26 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
+		4612E8D41E13882D0022DB23 /* MQTTClient.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4612E8D51E13882D0022DB23 /* MQTTClient.xcdatamodel */,
+			);
+			currentVersion = 4612E8D51E13882D0022DB23 /* MQTTClient.xcdatamodel */;
+			name = MQTTClient.xcdatamodeld;
+			path = Applozic/MQTT/MQTTClient.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		6D6DF1371BC5364C00EBA00F /* AppLozic.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				C7C173AC1E3EE4CF00AF2031 /* AppLozic 4.xcdatamodel */,
+				46FD67DB1E1D0DBC00580A0F /* AppLozic 3.xcdatamodel */,
 				C7EF19C71DF2FDB600529704 /* AppLozic 2.xcdatamodel */,
 				6D6DF1381BC5364C00EBA00F /* AppLozic.xcdatamodel */,
 			);
-			currentVersion = C7EF19C71DF2FDB600529704 /* AppLozic 2.xcdatamodel */;
+			currentVersion = C7C173AC1E3EE4CF00AF2031 /* AppLozic 4.xcdatamodel */;
 			name = AppLozic.xcdatamodeld;
 			path = Applozic/AppLozic.xcdatamodeld;
 			sourceTree = "<group>";

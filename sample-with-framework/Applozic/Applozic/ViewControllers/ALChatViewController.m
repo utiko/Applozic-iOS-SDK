@@ -64,7 +64,7 @@
 #include <tgmath.h>
 @import AddressBookUI;
 
-#define MQTT_MAX_RETRY 0
+#define MQTT_MAX_RETRY 3
 #define NEW_MESSAGE_NOTIFICATION @"newMessageNotification"
 
 
@@ -164,7 +164,6 @@
         [self handleMessageForward:self.alMessage];
         
     }
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -571,6 +570,8 @@
         ALChannelService *channelService = [[ALChannelService alloc] init];
         ALChannel *alChannel = [channelService getChannelByKey:self.channelKey];
         [self.navigationItem  setTitle:alChannel.name];
+        [self setButtonTitle];
+        [self channelDeleted];
     }
 }
 
@@ -641,7 +642,7 @@
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
     ALChannelService * alChannelService  = [[ALChannelService alloc] init];
-    if(![alChannelService isChannelLeft:self.channelKey])
+    if(![alChannelService isChannelLeft:self.channelKey] && ![ALChannelService isChannelDeleted:self.channelKey])
     {
         [self.mqttObject subscribeToChannelConversation:self.channelKey];
     }
@@ -733,7 +734,8 @@
     [self.label setHidden:NO];
     
     NSLog(@"USER_STATE BLOCKED : %i AND BLOCKED BY : %i", contact.block, contact.blockBy);
-    if((contact.blockBy || contact.block) && !self.channelKey)
+    NSLog(@"USER : %@", contact.userId);
+    if((contact.blockBy || contact.block) && (self.alChannel.type == GROUP_OF_TWO || !self.channelKey))
     {
         [self.label setHidden:YES];
         [self.typingLabel setHidden:YES];
@@ -793,12 +795,17 @@
 
 -(void)checkIfChannelLeft
 {
-    ALChannelService * alChannelService  = [[ALChannelService alloc] init];
+    ALChannelService * alChannelService = [[ALChannelService alloc] init];
     if([alChannelService isChannelLeft:self.channelKey])
     {
         [self freezeView:YES];
         ALNotificationView * notification = [[ALNotificationView alloc] init];
         [notification showGroupLeftMessage];
+    }
+    else if ([ALChannelService isChannelDeleted:self.channelKey])
+    {
+        [self freezeView:YES];
+        [ALNotificationView showLocalNotification:[ALApplozicSettings getGroupDeletedTitle]];
     }
     else
     {
@@ -963,6 +970,28 @@
 }
 
 
+-(void)channelDeleted
+{
+    if ([ALChannelService isChannelDeleted:self.channelKey])
+    {
+        [self freezeView:YES];
+        [ALNotificationView showLocalNotification:[ALApplozicSettings getGroupDeletedTitle]];
+    }
+}
+
+-(void)setButtonTitle
+{
+    ALChannelService *channelService = [[ALChannelService alloc] init];
+    self.alChannel = [channelService getChannelByKey:self.channelKey];
+    [titleLabelButton setTitle:self.alChannel.name forState:UIControlStateNormal];
+    if(self.alChannel.type == GROUP_OF_TWO)
+    {
+        NSLog(@"CURENT clientChannelKey :: %@",self.alChannel.clientChannelKey);
+        ALContactService * contactService = [ALContactService new];
+        self.alContact = [contactService loadContactByKey:@"userId" value:[self.alChannel getReceiverIdInGroupOfTwo]];
+        [titleLabelButton setTitle:[self.alContact getDisplayName] forState:UIControlStateNormal];
+    }
+}
 
 -(void)didTapTitleView:(id)sender
 {
@@ -978,14 +1007,14 @@
     
     return;
     
-    
-    //If one to one chat, launch receiver profile.
+    ALChannelService * alChannelService  = [[ALChannelService alloc] init];
+
     if(self.contactIds && !self.channelKey)
     {
         [self getUserInformation];
-   
-    }else if ( ![ALApplozicSettings isGroupInfoDisabled] ){
-        
+    }
+    else if (![ALApplozicSettings isGroupInfoDisabled] && (self.alChannel.type != GROUP_OF_TWO) && ![ALChannelService isChannelDeleted:self.channelKey])
+    {
         UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:[self class]]];
         ALGroupDetailViewController * groupDetailViewController = (ALGroupDetailViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ALGroupDetailViewController"];
         groupDetailViewController.channelKeyID = self.channelKey;
@@ -993,7 +1022,6 @@
         
         [self.navigationController pushViewController:groupDetailViewController animated:YES];
     }
-
 }
 
 -(void)fetchMessageFromDB
@@ -1026,6 +1054,11 @@
 //This is just a test method
 -(void)refreshTable:(id)sender
 {
+    if ([ALChannelService isChannelDeleted:self.channelKey])
+    {
+        return;
+    }
+    
     [self.sendMessageTextView resignFirstResponder];
     [self.view makeToast:@"Loading messages.\nIt might take a few seconds."
                 duration:1.0
@@ -1497,12 +1530,12 @@
     [view addSubview:imageView];
     
     UILabel * topLeft = [[UILabel alloc] init];
-    topLeft.text =topicDetail.title;
+    topLeft.text = topicDetail.title;
     topLeft.frame = CGRectMake(imageView.frame.size.width + 10,
                                25, (view.frame.size.width-imageView.frame.size.width)/2, 50);
     
     UILabel * bottomLeft = [[UILabel alloc] init];
-    bottomLeft.text =topicDetail.subtitle;
+    bottomLeft.text = topicDetail.subtitle;
     bottomLeft.frame = CGRectMake(imageView.frame.size.width + 10, 58,
                                   (view.frame.size.width-imageView.frame.size.width)/2, 50);
     bottomLeft.numberOfLines = 1;
@@ -1655,8 +1688,8 @@
 #pragma mark - Picker View Done and View Update Methods
 //==============================================================================================================================================
 
--(void)donePicking:(id)sender{
-    
+-(void)donePicking:(id)sender
+{
     self.tableViewBottomToAttachment.constant = 0;
     [UIView animateWithDuration:0.4 animations:^{
         
@@ -2351,7 +2384,7 @@
     }]];*/
     
 
-    if(!self.channelKey && !self.conversationId)
+    if((!self.channelKey && !self.conversationId) || (self.alChannel.type == GROUP_OF_TWO))
     {
         [theController addAction:[UIAlertAction actionWithTitle:@"Block User" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             
@@ -2747,15 +2780,9 @@
     if (self.isGroup && isGroupNotification && [self.channelKey isEqualToNumber:alMessage.groupId] &&
         (self.conversationId.intValue == alMessage.conversationId.intValue))
     {
-            self.conversationId = alMessage.conversationId;
-            self.contactIds=alMessage.contactIds;
-            self.channelKey = alMessage.groupId;
-        
-        ALPushAssist * pushAssitant = [ALPushAssist new];
-        if(pushAssitant.isGroupDetailViewOnTop)
-        {
-            [self showNativeNotification:alMessage andAlert:alertValue];
-        }
+        self.conversationId = alMessage.conversationId;
+        self.contactIds=alMessage.contactIds;
+        self.channelKey = alMessage.groupId;
     }
     else if (!self.isGroup && !isGroupNotification && [self.contactIds isEqualToString:alMessage.contactIds] &&
              (self.conversationId.intValue == alMessage.conversationId.intValue))
@@ -2770,8 +2797,8 @@
     {
         NSLog(@"it was in background, updateUI is false");
         self.conversationId = alMessage.conversationId;
-        self.channelKey=alMessage.groupId;
-        self.contactIds=alMessage.contactIds;
+        self.channelKey = alMessage.groupId;
+        self.contactIds = alMessage.contactIds;
        // [self fetchAndRefresh:YES];
         [self reloadView];
         [self markConversationRead];
@@ -2781,18 +2808,23 @@
         if(![alMessage.type isEqualToString:@"5"] && ![updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_BACKGROUND]])
         {
             NSLog(@"SHOW_NOTIFICATION (OTHER_THREAD_IS_OPENED)");
-           [self showNativeNotification:alMessage andAlert:alertValue];
+            [self showNativeNotification:alMessage andAlert:alertValue];
         }
     }
     
     if(self.comingFromBackground)
     {
+        self.comingFromBackground = NO;
         [self serverCallForLastSeen];
     }
 }
 
 -(void)showNativeNotification:(ALMessage *)alMessage andAlert:(NSString*)alertValue
 {
+    if (alMessage.groupId && [ALChannelService isChannelMuted:alMessage.groupId])
+    {
+        return;
+    }
     ALNotificationView * alnotification = [[ALNotificationView alloc] initWithAlMessage:alMessage withAlertMessage:alertValue];
     [alnotification nativeNotification:self];
 }
@@ -3017,7 +3049,7 @@
 
 -(void)serverCallForLastSeen
 {
-    if([self isGroup])
+    if([self isGroup] && self.alChannel.type != GROUP_OF_TWO)
     {
         return;
     }
@@ -3042,7 +3074,8 @@
 
 -(void)updateLastSeenAtStatus: (ALUserDetail *) alUserDetail
 {
-    
+    NSLog(@"USER DET : %@",alUserDetail.userId);
+    NSLog(@"self.contactIds : %@",self.contactIds);
     [self setRefreshMainView:TRUE];
     
     double value = [alUserDetail.lastSeenAtTime doubleValue];
@@ -3050,9 +3083,23 @@
     if(self.channelKey != nil)
     {
         ALChannelService * channelService = [[ALChannelService alloc] init];
-        [self.label setText:[channelService stringFromChannelUserList:self.channelKey]];
+        if(self.alChannel.type == GROUP_OF_TWO && [alUserDetail.userId isEqualToString:self.contactIds])
+        {
+            if(value > 0)
+            {
+                [self formatDateTime:alUserDetail andValue:value];
+            }
+            else
+            {
+                [self.label setText:@""];
+            }
+        }
+        else if (self.alChannel.type != GROUP_OF_TWO)
+        {
+            [self.label setText:[channelService stringFromChannelUserList:self.channelKey]];
+        }
     }
-    else if(value > 0)
+    else if (value > 0)
     {
         if ([alUserDetail.userId isEqualToString:self.contactIds])
         {
@@ -3458,7 +3505,7 @@
     ALContactService *cntService = [ALContactService new];
     ALContact *contact = [cntService loadContactByKey:@"userId" value:userId];
     
-    if(flag && ([self.alContact.userId isEqualToString:userId] || self.channelKey))
+    if(flag && [self.alContact.userId isEqualToString:userId])
     {
         NSString * space = @"    ";
         NSString * msg = [self.alContact getDisplayName];

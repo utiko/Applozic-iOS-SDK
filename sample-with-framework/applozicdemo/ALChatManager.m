@@ -12,8 +12,15 @@
 #import <Applozic/ALApplozicSettings.h>
 #import <Applozic/ALChatViewController.h>
 #import <Applozic/ALMessage.h>
+#import <Applozic/ALNewContactsViewController.h>
+
 
 @implementation ALChatManager
+
+-(instancetype)init {
+    
+    return [self initWithApplicationKey:APPLICATION_ID];
+}
 
 -(instancetype)initWithApplicationKey:(NSString *)applicationKey;
 {
@@ -21,6 +28,7 @@
     if (self)
     {
         [ALUserDefaultsHandler setApplicationKey:applicationKey];
+        self.permissableVCList = [[NSArray alloc] init];
     }
     
     return self;
@@ -349,6 +357,25 @@
     }];
 }
 
+
+//====================
+// launching contact screen with message
+//====================
+
+-(void)launchContactScreenWithMessage:(ALMessage *)alMessage andFromViewController:(UIViewController*)viewController{
+    
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    
+    ALNewContactsViewController *contcatListView = (ALNewContactsViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ALNewContactsViewController"];
+    contcatListView.directContactVCLaunch = YES;
+    contcatListView.alMessage = alMessage;
+    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:contcatListView];
+    [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
+    
+    
+}
+
+
 //==============================================================================================================================================
 // This method can be used to get app logged-in user's information.
 // If user information is stored in DB or preference, Code to get user's information should go here.
@@ -492,6 +519,8 @@
     
     [ALApplozicSettings setFilterContactsStatus:YES];                           /*  IF NEEDED ALL REGISTERED CONTACTS   */
     [ALApplozicSettings setOnlineContactLimit:0];                               /*  IF NEEDED ONLINE USERS WITH LIMIT   */
+    
+    [ALApplozicSettings setSubGroupLaunchFlag:NO];                             /*  IF NEEDED ONLINE USERS WITH LIMIT   */
     /****************************************************************************************************************/
     
     
@@ -526,6 +555,20 @@
     /****************************************************************************************************************/
     
     [ALUserDefaultsHandler setGoogleMapAPIKey:@"AIzaSyBnWMTGs1uTFuf8fqQtsmLk-vsWM7OrIXk"]; //REPLACE WITH YOUR GOOGLE MAPKEY
+   
+//    NSMutableArray * array = [NSMutableArray new];
+//    [array addObject:[NSNumber numberWithInt:1]];
+//    [array addObject:[NSNumber numberWithInt:2]];
+//
+//    [ALApplozicSettings setContactTypeToFilter: array];         // SET ARRAY TO PREFERENCE
+    
+    /************************************** 3rd PARTY VIEWS + MSg CONTAINER SETTINGS  *************************************/
+    
+//    NSArray * viewArray = @[@"VC1", @"VC2"];    // VC : ViewController's Class Name
+//    [self.permissableVCList arrayByAddingObject:@""];
+    
+//    [ALApplozicSettings setMsgContainerVC:@""];  // ADD CLASS NAME
+    /**********************************************************************************************************************/
    
 }
 
@@ -627,6 +670,50 @@
         }
     }];
 }
+
+//==============================================================================================================================================
+#pragma mark : LAUNCH SUB GROUP MESSAGE LIST
+//==============================================================================================================================================
+
+-(void)launchChatListWithParentKey:(NSNumber *)parentGroupKey andFromViewController:(UIViewController *)viewController
+{
+    self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:[self getApplicationKey]];
+    if([ALUserDefaultsHandler getDeviceKeyString])
+    {
+        [self.chatLauncher launchChatListWithParentKey:parentGroupKey andViewControllerObject:viewController];
+        return;
+    }
+   
+    [self ALDefaultChatViewSettings];
+    ALUser *alUser = [ALChatManager getLoggedinUserInformation];
+    [alUser setApplicationId:[self getApplicationKey]];
+    [alUser setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];  // 4. APP_MODULE_NAME  setter
+    
+    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+    [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
+        
+        if(error)
+        {
+            NSLog(@"ERROR_USER_REGISTRATION :: %@",error);
+            [ALUtilityClass showAlertMessage:rResponse.message andTitle:@"Response"];
+            return;
+        }
+        
+        if([rResponse.message isEqualToString:@"PASSWORD_INVALID"])
+        {
+            [ALUtilityClass showAlertMessage:@"INAVALID PASSWORD" andTitle:@"ALERT!!!"];
+            return;
+        }
+        
+        if(![[UIApplication sharedApplication] isRegisteredForRemoteNotifications])
+        {
+            [self.chatLauncher registerForNotification];
+        }
+        NSLog(@"USER_REGISTRATION_RESPONSE :: %@", rResponse);
+        [self.chatLauncher launchChatListWithParentKey:parentGroupKey andViewControllerObject:viewController];
+    }];
+}
+
 
 //==============================================================================================================================================
 // DELEGATE FOR THIRD PARTY ACTION ON TAP GESTURE
