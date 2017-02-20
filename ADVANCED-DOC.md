@@ -193,7 +193,30 @@ wrapperService downloadMessageAttachment:alMessage];
 ```
 NOTE: Once successfully downloaded, attachment will be saved and almessage object will have file path  information(almessage.imageFilePath).
 
-### Get Latest Message for USER and CHANNEL
+### Get Latest Messages From Each Conversation
+
+STEP1:  Implement ALMessagesDelegate delegate in your controller.
+
+```
+    //Delegate method.
+   -(void)getMessagesArray:(NSMutableArray*)messagesArray{
+   
+     //messageArray contains array of ALMessage object
+   }
+
+```
+STEP 2: Add below code to get the latest messages in your controller.
+```
+   ALMessageDBService * dBService = [ALMessageDBService new];
+  dBService.delegate = self; // Controller reference for ALMessagesDelegate delegate
+  [dBService getMessages:self.nil];
+
+```
+
+
+
+
+### Get Latest Message For USER And CHANNEL
 
 ```
 
