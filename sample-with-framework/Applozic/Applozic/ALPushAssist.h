@@ -25,5 +25,5 @@
 -(BOOL)isContactVCOnTop;
 -(BOOL)isMessageContainerOnTop;
 -(BOOL)isUserProfileVCOnTop;
-
+-(BOOL)isGroupUpdateVCOnTop;
 @end
