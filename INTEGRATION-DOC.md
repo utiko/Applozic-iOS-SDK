@@ -266,8 +266,25 @@ For Distribution:
     [ALUserDefaultsHandler setDeviceApnsType:(short)DISTRIBUTION];
 ```
 
+####Step 5: Add permission for camera,photo library ,Micro phone, contacts and location. 
 
-####Step 5: Logout User
+In your info.plist add these permission for diffrent type of attachments. 
+
+```
+<key>NSCameraUsageDescription</key>
+	<string>Allow Camera</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Allow Contacts</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow location sharing!!</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow MicroPhone</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow Photos</string>
+ 
+```
+
+####Step 6: Logout User
 
 Call the following when user logout from your app:
 
