@@ -1897,7 +1897,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -1924,7 +1924,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.applozic.framework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
