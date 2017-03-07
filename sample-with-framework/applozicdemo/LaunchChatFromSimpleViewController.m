@@ -58,7 +58,6 @@
     if([ALUserDefaultsHandler isLoggedIn]){
         [self insertInitialContacts];
     }
-
 }
 
 //ADD THIS METHOD :
@@ -119,7 +118,6 @@
     [self insertInitialContacts];
 }
 
-
 //===============================================================================
 // TO LAUNCH INDIVIDUAL CHAT
 //
@@ -143,7 +141,6 @@
                                         andwithDisplayName:contact.displayName andFromViewController:self];
 
     }];
-
 }
 
 -(void)checkUserContact:(NSString *)userId displayName:(NSString *)displayName withCompletion:(void(^)(ALContact * contact))completion
@@ -215,7 +212,7 @@
         ALConversationProxy * newProxy = [[ALConversationProxy alloc] init];
         newProxy = [self makeupConversationDetails];
         
-         ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
+        ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
         [chatManager createAndLaunchChatWithSellerWithConversationProxy:newProxy fromViewController:self];
     }
     else
