@@ -581,7 +581,7 @@
     [self serverCallForLastSeen];
     self.comingFromBackground = YES;
     [self subscrbingChannel];
-    
+    [self markConversationRead];
     [self loadMessagesForOpenChannel];
 }
 
@@ -3554,9 +3554,13 @@
 //    }
 //    else
 //    {
-        [self.alMessageWrapper addLatestObjectToArray:[NSMutableArray arrayWithArray:sortedArray]];
-        [self.mTableView reloadData];
-        [super scrollTableViewToBottomWithAnimation:YES];
+    [self.alMessageWrapper addLatestObjectToArray:[NSMutableArray arrayWithArray:sortedArray]];
+    [self.mTableView reloadData];
+    [super scrollTableViewToBottomWithAnimation:YES];
+    
+    if(self.comingFromBackground){
+        [self markConversationRead];
+    }
     //}
 }
 
@@ -3565,10 +3569,10 @@
     NSLog(@" newMessageHandler called ::#### ");
     NSMutableArray * messageArray = notification.object;
     [self addMessageToList:messageArray];
-    for (ALMessage * almessage in messageArray)
-    {
-        [self markSingleMessageRead:almessage];
-    }
+//    for (ALMessage * almessage in messageArray)
+//    {
+//        [self markSingleMessageRead:almessage];
+//    }
     [self showNoConversationLabel];
     
 }
