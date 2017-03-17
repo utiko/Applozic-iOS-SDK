@@ -186,6 +186,7 @@
     
     
     typingStat = NO;
+    self.comingFromBackground = YES;
     
     if([self isReloadRequired])
     {
@@ -246,7 +247,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setFreezeForAddingRemovingUser:)
                                                       name:@"UPDATE_USER_FREEZE_CHANNEL_ADD_REMOVING" object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unSubscrbingChannel)
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackGround)
                                                  name:@"APP_ENTER_IN_BACKGROUND" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageDeletedAPPLOZIC05Handler:)
                                                  name:@"NOTIFY_MESSAGE_DELETED" object:nil];
@@ -652,6 +653,13 @@
     }
 //});
 
+}
+
+-(void)didEnterBackGround
+{
+  self.comingFromBackground = NO;
+    [self unSubscrbingChannel];
+    
 }
 
 -(void)unSubscrbingChannel
@@ -2777,11 +2785,6 @@
         }
     }
     
-    if(self.comingFromBackground)
-    {
-        self.comingFromBackground = NO;
-        [self serverCallForLastSeen];
-    }
 }
 
 -(void)showNativeNotification:(ALMessage *)alMessage andAlert:(NSString*)alertValue
