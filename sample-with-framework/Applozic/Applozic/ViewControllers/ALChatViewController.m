@@ -186,6 +186,7 @@
     self.comingFromBackground = YES;
     
     typingStat = NO;
+    self.comingFromBackground = YES;
     
     if([self isReloadRequired])
     {
@@ -3556,11 +3557,12 @@
 //    }
 //    else
 //    {
-        [self.alMessageWrapper addLatestObjectToArray:[NSMutableArray arrayWithArray:sortedArray]];
-        [self.mTableView reloadData];
-        [super scrollTableViewToBottomWithAnimation:YES];
+
+    [self.alMessageWrapper addLatestObjectToArray:[NSMutableArray arrayWithArray:sortedArray]];
+    [self.mTableView reloadData];
+    [super scrollTableViewToBottomWithAnimation:YES];
     
-    if (self.comingFromBackground) {
+    if(self.comingFromBackground){
         [self markConversationRead];
     }
     //}
