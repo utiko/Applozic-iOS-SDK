@@ -76,20 +76,6 @@
     // Dispose of any resources that can be recreated.
 }
 
--(IBAction)logOutButton:(id)sender
-{
-    ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc] init];
-    
-    if([ALUserDefaultsHandler getDeviceKeyString])
-    {
-        [alUserClientService logoutWithCompletionHandler:^{
-            
-        }];
-    }
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 //===============================================================================
 // TO LAUNCH MESSAGE LIST
 //
@@ -296,7 +282,7 @@
     
     if([ALUserDefaultsHandler getDeviceKeyString])
     {
-        [alUserClientService logoutWithCompletionHandler:^{
+        [alUserClientService logoutWithCompletionHandler:^(ALAPIResponse *response, NSError *error) {
             
         }];
     }

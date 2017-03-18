@@ -398,6 +398,7 @@
 		46ABAAD61DA4054000EC48AC /* ContactsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ContactsUI.framework; path = System/Library/Frameworks/ContactsUI.framework; sourceTree = SDKROOT; };
 		46B2589E1E5B03300078BBA5 /* ALChannelMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALChannelMsgCell.h; path = Applozic/ALChannelMsgCell.h; sourceTree = "<group>"; };
 		46B2589F1E5B03300078BBA5 /* ALChannelMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALChannelMsgCell.m; path = Applozic/ALChannelMsgCell.m; sourceTree = "<group>"; };
+		46C808321E7C32FA0076DDB7 /* AppLozic 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "AppLozic 5.xcdatamodel"; sourceTree = "<group>"; };
 		46FD67DB1E1D0DBC00580A0F /* AppLozic 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "AppLozic 3.xcdatamodel"; sourceTree = "<group>"; };
 		6D0877071D01B0F900DB491A /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
 		6D0877091D01B0FE00DB491A /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
@@ -1966,12 +1967,13 @@
 		6D6DF1371BC5364C00EBA00F /* AppLozic.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				46C808321E7C32FA0076DDB7 /* AppLozic 5.xcdatamodel */,
 				C7C173AC1E3EE4CF00AF2031 /* AppLozic 4.xcdatamodel */,
 				46FD67DB1E1D0DBC00580A0F /* AppLozic 3.xcdatamodel */,
 				C7EF19C71DF2FDB600529704 /* AppLozic 2.xcdatamodel */,
 				6D6DF1381BC5364C00EBA00F /* AppLozic.xcdatamodel */,
 			);
-			currentVersion = C7C173AC1E3EE4CF00AF2031 /* AppLozic 4.xcdatamodel */;
+			currentVersion = 46C808321E7C32FA0076DDB7 /* AppLozic 5.xcdatamodel */;
 			name = AppLozic.xcdatamodeld;
 			path = Applozic/AppLozic.xcdatamodeld;
 			sourceTree = "<group>";

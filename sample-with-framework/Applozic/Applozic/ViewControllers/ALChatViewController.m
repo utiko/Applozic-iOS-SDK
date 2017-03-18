@@ -183,7 +183,7 @@
     [self.loadEarlierAction setHidden:YES];
     self.showloadEarlierAction = TRUE;
     self.typingLabel.hidden = YES;
-    
+    self.comingFromBackground = YES;
     
     typingStat = NO;
     
@@ -246,7 +246,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setFreezeForAddingRemovingUser:)
                                                       name:@"UPDATE_USER_FREEZE_CHANNEL_ADD_REMOVING" object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unSubscrbingChannel)
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackGround)
                                                  name:@"APP_ENTER_IN_BACKGROUND" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageDeletedAPPLOZIC05Handler:)
                                                  name:@"NOTIFY_MESSAGE_DELETED" object:nil];
@@ -260,13 +260,14 @@
     {
         NSLog(@"INDIVIDUAL_LAUNCH :: SUBSCRIBING_MQTT");
         self.mqttObject.mqttConversationDelegate = self;
-//        dispatch_async(dispatch_get_main_queue(), ^{
-            if(self.mqttObject){
-                [self.mqttObject subscribeToConversation];
-            }else{
-                NSLog(@"mqttObject is not found...");
-            }
-//        });
+        if(self.mqttObject)
+        {
+            [self.mqttObject subscribeToConversation];
+        }
+        else
+        {
+            NSLog(@"mqttObject is not found...");
+        }
     }
     
     if(![self isGroup])
@@ -392,15 +393,15 @@
     if(self.individualLaunch)
     {
         NSLog(@"ALChatVC: Individual launch ...unsubscribeToConversation to mqtt..");
-        //        dispatch_async(dispatch_get_main_queue(), ^{
         if(self.mqttObject)
         {
             [self.mqttObject unsubscribeToConversation];
             NSLog(@"ALChatVC: In ViewWillDisapper .. MQTTObject in ==IF== now");
         }
         else
+        {
             NSLog(@"mqttObject is not found...");
-        //        });
+        }
     }
     
     if(isPickerOpen)
@@ -581,7 +582,7 @@
     [self serverCallForLastSeen];
     self.comingFromBackground = YES;
     [self subscrbingChannel];
-    
+    [self markConversationRead];
     [self loadMessagesForOpenChannel];
 }
 
@@ -639,8 +640,6 @@
 
 -(void)subscrbingChannel
 {
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-
     ALChannelService * alChannelService  = [[ALChannelService alloc] init];
     if(![alChannelService isChannelLeft:self.channelKey] && ![ALChannelService isChannelDeleted:self.channelKey])
     {
@@ -650,21 +649,22 @@
     {
         [self.mqttObject unSubscribeToChannelConversation:nil];
     }
-//});
-
 }
 
 -(void)unSubscrbingChannel
 {
-//     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     [self.mqttObject sendTypingStatus:[ALUserDefaultsHandler getApplicationKey]
                                userID:self.contactIds
                         andChannelKey:self.channelKey
                                typing:NO];
     
     [self.mqttObject unSubscribeToChannelConversation:self.channelKey];
-//     });
+}
 
+-(void)didEnterBackGround
+{
+    self.comingFromBackground = NO;
+    [self unSubscrbingChannel];
 }
 
 //====================================================================================================================================
@@ -1033,7 +1033,7 @@
         predicate1 = [NSPredicate predicateWithFormat:@"contactId = %@ && groupId = nil", self.contactIds];
     }
     
-    NSPredicate* predicate2 = [NSPredicate predicateWithFormat:@"contentType != %i",ALMESSAGE_CONTENT_HIDDEN];
+    NSPredicate* predicate2 = [NSPredicate predicateWithFormat:@"contentType != %i AND msgHidden == %@",ALMESSAGE_CONTENT_HIDDEN,@(NO)];
     NSPredicate* compoundPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2]];
     [theRequest setPredicate:compoundPredicate];
     
@@ -1365,6 +1365,11 @@
     else if(theMessage.contentType == ALMESSAGE_CHANNEL_NOTIFICATION)
     {
         ALChannelMsgCell * theCell = (ALChannelMsgCell *)[tableView dequeueReusableCellWithIdentifier:@"ALChannelMsgCell"];
+        if ([theMessage isMsgHidden]){
+            theCell.frame = CGRectZero;
+            return theCell;
+        }
+        
         theCell.tag = indexPath.row;
         theCell.delegate = self;
         [theCell populateCell:theMessage viewSize:self.view.frame.size];
@@ -1832,7 +1837,7 @@
 
     self.mTotalCount = [theDbHandler.managedObjectContext countForFetchRequest:theRequest error:nil];
     
-    NSPredicate* predicate2 = [NSPredicate predicateWithFormat:@"deletedFlag == NO"];
+    NSPredicate* predicate2 = [NSPredicate predicateWithFormat:@"deletedFlag == NO AND msgHidden == %@",@(NO)];
     NSPredicate* predicate3 = [NSPredicate predicateWithFormat:@"contentType != %i",ALMESSAGE_CONTENT_HIDDEN];
     NSPredicate* compoundPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate1,predicate2,predicate3]];
     [theRequest setPredicate:compoundPredicate];
@@ -2776,17 +2781,11 @@
             [self showNativeNotification:alMessage andAlert:alertValue];
         }
     }
-    
-    if(self.comingFromBackground)
-    {
-        self.comingFromBackground = NO;
-        [self serverCallForLastSeen];
-    }
 }
 
 -(void)showNativeNotification:(ALMessage *)alMessage andAlert:(NSString*)alertValue
 {
-    if (alMessage.groupId && [ALChannelService isChannelMuted:alMessage.groupId])
+    if ((alMessage.groupId && [ALChannelService isChannelMuted:alMessage.groupId]) || [alMessage isMsgHidden])
     {
         return;
     }
@@ -3414,6 +3413,14 @@
     }
 }
 
+-(void)mqttDidConnected {
+
+    NSLog(@"MQTT_CONNECTED : CALL BACK COMES ALCHATVC");
+    if (self.individualLaunch) {
+        [self subscrbingChannel];
+    }
+}
+
 //==============================================================================================================================================
 #pragma mark - (MQTT + APNs) :UPDATING USER DETAILS (WHEN USER CHANGE ITS IMAGE/DISPLAY NAME)
 //==============================================================================================================================================
@@ -3461,7 +3468,7 @@
     ALContactService *cntService = [ALContactService new];
     ALContact *contact = [cntService loadContactByKey:@"userId" value:userId];
     
-    if(flag && [self.alContact.userId isEqualToString:userId])
+    if(flag)
     {
         NSString * space = @"    ";
         NSString * msg = [self.alContact getDisplayName];
@@ -3505,13 +3512,8 @@
     if([ALDataNetworkConnection checkDataNetworkAvailable] && !isBackgroundState)
     {
         NSLog(@"MQTT connection closed, subscribing again: %lu", (long)_mqttRetryCount);
-        
-//    dispatch_async(dispatch_get_main_queue(), ^{
-    
         [self.mqttObject subscribeToConversation];
         [self subscrbingChannel];
-        
-//    });
         self.mqttRetryCount++;
     }
 }
@@ -3557,6 +3559,10 @@
         [self.alMessageWrapper addLatestObjectToArray:[NSMutableArray arrayWithArray:sortedArray]];
         [self.mTableView reloadData];
         [super scrollTableViewToBottomWithAnimation:YES];
+    
+    if (self.comingFromBackground) {
+        [self markConversationRead];
+    }
     //}
 }
 
@@ -3565,10 +3571,10 @@
     NSLog(@" newMessageHandler called ::#### ");
     NSMutableArray * messageArray = notification.object;
     [self addMessageToList:messageArray];
-    for (ALMessage * almessage in messageArray)
-    {
-        [self markSingleMessageRead:almessage];
-    }
+//    for (ALMessage * almessage in messageArray)
+//    {
+//        [self markSingleMessageRead:almessage];
+//    }
     [self showNoConversationLabel];
     
 }

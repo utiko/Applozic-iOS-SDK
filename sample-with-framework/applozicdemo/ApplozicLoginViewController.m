@@ -141,10 +141,13 @@
 
 - (IBAction)login:(id)sender {
     
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    [registerUserClientService logoutWithCompletionHandler:^{
-        
-    }];
+     if([ALUserDefaultsHandler isLoggedIn])
+     {
+        ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+        [registerUserClientService logoutWithCompletionHandler:^(ALAPIResponse *response, NSError *error) {
+            
+        }];
+     }
     // Initial login view .....
     
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
