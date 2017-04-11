@@ -105,7 +105,7 @@ ii) Set access token generated as password.
     [chatManager launchChat:<Your Controller>];
 ```
 
-2) Launch chat with specific user:
+2) Launch chat with specific user/group:
 
 ```
   NSString * userIdOfReceiver =  @"receiverUserId";
@@ -382,7 +382,7 @@ Convenient methods are present in ALChatManager.swift to register user with appl
         chatManager.registerUserAndLaunchChat(getUserDetail(), fromController: self, forUser:nil)
 ```
 
-2) Launch chat with specific user:
+2) Launch chat with specific user/group:
 
 ```
 // Individual chat list launch for group or user with display name
