@@ -382,14 +382,14 @@ __Version 2.0__
  
 
 
-###Sample code in Objective-C to build messenger and chat app
+### Sample source code in Objective-C to build messenger and chat app
 
 https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sample-with-framework
 
-###Sample code in Swift to build messenger and chat app
+### Sample source code in Swift to build messenger and chat app
 https://www.applozic.com/blog/add-applozic-chat-framework-ios/
 
-###How to add source code in your xcode project
+### How to add chat sdk source code in your xcode project
 https://github.com/AppLozic/Applozic-iOS-SDK/tree/master/sampleapp-swift
 
 
