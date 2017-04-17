@@ -3,9 +3,9 @@
 1. [**Objective-C**](https://www.applozic.com/docs/ios-chat-sdk.html#objective-c)
 2. [**Swift**](https://www.applozic.com/docs/ios-chat-sdk.html#swift)
 
-###Objective-C
+### Objective-C
 
-####Step 1: Chat SDK Installation
+#### Step 1: Chat SDK Installation
 
 ### Automatic Installation via CocoaPods
 
@@ -44,7 +44,7 @@ Expand Embedded frameworks and add applozic framework.
 ![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Resized-adding-applozic-framework.png)        
 
 
-####Step 2: Login/Register User
+#### Step 2: Login/Register User
 Applozic will create a new user if the user doesn't exists. userId is the unique identifier for any user, it can be anything like email, phone number or uuid from your database.
 
 
@@ -334,14 +334,14 @@ Download ALChatManager.swift and add to your project.
 ii) Add New cocoa class NSObject+ApplozicBridge in objective-c. On adding it will ask “would you like to create bridging header” say “yes” and in bridging file paste this code
 
 ```
-#import "Applozic/ALMessage.h"
-#import "Applozic/ALMessageClientService.h"
-#import "Applozic/ALRegistrationResponse.h"
-#import "Applozic/ALUser.h"
-#import "Applozic/ALChatLauncher.h"
-#import "Applozic/ALApplozicSettings.h"
-#import "Applozic/ALAppLocalNotifications.h"
-#import "Applozic/ALConversationService.h"
+# import "Applozic/ALMessage.h"
+# import "Applozic/ALMessageClientService.h"
+# import "Applozic/ALRegistrationResponse.h"
+# import "Applozic/ALUser.h"
+# import "Applozic/ALChatLauncher.h"
+# import "Applozic/ALApplozicSettings.h"
+# import "Applozic/ALAppLocalNotifications.h"
+# import "Applozic/ALConversationService.h"
 
 ```
 

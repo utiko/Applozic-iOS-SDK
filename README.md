@@ -19,7 +19,7 @@ Applozic One to One and Group Chat SDK
 
 **Sample Projects:** [https://github.com/AppLozic/Applozic-iOS-Chat-Samples](https://github.com/AppLozic/Applozic-iOS-Chat-Samples)
 
-####Features:
+#### Features:
 
 
  One to one and Group Chat
