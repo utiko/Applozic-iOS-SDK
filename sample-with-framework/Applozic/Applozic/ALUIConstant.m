@@ -159,7 +159,6 @@
     {
         return [self getChatCellHeight:alMessage andCellFrame:cellFrame];
     }
-
     else if (alMessage.contentType == (short)ALMESSAGE_CONTENT_VCARD)
     {
         return [self getContactCellHeight];
