@@ -420,7 +420,7 @@ ALConversationProxy have three type of properties as following:
 
 Key1 and Key2 is a placeholder to store with respective value1 and value2 values
 
-#####Objective - C            
+##### Objective - C            
 
 ```
 ALConversationProxy * alConversationProxy = [[ALConversationProxy alloc] init];
@@ -443,7 +443,7 @@ NSString *topicDetails = [[NSString alloc] initWithData:jsonData    encoding:NSU
 alConversationProxy.topicDetailJson = topicDetails;
 ```
 
-#####API to create conversation using ALConversationProxy object 
+##### API to create conversation using ALConversationProxy object 
 
 ```
 -(void)createConversation:(ALConversationProxy *)alConversationProxy withCompletion:(void(^)(NSError *error,ALConversationProxy * proxy ))completion;
@@ -631,14 +631,14 @@ clientChannelKey: String!, withCompletion completion: ((Error?) -> Swift.Void)!)
 ```
 Objective-C
 
--(void)updateChannel:(NSNumber *)channelKey andNewName:(NSString *)newName 
-andImageURL:(NSString *)imageURL orClientChannelKey:(NSString *)clientChannelKey 
-withCompletion:(void(^)(NSError *error))completion
-      
+
+-(void)updateChannel:(NSNumber *)channelKey andNewName:(NSString *)newName andImageURL:(NSString *)imageURL orClientChannelKey:(NSString *)clientChannelKey
+  isUpdatingMetaData:(BOOL)flag metadata:(NSMutableDictionary *)metaData orChildKeys:(NSMutableArray *)childKeysList orChannelUsers:(NSMutableArray *)channelUsers withCompletion:(void(^)(NSError *error))completion
+  
 SWIFT
 
 open func updateChannel(_ channelKey: NSNumber!, andNewName newName: String!, 
-andImageURL imageURL: String!, orClientChannelKey clientChannelKey: String!, 
+andImageURL imageURL: String!, orClientChannelKey clientChannelKey: String!, isUpdatingMetaData flag: Bool!, metadata metaData: NSMutableDictionary!, orChildKeys childKeysList: NSMutableArray!, orChannelUsers channelUsers: NSMutableArray!,
 withCompletion completion: ((Error?) -> Swift.Void)!)
 
 ```
@@ -649,8 +649,20 @@ withCompletion completion: ((Error?) -> Swift.Void)!)
 | newName  | Yes |   | new name of channel.|
 | imageURL  | No |   | new Image of channel. If require to change image of channel/group|
 | clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
+| metaData |No |  | pass if you want to update channel meta data |
+|isUpdatingMetaData | No | | pass true in case if your updating meta data |
+|childKeysList|No| |To update childKeys |
+|channelUsers|No| |To update role of user in group/channel |
 | (void(^)(NSError *error))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
 
+__NOTE:__ Only admin can change the roles of user, For building channelUsers for role change update 
+
+     ALChannelService *channelService = [ALChannelService new];
+     ALChannelUser * alChannelUsers = [ALChannelUser new];
+     alChannelUsers.role = [NSNumber numberWithInt:1];//  USER = 0,ADMIN = 1,MODERATOR = 2,MEMBER = 3
+     alChannelUsers.userId = userId;//user to update the role
+     NSMutableArray * channelUsers = [NSMutableArray new];
+     [channelUsers addObject:alChannelUsers.dictionary];
 
 ##### Group Admin
 
