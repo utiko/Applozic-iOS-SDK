@@ -76,9 +76,20 @@ Convenient methods are present in ALChatManager.m to register user with applozic
 ```
 
 ```
-    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
-    [chatManager registerUser:aluser]; 
-```
+ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
+[chatManager registerUserWithCompletion:user withHandler:^(ALRegistrationResponse *rResponse, NSError *error) {
+        
+        if (!error)
+        {
+	   //Applozic registration successful
+	   
+        }
+	else
+	{
+            NSLog(@"Error in Applozic registartion : %@",error.description);
+	}
+    }];
+ ```
 
 #### NOTE: if [access token validation](https://www.applozic.com/docs/configuration.html#access-token-url) is configured from your server then set your server generated token as password at the time of user registration.
 
