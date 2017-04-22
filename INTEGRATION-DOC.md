@@ -86,7 +86,7 @@ ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"ap
         }
 	else
 	{
-            NSLog(@"Error in Applozic registartion : %@",error.description);
+            NSLog(@"Error in Applozic registration : %@",error.description);
 	}
     }];
  ```
