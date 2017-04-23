@@ -108,7 +108,7 @@ ii) Set access token generated as password.
   ``` 
 
 
-####Step 3: Initiate Chat
+#### Step 3: Initiate Chat
 
 1) Launch chat list screen:
 
@@ -127,9 +127,9 @@ ii) Set access token generated as password.
   
 ```
 
-####Step 4: Push Notification Setup
+#### Step 4: Push Notification Setup
 
-#####a) Send device token to Applozic server :
+##### a) Send device token to Applozic server :
 
 In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **method send device registration to Applozic server after you get deviceToken from APNS. Sample code is as below:             
 
@@ -167,7 +167,7 @@ In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken **met
 ```
 
 
-#####b) Receiving push notification :
+##### b) Receiving push notification :
 
 Once your app receive notification, pass it to Applozic handler for chat notification processing.             
 
@@ -192,7 +192,7 @@ Once your app receive notification, pass it to Applozic handler for chat notific
 ```
 
 
-#####c) Handling app launch on notification click :          
+##### c) Handling app launch on notification click :          
 
 ```
 
@@ -256,7 +256,7 @@ e) Save Context when app terminates
 }
 ```
 
-#####f) APNs Certification Type Setup :
+##### f) APNs Certification Type Setup :
 
 Upload your push notification certificate to Applozic Dashboard page under 'Edit Application' section in order to enable real time notification.
 
@@ -277,7 +277,7 @@ For Distribution:
     [ALUserDefaultsHandler setDeviceApnsType:(short)DISTRIBUTION];
 ```
 
-####Step 5: Add permission for camera,photo library ,Micro phone, contacts and location. 
+#### Step 5: Add permission for camera,photo library ,Micro phone, contacts and location. 
 
 In your info.plist add these permission for diffrent type of attachments. 
 
@@ -295,23 +295,31 @@ In your info.plist add these permission for diffrent type of attachments.
  
 ```
 
-####Step 6: Logout User
+#### Step 6: Logout User
 
 Call the following when user logout from your app:
 
 ```
-  ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc]init];
-  if([ALUserDefaultsHandler getDeviceKeyString]) {
-  
-      [alUserClientService logoutWithCompletionHandler:^{
-       }]; 
+ if([ALUserDefaultsHandler isLoggedIn])
+    {
+        ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+        [registerUserClientService logoutWithCompletionHandler:^(ALAPIResponse *response, NSError *error) {
+            if(!error && [response.status isEqualToString:@"success"])
+            {
+                NSLog(@"Logout success");
+            }
+            else
+            {
+                NSLog(@"Logout failed with response : %@",response.response);
+            }
+        }];
     }
 ```
 
-###Swift
+### Swift
 
 
-####Download Chat SDK
+#### Download Chat SDK
 
 **ADD APPLOZIC FRAMEWORK**
 
@@ -332,7 +340,7 @@ Expand Embedded frameworks and add applozic framework.
 ![dashboard-blank-content](https://raw.githubusercontent.com/AppLozic/Applozic-Chat-SDK-Documentation/master/Resized-adding-applozic-framework.png)        
 
 
-####Login/Register User
+#### Login/Register User
 Applozic will create a new user if the user doesn't exists. userId is the unique identifier for any user, it can be anything like email, phone number or uuid from your database.
 
 
@@ -378,7 +386,7 @@ Convenient methods are present in ALChatManager.swift to register user with appl
 
 ```
 
-####Initiate Chat
+#### Initiate Chat
 
 1) Launch chat list screen:
 
@@ -407,9 +415,9 @@ Convenient methods are present in ALChatManager.swift to register user with appl
   
 ```
 
-####Push Notification Setup
+#### Push Notification Setup
 
-#####a) Send device token to Applozic server :
+##### a) Send device token to Applozic server :
 
 In your AppDelegate’s **didRegisterForRemoteNotificationsWithDeviceToken** method send device registration to Applozic server after you get deviceToken from APNS. Sample code is as below:             
 
@@ -444,7 +452,7 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
 ```
 
 
-#####b) Receiving push notification :
+##### b) Receiving push notification :
 
 Once your app receive notification, pass it to Applozic handler for chat notification processing.             
 
@@ -466,7 +474,7 @@ func application(_ application: UIApplication, didReceiveRemoteNotification user
 ```
 
 
-#####c) Handling app launch on notification click :          
+##### c) Handling app launch on notification click :          
 
 ```
 func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -494,7 +502,7 @@ return true
 }                            
 
 ```
-#####d)  AppDelegate changes to observe background/foreground notification.
+##### d)  AppDelegate changes to observe background/foreground notification.
 
 ```
     func applicationDidEnterBackground(application: UIApplication) {
@@ -516,7 +524,7 @@ return true
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
 ```
-#####e) Save Context when app terminates
+##### e) Save Context when app terminates
 
 ```
     func applicationWillTerminate(application: UIApplication) {
@@ -524,7 +532,7 @@ return true
     }
 ```
 
-#####f) APNs Certification Type Setup :
+##### f) APNs Certification Type Setup :
 
 Upload your push notification certificate to Applozic Dashboard page under 'Edit Application' section in order to enable real time notification.
 
@@ -545,7 +553,7 @@ For Distribution:
     ALUserDefaultsHandler.setDeviceApnsType(APNS_TYPE_DISTRIBUTION);
 ```
 
-####Logout User
+#### Logout User
 
 Call the following when user logout from your app:
 
