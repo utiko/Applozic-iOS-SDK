@@ -10,6 +10,7 @@
 #import "ALUIConstant.h"
 #import "ALUtilityClass.h"
 #import "ALApplozicSettings.h"
+#import "ALChannelMsgCell.h"
 
 @implementation ALUIConstant
 
@@ -108,16 +109,35 @@
     return HEIGHT;
 }
 
++(CGFloat)getChannelMsgCellHeight:(ALMessage *)alMessage andCellFrame:(CGRect)cellFrame
+{
+    CGSize theTextSize = [ALUtilityClass getSizeForText:alMessage.message
+                                               maxWidth:cellFrame.size.width - 115
+                                                   font:@"Helvetica"
+                                               fontSize:CH_MESSAGE_TEXT_SIZE];
+    
+    CGFloat HEIGHT = theTextSize.height + 30;
+    
+    return HEIGHT;
+}
+
 + (CGFloat) getCellHeight:(ALMessage *)alMessage andCellFrame:(CGRect)cellFrame
 {
     
-    if(alMessage.contentType == (short)ALMESSAGE_CONTENT_LOCATION)
+    if(alMessage.contentType == ALMESSAGE_CONTENT_LOCATION)
     {
         return [self getLocationCellHeight:cellFrame];
     }
     else if([alMessage.type isEqualToString:@"100"])
     {
         return [self getDateCellHeight];
+    }
+    else if(alMessage.contentType == ALMESSAGE_CHANNEL_NOTIFICATION)
+    {
+        if ([alMessage isMsgHidden]){
+            return 0;
+        }
+        return [self getChannelMsgCellHeight:alMessage andCellFrame:cellFrame];
     }
     else if ([alMessage.fileMeta.contentType hasPrefix:@"video"])
     {
@@ -127,17 +147,17 @@
     {
         return [self getAudioCellHeight];
     }
+    else if ([alMessage.fileMeta.contentType hasPrefix:@"image"])
+    {
+        return [self getImageCellHeight:alMessage andCellFrame:cellFrame];
+    }
     else if (alMessage.contentType == ALMESSAGE_CONTENT_CUSTOM)
     {
          return [self getCustomChatCellHeight:alMessage andCellFrame:cellFrame];
     }
-    else if (alMessage.fileMeta.thumbnailUrl == nil && !alMessage.fileMeta.contentType)
+    else if (alMessage.contentType == ALMESSAGE_CONTENT_DEFAULT)
     {
         return [self getChatCellHeight:alMessage andCellFrame:cellFrame];
-    }
-    else if ([alMessage.fileMeta.contentType hasPrefix:@"image"])
-    {
-        return [self getImageCellHeight:alMessage andCellFrame:cellFrame];
     }
     else if (alMessage.contentType == (short)ALMESSAGE_CONTENT_VCARD)
     {

@@ -17,7 +17,10 @@
 
 @property (nonatomic, copy) NSString * messageKey;
 
-@property (nonatomic, assign) NSNumber *createdAt;
+@property (nonatomic, copy) NSNumber *createdAt;
 
 @property (nonatomic, copy) NSNumber * conversationId;
+
+-(BOOL)isSuccess;
+
 @end

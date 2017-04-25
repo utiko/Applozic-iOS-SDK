@@ -267,8 +267,8 @@
 }
 
 +(void)updateChannel:(NSNumber *)channelKey orClientChannelKey:(NSString *)clientChannelKey
-          andNewName:(NSString *)newName andImageURL:(NSString *)imageURL orChildKeys:(NSMutableArray *)childKeysList
-       andCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion
+          andNewName:(NSString *)newName andImageURL:(NSString *)imageURL metadata:(NSMutableDictionary *)metaData
+         orChildKeys:(NSMutableArray *)childKeysList  orChannelUsers:(NSMutableArray *)channelUsers  andCompletion:(void(^)(NSError *error, ALAPIResponse *response))completion
 {
     NSString * theUrlString = [NSString stringWithFormat:@"%@%@", KBASE_URL, UPDATE_CHANNEL_URL];
     
@@ -286,11 +286,22 @@
     {
         [dictionary setObject:channelKey forKey:@"groupId"];
     }
-
-    [dictionary setObject:imageURL forKey:@"imageUrl"];
+    
+    if(imageURL){
+        [dictionary setObject:imageURL forKey:@"imageUrl"];
+    }
+    
+    if (metaData)
+    {
+        [dictionary setObject:metaData forKey:@"metadata"];
+    }
     
     if(childKeysList.count) {
-         [dictionary setObject:childKeysList forKey:@"childKeys"];
+        [dictionary setObject:childKeysList forKey:@"childKeys"];
+    }
+    if(channelUsers.count){
+        [dictionary setObject:channelUsers forKey:@"users"];
+        
     }
     
     NSError *error;

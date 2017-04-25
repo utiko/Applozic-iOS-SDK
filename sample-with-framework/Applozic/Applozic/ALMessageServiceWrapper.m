@@ -21,7 +21,7 @@
 
 -(void)sendTextMessage:(NSString*)text andtoContact:(NSString*)toContactId {
     
-    ALMessage * almessage = [self createMessageEntityOfContentType:0 toSendTo:toContactId withText:text];
+    ALMessage * almessage = [self createMessageEntityOfContentType:ALMESSAGE_CONTENT_DEFAULT toSendTo:toContactId withText:text];
     
     [ALMessageService sendMessages:almessage withCompletion:^(NSString *message, NSError *error) {
         
@@ -34,6 +34,23 @@
     }];
 }
 
+
+-(void)sendTextMessage:(NSString*)messageText andtoContact:(NSString*)contactId orGroupId:(NSNumber*)channelKey{
+    
+    ALMessage * almessage = [self createMessageEntityOfContentType:ALMESSAGE_CONTENT_DEFAULT toSendTo:contactId withText:messageText];
+    
+    almessage.groupId=channelKey;
+    
+    [ALMessageService sendMessages:almessage withCompletion:^(NSString *message, NSError *error) {
+        
+        if(error)
+        {
+            NSLog(@"REACH_SEND_ERROR : %@",error);
+            return;
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UPDATE_MESSAGE_SEND_STATUS" object:almessage];
+    }];
+}
 
 -(void) sendMessage:(ALMessage *)alMessage
 withAttachmentAtLocation:(NSString *)attachmentLocalPath

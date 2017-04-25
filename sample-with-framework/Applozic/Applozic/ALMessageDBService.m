@@ -17,15 +17,12 @@
 #import "ALContactService.h"
 #import "ALMessageClientService.h"
 #import "ALApplozicSettings.h"
+#import "ALChannelService.h"
+#import "ALChannel.h"
 
-@implementation ALMessageDBService{
-    ALMessageDBService  * dbService;
-
-}
-
+@implementation ALMessageDBService
 
 //Add message APIS
-
 -(NSMutableArray *) addMessageList:(NSMutableArray*) messageList
 {
     NSMutableArray *messageArray = [[NSMutableArray alloc] init];
@@ -34,7 +31,8 @@
     for (ALMessage * theMessage in messageList) {
         
         NSManagedObject *message = [self getMessageByKey:@"key" value:theMessage.key];
-        if(message==nil){
+        if(message==nil)
+        {
             theMessage.sentToServer = YES;
             
             DB_Message * theMessageEntity = [self createMessageEntityForDBInsertionWithMessage:theMessage];
@@ -54,7 +52,8 @@
 }
 
 
--(DB_Message*)addMessage:(ALMessage*) message{
+-(DB_Message*)addMessage:(ALMessage*) message
+{
     ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
     DB_Message* dbMessag = [self createMessageEntityForDBInsertionWithMessage:message];
     [theDBHandler.managedObjectContext save:nil];
@@ -394,8 +393,8 @@
         }
         
         [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
-        [theRequest setPredicate:[NSPredicate predicateWithFormat:@"groupId==%d AND deletedFlag == %@ AND contentType != %i",
-                                  [theDictionary[@"groupId"] intValue],@(NO),ALMESSAGE_CONTENT_HIDDEN]];
+        [theRequest setPredicate:[NSPredicate predicateWithFormat:@"groupId==%d AND deletedFlag == %@ AND contentType != %i AND msgHidden == %@",
+                                  [theDictionary[@"groupId"] intValue],@(NO),ALMESSAGE_CONTENT_HIDDEN,@(NO)]];
         [theRequest setFetchLimit:1];
         
         NSArray * groupMsgArray = [theDbHandler.managedObjectContext executeFetchRequest:theRequest error:nil];
@@ -418,8 +417,8 @@
     for (NSDictionary * theDictionary in userMsgArray) {
         
         NSFetchRequest * theRequest = [NSFetchRequest fetchRequestWithEntityName:@"DB_Message"];
-        [theRequest setPredicate:[NSPredicate predicateWithFormat:@"contactId = %@ and groupId=nil and deletedFlag == %@ AND contentType != %i",
-                                  theDictionary[@"contactId"],@(NO),ALMESSAGE_CONTENT_HIDDEN]];
+        [theRequest setPredicate:[NSPredicate predicateWithFormat:@"contactId = %@ and groupId=nil and deletedFlag == %@ AND contentType != %i AND msgHidden == %@",theDictionary[@"contactId"],@(NO),ALMESSAGE_CONTENT_HIDDEN,@(NO)]];
+        
         [theRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
         [theRequest setFetchLimit:1];
         
@@ -473,14 +472,15 @@
     theMessageEntity.delivered = [NSNumber numberWithBool:theMessage.delivered];
     theMessageEntity.sentToServer = [NSNumber numberWithBool:theMessage.sentToServer];
     theMessageEntity.filePath = theMessage.imageFilePath;
-    theMessageEntity.inProgress = [ NSNumber numberWithBool:theMessage.inProgress];
+    theMessageEntity.inProgress = [NSNumber numberWithBool:theMessage.inProgress];
     theMessageEntity.isUploadFailed=[ NSNumber numberWithBool:theMessage.isUploadFailed];
     theMessageEntity.contentType = theMessage.contentType;
     theMessageEntity.deletedFlag=[NSNumber numberWithBool:theMessage.deleted];
     theMessageEntity.conversationId = theMessage.conversationId;
     theMessageEntity.pairedMessageKey = theMessage.pairedMessageKey;
     theMessageEntity.metadata = theMessage.metadata.description;
-
+    theMessageEntity.msgHidden = [NSNumber numberWithBool:[theMessage isMsgHidden]];
+    
     if(theMessage.getGroupId)
     {
         theMessageEntity.groupId = theMessage.groupId;
@@ -540,6 +540,7 @@
     theMessage.conversationId = theEntity.conversationId;
     theMessage.pairedMessageKey = theEntity.pairedMessageKey;
     theMessage.metadata = [theMessage getMetaDataDictionary:theEntity.metadata];
+    theMessage.msgHidden = [theEntity.msgHidden boolValue];
 
     // file meta info
     if(theEntity.fileMetaInfo){
@@ -651,6 +652,68 @@
 }
 
 //============================================================================================================
+#pragma mark ADD BROADCAST MESSAGE TO DB
+//============================================================================================================
+
++(void)addBroadcastMessageToDB:(ALMessage *)alMessage {
+
+    ALChannelService *channelService = [[ALChannelService alloc] init];
+    ALChannel *alChannel = [channelService getChannelByKey:alMessage.groupId];
+    if (alChannel.type == BROADCAST)
+    {
+        ALDBHandler * dbHandler = [ALDBHandler sharedInstance];
+        NSMutableArray * memberList = [channelService getListOfAllUsersInChannel:alMessage.groupId];
+        [memberList removeObject:[ALUserDefaultsHandler getUserId]];
+        NSManagedObjectContext * MOC = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        MOC.persistentStoreCoordinator = dbHandler.persistentStoreCoordinator;
+        [MOC performBlock:^{
+            
+            for (NSString *userId in memberList)
+            {
+                NSLog(@"BROADCAST_CHANNEL_MEMBER : %@",userId);
+                DB_Message * dbMsgEntity = [NSEntityDescription insertNewObjectForEntityForName:@"DB_Message"
+                                                                         inManagedObjectContext:dbHandler.managedObjectContext];
+                dbMsgEntity.contactId = userId;
+                dbMsgEntity.createdAt = alMessage.createdAtTime;
+                dbMsgEntity.deviceKey = alMessage.deviceKey;
+                dbMsgEntity.status = alMessage.status;
+                dbMsgEntity.isSentToDevice = [NSNumber numberWithBool:alMessage.sendToDevice];
+                dbMsgEntity.isShared = [NSNumber numberWithBool:alMessage.shared];
+                dbMsgEntity.isStoredOnDevice = [NSNumber numberWithBool:alMessage.storeOnDevice];
+                dbMsgEntity.key = [NSString stringWithFormat:@"%@-%@", alMessage.key, userId];
+                dbMsgEntity.messageText = alMessage.message;
+                dbMsgEntity.userKey = alMessage.userKey;
+                dbMsgEntity.to = userId;
+                dbMsgEntity.type = alMessage.type;
+                dbMsgEntity.delivered = [NSNumber numberWithBool:alMessage.delivered];
+                dbMsgEntity.sentToServer = [NSNumber numberWithBool:alMessage.sentToServer];
+                dbMsgEntity.filePath = alMessage.imageFilePath;
+                dbMsgEntity.inProgress = [NSNumber numberWithBool:alMessage.inProgress];
+                dbMsgEntity.isUploadFailed = [NSNumber numberWithBool:alMessage.isUploadFailed];
+                dbMsgEntity.contentType = alMessage.contentType;
+                dbMsgEntity.deletedFlag = [NSNumber numberWithBool:alMessage.deleted];
+                dbMsgEntity.conversationId = alMessage.conversationId;
+                dbMsgEntity.pairedMessageKey = alMessage.pairedMessageKey;
+                dbMsgEntity.metadata = alMessage.metadata.description;
+                dbMsgEntity.msgHidden = [NSNumber numberWithBool:[alMessage isMsgHidden]];
+                
+                if(alMessage.fileMeta != nil)
+                {
+                    ALMessageDBService * classSelf = [[self alloc] init];
+                    DB_FileMetaInfo * fileInfo = [classSelf createFileMetaInfoEntityForDBInsertionWithMessage:alMessage.fileMeta];
+                    dbMsgEntity.fileMetaInfo = fileInfo;
+                }
+                
+                NSError * error;
+                BOOL flag = [dbHandler.managedObjectContext save:&error];
+                NSLog(@"ERROR(IF_ANY) BROADCAST MSG : %@ and flag : %i",error.description, flag);
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"BROADCAST_MSG_UPDATE" object:nil];
+        }];
+    }
+}
+
+//============================================================================================================
 #pragma mark GET LATEST MESSAGE FOR USER/CHANNEL
 //============================================================================================================
 
@@ -684,7 +747,7 @@
     
     if(flag)
     {
-        predicate = [NSPredicate predicateWithFormat:@"groupId = %@ and deletedFlag = %@ and contentType != 10",channelKey,@(NO)];
+        predicate = [NSPredicate predicateWithFormat:@"groupId = %@ and deletedFlag = %@ and contentType != %i",channelKey,@(NO),ALMESSAGE_CHANNEL_NOTIFICATION];
     }
     
     [request setPredicate:predicate];

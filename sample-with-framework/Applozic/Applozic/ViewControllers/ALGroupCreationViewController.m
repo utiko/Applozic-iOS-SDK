@@ -164,8 +164,11 @@
     
     self.groupImageURL = self.groupImageURL ? self.groupImageURL : @"";
     ALChannelService *channelService = [ALChannelService new];
+
+    
     [channelService updateChannel:self.channelKey andNewName:self.groupNameInput.text
-                      andImageURL:self.groupImageURL orClientChannelKey:nil orChildKeys:nil withCompletion:^(NSError *error) {
+                      andImageURL:self.groupImageURL orClientChannelKey:nil isUpdatingMetaData:NO
+                         metadata:nil orChildKeys:nil orChannelUsers:nil  withCompletion:^(NSError *error) {
         
           if(!error)
           {

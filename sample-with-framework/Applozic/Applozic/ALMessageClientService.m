@@ -205,8 +205,12 @@
         
         ALMessageDBService *almessageDBService = [[ALMessageDBService alloc] init];
         [almessageDBService addMessageList:messageListResponse.messageList];
+        
         ALConversationService * alConversationService = [[ALConversationService alloc] init];
         [alConversationService addConversations:messageListResponse.conversationPxyList];
+        
+        ALChannelService *channelService = [[ALChannelService alloc] init];
+        [channelService callForChannelServiceForDBInsertion:theJson];
         
         completion(messageListResponse.messageList, nil, messageListResponse.userDetailsList);
        //NSLog(@"MSG_LIST RESPONSE :: %@",(NSString *)theJson);
@@ -323,7 +327,7 @@
 
 -(void)sendMessage: (NSDictionary *) userInfo WithCompletionHandler:(void(^)(id theJson, NSError *theError))completion
 {
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/send",KBASE_URL];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/v2/send",KBASE_URL];
     NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];

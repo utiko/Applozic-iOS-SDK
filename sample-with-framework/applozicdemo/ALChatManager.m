@@ -49,10 +49,11 @@
     
     [self ALDefaultChatViewSettings];
     [alUser setApplicationId:[self getApplicationKey]];
-    
+    [alUser setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         
+        NSLog(@"USER_REGISTRATION_RESPONSE :: %@", rResponse);
         if(error)
         {
             NSLog(@"ERROR_USER_REGISTRATION :: %@",error);
@@ -60,9 +61,9 @@
             return;
         }
         
-        if([rResponse.message isEqualToString:@"PASSWORD_INVALID"])
+        if(![rResponse isRegisteredSuccessfully])
         {
-            [ALUtilityClass showAlertMessage:@"INAVALID PASSWORD" andTitle:@"ALERT!!!"];
+            [ALUtilityClass showAlertMessage:rResponse.message andTitle:@"ALERT!!!"];
             return;
         }
         
@@ -79,7 +80,6 @@
         {
             [self.chatLauncher registerForNotification];
         }
-        NSLog(@"USER_REGISTRATION_RESPONSE :: %@", rResponse);
     }];
 }
 
@@ -105,10 +105,12 @@
     
     [self ALDefaultChatViewSettings];
     [alUser setApplicationId:[self getApplicationKey]];
+    [alUser setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];
     
     ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
     [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
         
+        NSLog(@"USER_REGISTRATION_RESPONSE :: %@", rResponse);
         if(error)
         {
             NSLog(@"ERROR_USER_REGISTRATION :: %@",error.description);
@@ -117,19 +119,24 @@
             return;
         }
         
-        if([rResponse.message isEqualToString:@"PASSWORD_INVALID"])
+        if(![rResponse isRegisteredSuccessfully])
         {
-            [ALUtilityClass showAlertMessage:@"INAVALID PASSWORD" andTitle:@"ALERT!!!"];
+            [ALUtilityClass showAlertMessage:rResponse.message andTitle:@"ALERT!!!"];
+            NSError *passError = [NSError errorWithDomain:rResponse.message code:0 userInfo:nil];
+            completion(nil, passError);
             return;
         }
         
-        if(![ALUserDefaultsHandler getApnDeviceToken])
+//        if(![ALUserDefaultsHandler getApnDeviceToken])
+//        {
+//            [self.chatLauncher registerForNotification];
+//        }
+        if(![[UIApplication sharedApplication] isRegisteredForRemoteNotifications])
         {
             [self.chatLauncher registerForNotification];
         }
         
         completion(rResponse, error);
-        NSLog(@"USER_REGISTRATION_RESPONSE :: %@", rResponse);
     }];
 }
 
@@ -164,7 +171,9 @@
     self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:[self getApplicationKey]];
     
     //User is already registered ..directly launch the chat...
-    if([ALUserDefaultsHandler getDeviceKeyString])
+    NSString * deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
+    NSLog(@"DEVICE_KEY : %@",deviceKey);
+    if(deviceKey != nil)
     {
         if(userId)
         {
@@ -188,51 +197,23 @@
         return;
     }
     
-    [self ALDefaultChatViewSettings];
-    [alUser setApplicationId:[self getApplicationKey]];
-    [alUser setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];     // 2. APP_MODULE_NAME setter
-    
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
+    [self registerUserWithCompletion:alUser withHandler:^(ALRegistrationResponse *rResponse, NSError *error) {
         
-        if(error)
+        if (!error)
         {
-            NSLog(@"REGISTRATION_ERROR : %@",error);
-            [ALUtilityClass showAlertMessage:rResponse.message andTitle:@"Response: Cant Register User Client"];
-            return;
+            if(userId)
+            {
+                [self.chatLauncher launchIndividualChat:userId
+                                            withGroupId:groupID
+                                andViewControllerObject:viewController
+                                            andWithText:nil];
+            }
+            else
+            {
+                NSString * title = viewController.title? viewController.title: @"< Back";
+                [self.chatLauncher launchChatList:title andViewControllerObject:viewController];
+            }
         }
-        
-        if([rResponse.message isEqualToString:@"PASSWORD_INVALID"])
-        {
-            [ALUtilityClass showAlertMessage:@"INAVALID PASSWORD" andTitle:@"ALERT!!!"];
-            return;
-        }
-        
-        if (rResponse && [rResponse.message containsString: @"REGISTERED"])
-        {
-
-        }
-        
-        //        if(![ALUserDefaultsHandler getApnDeviceToken]){
-        //            [self.chatLauncher registerForNotification];
-        //        }
-        
-        if(![[UIApplication sharedApplication] isRegisteredForRemoteNotifications])
-        {
-            [self.chatLauncher registerForNotification];
-        }
-        
-        if(userId)
-        {
-            [self.chatLauncher launchIndividualChat:userId withGroupId:groupID
-                            andViewControllerObject:viewController andWithText:nil];
-        }
-        else
-        {
-            NSString * title = viewController.title? viewController.title: @"< Back";
-            [self.chatLauncher launchChatList:title andViewControllerObject:viewController];
-        }
-        NSLog(@"USER_REGISTRATION_RESPONSE ::%@", rResponse);
     }];
 }
 
@@ -261,48 +242,20 @@
         preText = @""; // SET TEXT HERE
     }
     
-    if([ALUserDefaultsHandler getDeviceKeyString])
+    NSString * deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
+    NSLog(@"DEVICE_KEY : %@",deviceKey);
+    if(deviceKey != nil)
     {
-        [self.chatLauncher launchIndividualChat:userId withGroupId:groupID withDisplayName:displayName
-                        andViewControllerObject:fromViewController andWithText:preText];
+        [self.chatLauncher launchIndividualChat:userId withGroupId:groupID
+                                withDisplayName:displayName
+                        andViewControllerObject:fromViewController
+                                    andWithText:preText];
         return;
     }
     
-    [self ALDefaultChatViewSettings];
     ALUser *alUser = [ALChatManager getLoggedinUserInformation];
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
-        
-        if(error)
-        {
-            NSLog(@"REGISTRATION_ERROR :: %@",error.description);
-            [ALUtilityClass showAlertMessage:rResponse.message andTitle:@"Response: Cant Register User Client"];
-            return;
-        }
-        
-        if([rResponse.message isEqualToString:@"PASSWORD_INVALID"])
-        {
-            [ALUtilityClass showAlertMessage:@"INAVALID PASSWORD" andTitle:@"ALERT!!!"];
-            return;
-        }
-        
-        if (rResponse && [rResponse.message containsString: @"REGISTERED"])
-        {
-
-        }
-        
-        [self.chatLauncher launchIndividualChat:userId withGroupId:groupID withDisplayName:displayName
-                        andViewControllerObject:fromViewController andWithText:preText];
-        
-        //        if(![ALUserDefaultsHandler getApnDeviceToken]){
-        //            [self.chatLauncher registerForNotification];
-        //        }
-        
-        if(![[UIApplication sharedApplication] isRegisteredForRemoteNotifications])
-        {
-            [self.chatLauncher registerForNotification];
-        }
-        NSLog(@"USER_REGISTRATION_RESPONSE ::%@", rResponse);
+    [self registerUserWithCompletion:alUser withHandler:^(ALRegistrationResponse *rResponse, NSError *error) {
+    
     }];
 }
 
@@ -321,7 +274,9 @@
         if(!error)
         {
             self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:[self getApplicationKey]];
-            if([ALUserDefaultsHandler getDeviceKeyString])
+            NSString * deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
+            NSLog(@"DEVICE_KEY : %@",deviceKey);
+            if(deviceKey != nil)
             {
                 ALConversationProxy * finalProxy = [self makeFinalProxyWithGeneratedProxy:alConversationProxy andFinalProxy:proxyObject];
                 [self.chatLauncher launchIndividualContextChat:finalProxy andViewControllerObject:fromViewController userDisplayName:@"Adarsh" andWithText:nil];
@@ -358,23 +313,19 @@
 }
 
 
-//====================
+//============================================
 // launching contact screen with message
-//====================
+//============================================
 
--(void)launchContactScreenWithMessage:(ALMessage *)alMessage andFromViewController:(UIViewController*)viewController{
-    
+-(void)launchContactScreenWithMessage:(ALMessage *)alMessage andFromViewController:(UIViewController *)viewController
+{
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-    
-    ALNewContactsViewController *contcatListView = (ALNewContactsViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ALNewContactsViewController"];
-    contcatListView.directContactVCLaunch = YES;
-    contcatListView.alMessage = alMessage;
-    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:contcatListView];
+    ALNewContactsViewController *contactVC = (ALNewContactsViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ALNewContactsViewController"];
+    contactVC.directContactVCLaunch = YES;
+    contactVC.alMessage = alMessage;
+    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:contactVC];
     [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
-    
-    
 }
-
 
 //==============================================================================================================================================
 // This method can be used to get app logged-in user's information.
@@ -392,7 +343,7 @@
     [user setUserId:[ALUserDefaultsHandler getUserId]];
     [user setEmail:[ALUserDefaultsHandler getEmailId]];
     [user setPassword:[ALUserDefaultsHandler getPassword]];
-    //    [user setDisplayName:[ALUserDefaultsHandler getDisplayName]]; // IF SETTING ANY DISPLAY NAME THEN UNCOMMENT IT
+    [user setDisplayName:[ALUserDefaultsHandler getDisplayName]]; // IF SETTING ANY DISPLAY NAME THEN UNCOMMENT IT
     
     return user;
 }
@@ -476,9 +427,12 @@
     
     /******************************************** NOTIIFCATION SETTINGS  ********************************************/
     
-    [ALUserDefaultsHandler setDeviceApnsType:(short)DEVELOPMENT];
-    //For Distribution CERT::
-    //[ALUserDefaultsHandler setDeviceApnsType:(short)DISTRIBUTION];
+
+    if([ALUtilityClass isThisDebugBuild]){
+        [ALUserDefaultsHandler setDeviceApnsType:(short)DEVELOPMENT];
+    }else{
+        [ALUserDefaultsHandler setDeviceApnsType:(short)DISTRIBUTION];
+    }
     
     NSString * appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     [ALApplozicSettings setNotificationTitle:appName];
@@ -570,6 +524,15 @@
 //    [ALApplozicSettings setMsgContainerVC:@""];  // ADD CLASS NAME
     /**********************************************************************************************************************/
    
+    [ALApplozicSettings setUserDeletedText:@"User has been deleted"];            /*  SET DELETED USER NOTIFICATION TITLE   */
+    
+   
+    /******************************************** CUSTOM TAB BAR ITEM : ICON && TEXT ************************************************/
+    [ALApplozicSettings setChatListTabIcon:@""];
+    [ALApplozicSettings setProfileTabIcon:@""];
+    
+    [ALApplozicSettings setChatListTabTitle:@""];
+    [ALApplozicSettings setProfileTabTitle:@""];
 }
 
 -(void)getApplicationBaseURL
@@ -596,7 +559,9 @@
     self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:[self getApplicationKey]];
 
     //User is already registered ..directly launch the chat...
-    if([ALUserDefaultsHandler getDeviceKeyString])
+    NSString * deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
+    NSLog(@"DEVICE_KEY : %@",deviceKey);
+    if(deviceKey != nil)
     {        
         //Launch
         if(userId || groupId)
@@ -621,52 +586,21 @@
         return;
     }
     
-    [self ALDefaultChatViewSettings];
-    
-    [alUser setApplicationId:[self getApplicationKey]];
-    [alUser setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];  // 4. APP_MODULE_NAME  setter
-    
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
+    [self registerUserWithCompletion:alUser withHandler:^(ALRegistrationResponse *rResponse, NSError *error) {
         
-        if(error)
+        if (!error)
         {
-            NSLog(@"ERROR_USER_REGISTRATION :: %@",error);
-            [ALUtilityClass showAlertMessage:rResponse.message andTitle:@"Response"];
-            return;
-        }
-        
-        if([rResponse.message isEqualToString:@"PASSWORD_INVALID"])
-        {
-            [ALUtilityClass showAlertMessage:@"INAVALID PASSWORD" andTitle:@"ALERT!!!"];
-            return;
-        }
-        
-        if (rResponse && [rResponse.message containsString: @"REGISTERED"])
-        {
-
-        }
-        
-        //        if(![ALUserDefaultsHandler getApnDeviceToken]){
-        //            [self.chatLauncher registerForNotification];
-        //        }
-        
-        if(![[UIApplication sharedApplication] isRegisteredForRemoteNotifications])
-        {
-            [self.chatLauncher registerForNotification];
-        }
-        NSLog(@"USER_REGISTRATION_RESPONSE :: %@", rResponse);
-        
-        //Launch
-        if(userId || groupId)
-        {
-            [self.chatLauncher launchChatListWithUserOrGroup:userId withChannel:groupId
-                                     andViewControllerObject:fromViewController];
-        }
-        else
-        {
-            NSString * title = fromViewController.title? fromViewController.title: @"< Back";
-            [self.chatLauncher launchChatList:title andViewControllerObject:fromViewController];
+            if(userId || groupId)
+            {
+                [self.chatLauncher launchChatListWithUserOrGroup:userId
+                                                     withChannel:groupId
+                                         andViewControllerObject:fromViewController];
+            }
+            else
+            {
+                NSString * title = fromViewController.title? fromViewController.title: @"< Back";
+                [self.chatLauncher launchChatList:title andViewControllerObject:fromViewController];
+            }
         }
     }];
 }
@@ -678,7 +612,9 @@
 -(void)launchChatListWithParentKey:(NSNumber *)parentGroupKey andFromViewController:(UIViewController *)viewController
 {
     self.chatLauncher = [[ALChatLauncher alloc] initWithApplicationId:[self getApplicationKey]];
-    if([ALUserDefaultsHandler getDeviceKeyString])
+    NSString * deviceKey = [ALUserDefaultsHandler getDeviceKeyString];
+    NSLog(@"DEVICE_KEY : %@",deviceKey);
+    if(deviceKey != nil)
     {
         [self.chatLauncher launchChatListWithParentKey:parentGroupKey andViewControllerObject:viewController];
         return;
@@ -686,34 +622,15 @@
    
     [self ALDefaultChatViewSettings];
     ALUser *alUser = [ALChatManager getLoggedinUserInformation];
-    [alUser setApplicationId:[self getApplicationKey]];
-    [alUser setAppModuleName:[ALUserDefaultsHandler getAppModuleName]];  // 4. APP_MODULE_NAME  setter
-    
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    [registerUserClientService initWithCompletion:alUser withCompletion:^(ALRegistrationResponse *rResponse, NSError *error) {
-        
-        if(error)
-        {
-            NSLog(@"ERROR_USER_REGISTRATION :: %@",error);
-            [ALUtilityClass showAlertMessage:rResponse.message andTitle:@"Response"];
-            return;
-        }
-        
-        if([rResponse.message isEqualToString:@"PASSWORD_INVALID"])
-        {
-            [ALUtilityClass showAlertMessage:@"INAVALID PASSWORD" andTitle:@"ALERT!!!"];
-            return;
-        }
-        
-        if(![[UIApplication sharedApplication] isRegisteredForRemoteNotifications])
-        {
-            [self.chatLauncher registerForNotification];
-        }
-        NSLog(@"USER_REGISTRATION_RESPONSE :: %@", rResponse);
-        [self.chatLauncher launchChatListWithParentKey:parentGroupKey andViewControllerObject:viewController];
+    [self registerUserWithCompletion:alUser withHandler:^(ALRegistrationResponse *rResponse, NSError *error) {
+       
+       if (!error)
+       {
+           [self.chatLauncher launchChatListWithParentKey:parentGroupKey
+                                  andViewControllerObject:viewController];
+       }
     }];
 }
-
 
 //==============================================================================================================================================
 // DELEGATE FOR THIRD PARTY ACTION ON TAP GESTURE
