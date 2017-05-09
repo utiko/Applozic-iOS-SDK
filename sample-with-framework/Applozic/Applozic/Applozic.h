@@ -186,5 +186,14 @@ FOUNDATION_EXPORT const unsigned char ApplozicVersionString[];
 #import <Applozic/ALSubViewController.h>
 
 
+/// Missed imports (fix warnings)
 
+#import <Applozic/ALChannelMsgCell.h>
+#import <Applozic/ALChannelUser.h>
+#import <Applozic/MQTTDecoder.h>
+#import <Applozic/MQTTInMemoryPersistence.h>
+#import <Applozic/MQTTLog.h>
+#import <Applozic/MQTTSessionManager.h>
+#import <Applozic/MQTTSSLSecurityPolicyDecoder.h>
+#import <Applozic/MQTTSSLSecurityPolicyEncoder.h>
 
