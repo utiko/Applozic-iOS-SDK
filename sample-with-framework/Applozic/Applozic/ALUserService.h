@@ -19,7 +19,7 @@
 
 @interface ALUserService : NSObject
 
-+(void)processContactFromMessages:(NSArray *) messagesArr withCompletion:(void(^)())completionMark;
++(void)processContactFromMessages:(NSArray *) messagesArr withCompletion:(void(^)(void))completionMark;
 
 +(void)getLastSeenUpdateForUsers:(NSNumber *)lastSeenAt withCompletion:(void(^)(NSMutableArray *))completionMark;
 
