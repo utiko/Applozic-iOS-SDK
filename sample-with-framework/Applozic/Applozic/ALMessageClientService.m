@@ -105,11 +105,13 @@
     
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
     
-    NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@&mainPageSize=%lu", @"0",(unsigned long)mainPageSize];
+    NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@&mainPageSize=%lu&deletedGroupIncluded=%@",
+                                 @"0",(unsigned long)mainPageSize,@(YES)];
     
     if(startTime)
     {
-      theParamString = [NSString stringWithFormat:@"startIndex=%@&mainPageSize=%lu&endTime=%@", @"0", (unsigned long)mainPageSize, startTime];
+      theParamString = [NSString stringWithFormat:@"startIndex=%@&mainPageSize=%lu&endTime=%@&deletedGroupIncluded=%@",
+                        @"0", (unsigned long)mainPageSize, startTime,@(YES)];
     }
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
@@ -144,17 +146,15 @@
     //NSLog(@"\nGet Latest Messages \t State:- User Opens Message List View");
     NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/list",KBASE_URL];
     
-    NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@",@"0"];
+    NSString * theParamString = [NSString stringWithFormat:@"startIndex=%@&deletedGroupIncluded=%@",@"0",@(YES)];
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createGETRequestWithUrlString:theUrlString paramString:theParamString];
     
     [ALResponseHandler processRequest:theRequest andTag:@"GET MESSAGES GROUP BY CONTACT" WithCompletionHandler:^(id theJson, NSError *theError) {
         
         if (theError) {
-            
             completion(nil,theError);
-            
-            return ;
+            return;
         }
         
         ALMessageList *messageListResponse =  [[ALMessageList alloc] initWithJSONString:theJson];
@@ -205,8 +205,12 @@
         
         ALMessageDBService *almessageDBService = [[ALMessageDBService alloc] init];
         [almessageDBService addMessageList:messageListResponse.messageList];
+        
         ALConversationService * alConversationService = [[ALConversationService alloc] init];
         [alConversationService addConversations:messageListResponse.conversationPxyList];
+        
+        ALChannelService *channelService = [[ALChannelService alloc] init];
+        [channelService callForChannelServiceForDBInsertion:theJson];
         
         completion(messageListResponse.messageList, nil, messageListResponse.userDetailsList);
        //NSLog(@"MSG_LIST RESPONSE :: %@",(NSString *)theJson);
@@ -323,7 +327,7 @@
 
 -(void)sendMessage: (NSDictionary *) userInfo WithCompletionHandler:(void(^)(id theJson, NSError *theError))completion
 {
-    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/send",KBASE_URL];
+    NSString * theUrlString = [NSString stringWithFormat:@"%@/rest/ws/message/v2/send",KBASE_URL];
     NSString * theParamString = [ALUtilityClass generateJsonStringFromDictionary:userInfo];
     
     NSMutableURLRequest * theRequest = [ALRequestHandler createPOSTRequestWithUrlString:theUrlString paramString:theParamString];

@@ -29,10 +29,11 @@
 
 -(void) syncCall: (ALMessage *) alMessage {
     
-    if (alMessage.groupId != nil && alMessage.contentType == 10) {
+    if (alMessage.groupId != nil && alMessage.contentType == ALMESSAGE_CHANNEL_NOTIFICATION) {
         ALChannelService *channelService = [[ALChannelService alloc] init];
         [channelService syncCallForChannel];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"MQTT_APPLOZIC_01" object:alMessage];
 }
 
 -(void) updateConnectedStatus: (ALUserDetail *) alUserDetail {

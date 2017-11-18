@@ -9,6 +9,7 @@
 #import "ALApplozicSettings.h"
 #import "ALUserDefaultsHandler.h"
 #import "ALConstant.h"
+#import "ALUtilityClass.h"
 
 @interface ALApplozicSettings ()
 
@@ -741,5 +742,146 @@ NOTIFICATION_DISABLE = 2
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
++(void)setSubGroupLaunchFlag:(BOOL)flag 
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:SUB_GROUP_LAUNCH];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getSubGroupLaunchFlag
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:SUB_GROUP_LAUNCH];
+}
+
++(void)setGroupOfTwoFlag:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:GROUP_OF_TWO_FLAG];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)getGroupOfTwoFlag
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:GROUP_OF_TWO_FLAG];
+}
+
++(void)setBroadcastGroupEnable:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:BROADCAST_GROUP_ENABLE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)isBroadcastGroupEnable
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:BROADCAST_GROUP_ENABLE];
+}
+
++(void)setListOfViewControllers:(NSArray *)viewList
+{
+    [[NSUserDefaults standardUserDefaults] setObject:viewList forKey:VIEW_CONTROLLER_ARRAY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSArray *)getListOfViewControllers
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:VIEW_CONTROLLER_ARRAY];
+}
+
++(NSString *)getMsgContainerVC
+{
+    return [[NSUserDefaults standardUserDefaults] stringForKey:MSG_CONTAINER_VC];
+}
+
++(void)setMsgContainerVC:(NSString *)className
+{
+    [[NSUserDefaults standardUserDefaults] setValue:className forKey:MSG_CONTAINER_VC];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getGroupDeletedTitle
+{
+    NSString * title = [[NSUserDefaults standardUserDefaults] stringForKey:GROUP_DELETED_TITLE];
+    return title ? title : @"This Group has been Deleted";
+}
+
++(void)setGroupDeletedTitle:(NSString *)title;
+{
+    [[NSUserDefaults standardUserDefaults] setObject:title forKey:GROUP_DELETED_TITLE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getUserDeletedText
+{
+    NSString *text = [[NSUserDefaults standardUserDefaults] valueForKey:USER_DELETED_TEXT];
+    return text ? text : @"User has been deleted";
+}
+
++(void)setUserDeletedText:(NSString *)text
+{
+    [[NSUserDefaults standardUserDefaults] setValue:text forKey:USER_DELETED_TEXT];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIImage *)getChatListTabIcon
+{
+    NSString *stringtext = [[NSUserDefaults standardUserDefaults] valueForKey:CHAT_LIST_TAB_ICON];
+    UIImage *defaultImg = [ALUtilityClass getImageFromFramworkBundle:@"chat_default.png"];
+    UIImage *customImg = [UIImage imageNamed:stringtext];
+    return customImg ? customImg : defaultImg;
+}
+
++(void)setChatListTabIcon:(NSString *)imageName
+{
+    [[NSUserDefaults standardUserDefaults] setValue:imageName forKey:CHAT_LIST_TAB_ICON];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getChatListTabTitle
+{
+    NSString *stringtext = [[NSUserDefaults standardUserDefaults] valueForKey:CHAT_LIST_TAB_TITLE];
+    return (stringtext && stringtext.length) ? stringtext : @"Chats";
+}
+
++(void)setChatListTabTitle:(NSString *)title
+{
+    [[NSUserDefaults standardUserDefaults] setValue:title forKey:CHAT_LIST_TAB_TITLE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(UIImage *)getProfileTabIcon
+{
+    NSString *stringtext = [[NSUserDefaults standardUserDefaults] valueForKey:USER_PROFILE_TAB_ICON];
+    UIImage *defaultImg = [ALUtilityClass getImageFromFramworkBundle:@"contact_default.png"];
+    UIImage *customImg = [UIImage imageNamed:stringtext];
+    return customImg ? customImg : defaultImg;
+}
+
++(void)setProfileTabIcon:(NSString *)imageName
+{
+    [[NSUserDefaults standardUserDefaults] setValue:imageName forKey:USER_PROFILE_TAB_ICON];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)getProfileTabTitle
+{
+    NSString *stringtext = [[NSUserDefaults standardUserDefaults] valueForKey:USER_PROFILE_TAB_TITLE];
+    return (stringtext && stringtext.length) ? stringtext : @"Profile";
+}
+
++(void)setProfileTabTitle:(NSString *)title
+{
+    [[NSUserDefaults standardUserDefaults] setValue:title forKey:USER_PROFILE_TAB_TITLE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(void)openChatOnTapUserProfile:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:OPEN_CHAT_ON_USER_PROFILE_TAP];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)isChatOnTapUserProfile
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:OPEN_CHAT_ON_USER_PROFILE_TAP];
+}
 
 @end

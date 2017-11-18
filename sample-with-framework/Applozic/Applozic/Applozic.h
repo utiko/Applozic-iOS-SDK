@@ -104,7 +104,6 @@ FOUNDATION_EXPORT const unsigned char ApplozicVersionString[];
 #import <Applozic/ALRegisterUserClientService.h>
 #import <Applozic/ALContact.h>
 #import <Applozic/ALChatLauncher.h>
-#import <Applozic/MQTTClient.h>
 #import <Applozic/ALRegistrationResponse.h>
 #import <Applozic/ALPushNotificationService.h>
 #import <Applozic/ALUser.h>
@@ -180,14 +179,22 @@ FOUNDATION_EXPORT const unsigned char ApplozicVersionString[];
 #import <Applozic/TSMessageView.h>
 #import <Applozic/TSBlurView.h>
 #import <Applozic/NSString+Encode.h>
-#import <Applozic/MQTTSessionManager.h>
-#import <Applozic/MQTTEncoder.h>
-#import <Applozic/MQTTDecoder.h>
 #import <Applozic/HexColors.h>
 #import <Applozic/ALUserDetailListFeed.h>
 
 #import <Applozic/ALNavigationController.h>
+#import <Applozic/ALMessageServiceWrapper.h>
+#import <Applozic/ALSubViewController.h>
 
 
+/// Missed imports (fix warnings)
 
+#import <Applozic/ALChannelMsgCell.h>
+#import <Applozic/ALChannelUser.h>
+#import <Applozic/MQTTDecoder.h>
+#import <Applozic/MQTTInMemoryPersistence.h>
+#import <Applozic/MQTTLog.h>
+#import <Applozic/MQTTSessionManager.h>
+#import <Applozic/MQTTSSLSecurityPolicyDecoder.h>
+#import <Applozic/MQTTSSLSecurityPolicyEncoder.h>
 

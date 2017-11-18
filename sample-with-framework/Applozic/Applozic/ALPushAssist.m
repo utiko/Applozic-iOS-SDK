@@ -17,7 +17,8 @@
 #import "ALAppLocalNotifications.h"
 #import "ALGroupDetailViewController.h"
 #import "ALNewContactsViewController.h"
-
+#import "ALUserProfileVC.h"
+#import "ALGroupCreationViewController.h"
 
 @implementation ALPushAssist
 // WHEN NON-APPLOZIC VIEWs OPENED
@@ -34,15 +35,47 @@
 }
 
 
--(BOOL) isOurViewOnTop{
-    return ( [self.topViewController isKindOfClass:[ALMessagesViewController class]]
+-(BOOL) isOurViewOnTop
+{
+    NSArray * VCList = [ALApplozicSettings getListOfViewControllers];
+    if(VCList)
+    {
+        for (NSString * className in VCList)
+        {
+            if([self.topViewController isKindOfClass:NSClassFromString(className)])
+            {
+                return YES;
+            }
+        }
+    }
+    
+    return ( [self isMessageViewOnTop]
             ||[self.topViewController isKindOfClass:[ALChatViewController class]]
             ||[self.topViewController isKindOfClass:[ALGroupDetailViewController class]]
-            ||[self.topViewController isKindOfClass:[ALNewContactsViewController class]]);
+            ||[self.topViewController isKindOfClass:[ALNewContactsViewController class]]
+            ||[self.topViewController isKindOfClass:[ALUserProfileVC class]]
+            ||[self isGroupUpdateVCOnTop]);
+}
+
+-(BOOL)isGroupUpdateVCOnTop{
+    return ([self.topViewController isKindOfClass:[ALGroupCreationViewController class]]);
+}
+
+-(BOOL)isUserProfileVCOnTop{
+    return ([self.topViewController isKindOfClass:[ALUserProfileVC class]]);
+}
+
+-(BOOL)isContactVCOnTop{
+    return ([self.topViewController isKindOfClass:[ALNewContactsViewController class]]);
 }
 
 -(BOOL)isMessageViewOnTop{
-    return ([self.topViewController isKindOfClass:[ALMessagesViewController class]]);
+    return ([self.topViewController isKindOfClass:[ALMessagesViewController class]] || [self isMessageContainerOnTop]);
+}
+
+-(BOOL)isMessageContainerOnTop
+{
+    return ([self.topViewController isKindOfClass:NSClassFromString([ALApplozicSettings getMsgContainerVC])]);
 }
 
 -(BOOL)isChatViewOnTop{
@@ -77,6 +110,16 @@
     } else {
         return rootViewController;
     }
+}
+
++ (BOOL)isViewObjIsMsgVC:(UIViewController *)viewObj
+{
+    return ([viewObj isKindOfClass:[ALMessagesViewController class]]);
+}
+
++ (BOOL)isViewObjIsMsgContainerVC:(UIViewController *)viewObj
+{
+    return ([viewObj isKindOfClass:NSClassFromString([ALApplozicSettings getMsgContainerVC])]);
 }
 
 @end

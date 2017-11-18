@@ -1,5 +1,10 @@
-###Changelog
+### Changelog
 
+__Version 3.8__
+* Group/Subgroup
+* Contact Type for 3rd party
+* Group Image remove option
+* User Profile Update
 
 __Version 3.7.3__
 

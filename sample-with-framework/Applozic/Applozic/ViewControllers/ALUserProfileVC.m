@@ -24,7 +24,8 @@
 #import "UIImageView+WebCache.h"
 #import "ALContactService.h"
 #import "ALConstant.h"
-
+#import "ALMessagesViewController.h"
+#import "ALPushAssist.h"
 
 @interface ALUserProfileVC () <NSURLConnectionDataDelegate>
 
@@ -73,6 +74,16 @@
 {
     [super viewWillAppear:animated];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showMQTTNotification:)
+                                                 name:@"MQTT_APPLOZIC_01"
+                                               object:nil];
+    
+     [[NSNotificationCenter defaultCenter] addObserver:self
+                                              selector:@selector(handleAPNS:)
+                                                  name:@"pushNotification"
+                                                object:nil];
+    
     self.mImagePicker = [UIImagePickerController new];
     self.mImagePicker.delegate = self;
     self.mImagePicker.allowsEditing = YES;
@@ -109,12 +120,20 @@
     alContactService = [[ALContactService alloc] init];
     myContact = [alContactService loadContactByKey:@"userId" value:[ALUserDefaultsHandler getUserId]];
     self.userNameLabel.text = [myContact getDisplayName];
-    self.userDesignationLabel.text = @"Manager";
+    self.userDesignationLabel.text = @"";
     [self.userStatusLabel setText:[ALUserDefaultsHandler getLoggedInUserStatus] ? [ALUserDefaultsHandler getLoggedInUserStatus] : @"Profile Status"];
  
     BOOL checkMode = ([ALUserDefaultsHandler getNotificationMode] == NOTIFICATION_DISABLE);
     [self.notificationToggle setOn:(!checkMode) animated:YES];
     
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MQTT_APPLOZIC_01" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushNotification" object:nil];
 }
 
 -(void)commonNavBarTheme:(UINavigationController *)navigationController
@@ -133,6 +152,87 @@
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     [self commonNavBarTheme:navigationController];
+}
+
+-(void)showMQTTNotification:(NSNotification *)notifyObject
+{
+    ALMessage * alMessage = (ALMessage *)notifyObject.object;
+    
+    BOOL flag = (alMessage.groupId && [ALChannelService isChannelMuted:alMessage.groupId]);
+    
+    if (![alMessage.type isEqualToString:@"5"] && !flag && ![alMessage isMsgHidden])
+    {
+        ALNotificationView * alNotification = [[ALNotificationView alloc] initWithAlMessage:alMessage
+                                                                           withAlertMessage:alMessage.message];
+        
+        [alNotification nativeNotification:self];
+    }
+}
+
+-(void)handleAPNS:(NSNotification *)notification
+{
+    NSString * contactId = notification.object;
+    NSLog(@"USER_PROFILE_VC_NOTIFICATION_OBJECT : %@",contactId);
+    NSDictionary *dict = notification.userInfo;
+    NSNumber * updateUI = [dict valueForKey:@"updateUI"];
+    NSString * alertValue = [dict valueForKey:@"alertValue"];
+    
+    ALPushAssist *pushAssist = [ALPushAssist new];
+    
+    NSArray * myArray = [contactId componentsSeparatedByString:@":"];
+    NSNumber * channelKey = nil;
+    if(myArray.count > 2)
+    {
+        channelKey = @([myArray[1] intValue]);
+    }
+    
+    if([updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_ACTIVE]] && pushAssist.isUserProfileVCOnTop)
+    {
+        NSLog(@"######## USER PROFILE VC : APP_STATE_ACTIVE #########");
+
+        ALMessage *alMessage = [[ALMessage alloc] init];
+        alMessage.message = alertValue;
+        NSArray *myArray = [alMessage.message componentsSeparatedByString:@":"];
+        
+        if(myArray.count > 1)
+        {
+            alertValue = [NSString stringWithFormat:@"%@", myArray[1]];
+        }
+        else
+        {
+            alertValue = myArray[0];
+        }
+        
+        alMessage.message = alertValue;
+        alMessage.contactIds = contactId;
+        alMessage.groupId = channelKey;
+        
+        if ((channelKey && [ALChannelService isChannelMuted:alMessage.groupId]) || [alMessage isMsgHidden])
+        {
+            return;
+        }
+        
+        ALNotificationView * alNotification = [[ALNotificationView alloc] initWithAlMessage:alMessage
+                                                                           withAlertMessage:alMessage.message];
+        [alNotification nativeNotification:self];
+    }
+    else if([updateUI isEqualToNumber:[NSNumber numberWithInt:APP_STATE_INACTIVE]])
+    {
+        NSLog(@"######## USER PROFILE VC : APP_STATE_INACTIVE #########");
+
+        [self.tabBarController setSelectedIndex:0];
+        UINavigationController *navVC = (UINavigationController *)self.tabBarController.selectedViewController;
+        ALMessagesViewController *msgVC = (ALMessagesViewController *)[[navVC viewControllers] objectAtIndex:0];
+        if(channelKey)
+        {
+            msgVC.channelKey = channelKey;
+        }
+        else
+        {
+            msgVC.channelKey = nil;
+        }
+        [msgVC createDetailChatViewController:contactId];
+    }
 }
 
 //#pragma mark - Table view data source   [newContactCell.contactPersonImageView sd_setImageWithURL:[NSURL URLWithString:contact.contactImageUrl]];

@@ -33,7 +33,7 @@
 {
     NSString *type = (NSString *)[dictionary valueForKey:@"AL_KEY"];
     NSLog(@"APNs GOT NEW MESSAGE & NOTIFICATION TYPE :: %@", type);
-    BOOL prefixCheck = ([type hasPrefix:APPLOZIC_PREFIX]);
+    BOOL prefixCheck = ([type hasPrefix:APPLOZIC_PREFIX]) || ([type hasPrefix:@"MT_"]);
     return (type != nil && ([ALPushNotificationService.ApplozicNotificationTypes containsObject:type] || prefixCheck));
 }
 
@@ -63,12 +63,11 @@
         NSString *notificationId = (NSString *)[theMessageDict valueForKey:@"id"];
         if(notificationId && [ALUserDefaultsHandler isNotificationProcessd:notificationId])
         {
-
             NSLog(@"Returning from ALPUSH because notificationId is already processed... %@",notificationId);
-            Boolean isInactive=  ( [[UIApplication sharedApplication] applicationState] == UIApplicationStateInactive);
-            if(isInactive && ( [type isEqualToString:MT_SYNC] || [type isEqualToString:MT_MESSAGE_SENT] ) )
+            BOOL isInactive = ([[UIApplication sharedApplication] applicationState] == UIApplicationStateInactive);
+            if(isInactive && ([type isEqualToString:MT_SYNC] || [type isEqualToString:MT_MESSAGE_SENT]))
             {
-                NSLog(@"ALAPNs : APP_IS_INACTIVE::");
+                NSLog(@"ALAPNs : APP_IS_INACTIVE");
                 [self assitingNotificationMessage:notificationMsg andDictionary:dict];
             }
             else
@@ -115,14 +114,14 @@
                 NSLog(@"APPLOZIC_02 Sync Call Completed");
             }];
         }
-        else if ([type isEqualToString:@"MESSAGE_DELIVERED"]||[type isEqualToString:MT_DELIVERED]){
+        else if ([type isEqualToString:@"MT_MESSAGE_DELIVERED"]||[type isEqualToString:MT_DELIVERED]){
             
             NSArray *deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
             NSString * pairedKey = deliveryParts[0];
             [self.alSyncCallService updateMessageDeliveryReport:pairedKey withStatus:DELIVERED];
             [[ NSNotificationCenter defaultCenter] postNotificationName:@"report_DELIVERED" object:deliveryParts[0] userInfo:dictionary];
         }
-        else if ([type isEqualToString:@"MESSAGE_DELIVERED_READ"]||[type isEqualToString:@"APPLOZIC_08"]){
+        else if ([type isEqualToString:@"MT_MESSAGE_DELIVERED_READ"]||[type isEqualToString:@"APPLOZIC_08"]){
             
             NSArray  * deliveryParts = [[theMessageDict objectForKey:@"message"] componentsSeparatedByString:@","];
             NSString * pairedKey = deliveryParts[0];
@@ -233,19 +232,10 @@
 -(void)assitingNotificationMessage:(NSString*)notificationMsg andDictionary:(NSMutableDictionary*)dict
 {
     ALPushAssist* assistant = [[ALPushAssist alloc] init];
-    //Check for APPLOZIC_01 and APPLOZIC_02 only..
-    
     if(!assistant.isOurViewOnTop)
     {
         [dict setObject:@"apple push notification.." forKey:@"Calledfrom"];
         [assistant assist:notificationMsg and:dict ofUser:notificationMsg];
-    }
-    else if(assistant.isGroupDetailViewOnTop){
-            
-        //Group Detail View Controller
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"popGroupDetailsAndLoadChat"
-                                                             object:notificationMsg
-                                                           userInfo:dict];
     }
     else
     {

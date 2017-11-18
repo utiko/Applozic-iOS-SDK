@@ -47,28 +47,30 @@
     return navC;
 }
 
-
-
 -(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID
     andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
 {
     self.chatLauncherFLAG = [NSNumber numberWithInt:1];
     
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
-    
-    ALChatViewController * chatView = (ALChatViewController *) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
-    
-    chatView.channelKey = groupID;
-    chatView.contactIds = userId;
-    chatView.text = text;
-    chatView.individualLaunch = YES;
-    chatView.chatViewDelegate = self;
-    
-    NSLog(@"CALLED_VIA_NOTIFICATION");
-    
-    UINavigationController * conversationViewNavController = [self createNavigationControllerForVC:chatView];
-    conversationViewNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
+    if(groupID){
+        [self launchIndividualChatForGroup:userId withGroupId:groupID withDisplayName:nil andViewControllerObject:viewController andWithText:text];
+    }else{
+        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+        
+        ALChatViewController * chatView = (ALChatViewController *) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+        
+        chatView.channelKey = groupID;
+        chatView.contactIds = userId;
+        chatView.text = text;
+        chatView.individualLaunch = YES;
+        chatView.chatViewDelegate = self;
+        
+        NSLog(@"CALLED_VIA_NOTIFICATION");
+        
+        UINavigationController * conversationViewNavController = [self createNavigationControllerForVC:chatView];
+        conversationViewNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
+    }
 }
 
 /*- (UINavigationController *)createNavigationControllerForVC:(UIViewController *)vc
@@ -80,27 +82,62 @@
 }*/
 
 -(void)launchIndividualChat:(NSString *)userId withGroupId:(NSNumber*)groupID
-            withDisplayName:(NSString*)displayName andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
+            withDisplayName:(NSString*)displayName
+    andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
 {
-
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
-                                
-                                                         bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
-    ALChatViewController *chatView = (ALChatViewController *) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
-    
-    chatView.channelKey = groupID;
-    chatView.contactIds = userId;
-    chatView.text = text;
-    chatView.individualLaunch = YES;
-    chatView.displayName = displayName;
-    chatView.chatViewDelegate = self;
-    
-    UINavigationController *conversationViewNavController = [self createNavigationControllerForVC:chatView];;
-    conversationViewNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve ;
-    [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
-    
+    if( groupID){
+        [self launchIndividualChatForGroup:userId withGroupId:groupID withDisplayName:displayName andViewControllerObject:viewController andWithText:text];
+    }else{
+        
+        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                    
+                                                             bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+        ALChatViewController *chatView = (ALChatViewController *) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+        chatView.channelKey = groupID;
+        chatView.contactIds = userId;
+        chatView.text = text;
+        chatView.individualLaunch = YES;
+        chatView.displayName = displayName;
+        chatView.chatViewDelegate = self;
+        
+        UINavigationController *conversationViewNavController = [self createNavigationControllerForVC:chatView];;
+        conversationViewNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve ;
+        [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
+    }
 }
+
+-(void)launchIndividualChatForGroup:(NSString *)userId withGroupId:(NSNumber*)groupID
+                    withDisplayName:(NSString*)displayName
+            andViewControllerObject:(UIViewController *)viewController andWithText:(NSString *)text
+{
+    
+    ALChannelService * channelService  =  [ALChannelService new];
+    [channelService getChannelInformation:groupID orClientChannelKey:nil withCompletion:^(ALChannel *alChannel) {
+                               //Channel information
+                               
+                               
+       NSLog(@" alChannel ###%@ ", alChannel.name);
+       UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic"
+                                   
+                                                            bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+       
+       ALChatViewController *chatView = (ALChatViewController *) [storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+       
+       chatView.channelKey = groupID;
+       chatView.text = text;
+       chatView.contactIds = userId;
+       chatView.individualLaunch = YES;
+       chatView.displayName = displayName;
+       chatView.chatViewDelegate = self;
+       
+       UINavigationController *conversationViewNavController = [self createNavigationControllerForVC:chatView];;
+       conversationViewNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve ;
+       [viewController presentViewController:conversationViewNavController animated:YES completion:nil];
+       
+   }];
+}
+
 
 -(void)launchChatList:(NSString *)title andViewControllerObject:(UIViewController *)viewController
 {
@@ -112,6 +149,7 @@
     //theTabBar.modalTransitionStyle=UIModalTransitionStyleCrossDissolve ;
     
     UITabBarController * tabBAR = ((UITabBarController *)theTabBar);
+    [self setCustomTabBarIcon:tabBAR];
     UINavigationController * navBAR = (UINavigationController *)[[tabBAR viewControllers] objectAtIndex:0];
     ALMessagesViewController * msgVC = (ALMessagesViewController *)[[navBAR viewControllers] objectAtIndex:0];
     msgVC.messagesViewDelegate = self;
@@ -134,11 +172,10 @@
 {
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
     
-    ALNewContactsViewController *contcatListView = (ALNewContactsViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ALNewContactsViewController"];
-    contcatListView.directContactVCLaunch = YES;
-    UINavigationController *conversationViewNavController = [self createNavigationControllerForVC:contcatListView];
+    ALNewContactsViewController *contcatVC = (ALNewContactsViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ALNewContactsViewController"];
+    contcatVC.directContactVCLaunch = YES;
+    UINavigationController *conversationViewNavController = [[UINavigationController alloc] initWithRootViewController:contcatVC];
     [uiViewController presentViewController:conversationViewNavController animated:YES completion:nil];
-
 }
 
 -(void)launchIndividualContextChat:(ALConversationProxy *)alConversationProxy andViewControllerObject:(UIViewController *)viewController
@@ -204,6 +241,43 @@
     
 }
 
+//==========================================================================================================================================
+#pragma mark : ALMSGVC LAUNCH FOR SUB GROUPS
+//==========================================================================================================================================
+
+-(void)launchChatListWithParentKey:(NSNumber *)parentKey andViewControllerObject:(UIViewController *)viewController
+{
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
+    UIViewController *theTabBar = [storyboard instantiateViewControllerWithIdentifier:@"messageTabBar"];
+    
+    UITabBarController * tabBAR = ((UITabBarController *)theTabBar);
+    UINavigationController * navBAR = (UINavigationController *)[[tabBAR viewControllers] objectAtIndex:0];
+    ALMessagesViewController * msgVC = (ALMessagesViewController *)[[navBAR viewControllers] objectAtIndex:0];
+    msgVC.messagesViewDelegate = self;
+    
+    ALChannelService * channelService = [ALChannelService new];
+    [channelService getChannelInformation:parentKey orClientChannelKey:nil withCompletion:^(ALChannel *alChannel3) {
+        
+        msgVC.parentGroupKey = parentKey;
+        [msgVC intializeSubgroupMessages];
+        [viewController presentViewController:theTabBar animated:YES completion:nil];
+    }];
+}
+
+//==========================================================================================================================================
+#pragma mark : CUSTOM TAB BAR ICON METHOD
+//==========================================================================================================================================
+
+-(void)setCustomTabBarIcon:(UITabBarController *)tabBAR
+{
+    UITabBarItem *item1 = [tabBAR.tabBar.items objectAtIndex:0];
+    [item1 setTitle:[ALApplozicSettings getChatListTabTitle]];
+    [item1 setImage:[ALApplozicSettings getChatListTabIcon]];
+    
+    UITabBarItem *item2 = [tabBAR.tabBar.items objectAtIndex:1];
+    [item2 setTitle:[ALApplozicSettings getProfileTabTitle]];
+    [item2 setImage:[ALApplozicSettings getProfileTabIcon]];
+}
 
 @end
 

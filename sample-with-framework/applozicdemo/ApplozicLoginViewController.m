@@ -141,14 +141,15 @@
 
 - (IBAction)login:(id)sender {
     
-    ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
-    [registerUserClientService logoutWithCompletionHandler:^{
-        
-    }];
+     if([ALUserDefaultsHandler isLoggedIn])
+     {
+        ALRegisterUserClientService *registerUserClientService = [[ALRegisterUserClientService alloc] init];
+        [registerUserClientService logoutWithCompletionHandler:^(ALAPIResponse *response, NSError *error) {
+            
+        }];
+     }
     // Initial login view .....
     
-    
- 
     NSString *message = [[NSString alloc] initWithFormat: @"Hello %@", [self.userIdField text]];
     NSLog(@"message: %@", message);
     
@@ -175,14 +176,16 @@
     [ALUserDefaultsHandler setUserId:user.userId];
     [ALUserDefaultsHandler setEmailId:user.email];
     [ALUserDefaultsHandler setPassword:user.password];
-    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"]; 
-    [chatManager registerUser:user];
-    
-    UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Main"
-                                                          bundle:nil];
-    UIViewController *launchChat = [storyboardM instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
-    [self presentViewController:launchChat animated:YES completion:nil];
-    
+    ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
+    [chatManager registerUserWithCompletion:user withHandler:^(ALRegistrationResponse *rResponse, NSError *error) {
+        
+        if (!error)
+        {
+            UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            UIViewController *launchChat = [storyboardM instantiateViewControllerWithIdentifier:@"LaunchChatFromSimpleViewController"];
+            [self presentViewController:launchChat animated:YES completion:nil];
+        }
+    }];
 }
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -205,4 +208,5 @@
 
 - (IBAction)getstarted:(id)sender {
 }
+
 @end

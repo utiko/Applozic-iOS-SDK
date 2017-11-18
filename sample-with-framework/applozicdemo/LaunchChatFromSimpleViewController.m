@@ -18,7 +18,7 @@
 #import  <Applozic/ALMessageService.h>
 #import  <Applozic/ALContactService.h>
 #import  <Applozic/ALUserService.h>
-
+#import <Applozic/ALImagePickerHandler.h>
 @interface LaunchChatFromSimpleViewController ()
 
 - (IBAction)mLaunchChatList:(id)sender;
@@ -39,6 +39,7 @@
     //    [self mLaunchChatList:self];
     self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.activityView.center = self.view.center;
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -54,7 +55,9 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newMessageHandler) name:NEW_MESSAGE_NOTIFICATION  object:nil];
     [self newMessageHandler];
-
+    if([ALUserDefaultsHandler isLoggedIn]){
+        [self insertInitialContacts];
+    }
 }
 
 //ADD THIS METHOD :
@@ -71,20 +74,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(IBAction)logOutButton:(id)sender
-{
-    ALRegisterUserClientService * alUserClientService = [[ALRegisterUserClientService alloc] init];
-    
-    if([ALUserDefaultsHandler getDeviceKeyString])
-    {
-        [alUserClientService logoutWithCompletionHandler:^{
-            
-        }];
-    }
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 //===============================================================================
@@ -115,7 +104,6 @@
     [self insertInitialContacts];
 }
 
-
 //===============================================================================
 // TO LAUNCH INDIVIDUAL CHAT
 //
@@ -132,13 +120,13 @@
 
     
     ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
+
     [self checkUserContact:@"don222" displayName:@"" withCompletion:^(ALContact * contact) {
-        
+
          [chatManager launchChatForUserWithDisplayName:contact.userId withGroupId:nil
                                         andwithDisplayName:contact.displayName andFromViewController:self];
-    
+
     }];
-    
 }
 
 -(void)checkUserContact:(NSString *)userId displayName:(NSString *)displayName withCompletion:(void(^)(ALContact * contact))completion
@@ -210,7 +198,7 @@
         ALConversationProxy * newProxy = [[ALConversationProxy alloc] init];
         newProxy = [self makeupConversationDetails];
         
-         ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
+        ALChatManager * chatManager = [[ALChatManager alloc] initWithApplicationKey:@"applozic-sample-app"];
         [chatManager createAndLaunchChatWithSellerWithConversationProxy:newProxy fromViewController:self];
     }
     else
@@ -294,7 +282,7 @@
     
     if([ALUserDefaultsHandler getDeviceKeyString])
     {
-        [alUserClientService logoutWithCompletionHandler:^{
+        [alUserClientService logoutWithCompletionHandler:^(ALAPIResponse *response, NSError *error) {
             
         }];
     }
@@ -304,8 +292,9 @@
 - (void) insertInitialContacts
 {
     
-    ALDBHandler * theDBHandler = [ALDBHandler sharedInstance];
-    
+    ALContactService * contactService = [ALContactService new];
+    NSMutableArray * conactArray = [NSMutableArray new];
+
     //contact 1
     ALContact *contact1 = [[ALContact alloc] init];
     contact1.userId = @"adarshk";
@@ -313,6 +302,9 @@
     contact1.displayName = @"Adarsh";
     contact1.email = @"github@applozic.com";
     contact1.contactImageUrl = @"https://avatars0.githubusercontent.com/u/5002214?v=3&s=400";
+    contact1.contactType= [NSNumber numberWithInt:1];
+    [conactArray addObject:contact1];
+
     
     // contact 2
     ALContact *contact2 = [[ALContact alloc] init];
@@ -323,12 +315,16 @@
     contact2.contactImageUrl = nil;
     contact2.localImageResourceName = @"abhishek.jpg";
     contact2.contactImageUrl = nil;
+    contact2.contactType= [NSNumber numberWithInt:2];
+    [conactArray addObject:contact2];
+
     
 //    Contact -------- Example with json
 
     
     NSString *jsonString =@"{\"userId\": \"applozic\",\"fullName\": \"Applozic\",\"contactNumber\": \"9535008745\",\"displayName\": \"Applozic Support\",\"contactImageUrl\": \"https://cdn-images-1.medium.com/max/800/1*RVmHoMkhO3yoRtocCRHSdw.png\",\"email\": \"devashish@applozic.com\",\"localImageResourceName\":\"sample.jpg\"}";
     ALContact *contact3 = [[ALContact alloc] initWithJSONString:jsonString];
+    [conactArray addObject:contact3];
 
     
     
@@ -345,9 +341,9 @@
     [demodictionary setValue:nil forKey:@"localImageResourceName"];
     [demodictionary setValue:[ALUserDefaultsHandler getApplicationKey] forKey:@"applicationId"];
     ALContact *contact4 = [[ALContact alloc] initWithDict:demodictionary];
+    [conactArray addObject:contact4];
 
-    
-    [theDBHandler addListOfContacts:@[contact1, contact2, contact3, contact4]];
+    [contactService updateOrInsertListOfContacts:conactArray];
     
 }
 -(void)userUpdate:(NSNotification*)userDetails{
@@ -370,6 +366,98 @@
         [ALUserDefaultsHandler setNotificationMode:mode] ;
         NSLog(@"UPDATE Notification Mode Response :: %@ Error :: %@",response, error);
     }];
+}
+
+-(void)subGroupCODE:(ALChatManager *)chatManager
+{
+    // CODE FOR SUBGROUP DO NOT USE IT
+    
+    //    [chatManager launchChatListWithParentKey:[NSNumber numberWithInt:213407] andFromViewController:self];
+    
+    //
+    //        ALChannelService *ss = [ALChannelService new];
+    //        [ss createChannel:@"PRD_SGRP202" andParentChannelKey:[NSNumber numberWithInt:1371169] orClientChannelKey:nil andMembersList:@[@"hi0101",@"hi0102"]
+    //             andImageLink:nil channelType:PUBLIC andMetaData:nil withCompletion:^(ALChannel *alChannel) {
+    //
+    //             }];
+    //
+    
+    //    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"SUB GROUP"
+    //                                                                              message:@"Add Parent key"
+    //                                                                       preferredStyle:UIAlertControllerStyleAlert];
+    //
+    //    [ALUtilityClass setAlertControllerFrame:alertVC andViewController:self];
+    //    [alertVC addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    //
+    //    [alertVC addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+    //
+    //        textField.placeholder = @"Add Parent Key here...";
+    //    }];
+    //
+    //    [alertVC addAction:[UIAlertAction actionWithTitle:@"Open Group" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    //
+    //        UITextField *textField = alertVC.textFields.firstObject;
+    //        if(textField.text.length)
+    //        {
+    //            int parentKey = [textField.text intValue];
+    //            if(parentKey)
+    //            {
+    //                [chatManager launchChatListWithParentKey:[NSNumber numberWithInt:parentKey] andFromViewController:self];
+    //            }
+    //            else
+    //            {
+    //                ALChannelService * service = [ALChannelService new];
+    //                ALChannel * channel = [service fetchChannelWithClientChannelKey:textField.text];
+    //                if(channel)
+    //                {
+    //                    [chatManager launchChatListWithParentKey:channel.key andFromViewController:self];
+    //                }
+    //                else
+    //                {
+    //                    NSLog(@"NO CHANNEL FOUND");
+    //                }
+    //            }
+    //        }
+    //    }]];
+    //
+    //    [self presentViewController:alertVC animated:YES completion:nil];
+    
+    
+    //    NSMutableArray *childList = [NSMutableArray new];
+    //    [childList addObject:[NSNumber numberWithInt:1344099]];
+    //    [childList addObject:[NSNumber numberWithInt:1344107]];
+    //    ALChannelService *ss = [ALChannelService new];
+    //    [ss updateChannel:[NSNumber numberWithInt:1344096] andNewName:nil
+    //          andImageURL:nil orClientChannelKey:nil orChildKeys:childList withCompletion:^(NSError *error) {
+    //
+    //    }];
+    
+    
+    // ADDING
+    
+    //    NSMutableArray *childList = [NSMutableArray new];
+    //    [childList addObject:[NSNumber numberWithInt:1261256]];
+    //    [childList addObject:[NSNumber numberWithInt:213407]];
+    //    ALChannelService *ss = [ALChannelService new];
+    //    [ss addChildKeyList:childList andParentKey:[NSNumber numberWithInt:1371169] withCompletion:^(id json, NSError *error) {
+    //
+    //    }];
+    
+    //    [ss removeChildKeyList:childList andParentKey:[NSNumber numberWithInt:213110] withCompletion:^(id json, NSError *error) {
+    //
+    //    }];
+    //    m2 : 1397150
+    
+    //    clinet channels
+    //    NSMutableArray *childList = [@[@"1315217",@"1321170"] mutableCopy];
+    
+    //    [ss addClientChildKeyList:childList andParentKey:@"1170818" withCompletion:^(id json, NSError *error) {
+    //        
+    //    }];
+    
+    //    [ss removeClientChildKeyList:childList andParentKey:@"1170818" withCompletion:^(id json, NSError *error) {
+    //        
+    //    }];
 }
 
 -(void)dealloc

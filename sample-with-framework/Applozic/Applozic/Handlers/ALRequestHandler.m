@@ -65,6 +65,8 @@
         [theRequest setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[thePostData length]] forHTTPHeaderField:@"Content-Length"];
     }
     
+    NSLog(@"POST_URL :: %@", urlString);
+    
     [self addGlobalHeader:theRequest];
     return theRequest;
     

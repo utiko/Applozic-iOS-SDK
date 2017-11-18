@@ -156,6 +156,8 @@
     
     self.metadata = [[NSMutableDictionary  alloc] initWithDictionary:messageJson[@"metadata"]];
     
+    self.msgHidden = [self isMsgHidden];
+    
 }
 
 
@@ -265,16 +267,21 @@
                                                                                       error:&error];
         if(!metaDataDictionary)
         {
-            NSLog(@"ERROR: COULD NOT PARSE META-DATA : %@", error.description);
+//            NSLog(@"ERROR: COULD NOT PARSE META-DATA : %@", error.description);
         }
     }
     @catch(NSException * exp)
     {
-         NSLog(@"METADATA_DICTIONARY_EXCEPTION :: %@", exp.description);
+//         NSLog(@"METADATA_DICTIONARY_EXCEPTION :: %@", exp.description);
     }
     
     return metaDataDictionary;
 }
 
+-(BOOL)isMsgHidden
+{
+    BOOL hide = [[self.metadata objectForKey:@"hide"] boolValue];
+    return hide;
+}
 
 @end

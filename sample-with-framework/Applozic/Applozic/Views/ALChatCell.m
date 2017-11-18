@@ -127,6 +127,11 @@
         tapForCustomView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(processTapGesture)];
         tapForCustomView.numberOfTapsRequired = 1;
         
+        UITapGestureRecognizer *tapForOpenChat = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(processOpenChat)];
+        tapForOpenChat.numberOfTapsRequired = 1;
+        [self.mUserProfileImageView setUserInteractionEnabled:YES];
+        [self.mUserProfileImageView addGestureRecognizer:tapForOpenChat];
+        
         self.hyperLinkArray = [NSMutableArray new];
     }
     
@@ -265,16 +270,6 @@
             self.mUserProfileImageView.backgroundColor = [ALColorUtility getColorForAlphabet:receiverName];
         }
         
-        if(alMessage.contentType ==  10)
-        {
-            [self dateTextSetupForALMessage:alMessage withViewSize:viewSize andTheTextSize:theTextSize];
-            self.mUserProfileImageView.alpha = 0;
-            self.mNameLabel.hidden = YES;
-            self.mChannelMemberName.hidden = YES;
-            [self.mMessageLabel setUserInteractionEnabled:NO];
-            
-        }
-        
     }
     else    //Sent Message
     {
@@ -324,15 +319,9 @@
         [[UIMenuController sharedMenuController] setMenuItems: @[testMenuItem]];
         [[UIMenuController sharedMenuController] update];
         
-        if(alMessage.contentType ==  10)
-        {
-            [self dateTextSetupForALMessage:alMessage withViewSize:viewSize andTheTextSize:theTextSize];
-            self.mMessageStatusImageView.hidden = YES;
-        }
-        
     }
     
-    if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT] && (alMessage.contentType != 10)) {
+    if ([alMessage.type isEqualToString:@MT_OUTBOX_CONSTANT] && (alMessage.contentType != ALMESSAGE_CHANNEL_NOTIFICATION)) {
         
         self.mMessageStatusImageView.hidden = NO;
         NSString * imageName;
@@ -369,10 +358,10 @@
     /*    ====================================== END =================================  */
     
     self.mMessageLabel.font = [UIFont fontWithName:[ALApplozicSettings getFontFace] size:MESSAGE_TEXT_SIZE];
-    if(alMessage.contentType == 3)
+    if(alMessage.contentType == ALMESSAGE_CONTENT_TEXT_HTML)
     {
         
-        NSAttributedString * attributedString = [[NSAttributedString alloc] initWithData:[alMessage.message dataUsingEncoding:NSUnicodeStringEncoding]
+        NSAttributedString * attributedString = [[NSAttributedString alloc] initWithData:[self.mMessage.message dataUsingEncoding:NSUnicodeStringEncoding]
                                                                                  options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
         
         self.mMessageLabel.attributedText = attributedString;
@@ -389,8 +378,10 @@
                                                     NSForegroundColorAttributeName :[UIColor blueColor],
                                                     NSUnderlineStyleAttributeName : [NSNumber numberWithInt:NSUnderlineStyleThick]
                                                     };
-        
-        self.mMessageLabel.attributedText = [[NSAttributedString alloc] initWithString:self.mMessage.message attributes:attrs];
+    
+        if (self.mMessage.message){
+            self.mMessageLabel.attributedText = [[NSAttributedString alloc] initWithString:self.mMessage.message attributes:attrs];
+        }
         [self setHyperLinkAttribute];
     }
     
@@ -489,9 +480,14 @@
     [self.delegate processALMessage:self.mMessage];
 }
 
+-(void)processOpenChat
+{
+    [self.delegate openUserChat:self.mMessage];
+}
+
 -(void)processHyperLink
 {
-    if(self.mMessage.contentType == 10) // AVOID HYPERLINK FOR GROUP OPERATION MESSAGE OBJECT
+    if(self.mMessage.contentType == ALMESSAGE_CHANNEL_NOTIFICATION || !self.mMessage.message.length) // AVOID HYPERLINK FOR GROUP OPERATION MESSAGE OBJECT
     {
         return;
     }
@@ -518,6 +514,11 @@
 
 -(void)setHyperLinkAttribute
 {
+    if(self.mMessage.contentType == ALMESSAGE_CHANNEL_NOTIFICATION || !self.mMessage.message.length)
+    {
+        return;
+    }
+    
     void(^handler)(ALHyperLabel *label, NSString *substring) = ^(ALHyperLabel *label, NSString *substring){
         
         if(substring.integerValue)

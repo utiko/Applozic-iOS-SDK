@@ -34,7 +34,7 @@ short mode = 2  // DISABLE NOTIFICATION : NO NOTIFICATION WILL COME FROM SERVER
   ``` 
      ALChannelService *channelService = [ALChannelService new];
      ALChannel *alChannel = [channelService getChannelByKey:channelKey];
-     NSNumber *unreadCount = [channel unreadCount];
+     NSNumber *unreadCount = [alChannel unreadCount];
  ```
   
 3. OVER ALL UNREAD COUNT (Contacts + Groups)
@@ -147,8 +147,76 @@ You can send extra information along with message text as meta-data. These key v
 }
 
 ```
+### Send Message With Attachment
 
-### Get Latest Message for USER and CHANNEL
+You can use below method to send message with attachments.  
+
+```
+MessageServiceWrapper * wrapperService  = [MessageServiceWrapper new];
+
+//build message Objects
+ALMessage * almessage = [wrapperService createMessageEntityOfContentType:ALMESSAGE_CONTENT_ATTACHMENT toSendTo:@"receiverContact" withText:@"Text"];
+
+//get file path of attachment
+UIImage *image = [UIImage imageNamed:@"IMGE_NAME"]; 
+NSString * filePath = [ALImagePickerHandler saveImageToDocDirectory:image];
+
+[wrapperService sendMessage:almessage withAttachmentAtLocation:filePath andWithStatusDelegate:self andContentType:ALMESSAGE_CONTENT_ATTACHMENT];
+```
+
+- You can also implement delegate to recevie status update of upload and download.
+
+```
+// bytes downloaded  
+-(void)updateBytesDownloaded:(NSUInteger) bytesReceived;
+
+//bytes uploaded 
+-(void)updateBytesUploaded:(NSUInteger) bytesSent;
+
+//download OR upload  failed 
+-(void)uploadDownloadFailed:(ALMessage*)alMessage;
+
+//upload completed 
+-(void)uploadCompleted:(ALMessage *) alMessage;
+
+//download completed
+-(void)DownloadCompleted:(ALMessage *) alMessage;
+
+```
+
+### Download Message's attachment
+
+```
+ALMessageServiceWrapper * wrapperService  = [ALMessageServiceWrapper new];
+wrapperService.messageServiceDelegate = self;
+wrapperService downloadMessageAttachment:alMessage];
+```
+NOTE: Once successfully downloaded, attachment will be saved and almessage object will have file path  information(almessage.imageFilePath).
+
+### Get Latest Messages From Each Conversation
+
+STEP1:  Implement ALMessagesDelegate delegate in your controller.
+
+```
+    //Delegate method.
+   -(void)getMessagesArray:(NSMutableArray*)messagesArray{
+   
+     //messageArray contains array of ALMessage object
+   }
+
+```
+STEP 2: Add below code to get the latest messages in your controller.
+```
+   ALMessageDBService * dBService = [ALMessageDBService new];
+  dBService.delegate = self; // Controller reference for ALMessagesDelegate delegate
+  [dBService getMessages:self.nil];
+
+```
+
+
+
+
+### Get Latest Message For USER And CHANNEL
 
 ```
 
@@ -305,6 +373,25 @@ Below are additional APIs for contact load, update, delete and requires a ALCont
   
  ```
  
+Show all registered contacts in my application 
+
+** Objective - C **
+
+In AlChatManager.m in method -(void)ALDefaultChatViewSettings method update
+
+```
+   [ALApplozicSettings setFilterContactsStatus:YES]; 
+   
+```
+
+** Swift **
+
+In AlChatManager.m in method func ALDefaultChatViewSettings () method update
+
+```
+   ALApplozicSettings.setFilterContactsStatus(true) 
+   
+```
 
 ### Contextual Conversation
  
@@ -333,7 +420,7 @@ ALConversationProxy have three type of properties as following:
 
 Key1 and Key2 is a placeholder to store with respective value1 and value2 values
 
-#####Objective - C            
+##### Objective - C            
 
 ```
 ALConversationProxy * alConversationProxy = [[ALConversationProxy alloc] init];
@@ -356,7 +443,7 @@ NSString *topicDetails = [[NSString alloc] initWithData:jsonData    encoding:NSU
 alConversationProxy.topicDetailJson = topicDetails;
 ```
 
-#####API to create conversation using ALConversationProxy object 
+##### API to create conversation using ALConversationProxy object 
 
 ```
 -(void)createConversation:(ALConversationProxy *)alConversationProxy withCompletion:(void(^)(NSError *error,ALConversationProxy * proxy ))completion;
@@ -544,14 +631,14 @@ clientChannelKey: String!, withCompletion completion: ((Error?) -> Swift.Void)!)
 ```
 Objective-C
 
--(void)updateChannel:(NSNumber *)channelKey andNewName:(NSString *)newName 
-andImageURL:(NSString *)imageURL orClientChannelKey:(NSString *)clientChannelKey 
-withCompletion:(void(^)(NSError *error))completion
-      
+
+-(void)updateChannel:(NSNumber *)channelKey andNewName:(NSString *)newName andImageURL:(NSString *)imageURL orClientChannelKey:(NSString *)clientChannelKey
+  isUpdatingMetaData:(BOOL)flag metadata:(NSMutableDictionary *)metaData orChildKeys:(NSMutableArray *)childKeysList orChannelUsers:(NSMutableArray *)channelUsers withCompletion:(void(^)(NSError *error))completion
+  
 SWIFT
 
 open func updateChannel(_ channelKey: NSNumber!, andNewName newName: String!, 
-andImageURL imageURL: String!, orClientChannelKey clientChannelKey: String!, 
+andImageURL imageURL: String!, orClientChannelKey clientChannelKey: String!, isUpdatingMetaData flag: Bool!, metadata metaData: NSMutableDictionary!, orChildKeys childKeysList: NSMutableArray!, orChannelUsers channelUsers: NSMutableArray!,
 withCompletion completion: ((Error?) -> Swift.Void)!)
 
 ```
@@ -562,8 +649,20 @@ withCompletion completion: ((Error?) -> Swift.Void)!)
 | newName  | Yes |   | new name of channel.|
 | imageURL  | No |   | new Image of channel. If require to change image of channel/group|
 | clientChannelKey  | No  |   | client channel identifier. This is mandatory if applozic channelKey is not passed. |
+| metaData |No |  | pass if you want to update channel meta data |
+|isUpdatingMetaData | No | | pass true in case if your updating meta data |
+|childKeysList|No| |To update childKeys |
+|channelUsers|No| |To update role of user in group/channel |
 | (void(^)(NSError *error))completion  | Yes  |   | completion block. In case of sucess, error object will be nil |
 
+__NOTE:__ Only admin can change the roles of user, For building channelUsers for role change update 
+
+     ALChannelService *channelService = [ALChannelService new];
+     ALChannelUser * alChannelUsers = [ALChannelUser new];
+     alChannelUsers.role = [NSNumber numberWithInt:1];//  USER = 0,ADMIN = 1,MODERATOR = 2,MEMBER = 3
+     alChannelUsers.userId = userId;//user to update the role
+     NSMutableArray * channelUsers = [NSMutableArray new];
+     [channelUsers addObject:alChannelUsers.dictionary];
 
 ##### Group Admin
 
@@ -585,5 +684,28 @@ open func checkAdmin(_ channelKey: NSNumber!) -> Bool
 | channelKey  | No |   | applozic channelKey.|
 
 If admin successfully then it will return YES else NO.                   
+
+### Adding button on navigationbar and getting callback outside SDK.
+
+- To Add custom buttons on navigationbar and executing callbacks outside SDK, you need to [checkout and add our open source client code](https://www.applozic.com/blog/add-applozic-chat-framework-ios/) and make below changes.
+
+STEP 1: Create your custom navigation class extending ALNavigationController and override
+-(void)customNavigationItemClicked:(id)sender withTag:(NSString*)buttonName;
+
+STEP2: Set this setting in ALDefaultChatViewSettings
+```
+[ALApplozicSettings setNavigationControllerClassName:@"YOUR CUSTOM CLASS NAME (STEP1)"];
+```
+STEP3: Add below in button selector -(void)buttonSelector.
+
+```
+-(void)buttonSelector
+{
+    ALNavigationController * controller = (ALNavigationController*)self.navigationController;
+    [ controller customNavigationItemClicked:nil withTag:@"button_tag"];
+}
+```
+
+
 
 
